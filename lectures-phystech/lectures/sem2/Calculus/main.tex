@@ -1,0 +1,3008 @@
+
+\hypertarget{lecture1}{}
+
+% \section{Преобразование Абеля}
+Пусть $a_n, b_n$ --- последовательности комплексных чисел $m \in \N$ и $A_k = \sum_{i = 1}^{k} a_i$. Тогда $a_k = A_k - A_{k-1}$ (если считать, что $A_0 = 0$) и $\sum_{k = m}^{n}a_kb_k = \sum_{k = m}^{n}(A_k - A_{k-1})b_k = \sum_{k = m}^{n}A_kb_k - \sum_{k = m}^{n}A_{k-1}b_k$.
+Следовательно, справедливо тождество (Преобразование Абеля) $\sum_{k = m}^{n}a_kb_k = A_nb_n - A_{m-1}b_m - \sum_{k = m}^{n - 1}A_k(b_{k+1} - b_k)$
+\begin{lemma}[Абеля]
+    Пусть $a_n, b_n$ --- последовательности, причем $\{b_n\}$ монотонна. Если $\left\lvert \sum_{i = m}^k a_i\right\rvert \le M \forall k$, то $\left\lvert \sum_{k = m}^{n}a_kb_k\right\rvert \le 2M(|b_n| + |b_m|)$
+\end{lemma}
+\begin{proof}
+    Считаем, что $a_k = 0$ при $k < m$. Тогда $\left\lvert \sum_{k = m}^{n}a_kb_k\right\rvert = \left\lvert A_nb_n - \sum_{k = m}^{n}A_k(b_{k+1} - b_k)\right\rvert \le |A_n||b_n| - \sum_{k = m}^{n}|A_k||b_{k+1} - b_k| \le M(|b_n| + \left\lvert \sum_{k = m}^{n-1}(b_{k+1} - b_k)\right\rvert )$. Т.к. $\{b_n\}$ монотонна, то $b_{k+1} - b_k$ одного знака $\forall k$, тогда 
+    $$\left\lvert \sum_{k = m}^{n}a_kb_k\right\rvert \le M(|b_n| + |b_n - b_{m}|)$$
+\end{proof}
+
+\begin{note}
+    Если $m = 1, \{b_n\}$ нестрого убывает и неотрицательна, $c \le A_k \le C$, то 
+    $$cb_1 \le \sum a_kb_k \le Cb_1$$
+\end{note}
+
+\begin{lemma}[Абель]
+    Пусть $f \in R[a, b], g$ --- монотонна на $[a, b]$. Если  $\left\lvert \int_{a}^{x} f(t) \,dt\right\rvert \le M \forall x \in [a, b]$, то 
+    $$\left\lvert \int_{a}^{b} f(x)g(x) \,dx\right\rvert  \le 2M(|g(a)| + |g(b)|)$$
+\end{lemma}
+\begin{proof}
+    Пусть $T_n = \{x_k\}_{k = 0}^n$ --- разбиение отрезка $[a, b]$ на $n$ равных частей. Положим $\Delta_kg = g(x_k) - g(x_{k-1}), \sigma_n = \sum_{k = 1}^{n} g(\xi_k)\int_{x_{k-1}}^{x_k}f(t)dt, \xi_k \in [x_{k-1}, x_k]$. 
+    Тогда $\alpha_n := \left\lvert \int_{a}^{b}f(x)g(x)dx - \sigma_n\right\rvert = \left\lvert \sum_{k = 1}^{n}\int_{x_{k-1}}^{x_k}f(t)g(t)dt - \sum_{k = 1}^{n} g(\xi_k)\int_{x_{k-1}}^{x_k}f(t)dt\right\rvert = $ \newline $ = \left\lvert \sum_{k = 1}^{n}\int_{x_{k-1}}^{x_k}f(t)g(t)dt - \sum_{k = 1}^{n} g(\xi_k)\int_{x_{k-1}}^{x_k}f(t)dt\right\rvert \le \sum_{k = 1}^{n}\int_{x_{k-1}}^{x_k}|f(t)||g(t) - g(\xi_k)|dt$. Т.к. $g$ --- монотонна, $\Delta_kg$ все одного знака и $|g(x) - g(\xi_k)| \le |\Delta_kg|$. Тогда $\alpha_n \le \sum_{x_{k - 1}}^{x_k}|f(x)||\Delta_kg|dx$. Т.к. $f \in R[a, b] \Ra \exists c (|f| \le c)$
+    $$\sum_{k = 1}^nc|\Delta_kg|(\underbrace{x_k - x_{k-1}}_{\frac{b - a}{n}}) = c\frac{b - a}{n}\left\lvert \sum_{k  =1}^{n} \Delta_kg\right\rvert = c\frac{b - a}{n}|g(x_n) - g(x_0)| = c\frac{b - a}{n}|g(b) - g(a)|$$
+    Таким образом, $0 \le \alpha_n \le c\frac{b - a}{n}|g(b) - g(a)|$, но правая часть $\ra 0$, поэтому $\alpha_n \ra 0$. Тогда достаточно оценить $\sigma_n$. Применим лемму 1, где $b_k = g(\xi_k), a_k = \int_{x_{k-1}}^{x_k}f(t)dt$. Тогда $b_n$ --- монотонная последовательность.
+    $$\left\lvert \sum_{i = 1}^{k} a_i\right\rvert = \left\lvert \int_{a}^{x_k}f(t)dt\right\rvert 
+    \le M$$
+    Откуда получаем, что $|\sigma_n| \le 2M(|b_1 + |b_n|) = 2M(|g(b)| + |g(a)|)$. Выбрав $\xi_1 = a, \xi_n = b$
+    $$\left\lvert \int_{a}^{b}f(x)g(x)dx \right\rvert = \left\lvert \int_{a}^{b}f(x)g(x)dx + \sigma_n - \sigma_n\right\rvert \le \alpha_n + \sigma_n \le 2M(|g(a)| + |g(b)|) + \underbrace{\alpha_n}_{\ra 0}$$
+\end{proof}
+
+\section{Несобственный интеграл}
+\begin{definition}
+    Функция $f$ назывется локально интегрируемой по Риману, на промежутке $I$, если $\forall [a, c] \subset I (f \in R[a, c])$
+\end{definition}
+
+\begin{definition}
+    Пусть $-\infty < a < b \le +\infty$ и $f$ локально интегрируема на $[a, b]$. Предел $\int_a^b f(x)dx := \lim_{c \ra b - 0}\int_{a}^{c}f(x)dx$ называется несобственным интегралом $f$ на $[a, b]$. Если предел существует и конечен, то $\int_{a}^{b}f(x)dx$ называют сходящимся, иначе --- расходящимся.
+\end{definition}
+
+Пусть $b \in \R$, $f$ локально интегрируема на $[a, b)$ и ограничена, тогда $f \in R[a, b]$ (при любом доопределении в точке $b$) и по свойству непрерывности определенного интеграла с переменным пределом, несобственный интеграл сопадает с определенным
+
+$\int_{a}^{b}f(x)dx = \lim_{x \ra b - 0} \int_{a}^{x}f(t)dt$, т.е. новая ситуация имеет место в случае $b = +\infty$ или $b \in \R$ и $f$ неограничена на $[a, b)$. Ряд свойств определенного интеграла перносится на несобственный, т.к. можно применить предельныйм переход.
+
+\begin{proposition}[Принцип локализации]
+    Пусть $f$ локально интегрируема на $[a, b)$. Тогда для любого $a^* \in (a, b)$ несобственный интеграл $\int_{a^*}^{b}f(x)dx$ и $\int_{a}^{b}f(x)dx$ сходятся или расходятся одновременно, причем, в случае сходимости:
+    $$\int_{a}^{a^*}f(x)dx + \int_{a^*}^{b}f(x)dx = \int_{a}^{b}f(x)dx$$
+\end{proposition}
+\begin{proof}
+    Заметим, что по аддитивности (нормального интеграла)
+    $$\int_{a}^{a^*}f(x)dx + \int_{a^*}^{c}f(x)dx = \int_{a}^{c}f(x)dx$$
+    Но т.к. 
+    $$\lim_{c \ra b} \int_{a}^{c}f(x)dx = \int_{a}^{b}f(x)dx$$
+    В предельном переходе получаем требуемое.
+\end{proof}
+
+\begin{proposition}[Линейность]
+    Если несобственные интегралы $\int_a^b f(x)dx, \int_a^b g(x)dx$ сходятся и $\lambda, \mu \in \R$, то сходятся и несобственный интеграл 
+    $$\int_a^b (\lambda f(x) + \mu g(x))dx = \lambda\int_a^b f(x)dx + \mu\int_a^b g(x)dx$$
+\end{proposition}
+\begin{proof}
+    Фигачим предельный переход
+\end{proof}
+
+\begin{proposition}[Формула Ньютона-Лейбница]
+    Пусть $f$ локально интегрируема на $[a, b)$, $F$ --- первообразная на $[a, b)$, тогда
+    $$\int_a^bf(x)dx = F(b) - F(a)$$
+\end{proposition}
+\begin{proof}
+    Фигачим предельный переход
+\end{proof}
+
+\begin{example}
+    Хотим узнать сходимость 
+    $$\int_1^{+\infty} \frac{dx}{x^\alpha}$$
+    В зависимости от $\alpha$
+    \begin{enumerate}
+        \item[$\alpha \ne 1$:]
+        $$\int_1^{+\infty} \frac{dx}{x^\alpha} = \left. \frac{x^{-\alpha + 1}}{-\alpha + 1}\right|_1^{+\infty} = \left\{\begin{array}{l}
+            \frac{1}{\alpha - 1}, \alpha > 1 \\
+            +\infty, \alpha < 1
+        \end{array}\right.$$
+        \item[$\alpha = 1$:] 
+        $$\int_1^{+\infty} \frac{1}{x}dx = \left.\ln x\right|_1^{+\infty} = +\infty$$
+    \end{enumerate}
+\end{example}
+
+\begin{example}
+    Аналогично проверяется, что 
+    $$\exists \int_{0}^{1}\frac{dx}{x^\alpha} \Lra \alpha < 1$$
+    Причем сходится к \(\frac{1}{1 - \alpha}\)
+\end{example}
+\hypertarget{lecture2}{}
+
+\begin{proposition}[Интегрирование по частям]
+    Пусть  \(f, g\) --- дифференцируемы на \([a, b]\) и \(f', g'\) локально интегрируемы на \([a, b]\). Тогда 
+    \[\int_{a}^bf(x)g'(x)dx = f(x)g(x)|_a^{b-0} - \int_a^bf'(x)g(x)dx\]
+    Данную формулу нужно понимать так: существование двух конечных пределов из 3 влечет существование третьего и выполнения равенства
+\end{proposition}
+\begin{proof}
+    Используем предельный переход
+\end{proof}
+
+\begin{proposition}[Замена переменной]
+    Пусть \(f\) непрерывна на \([a, b)\), \(\phi(x)\) --- дифференцируема, \(\phi\) строго монотонна на \([\alpha, \beta)\), причем \(\phi'\) локально интегрируема на \([\alpha, \beta)\), \(\phi(\alpha) = a, \phi(\beta) = b\). Тогда:
+    \[\int_a^b f(x)dx = \int_\alpha^\beta f(\phi(t))\phi'(t)dt\]
+\end{proposition}
+\begin{proof}
+    Определим функцию \(F(c) = \int_a^c f(x)dx, \Phi(x) = \int_\alpha^\gamma f(\phi(t))\phi'(t)dt\). По формуле замены переменной в определнном интеграле:
+    \[F(\phi(\gamma)) = \Phi(\gamma) \forall \gamma \in [\alpha, \beta)\]. Пусть в \(\overline{\R}\) существует \(I = \int_a^b f(x)dx\). Тогда по свойству предела композиции существует 
+    \[\lim_{\gamma\ra b-0}\Phi(\gamma) = \lim_{c \ra b-0}F(c) = I\]
+    так что 
+    \[\int_\alpha^\beta f(\phi(t))\phi'(t)dt = I\]
+\end{proof}
+
+В условиях предыдущего свойства \(\phi\) обратима и \(\phi^{-1} \ra \beta\) при \(c \ra b - 0\). Поэтому по свойству предела композиции существование \(\lim_{\gamma\ra  \beta - 0}\Phi(\gamma)\) влечет существование равного \(\lim_{c\ra  b - 0}F(c)\), т.е. существоввание правой части влечет существование левой.
+
+\begin{definition}
+    Примем следующее соглашение:
+    \[\int_a^bf(x)dx = -\int_b^af(x)dx\]
+\end{definition}
+
+\begin{problem}
+    \[I = \int_{0}^{\frac{\pi}{2}}\ln(\sin(x))dx\]
+\end{problem}
+\begin{solution}
+    Видно, что это несобственный интеграл, т.к. функция не определена в \(0\).
+    Докажем, что он сходится.
+    \[\int_{0}^{\frac{\pi}{2}}\ln(\sin(x))dx = \int_{0}^{\frac{\pi}{2}}\ln\left(\frac{\sin(x)}{x}\right)dx + \int_{0}^{\frac{\pi}{2}}\ln(x)dx\]
+    
+    \[\int_{0}^{\frac{\pi}{2}}\ln(x)dx = x\ln x|_0^{\frac{\pi}{2}} - \int_{0}^{\frac{\pi}{2}}1dx = \frac{\pi}{2}(\ln\frac{\pi}{2} - 1)\]
+
+    Заметим, что интеграл
+    \[\int_{0}^{\frac{\pi}{2}}\ln\left(\frac{\sin(x)}{x}\right)dx\]
+    Сходится, т.к. cходится \(\ln\left(\frac{\sin x}{x}\right)\)
+
+    Теперь вычислим его значение.
+    \[I =_{x = 2t} 2\int_{0}^{\frac{\pi}{4}}\ln(\sin(2t))dt = 2\int_{0}^{\frac{\pi}{4}}\ln(2)dt + 2\int_{0}^{\frac{\pi}{4}}\ln(\sin(t))dt + 2\int_{0}^{\frac{\pi}{4}}\ln(\cos(t))dt = \]
+    \[2\int_{0}^{\frac{\pi}{4}}\ln(2)dt + 2\int_{0}^{\frac{\pi}{4}}\ln(\sin(t))dt + 2\int_{\frac{\pi}{4}}^{\frac{\pi}{2}}\ln(\sin(z))dz = \pi\ln2 + 2I \Ra I = \pi\ln2\]
+\end{solution}
+
+\begin{theorem}[Коши]
+    Пусть \(f\) --- локально интегрируема на \([a, b)\). 
+    \[\int_a^b f(x)dx \text{ сходится } \Lra \forall \epsilon > 0 \exists b_\epsilon \in [a, b) \forall \xi, \eta \in (b_\epsilon, b) \left(\left\lvert \int_\xi^\eta f(x)dx\right\rvert < \epsilon\right) \]
+\end{theorem}
+\begin{proof}
+    Пусть \(F(x) = \int_a^xf(t)dt, x \in [a, b)\), то \(\int_\xi^\eta f(t)dt = F(\eta) - F(\xi)\). Следовательно, доказательство утверждения --- переформулировка крититерия Коши существования предела \(F\).
+\end{proof}
+
+\begin{definition}
+    Пусть \(f\) --- локально интегрируема на \([a, b)\). Несобственный интеграл \(\int_a^bf(x)dx\) называется абсолютно сходящимся, если сходится \(\int_a^b|f(x)|dx\). Если несобственный интеграл сходится, но не сходится абсолютно, то он называется условно сходящимся.
+\end{definition}
+\begin{corollary}
+    Абсолютно сходящийся интеграл сходится. 
+\end{corollary}
+\begin{proof}
+    \[\forall [\xi, \eta] \subset [a, b] \left(\left\lvert \int_\xi^\eta f(x)dx \right\rvert \le \int_\xi^\eta |f(x)|dx\right) \]
+    Поэтому, если интеграл от \(|f|\) по \([a, b]\) удовлетворяет условию Коши, то по условию Коши удовлетворяет и интеграл от \(f\) по \([a, b)\).
+\end{proof}
+\begin{note}
+    Если интеграл \(\int_a^b f(x)dx\) абсолютно сходится, то 
+    \[\left\lvert \int_a^b f(x)dx\right\rvert \le \int_a^b |f(x)|dx\]
+\end{note}
+
+\subsection{Несобственный интеграл от неотрицательной функции}
+\begin{lemma}
+    Пусть \(f\) локально интегрируема и \(f \ge 0\) на \([a, b)\). Тогда
+    \[\int_a^bf(x)dx \text{ сходится }\Lra F(x) = \int_a^xf(t)dt \text{ определена на \([a, b)\) }\]
+\end{lemma}
+\begin{proof}
+    Функция \(F\) неотрицательна и нестрого возрастает на \([a, b)\), т.к. \(\forall x_1, x_2 \in [a, b), x_1 < x_2 \Ra F(x_2) - F(x_1) = \int_a^b f(t)dt \ge 0\). По теореме о пределе монотонной функции, существует
+    \[\lim_{x \ra b - 0}F(x) = \sup_{x \in [a, b)}F(x)\]
+    Следовательно, органиченность \(F\) на \([a, b)\) равносильна \(\exists \lim_{x \ra b - 0}F(x) \in \R\), т.е. сходимость \(\int_a^bf(x)dx\).
+\end{proof}
+\begin{note}
+    Несобственный интеграл от неотрицательной функции либо сходится, либо расходится к \(+\infty\). Для сходимости достаточно установить органиченность некоторой последовательности \(I_n = \int_a^bf(x)dx\), где \(c_n \in [a, b), c_n \ra b - 0\). Это следует из того, что  \(\lim_{n \ra \infty }I_n = \int_a^b f(x)dx\)
+\end{note}
+\begin{theorem}[Признак сравнения]
+    Пусть \(f, g\) --- локально интегрируемы на \([a, b)\) и \(0 \le f \le g\) на \([a, b)\).
+    \begin{enumerate}
+        \item Если \(\int_a^b f(x)dx\) сходится, то \(\int_a^b g(x)dx\) --- тоже
+        \item Если \(\int_a^b g(x)dx\) расходится, то \(\int_a^b f(x)dx\) --- тоже
+
+    \end{enumerate}
+\end{theorem}
+
+\begin{proof}
+    \begin{enumerate}
+        \item \[\forall x\ in [a, b) 0 \le \int_a^x f(t)dt \le \int_a^x g(t)dt\]
+        Если \(\int_a^b g(x)dx\) сходится, то по Лемме 1, \(\int_{a}^{x} g(t)dt\) определена на  \([a, b)\), следовательно, ограничена \(\int_a^x f(t)dt\) на \([a, b)\), что по Лемме 2 влечет сходимость \(\int_a^b f(x)dx\).
+        \item Следует из контрпозиции первого
+    \end{enumerate}
+\end{proof}
+
+\begin{corollary}
+    Пусть \(f, g\) локально интегрируемы на \([a, b)\) и \(f, g \ge 0\) на \([a, b)\). Если \(f(x) = O_{x\ra b - 0}(g(x))\), то справедливы утверждения 1, 2 теоремы
+\end{corollary}
+\begin{proof}
+    В силу неотрицательности \(f, g\) и определения символа \(O, \exists C > 0, a^* \in [a, b) \forall x \in [a^*, b) (f(x) \le Cg(x))\). Если \(\int_{a^*}^b g(x)dx\) сходится, то \(\int_{a^*}^b Cg(x)dx\) --- тоже. Тогда по Теореме 2, сходится и \(\int_{a^*}^b  f(x)dx\), а значит, \(\int_{a}^b  f(x)dx\) --- тоже.
+\end{proof}
+
+\begin{corollary}
+    Пусть \(f, g\) локально интегрируемы на \([a, b)\) и \(f, g > 0\) на \([a, b)\). Если \(\lim_{x \ra b - 0}\frac{f(x)}{g(x)} \in (0, +\infty)\), то \(\int_a^b f(x), \int_a^b g(x)\) cходятся или не сходятся одновременно.
+\end{corollary}
+\begin{proof}
+    В условиях теоремы 2 также \(\exists \lim_{x \ra b - 0}\frac{g(x)}{f(x)} \in (0, +\infty)\). Тогда:
+    \begin{enumerate}
+        \item \(f(x) = O_{x \ra b - 0}(g(x))\)
+        \item \(g(x) = O_{x \ra b - 0}(f(x))\)
+    \end{enumerate}
+\end{proof}
+
+\begin{example}
+    \[\int_0^{+\infty}x^{2024}e^{-x^2}dx\]
+    Посчитаем 
+    \[\lim_{x \ra +\infty}\frac{x^{2026}}{e^{x^2}} = \lim_{t \ra +\infty}\frac{t^{1013}}{e^{t}}\]
+    Применим правило Лопиталя 1014 раз:
+    \[\lim_{t \ra +\infty}\frac{t^{1013}}{e^{t}} = \lim_{t \ra +\infty}\frac{0}{e^{t}} = 0\]
+    \[x^{2024}e^{-x^2} = o\left(\frac{1}{x^2}\right), x \ra +\infty\]
+    Но при этом 
+    \[\int_1^{+\infty} \frac{1}{x^2}dx \text{ сходится}\]
+\end{example}
+
+\begin{example}
+    \[\int_{\ra0}^{1}\frac{dx}{\tg^2\sqrt{x}}\]
+    \[\tg^2\sqrt{x} \sim x, x \ra +0\]
+    \[\int_{\ra 0}^1 \frac{dx}{x} \text{ расходится}\]
+\end{example}
+\hypertarget{lecture3}{}
+
+\subsection{Несобственные интегралы от знакопеременных функций}
+Изучм вопросы сходимости несобственных интегралов от функций ни в какой функции точки \(b\).
+
+\begin{lemma}
+    Пусть \(f, g\) --- локально интегрируемы на \([a, b)\) и \(\int_a^b g(x)dx\) --- абсолютно сходится. Тогда несобственные интегралы 
+    \[\int_a^b (f(x) + g(x))dx, \int_a^b f(x)dx\]
+    Либо одинаково расходятся, либо одновременно сходятся условно, либо одновременно сходятся абсолютно.
+\end{lemma}
+\begin{proof}
+    Абсолютная сходимость влечет сходимость, поэтому \(\int_a^bg(x)dx\) сходится. Тогда по линейности 
+    \[\int_a^b f(x) dx = \int_a^b (f(x) + g(x)) dx - \int_a^b g(x) dx\]
+    И заключаем, что интегралы \(\int_a^b (f(x) + g(x))dx, \int_a^b f(x)dx\) сходятся одновременно.
+    При этом, 
+    \[|f + g| \le |f| + |g|, |f| \le |f + g| + |g|\]
+    Тогда по критерию сравнения, получаем, что \(\int_a^b |f(x) + g(x)|dx, \int_a^b |f(x)|dx\) сходятся одновременно, т.е. \(\int_a^b (f(x) + g(x))dx, \int_a^b f(x)dx\) абсолютно сходятся одновременно.
+\end{proof}
+
+\begin{theorem}[Признак Дирихле]
+    Пусть \(f, g\) локально интегрируемы на \([a, b)\), причем
+    \begin{enumerate}
+        \item \(F(x) = \int_a^x f(t)dt\) ограничена на \([a, b)\)
+        \item \(g(x)\) --- монотонна
+        \item \(g \ra 0\) при \(x \ra b - 0\)
+    \end{enumerate}
+    Тогда \(\int_a^b f(x)g(x)dx\) сходится.
+\end{theorem}
+\begin{proof}
+    Существует такая константа \(M: |F| \le M\). Тогда \(\forall \xi \in [a, b)\) имеем \(\left\lvert \int_\xi^x f(t)g(t)dt\right\rvert = |F(x) - F(\xi)| < 2M\). Пусть \(\epsilon > 0\). Тогда \(\exists b' \in [a, b) \forall x \in (b', b) \left(|g(x)| \le \frac{\epsilon}{2M}\right)\). По лемме Абеля, для интервалов \(\forall [\xi, \eta] \subset (b', b)\) выполнено \(\left\lvert \int_\xi^\eta f(x)g(x)dx\right\rvert < 2\cdot2M (|g(\xi)| + |g(\eta)|) < \epsilon\). Далее применяем свойство Коши.
+\end{proof}
+
+\begin{note}
+    Условия 1, 2 выполнены если \(f\) непрерывна и имеет ограниченную первообразную на \([a, b)\), а \(g\) дифференцируема и \(g'\) сохраняет знак на \([a, b)\).
+\end{note}
+
+\begin{example}
+    Исследуем сходимость и абсолютную сходимость интеграла
+    \[I(\alpha) = \int_1^{+\infty}\frac{\sin kx}{x^\alpha}dx, \alpha \in \R (k > 0)\]
+    Делаем замену \(t = kx\) и получаем следующее:
+    \[I(\alpha) = \int_1^{+\infty}\frac{\sin t}{t^\alpha}dt\]
+    \begin{enumerate}
+        \item \(\alpha > 1\).
+        \[\left\lvert \frac{\sin t}{t^\alpha}\right\rvert \le \frac{1}{t^\alpha} \Ra \int_1^{+\infty} \frac{|\sin t|}{t^\alpha}dt \text{ --- сходится}\]
+        То есть \(I(\alpha)\) сходится абсолютно
+        \item \(\alpha \le 0\). Проверим расходимость при помощи Коши. 
+        \[\exists \epsilon_0 = \forall \Delta > 1 \exists \xi = 2\pi n > \Delta, \eta = 2\pi n + \pi > \Delta\]
+        \[\left\lvert \int_\xi^\eta \frac{\sin t}{t^\alpha}dt\right\rvert = \int_\xi^\eta t^{-\alpha}\sin t dt \ge (2 \pi n)^{-\alpha} \int_{2\pi n}^{2\pi n + \pi} \sin t dt = (2 \pi n)^{-\alpha} \cdot 2 \ge 2\]
+        Тогда по критерию Коши, \(I(\alpha)\) расходится.
+        \item \(\alpha \in (0, 1]\).
+        \[f(x) = \sin t, g(t) = \frac{1}{t^\alpha}, F(t) = \int_1^t \sin s \;\;ds \text{ --- ограничена на 
+        \(1, +\infty\)}\]
+        Тогда \(I(\alpha)\) сходится по признаку Дирихле. Теперь проверим абсолютную сходимость:
+        \[\left\lvert \frac{\sin x }{x^\alpha}\right\rvert \ge \frac{\sin^2 x}{x^\alpha} = \frac{1}{2}\left(\frac{1}{x^\alpha} - \frac{\cos 2x}{x^\alpha}\right) \ge 0\]
+        При этом \(\int \frac{1}{x^\alpha}\) --- расходится, а \(\int \frac{\cos 2x}{x^\alpha}\) --- сходится. Тогда их разность расходится.
+    \end{enumerate}
+    Тогда \(I(\alpha)\) сходится при \(\alpha > 0\) и абсолютно сходится при \(\alpha > 1\)
+\end{example}
+
+\begin{theorem}[Признак Абеля]
+    Пусть \(f, g\) локально интегрируемы на \([a, b)\), причем
+    \begin{enumerate}
+        \item \(\int_a^b f(x)dx\) сходится
+        \item \(g\) монотонна на \([a, b)\)
+        \item \(g\) ограничена на \([a, b)\)
+    \end{enumerate}
+    Тогда 
+    \[\int_a^b f(x)g(x) dx\]
+    сходится.
+\end{theorem}
+\begin{proof}
+    Из монотонности и ограниченности следует, что \(\exists \lim_{x \ra b - 0} g(x) = c 
+    \in \R\). Поэтому \(\int_a^b f(x)(g(x) - c)dx\) сходится, но тогда \(\int_a^b f(x)g(x)dx = \int_a^bf(x)(g(x) - c)dx + c\int_a^b f(x)dx\) --- сходится
+\end{proof}
+
+\begin{example} 
+\[\int_1^{+\infty}\frac{\sin x}{\sqrt{x} - \sin x}dx\]
+\[\frac{\sin x}{\sqrt{x} - \sin x} \sim_{x \ra +\infty} \frac{\sin x}{\sqrt{x}}\]
+Так делать нельзя, т.к. свойство, котоыре мы использовали выше, рабоатет только для неотрициательных функций. Как правильно:
+
+\[g(x) = \frac{\sin x}{\sqrt{x} - \sin x} - \frac{\sin x }{\sqrt{x}} = \frac{\sin x(\sqrt{x} - (\sqrt{x} - \sin x))}{\sqrt{x}(\sqrt{x} - \sin x)}\]
+\[g(x) = \frac{\sin^2 x}{x(1 - \frac{\sin x}{\sqrt{x}})} \sim \frac{\sin^2 x}{x} = \frac{1}{2} \left(\frac{1}{x} - \frac{\cos 2x}{x}\right) \ge 0 \Ra \int_1^{+\infty} g(x)dx \text{ --- расходится}\]
+\end{example}
+
+\begin{center}
+    \foo{Короче говоря, принцип сравнения для знакопеременных функций не применим}
+\end{center}
+
+\begin{corollary}[Из теоремы 4]
+    Пусть \(f, g\) локально интегрируемы на \([a, b)\) и \(g\) монотонна на \([a, b)\), \(\lim_{x \ra b - 0} g(x) = c \in \R \setminus \{0\}\). Тогда \(\int_a^b f(x)g(x)dx, \int_a^b f(x)dx\) либо одновременно расходятся, либо одновременно сходятся условно, либо одновременно сходятся абсолютно.
+\end{corollary}
+\begin{proof}
+    Из сходимости \(\int_a^b f(x)dx\) следует сходимость \(int_a^b f(x)g(x)dx\) по теореме 4. Т.к. \(c 
+    \ne 0\), то \(\exists a^* \in [a, b) \forall x \in [a^*, b) (g(x) \ne 0)\). Следовательно, \(f = fg \cdot \frac{1}{g}\) на \([a, b)\). По теореме 4, сходимость \(\int_{a^*}^bf(x)g(x)dx\) влечет \(\int_{a^*}^b f(x)dx\), а значит, \(\int_a^b f(x)dx\) сходится
+\end{proof}
+
+\subsection{Несобственные интегралы с несколькими особенностями}
+\begin{definition}
+    Пусть \(a < b \in \overline{\R}\), функция \(f\) определена на \(a, b\) за исключением, быть может, конечного числа точек. 
+    \begin{enumerate}
+        \item Точка \(c \in (a, b)\) называется особенностью \(f\), если \(\forall [\alpha, \beta]: c \in [\alpha, \beta] \subset (a, b)\) функция \(f \notin R[\alpha, \beta]\). 
+        
+        \item Точка \(b\) называется особенностью \(f\), если либо $b = +\infty$, либо $b \in \R$ и $f \cancel{\in} R[\alpha, b] \forall a < \alpha < b$
+
+        \textit{Заметим, что такое определение работает для любого доопределения $f$ в точке $b$.}
+    \end{enumerate}
+\end{definition}
+\begin{note}
+    $f$ не имеет особенностей на $(c, d) \rightarrow$ $f$ локально интегрируема на $(с, d)$.
+\end{note}
+\begin{proof}
+    Пусть $[u,v] \subset (a,b)$
+    Докажем, что $f \in R [u,v]$
+    По условию $\forall x \in [u,v] \exists [\alpha_x,\beta_x]$
+    $$\bigcup_{x \in [u, v]}(\alpha_x, \beta_x) \supset [u, v]$$
+    Тогда по лемме Гейне-Бореля есть конечное покрытие этого отрезка. 
+    Рассмотрим его.
+    По аддитивности $f$ интегрируема на некотором отрезке, содержащем $[u, v] \Rightarrow$ и на $[u, v]$
+\end{proof}
+\begin{definition}
+    Пусть $c_1 < c_2 < \dots < c_{N-1} $ - все особенности функции $f$ на $(a, b)$, причем определим \(c_0 = a, c_N = b\).
+
+\angsq{\text{$\xi_k \in (c_{k-1}, c_k), \text{ где } k \in \{1, 2, \dots, N\}$}}
+\end{definition}
+
+Несобственным интегралом $\int_{a}^b f(x) dx$ называется совокупность интегралов $\int_{c_{k-1}}^{\xi_k}f(x)dx$ и $\int_{\xi_k}^{c_k} f(x)dx$
+
+Таким образом, несобственный интеграл определен следующим образом:
+\[\int_a^b f(x)dx = \sum_{k = 1}^n\left(\int_{c_{k - 1}}^{\xi_k}f(x)dx + \int_{\xi_{k}}^{c_{k}}f(x)dx\right)\]    
+И имеет смысл, если каждый интеграл справа имеет смысл в $\overline{\R}$.
+
+\begin{problem}
+    Приведите пример непрерывной неотрициательной функции \(f\) на \([1, +\infty)\), т.ч. \(\int_1^{+\infty}f(x)dx\) сходится, но \(f\) не является бесконечно малой при \(x \ra +\infty\).
+\end{problem}
+\begin{problem}
+    Пусть \(f\) равномерно непрерывна на \([1, +\infty)\) и \(\int_a^b f(x)dx\) --- сходится. Показать, что \(\lim_{x\ra+\infty}f(x) = 0\)
+\end{problem}
+
+\hypertarget{lecture4}{}
+
+\section{Числовые Ряды}
+\begin{definition}
+    Пусть \(\{a_n\}\) --- последовательность чисел. Выражение \(\sum_{i = 1}^{\infty} a_i = a_1 + a_2 + \dots \) Называется числовым рядом с \(n\)-ым членом \(a_n\). При этом сумма \(\sum_{i = 1}^N a_i = S_N\) называется \(N\)-ой частичной суммой, а \(\lim_{N\ra\infty}S_N\) называется суммой ряда. Тогда кратко пишут: \(S = \sum_{i = 1}^\infty a_i\). Причем, если указанный предел конечен, то ряд называется сходящимся, иначе --- расходящимся.
+\end{definition}
+
+\begin{example}[Геометрический ряд]
+    Рассмотрим ряд 
+    \[\sum_{i = 1}^{\infty}z^n\]
+    \begin{enumerate}
+        \item \(|z| < 1\). Заметим, что \(1 + z + \dots + z^N = \frac{1 - z^{N+1}}{1 - z}\). Тогда \(\lim_{N\ra\infty}z^{N+1} = 0\) и \(\exists\lim_{N\ra\infty}S_N = \frac{1}{1 - z}\)
+        \item \(|z| \ge 1\). Заметим, что \(z^N = S_{N} - S_{N - 1} \ra 0\). Но \(z^N \not\ra 0\), тогда этот ряд расходится. \(\nexists\lim_{N\ra\infty}S_N\). 
+    \end{enumerate}
+\end{example}
+\begin{note}
+    Геометрический ряд сходится \(\Lra |z| < 1\).
+\end{note}
+
+\begin{lemma}[Телескопические ряды]
+    Для числовой последовательности \(\{s_n\}\) рассмотрим последовательность \(a_n = s_n - s_{n + 1}\). Тогда
+    \[\sum_{i = 1}^\infty a_i \text{ сходится} \Lra \{s_i\} \text{ сходится}\]
+    В этом случае, 
+    \[\sum_{i = 1}^\infty a_i = s_1 - \lim_{N\ra\infty}s_N\]
+\end{lemma}
+\begin{proof}
+    \[S_n = (s_1 - s_2) + (s_2 - s_3) + \dots + (s_n - s_{n+1}) \Ra \lim_{n\ra\infty}S_n = s_1 - \lim_{n\ra\infty}s_n\]
+\end{proof}
+\begin{example}
+    \[\sum_{i = 1}^\infty \frac{1}{i(i+1)}\]
+    \[a_i = \frac{1}{i} - \frac{1}{i + 1}\]
+    Т.к. \(\frac{1}{i}\) --- 
+\end{example}
+\begin{proposition}[Локализация]
+    Для любого \(m \in \N\) ряды 
+    \[\sum_{i = 1}^\infty a_n, \sum_{i = m + 1}^\infty a_n\]
+    Сходятся или не сходятся одновременно, причем, если сходятся, то 
+    \[\sum_{i = 1}^\infty a_n = \sum_{i = 1}^m a_n + \sum_{i = m + 1}^\infty a_n\]
+\end{proposition}
+\begin{proof}
+    При \(N > m\) имеем 
+    \[\sum_{i = 1}^N = \sum_{i = 1}^m a_n + \sum_{i = m + 1}^N a_n\]
+    Поэтому 
+    \[\sum_{i = 1}^\infty a_n, \sum_{i = m + 1}^\infty a_n\]
+    Сходятся или не сходятся одновременно. В случае сходимости достаточно применить предельный переход для доказательства равенства.
+\end{proof}
+\begin{definition}
+    Ряд \(r_N = \sum_{i = N + 1}^\infty a_n\) называется \(N\)-ым остатком ряда
+\end{definition}
+\begin{proposition}[Линейность]
+    Пусть ряды \(\sum_{i = 1}^\infty a_n, \sum_{i = 1}^\infty b_n\) сходятся и \(\lambda, \mu \in \Cm\). Тогда сходится и ряд \(\sum_{i = 1}^\infty \lambda a_n + \mu b_n\), причем
+    \[\lambda\sum_{i = 1}^\infty a_n + \mu\sum_{i = 1}^\infty b_n = \sum_{i = 1}^\infty \lambda a_n + \mu b_n\]
+\end{proposition}
+\begin{proof}
+    Очевидно при предельном переходе
+\end{proof}
+\begin{proposition}[Необходимое условие сходимости ряда]
+    Если \(\sum_{i = 1}^\infty a_n\) сходится, то \(\lim_{n\ra\infty} = 0\)
+\end{proposition}
+\begin{proof}
+    \(a_n = S_n - S_{n-1}\). Тогда \(S_n - S_{n-1} \ra \sum_{i = 1}^\infty a_n - \sum_{i = 1}^\infty a_n = 0 = \lim_{n\ra\infty}a_n\)
+\end{proof}
+Обратное неверно:
+\begin{example}[Гармонический ряд]
+    \[\sum_{k = 1}^\infty \frac{1}{k}\]
+    \(H_n = \sum_{k = 1}^n \frac{1}{k}\). Но тогда: 
+    \[H_{2n} - H_n \ge n\frac{1}{2n} = \frac{1}{2}\]
+    Противоречие, т.к. если ряд сходится, то начиная с какого то момента все \(H_n\) удалены друг от друга не более чем на \(\epsilon \forall \epsilon > 0\).
+\end{example}
+\begin{theorem}[Коши]
+    \(\sum_{i = 1}^\infty a_n\) сходится \(\Ra \forall \epsilon > 0 \exists N \forall n > N \forall m, n \ge N \left(\left|\sum_{k = m + 1}^n a_k\right| < \epsilon\right)\)
+\end{theorem}
+\begin{proof}
+    Утверждение является переформулировкой критерия Коши для последовательности \(s_n\).
+\end{proof}
+\begin{definition}
+    Если ряд \(\sum_{i = 1}^\infty |a_n|\) сходится, то его называют абсолютно сходящимся, иначе --- условно сходящимся.
+\end{definition}
+\begin{corollary}
+    Абсолютная сходимость влечет условную сходимоть
+\end{corollary}
+\begin{proof}
+    \[\forall n > m \left|\sum_{k = m + 1}^n a_k\right| \le \sum_{k = m + 1}^n |a_n|\]
+\end{proof}
+\begin{corollary}
+    \(a_n \in \Cm, a_n = u_n + iv_n\). Тогда ряд сходится \(\Lra\) сходятся ряды вещественной и мнимой частей. При этом,
+    \[\sum_{n = 1}^\infty a_n = \sum_{n = 1}^\infty u_n + i\sum_{n = 1}^\infty v_n\]
+\end{corollary}
+Пусть \(a_n \in \R\) --- последовательность вещественных чисел. Рассмотрим \(f_a: [1, +\infty) \ra \R, f_a(x) = a_n, n \le x < n + 1\)
+\begin{lemma}[О равносходимости]
+    Пусть \(a_n \in \R\). Тогда \[\sum_{i = 1}^n\text{ сходится } \Lra \int_1^{+\infty}f_a(x)dx\text{ сходится}\]
+    Причем в случае сходимости, левая и правая части равны
+\end{lemma}
+\begin{proof}
+    Пусть интеграл сходится:
+    \[s_n = \sum_{k = 1}^\infty a_k \Ra s_n = \int_1^{n + 1}f_a(x)dx\]
+    Пусть ряд сходится, \(s_n\) --- его частичная сумма (\(n = [x]\)). Тогда:
+    \[\left|\int_1^xf_a(t)dt - S\right| \le \left|\int_1^xf_a(t)dt - S_n\right| + |S_n - S| \le  \left|\int_1^xf_a(t)dt - \int_1^{n+1}f_a(t)dt\right| + |S_n - S| \le\]
+    \[ \le |a_n| + |S_n - S|\]
+\end{proof}
+\subsection{Ряды с неотрицательными членами}
+\begin{lemma}
+    Пусть \(a_n \ge 0 \forall n \in \N\). Тогда ряд \(a_n\) сходится тогда и только тогда, когда \(\{S_n\}\) --- ограничена.
+\end{lemma}
+\begin{proof}
+    Т.к. \(S_{n+1} = S_n + a_n \Ra S_n\) нестрого возрастает. По теореме о монотонной последовательности, она сходится \(\Lra\) она ограничена.
+\end{proof}
+\begin{theorem}[Признак сравнения]
+    Пусть  \(0 \le a_n \le b_n \forall n \in \N\)
+    \begin{enumerate}
+        \item Если \(\sum_{n = 1}^\infty b_n\) сходится, то и \(\sum_{n = 1}^\infty a_n\) --- тоже
+        \item Если \(\sum_{n = 1}^\infty a_n\) расходится, то и \(\sum_{n = 1}^\infty b_n\) --- тоже
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    По лемме о равносходимости данная теорема равносильна признаку сходимости для интегралов
+\end{proof}
+\begin{corollary}
+    Пусть \(a_n, b_n \ge 0 \forall n \in \N\), \(a_n = O(b_n), n\ra \infty\). Тогда справедливо заключение предыдущей теоремы
+\end{corollary}
+\begin{corollary}
+    Пусть \(a_n, b_n \ge 0 \forall n \in \N\), \(\exists \lim_{n\ra\infty}\frac{a_n}{b_n} \in (0, +\infty)\). Тогда \(\sum_{i = 1}^\infty a_n, \sum_{i = 1}^\infty b_n\) сходятся или расходятся одновременно
+\end{corollary}
+\hypertarget{lecture5}{}
+
+\begin{theorem}[Интегральный признак]
+    Пусть \(f\) нестрого убывает и неотрицательна на \([1, +\infty)\). Тогда последовательность \(u_n = f(1) + \dots + f(n) - \int_{1}^{n+1}f(t)dt\) сходится, в частности, \(\sum_{i = 1}^\infty a_n, \int_{1}^{+\infty}f(t)dt\) сходятся или расходятся одновременно
+\end{theorem}
+\begin{proof}
+    Докажем, что последовательность \(u_n\) нестрого убывает и ограничена снизу. В силу монотонности \(f\) имеем:
+    \[f(k+1) \le \int_k^{k+1}f(t)dt \le f(k)\]
+    Тогда 
+    \[u_n = \sum_{k = 1}^n f(k) - \sum_{k = 1}^{n-1}\int_k^{k+1}f(t)dt = \sum_{k = 1}^{n - 1}\left(f(x) - \int_k^{k + 1}f(t)dt\right) + f(n) \ge f(n) \ge 0 \Ra u_n \ge 0\]
+    \[u_{n+1} - u_n = f(n+1) - \int_n^{n + 1}f(x)dx \le 0\]
+    Следовательно, по теореме о пределе монотонной последовательности \(u_n\) --- сходится.
+\end{proof}
+
+\begin{example}
+    Исследуем на сходимость \(\sum_{n = 1}^{\infty} \frac{1}{n^\alpha}\).
+    \begin{enumerate}
+        \item \(\alpha \le 0\) --- расходится, т.к. его члены не бесконечно маленькие.
+        \item \(\alpha > 0\), тогда \(f(x) = \frac{1}{x^\alpha}\) --- неотрицательная монотонная функция. Но тогда по интегральному признаку, этот ряд сходится \(\Lra\) сходится \(\int_1^{+\infty} \frac{1}{x^\alpha}dx \Lra \alpha > 1\).
+    \end{enumerate}
+    \(\Ra\) сходится при \(\alpha > 1\).
+\end{example}
+
+\begin{example}
+    Рассмотрим гармонический ряд, обозначим \(H_n = \sum_{i = 1}^n \frac{1}{n}, u_n = H_n - \int_1^n \frac{1}{x}dx = H_n - \ln n\). По интегральному признаку \(\exists \lim_{n\ra \infty}u_n = \gamma\)  --- константа Эйлера-Маскерони.
+\end{example}
+
+\begin{theorem}[признак Коши]
+    Пусть \(a_n \ge 0, q = \limsup_{n \ra \infty}\sqrt[n]{a_n}\).
+    \begin{enumerate}
+        \item \(q < 1 \Ra \sum_{n = 1}^\infty a_n\) --- сходится
+        \item \(q > 1 \Ra \sum_{n = 1}^\infty a_n\) --- расходится, причем \(a_n \not\ra 0\)
+    \end{enumerate}
+\end{theorem}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item Пусть \(q_0 \in (q, 1)\). Выберем \(N\) так, что \(\sup_{n \ge N}\sqrt[n]{a_n} \le q_0\). Но тогда \(\sqrt[n]{a_n} \le q_0 \Ra a_n \le q_0^n \Ra\) по принципу локализации, т.к. \(\sum_{n = 1}^\infty q_0^n\) сходится, то и \(\sum_{n = 1}^\infty a_n\) сходится.
+        \item Т.к. \(q\) --- частичный предел, то \(\exists \sqrt[n]{a_{n_k}} \ra q \Ra \exists k_0: \forall k > k_0\;\;a_{n_k} > 1\).
+    \end{enumerate}
+\end{proof}
+
+\begin{theorem}[признак Даламбера]
+    Пусть \(a_n \ge 0, \overline{r} = \limsup_{n \ra \infty}\frac{a_{n + 1}}{a_n}, \underline{r} = \liminf_{n \ra \infty}\frac{a_{n + 1}}{a_n}\).
+    \begin{enumerate}
+        \item \(\overline{r} < 1 \Ra \sum_{n = 1}^\infty a_n\) --- сходится
+        \item \(\underline{r} > 1 \Ra \sum_{n = 1}^\infty a_n\) --- расходится, причем \(a_n \not\ra 0\)
+    \end{enumerate}
+\end{theorem}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item Пусть \(r \in (\overline{r}, 1)\). Выберем \(N\) так, что \(\sup_{n \ge N}\frac{a_{n + 1}}{a_n} \le r\), а значит \(\frac{a_{n + 1}}{a_n} \le r \forall n > N\). Но тогда \(a_{n + m} \le a_nr^m \forall n > N\). Но тогда, т.к. \(\sum_{m = 1}^\infty a_nr^m\) --- сходится, то, по локализации, сходится и \(\sum_{n = 1}^\infty a_n\)
+        \item Т.к. \(\underline{r}\) --- частичный предел, то \(\exists \frac{a_{n + 1}}{a_n} \ra \underline{r} \Ra \exists k_0: \forall k > k_0\;\;a_{n_k} \ge a_{n_{k_0}}\). Но тогда \(a_n \ne\ra 0\).
+    \end{enumerate}
+\end{proof}
+
+\begin{note}
+    Если в признаке Коши \(q = 1\) или в признаке Даламбера \(\underline{r} \le 1, \overline{r} \ge 1\), то в общем случае нельзя определить тип сходимости \(a_n\).
+\end{note}
+\begin{example}
+    \[\sum_{n = 1}^\infty \frac{1}{n} \Ra q = 1, \overline{r} = 1, \underline{r} = 1 \text{ --- расходится}\]
+    \[\sum_{n = 1}^\infty \frac{1}{n^2} \Ra q = 1, \overline{r} = 1, \underline{r} = 1 \text{ --- сходится}\]
+\end{example}
+
+\begin{example}
+    \[\sum_{i = 1}^\infty 2^{(-1)^n - n}\]
+    \begin{enumerate}
+        \item \[\frac{a_{2k + 1}}{a_{2k}} = \frac{2^{-1 - (2k + 1)}}{2^{-1 - 2k}} = \frac{1}{8}\]
+        \item \[\frac{a_{2k}}{a_{2k - 1}} = \frac{2^{-1 - 2k}}{2^{-1 - (2k - 1)}} = \frac{1}{2}\]
+    \end{enumerate}
+    Итого, признак Даламбера ничего нам не дал. Посмотрим на признак Коши:
+    \[\sqrt[n]{a_n} = 2^{-1 + \frac{(-1)^n}{n}} \ra \frac{1}{2} \Ra \sum_{i = 1}^\infty 2^{(-1)^n - n} \text{ --- сходится}\]
+\end{example}
+
+\begin{problem}
+    Доказать, что 
+    \[\liminf_{n \ra \infty}\frac{a_{n + 1}}{a_n} \le \liminf_{n \ra \infty}\sqrt[n]{a_n} \le \limsup_{n \ra \infty}\sqrt[n]{a_n} \le \limsup_{n \ra \infty}\frac{a_{n + 1}}{a_n}\]
+\end{problem}
+
+\begin{theorem}[Признак Гаусса]
+    Пусть \(a_n \ge 0, \exists S > 1, A \in \R\), ограниченная последовательность \(\alpha_n\), такие, что \(\frac{a_{n + 1}}{a_n} = 1 - \frac{A}{n} + \frac{\alpha_n}{n^s}\). Тогда \(\sum_{i = 1}^\infty a_n\) --- сходится только при \(A > 1\).
+\end{theorem}
+\begin{proof}
+    Покажем, что \(\{n^Aa_n\}\) сходится к положительному числу. Рассмотрим \(v_n = \ln(n^Aa_n)\) и \(\sum_{n = 1}^\infty w_n\), где \(w_n = v_{n + 1} - v_n\). Тогда \(w_n = \ln\left(\frac{n + 1}{n}\right)^A + \ln\left(\frac{a_{n + 1}}{a_n}\right) = A\ln\left(1 + \frac{1}{n}\right) + \ln\left(1 - \frac{A}{n} + O\left(\frac{1}{n^2}\right)\right) = \left(\frac{A}{n} + O\left(\frac{1}{n^2}\right)\right) + \left(-\frac{A}{n} + O\left(\frac{1}{n^2}\right)\right) = O\left(\frac{1}{n^2}\right)\)
+\end{proof}
+% \begin{proof}[Неверное]
+%     При \(n > 1\) имеем
+%     \[a_n = a_1\prod_{k = 1}^{n - 1}\frac{a{k + 1}}{a_k} = a_1\exp\left(\sum_{k = 1}^{n - 1}\ln \frac{a_{k +1}}{a_k}\right) = \]
+%     \[= a_1\exp\left(\sum_{k = 1}^{n - 1}\ln\left(1 - \frac{A}{k} - \frac{\alpha_k}{k^s}\right)\right)\]. По формуле Тейлора, \(\ln(1 + x) = x + O(x^2), x \ra 0\). Поэтому
+%     \[a_n = a_1\exp\left(\sum_{k = 1}^{n - 1}\left(-\frac{A}{k} + \frac{\alpha_k}{k^s} + O\left(\frac{1}{k^2}\right)\right)\right)\]
+%     \[\sum_{k = 1}^n\frac{1}{k} = \ln n + O(1), \sum_{k = 1}^n \frac{1}{k^\alpha} \text{ сходится при }\alpha > 1 \Ra a_n = a_1\exp\left(-A\ln n + O(1)\right) = a_1 \frac{e^{O(1)}}{n^A}\]
+%     Но тогда \(\sum_{n = 1}^\infty a_n\) сходится только при \(A > 1\)
+% \end{proof}
+
+\subsection{Числовые ряды с произвольными членами}
+\begin{lemma}
+    Пусть \(b_n\) абсолютно сходится. Тогда \(\sum_{n = 1}^\infty(a_n + b_n), \sum_{n = 1}^\infty a_n\) либо одновременно расходятся, либо сходятся условно, либо сходятся абсолютно.
+\end{lemma}
+\begin{proof}
+    Аналогично доказательству для несобственных интегралов
+\end{proof}
+
+\begin{theorem}[Признак Лейбница]
+    Если \(\alpha_n\) монотонна и \(\alpha_n \ra 0\), то \(\sum_{n = 1}^\infty (-1)^n\alpha_n\) сходится и \(|S_n - S| \le |a_{n + 1}|\)
+\end{theorem}
+\begin{proof}
+    Пусть \(\alpha_n\) нестрого убывает, в частности, \(\alpha_n \ge 0 \forall n\)
+    \[S_{2n + 2} - S_{2n} = \alpha_{2n + 1} - \alpha_{2n + 2} \ge 0 \Ra \{S_{2n}\} \text{ --- нестрого возрастает}\]
+    \[S_{2n + 1} - S_{2n - 1} = -\alpha_{2n} + \alpha_{2n + 1} \le 0 \Ra \{S_{2n}\} \text{ --- нестрого убывает}\]
+    \[S_{2n + 1} - S_{2n} = \alpha_{2n + 1} \ge 0 \Ra \forall n, m\]
+    \[S_{2n} \le S_{2N} \le S_{2N + 1} \le S_{2m + 1}, N = \max\{n, m\}\]
+    Причем \(\{S_{2n}\}, \{S_{2n+1}\}\) --- ограничены \(\Ra S_{2n} \ra S', S_{2n+1} \ra S'', S_{2n + 1} - S_{2n} = \alpha_n \ra 0 \Ra S' = S''\). Кроме того, \(|S_n - S| \le |S_n - S_{n + 1}| = |a_{n + 1}|\)
+\end{proof}
+\hypertarget{lecture6}{}
+
+\begin{example}[Применение признака Лейбница]
+    \(\sum_{n = 1}^\infty \frac{(-1)^n}{n^\alpha}\) сходится при \(\Lra \alpha > 0\), причем сходится условно при \(\alpha \in (0, 1]\).
+\end{example}
+\begin{theorem}[Признак Дирихле]
+    Пусть \(\{a_n\}, \{b_n\}\) такие, что 
+    \begin{enumerate}
+        \item \(A_N = \sum_{n = 1}^Na_n\) ограничена
+        \item \(b_n\) монотонна
+        \item \(\lim_{n \ra \infty} b_n = 0\)
+    \end{enumerate}
+    Тогда \(\sum_{n = 1}^\infty a_nb_n\) сходится.
+\end{theorem}
+\begin{proof}
+    Можно доказать переходом к интегралу
+\end{proof}
+
+\begin{corollary}[Признак Абеля]
+    Пусть \(\{a_n\}, \{b_n\}\) такие, что 
+    \begin{enumerate}
+        \item \(\sum_{n = 1}^\infty a_n\) сходится
+        \item \(b_n\) монотонна
+        \item \(b_n\) ограничена
+    \end{enumerate}
+    Тогда \(\sum_{n = 1}^\infty a_nb_n\) сходится.
+\end{corollary}
+\begin{proof}
+    (Можно доказать переходом к интегралу)
+
+    \(b_n \ra c \in \R\). Но \(\sum_{n = 1}^\infty a_n(b_n - c)\) сходится по признаку Дирихле. Но тогда \(\sum_{n = 1}^\infty a_nb_n = \sum_{n = 1}^\infty a_n(b_n - c) + c\sum_{n = 1}^\infty a_n\). Но тогда последний интеграл тоже сходится.
+\end{proof}
+
+\begin{corollary}
+    Если \(\{\alpha_n\}\) --- монотонна и \(\alpha_n \ra 0\), то \(\sum_{n = 1}^\infty \alpha_n \cos nx\) и \(\sum_{n = 1}^\infty \alpha_n \sin nx\) --- сходятся, если \(x \ne 2\pi m, m \in \Z\).
+\end{corollary}
+\begin{proof}
+    \(S_N = \sum_{n = 1}^Ne^{inx}\) --- геометрическая прогрессия с коэффициентом \(q = e^{ix}\). По формуле Эйлера, \(S_N = A_N + iB_N\), где \(A_N = \sum_{n = 1}^N\cos nx, B_N = \sum_{n = 1}^N\sin nx\). Имеем: \(S_N = e^{ix}\frac{1 - e^{iNx}}{1 - e^{ix}}\). Т.к. \(|e^{ikx}| = 1\), то \(|S_N| \le \frac{2}{|1 - e^{ix}|} = \frac{2}{|1 - \cos x - i\sin x|} = \frac{2}{\sqrt{(1 - \cos x)^2 + (\sin x)^2}} = \frac{2}{\sqrt{1 - 2\cos x + \cos^2 x + (\sin x)^2}} = \frac{2}{\sqrt{2 - 2\cos x}} = \frac{1}{\sin \frac{x}{2}}\)
+\end{proof}
+\begin{example}
+    \(a_n = (-1)^n, b_n = (-1)^n\left(\frac{1}{\sqrt{n}} + \frac{(-1)^n}{n}\right)\).
+    \[\sum_{n = 1}^\infty \frac{(-1)^n}{\sqrt{n}} \text{ сходится }\]
+    \[\sum_{n = 1}^\infty b_n \text{ расходится, т.к. } b_n = a_n + \frac{1}{n}\]
+    Но \(b_n \sim a_n\left(1 + \frac{(-1)^n}{\sqrt{n}}\right)\)
+\end{example}
+\subsection{Группировки и перестановки}
+Пусть дана строго возрастающая последовательность \(\sum_{n = 1}^\infty a_n\)
+\begin{definition}
+    Пусть дана строго возрастающая последовательность целых чисел  \(0 = n_1 < n_2 < \dots\). Ряд \(\sum_{k = 1}^\infty b_k = a_{n_{k - 1} + 1} + \dots + a_{n_{k}}\) называется группировкой \(\sum_{n = 1}^\infty a_n\).
+\end{definition}
+
+\begin{lemma}
+    \begin{enumerate}
+        \item Если \(\sum_{n = 1}^\infty a_n\) сходится, то и любая группировка \(a_n\) сходится к той же сумме.
+        \item Пусть \(\exists L > 0: n_{k} - n_{k - 1} < L \forall k\). Если \(a_n \ra 0\) и группировка \(b_n\) --- сходится, то \(\sum_{n = 1}^\infty a_n\) сходится к той же сумме.
+    \end{enumerate}
+\end{lemma}
+\begin{proof}
+    Пусть \(S_n\) --- частичные суммы \(a_n\), \(S^*_n\) --- частичные суммы группировки.
+    \begin{enumerate}
+        \item Пусть \(S_n \ra S\). Т.к. \(S_n^*\) --- подпослежовательность \(S_n\), то она тоже сходится, причем их пределы совпадают.
+        \item Пусть \(\epsilon > 0\). Выберем \(K, M \in \N\) так, что \(|S_k^* - S| = |S_{n_k} - S| < \frac{\epsilon}{2} \forall k \ge K, |a_n| \le \frac{\epsilon}{2L}, \forall n \ge M\). Положим \(N = \max\{K, M + L\}\). Тогда для любого \(n \ge N \exists k (n_k \le n < n_{k + 1})\), а значит, \(S_n = S_{n_k} + a_{n_k + 1} + \dots + a_n\). Поэтому \(|S_n - S| \le |S_{n_k} - S| + |a_{n_k + 1}| + \dots + |a_{n}| < \frac{\epsilon}{2} + L\frac{2\epsilon}{2L} = \epsilon\).
+    \end{enumerate} 
+\end{proof}
+
+\begin{problem}
+    Пусть все \(a_n \in \R\) и одного знака внутри группы. Доказать, что сходимость группировки влечет сходимость \(\sum_{n = 1}^\infty a_n\), причем к той же сумме.
+\end{problem}
+
+\begin{proof}
+    Ряд \(\sum_{n = 1}^\infty a_{\phi(n)}\), где \(\phi: \N \ra \N\) --- биекция, называется перестановкой.
+\end{proof}
+\begin{theorem}
+    Пусть \(\sum_{n = 1}^{\infty} a_n\) сходится абсолютно. Тогда любая его перестановка \(\sum_{n = 1}^\infty a_{\phi(n)}\) сходится абсолютно к той же сумме.
+\end{theorem}
+\begin{proof}
+    Покажем, что частичные суммы ряда \(\sum_{n = 1}^\infty a_{\phi(n)}\) ограничены.
+    \[\sum_{n = 1}^N|a_{\phi(n)}| \le \sum_{n = 1}^{\max_{k \in {1, 2, \dots N}}\phi(k)} \le \sum_{n = 1}^\infty |a_n|\]
+    Зафиксируем \(\epsilon > 0\) и выберем \(m\) так, что \(\left|\sum_{n = m + 1}^\infty a_n\right| < \epsilon\). Выберем \(M\) так, что \(\{1, 2, \dots m\} \subset \{\phi(1), \phi(2), \dots \phi(M)\}\). Положим \(N = \max \{m, M\}\). Тогда \(\forall n \ge N\;\;\{1, 2, \dots m\} \subset \{\phi(1), \phi(2), \dots \phi(N)\}\), поэтому 
+    \[\left|\sum_{n = 1}^\infty a_n - \sum_{n = 1}^N a_{\phi(n)}\right| \le \sum_{n = m + 1}^\infty |a_n| < \epsilon\]
+\end{proof}
+\begin{example}
+    \(\sum_{n = 1}^\infty \frac{(-1)^n}{n}\).
+    \[S_{2m} = 1 - \frac{1}{2} + \frac{1}{3} \dots - \frac{1}{2m} = 1 + \frac{1}{2} + \frac{1}{3} \dots + \frac{1}{2m} - 2\left(\frac{1}{2} + \dots + \frac{1}{2m}\right) = H_{2m} - H_m = \ln 2 + o(1)\]
+\end{example}
+\begin{example}[Как не надо делать]
+    \[S_\Pi = 1 - \frac{1}{2} - \frac{1}{4} + \frac{1}{3} - \frac{1}{6} - \frac{1}{8} + \dots = \frac{1}{2} - \frac{1}{4} + \frac{1}{6} + \dots = \frac{1}{2\left(\ln 2\right)}\]
+    Получилась фигня, т.к. ряд не сходился абсолютно. Для условно сходящихся рядов при перестановке может получиться что угодно
+\end{example}
+
+\begin{lemma}
+    Пусть даны два расходящихся ряда \(\sum_{k = 1}^\infty b_k, \sum_{k = 1}^\infty c_k\), где \(b_k > 0, c_k < 0,\;\;\;b_k, c_k \ra 0\). Тогда для любого \(L \in \R\) найдется \(\sum_{n = 1}^\infty d_k\) с суммой \(L\), так что \(\{d_k\}\) содержит все \(b_k, c_k\), причем по одному разу.
+\end{lemma}
+\begin{proof}
+    Идея: так как ряды расходятся, будем добавлять члены из них, чтобы переваливать через \(L\) туда-сюда. % Нормальное доказательство в следующий раз
+
+    Построим по индукции последовательность \(D_i = (d_i, n_i, m_i)\) следующим образом (oбозначим \(S_n = \sum_{k = 1}^n d_k\)):
+    \begin{enumerate}
+        \item[] \(D_0 = (0, 0, 0)\)
+        \item[] \(D_{i + 1} = \left\{\begin{array}{l}
+            (b_{n_i + 1}, n_i + 1, m_i), \text{ если }S_i \le L \\
+            (c_{m_i + 1}, n_i, m_i + 1), \text{ если }S_i > L \\
+        \end{array}\right.\)
+    \end{enumerate}
+    Иными словами, будем брать \(b_i\), если сумма на данный момент меньше, чем нам надо и \(c_i\) иначе.
+    Заметим, что, так как \(\sum_{i = 1}^\infty b_i, \sum_{i = 1}^\infty c_i\) расходятся, то неверно, что с какого-то момента \(d_i = b_i\) или \(d_i = c_i\). Также заметим, что если \(n, m > 0\), то \(|b_{n_i}| + |c_{m_i}| \ge \left|L - S_i\right|\), т.к. если \( S_i \le L\), то рассмотрим максимальный \(j:\), такой, что \(S_j > L, S_{j + 1} \le L\). Но тогда \(S_j \le S_i \le L \Ra |c_{m_j}| \ge \left|L - S_i\right|\), но \(m_i = m_j\), т.к. \(j\) --- максимальный, получили, что \(|c_{m_i}| \ge \left|L - S_i\right|\). В другом случае аналогично получаем, что \(|b_{n_i}| \ge \left|L - S_i\right|\). Но тогда \(|b_{n_i}| + |c_{m_i}| \ge \left|L - S_i\right|\) и т.к. \(|b_{n_i}| + |c_{m_i}| \ra 0\), то и \(\left|L - S_i\right| \ra 0 \Ra S_i \ra L\).
+\end{proof}
+\hypertarget{lecture7}{}
+
+\begin{theorem}[Римана]
+    Если действительный ряд \(\sum_{n = 1}^\infty a_n\) сходится условно, то для любого \(L \in \R\) существует такая перестановка \(\sum_{n = 1}^\infty a_{\phi(n)}\), что\(\sum_{n = 1}^\infty a_{\phi(n)} = L\)
+\end{theorem}
+\begin{proof}
+    Положим \(b_i\) --- положительные члены \(a_i\), \(c_i\) --- отрицательные члены \(a_i\). Заметим, что т.к. \(\lim_{n \ra \infty} a_n = 0 \Ra \lim_{n \ra \infty} c_n = 0, \lim_{n \ra \infty} c_n = 0\). Проверим, что \(b_i, c_i\) расходятся. Действительно, пусть это не так, тогда один из них сходится. Но тогда, т.к. \(\sum_{n = 1}^\infty a_n = \sum_{n = 1}^\infty b_n + \sum_{n = 1}^\infty c_n\) (это следует из того, что если мы сложим некоторые частичные суммы \(b_i, c_i\), то получим частичную сумму \(a_i\)), получаем, что они либо оба сходятся, либо асболюнто расходятся. Но \(a_i\) не сходится абсолютно, значит \(\sum_{n = 1}^\infty b_n - \sum_{n = 1}^\infty c_n = \sum_{n = 1}^\infty |a_n|\) --- расходится, тогда один из рядов \(\sum_{n = 1}^\infty b_n, \sum_{n = 1}^\infty c_n\) --- расходится, тогда они оба расходятся. Далее применяем предыдущую лемму и получаем требуемую перестановку.
+\end{proof}
+
+\begin{theorem}[Коши]
+    Если ряды \(\sum_{n = 1}^\infty a_n, sum_{n = 1}^\infty b_n\) абсолютно сходятся к числам \(A, B\) соответственно \(\phi: \N \ra \N^2, \phi(n) = (i_n, j_n)\) --- биекция, то \(\sum_{n = 1}a_{i_n}b_{j_n}\) сходится абсолюнто к \(AB\)
+\end{theorem}
+\begin{proof}
+    Покажем, что частичные суммы ряда \(\sum_{n = 1}^\infty |a_{i_n}b_{j_n}|\) ограничены.
+    \[\sum_{n = 1}^N |a_{i_n}b_{j_n}| \le \sum_{i = 1}^{(\max_{i \le n \le N}i_n)}\sum_{j = 1}^{(\max_{i \le n \le N}j_n)} |a_ib_j| \le \left(\sum_{i = 1}^\infty |a_i|\right)\left(\sum_{j = 1}^\infty |b_j|\right)\]
+    Поэтому, эта шняга сходится. К чему? Ха-ха...
+    \[\begin{array}{ccccccccccc}
+        (1, 1)^{\textcolor{red}{(1)}} & (1, 2)^{\textcolor{red}{(2)}} &(1, 3)^{\textcolor{red}{(5)}} & (1, 4)^{\textcolor{red}{(10)}} & (1, 5)^{\textcolor{red}{(17)}} & \dots \\
+        
+        (2, 1)^{\textcolor{red}{(4)}} & (2, 2)^{\textcolor{red}{(3)}} & (2, 3)^{\textcolor{red}{(6)}} & (2, 4)^{\textcolor{red}{(11)}} & (2, 5)^{\textcolor{red}{(18)}} & \dots \\
+        
+        (3, 1)^{\textcolor{red}{(9)}} & (3, 2)^{\textcolor{red}{(8)}} & (3, 3)^{\textcolor{red}{(7)}} & (3, 4)^{\textcolor{red}{(12)}} & (3, 5)^{\textcolor{red}{(20)}} & \dots \\
+        (4, 1)^{\textcolor{red}{(16)}} & (4, 2)^{\textcolor{red}{(15)}} & (4, 3)^{\textcolor{red}{(14)}} & (4, 4)^{\textcolor{red}{(13)}} & (4, 5)^{\textcolor{red}{(19)}} & \dots \\
+
+        (5, 1)^{\textcolor{red}{(25)}} & (5, 2)^{\textcolor{red}{(24)}} & (5, 3)^{\textcolor{red}{(23)}} & (5, 4)^{\textcolor{red}{(22)}} & (5, 5)^{\textcolor{red}{(21)}} & \dots \\
+        \vdots & \vdots & \vdots & \vdots & \vdots & \ddots
+    \end{array}\]
+    \begin{center}
+        (красным помечен порядок обхода)
+    \end{center}
+    Заметим, что частичные суммы с индексом \(n^2, n \in \N\) таковы, что \(S_{n^2} = \sum_{i, j = 1}^Na_ib_j = \left(\sum_{i = 1}^N a_i\right)\left(\sum_{j = 1}^N b_j\right) \ra AB\). Тогда и вся последовательность \(\ra AB\).
+\end{proof}
+
+\begin{definition}
+    Ряд \(\sum_{n = 1}^\infty c_n, c_n = \sum_{k = 1}^na_kb_{n + 1 - k}\) называется произведением по Коши рядов \(\sum_{n = 1}^\infty a_n, \sum_{n = 1}^\infty b_n\)
+\end{definition}
+
+\begin{corollary}
+    Если \(\sum_{n = 1}^\infty a_n, \sum_{n = 1}^\infty b_n\) cходятся абсолютно, то их произведение по Коши схоится абсолютно к их произведению сумм рядов
+\end{corollary}
+
+\begin{theorem}[Мертенс]
+    Если \(\sum_{n = 1}^\infty a_n\) абсолютно сходится, \(\sum_{n = 1}^\infty b_n\) сходится, то их произведеие Коши сходится к произведению их сумм
+\end{theorem}
+\begin{proof}
+    \(B_N\) --- \(N\)-ая частичная сумма, \(B\) --- сумма ряда \(\sum_{n = 1}^\infty b_n\). Тогда \(B_N = B + \beta_N\), где \(\beta_N \ra 0\). Представим \(\sum_{n = 1}^\infty c_n\) в следующем виде:
+    \[\sum_{n = 1}^N c_n = a_1b_1 + (a_1b_2 + b_1a_2) + \dots + (a_1b_N + \dots + b_1a_N) = a_1B_N + a_2B_{N - 1} + \dots + a_NB_1 = \sum_{k = 1}^N a_k \cdot B + \gamma_N\]
+    Где \(\gamma_N = a_1\beta_N + a_2\beta_{N - 1} + \dots + a_N\beta_1\). Т.к. \(\sum_{k = 1}^N a_kB \ra AB\), то достаточно показать, что \(\gamma_N \ra 0\). 
+
+    Зафиксируем \(\epsilon > 0\) и выберем \(m \in \N\), т.ч. \(\sum_{n = m + 1}^N|a_n| < \epsilon, |\beta_n| < \epsilon\) при \(n \ge m\). Пусть \(N \ge 2m\), тогда (положим \(C = \sum |\beta_n|\)):
+    \[|\gamma_N| = |a_1\beta_N + a_2\beta_{N - 1} + \dots + a_N\beta_1| \le |a_1\beta_N + a_2\beta_{N - 1} + \dots + a_m\beta_{N - m + 1}|  + |a_{m + 1}\beta_{N - m} + \dots + a_N\beta_1|\]
+    \[|a_1\beta_N + a_2\beta_{N - 1} + \dots + a_m\beta_{N - m + 1}|  + |a_{m + 1}\beta_{N - m} + \dots + a_N\beta_1| \le \sum_{k = 1}^m |a_k|\epsilon + C \sum_{k = m + 1}^\infty |a_k| < \epsilon\left(\sum_{k = 1}^\infty|a_k| + C\right)\]
+\end{proof}
+
+\section{Ряд и Интеграл}
+\[g(b) = \sum_{k = 0}^m \frac{g^{(k)}(a)}{k!}(b - a)^k + \frac{1}{m!}\int_a^b(b - t)^mg^{(m + 1)}(t)dt\]
+
+\begin{proposition}\indent
+    \begin{enumerate}
+        \item Пусть \(f \in C^1[1, +\infty]\) и \(\int_1^\infty|f'(t)|dt\) сходится. Тогда \(\sum_{k = 1}^\infty f(k)\) сходится одновременно с \(\left\{\int_1^n f(t)dt\right\}\)
+        \item Пусть \(f \int C^2[1, +\infty), \int_1^+\infty|f''(t)|dt\) сходится. Тогда сходится ряд
+        \[\left\{\int_1^{n + 1}f(t)dt - \sum_{k = 1}^n f(k) - \frac{1}{2}\sum_{k = 1}^nf'(k)\right\}\]
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}
+        \item \[g(x) = \int_n^xf(t)dt \]
+        \[\left|\int_n^{n + 1}f(t)dt - f(n)\right| \le \underbrace{\int_n^{n + 1}|f'(t)|dt}_{\text{член сходящегося ряда}}\]
+        \(\alpha_k = \int_k^{k + 1}f(t)dt - f(k)\) --- член сходящегося ряда.
+        \[S_n = \sum_{k = 1}^n \alpha_k = \int_1^{n + 1}f(t)dt - \sum_{k = 1}^nf(k) \text{ --- сходится}\]
+        \item \[\int_n^{n + 1}f(t)dt = f(n) + \frac{1}{2}f'(n) + \frac{1}{2}\int_n^{n + 1}(n + 1 - t)^2f'(t)dt\]
+        \[\left|\int_n^{n + 1}f(t)dt - f(n) - \frac{1}{2}f'(n)\right| \le \underbrace{\frac{1}{2}\int_n^{n + 1}|f''(n)|dt}_{\text{Член сх. ряда}}\]
+        Но тогда 
+        \[\int_1^{n + 1}f(t)dt - \sum_{k = 1}^nf(k) - \frac{1}{2}\sum_{k = 1}^nf'(k)\]
+        Тоже сходится
+    \end{enumerate}
+\end{proof}
+\hypertarget{lecture8}{}
+
+Рассмотрим \(f(t) = \ln t\).
+\[\int_1^{n + 1} \ln tdt = t\ln t|_{1}^{n + 1} - \int_1^{n + 1}dt = (n + 1)\ln(n + 1) - n\]
+Следовательно, сходится последовательность 
+\[(n + 1)\ln(n  + 1)- n - \sum_{k = 1}^n\ln k - \frac{1}{2}\ln n = (n + 1)\left(\ln n + \ln \left(1 + \frac{1}{n}\right)\right) - \ln n! - \frac{1}{2}\ln n - n = \]
+\[ = \left(n + \frac{1}{2}\right)\ln n + (n + 1)\left(\frac{1}{n} + o\left(\frac{1}{n}\right)\right) - \ln n! - \ln e^n\]
+Следовательно, сходится \(\underbrace{\left\{\left(n + \frac{1}{2}\right) \ln n + \ln n! + n\right\}}_{\ln\frac{n!e^n}{n^{n + \frac{1}{2}}}}\)
+
+Поэтому, \(\ln\frac{n!e^n}{n^{n + \frac{1}{2}}} \ra C > 0\) и \(n! \sim C\frac{n^{n  + \frac{1}{2}}}{e^n}\). Найдем \(C\), пользуясь формулой Валлиса
+\[\pi = \lim_{n \ra \infty} \frac{1}{n}\left(\frac{(2n)!!}{(2n - 1)!!}\right)^2\]
+Имеем 
+\[\frac{1}{n}\left(\frac{(2n)(2n - 2)\dots2}{(2n - 1)(2n - 3)\dots 1}\right) = \frac{1}{n}\left(\frac{2^{2n}(n!)^2}{(2n)!}\right)^2 \sim \frac{2^{4n}}{n}\frac{C^4n^{4n + 2}e^{4n}}{e^{4n}C^2(2n)^{4n + 1}} = \frac{C^2}{2} \Ra C = \sqrt{2\pi}\]
+
+Но тогда
+\[n! \sim \sqrt{2\pi}\left(\frac{n}{e}\right)^n, n \ra \infty\]
+
+\section{Функциональные последовательности и ряды}
+
+Пусть \(f_n, f: E \ra \R\) или \(\Cm\) (все утверждения тоже верны для \(\R\) или \(\Cm\)).
+
+\begin{definition}
+  Говорят, что \(f_n\) поточечно сходится к \(f\) на \(E\), если \(\forall x \in E f(x) = \lim_{n \ra \infty}f_n(x)\). Пишут \(f_n \ra f\) на \(E\), и \(f\) называют пределом функциональной последовательности \(f_n\)
+\end{definition}
+\begin{example}
+  \(f_n: [0, 1) \ra \R, f_n(x) = x^n\). Тогда \(f_n \ra f\), при \(f(x) = \left\{\begin{array}{l}
+    0, x \in [0, 1) \\
+    1, x = 1
+  \end{array}\right.\)
+  Функция оказалась разрывна!
+\end{example}
+
+Распишем определение поточечной сходимост ипо по определению. 
+\[f_n \ra f \text{ на } E \Lra \forall x \forall \epsilon > 0 \exists N: 
+\forall n > N (|f_n(x) - f(x)| < \epsilon)\]
+
+\begin{definition}
+  Говорят, что \(\{f_n\}\) равномерно сходится к \(f\) на множестве \(E\), если 
+  \[\forall \epsilon > 0 \exists N: \forall x \forall n > N (|f_n(x) - f(x)| < \epsilon)\]
+  Пишут \(f_n \rightrightarrows f\) на \(E\), или \(f_n \rightrightarrows_E f\)
+\end{definition}
+\begin{note}
+  Равномерная сходимость влечет поточечную
+\end{note}
+\begin{note}
+  Если \(f_n \rightrightarrows f\) на \(E\), то \(f\) определена на \(E\) однозначно
+\end{note}
+
+\begin{lemma}[Супремум критерий]
+  \(f_n \rightrightarrows_E f \Lra \lim_{n \ra \infty}\rho_n = 0\), где \(\rho_n = \sup_{x \in E}|f_n(x) - f(x)|\)  
+\end{lemma}
+\begin{proof}
+  \[\forall x \in E (|f_n(x) - f(x)| < \epsilon), \sup_{x \in E}|f_n(x) - f(x)| \le \epsilon\]
+  Эти условия равносильны, поэтому лемма верна
+\end{proof}
+
+\begin{problem}
+  \(f_n \rightrightarrows f \Lra \forall \{x\} \subset E\;\; \lim_{n \ra \infty} |f_n(x_n) - f(x_n)| = 0\)
+\end{problem}
+
+\begin{definition}
+  Функциональная последовательность поточечно (равномерно) сходится на множестве \(E\), если найдется такая определенная на \(E\) функция, к которой последовательность поточечно (равномерно) сходится
+\end{definition}
+
+Пусть задан функциональный ряд \(\sum_{n = 1}^\infty u_n\), где \(u_n: E \ra \R\)
+\begin{definition}
+  Говорят, что \(\sum_{n = 1}^\infty u_n\) сходится на \(E\), если \(\forall x \in E \left(\sum_{n = 1}^\infty u_n(x)\right)\) сходится. При этом, функция \(S: E \ra \R, S(x) = \sum_{n = 1}^\infty u_n(x)\) называется суммой ряда \(\sum_{n = 1}^\infty u_n\)
+\end{definition}
+
+\begin{definition}
+  Функциональный ряд поточечно (равномерно) сходится на \(E\), если последовательность частичных сумм \(S_N = \sum_{n = 1}^N u_n\) поточечно (равномерно) сходится на \(E\)
+\end{definition}
+
+\begin{proposition}
+  Пусть \(g: E \rightrightarrows \R\) ограничена
+  \begin{enumerate}
+    \item Если  \(f_n \rightrightarrows f\) на \(E\), то \(gf_n \rightrightarrows gf\) на \(E\)
+    \item Если \(\sum_{n = 1}^\infty u_n\) равномерно сходится на \(E\), то \(\sum_{n = 1}^\infty gu_n\) также равномерно сходится на \(E\), причем 
+    \[\sum_{n = 1}^\infty gu_n = g\sum_{n = 1}^\infty u_n\]
+  \end{enumerate}
+\end{proposition}
+\begin{proof}\indent
+  \begin{enumerate}
+    \item Пусть \(|g| \le M\). Для любого \(x \in E\) имеем
+    \[|g(x)f_n(x) - g(x)f(x)| \le M|f_n(x) - f(x)|\]
+    \[\sup_{x \in E}|g(x)f_n(x) - g(x)f(x)| \le M\sup_{x \in E}|f_n(x) - f(x)|\]
+    \item Очевидно
+  \end{enumerate}
+\end{proof}
+\begin{proposition}\indent
+  \begin{enumerate}
+    \item Если \(f_n \rightrightarrows f\) на \(E\), \(g_n \rightrightarrows g\) на \(E\), то \(\lambda f_n + 
+    mu g_n \rightrightarrows \lambda f + \mu g\) на \(E\).
+    \item Если \(\sum_{n = 1}^\infty u_n, \sum_{n = 1}^\infty v_n\) равномерно сходится на \(E\), и \(\lambda, \mu \in \R\), то \(\sum_{n = 1}^\infty (\lambda u_n + \mu v_n)\) равномерно сходится на \(E\), причем \(\sum_{n = 1}^\infty (\lambda u_n + \mu v_n) = \lambda \sum_{n = 1}^\infty u_n + \mu \sum_{n = 1}^\infty v_n\)
+  \end{enumerate}  
+\end{proposition}
+\begin{proof}\indent
+  \begin{enumerate}
+    \item \(f_n + g_n \rightrightarrows f\) на \(E\).
+    \[\forall x \in E |(f_n(x) + g_n(x)) - (f(x) + g(x))| \le |f_n(x) - f(x)| + |g_n(x) - g(x)|\]
+    \[\sup_{x \in E} |(f_n(x) + g_n(x)) - (f(x) + g(x))| \le \sup_{x \in E}|f_n(x) - f(x)| + \sup_{x \in E}|g_n(x) - g(x)|\]
+  \end{enumerate}
+\end{proof}
+
+\begin{corollary}
+  Если \(\sum_{n = 1}^\infty u_n\) равномерно сходится на \(E\), то \(u_n \rightrightarrows 0\) на \(E\)
+\end{corollary}
+\begin{proof}
+  Если \(S_n\) --- \(n\)-ая частичная сумма \(sum_{n = 1}^\infty u_n\), то \(u_n = S_n - S_{n - 1} \rightrightarrows S - S = 0\)
+\end{proof}
+
+\begin{problem}
+  Пусть \(f_n \rightrightarrows f\) на \(E\), \(g: D \ra E\), тогда \(f_n \circ g \rightrightarrows f \circ g\) на \(D\)
+\end{problem}
+
+\begin{theorem}[Критерий Коши]
+  \(\{f_n\}\) равномерно сходится на \(E \Lra \forall \epsilon > 0 \exists N \forall m, n > N \forall x \in E (|f_n(x) - f(x)| \le \epsilon) (1)\)
+\end{theorem}
+\begin{proof}\indent
+  \begin{enumerate}
+    \item[\(\Ra\)] Пусть \(f_n \rightrightarrows f\) на \(E\). Зафиксируем \(\epsilon > 0, n \ge N\). Тогда \(\forall x \forall n, m \ge N |f_n(x) -f(x)| \le |f_n(x) - f(x)| + |f_m(x) - f(x)| < \epsilon\)
+    \item[\(\La\)] Пусть \(\{f_n\}\) удовлетворяет \((1)\). Тогда \(\forall x \in E \{f_n(x)\}\) фундаментальна. Положим \(f(x) = \lim_{n \ra \infty}f_n(x)\), зафиксируем \(\epsilon > 0\) и выберем \(N\) из условия \((1)\). Тогда 
+    \[|f_n(x) - f(x)| \le \epsilon \forall x \in E \forall n \ge N\]
+    Это означает, что \(f_n \rightrightarrows f\) на \(E\).
+  \end{enumerate}
+\end{proof}
+
+\begin{corollary}[Критерий Коши]
+  \(\sum_{n = 1}^\infty u_n \text{ равномерно сходится на }E \Lra \forall \epsilon > 0 \exists N \forall m, n \ge N \forall x \in E \left(\left|\sum_{k = m + 1}^n u_k(x)\right| < \epsilon\right)\)
+\end{corollary}
+
+\begin{corollary}
+  Пусть  \(E \subset \R\), все функции \(f_n\) непрерывны на \(\overline{E}\). Если \(\{f_n\}\) равномерно сходится на \(E\), то \(\{f_n\}\) равномерно сходится на \(\overline{E}\)
+\end{corollary}
+\begin{proof}
+  Зафиксируем \(\epsilon > 0\). Тогда по Критерию Коши, \(\exists N \forall n, m > N \forall x \in E (|f_n(x) - f_m(x)| \le \epsilon)\). Пусть \(y \in \overline{E} \Ra \exists \{x_n\} \subset E: (x_k \ra y)\). В неравенстве \(|f_n(x_k) - f_m(x_k)| \le \epsilon\) переходим к прелельному переходу, получаем, что \(|f_n(y) - f_m(y)| \le \epsilon\). Тогда \(\{f_n\}\) равномерно сходится на \(\overline{E}\)
+\end{proof}
+
+\begin{example}
+  \(\sum_{n = 1}^\infty \frac{1}{n^x}\) --- сходится  на \((1, \infty)\) неравеномерно.
+\end{example}
+\begin{proof}
+  Предположим противное. Но тогда, по следствию 2, \(\sum_{n = 1}^\infty \frac{1}{n^x}\) равномерно сходтися на \([1, \infty)\), противоречие
+\end{proof}
+\begin{theorem}[О непрерывности предельной функции]
+    Пусть \(E \subset \R\). Если \(f_n \rightrightarrows f\) на \(E\), и все функции \(f_n\) непрерывны на \(E\), то \(f\) --- непрерывна на \(E\)
+\end{theorem}
+\begin{proof}
+    Зафиксируем \(\epsilon > 0\). Тогда \(exists N \forall n \ge N \forall x \in E \left(|f_n(x) - f(x)| \le \frac{\epsilon}{3}\right)\). Для любого \(x \in E\)
+    \[|f(x) - f(a)| \le |f(x) - f_N(x)| + |f_N(x) - f_N(a)| + |f_N(a) - f(a)| \le |f_N(x) - f_N(a)| + \frac{2\epsilon}{3}\]
+    Т.к. \(f_N\) непрерывна в \(a\), то \(\exists \delta > 0 \forall x \in B_\delta(a) \cap E \left(|f_N(x) - f_N(a)| < \frac{\epsilon}{3}\right)\). Но тогда \(\forall x \in B_\delta(a) \cap E (|f(x) - f(a)| < \epsilon)\). Значит \(f\) непрерывна в \(\forall a \in E\).
+\end{proof}
+
+\begin{note}
+    В условиях предыдущей теоремы, если \(a\) --- предельная точка \(E\), то \(\lim_{x \ra a}\lim_{n \ra \infty}f_n(x) = \lim_{n \ra \infty}\lim_{x \ra a}f_n(x)\)
+\end{note}
+
+\begin{corollary}[О непрерывности суммы ряда]
+    Если \(\sum_{n = 1}^\infty u_n\) равномерно сходится на \(E\) и все функции \(u_n\) непрерывны на \(E\), то сумма ряда также непрерывна на \(E\).
+\end{corollary}
+
+\begin{example}
+    \(f_n(x) = n^\alpha x^n, x \in [0, 1], f_0 \equiv 0\)
+    \[\rho_n = \sup_{[0, 1]}|f_n(x)| = n^\alpha \Ra (f_n \rightrightarrows_{[0, 1]} f_0 \Lra \alpha < 0)\]
+    \[\lim_{n \ra \infty} \int_0^1 f(x)dx = \lim_{n \ra \infty} \frac{n^\alpha}{n + 1} = \int_0^1 f_0(x)dx = 0 \Lra \alpha < 1\]
+\end{example}
+
+\begin{theorem}[Об интегрируемости предельной функции]
+    Если \(f_n \rightrightarrows_{[a, b]} f, f_n \in R[a, b] \Ra f \in R[a, b]\), причем \(\lim_{n \ra \infty} \int_a^b f_n(x) dx = \int_a^b f(x)dx\)
+\end{theorem}
+\begin{proof}
+    Докажем, что \(f \in R[a, b]\). Зафиксируем \(\epsilon > 0\). По определению равномерной сходимости, \(\exists N \forall n > N \forall x \in [a, b]\left(|f_n(x) - f(x)| < \frac{\epsilon}{b - a}\right)\). Оценим колебание \(f\) на \(E \subset [a, b]\), то есть оценим  \(\omega(f, E) = \sup_{x, y \in E}|f(y) - f(x)|\). Т.к. \(f = (f - f_N) + f_N \Ra |f(y) - f(x)| \le |f - f_N|(y) - |f - f_N|(x)| + |f_N(y) - f_N(x)| \Ra \omega(f, E) \le \omega (f - f_N, E) + \omega (f_N, E), \frac{\epsilon}{2(b - a)}\). По критерию Дарбу, \(\exists T\) --- разбиение \([a, b]\), такое, что \(\Omega_T(f_N) < \frac{\epsilon}{2}\). Тогда для разбиения \(T\) имеем \(\Omega_T(f) \le \sum \omega(f, E)\Delta x_i < \frac{\epsilon}{2} + \frac{\epsilon}{2} = \epsilon\). Но тогда \(f \in R[a, b]\). При этом,
+    \[\left|\int_a^b f_n(x)fx - \int_a^b f(x)dx\right| \le \int_a^b |f_n(x) - f(x)|dx < \epsilon\]
+\end{proof}
+
+\begin{corollary}[О почленном интегрировании ряда]
+    Если \(\sum_{n = 1}^\infty u_n\) равномерно сходится на \([a, b]\) и все \(u_n \in R[a, b]\), то сумма ряда также \(\in R[a, b]\)
+\end{corollary}
+\begin{proof}
+    \[\int_a^b\left(\sum_{n = 1}^\infty u_n(x)\right)dx = \sum_{n = 1}^\infty \left(\int_a^b u_n(x) dx\right)\]
+\end{proof}
+
+\begin{note}
+    В условиях предыдущей теоремы, \(\lim_{n \ra \infty}\int_a^b f_n(x)dx = \int_a^b f(x)dx\)
+\end{note}
+
+\begin{theorem}[О дифференцируемости предельной функции]
+    Пусть \(I\) --- некоторый промежуток и заданы функции \(f_n: I \ra \R\), такие, что:
+    \begin{enumerate}
+        \item \(f_n \ra f\) на \(I\)
+        \item Все \(f_n\) дифференцируемы на \(I\)
+        \item \(f_n' \rightrightarrows g\) на \(I\)
+    \end{enumerate}
+    Тогда \(f\) дифференцируема на \(I\), причем \(f' = g\) на \(I\).
+\end{theorem}
+\begin{proof}
+    Пусть \(x \in I\). Рассмотрим \(\phi_n(t) = \left\{\begin{array}{l}
+        \frac{f_n(t) - f_n(x)}{t - x} , t \ne x \\
+        f_n'(x), t = x
+    \end{array}\right.\)
+    \(\phi_n \ra \phi\) на \(I\), где \(\phi(t) = \left\{\begin{array}{l}
+        \frac{f(t) - f(x)}{t - x}, t \ne x \\
+        g(x), t = x
+    \end{array}\right.\). Покажем, что сходимость равномерная. Действительно, при \(t \ne x\)
+    \[\phi_n(t) - \phi_m(t) = \frac{(f_n(t) - f_m(t)) - (f_n(x) - f_m(x))}{t - x} = f_n'(c) - f_m'(c)\]
+    Для некоторой \(c\), лежащей между \(t, x\). Т.к. \(\{f_n'\}\) равномерно сходится на \(I\), то \(\{f_n'\}\) удовлетворяет условию Коши. Тогда условию Коши удовлетворяет и \(\{\phi_n\}\). По критерию Коши, \(\phi_n \rightrightarrows \phi\) на \(I\), все \(\phi_n\) непрерывны в \(x \Ra \phi\) непрерывна в точке \(x\), т.е. \(\lim_{t \ra x} \phi(t) = \phi(x)\), или \(f'(x) = g(x)\).
+\end{proof}
+
+\begin{note}
+    В условиях предыдущей теоремы,  \(\frac{d}{dx}\lim_{n \ra \infty} f_n(x) = \lim_{n \ra \infty}\frac{d}{dx}f_n(x)\)
+\end{note}
+
+\begin{corollary}[О почленном дифференцировании ряда]
+    Пусть \(I\) --- невырожденный промежуток, и \(u_n: I \ra \R\), т.ч.
+    \begin{enumerate}
+        \item \(\sum_{n = 1}^\infty u_n\) почленно сходится на \(I\)
+        \item все \(u_n\) дифференцируемы на \(I\)
+        \item \(\sum_{n = 1}^\infty u_n\) равномерно сходится на \(I\)
+    \end{enumerate}
+    Тогда сумма ряда дифференцируема на \(I\).
+\end{corollary}
+\begin{proof}
+    \[\left(\sum_{n = 1}^\infty u_n(x)\right)' = \sum_{n = 1}^\infty u_n'(x)\]
+\end{proof}
+
+\begin{note}
+    В предыдущей теореме равномерную сходимость производных нельзя заменить равномерной сходимостью функций.
+\end{note}
+\begin{example}
+    \(f_n(x) = \sqrt{x^2 + \frac{1}{n}} \Ra \forall x \in \R f_n(x) \ra f(x) = |x|\). Предельная функция не дифференцируема в \(0\).
+\end{example}
+\hypertarget{lecture10}{}
+
+\begin{theorem}[Признак Вейерштрасса]
+    Пусть задан функциональный ряд \(\sum_{n = 1}^\infty u_n\) на \(E\), и числовая последовательность \(\{a_n\}\), причем
+    \begin{enumerate}
+        \item \(\forall x \in E \forall n \in \N (|u_n(x)| \le a_n)\)
+        \item \(\sum_{n = 1}^\infty a_n\) сходится
+    \end{enumerate}
+    Тогда \(\sum_{n = 1}^\infty u_n\) сходится равномерно и абсолютно на \(E\)
+\end{theorem}
+\begin{proof}
+    Т.к. \(\sum_{n = 1}^\infty a_n\) сходится, то \(\forall \epsilon > 0 \exists N \forall n > m \ge N \left(\sum_{k = m + 1}^n a_n < \epsilon\right)\). Тогда \(\forall n > m \ge N\) и \(\forall x \in E\):
+    \[\left|\sum_{k = m + 1}^n u_n(x)\right| \le \sum_{k = m + 1}^n |u_n(x)| < \sum_{k = m + 1}^n a_n < \epsilon\]
+    Таким образом, \(\sum_{n = 1}^\infty |u_n(x)|\) удовлетворяет условию Коши на \(E\). Тогда эти ряды равномерно сходятся на \(E\)
+\end{proof}
+
+\begin{note}
+    \(\sum_{n = 1}^\infty a_n\) называется мажорантным рядом для ряда \(\sum_{n = 1}^\infty u_n(x)\).
+\end{note}
+
+\begin{definition}
+    Пусть задана \(g_n: E \ra \R(\Cm)\). последовательность \(\{a_n\}\) называется равномерно ограниченной на множестве \(E\), если \(\exists C > 0 \forall n \in \N \forall x \in E (|g_n(x)| \le C)\)
+\end{definition}
+\begin{theorem}[Признак Дирихле]
+    Пусть \(a_n, b_n: E \ra \R (\Cm)\) --- такие функциональные последовательности, что
+    \begin{enumerate}
+        \item \(A_n = \sum_{n = 1}^N a_n\) равномено ограничены на \(E\)
+        \item \(\forall x \in E \{b_n(x)\}\) монотонна
+        \item \(b_n \rightrightarrows 0\) на \(E\)
+    \end{enumerate}
+    Тогда \(\sum_{n = 1}^\infty a_nb_n\) сходится равномерно на \(E\)
+\end{theorem}
+\begin{proof}
+    Так как \(\{A_N\}\) равномерно ограничена \(E \Ra \exists C > 0 \forall n \in \N \forall x \in E (|A_n(x)| \le C)\). Тогда \(\forall n, m (n > m)\)
+    \[\left|\sum_{k = m + 1}^n a_k(x)\right| = \left|A_n(x) - A_m(x)\right| \le 2C\]
+    Зафиксируем \(\epsilon > 0\). Так как \(b_n \rightrightarrows_E 0\), то \(\exists N \forall n \ge N \forall x \in E \left(\left|b_n(x) < \frac{\epsilon}{8C}\right|\right)\). Тогда по лемме Абеля, \(\forall n > m \ge N \forall x \in E\)
+    \[\left|\sum_{k = m + 1}^n a_k(x)b_k(x)\right| \le 2\cdot2C \left(|b_n(x)| + |b_{m + 1}(x)|\right) < \epsilon\]
+\end{proof}
+
+\begin{corollary}[Принцип Лейбница]
+    Если для каждого \(x \in E\) последовательность \(\{\alpha_n(x)\}\) монотонна и \(\alpha_n \rightrightarrows 0\) на \(E\), то \(\sum_{n = 1}^\infty (-1)^{n - 1}\alpha_n\) равномерно сходится на \(E\)
+\end{corollary}
+\begin{corollary}
+    Пусть отрезок \(I \ni 2\pi m, m \in \Z\). Если \(\forall x \in I \{\alpha_n(x)\}\) монотонна и \(\alpha_n \rightrightarrows_I 0\), то \(\sum_{n = 1}^\infty \alpha_n\cos nx\) равномерно сходится на \(I\)
+\end{corollary}
+\begin{proof}
+    Докажем, что \(\left|\sum_{n = 1}^N \sin nx\right| \le \frac{1}{\left|\sin \frac{x}{2}\right|} \forall x \in I\). Т.к. \(\inf_I \left|\sin \frac{x}{2}\right| = c > 0 \Ra \left|\sum_{n = 1}^N \sin nx\right| \le \frac{1}{c}\). По принципу Дирихле заключаем, что \(\sum_{n = 1}^\infty \alpha_n \sin nx\) равномено сходится на \(I\)
+\end{proof}
+
+\begin{theorem}[Признак Абеля]
+    Пусть \(a_n, b_n: E \ra \R (\Cm)\), такие, что
+    \begin{enumerate}
+        \item Ряд \(\sum_{n = 1}^\infty a_n\) равномерно сходится на \(E\)
+        \item \(\forall x \in E \{b_n(x)\}\) монотонна
+        \item \(\{b_n\}\) равмномерно ограничена на \(E\)
+    \end{enumerate}
+    Тогда \(\sum_{n = 1}^\infty a_nb_n\) сходится равномерно на \(E\)
+\end{theorem}
+\begin{proof}
+    Т.к. \(\{b_n\}\) равномерно ограничена на \(E \Ra \exists C > 0 \forall n \forall x \in E (|b_n(x)| \le C)\). Зафиксируем \(\epsilon > 0\). Тогда в силу сходимости ряда \(\sum_{n = 1}^\infty a_n\) на \(E\), по Критерию Коши, \(\exists N \forall n > m \ge N \forall x \in E \left(\left|\sum_{k = m + 1}^n a_k(x)\right| < \frac{\epsilon}{c}\right)\). По Лемме Абеля, \(\forall x \in E \forall n > m \ge N\) имеем 
+    \[\left|\sum_{k = m + 1}^n a_k(x)b_k(x)\right| \le 2\frac{\epsilon}{4C}\left(|b_{m + 1}(x)| + |b_n(x)|\right) \le \epsilon\]
+    По Критерию Коши, ряд \(\sum_{n = 1}^\infty a_nb_n\) равномерно сходится на \(E\).
+\end{proof}
+
+\begin{example}
+    Исследуем сходимость и равномерную сходимость \(\sum_{n = 1}^\infty \frac{\sin nx}{x^\alpha}\) на \(E_1 = (0, 2\pi), E_2 = [\delta, 2\pi - \delta], \delta \in (0, \pi)\)
+    \begin{enumerate}
+        \item Исслудуем поточечную сходимость.
+        \begin{enumerate}
+            \item \(\alpha > 0\). \(\forall x \in E\) ряд \(\sum_{n = 1}^\infty \frac{\sin nx}{x^\alpha}\) сходится по следствию из признака Дирихле
+            \item \(\alpha \le 0\). Покажем, что при \(x \in E \setminus \{\pi\}\) ряд расходится по необходимому условию. Достаточно показать, что \(\sin nx \not\ra 0\). Действительно, \(\sin nx \ra 0 \Ra \sin (n + 1)x \ra 0\). Но \(\sin (n + 1)x = \sin nx \cos x + \cos nx + \sin x \Ra \cos nx \ra 0\). Противоречие, т.к. \(\sin^2 nx + \cos^2 nx = 1\).
+        \end{enumerate}
+        \item Исслудуем равномерную сходимость. На \(E_2\) ряд равномерно сходится \(forall \alpha > 0\). 
+        \begin{enumerate}
+            \item \(\alpha > 1\).
+            \[\left|\frac{\sin nx}{n^\alpha}\right| \le \frac{1}{n^\alpha}\]
+            Следовательно, \(\sum_{n = 1}^\infty \frac{\sin nx}{x^\alpha}\) --- равномерно сходится по признаку Вейерштрасса
+            \item \(0 < \alpha \le 1\). Покажем, что равмномерной сходимости нет. Рассмотрим \(x_n = \frac{\pi}{4n}\). Рассмотрим \(k \in [n, 2n]\Ra kx_n \in \left[\frac{\pi}{4}, \frac{\pi}{2}\right]\). Тогда 
+            \[\left|\sum_{k = n + 1}^{2n} \frac{\sin kx_n}{k^\alpha}\right| = \sum_{n = 1}^{2n}\frac{\sin kx_n}{k^\alpha} > \frac{1}{\sqrt{2}}\frac{n}{(2n)^\alpha} \ge \frac{1}{2\sqrt{2}}\]
+            Получили, что  
+            \[\exists \epsilon_0 = \frac{1}{2\sqrt{2}} \forall N \exists m = 2, n \ge N \exists x_n = \frac{\pi}{4n} \left|\sum_{k = n + 1}^{2n} \frac{\sin kx_n}{k^\alpha}\right| < \epsilon\]
+        \end{enumerate}
+    \end{enumerate}
+\end{example}
+
+\begin{theorem}[Признак Дини]
+    Пусть \(\{f_n\}\) поточечно сходтися к \(f\) на \([a, b]\), причем \(\forall x \in [a, b], \{f_n(x) - f(x)\}\) нестрого убывает. Если \(f, f_n\) непрерывны на \([a, b]\), то \(f_n \rightrightarrows f\) на \([a, b]\)
+\end{theorem}
+\begin{proof}
+    \(\forall x \in [a, b] \forall \epsilon > 0 \exists N_{\epsilon, x} \forall j \ge N (0 \le f_j(x) - f(x) < \epsilon)\). В силу непрерывности \(f, f_n\) имеем \(\exists \delta_x \forall t \in B_{\delta_x}(x) \cap [a, b] (0 \le f_i(t) - f(t) < \epsilon)\).
+    \[\bigcup_{x \in [a, b]}B_{\delta_x}(x) \supset [a, b] \Ra \text{По Лемме Гейне-Бореля} \Ra \exists x_1, x_2 \dots x_n: [a, b] \subset \bigcup B_{\delta_{x_i}}(x_i)\]
+    Положим \(N = \max_{1 \le i \le m}\{N_{x_i, \epsilon}\}\). Тогда \(\forall j \ge N \forall t \in [a, b] (0 \le f_j(t) - f(t) < \epsilon)\). Это означает что \(f_n \rightrightarrows f\) на \([a, b]\)
+\end{proof}
+
+\begin{note}
+    \(g_n(x) = |f_n(x) - f(x)|\)
+\end{note}
+\hypertarget{lecture11}{}
+
+\begin{example}[Непрерывная нигде не дифференцируемая функция \(f: \R \ra \R\)]
+    \[\phi(x) = |x|, x \in [-1, 1], \phi(x) = \phi(x \pm 2)\]
+    Заметим, что если \((x, y)\) не содержит целых точек, то \(|\phi(x) - \phi(y)| = |x - y|\). Построим функцию \(f = \sum_{n = 1}^\infty f_n(x)\), где \(f_n(x) = \frac{1}{4^n}\phi(4^nx) \Ra |f_n(x)| \le \frac{1}{4^n} \Ra f_n \rightrightarrows_{\R} f\). Т.к. \(f_n\) непрерывна на \(\R \Ra f\) --- тоже. Докажем, что \(f\) не дифференцируема ни в какой точке \(\R\).
+    \[\frac{f(a + h) - f(a)}{h}\]
+    Среди интервалов \(\left(4^ka, 4^ka + \frac{1}{2}\right), \left(4^ka - \frac{1}{2}, 4^ka\right)\) хотя бы один не содержит целых точек. Поэтому, \(\exists h_k = \pm \frac{1}{2}4^{-k}\) (\(h_k\) всегда одного знака), что на интервале с концами \(4^k(a + h_k), 4^ka\) нет целых точек. Более того, интервалы с концами \(4^na, 4^n(a + h_k), n < k\) тоже не имеют целых точек, т.к. в противном случае можно домножить на \(4^{k - n}\) и получим, что существует целая точка из \(4^k(a + h_k), 4^ka\). Следовательно,  \(|\phi(4^n(a + h_k)) - \phi(4^na)| = 4^n|h_k|, n \le k\), \(|\phi(4^n(a + h_k)) - \phi(4^na)| = 0, n > k\), т.к. \(4^nh_k\) будет целым, а наша функция \(2\)-периодична. Тогда \(|f_n(a + h_k) - f_n(a)| = \left\{\begin{array}{l}
+        |h_k|, n \le k \\
+        0, n > k
+    \end{array}\right.\)
+    Поэтому \(\frac{f(a + h_k) - f(a)}{h_k} = \sum_{n = 1}^k \pm 1 = \left[\begin{array}{l}
+        +\infty \\
+        -\infty
+    \end{array}\right.\)
+\end{example}
+
+\section{Степеннные ряды}
+\subsection{Радиус сходимости}
+
+\begin{definition}
+    Степенным рядом с центром в точке \(x_0\) и коэффициентами \(a_n\) называется функциональный ряд следующего вида 
+    \[\sum_{n = 0}^\infty a_n(x - x_0)^n\]
+    Где \(a_n, x_0, x\) --- либо \(\in \R\), либо \(\in \Cm\)
+\end{definition}
+
+\begin{theorem}[Коши-Адамара]
+    Пусть \(R = \frac{1}{\limsup_{n \ra \infty} \sqrt[n]{|a_n|}}\) (\(\frac{1}{0} = +\infty, \frac{1}{+\infty} = 0\))
+    \begin{enumerate}
+        \item Если \(|x - x_0| < R\), то степенной ряд \(\sum_{n = 0}^\infty a_n(x - x_0)^n\) абсолютно сходится
+        \item Если \(|x - x_0| > R\), то степенной ряд \(\sum_{n = 0}^\infty a_n(x - x_0)^n\) расходится
+        \item Если \(r \in (0, R)\), то степенной ряд \(\sum_{n = 0}^\infty a_n(x - x_0)^n\) равномерно сходится на \(\overline{B_r(x_0)} = \{x: |x - x_0| \le r\}\).
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    При \(x \ne x_0\) имеем \(q = \limsup_{n \ra \infty} \sqrt[n]{|a_n(x - x_0)^n|} = |x - x_0|\sqrt[n]{|a_n|} = \frac{|x - x_0}{R}\).
+    \begin{enumerate}
+        \item \(|x - x_0| > R \Ra q < 1\) --- тогда ряд абсолютно сходится по признаку Коши
+        \item \(|x - x_0| > R \Ra q > 1\) --- тогда \(n\)-ый член не стремится к \(0\).
+        \item Пусть \(r in (0, R)\). Но тогда по пункту \(1\), ряд сходится абсолютно в \(x = x_0 + r\), т.е. \(\sum_{n = 0}^\infty |a_n|r^n\) сходится, при этом \(\forall x: |x - x_0| \le r \Ra |a_n(x - x_0)^n| \le |a_n|r^n\) --- член сходищегося ряда. Поэтому ряд равномерно сходтися на \(\overline{B_r(x_0)}\) по признаку Вейерштрасса.
+    \end{enumerate}
+\end{proof}
+
+\begin{definition}
+    Величина \(R\) из предыдущей теоремы называется радиусом сходимости ряда. Множество \(B_R(x_0) = \{x: |x - x_0| < R\}\) называется интевалом сходимости (кругом сходимости для комплексного степенного ряда)
+\end{definition}
+
+\begin{corollary}
+    Пусть \(R \in [0, +\infty]\) удовлетворяет условиям
+    \begin{enumerate}
+        \item Если \(\forall x: |x - x_0| < R \Ra \) ряд абсолютно сходится
+        \item Если \(\forall x: |x - x_0| > R \Ra \) ряд расходится
+    \end{enumerate}
+    Тогда \(R\) --- радиус сходимости.
+\end{corollary}
+\begin{proof}
+    Предположим противное, тогда \(R \le R'\), где \(R'\) --- радиус сходимости, т.к. \(\forall x: |x - x_0| < R \Ra \) ряд абсолютно сходится. При этом \(R \ge R'\), т.к. \(\forall x: |x - x_0| > R \Ra \) ряд расходится. Но тогда \(R = R'\)
+\end{proof}
+
+\begin{example}
+    \[\sum_{n = 1}^\infty \frac{n!}{n^n}x^{2n}\]
+    \[\frac{|u_{n + 1}(x)|}{|u_n(x)|} = \frac{|x|^2}{\left(1 + \frac{1}{n}\right)^n} \ra \frac{|x|^2}{e}\]
+    По признаку Даламбера, \(\frac{|x|^2}{e} < 1 \Lra |x| < \sqrt{e} \Ra\) ряд абсолютно сходится
+    \(\frac{|x|^2}{e} > 1 \Lra |x| > \sqrt{e} \Ra\) ряд расходится  \(\Ra \sqrt{e}\) --- радиус сходимости 
+\end{example}
+
+\begin{theorem}[Абеля]
+    Если степенной ряд имеет радиус сходимости \(R \in (0, +\infty)\) и сходится в \(x = x_0 + R\), то он равомерно сходится на \([x_0, x_0 + R]\).
+\end{theorem}
+\begin{proof}
+    Сделаем замену \(y = \frac{x - x_0}{R}\). Получим, \(\sum_{n = 0}^\infty a_ny^n\), с радиусом \(R = 1\). Введем обозначения \(A_{n, m} = \sum_{k = m}^n a_k, A_{m, m} = 0, S_n(x) = \sum_{k = 0}^n a_kx^k\)
+    Тогда 
+    \[S_n(x) - S_m(x) = \sum_{k = m + 1}^n a_kx^k = \sum_{k = m + 1}^n (A_{k, m} - A_{k-1, ms})x^k = \sum_{k = m + 1}A_{k, m}x^k - \sum_{k = m + 1}^{n - 1}A_{k, m} x^{k + 1}= \]
+    \[ = \sum_{k = m + 1}^{n - 1}A_{k, m}(x^k - x^{k + 1}) - A_{n, m}x^n\]
+    Зафиксируем \(\epsilon > 0\). По условию \(\sum_{n = 1}^\infty a_n\) сходится \(\Ra \exists N \forall n > m \ge N \left|\sum_{k = m + 1}^n a_k\right| < \epsilon\). Но тогда на \([0, 1]\)
+    \[\left|S_n(x) - S_m(x)\right| \le \sum_{k = m + 1}^n \left|A_{k, m}\right||x^k - x^{k + 1}| + |A_{n, m}||x^n| < \epsilon \sum_{k = m + 1}^n(x^k - x^{k + 1}) + \epsilon \le 2\epsilon\]
+\end{proof}
+\begin{problem}
+    Пусть даны ряды \(\sum_{n = 1}^\infty a_n, \sum_{n = 1}^\infty b_n\). Пусть \(\sum_{n = 1}^\infty c_n\) --- произведение по Коши \(a_n, b_n\). Доказать, что \(AB = C\), где \(A = \sum_{n = 1}^\infty a_n, B = \sum_{n = 1}^\infty b_n, C = \sum_{n = 1}^\infty c_n\)
+\end{problem}
+\hypertarget{lecture12}{}
+
+\subsection{Операции с числовыми рядами}
+\[f(x) = \sum_{n = 0}^\infty a_n(x - x_0)^n, \text{ радиус сходимости: }R_1\]
+\[g(x) = \sum_{n = 0}^\infty b_n(x - x_0)^n, \text{ радиус сходимости: }R_2\]
+\begin{enumerate}
+    \item \(\lambda f: \sum_{n = 0}^\infty \lambda a_n(x - x_0)^n\)
+    \item \(f + g: \sum_{n = 0}^\infty \lambda (a_n + b_n)(x - x_0)^n, R \ge \min\{R_1, R_2\}\)
+    \item \(fg: \sum_{n = 0}^\infty\left(\sum_{k = 0}^n a_{n - k}b_k(x - x_0)^n\right), R \ge \min\{R_1, R_2\}\) (произведение по Коши)
+    \item \(f': \sum_{n = 0}^\infty na_n(x - x_0)^{n - 1}\)
+\end{enumerate}
+
+\begin{note}
+    Пусть \(x: |x - x_0| < \min\{R_1, R_2\}\). Тогда \(f(x) + g(x), f(x)g(x)\) также абсолютно сходятся
+\end{note}
+\begin{note}
+    Пусть \(R_1 \ne R_2\, R\) --- радуис сходимости \(f + g \Ra R = \min\{R_1, R_2\}\)
+\end{note}
+\begin{note}
+    \[f(x) = \sum_{n = 0}^\infty x^n, \text{ радиус сходимости: }1\]
+    \[g(x) = 1 - x, \text{ радиус сходимости: }+\infty\]
+    Тогда \(f(x)g(x) = 1 + 0 + 0 + \dots \Ra\) радиус сходимости: \(+\infty\)
+\end{note}
+Ключевым здесь является факт, что степенной ряд можно почленно дифферецировать
+\begin{lemma}
+    Если степенной ряд \(f(x) = \sum_{n = 0}^\infty a_n(x - x_0)^n\) имеет радиус сходмости \(R\), то почленно продифференцированный ряд \(f'(x) = \sum_{n = 0}^\infty a_nn(x - x_0)^{n - 1}\) имеет тот же радиус сходимости
+\end{lemma}
+\begin{proof}
+    Т.к. \(\lim_{n \ra \infty}\sqrt[n]{n} = 1\), то \(\{\sqrt[n]{na_n}\}\) и \(\sqrt[n]{a_n}\) имеют одинаковые множества частичных пределов \(\Ra\) у них совпадают верхние пределы \(\Ra\) по формуле Коши-Адамара, радиусы сходимости у рядов \(\sum_{n = 0}^\infty a_n(x - x_0)^n, \sum_{n = 0}^\infty na_n(x - x_0)^n\) одинаковые. Ряды \(\sum_{n = 0}^\infty na_n(x - x_0)^n, \sum_{n = 0}^\infty na_n(x - x_0)^{n - 1}\) сходятся в \(x = x_0\), а при \(x \ne x_0\) отличаются домножением на \(x - x_0\). Тогда они тоже имеют одинаковые радиусы сходимости.
+\end{proof}
+
+\begin{theorem}
+    Если \(f(x) = \sum_{n = 0}^\infty a_n(x - x_0)^n\) --- ряд с радуисом \(R > 0\), то \(f\) бесконечно дифференцируема на интервале сходимости, причем \(f^{(m)}(x) = \sum_{n = m}^\infty n(n-1)\dots(n - m + 1)a_n(x - x_0)^{n - m}\) при \(|x - x_0| < R\)
+\end{theorem}
+\begin{proof}[Первое доказательство]
+    Пусть \(0 < r < R\), тогда по почленно продифференцированный ряд \(\sum_{n = 1}^\infty na_n(x - x_0)^{n - 1}\) сходится абсолютно на \([x_0 - r, x_0 + r]\). Обозначим сумму этого ряда через \(g\). Тогда \(f' = g\) на \([x_0 - r, x_0 + r]\). Т.к. \(r \in (0, R)\) --- любое, то верно и равенство на \(x_0 - R, x_0 + R\).
+\end{proof}
+\begin{proof}[Второе доказательство]
+    Заменой \(w = x - x_0\) можно свести все к случаю, когда \(x_0 = 0\). Пусть \(t \in B_R(0)\). Покажем, что производящие функции \(f(x) = \sum_{n = 0}^\infty a_nx^n\) в точке \(t\) равна \(l = \sum_{n = 1}^\infty na_n t^{n - 1}\). Зафиксируем \(r: |t| < r < R\). При \(x \ne t, |x| \le r\). Рассмотрим \(\frac{f(x) - f(t)}{x - t} - l = \sum_{n = 1}^\infty a_n\left(\frac{x^n - t^n}{x - t} - nt^{n - 1}\right)\). Причем \(\frac{x^n - t^n}{x - t} - nt^{n - 1} = x^{n - 1} + x^{n - 2}t + \dots + xt^{n - 2} + t^{n - 1} - nt^{n - 2} = (x^{n - 1} - t^{n - 1}) + t(x^{n - 2} - t^{n - 2}) + \dots + (x - t)t^{n - 2} = (x - t)((x^{n - 2} + x^{n - 3}t + \dots + t^{n - 2}) + t(\dots) + \dots + t^{n - 2}) \le r^{n - 2}\)
+\end{proof}
+\begin{corollary}[Теорема Единственности]
+    Если \(f(x) = \sum_{n = 0}^\infty a_n(x - x_0)^n\) --- сумма степенного ряда, то \(a_n = \frac{f^{n}(x_0)}{n!}\)
+\end{corollary}
+\begin{proof}
+    \(f^{(m)}(x_0) = \sum_{n = m}^\infty n(n-1)\dots(n - m + 1)a_n(x_0 - x_0)^{n - m} = m(m-1)\dots 1 a_m \Ra a_m = \frac{f^{(m)}}{m!}\)
+\end{proof}
+
+\begin{corollary}
+    Сумма \(f(x) = \sum_{n = 0}^\infty a_n(x - x_0)^n\) имеет первообразную на \((x_0 - R, x_0 + R)\)
+\end{corollary}
+\begin{proof}
+    \[F(x) = C + \sum_{n = 0}^\infty \frac{a_n}{n + 1}(x - x_0)^{n + 1}\]
+\end{proof}
+
+\section{Ряды Тейлора}
+\begin{definition}
+    Пусть функция \(f\) определена на интервале, содержащем точку \(x_0\) и в точке \(x_0\) имеет производные любого порядка, тогда \(\sum_{n = 0}^\infty \frac{f^{(n)}(x_0)}{n!}(x - x_0)^n\) называется рядом Тейлора функции \(f\) в точке \(x_0\). Если \(x_0 = 0\), то ряд называется рядом Маклорена
+\end{definition}
+\begin{example}[Бесконечно дифференцируемая функция, не являющаяся суммой своего ряда Тейлора]
+    \(f(x) = \left\{\begin{array}{l}
+        e^{-\frac{1}{x}}, x > 0 \\
+        0, x \le 0
+    \end{array}\right.\)
+    \(f^{(n)}(x) = 0\) при \(x < 0, f^{(n)}(x) = p_n\left(\frac{1}{x}\right)e^\frac{1}{x}\), при \(x > 0\), где \(p_n\) --- многочлен степени \(2n\). Действительно,
+    \[f^{(n + 1)}(x) = p'_{n}\left(\frac{1}{x}\right)\left(-\frac{1}{x^2}\right)e^{-\frac{1}{x}} + p_{n}\left(\frac{1}{x}\right)\frac{1}{x^2}e^{-\frac{1}{x}} = p_{n + 1}\left(\frac{1}{x}\right) e^{-\frac{1}{x}}\]
+    Покажем, что \(f^{(n)}(0) = 0\) по индукции по \(n\)
+    \begin{enumerate}
+        \item[] \textbf{База:} \(n = 0\) очевидно.
+        \item[] \textbf{Переход:} 
+        \[(f^{(n)})_+'(0) = \lim_{x \ra +0} \frac{f^{(n)}(x) - f^{(n)}(0)}{x - 0} = \lim_{x \ra +0} \frac{1}{x}p_n\left(\frac{1}{x}\right)e^{-\frac{1}{x}} = \lim_{t \ra +\infty} \frac{tp_n(t)}{e^t} = 0\]
+    \end{enumerate}
+\end{example}
+
+\begin{lemma}
+    Пусть \(f\) бесконечно дифференцируема на некотором интервале, содержащем \(x_0\). Если \(\exists M, r > 0: \forall k (|f(x)| \le M^kk! \forall x \in (x_0 - r, x_0 + r))\), то \(\exists \delta \in (0, r] \forall x \in (x_0 - \delta, x_0 + \delta): f(x) = \sum_{n = 0}^\infty \frac{f^{(n)}(x_0)}{n!}(x - x_0)^n\)
+\end{lemma}
+\begin{proof}
+    \[f(x) = \sum_{k = 0}^n \frac{f^{(k)}(x_0)}{k!}(x - x_0)^k + \frac{f^{(n + 1)}(c(n, x))}{(n + 1)!}(x - x_0)^{n + 1}, c(n, x) \text{ лежит между }x,ах x_0\]
+    Можно выбрать \(\delta: M\delta < 1\)
+    \[|R_n(x)| \le M^{n + 1}|x - x_0|^{n + 1} < (M\delta)^{n + 1} \ra 0\]
+    Тогда \(f(x) = \sum_{k = 0}^\infty \frac{f^{(k)}(x_0)}{k!}(x - x_0)^k\)
+\end{proof}
+\hypertarget{lecture13}{}
+
+\begin{corollary}
+    Если \(f\) бесконечно дифферецируема на интервале, содержащем точку \(x_0\) и \((x_0 - r, x_0 + r)\) и  \(\exists M > 0 \forall x \in (x_0 - r, x_0 + r) \forall k |f^{(k)}(x)| \le M\), то \(\forall x \in (x_0 - r, x_0 + r)\;\;f(x) = \sum_{n = 0}^\infty \frac{f^{(k)}(x)}{k!}(x - x_0)^k\)
+\end{corollary}
+
+\begin{corollary}
+    Ряды Маклорена \(e^x, \sin x, \cos x\) сходятся к этим функциям \(\forall x \in \R\), т.е. 
+    \[e^x = \sum_{n = 0}^\infty \frac{x^n}{n!},\;\;\;\sin x = \sum_{n = 0}^\infty (-1)^n\frac{x^{2n + 1}}{(2n+1)!},\;\;\;\cos x = \sum_{n = 0}^\infty (-1)^n\frac{x^{2n}}{(2n)!}\]
+\end{corollary}
+\begin{proof}
+    \((e^x)^{(k)} = e^x, (\sin x)^{(k)} = \sin\left(x + \frac{\pi}{2}k\right), (\cos x)^{(k)} = \cos\left(x + \frac{\pi}{2}k\right)\). Поэтому при \(|x| \le \delta: (e^x)^{(k)} \le e^\delta, (\sin x)^{(k)} \le 1, (\cos x)^{(k)} \le 1\)
+\end{proof}
+
+
+\begin{theorem}
+    Пусть \(\alpha \ne \N_0, C_\alpha^n = \frac{\alpha(\alpha - 1)\dots(\alpha - n + 1)}{n!}, C_\alpha^0 = 1\). Тогда \((1 + x)^\alpha = \sum_{n = 0}^\infty C_\alpha^nx^n, |x| < 1\)
+\end{theorem}
+\begin{proof}
+    \(f(x) = (1 + x)^\alpha \Ra f^{(n)}(x) = \alpha(\alpha - 1)\dots(\alpha - n + 1)(1 + x)^{\alpha - n} \Ra \frac{f^{(n)}(0)}{n!} = C_\alpha^n\). Имеем при \(x \ne 0\)
+    \[\lim_{n \ra \infty}\frac{|C_\alpha^{n + 1}x^{n + 1}|}{|C_\alpha^nx^n|} = \lim_{n \ra \infty} \frac{n - \alpha}{n + 1}|x| = |x|\]
+    По признаку Даламбера при \(|x| < 1\) ряд абсолютно сходится, при \(|x| > 1\) --- абсолютно расходится. Тогда \(R = 1\). Обозначим \(g(x) = \sum_{n = 0}^\infty C_\alpha^nx^n\) и покажем, что \(g \equiv f\) на \((-1, 1)\), т.е. \(g(x)(1 + x)^{-\alpha} = 1 \forall x \in (-1, 1)\). Имеем 
+    \[g(x)(1 + x)^{-\alpha} = (1 + x)^{-\alpha}\sum_{n = 1}^\infty nC_\alpha^nx^{n - 1} - \alpha(1 + x)^{-\alpha - 1}\sum_{n = 0}^\infty C_\alpha^nx^n =\]
+    \[ (1 + x)^{-\alpha - 1}\left(\sum_{n = 1}^\infty nC_\alpha^nx^{n - 1} + \sum_{n = 1}^\infty nC_\alpha^nx^n - \alpha\sum_{n = 0}^\infty C_\alpha^nx^n\right) = \]
+    \[(1 + x)^{-\alpha - 1}\left(\sum_{n = 0}^\infty (n + 1)C_\alpha^{n + 1} - \sum_{n = 0}^\infty (\alpha - n)C_\alpha^n \right) = 0\]
+    Следовательно, \(g(x)(1 + x)^{-\alpha}\) постоянна на \((-1, 1)\). \(g(0) = 1 \Ra g(x)(1 + x)^{-\alpha} = 1\)
+\end{proof}
+
+\begin{note}
+    Покажем, что биномиальный ряд при \(\alpha > 0\) сходится равномерно на \([-1, 1]\).
+\end{note}
+\begin{proof}
+    Рвссмотрим числовой ряд \(\sum_{n = 0}^\infty\left|C_\alpha^n\right|\). Для него \(\left|\frac{C_\alpha^{n + 1}}{C_\alpha^n}\right| = \frac{n - \alpha}{n + 1} = 1 - \frac{\alpha + 1}{n} + O\left(\frac{1}{n^2}\right)\). Следовательно, по признаку Гаусса при \(\alpha > 0\), ряд схоодтся на \([-1, 1]\). Но тогда \(\forall x \in [-1, 1] |C_\alpha^nx^n| \le |C_\alpha^n|\)
+\end{proof}
+
+\begin{example}
+    Рассмотрим \(\frac{1}{1 + x} = \sum_{n = 0}^\infty (-1)^nx^n\) на \((-1, 1)\). Тогда по следствию из теоремы \(\ln(1 + x) = \sum_{n = 0}^\infty (-1)^{n - 1}\frac{x^n}{n!}\). Т.к. ряд сходится при \(x = 1 \Ra \) равномерно сходится на \([0, 1] \sum_{n = 1}^\infty \frac{(-1)^n}{n!} = \ln 2\).
+\end{example}
+
+\begin{problem}
+    Разложить \(\arctg\). Получив разложение, найти сумму \(\sum_{n = 0}^\infty \frac{(-1)^n}{2n + 1}\)
+\end{problem}
+
+\section{Метрические пространства}
+\subsection{Метрики и нормы}
+\begin{definition}
+    Пусть \(X \ne \emptyset\) --- произвольное множество. Функция \(\rho: X \times X \ra \R\) называется метрикой на \(X\), если \(\forall x, y, z \in X\) выполнено
+    \begin{enumerate}
+        \item \(\rho(x, y) \ge 0, \rho(x, y) = 0 \Lra x = y\)
+        \item \(\rho(x, y) = \rho(y, x)\)
+        \item \(\rho(x, y) + \rho(y, z) \ge \rho(x, z)\)
+    \end{enumerate}
+\end{definition}
+\begin{definition}
+    \((X, \rho)\) --- метрическое пространство.
+\end{definition}
+
+\begin{example}
+    Пусть \(X\) --- произвольное непустое множество, \(\rho(x, y) = \left\{\begin{array}{l}
+        0, x = y \\
+        1, x \ne y
+    \end{array}\right.\). Тогда \((X, \rho)\) --- метрическое пространство.
+\end{example}
+\begin{proof}
+    Предоставляется читателю в качестве нетрудного упражнения.
+\end{proof}
+
+\begin{definition}
+    \(\rho\) из прошлого примера называется называется дискретной метрикой
+\end{definition}
+
+\begin{definition}
+    Пусть \(V\) --- линейное пространство над \(\R, \Cm\). Функция \(\|x\|: V \ra \R\) называется нормой на \(V\), если 
+    \begin{enumerate}
+        \item \(\|x\| \ge 0, \|x\| = 0 \Lra x = 0\)
+        \item \(\|\alpha x\| = |\alpha|\cdot\|x\|\)
+        \item \(\|x + y\| \le \|x\| + \|y\|\)
+    \end{enumerate}
+\end{definition}
+
+\begin{definition}
+    Пара \((V, \|x\|)\) называется нормированным линейным пространством
+\end{definition}
+
+\begin{lemma}
+    Всякое нормированное пространство является метрическим, для \(\rho(x, y) = \|x - y\|\)
+\end{lemma}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item \(\|x - y\| \ge 0, \|x - y\| = 0 \Lra x - y = 0 \Lra x = y\)
+        \item \(\|x - y\| = |-1|\|y - x\| = \|y - x\|\)
+        \item \(\|x - y\| + \|y - z\| \ge \|x - z\|\)
+    \end{enumerate}
+\end{proof}
+Рассмотрим \(X = \R^n\), \(x = (x_1 \dots x_n), y = (y_1, y_2 \dots y_n)\).
+\begin{example}
+    \(\|x\| = \sqrt{\sum_{k = 1}^n |x_k|^2}\) --- норма, \(\rho(x, y) = \sqrt{\sum_{k = 1}^n |x_k - y_k|^2}\) --- метрика.
+\end{example}
+\begin{example}
+    \(\|x\| = \left(\sum_{k = 1}^n |x_k|^p\right)^\frac{1}{p}\) --- норма, \(\rho(x, y) = \left(\sum_{k = 1}^n |x_k - y_k|^p\right)^\frac{1}{p}\) --- метрика.
+\end{example}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item \(\|x - y\| \ge 0, \|x\| = 0 \Lra x = 0\) --- очев
+        \item \(\|x - y\| = \|y - x\|\) --- очев
+        \item Буквально неравество Минковского (см 1 семестр)
+    \end{enumerate}
+\end{proof}
+\begin{example}
+    \(\|x\| = \max\{x_i\}\) --- метрика, \(\rho(x, y) = \max\{x_i - y_i\}\)
+\end{example}
+
+\begin{definition}
+    Пусть \((X, \rho)\) --- метрическое пространство, \(a \in X, r > 0\). \(B_r(a) = \{x \in X | \rho(x, a) < r\}\) называется открытым шаром в центре \(a\) и радиуса \(r\)
+\end{definition}
+\begin{definition}
+    Пусть \((X, \rho)\) --- метрическое пространство, \(a \in X, r > 0\). \(\overline{B_r}(a) = \{x \in X | \rho(x, a) \le r\}\) называется замкнутым шаром в центре \(a\) и радиуса \(r\)
+\end{definition}
+
+\begin{definition}
+    Пусть \((X, \rho)\) --- метрическое пространство. Множество \(E\) называется ограниченным, если \(\exists a \in X, r \in \R: E \subset B_r(a)\)
+\end{definition}
+\hypertarget{lecture14}{}
+
+\begin{definition}
+    Пусть \(\{x_n\} \subset X, a \in X\). Говорят, что \(x_n\) сходится к \(a\), если \(\rho(x_n, a) \ra 0\). Пишут \(\lim_{n \ra \infty}x_n = a\) или \(x_n \ra a\).
+\end{definition}
+
+\begin{note}
+    \[\forall \epsilon > 0 \exists N \in \N: \forall n > N (x_n \in B_\epsilon(a))\]
+\end{note}
+
+\begin{corollary}
+    \(x_n \ra a, x_n \ra b \Lra a = b\)
+\end{corollary}
+\begin{proof}
+    \(0 \le \rho(a, b) \le \underbrace{\rho(a, x_n)}_{\ra 0} + \underbrace{\rho(x_n, b)}_{\ra 0}\)
+\end{proof}
+
+\begin{corollary}
+    \(x_n \ra a \Ra \{x_n\}\) --- ограничена (то есть \(\{x_n\}\) ограничено как множество).
+\end{corollary}
+\begin{proof}
+    \(\rho(x_n, a) \ra 0 \Ra \{\rho(x_n, a)\}\) ограничена \(\Ra \exists R \in \R: R > \sup\{\rho(x_n, a)\} \Ra x_n \in B_R(a)\).
+\end{proof}
+
+\begin{corollary}
+    Пусть \(\{x_n\}, \{y_n\}: x_n \ra a, y_n \ra b\) --- последовательности в нормированном линейном пространестве, \(\{\alpha_n\} \subset \R: \alpha_n \ra \alpha\). Тогда
+    \begin{enumerate}
+        \item \(x_n + y_n \ra a + b\)
+        \item \(\alpha_nx_n \ra \alpha a\)
+    \end{enumerate}
+\end{corollary}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item \(\|x_n + y_n - (a + b)\| \le \underbrace{\|x_n - a\|}_{\ra 0} + \underbrace{\|y_n - b\|}_{\ra 0}\)
+        \item \(\|\alpha_nx_n - \alpha x\| = \|\alpha_n x_n - \alpha x_n + \alpha x_n - \alpha a\| \le \underbrace{|\alpha_n - \alpha|}_{\ra 0}\|x_n\| + |\alpha|\underbrace{\|x_n - a\|}_{\ra 0}\)
+    \end{enumerate}    
+\end{proof}
+\subsection{Топология метрических пространств}
+\begin{definition}
+    Пусть \((X, \rho)\) --- метрическое пространство, \(E \subset X\).
+    \begin{enumerate}
+        \item \(x \in int\;E \Lra \exists \epsilon > 0: B_\epsilon(x) \subset E\). Множество \(int\;E\) называются множеством внутренних точек
+        \item \(x \in ext\;E \Lra \exists \epsilon > 0: B_\epsilon(x) \subset X \setminus E\). Множество \(ext\;E\) называются множеством внешних точек
+        \item \(x \in \delta E \Lra \forall \epsilon > 0: B_\epsilon(x) \cap E \ne \emptyset, B_\epsilon(x) \cap (X \setminus E) \ne \emptyset\). Множество \(\delta E\) называются множеством граничных точек
+    \end{enumerate}
+\end{definition}
+
+\begin{definition}\indent
+    \begin{enumerate}
+        \item \(X = int\;E \sqcup ext\;E \sqcup \delta E\)
+        \item \(ext\;E = int\;(X \setminus E)\)
+    \end{enumerate}
+\end{definition}
+
+\begin{definition}
+    Множество \(G\subset X\) называется открытым, если все его точки являются внутренними (\(G = int\;G\))
+\end{definition}
+\begin{definition}
+    Множество \(G\subset X\) называется открытым, если \(X\setminus G\) открыто
+\end{definition}
+\begin{proposition}\indent
+    \begin{enumerate}
+        \item Открытый шар \(B_r(a)\) открыт
+        \item Замкнутый шар \(\overline{B_r}(a)\) замкнут
+        \item \(int\;E\) открыто
+    \end{enumerate}
+\end{proposition}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item \(x \in B_r(a)\). Положим \(\epsilon = r - \rho(x, a)\). Тогда если \(y \in B_\epsilon(x) \Ra \rho(y, a) \le \rho(y, x) + \rho(x, a) \le \epsilon + \rho(x, a) \le r \Ra B_\epsilon(x) \subset B_r(a)\).
+        \item \(x \in X \setminus \overline{B_r}(a)\). \(\epsilon = \rho(x, a) - r\Ra\) аналогично пункту 1), \(X \setminus \overline{B_r}(a)\) --- открыто, т.е. \(\overline{B_r}(a)\) --- замкнуто
+        \item \(x \in int\;E \Ra \exists B_\epsilon(x) \subset E \Ra B_\epsilon(x) \subset int\;E\), т.к. \(B_\epsilon(x)\) --- открыто.
+    \end{enumerate}
+\end{proof}
+
+\begin{lemma}
+    Объединение любого количества открытых множеств и пересечение конечного количества открытых множеств является открытым множеством
+\end{lemma}
+\begin{proof}
+    Аналогично случаю для \(\R\)
+\end{proof}
+
+\begin{definition}
+    \(\stackrel{\circ}{B}_r(a) = B_r(a) \setminus \{a\}\)
+\end{definition}
+
+\begin{definition}
+    Точка \(x \in X\) называется предельной множества \(E\), если \(\forall \epsilon > 0 \stackrel{\circ}{B}_\epsilon(x) \cap E \ne \emptyset\)
+\end{definition}
+
+Множество всех предельных точек принято обозначать через \(E'\)
+
+\begin{theorem}[Критерий замкнутости]
+    Следующие утверждения равносильны:
+    \begin{enumerate}
+        \item \(E\) --- замкнуто
+        \item \(E \supset \delta E\)
+        \item \(E \supset ext\;E\)
+        \item \(\forall \{x_n\} \subset E (x_n \ra x \Ra x \in E)\)
+    \end{enumerate}
+\end{theorem}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item[\(1 \Rightarrow 2\):] Пусть \(x \in X\setminus E \Rightarrow \exists B_\varepsilon(x) \subset X\setminus E\), т.е. \(x\) --- внешняя точка \(E\). Тогда \(\delta E \subset E\)
+        \item[\(2 \Rightarrow 3\):] Пусть \(x\) --- предельная точка тогда она либо внутренняя, и тогда \(x \in E\), либо граничная, но \(\delta E \subset E \Rightarrow x \in E\)
+        \item[\(3 \Rightarrow 4\):] Пусть \(\{x_n\} \subset E, x_n \rightarrow x\). Тогда либо \(\exists x_n = x\) и тогда \(x \in E\), либо \(x\) --- предельная точка, и она \(\in E\).
+        \item[\(4 \Rightarrow 1\):] Рассмотрим \(x \in X\setminus E\). Пусть она не является внутренней для \(X\setminus E\). Тогда \(\forall \varepsilon > 0 \exists B_{\varepsilon}(x) \cap E \ne \varnothing \Rightarrow\) рассмотрим последовательность точек \(x_n\in \exists B_{\varepsilon}(x) \cap E: x_n \rightarrow x\). Такая последовательность существует по Аксиоме Выбора (\(\exists \phi: 2^X \ra X: \phi(x) \subset X \Ra x_n = \phi\left(B_\frac{1}{n}(x)\right)\)). Но тогда \(x \in E\). Противоречие 
+    \end{enumerate}    
+\end{proof}
+
+\begin{definition}
+    \(\overline{E} = E \cup \delta E\) ---  замыкание множества \(E\)
+\end{definition}
+
+\begin{note}\indent
+    \begin{enumerate}
+        \item \(\overline{E} = X \setminus ext\;E\)
+        \item \(F \supset E\), причем \(F\) --- замкнутое. Тогда \(F \supset \overline{E}\)
+    \end{enumerate}
+\end{note}
+\begin{proof}
+    \indent
+    \begin{enumerate}
+        \item \(X = int\;E \cup ext\;E \cup \delta E\).
+        \item \(X \setminus F \subset X \setminus E \Ra X \setminus F \subset int\;(X \setminus E) \Ra F \supset \overline{E}\).
+    \end{enumerate}
+\end{proof}
+
+\begin{note}
+    \(x \in \overline{E} \Lra \forall \epsilon > 0 B_\epsilon(x) \cap E \ne \emptyset \Lra \exists \{x_n\} \subset E(x_n \ra x)\)
+\end{note}
+
+\begin{definition}
+    \(x \in X\) называется точкой прикосновения \(E\), если \(\forall \epsilon > 0 B_\epsilon(x) \cap E \ne \emptyset\)
+\end{definition}
+
+\subsection{Подпространство метрического пространства}
+\begin{definition}
+    Пусть \((X, \rho)\) --- метрическое пространство, \(\emptyset \ne E \subset X\). Тогда \(\rho|_{E\times E}\) --- метрика на \(E\). Пара \((E, \rho|_{E\times E})\) называется подпространством \((X, \rho)\), \(\rho|_{E\times E}\) называется индуцированной метрикой на \(E\)
+\end{definition}
+
+\begin{definition}
+    \(B_r^E(x) = \{y \in E | \rho(x, y) < \epsilon\}\)
+\end{definition}
+
+\begin{note}
+    \(B_r^E(x) = B_r^X(x)\cap E\)
+\end{note}
+
+\begin{lemma}
+    \(U\) открыто в \(E \Lra \exists V \subset X: U = V \cap E\), причем \(V\) открыто
+\end{lemma}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item[\(\Ra\)] \(x \in U \Ra \exists B_{\epsilon_x}^E(x) \subset U\), т.е. \(U = \bigcup_{x \in U}B_{\epsilon_x}^E(x)\). Положим \(V = \bigcup_{x \in U}B_{\epsilon_x}^X(x)\) --- открытое в \(X\). Тогда \(V \cap E = \bigcup_{x \in U}(B_{\epsilon_x}^X(x)\cap E) = \bigcup_{x \in U}B_{\epsilon_x}^E(x) = U\)
+        \item[\(\La\)] \(x \in U = V \cap E\), где \(V\) открыто в \(X \Ra \forall x \in V \exists B_\epsilon^X(x) \subset V \Ra B_\epsilon^E(x) = B_\epsilon^E(x) \cap E \subset V \cap E\).
+    \end{enumerate}    
+\end{proof}
+
+\begin{example}
+    \(X = \R, E = (-1, 3]\).
+    \begin{enumerate}
+        \item \(A = (1, 3] = (1, 4) \cap E\) --- открыто в \(E\) (но не в \(X\))
+        \item \(B = (-1, 0)\) замкнута в \(E\) (но не в \(X\))
+        \item \(C = (0, 1]\) --- не замкнуто и не открыто
+    \end{enumerate}
+\end{example}
+\hypertarget{lecture15}{}
+
+\subsection{Компакты}
+
+Пусть \((X, \rho)\) --- метрические пространства, \(K \subset X\) --- подпространство.
+
+\begin{definition}
+    Семейство \(\{G_\lambda\}_{\lambda\in\Lambda}\), где \(G_\lambda \subset X\) называется покрытием \(K\), если \(K \subset \bigcup_{\lambda\in\Lambda}G_\lambda\)
+\end{definition}
+\begin{definition}
+    Если \(\forall \lambda G_\lambda\) --- открытое множество, то \(\{G_\lambda\}_{\lambda\in\Lambda}\) называется открытым покрытием
+\end{definition}
+
+\begin{definition}
+    \(K\) называется компактом в \(X\), если \(\forall\) открытого покрытия \(\{G_\lambda\}_{\lambda\in\Lambda}\), существует конечное подпокрытие, т.е. \(\exists m \in \N, \lambda_1, \lambda_2, \dots \lambda_m \in \Lambda: K \subset \bigcup G_{\lambda_i}\)
+\end{definition}
+
+\begin{example}
+    Замкнутый брус \(B = [a_1, b_1]\times [a_2, b_2] \times \dots \times [a_n, b_n]\) является компактом в \(\R^n\)
+\end{example}
+\begin{proof}
+    Пусть это не так. Поделим ребра изначального бруса пополам и рассмотрим брусья, которые получаются произведением отрезков, каждый из которых ялвяется половиной изначального отрезка соответственно. Один из таких брусьев не покрывается конечным числом \(G_\lambda\), полученный брус назовем \(B^2\) Разделим его на \(2^n\) частей и будем продолжать процесс --- получатся брусья \(B^k \forall k\). Заметим, что \(|b_n^k - a_n^k| \ra 0\) при \(k \ra \infty\) (каждый отрезок делится пополам). Тогда последовательность отрезков \(u_k = [a_n^k, b_n^k]\) будет стягивающейся. Тогда \(\forall n \exists c_n: c_n \in [a_n^k, b_n^k]\). Тогда \(\exists C \in \R^n: C = (c_1, c_2, \dots c_n) \in B^k \forall k\), при этом \(\exists G_\lambda: C \in G_\lambda \Ra \exists \epsilon: B_\epsilon(C) \subset G_\lambda\). Выберем \(k\) так, чтобы \(\sum_{i = 1}^n (b_i^k - a_i^k) < \epsilon\). Так можно сделать, т.к. \([a_n^k, b_n^k]\) --- стягивающаяся по \(k\). Но тогда \(\forall T \in B^k\;\;\;\rho(T, C) \le \sum_{i = 1}^n (b_i^k - a_i^k) < \epsilon \Ra B^k \subset B_\epsilon(C) \subset G_\lambda \Ra\) противоречие, т.к. \(B^k\) не должно покрываться конечнм числом \(G_\lambda\)
+\end{proof}
+
+\begin{note}
+    \(K\) --- компакт в \((X, \rho) \Lra K\) компакт в \((K, \rho)\).
+\end{note}
+\begin{proof}
+    Следует из определения компактности и структуры подпространств
+\end{proof}
+
+\begin{lemma}
+    Пусть \((X, \rho)\) --- метрическое пространство, \(K \subset X\). Если \(K\) --- компакт, то \(K\) ограничено и замкнуто в \(X\)
+\end{lemma}
+\begin{proof}
+    Пусть \(a \in X\). Т.к \(\{B_n(a)\}_{n \in \N}\) --- открытое покрытие \(K \Ra \exists\) конечное подпокрытие, т.е. \(\exists N: K \subset \{B_n(a)\}_{n \le N}\). Но тогда \(K \subset B_N(a)\).
+    Теперь, пусть \(a \in X \setminus K\). Рассмотрим \(\{X \setminus \overline{B}_\frac{1}{n}(a)\}_{n \in \N}\). Это тоже покрытие \(K\). Но тогда \(\exists N: K \subset \{X \setminus \overline{B}_{\frac{1}{n}}(a)\}_{n \le N}\). Но тогда \(K \in X \setminus \overline{B}_{\frac{1}{N}}(a) \Ra \overline{B}_{\frac{1}{n}}(a) \cap K = \emptyset\).
+\end{proof}
+
+\begin{lemma}
+    Пусть \((X, \rho)\) --- метрическое пространство, \(K\) --- компакт в \(X\). Если \(F \subset K\), \(F\) замкнуто в \(X\), то \(F\) --- компакт.
+\end{lemma}
+\begin{proof}
+    Рассмотрим произвольное покрытие \(\{G_\lambda\}_{\lambda \in \Lambda}\) для \(F\). Тогда \(\{G_\lambda\}_{\lambda \in \Lambda} \cup \{X \setminus F\}\) --- открытое покрытие \(K\), т.к. \(\bigcup G_\lambda \cup (X \setminus F) = X\). Поскольку \(K\) --- компакт, то \(K \subset \bigcup_{i \le N} G_{\lambda_i} \cup (X \setminus F) \Ra F \subset \bigcup_{i \le N} G_{\lambda_i}\)
+\end{proof}
+
+\begin{lemma}[Лебега о покрытии]
+    Пусть \((X, \rho)\) --- метрическое пространство, \(K \subset X\) --- такое, что любая последовательность элементов из \(K\) имеет сходящуюся в \(K\) подпоследовательность. Пусть \(\{G_\lambda\}_{\lambda \in \Lambda}\) --- открытое покрытие \(K\), тогда \(\exists \epsilon > 0 \forall x \in K \exists \lambda \in \Lambda (B_\epsilon(x) \subset G_\lambda)\)
+\end{lemma}
+\begin{proof}
+    От противного. Пусть \(\forall n \in \N \exists x_n \in K \forall \lambda \in \Lambda \left(B_{\frac{1}{n}}(x_n) \not\subset G_\lambda\right)\). По условию, \(\exists \{x_{n_k}\}: x_{n_k} \ra x \in K\). \(x \in \bigcup_{\lambda \in \Lambda} G_\lambda \exists \lambda_0 \in \Lambda (x \in G_{\lambda_0}) \Ra \exists \alpha > 0 B_{\alpha}(x) \subset G_{\lambda_0}\)
+    Начиная с какого-то момента, \(x_{n_k} \in B_{\frac{\alpha}{2}}(x), \frac{1}{n_k} < \frac{\alpha}{2}\). Рассмотрим \(z \in B_{\frac{1}{n_k}}(x_{n_k})\). Тогда \(\rho(z, x) \le \rho(z, x_{n_k}) + \rho(x, x_{n_k}) < \alpha\), т.е. \(B_{\frac{1}{n_k}}(x_{n_k}) \subset B_\alpha(x) \subset G_{\lambda_0}\). Получили противоречие, т.к. \(B_{\frac{1}{n_k}}(x_{n_k}) \subset G_{\lambda_0}\)
+\end{proof}
+
+\begin{theorem}
+    Пусть \((X, \rho)\) --- метрическое пространство, \(K \subset X\). Следующие условия эквивалентны:
+    \begin{enumerate}
+        \item \(K\) --- компакт
+        \item Любая полследовательность элементов из \(K\) имеет сходящуюся в \(K\) подпоследовательность.
+    \end{enumerate}
+\end{theorem}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item[\((1) \Ra (2)\)] Предположим, что из последовательности \(\{x_n\}\) нельзя выделить сходящуюся последовательность, т.е. 
+        \[\forall a \in K \exists \delta_a > 0 \exists N_a \forall n \ge N_{a} (x_n \notin B_{\delta_a}(a))\]
+        Заметим, что \(\{B_{\delta_a}(a)\}_{a \in K}\) --- открытое покрытие \(K\). Тогда \(K = \bigcup_{i \le N} B_{\delta_{a_i}}(a_i)\). Но тогда в каком-то из множеств \(B_{\delta_{a_i}}(a_i)\) бесконечно много точек, противоречие, т.к. \(\exists N_{a_i} \forall n \ge N_{a_i} (x_n \notin B_{\delta_{a_i}}(a_i)) \Ra\) их должно быть конечно.
+        \item[\((2) \Ra (1)\)] Пусть любая полследовательность элементов из \(K\) имеет сходящуюся в \(K\). Тогда 
+        \[\forall \epsilon > 0 \exists x_1, x_2 \dots x_n \subset K (K \subset \bigcup B_\epsilon(x_i))\]
+        Пусть \(\{G_\lambda\}_{\lambda \in \Lambda}\) --- открытое покрытие \(K\) по Лемме, \(\exists \epsilon > 0 \forall x \in K \exists \lambda \in \Lambda (B_\epsilon(x)) \subset G_\lambda\). Но тогда рассмотрим \(\lambda_1, \lambda_2 \dots \lambda_n\) такие, что \(B_\epsilon(x_i) \subset G_{\lambda_i} \Ra K \subset \bigcup G_{\lambda_i}\)
+    \end{enumerate}
+\end{proof}
+
+\begin{corollary}[Критерий компактности в \(\R^n\)]
+    \(K \subset \R^n\) --- компакт \(\Lra K\) замкнуто и ограничено
+\end{corollary}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item[\(\Ra\)] Лемма
+        \item[\(\La\)] \(K\) ограничено \(\Ra \exists x \in \R^n, r > 0: K \subset B_r(x)\). Рассмотрим \(B = [x_1 - r_1, x_1 + r_1] \times[x_2 - r_2, x_2 + r_2]\times\dots\times[x_n - r_n, x_n + r_n]\). \(B\) --- компакт, \(K \subset B\) --- замкнуто, тогда \(K\) --- компакт.
+    \end{enumerate}
+\end{proof}
+\hypertarget{lecture16}{}
+
+\begin{corollary}[Больцано-Вейерштрасса]
+    Любая ограниченная последовательность в \(\R^n\) имеет сходящуюся подпоследовательность
+\end{corollary}
+
+
+\begin{example}
+    \(X = \R\) с дискретной метрикой, \(K = [0, 1] \Ra K\) ограничено и замкнуто. Однако, из отрытого покрытия \(\{B_\frac{1}{2}(x), x \in K\}\) нельзя выбрать конечное подпокрытие, т.к. \(B_\frac{1}{2}(x) = \{x\}\)
+\end{example}
+
+\subsubsection{Полные метрические пространства}
+Пусть \((X, \rho)\) --- метрической пространство
+\begin{definition}
+    Последовательность \(\{x_n\}\) называется фундаментальной в \(X\), если \(\forall \epsilon > 0 \exists N: \forall n, m (\rho(x_n, x_m) < \epsilon)\)
+\end{definition}
+
+\begin{lemma}
+    Любая сходящаяся последовательность фундаментальна.
+\end{lemma}
+\begin{proof}
+    Пусть \(x_n \ra a, \epsilon > 0\). Тогда \(\exists N: \forall n > N \rho(x_n, a) < \frac{\epsilon}{2} \Ra \forall n > N \rho(x_n, x_m) \le \rho(x_n, a) + \rho(x_m, a) < \epsilon\)
+\end{proof}
+
+\begin{note}
+    Обратное утвеждение неверно
+\end{note}
+\begin{example}
+    \(X = (0, 1], \rho(x, y) = |x - y|\). Тогда \(\left\{\frac{1}{n}\right\}\) --- фундаментальна, но не имеет предела в \(X\).
+\end{example}
+
+\begin{definition}
+    Метрическое пространство называется полным, если всякая фундаментальная сходится к некоторой точке этого пространства
+\end{definition}
+
+\begin{lemma}
+    Евклидово пространство \(\R^n\) полно.
+\end{lemma}
+\begin{proof}
+    Пусть дана фундаментальная последовательность \(\{x_k = (x_{1k}, x_{2k}, \dots x_{nk})\} \subset \R^n, \epsilon > 0\). Т.к. \(\forall i = 1, 2,\dots n |x_{ik} - x_{im}| \le \rho(x_k, x_m) \Ra \{x_n\}\) тоже фундаментальна. Положим \(a_i = \lim_{k \ra \infty} x_{ik}, a = (a_1, a_2, \dots a_n)\). Заметим, что \(\rho(a, x_n) = \sum_{i = 1}^n |a_i - x_{in}|^2 \ra 0 \Ra x_n \ra a\).
+\end{proof}
+
+\begin{definition}
+    Пусть \(E \ne \emptyset\). Рассмотрим \(B(E)\) --- линейное пространство ограниченных функций \(f: E \ra \R\) (или \(Cm\)).
+\end{definition}
+
+\begin{note}
+    \(B(E)\) является нормированным пространством, относительно нормы \(\|f\||_\infty = \sup_{x \in E} |f(x)|\)
+\end{note}
+Но тогда \(f_n \ra f\) в \(B(E) \Lra \|f_n - f\| \ra 0 \Lra \sup_{x \in E} |f_n(x) - f(x)| \ra 0 \Lra f_n \rightrightarrows f\) на \(E\)
+
+\begin{lemma}
+    Пространство \(B(E)\) полное
+\end{lemma}
+\begin{proof}
+    Пусть \(\{f_n\}\) фундаментальна в \(B(E)\), и \(\epsilon > 0\). Тогда \(\exists N \forall n, m > \ge N (\sup_{x \in E} |f_n(x) - f_m(x)| < \epsilon)\). По Критерию Коши равномерной сходимости, \(\exists f: f_n \rightrightarrows f\) на \(E\). Покажем, что \(f\) ограничена в определении равномерной сходимости. Положим \(\epsilon = 1 \Ra \exists N \forall x \in E (|f_n(x) - f(x)| < 1) \Ra |f(x) < 1 + |f_n(x)||\)
+\end{proof}
+
+\begin{note}
+    \(C[a, b]\) полное относительно (\(\|f\|_\infty\))
+\end{note}
+
+\section{Непрерывные функции}
+\subsection{Предел функции в точке}
+Пусть \((X, \rho_X), (Y, \rho_Y)\) --- метрические пространства, \(a\) --- предельная точка \(X\), и задана функция \(f: X \setminus \{a\} \ra Y\).
+
+\begin{definition}[Коши]
+    Точка \(b \in Y\) называется пределом функции \(f\) в \(a\), если
+    \[\forall \epsilon > 0 \exists \delta > 0 \forall x \in X (0 < \rho_X(x, a) < \delta \Ra \rho_Y(f(x), b) < \epsilon)\]
+\end{definition}
+
+\begin{definition}[Гейне]
+    Точка \(b \in Y\) называется пределом функции \(f\) в \(a\), если
+    \[\forall \{x_n\} \ra \subset X\setminus \{a\} (x_n \ra a \Ra f(x_n) \ra b)\]
+\end{definition}
+Пишут \(\lim_{x \ra a} f(x) = b\) или \(f(x) \ra b\) при \(x \ra a\)
+
+\begin{proposition}
+    \(\lim_{x \ra a} f(x) = b, \lim_{x \ra a} f(x) = c \Ra b = c\).
+\end{proposition}
+\begin{proof}
+    Пусть \(x_n \ra a, x_n \ne a\). Тогда по определению Гейне, \(f(x_n) \ra b, f(x_n) \ra c\). В силу единственности предела последовательности в \((Y, \rho_Y)\), получаем, что \(b = c\)
+\end{proof}
+
+Рассмотрим \(f: X \setminus\{a\} \Ra \R^m\). Если \(x \in X \setminus \{a\}\), то \(f(x) = (y_1, \dots y_m) \Ra f_i: X\setminus\{a\} \ra \R, f_i(x) = y_i\) (\(i\)-ая координата \(f(x)\)), \(f = (f_1, f_2, \dots f_m)\)
+
+\begin{lemma}
+    Пусть \(f: X \setminus \{a\} \ra \R^m, f = (f_1, f_2, \dots f_m)\). Тогда \(\lim_{x \ra a} f(x) = b \Lra \lim_{x \ra a}f_i(x) = b_i \forall i = 1, \dots m\)
+\end{lemma}
+\begin{proof}
+    Следует из \(|y_i - b_i| \le \rho_2(y, b) \le \sum_{i = 1}^m |y_i - b_i|\)
+\end{proof}
+
+\begin{example}
+    \(f: \R^2 \setminus\{(0, 0)\}, f(x, y) = \frac{x^3 + y^3}{x^2 + y^2}, \lim_{x \ra 0, y \ra 0} f(x, y) =^? 0\)
+    Зафиксируем \(\epsilon > 0\).
+    \[\left|\frac{x^3 + y^3}{x^2 + y^2} - 0\right| \le \frac{|x|^3 + |y|^3}{x^2 + y^2} \le \frac{2(\sqrt{x^2 + y^2})^3}{x^2 + y^2} = 2\sqrt{x^2 + y^2}\]
+\end{example}
+
+\begin{proposition}
+    Если \(a\) --- предельная точка множества \(E \subset X\) и \(\lim_{x \ra a} f(x) = b\), то \(\lim_{x \ra a} (f|_E)(x) = b\)
+\end{proposition}
+\begin{proof}
+    \(E \ni x \ra a, x_n \ne a \Ra (f|_E)(x_n) = f(x_n) \ra b \Ra\) по Гейне \(b = \lim_{x \ra a} (f|_E)(x)\)
+\end{proof}
+
+\begin{definition}
+    \(f: D\setminus \{a\} \ra \R, D \subset \R^n, a \in \R^n, u \in \R^n, |u| = 1\). Если \(\{a + tu | t \in (0, \Delta)\} \subset D \setminus \{a\}\) для некоторго \(\Delta > 0\) и существует конечный предел \(\lim_{t \ra +0} f(a + tu)\), то этот предел называется пределом \(f\) в точке \(a\) по направлению \(u\).
+\end{definition}
+
+\begin{corollary}
+    \[\left.\begin{array}{l}
+    \exists b = \lim_{x \ra a}f(x) \\
+    \{a + tu | t \in (0, \Delta)\} \subset D \setminus \{a\}
+    \end{array}\right\} \Ra b = \lim_{t \ra +0} f(a + tu)\]
+\end{corollary}
+\begin{example}
+    \[f: \R^2 \ra \R, f(x, y) = \left\{\begin{array}{l}
+        1, y = x^2, x > 0 \\
+        0, \text{ иначе}
+    \end{array}\right., u = (\alpha, \beta), |u| = 1\]
+    \[\exists \delta > 0 \forall t \in (0, \delta) f(t\alpha, t\beta) = 0 \Ra \lim_{t \ra +0} f(t\alpha, t\beta) = 0\]
+\end{example}
+
+\begin{proposition}
+    Если \(f, g: X \setminus \{a\} \ra \R: \lim_{x \ra a} f(x) = b, \lim_{x \ra a} g(x) = c\), то 
+    \begin{enumerate}
+        \item \(\lim_{x \ra a} f(x) + g(x) = b + c\)
+        \item \(\lim_{x \ra a} f(x)g(x) = bc\)
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    Возьмем \(x_n \ra a, x_n \ne a \Ra f(x_n) \ra b, g(x_n) \ra c\). Тогда по свойству пределов числовых последовательностей, \((f \pm g) \ra b \pm c, (fg) \ra bc\). Тогда по определению Гейне, получаем желаемое
+\end{proof}
+
+\begin{proposition}[Локальная ограниченность]
+    Если \(\exists \lim_{x \ra a}f(x)\), то \(f\) ограничено в некоторой проколотой окрестности \(a\), т.е. \(\exists \delta > 0 f(\stackrel{\circ}{B}_\delta(a))\) ограничено
+\end{proposition}
+\begin{proof}
+    Достаточно в определении  Коши положить \(\epsilon = 1\)
+\end{proof}
+
+\begin{note}
+    Пусть \(Z = X \times Y \Ra \rho_Z((x, a), (y, b)) = \sqrt{\rho_X(x, y)^2 + \rho_Y(a, b)^2}\) --- метрика на \(Z\)
+\end{note}
+
+\hypertarget{lecture17}{}
+
+\begin{definition}
+    Пусть \(X, Y\) --- метрические пространства, \(x_0, y_0\) --- предельные точки \(X, Y\) соответственно и задана функция \(f: (X \setminus \{x_0\})\times(Y \setminus \{y_0\}) \ra \R\). Пусть \(\forall x \in X \setminus \{x_0\} \exists \) конечный \(\lim_{y \ra y_0} f(x, y)\). Предел \(\lim_{x \ra x_0}\phi(x)\) называется повторным пределом функции \(f\) и обозначается \(\lim_{x \ra x_0}\lim_{y \ra y_0} f(x, y)\). Аналогично определяется \(\lim_{y \ra y_0}\lim_{x \ra x_0}\).
+\end{definition}
+
+\begin{lemma}
+    Пусть задана \(f: (X \setminus \{x_0\})\times(Y \setminus \{y_0\}) \ra \R\), такая, что
+    \begin{enumerate}
+        \item \(\lim_{(x, y) \ra (x_0, y_0)}f(x, y) = b\)
+        \item \(\forall x \in X \setminus \{x_0\}\) определена \(\phi(x) = \lim_{y \ra y_0} f(x, y)\)
+    \end{enumerate}
+    Тогда \(\exists \lim_{x \ra x_0}\lim_{y \ra y_0}f(x, y) = b\)
+\end{lemma}
+\begin{proof}
+    Зафиксируем \(\epsilon > 0\). Тогда по определению предела
+    \[\exists \delta > 0 \forall (x, y) \in B_\delta(x_0, y_0) |f(x, y) - b| < \frac{\epsilon}{2}\]
+    Рассмотрим \((x, y) \in \stackrel{\circ}{B}_\frac{\delta}{\sqrt{2}}(x_0)\times \stackrel{\circ}{B}_\frac{\delta}{\sqrt{2}}(x_0) \subset \stackrel{\circ}{B}_\delta(x_0, y_0)\). Перейдем к пределу при \(y \ra y_0\) в \(|f(x, y) - b| < \frac{\epsilon}{2}\). Получим, что \(|\phi(x) - b| \le \frac{\epsilon}{2} < \epsilon \Ra \lim_{x\ ra x_0} \phi(x) = b\)
+\end{proof}
+
+\begin{theorem}[Критерий Коши]
+    Пусть \(X, Y\) --- метрические пространства, причем \(Y\) --- полное, \(a\) --- предельная точка \(X\) и задана функция \(f: (X \setminus \{a\}) \ra Y\). Доказать, что \(\exists \lim_{x \ra a} f(x) \Lra \forall \epsilon > 0 \exists \delta > 0 \forall x, x' \in X (x, x' \in \stackrel{\circ}{B}\delta(a) \Ra \rho_Y(f(x), f(x')) < \epsilon)\)
+\end{theorem}
+
+\subsection{Непрерывные функции}
+\begin{definition}
+    Функция \(f\) непрерывна в \(a \in X\), если 
+    \[\forall \epsilon > 0 \exists \delta > 0 \forall x \in X (\rho_X(x, a) < \delta \Ra \rho_Y(f(x), f(a)) < \epsilon)\]
+\end{definition}
+
+\begin{definition}
+    Функция \(f\) непрерывна на \(X\), если она непрерывна \(\forall x \in X\).
+\end{definition}
+
+\begin{example}
+    Коориднатная функция \(p_i: \R^n \ra \R: p_i(x_1, x_1, \dots x_n) = x_i\) непрерывна.
+\end{example}
+\begin{proof}
+    Это следует из оценки \(|x_i - a_i| \le \rho_2(x, a)\)
+\end{proof}
+
+\begin{example}
+    \(A \subset X, d_A: X \ra \R, d_A(x) = \inf_{a \in A} \rho(x, a)\) непрерывна.
+\end{example}
+\begin{proof}
+    Пусть \(x, x_0 \in X \Ra \forall a \in A\) имеем:
+    \[\rho(x_0, a) \ge \rho(x, a) + \rho(x, x_0) \ge d_A(x) - \rho(x, x_0) \Ra d_A(x_0) \ge d_A(x) - \rho(x, x_0) \Ra |d_A(x) - d_A(x_0)| \le \rho(x, x_0)\]
+\end{proof}
+
+\begin{lemma}
+    Пусть \(f: X \ra Y\) и \(a \in X\). Тогда следующие утверждения эквивалентны: 
+    \begin{enumerate}
+        \item \(f\) --- непрерывна в \(a\)
+        \item \(\forall \{x_n\} \subset X (x_n \ra a \Ra f(x_n) \ra f(a))\)
+        \item \(a\) --- изолированная точка \(X\) или \(a\) --- предельная точка \(X\) и \(\lim_{x \ra a}f(x) = f(a)\).
+    \end{enumerate}
+\end{lemma}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item[\((1) \Ra (2)\)] Зафиксируем \(\epsilon > 0\) и найдем \(\delta > 0\) из определения непрерывности \(f\) в \(a\). Пусть \(x_n \ra a\). Тогда \(\exists N \forall n \ge N (\rho_X(x_n, a) < \delta \Ra \rho_y(f(x), f(a)) < \epsilon)\). Следовательно, \(f(x_n) \ra f(a)\)
+        \item[\((2) \Ra (3)\)] Если \(a\) --- изолированная, то \(\exists N: \forall n > N x_n = a\). Иначе, \(\lim_{x \ra a}f(x) = f(a)\) по Гейне
+        \item[\((3) \Ra (2)\)] Если \(a\) --- изолированная точка \(X\), то \(\exists \delta > 0: \in B_\delta(a) \cap X = \{a\}\). Тогда определение непрерывности выполнено. Если \(a\) --- предельная точка \(X\), то 
+        \[\forall \epsilon > 0 \exists \delta > 0 (0 < \rho_X(x, a) < \delta \Ra \rho_Y(f(x), f(a)) < \epsilon)\]
+        Заметим, что \(\rho_X(x, a) = 0 \Ra f(x) = f(a) \Ra \rho_Y(f(x), f(a)) < \epsilon\). Но тогда 
+        \[\forall \epsilon > 0 \exists \delta > 0 (\rho_X(x, a) < \delta \Ra \rho_Y(f(x), f(a)) < \epsilon)\].
+    \end{enumerate}
+\end{proof}
+
+\begin{corollary}
+    Пусть \(f, g: X \ra \R\) непрерывны в \(a\) тогда \(f \pm g, fg: X \ra \R\) также непрерывны в \(a\).
+\end{corollary}
+
+\begin{definition}
+    Многочленом называется функция \(P: \R^n \ra \R\), такая, что
+    \[P(x_1, x_2, \dots x_n) = \sum_{k_1, k_2, \dots k_m} a_{k_1, k_2, \dots k_n}x_1^{k_1}x_2^{k_2}\dots x_n^{k_n}\]
+\end{definition}
+
+\begin{example}
+    Любой многочлен непрерывен
+\end{example}
+\begin{proof}
+    Верно, т.к. он является линейной комбинацией мономов, кажый из которых является произведений непрерывных функций
+\end{proof}
+
+\begin{theorem}[О непрерывности композиции]
+    Пусть \((X, \rho_X), (Y, \rho_Y), (Z, \rho_Z)\) --- метрические пространства. Если \(f: X \ra Y, g: Y \ra Z\) --- непрерывные функции, то \(g \circ f: X \ra Z\) --- тоже непрерывная.
+\end{theorem}
+\begin{proof}
+    Пусть \(x_n \ra a \Ra f(x_n) \ra f(a) \Ra g(f(x_n)) \ra g(f(a))\). Тогда \(g\circ f\) непрерывна в \(a\).
+\end{proof}
+
+\begin{theorem}[Критерий непрерывности]
+    \(f: X \ra Y\) непрерывна на \(X \Lra \forall V \subset Y\), где \(V\) --- открыто, верно \(f^{-1}(V)\) открыто в \(X\), где \(f^{-1}(U) = \{x | f(x) \in U\}\).
+\end{theorem}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item[\(\Ra\)] Пусть \(V \subset Y, V\) --- открыто. Рассмотрим \(f^{-1}(V), x \in f^{-1}(V)\), т.е. \(f(x) \in V\), т.е. \(\exists \epsilon > 0: B_\epsilon(f(x)) \subset V\). Т.к. \(f\) непрерывна в \(x\), то \(\exists \delta > 0: f(B_\delta(x)) \subset B_\epsilon(f(x)) \subset V \Ra \exists \delta > 0: B_\delta(x) \subset f^{-1}(V)\).
+        \item[\(\La\)] Пусть \(x \in X, \epsilon > 0\). Шар \(B_\epsilon(f(x))\) открыт в \(Y \Ra f^{-1}(B_\epsilon(f(x)))\) открыто в \(X\) и содержит \(x \Ra \exists \delta > 0: B_\delta(x) \subset f^{-1}(B_\epsilon(f(x)))\) или \(f(B_\delta(x)) \subset B_\epsilon(f(x))\). Это означает, что \(f\) непрерывна в \(x\).
+    \end{enumerate}
+\end{proof}
+
+\begin{corollary}
+    \(f: X \ra Y\) непрерывна \(\Lra \forall F \subset Y\), где \(F\) --- замкнуто, \(f^{-1}(F)\) замкнуто  в \(X\)
+\end{corollary}
+\begin{proof}
+    \(\forall F \subset Y: X \setminus f^{-1}(F) = f^{-1}(Y \setminus F)\)
+\end{proof}
+
+\begin{problem}
+    Приведите пример разрывной функции \(f\), где \(\forall U \subset X: f(U)\) открыто, где \(U\) --- открыто.
+\end{problem}
+
+\subsection{Непрерывные функции на компактах}
+\begin{theorem}
+    Если \(f: K \ra Y\) непрерывна и \(K\) --- компакт, то \(f(K)\) --- компакт в \(Y\)
+\end{theorem}
+\begin{proof}
+    Рассмотрим \(\{G_\lambda\}_{\lambda \in \Lambda}\) --- октрытое покрытие \(f(K)\). Если \(x \in K \Ra f(x) \in f(K) \ra f(x) \in G_{\lambda_0}\) для некоторого \(\lambda_0\), или \(x \in f^{-1}(G_{\lambda_0})\). Тогда \(\{f^{-1}(G_{\lambda})\}_{\lambda \in \Lambda}\) --- открытое покрытие \(K\). Тогда \(\exists \lambda_1, \lambda_2 \dots \lambda_m\) --- конечное подпокрытие \(K\). Но тогда \(y \in f(K) \Lra y = f(x), x \in K\). Но \(x \in f^{-1}(G_{\lambda_i}) \Ra y = f(x) \in G_{\lambda_i}\)
+\end{proof}
+
+\begin{theorem}[Вейерштрасса]
+    Если \(f: K \ra \R\) --- непрерывна и \(K\) --- компакт, то \(\exists x_m, x_M \in K: f(x_m) = \inf_{x \in K}f(x), f(x_M) = \sup_{x \in K}f(x)\)
+\end{theorem}
+\begin{proof}
+    Положим \(M = \sup_{x \in K}f(x)\). Заметим, что \(f(K)\) --- компакт в \(R \Ra f(K)\) --- замкнутое и ограниченное множество. Имеем \(f(K) \le M \Ra \forall \epsilon > 0: M + \epsilon \notin f(K)\) и \(\forall \epsilon > 0 \exists x: M - \epsilon < f(x)\) по определению \(\sup \Ra M\) --- граничная точка \(\Ra M \in f(K)\). Доказательство для \(\inf\) аналогично
+\end{proof}
+
+\begin{definition}
+    Пусть \(V\) --- метрическое пространство, \(\|x\|, \|x\|_*\) --- нормы на \(V\). Данные нормы называются эквивалентными, если \(\exists c_1, c_2 > 0 \forall x \in V (c_1\|x\| \le \|x\|_* \le c_2\|x\|)\)
+\end{definition}
+
+\begin{corollary}
+    На арифметическом \(n\)-мерном пространстве все нормы эквивалентны.
+\end{corollary}
+\begin{proof}
+    Достаточно показать, что произвольная норма эквивалентна Евклидовой.
+    
+    Имеем: \(x = x_1e_1 + x_2e_2 + \dots + x_ne_n\) --- разложение по стандартному базису \(\R^n\), тогда \(\|x\| \le \sum_{i = 1}^n |x_i|\|e_i\|\). По КБШ, можем записать неравенство:
+    \[\|x\| \le \sum_{i = 1}^n |x_i|\|e_i\| \le \left(\sum_{i = 1}\|e_i\|^2\right)\left(\sum_{i = 1}|x_i|^2\right) = \beta \|x\|_2\]
+
+    Тогда \(\forall x, y \in \R^n |\|x\| - \|y\|| \le \|x - y\| \le \beta\|x - y\|_2 \Ra f = \|\cdot\|\) --- непрерывна на \(\R^n\) (относительно \(\|\cdot\|_2\)). Положим \(S = \{x | \|x\|_2 = 1\}\) --- компакт в \(\R^n\). По предыдущему следствию, \(\exists \alpha = \inf_{x \in S}f(x) > 0\). Тогда \(\forall x \ne 0 \left\|\frac{x}{\|x\|_2}\right\| \ge \alpha\) или \(\|x\| \ge \alpha \|x\|_2\) (верно и для \(x = 0\)). Итого, получили \(\alpha\|x\|_2 \le \|x\| \le \beta\|x\|_2\)
+\end{proof}
+
+\hypertarget{lecture18}{}
+
+\begin{problem}
+    Доказать, что все нормы над конечномерным пространством над \(\R\) эквивалентны
+\end{problem}
+
+\begin{definition}
+    Функция \(f: X \ra Y\) называется равномерно непрерывной на \(X\), если
+    \[\forall \epsilon > 0 \exists \delta > 0 \forall x, x' \in X (\rho_X(x, x') < \delta \Ra \rho_Y(f(x), f(x')) < \epsilon)\]
+\end{definition}
+
+\begin{theorem}[Кантор]
+    Если функция непрерывна \(f: K \ra Y\) непрерывна и \(K\) --- компакт, то \(f\) равномерно непрерывна.
+\end{theorem}
+\begin{proof}
+    Пусть \(\epsilon > 0\). По определению непрерывности
+    \[\forall a \in K \exists \delta_a > 0 \forall x \in K (\rho_K(x, a) < \delta_a \Ra \rho_Y(f(x), f(a)) < \frac{\epsilon}{2})\]
+    Семейство \(\left\{B_\frac{\delta_a}{2}(a)\right\}_{a \in K}\) образует открытое покрытие \(K\). Т.к. \(K\) --- компакт \(\Ra K \subset B_{\frac{\delta_{a_1}}{2}}(a_1) \cup B_{\frac{\delta_{a_2}}{2}}(a_2) \cup \dots \cup B_{\frac{\delta_{a_m}}{2}}(a_m)\). Покажем, что \(\delta = \min_{1 \le i \le m}\{\frac{\delta_{a_i}}{2}\}\) --- искомое. Пусть \(x, x' \in K\), с \(\rho_K(x, x') < \delta\). \(\exists i: x \in B_{\frac{\delta_{a_i}}{2}}(a_i) \Ra\) т.к. \(\rho_K(x', a) \le \rho_K(x', x) + \rho_K(x, a_i) < \frac{\delta_{a_i}}{2} + \frac{\delta_{a_i}}{2} = \delta_{a_i}\), т.е. \(x, x' \in B_{\delta_{a_i}}(a_i) \Ra \rho_Y(f(x), f(x')) \le \rho_Y(f(x), f(a)) + \rho_Y(f(a), f(x')) < \frac{\epsilon}{2} + \frac{\epsilon}{2} = \epsilon\)
+\end{proof}
+
+\begin{definition}
+    Пусть \(X, Y\) --- метрические пространства. Функция \(f: X \ra Y\) называется гомеоморфизмом, если \(f\) --- биекция, а \(f, f^{-1}\) непрерывны
+\end{definition}
+
+\begin{theorem}
+    Если \(f: K \ra Y\) --- непрерывная биекция и \(K\) --- компакт, то \(f\) --- гомеоморфизм.
+\end{theorem}
+\begin{proof}
+    По критерию непрерывности, \(\forall F \subset K (f^{-1})^{-1}(F)\) замкнуто (т.к. \((f^{-1})^{-1}(F) = f(F)\)), если \(K\) --- компакт \(\Ra f^{-1}\) непрерывна
+\end{proof}
+
+\begin{definition}
+    Метрическое пространство \(X\) называется несвязным, если \(\exists U, V \subset X: X = U \cup V, U \cap V = \emptyset\), где \(U, V\) --- непустые открытые множества
+\end{definition}
+
+\begin{definition}
+    Множество \(E \subset X\) называется несвязным, если \(E\) несвязно как подпространство \(X\)
+\end{definition}
+
+\begin{note}
+    \(E\) несвязно \(\Lra \exists U, V \subset X\) --- открытые, такие, что \(E \subset U \cup V, E \cap U \ne \emptyset, E \cap V \ne \emptyset, U \cap V \cap E \ne \emptyset\) 
+\end{note}
+
+\begin{problem}
+    \(\{E_i\}_{i \in I}\) --- семейство связных множеств, \(\bigcap_{i \in I}E_i \ne \emptyset \Ra \bigcup_{i \in I}E_i\) связно
+\end{problem}
+
+\begin{theorem}
+    \(I\) связно в \(\R \Lra I\) --- промежуток
+\end{theorem}
+\begin{proof}
+    \begin{enumerate}
+        \item[\(\Ra\)] Если \(I\) не является промежутком, то \(\exists x, y \in I, z \in \R: x < z < y, z \notin I\). Рассмотрим \(I \cap (-\infty, z), I \cap (z, +\infty)\). Получаем, что \(I\) несвязно
+        \item[\(\La\)] Предположим, что промежуток \(I\) несвязен. Тогда \(\exists U, V \subset \R: I \subset U \cap V, I \cap U \ne \emptyset, I \cap V \ne \emptyset, U \cap V \cap I = \emptyset\). Пусть \(x \in I \cap U, y \in I \cap V\). Рассмотрим \(S = [x, y] \cap U\). \(S \ne \emptyset\) и ограничено \(\Ra \exists c = \sup S\). В силу замкнутости \([x, y]\), имеем \(c \in [x, y], [x, y] \subset I \subset U \cup V\). Следовательно, \(c \in U\) или \(c \in V\). Если \(c \in U\), то \(c \ne y \Ra \exists \epsilon > 0: [c, c + \epsilon) \subset U \cap [x, y] \Ra [c, c + \epsilon) \subset S\). Если \(c \in V\), то \(c \ne x \Ra \exists \epsilon > 0 (c - \epsilon, c] \subset V \cap [x, y] \Ra \left[c - \frac{\epsilon}{2}, c\right] \not\subset S\)
+    \end{enumerate}
+\end{proof}
+
+\begin{theorem}
+    Если \(f: S \ra Y\) непрерывна и \(S\) связно, то \(f(S)\) связно в \(Y\).
+\end{theorem}
+\begin{proof}
+    Предположим, что \(f(S)\) несвязно \(\Ra \exists U, V \subset Y\) --- открытые, причем \(f(S) \subset V \cup U, f(S) \cap U \ne \emptyset, f(S) \cap V \ne \emptyset, U \cap V \cap f(S) = \emptyset\). Но тогда \(f^{-1}(U) \cup f^{-1}(V) = S\), причем данные множества открыты и непересекающиеся, получили противоречие, т.к. \(S\) связно.
+\end{proof}
+
+\begin{example}
+    \(E = \{(x, y, z) : e^{x^2 + y^2} < 1 + z^2\}\)
+\end{example}
+\begin{proof}
+    \(f(x, y, z) = e^{x^2 + y^2} - 1 - z^2\) --- непрерывно в \(\R^3\)
+\end{proof}
+
+\begin{corollary}[Теорема о промежуточных значениях]
+    Если \(f: S \ra \R\) непрерывна и \(S\) связно, то \(u, v \in f(S), u < v \Ra [u, v] \subset f(S)\)
+\end{corollary}
+
+\begin{definition}
+    Метричесткое пространство \(X\) назывется линейно связным, если \(\forall x, y \in X \exists \gamma: [0, 1] \ra X\) --- непрерывная, такая, что \(\gamma(0) = x, \gamma(1) = y\)
+\end{definition}
+
+\begin{example}
+    \(B_r(a)\) в любом нормированном метрическом пространстве всегда линейно связен
+\end{example}
+\begin{proof}
+    Пусть \(x, y \in B_r(a)\). Рассмотрим \(\gamma(t) = (1-t)x + ty, t \in [0, 1]\). \(\forall t \gamma(t) \in B_r(a)\), т.к. \(\|\gamma(t) - a\| = \|(1 - t)(x - a) + t(y - a)\| \le (1 - t)\|x - a\| < (1 - t)r + tr = r\)
+\end{proof}
+
+\begin{theorem}
+    Любое линейно связное пространство связно
+\end{theorem}
+\begin{proof}
+    Продположим, что линейно связное пространство \(X\) несвязно. Тогда \(\exists U, V \subset X, X = U \cup V, U \cap V = \emptyset, x \in U, y \in V \Ra \exists [0, 1] \ra X: \gamma(0) = x, \gamma(1) = y\). Рассмотрим \(\gamma^{-1}(U) \cap \gamma^{-1}(V) = [0, 1]\), противоречие, т.к. \([0, 1]\) --- связное множество
+\end{proof}
+
+\hypertarget{lecture19}{}
+
+\section{Линейные отображения евклидовых пространств}
+Пусть \(x, y \in \R^n\). Обозначим \((x, y) = \sum_{i = 1}^n x_iy_i\), \(|x| = \sqrt{(x, x)}\)
+
+\begin{definition}
+    Отображение \(L: \R^n \ra \R^m\) называется линейным, если \(\forall x, y \in \R^n, \forall \alpha, \beta \in \R\) верно, что \(L(\alpha x + \beta y) + \alpha L(x) + \beta L(y)\)
+\end{definition}
+
+\begin{note}
+    Множество всех линейных отображений \(\R^n \ra \R^m\) образует линейное пространство и обозначается \(\mathcal{L}(\R^n, \R^m)\)
+\end{note}
+
+Будем мыслить векторы из \(\R^n\) как наборы координат. Тогда в стандартном базисе, вектор из \(\R^n\) совпадает со своим набором координат. В связи с этим, будем писать (пусть \(L \in \mathcal{L}(\R^n, \R^m)\)):
+\[L(x) = Ax\]
+Где \(A\) --- матрица линейного преобразования \(L\). Положим \(w_i = (a_{i1}, a_{i2} \dots a_{in})\)
+\[|L(x)|^2 = \sum_{i = 1}^m (w_i, x)^2 \le \sum_{i = 1}^m|w_i|^2|x|^2 = |x|^2\sum_{i = 1}^m\sum_{j = 1}^n a_{ij}^2 \le C|x|, C = \sum_{i = 1}^m\sum_{j = 1}^n a_{ij}^2\]
+
+\begin{definition}
+    \(\|L\| = \sup_{x \ne 0} \frac{|L(x)|}{|x|}\) --- норма оператора \(L\)
+\end{definition}
+
+\begin{note}
+    Из оценки выше, следует, что \(\|L\| \in \R\), а из определения супремума, \(|L(x)| \le \|L\||x|\). Таким образом, \(\|L\|\) --- наименьшая константа из \(\R_+\), такая, что \(C|x| \ge |L(x)|\)
+\end{note}
+
+\begin{corollary}
+    \(\mathcal{L}(\R^n, \R^m)\) --- нормированное линейное пространство
+\end{corollary}
+
+\begin{note}
+    Заметим, что \(\|L_1 \circ L_2\| \le \|L_1\|\cdot\|L_2\|\)
+\end{note}
+\begin{proof}
+    \[|L_1(L_2(x))| \le \|L_1\|\|L_2\||x|\]
+\end{proof}
+
+\section{Частные производные}
+Пусть \(U \subset \R^n, a \in U, U\) --- открыто и задана функция \(f: U \ra \R\).
+
+\begin{definition}
+    Частная производная функции \(f\) по переменной \(x_k\) в точке \(a\) называется
+    \[\lim_{t \ra 0} \frac{f(a + te_k) - f(a)}{t}\]
+    Где \(e_k\) --- \(k\)-ый элемент стандартного базиса.
+    \[\text{Обозначения }\frac{\delta f}{\delta x_k}(a),\;\;f'_{x_k}(a),\;\;\delta f_k(a)\text{ --- эквивалентны}\]
+\end{definition}
+
+\begin{note}
+    По определению, \(\frac{\delta f}{\delta x_k}(a)\) --- \(g'(a_k)\), где \(g(u) = f(a_1, \dots a_{k - 1}, u, a_{k + 1}, \dots a_n)\).
+\end{note}
+
+\begin{example}
+    \(f: \R^n \ra \R, f(x) = |x|\), тогда при \(x \ne 0\)
+    \[\frac{1}{t}(|x + te_k| - |x|) = \frac{1}{t} \frac{|x + te_k|^2 - |x|^2}{|x + te_k| + |x|} = \frac{2x_k + t}{|x + te_k| + |x|} \ra \frac{x_k}{|x|}\]
+    Следовательно, существует \(f'(x), x \ne 0\). Отметим, что в \(0\) частной производной ни по какой переменной нет.
+\end{example}
+
+\begin{theorem}[О приращении]
+    Если частные производные функции \(f\) по всем переменным ограничены в \(B_r(a)\), то \(\forall h = (h_1, h_2, \dots h_n)\) с \(|h| < r\) имеем место равенство
+    \[f(a + h) - f(a) = \sum_{k = 1}^n \frac{\delta f}{\delta x_k}(c_k)h_k\]
+    Где \(c_k = a + v_k\) с \(|v_k| \le |h_k|\)
+\end{theorem}
+\begin{proof}
+    Обозначим \(x_0 = a, \dots x_k = x_{k - 1} + h_ke_k\). Рассмотрим \(t \mapsto g_k(t) = f(x_{k - 1} + te_k)\) на отрезке с концами \(0, h_k\). Тогда \(f(x_k) - f(x_{k + 1}) = g_k(h_k) - g_k(0)\) и по теореме Лагранжа \(g_k(h) - g_k(0) = g'_k(\xi_k)h_k\). Положим \(c_k = x_{k - 1} + \xi_ke_k\), тогда \(f(x_k) - f(x_{k - 1}) = \frac{\delta f}{\delta x_k}(c_k)h_k \Ra f(a + h) - f(a) = \sum_{k = 1}^n \frac{\delta f}{\delta x_k}(c_k)h_k\)
+\end{proof}
+
+\begin{corollary}[Критерий постоянства функции]
+    Пусть функция \(f\) имеет в области \(G\) частные производные. Тогда \(f\) постоянна на \(G \Lra \frac{\delta f}{\delta x_1} = \dots = \frac{\delta f}{\delta x_n} = 0\) на \(G\).
+\end{corollary}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item[\(\Ra\)] по определнию
+        \item[\(\La\)] Предположим противное, тогда \(\exists x, y \in G: f(x) \ne f(y)\)
+    \end{enumerate}
+\end{proof}
+
+\begin{definition}
+    Пусть \(v \in \R^n \setminus \{0\}\). Тогда производной функции \(f\) в точке \(a\) называется 
+    \[\lim_{t \ra 0} \frac{f(a + tv) - f(a)}{t}\]
+    \[\text{Обозначения }\frac{\delta f}{\delta v}(a),\;\;f'_v(a),\;\;\delta f_v(a)\text{ --- эквивалентны}\]
+\end{definition}
+
+\subsection{Дифференцируемость функции в точке}
+\begin{definition}
+    Пусть \(U \subset \R^n, a \in U, f: U \ra \R^n, U\) --- открыто. Тогда \(f\) называетя дифференцируемой в точке \(a\), если \(\exists A = (A_1, \dots A_n) \subset \R^n\), т.ч. \(f(a + h) = f(a) + (A, h) + \alpha(h)|h|\) для некоторой \(\alpha(h) \ra 0\), при \(h \ra 0\)
+\end{definition}
+
+\begin{definition}
+    Линейная функция \(h \mapsto (A, h)\) называется дифференциалом функции \(f\) в точке \(a\) и обозначается \(df_a\)
+\end{definition}
+
+\begin{note}
+    Определение производной не определяет \(\alpha(0)\). Будем считать, что \(\alpha(0) = 0\) (т.е. \(\alpha\) --- непрерывна в \(0\)). Также, определение производной можно переписать в виде:
+    \[f(a + h) = f(a) + df_a(h) + o_{h \ra 0}(|h|)\]
+\end{note}
+
+\begin{theorem}
+    Если \(f\) дифференцируема в \(a\) и \(v \in \R^n \setminus \{0\}\), то \(\exists \frac{\delta f}{\delta v}(a) = df_a(v)\)
+\end{theorem}
+\begin{proof}
+    Рассмотрим \(B_\delta(a) \subset U\). Положим \(h = tv, |t| < \frac{\delta}{|v|}\).
+    \[f(a + tv) - f(a) = df_a(tv) + \alpha(tv)|tv|\]
+    По линейности \(df_a(tv) = tdf_a(v)\), тогда \(\frac{f(a + tv) - f(a)}{t} = df_a(v) \pm \alpha(tv)|v|\). В силу непрерывности \(\alpha(tv) \ra 0\) при \(t \ra 0 \Ra \exists \frac{\delta f}{\delta v}(a) = df_a(v)\)
+\end{proof}
+
+\begin{corollary}
+    Дифференциал функции определен однозначно.
+\end{corollary}
+\hypertarget{lecture20}{}
+
+\begin{corollary}[Необходимое условие дифференцируемости]
+    Если \(f\) дифференцируема в точке \(a\), то \(f\) непрерывна в точке \(a\) и имеет частные производные \(\frac{\delta f}{\delta x_k}(a)\) по всем переменным. Кроме того
+    \[df_a(h) = \sum_{k = 1}^n \frac{\delta f}{\delta x_k}(a)h_k \forall h \in \R^n, h = (h_1, h_2, \dots h_k)\]
+\end{corollary}
+\begin{proof}
+    Положим \(h = x - a\), получаем \(f(x) = f(a) + df_a(x - a) + o(|x - a|), x \ra a\). Откуда \(\lim_{x \ra a}f(x) = f(a) \Ra f\) непрерывна в \(a\). По теореме 2, \(\exists \frac{\delta f}{\delta f_k}(a) = \frac{\delta f}{\delta e_k}(a) = df_a(e_k), k = 1, \dots n\). Кроме того:
+    \[df_a(h) = df_a\left(\sum_{k = 1}^n h_k e_k\right) = \sum_{k = 1}^n h_kdf_a(e_k) = \sum_{k = 1}^n \frac{\delta f}{\delta x_k}(a)h_k\]
+\end{proof}
+
+Координатная функция \(p_k(x_1, \dots x_k) = x_k\) дифференцируема в каждой точке и ее дифференциал \(dx_k, dx_k(h) = h_k\) не зависит от выбора точки. Функции \(dx_1, \dots dx_n\) образуют базис в \(\R^n\), двойственный к базису \(e_1, \dots e_k\)
+
+\begin{definition}
+    Вектор \(\left(\frac{\delta f}{\delta x_1}(a), \dots, \frac{\delta f}{\delta x_n}(a)\right)\) называется градиентом функции \(f\) в точке \(a\) и обозначается \(grad\;f(a)\) или \(\nabla f(a)\) 
+\end{definition}
+
+\begin{note}
+    Если \(f\) дифференцирема в \(a\), то \(f(a + h) = f(a) + (\nabla f(a), h) + o(|h|), h \ra 0\)
+\end{note}
+
+\begin{lemma}
+    Если функция \(f\) дифференцируема в точке \(a\) и \(\nabla f(a) \ne 0\), то \(\forall v \in \R^n, |v| = 1\) выполнено
+    \[\left|\frac{\delta f}{\delta v}(a)\right| \le |\nabla f(a)|\]
+\end{lemma}
+\begin{proof}
+    По теореме 2 \(\frac{\delta f}{\delta v}(a) = df_a(v) = (\nabla f(a), v)\), тогда по КБШ: 
+    \(\left|\frac{\delta f}{\delta v}(a)\right| \le |\nabla f(a)||v| = |\nabla f(a)|\), причем равенство имеет место лишь в случае, когда \(v \parallel \nabla f(a)\), то есть \(v = \pm \frac{\nabla f(a)}{|\nabla f(a)|}\)
+\end{proof}
+
+\begin{note}
+    Т.к. \(\frac{\delta f}{\delta v}(a) = \left.\frac{d}{dt}\right|_{t = 0}f(a + tv)\)
+\end{note}
+
+\begin{definition}
+    Плоскость \(\Pi: y = f(a) + \sum_{k = 1}^n \frac{\delta f}{\delta x_k}(a)(x_k - a_k)\) называется касательной плоскостью к графику \(f\) в точке \(a\) (\(f\) дифференцируема в точке \(a\))
+\end{definition}
+
+\begin{theorem}[Достаточное условие дифференцируемости]
+    Если \(f\) имеет в некоторой окрестности \(a\) частные производные и они непрерывны в \(a\), то \(f\) дифференцируема в этой точке.
+\end{theorem}
+\begin{proof}
+    Пусть частные производные определены в \(B_r(a) \subset U\). Тогда \(\forall (h_1, \dots h_k): |h| < r\ \exists c_k = a_k + v_k\), где \(|v_k| < |h|\), что
+    \[f(a + h) - f(a) = \sum_{k = 1}^n \frac{\delta f}{\delta x_k}(c_k)h_k\]
+    \[f(a + h) - f(a) - \sum_{k = 1}^n \frac{\delta f}{\delta x_k}(a)h_k = \sum_{k = 1}^n \left(\frac{\delta f}{\delta x_k}(c_k) - \frac{\delta f}{\delta x_k}(a)\right)h_k =\]
+    \[\sum_{k = 1}^n\left(\frac{\delta f}{\delta x_k}(c_k) - \frac{\delta f}{\delta x_k}(a)\right) \frac{h_k}{|h|}|h| = \alpha(h)|h|\]
+    Поскольку \(c_k \ra a, \frac{\delta f}{\delta x_k}(c_k) \ra \frac{\delta f}{\delta x_k}(a)\), то \(
+    \alpha(h) \ra 0\) при \(h \ra 0\). (почему??)
+\end{proof}
+
+Пусть \(U \subset \R^n, a \in U, f: U \ra \R^m\).
+
+\begin{definition}
+    Функция \(f\) называется дифференцируемой в точке \(a\), если существует такое линейное отображение \(L_a: \R^n \ra \R^m\), что \(f(a + h) = f(a) = L_a(h) + \alpha(h)|h|, \alpha(h) \ra 0\) при \(h \ra 0\). Линейное отображение \(L_a\) называется дифференциалом \(f\) в точке \(a\) и обозначается \(df_a\) или \(d_af\). 
+\end{definition}
+
+\begin{note}
+    Будем говорить, что \(\alpha(0) = 0\), т.е. \(\alpha\) непрерывна в \(0\), тогда
+    \[f(a + h) = df_a(h) + o(|h|), h \ra 0\]
+\end{note}
+
+\begin{lemma}
+    Функция \(f = (f_1, \dots f_n)\) дифференцируема в точке \(a \Lra \) каждая функция \(f_i\) дифференцируема в точке \(a\).
+\end{lemma}
+
+\begin{example}
+    \(L: \R^n \ra \R^m\) --- линейное отображение, тогда \(L\) дифференцирема в любой точке \(a \in \R^n\) и \(dL_a = L\)
+\end{example}
+\begin{proof}
+    \(L(a + h) - L(a) = L(h) + 0\)
+\end{proof}
+
+Рассмотрим матрицу преобразования стандартных в стандартных базисах в \(\R^n, \R^m\). Приходим к следующему определению:
+\begin{definition}
+    Матрица \(Df(a)\) размера \(m\times n\) определяемая равенством \(df_a(h) = Df(a)h\) называется матрицей Якоби функции \(f\) в точке \(a\).
+\end{definition}
+
+\begin{note}
+    По предыдущему утверждению, \(df_a = (d_af_1, d_af_2\dots d_af_m)\) и \(d_af_i(e_j) = \frac{\delta f_1}{\delta x_j}(a)\), поэтому 
+    \[Df(a) = \left(\begin{array}{lll}
+        \dots & \dots & \dots \\
+        \frac{\delta f_i}{\delta x_1}(a) & \dots & \frac{\delta f_i}{\delta x_n}(a) \\
+        \dots & \dots & \dots \\
+    \end{array}\right)\]
+\end{note}
+\hypertarget{lecture21}{}
+
+% \begin{example}[Случай функции \(\R \ra \R^m, m \ge 1\)]
+%     Пусть \(\gamma: (\alpha, \beta) \ra \R^m\), \(a \in (\alpha, \beta)\).
+% \end{example}
+
+\begin{definition}
+    Пусть \(\gamma: (\alpha, \beta) \ra \R^m\), \(a \in (\alpha, \beta)\). Если существует \(\lim_{t \ra 0}\frac{\gamma(a + t) - \gamma(a)}{t} \in \R^m\), то этот предел называется производной \(\gamma\) в точке \(a\) и обозначается \(\gamma'(a)\)
+\end{definition}
+
+Имеем: \(\gamma'(a) = \lim_{t \ra 0}\frac{\gamma(a + t) - \gamma(a)}{t} \ra \gamma(a + t) - \gamma(a) = \gamma'(a) + t\sigma(t)\), где \(\sigma(t) = o(t), t \ra 0\). Тогда \(\gamma\) дифференцируема в \(a \Lra \exists\) производная, причем \(d\gamma_a(t) = t\gamma'(a)\).
+
+\subsection{Правила дифференцирования}
+
+Непосредственно из определения вытекает следующее наблюдение:
+Если \(f, g: U \ra \R^m\), где \(U\) --- открыто в \(\R^n\) дифференцируемы в точке \(a, \lambda \) --- константа, то \(f + g: U \ra \R^m\) дифференцируема в \(a\) и \(d(f + g)_a = df_a + dg_a, d(\lambda f)_a = \lambda df_a\)
+
+\begin{theorem}
+    Пусть \(U \subset \R^m, V \subset \R^n\) --- открыты.
+    Если \(f: U \ra \R^m\) дифференцируема в \(a\), \(g: V \ra \R^k\) дифференцируема в \(f(a)\), то \(g \circ f\) дифференцируема в \(a\), то \(d(g\circ f)_a = dg_a \circ df_a\).
+\end{theorem}
+\begin{proof}
+    По определению дифференцируемости,
+    \[f(a + h) = f(a) + df_a(h) + \alpha(h)|h|, \alpha(h) \ra 0, h \ra 0\].
+    \[g(b + u) = g(b) + dg_b(u) + \beta(u)|u|, \beta(u) \ra 0, u \ra 0\].
+    Подставим вместо \(u = \kappa(h) = df_a(h) + \alpha(h)|h|\), получим
+    \[g(f(a + h)) = g(b + \kappa(h)) = g(b) + dg_b(df_a(h) + \alpha(h)|h|) + \beta(\kappa(h))|\kappa(h)| =\]
+    \[= g(b) + dg_b(df_a(h)) + |h|dg_b(\alpha(h)) + \beta (\kappa(h))|\kappa(h)| = g(f(a)) + dg_b \circ df_a(h) + \gamma(h)|h|\]
+    Где \(\gamma(h) = dg_b(\alpha(h)) + \beta(\kappa(h)) \frac{\kappa(h)}{|h|}\). Покажем, что \(\gamma(h)\) бесконечно мала при \(h \ra 0\). Функции \(h \mapsto dg_b(\alpha(h)), h \mapsto \beta(\kappa(h))\) непрерывна в нуле со значением \(0\).
+    \[\exists C > 0 \forall h |df_a(h)| \le C|h| \Ra \frac{|\kappa(h)|}{|h|} \text{ ограничена}\]
+\end{proof}
+
+\begin{corollary}
+    Для матрицы Якоби функции \(f, g\) справедливо равенство:
+    \[D(g \circ f)(a) = Dg(f(a)) \cdot Df(a)\]
+\end{corollary}
+
+Рассотрим случай, когда \(k = 1\).
+\[\left(\frac{\delta (g \circ f)}{\delta x_1}(a), \dots \frac{\delta (g \circ f)}{\delta x_n}(a)\right) = \left(\frac{\delta g}{\delta y_1}(a), \dots \frac{\delta g}{\delta y_n}(a)\right)\cdot\left(\begin{array}{ccc}
+    \frac{\delta f_1}{\delta x_1}(a) & \dots & \frac{\delta f_1}{\delta x_n}(a) \\ 
+    \vdots & \ddots & \vdots \\ 
+    \frac{\delta f_n}{\delta x_1}(a) & \dots & \frac{\delta f_n}{\delta x_n}(a) \\ 
+\end{array}\right)\]
+Тогда \(\frac{\delta (g \circ f)}{\delta x_j}(a) = \sum_{i = 1}^m \frac{\delta g}{\delta x_i} (b) \cdot \frac{\delta f_i}{\delta x_j}(a)\)
+
+\begin{corollary}
+    Если \(f, g: U \ra \R\) дифференцируемы в точке \(a\), то в точке \(a\) дифференцируемы и функции \(fg, \frac{f}{g}, g \ne 0\), причем справедливы формулы \(df(fg)_a = fdg_a + gdf_a, d\left(\frac{f}{g}\right) = \frac{g(a)df_a - f(a)dg_a}{g^2(a)}\)
+\end{corollary}
+\begin{proof}
+    Рассмотрим \(h: U \ra \R^2, h(x) = (f(x), g(x))\) --- дифференцируема в \(a, dh_a = (df_a, dg_a)\). Рассмотрим \(\phi(x, y) = xy \Ra d\phi = ydx + xdy\). Функция \(\phi \circ h\) дифференцируема в \(a\), получаем \(df(fg)_a = fdg_a + gdf_a, d\left(\frac{f}{g}\right) = \frac{g(a)df_a - f(a)dg_a}{g^2(a)}\)
+\end{proof}
+
+\begin{theorem}[Лагранжа о конечных приращениях]
+    Если \(f: U \ra \R^n\), \(U \subset \R^n\) --- открыто, и \(f\) дифференцируема в каждой точке. Обозначим \([a, b] = \{(1 - t)a + tb | t \in [0, 1]\}\). Пусть \([a, b] \subset U\). Если \(\|df_c\| \le M \forall c \in [a, b]\), то \(|f(b) - f(a)| \le M|b - a|\)
+\end{theorem}
+\begin{proof}
+    Рассмотрим функцию \(g: [0, 1] \ra \R^m, g(t) = f(a + t(b - a))\). Тогда \(g'(t) = df_{a + t(b - a)}(b - a) \Ra |g'(t)| \le \|df_{a + t(b - a)}\|\cdot|b - a| \le M|b - a|\). Причем \(f(b) - f(a) = g(1) - g(0)\). По теореме Лагранжа, \(|g(1) - g(0)| \le |g'(c)|, c \in (0, 1)\). \(|f(b) - f(a)| \le M|b - a|\)
+\end{proof}
+
+Пусть \(f: U \ra \R, a \in U\), \(U \subset \R^n\) --- открыто
+\begin{definition}
+    Если частные производная \(\frac{\delta^{k - 1} f}{\delta x_{i_1}\delta x_{i_2}\dots\delta x_{i_{k-1}}}\) порядка \(k - 1\) определена в окрестности точки \(a\) и имеет частную производную в точке \(a\) по переменной \(x_{i_k}\), то 
+    \[\frac{\delta^k f}{\delta x_{i_1}\delta x_{i_2}\dots\delta x_{i_k}} = \frac{\delta }{\delta x_{i_k}}\left(\frac{\delta^{k - 1} f}{\delta x_{i_1}\delta x_{i_2}\dots\delta x_{i_{k-1}}}\right)\]
+    Называется частичной производной \(f\) \(k\)-ого порядка в точке \(a\).
+\end{definition}
+
+\begin{theorem}[Шварц]
+    Если смешанное произведение \(\frac{\delta^2 f}{\delta x \delta y}, \frac{\delta^2 f}{\delta y \delta x}\) определены в некоторой окрестности \((x_0, y_0)\) и непрерывны в самой точке, то \(\frac{\delta^2 f}{\delta x \delta y}(x_0, y_0) = \frac{\delta^2 f}{\delta y \delta x}(x_0, y_0)\)
+\end{theorem}
+\begin{proof}
+    \[\exists \delta > 0 \frac{\delta^2 f}{\delta x \delta y}\text{ ограничены в квадрате }\{(x, y) | |x - x_0| < \delta, |y - y_0| < \delta\}\]
+    Рассмотрим функцию \(\Delta(t) = f(x_0 + t, y_0 + t) - f(x_0 + t, y_0) - f(x_0, y_0 + t) + f(x_0, y_0), |t| < \delta\)
+    Применим к функции \(\phi(x) = f(x, y_0 + t) - f(x, y_0)\). По теореме Лагранжа о среднем значении на отрезке с \(x_0 + t, x_0\) верно \(\phi'(x) = \frac{\delta f}{\delta x}(x, y_0 + t) - \frac{\delta f}{\delta x}(x, y_0)\). \(\exists \theta_1 = \theta_2(t) \in (0, 1)\;\; \phi(x_0 + t) - \phi(x_0) = \phi'(x_0 + \theta_1t)t\). Т.к. \(\Delta(t) = \phi(x_0 + t) - \phi(x_0)\), то \(\Delta(t)  \frac{\delta f}{\delta x}(x_0 + \theta_1 t, y_0 + t) - \frac{\delta f}{\delta x}(x_0 + \theta_1t, y_0)\). Применим к функции \(\psi(y) = \frac{\delta f}{\delta x}(x_0 + \theta_1 t, y)\) теорему Лагранжа о среднем на отрезке с концами \(y_0 + t, y_0\). 
+    \(\phi(y) = \frac{\delta^2 f}{\delta y \delta x}(x_0 + \theta_1 t, y)\). \(\exists \theta_2 = \theta_2(t) \in (0, 1) \psi(y_0 + t) - \psi(y_0) = \psi'(y_0 + \theta_2t)t\). Т.к. \(\Delta(t) = (\psi(y_0 + t) - \psi(y_0))t\), то \(\frac{\Delta(t)}{t^2} = \frac{\delta^2 f}{\delta y \delta x}(x_0 + \theta_1 t, y_0 + \theta_2t)\). \(\Ra \exists \lim_{t \ra 0} \frac{\Delta(t)}{t^2} = \frac{\delta^2 f}{\delta y\delta x}(x_0, y_0)\)
+\end{proof}
+\hypertarget{lecture23}{}
+
+\begin{proposition}
+    Если \(B, B_1, \dots B_k\) --- брусы и \(B \in \bigcup B_i \Ra |B| \le \sum|B_i|\)
+\end{proposition}
+
+\begin{proposition}
+    Для любого бруса \(B\) и любого \(\epsilon > 0\) найдутся \(B' \subset B \subset B^\circ\), т.ч. 
+    \(B'\) --- замкнутый, \(B^\circ\) --- открытый, и \(|B'| > |B| - \epsilon, |B^\circ| < |B| + \epsilon\).
+\end{proposition}
+\begin{proof}
+    Если \(B = \emptyset \Ra B' = B^\circ = \emptyset\). Пусть \(|B| > 0 \Ra B = I_1\times \dots \times I_n, \delta I_k = \{a_k, b_k\}\). Положим \(B'_\delta = [a_1 - \delta, b_1 + \delta] \times \dots \times [a_n - \delta, b_n + \delta], B'_\delta = [a_1 + \delta, b_1 - \delta] \times \dots \times [a_n + \delta, b_n - \delta]\). Заметим, что \(|B'_\delta|, |B''_\delta| \ra |B|\) при \(\delta \ra 0\). В этом случае \(B'_\delta, B''_\delta\) будут искомыми. Если же \(|B| = 0\), то полоижм \(B^\circ = \emptyset, B' = B'_\delta\) для некоторого \(\delta\).
+\end{proof}
+
+\begin{lemma}
+    Каждое непустное открытое множество \(U \subset \R^n\) представимо в виде счетного объединения попарно непересекающихся кубов.
+\end{lemma}
+\begin{proof}
+    Рассмотрим сетку размера 1. Добавим все кубы, которые полностью лежат в нашем множестве. Рассморим решетку размера \(\frac{1}{2}\), сделаем то же самое. Получили счетное объединение не более чем счетных множеств  \(\Ra\) получили, что хотели.
+
+    Формально:
+
+    Куб \(\left[\frac{k_1}{2^m}\right) \times \left[\frac{k_n}{2^m}\right)\) назовем двоичным кубом ранга \(m\). Рассмотрим \(A_0\) --- множество кубов ранга \(0\), лежащих в \(U\). Определим: \(A_m\) --- множество кубов ранга \(m\), лежащих в \(U\), но не содержащихся в \(A_0, \dots A_m\). Положим \(A = \bigcup A_i\) --- счетное множество кубов. Покажем, что \(U = \bigcup_{Q \in A} Q\). Пусть \(x \in U \Ra \overline{B}_r(x) \subset U\). Найдем такое \(m\), что \(\frac{\sqrt{n}}{2^m} \le r\). Тогда \(Q_m(x) \subset \overline{B}_r(x)\). Положим \(m_0 = \min\{m \in \N_0: Q_m(x) \subset U\}\). Тогда \(Q_m(x) \not\subset U, m < m_0, Q_{m_0}(x) \subset U \Ra Q_{m_0}(x) \in A_{m_0} \Ra x \in \bigcup_{Q \in A} Q\)
+\end{proof}
+
+\section{Алгебра Множеств}
+\begin{definition}
+    Семейство \(\mathcal{A} \subset 2^{\R^n}\) называеся алгеброй, если выполнены следующие условия:
+    \begin{enumerate}
+        \item \(\emptyset \in \mathcal{A}\)
+        \item \(E \in \mathcal{A} \Ra E^c = \R^n \setminus E \in \mathcal{A}\)
+        \item \(E_1, E_2, \dots E_k \in \mathcal{A}, E = \bigcup^k_{n = 1} E_n \Ra E \in \mathcal{A}\).
+    \end{enumerate}
+\end{definition}
+
+\begin{definition}
+    Алгебра \(\mathcal{A} \subset 2^{\R^n}\) называеся \(\sigma\)-алгеброй, если выполнено:
+    \[E_1, E_2, \dots \in \mathcal{A}, E = \bigcup^\infty_{k = 1} E_k \Ra E \in \mathcal{A}\]
+\end{definition}
+
+\begin{note}
+    \begin{enumerate}
+        \item \(\R^n \subset \mathcal{A}\)
+        \item \(\bigcup^\infty_{k = 1} E_k \in \mathcal{A} \Ra \bigcap^\infty_{k = 1} E_k\)
+        \item \(A, B \in \mathcal{A} \Ra A \setminus B \in \mathcal{A}\)
+    \end{enumerate}
+\end{note}
+
+\begin{note}
+    Если \(\mathcal{A}_i\) --- \(\sigma\)-алгербы (\(i \in I\)), то \(\bigcap_{i \in I} A_i\) --- \(\sigma\)-алгебра
+\end{note}
+
+\begin{definition}
+    Пусть \(\mathcal{F} \subset 2^{\R^n}\). Тогда \(\sigma(\mathcal{F})\) --- наименьшая по включению \(\sigma\)-алгебра, содержащая \(\mathcal{F}\)
+\end{definition}
+
+\begin{example}
+    \(A \subset \R^n \Ra \sigma(A) = \{\emptyset, \R^n, A, A^c\}\)
+\end{example}
+\begin{example}
+    \(A = \{X | X \text{ --- конечное объединение промежутков}\}\) --- алегбра, но не \(\sigma\)-алгебра
+\end{example}
+\begin{example}
+    Пусть \(\mathcal{F}\) --- все одноэлементные множества. Тогда 
+    \(\sigma(\mathcal{F}) = \{A | A \text{ не более чем счетное } \vee A^c \text{ не более чем счетное}\}\)
+\end{example}
+
+\begin{definition}
+    Борелевская \(\sigma\)-алгебра --- \(\mathcal{B}(\R^n)\) --- наименьшая \(\sigma\)-алгебра, содержащая все открытые множества \(\R^n\)
+\end{definition}
+
+\begin{lemma}
+    \(C = \{(-\infty, b): b \in \R\}\). Тогда \(\sigma(C) = \mathcal{B}(\R)\)
+\end{lemma}
+\begin{proof}
+    \(\forall a \in \R [a, +\infty) \subset \sigma(C)\). \((a, +\infty) = \bigcup_{k = 1}^\infty \left[a + \frac{1}{k}, +\infty\right) \in \sigma(C) \Ra (a, b) \in \sigma(C)\). Т.к. в \(\R\) любое открытое множество представимо в виде счетного объединения открытых промежутков, то \(\sigma(C) = \mathcal{B}(\R^n)\)
+\end{proof}
+
+\subsection{Внешняя Мера}
+\begin{definition}
+    Внешней мерой Лебега множества \(E \subset \R^n\) называется 
+    \[\mu^*(E) = \inf \left\{\sum_{i = 1}^\infty |B_i|\;\;|\;\;E \subset \bigcup_{i = 1}^\infty B_i\right\}\]
+    Где \(\inf\) берется по всем счетным наборам брусьев
+\end{definition}
+
+\begin{theorem}
+    Для внешней меры выполнено:
+    \begin{enumerate}
+        \item \(E \subset F \Ra \mu^*(E) \le \mu^*(F)\)
+        \item \(E = \bigcup_{i = 1}^\infty E_i \Ra \mu^*(E) \le \sum_{i = 1}^\infty \mu^*(E_i)\)
+        \item если \(R\) --- брус, то \(\mu^*(R) = |R|\)
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    \begin{enumerate}
+        \item Любое покрытие \(F\) является покрытием \(E \Ra \mu^*(E) \le \mu^*(F)\)
+        \item Можно считать, что \(\sum_{k = 1}^\infty E_k < \infty\). Зафиксируем \(\epsilon > 0\). \(\forall E_k \exists \{B_{i_k}\}_{i = 1}^\infty: \sum_{i = 1}^\infty |B_{i_k}| < \mu^*(E_k) + \frac{\epsilon}{2^k}\). Тогда \(\{B_{i_k}: i, k \in \N\}\) образует покрытие \(E = \bigcup_{k = 1}^\infty E_k\). Рассмотрим перестановку \((i, k)\) ''по квадратам'' и соответствующую сумму обозначим \(\sum_{(i, k)} B_{i_k}\). 
+        \[\mu^*(E) \le \sum_{(i, k)} B_{i_k} \le \sum_{k = 1}\sum_{i = 1}|B_{i_k}| = \sum_{k = 1}\left(\sum_{i = 1}|B_{i_k}|\right) \le \sum_{k = 1}^\infty \left(\mu^*(E_k) + \frac{\epsilon}{2^k}\right) = \sum_{k = 1}^\infty \mu^*(E_k) + \epsilon\]
+        Т.к. \(\epsilon\) --- любое, то \(E = \bigcup_{i = 1}^\infty E_i \Ra \mu^*(E) \le \sum_{i = 1}^\infty \mu^*(E_i)\)
+
+        \item Т.к. \(\{R\}\) --- покрытие брусами \(R\), то \(\mu^*(R) \le |R|\)
+        \begin{enumerate}
+            \item \(R\) --- замкнутый. Рассмотрим произвольное покрытие \(\{B_i\}_{i = 1}^\infty\) множества \(R\). Зафиксируем \(\epsilon > 0\) и рассмотрим \(B_k^\circ \supset B_k, |B_k^\circ| < |B_k| + \frac{\epsilon}{2^k}\). \(R \subset \bigcup_{k = 1}^\infty B_k^\circ \Ra R \subset \bigcup_{k = 1}^N B_k^\circ \Ra |R| \le \sum_{k = 1}^N |B_k^\circ| \Ra |R| \le \sum_{k = 1}^\infty\left(|B_k| + \frac{\epsilon}{2^k}\right) \le \sum_{k = 1}^\infty |B_k| + \epsilon \Ra |R| \le \sum_{k = 1}^\infty |B_k| \Ra |R| \le \mu^*(R)\)
+            \item \(R\) --- не замкнутый. \(\Ra \exists R' \supset R: |R'| > |R| - \epsilon\). Имеем \(\mu^*(R) \ge \mu^*(R') = |R'| > |R| - \epsilon\) Т.к. \(\epsilon\) --- произвольное, получаем, что \(\mu^*(R) = |R|\)
+        \end{enumerate}
+    \end{enumerate}
+\end{proof}
+
+\subsection{Мера Лебега}
+Построим \(\sigma\)-алгебру \(\mathcal{M}(\R^n)\), включающую \(\mathcal{B}(\R^n)\) и функцию \(\mu: \mathcal{M}(\R^n) \ra [0, +\infty]\), удовлетворяющую следующим условиям:
+\begin{enumerate}
+    \item \(\mu(R) = |R|\), где \(|R|\) --- брус
+    \item \(E = \bigsqcup_{k = 1}^\infty E_k \Ra \mu(E) = \sum_{k = 1}^\infty \mu(E_k)\)
+    \item \(E \in \mathcal{M}(\R^n) \Ra \mu(x + E) = \mu(E)\)
+\end{enumerate}
+
+\hypertarget{lecture24}{}
+
+\subsection{Измеримые множества}
+
+\begin{definition}
+    Множество \(E \subset \R^n\) называется измеримым по Лебегу, если
+    \(\forall A \subset \R^n \mu^*(A) = \mu^*(A \cap E) + \mu^*(A \cap E^c)\)
+\end{definition}
+
+\begin{note}
+    При доказательстве измеримости достаточно проверять условие \(\mu^*(A) \ge \mu^*(A \cap E) + \mu^*(A \cap E^c)\), т.к. противоположное неравенство выполняется в силу полуаддитивности
+\end{note}
+
+\begin{proposition}
+    Если \(\mu^*(E) = 0\), то \(E\) измеримо.
+\end{proposition}
+\begin{proof}
+    \(\mu^*(A) \ge \mu^*(A \cap E^c) + \underbrace{\mu^*(A \cap E)}_{= 0}\)
+\end{proof}
+
+\begin{proposition}
+    Пусть  \(a \in \R, k = \{1, \dots n\}\). Покажем, что \(H = H_{a, k} = \{(x_1, \dots x_k) | x_k > a\}\) измеримо
+\end{proposition}
+\begin{proof}
+    Рассмотрим произвольное измеримое \(A \subset \R^n\) и \(\{B_i\}_{i = 0}^\infty\) --- покрытие \(A\) брусами. Положим \(B_i^1 = \{x \in B_i : x_k > a\}, B_i^2 = \{x \in B_i : x_k \le a\}\). Тогда \(\{B_i^1\}\) --- покрытие \(A \cap H\) брусами, \(\{B_i^2\}\) --- покрытие \(A \cap H^c\) брусами, причем \(|B_i| = |B_i^1| + |B_i^2|\). Тогда \(\sum_{i = 1}^\infty |B_i| = \sum_{i = 1}^\infty |B_i^1| + \sum_{i = 1}^\infty |B_i^2| \ge \mu^*(A \cap H) + \mu^*(A \cap H^c)\). Тогда в силу определения внешней меры, \(\mu^*(A) \ge \mu^*(A \cap H) + \mu^*(A \cap H^c)\).
+\end{proof}
+
+\begin{note}
+    Аналогично устанавливается измеримость подпространств с другимим знаками неравенства
+\end{note}
+
+\begin{theorem}[Каратиодори]
+    Семейство \(\mathcal{M}\) всех измеримых по Лебегу множеств является \(\sigma\)-алгеброй. Функция \(\mu^*|_{\mathcal{M}}\) является счетно аддитивной.
+\end{theorem}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item По определению измеримости, \(\emptyset \in \mathcal{M}\). Также, \(E \in \mathcal{M} \Lra E^c \in \mathcal{M}\).
+        \item что \(E, F \in \mathcal{M} \Ra E \cup F \in \mathcal{M}\). Пусть \(A \subset \R^n\), тогда \(\mu^*(A \cap (E \cup F)) + \mu^*(A \cap (E \cup F)^c)\). Из измеримости \(E\), получаем: 
+        \[\mu^*(A \cap (E \cup F) \cap E) + \mu^*(A \cap (E \cup F) \cap E^c) + \mu^*(A \cap (E \cup F)^c) =\]
+        \[= \mu^*(A \cap E) + \mu^*(A \cap F \cap E^c) + \mu^*(A \cap (E\cup F)^c) + \mu^*(A \cap (E \cup F)^c) = \]
+        \[= \mu^*(A \cap E) + \mu^*(A \cap F \cap E^c) + \mu^*(A \cap E^c\cap F^c)= \mu^*(A \cap E) + \mu^*(A \cap E^c) = \mu^*(A)\]
+        По индукции доказывается, что конечное объединение измеримых множеств измеримо.
+        \item Пусть \(E_k \in \mathcal{M}, k \in \N, F = \bigcup_{k = 1}^\infty E_k\) и \(E_k\) попарно непересекаются. Покажем, что \(F \in \mathcal{M}\). Рассмотрим \(A \subset \R^n\). Если \(F_m = \bigcup_{k = 1}^m E_k\), то \(F_m \in \mathcal{M}\), поэтому 
+        \[\mu^*(A) = \mu^*(A \cap F_m) + \mu^*(A \cap F_m^c) \ge \mu^*(A \cap F_m) + \mu^*(A \cap F^c)\]
+        Имеем \(\mu^*(A \cap F_m) = \mu^*(A \cap F_m \cap E_m) + \mu^*(A \cap F_m \cap E_m^c) = \mu^*(A \cap E_m) + \mu^*(A \cap F_{m - 1})\). Применим рассуждения к \(A \cap F_{m - 1}\), и в итоге получим \(\mu^*(A \cap F_m) = \sum_{k = 1}^m \mu^*(A \cap E_k)\). Тогда \(\mu^*(A) \ge \sum_{k = 1}^m \mu^*(A \cap E_k) + \mu^*(A \cap F^c)\). Переходя в этом неравенстве пределу при \(m \ra \infty\), получим:
+        \[\mu^*(A) \ge \sum_{k = 1}^\infty \mu^*(A \cap E_k) + \mu^*(A \cap F^c)\]
+        В силу счетной полуаддитивности внешней меры, 
+        \[\mu^*(A) \le \mu^*(A \cap F) + \mu^*(A \cap F^c) \le \sum_{k = 1}^\infty\mu^*(A \cap E_k) + \mu^*(A \cap F^c) \le \mu^*(A)\]
+        Получили \(\mu^*(A) = \mu^*(A \cap F) + \mu^*(A \cap F^c)\). При этом, при \(A = F\), получаем \(\mu^*(F) = \sum_{k = 1}^\infty \mu^*(E_k)\).
+        \item Покажем, что \(A_k \in \mathcal{M}, k \in \N, A = \bigcup_{k = 1}^\infty A_k\). Покажем, что \(A \in M\). Определим \(E_1 = A_1, E_k = A_k \setminus \bigcup_{i < k} E_k \in M\). Тогда \(A = \bigsqcup_{k = 1}^\infty E_k \in M\)
+    \end{enumerate}
+\end{proof}
+
+\begin{corollary}
+    Всякий брус измерим
+\end{corollary}
+
+\begin{corollary}
+    Всякое борелевское множество измеримо, т.е. \(\mathcal{B} \subset \mathcal{M}\)
+\end{corollary}
+
+\begin{definition}
+    Функция \(\mu = \mu^*|_{\mathcal{M}}\) называется мерой лебега
+\end{definition}
+
+\begin{note}
+    По Теореме Каратиодори, если \(E_k \in \mathcal{M}, E_i \cap E_j = \emptyset \Ra \mu\left(\bigsqcup_{k = 1}^\infty E_k\right) = \sum_{k = 1}^\infty \mu(E_k)\)
+\end{note}
+
+\begin{theorem}
+    Пусть \(A_k \in \mathcal{M}, k \in \N\)
+    \begin{enumerate}
+        \item Если \(A_1 \subset A_2 \subset \dots, A = A = \bigcup_{k = 1}^\infty A_k \Ra \mu(A) = \lim_{k \ra \infty} \mu(A_k)\)
+        \item Если \(A_1 \supset A_2 \supset \dots, \mu(A) < \infty, A = \bigcap_{k = 1}^\infty A_k \Ra \mu(A) = \lim_{k \ra \infty} \mu(A_k)\)
+    \end{enumerate}
+\end{theorem}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item Положим \(B_1 = A_1, B_k = A_k \setminus A_{k - 1} \Ra \bigcup_{k = 1}^\infty B_k = \bigcup_{k = 1}^\infty A_k\)
+        \[\mu(A) = \mu\left(\bigsqcup_{k = 1}^\infty B_k\right) = \sum_{k = 1}^\infty \mu(B_k) = \lim_{m \ra \infty} \sum_{k = 1}^m \mu(B_k) = \lim_{m \ra \infty} \mu(A_m)\]
+        \item Заметим, что \(A_1 \setminus A = \bigcup_{k  =1}^\infty (A_1 \setminus A_k)\), поэтому \(\mu(A_1) - \mu(A) = \mu(A_1 \setminus A) = \lim_{k \ra \infty}\mu(A_1 \setminus A_k) = \mu(A_1) - \lim_{k \ra \infty} \mu(A_k)\)
+    \end{enumerate}
+\end{proof}
+
+\begin{exercise}
+    Показать, что во втором пункте условие \(\mu(A) < \infty\) существенно.
+\end{exercise}
+
+\begin{lemma}
+    Если \(E \subset \R^n\) измеримо, то \(\forall \epsilon > 0 \exists G \supset E\) --- открытое, такое, что \(\mu(G \setminus E) < \epsilon\)
+\end{lemma}
+\begin{proof}
+    Пусть \(E\) ограничено, в частности \(\mu(E) < \infty\). Тогда \(\exists  \{B_i\}_{i = 1}^\infty\) --- покрытие \(E\) брусами, что \(\sum_{i = 1}^\infty |B_i| < \mu(E) + \frac{\epsilon}{2}\). \(\forall i \exists B_i^\circ \supset B_i\) --- открытое, такое, что \(|B_i^\circ| < |B_i| + \frac{\epsilon}{2^{i + 1}}\). Тогда
+    \[\mu(G) \le \sum_{i = 1}^\infty |B_i^\circ| = \sum_{i = 1}^\infty \left(|B_i| + \frac{\epsilon}{2^{i + 1}}\right) = \sum_{i = 1}^\infty |B_i| + \frac{\epsilon}{2} < \mu(E) + \epsilon\]
+    Тогда \(\mu(G \setminus E) = \mu(G) - \mu(E) \Ra \mu(G \setminus E) < \epsilon\)
+
+    В случае неограниченности \(E\), представим \(\R^n = \bigsqcup_{k = 1}^\infty A_k, A_k = \{x \in \R^n | k - 1 \le |x| < k\}\). Тогда \(E = \bigcup_{k = 1}^\infty E_k\), где \(E_k = E \cap A_k\). --- ограничены. По доказанному \(\forall k \exists G_k \supset E_k\) --- открытое, так, что \(\mu(G_k \setminus E_k) < \frac{\epsilon}{2^{k}}\). Положим \(G = \bigcup_{k = 1}^\infty G_k\) --- открытое, содержащее \(E\). \(G \setminus E \subset \bigcup_{k = 1}^\infty (G_k \setminus E_k)\). Тогда \(\mu(G \setminus E) \le \sum_{k = 1}^\infty \mu(G_k \setminus E_k) < \sum{k = 1}^\infty \frac{\epsilon}{2^k} = \epsilon\)
+\end{proof}
+
+\hypertarget{lecture25}{}
+
+\begin{corollary}
+    \(E\) измеримо в \(\R^n \Ra \forall \epsilon > 0 \exists F \subset E\) --- замкнутое в \(\R^n\), такое, что \(\mu(E \setminus F) < \epsilon\)
+\end{corollary}
+\begin{proof}
+    По лемме, \(\forall \epsilon > 0 \exists G \supset E^c: \mu(FG \setminus E^c) < \epsilon\). Положим \(F = G^c \Ra F\) --- открыто, причем \(F \subset E\). Также \(E \setminus F = G\setminus E^c \Ra \mu(E \setminus F) = \mu(G \setminus E^c) < \epsilon\)
+\end{proof}
+
+\begin{theorem}
+    Пусть \(E \subset \R^n\). Тогда следующие утвеждения эквивалентны:
+    \begin{enumerate}
+        \item \(E\) --- измеримо
+        \item \(\Omega \setminus Z\), где \(\Omega\) --- \(G_\delta\)-множество и \(Z\) --- множество меры нуль
+        \item \(\Delta \cup Z\), где \(\Delta\) --- \(F_\delta\)-множество и \(Z\) --- множество меры нуль
+    \end{enumerate}
+\end{theorem}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item[\((1) \Ra (2)\)] Пусть \(E\) измеримо. Тогда \(\forall k \in \N \exists G \supset E \Ra \mu(G_k \setminus E) < \frac{1}{k}\). Положим \(\Omega = \bigcap_{k = 1}^\infty G_k\). Тогда \(\Omega\) --- \(G_\delta\)-множество, \(\Omega \supset E\) и \(\mu(\Omega \setminus E) \le \mu(G_k \setminus E) < \frac{1}{k} \Ra Z = \Omega \setminus E, \mu(Z) = 0\)
+        \item[\((2) \Ra (1)\)] \(E = \Omega \setminus Z\), где \(\Omega\) --- борелевское, \(Z\) --- измеримо
+        \item[\((3) \Ra (1)\)] доказывается аналогично
+        \item[\((1) \Ra (3)\)] доказывается аналогично
+    \end{enumerate}
+\end{proof}
+
+\begin{lemma}
+    Если \(E \subset \R^n\) измеримо и \(y \in \R^n\), то \(E + y = \{x + y | x \in E\}\) измеримо и \(\mu(E + y) = \mu(E)\)
+\end{lemma}
+\begin{proof}
+    Отметим, что \(B\)-брус \(\Ra B + y\) --- брус с тем же объемом. Поэтому если \(A \subset \bigcup_{i = 1}^\infty B_i \Ra A + y \subset \bigcup_{i = 1}^\infty (B_i + y)\) и по определению \(\mu^*\) имеем: \(\mu^*(A + y) \le \sum_{i = 1}^\infty |B_i + y| = \sum_{i = 1}^\infty |B_i| \Ra \mu^*(A) \le \mu^*(A)\). Противное неравенство следует из того, что \(A = A + y - y\). Докажем, что наше множество ''правильно разрезает любое другое''. Пусть \(A \subset \R^n\), тогда \(\mu^*(A \cap (E + y)) + \mu^*(A \cap (E + y)^c) = \mu^*((A - y) \cap E) + \mu^*((A - y) \cap E^c) = (*)\). Т.к. \(E\) --- измеримое множество, то \((*) = \mu^*(A - y) = \mu^*(A)\). Тогда \(E + y\) измеримо
+\end{proof}
+
+\begin{example}[Неизмеримое множество]
+    Рассмотрим отношение эквивалентности на \([0, 1]\), такое, что \(x \sim y \Ra x - y \in \Q\). Тогда \([0, 1] = \bigsqcup H_\alpha\), где \(H_\alpha\) --- классы эквивалентности. По аксиоме выбора, \(\exists V: x \in V \Lra \exists! \alpha (V \cap H_\alpha) = \{x\}\). Покажем, что \(V\) неизмеримо.
+\end{example}
+\begin{proof}
+    Заметим, что \(\Q \cap [-1, 1] = \{r_n\}_{n = 0}^\infty\) --- неизмеримое множество. Рассомтрим \(V_n = V + r_n\). Тогда \(V_i \cap V_j = \emptyset\), т.к. \(x \in V_i \cap V_j \Ra x = x_i + r_i = x_j + r_j \Ra x_i - x_j \in \Q\). Положим \(S = \bigsqcup_{i = 0}^\infty V_i\). Покажем, что \([0, 1] \subset S \subset [-1, 2]\).
+    \begin{enumerate}
+        \item[] \([0, 1] \subset S\). \(\forall x \in [0, 1] \exists v \in V, r \in \Q \cap [-1, 1]: x = v + r \Ra \forall x \in [0, 1] \Ra x \in S\).
+        \item[] \(S \subset [-1, 2]\). Т.к. \(0 \le V \le 1, \Ra -1 \le S \le 2\).
+    \end{enumerate}
+    Пусть \(V\) измеримо, причем \(\mu(V) = a\). Тогда \(\mu(V_n) = a\) и из вложенностей, \(1 \le \sum_{n = 0}^\infty a \le 3\). Не существует \(a\), для которых это выполнено.
+\end{proof}
+
+\begin{proof}
+    Всякое множество имеет неизмеримое подмножество
+\end{proof}
+
+\section{Интеграл Лебега}
+\subsection{Напоминание}
+\begin{definition}
+    Пусть \(f: X \ra Y, A \subset Y\). Тогда \(f^{-1}(A) = \{x \in X | f(x) \in A\}\)
+\end{definition}
+
+\begin{note}
+    Пусть \(f: X \ra Y, A \subset Y\). Тогда:
+    \begin{enumerate}
+        \item \(f^{-1}(\bigcup_{i = 1}^\infty A_i) = \bigcup_{i = 1}^\infty f^{-1}(A_i)\)
+        \item \(f^{-1}(Y \setminus A) = X \setminus f^{-1}(A)\).
+    \end{enumerate}    
+\end{note}
+
+\subsection{Измеримые функции}
+Далее \(E \subset \R^n, f: E \ra \overline{\R}\), \(E\) --- измеримо.
+\begin{definition}
+    \(f\) называется измеримой, если \(f^{-1}([-\infty, a))\) измеримо \(\forall a \in \R\).
+\end{definition}
+
+\begin{example}
+    Пусть \(A \subset \R^n\). Определим \(I_A: \R^n \ra \R: I_A(x) = \left\{\begin{array}{l}
+        1, x \in A \\
+        0, x \notin A
+    \end{array}\right.\)
+    Тогда \(I_A^{-1}([-\infty, a)) = \left\{\begin{array}{l}
+        \emptyset, a \le 0 0 \\
+        A^c, 0 < a \le 1 \\
+        \R^n, 1 < a \\
+    \end{array}\right.\).
+    Тогда \(I_A\) измеримо \(\Lra A\) измеримо
+\end{example}
+
+\begin{proposition}
+    Если \(f: E \ra \R\) непрерывна, то \(f\) измерима.
+\end{proposition}
+\begin{proof}
+    \(f^{-1}((-\infty, a))\) --- открыто в \(E\) по критерию непрерывности, т.е. \(\exists G \subset \R: f^{-1}((-\infty, a)) = E \cap G\), где \(G\) --- открытое \(\Ra f\) --- измеримо.
+\end{proof}
+
+\begin{problem}
+    Показать, что если \(f: E \ra \R\) монотонна, то \(f\) измерима.
+\end{problem}
+
+\begin{note}
+    В определении измеримости можно брать промежутки \([-\infty, a], [-\infty, a), [a, +\infty], (a, +\infty]\), получатся эквивалентные определения.
+\end{note}
+\begin{proof}
+    Следует из равенств:
+    \[\begin{array}{c}
+        \{x | f(x) \le a\} = \bigcap_{k = 1}^\infty \left\{x | f(x) < a + \frac{1}{k}\right\} \\
+        \{x | f(x) > a\} = E \setminus \left\{x | f(x) \le a\right\} \\
+        \{x | f(x) \ge a\} = \bigcap_{k = 1}^\infty \left\{x | f(x) < a + \frac{1}{k}\right\} \\
+        \{x | f(x) < a\} = E \setminus \left\{x | f(x) \ge a\right\} \\
+    \end{array}\]
+\end{proof}
+
+\begin{lemma}
+    \(f: E \ra \overline{\R}\) измеримо, т.е. \(\forall \Omega \in \mathcal{B}(\R) f^{-1}(\Omega)\) измеримо, т.к. \(\Lra f^{-1}(-\infty), f^{-1}(+\infty)\) --- измеримы.
+\end{lemma}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item[\(\La\)] \(f^{-1}([-\infty, a)) = f^{-1}(-\infty) \cup f^{-1}([-\infty, a))\) --- измеримо
+        \item[\(\Ra\)] \(\mathcal{F} = \{\Omega | f^{-1}(\Omega)\text{ измеримо}\}\) --- \(\sigma\)-алгебра. \(f^{-1}((a, b)) = f^{-1}([-\infty, b)) \cap f^{-1}((a, +\infty])\). \(\mathcal{F}\) содержит интервалы \(\Ra \mathcal{F}\) содержит все 
+    \end{enumerate}    
+\end{proof}
+
+\begin{note}
+    \(B = \{x | f(x) = +\infty, g(x) = -\infty\} \cup \{x | f(x) = -\infty, g(x) = +\infty\} \Ra (f + g)(x) = \left\{\begin{array}{l}
+        f(x) + g(x), x \notin B \\
+        a, x \in B
+    \end{array}\right.\)
+\end{note}
+\hypertarget{lecture26}{}
+
+\begin{theorem}
+    Если \(f, g: E \ra \overline{\R}\) измеримы и \(\lambda \in \R\), то \(f + g, \lambda g, fg\) измеримы
+\end{theorem}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item \(f+ g\): \((f + g)^{-1}(\pm\infty) = f^{-1}(\pm\infty) \cup g^{-1}(\pm\infty)\) --- измеримо. Теперь рассмотрим \((f + g)^{-1}((-\infty, a)) = \{x \in E | f(x) + g(x) < a\}\). Рассмотрим некоторую нумерацию \(\Q = \{r_k\}_{k=1}^\infty\) и воспользуемся \(\alpha < \beta \Lra \exists r \in \Q (\alpha < r  < \beta)\). Тогда \(\{x \in E | f(x) < a - g(x)\} = \bigcup_{i = 1}^\infty \{x \in E f(x) < r_k < a - g(x)\} = \bigcup_{k = 1}^\infty \{x \in E | f(x) < r_k\} \cap \{x \in E: g(x) < a - r_k\}\) --- измеримо
+        \item \(\lambda f\). При \(\lambda = 0\) очевидно, при других: \(\{x \in E | \lambda f(x) < a\} = \left\{\begin{array}{l}
+            \{x : f(x) < \frac{a}{\lambda}\}, \lambda > 0 \\
+            \{x : f(x) > \frac{a}{\lambda}\}, \lambda < 0
+        \end{array}\right.\)
+        \item \(f^2\): \(x \in E | f^2(x) < a = \left\{\begin{array}{l}
+            \{x : f(x) < \sqrt{a}\} \cap \{x : f(x) > -\sqrt{a}\}, a > 0 \\
+            \emptyset, a \le 0
+        \end{array}\right.\)
+        \item \(fg\): \(fg = \frac{1}{2}\left((f + g)^2 - f^2 - g^2\right)\).
+    \end{enumerate}
+\end{proof}
+
+\begin{definition}
+    Пусть задана \(f: E \ra \overline{\R}\). Тогда
+    \begin{enumerate}
+        \item \(f^+ = \max\{f, 0\}\) --- положительная часть функции
+        \item \(f^- = \max\{-f, 0\}\) --- отрицательная часть функции
+    \end{enumerate}
+\end{definition}
+
+
+\begin{note}
+    \(f = f^+ - f^-, |f| = f^+ + f^-\)
+\end{note}
+
+\begin{corollary}
+    Измеримость \(f\) эквивалентна одновременной измеримости \(f^-, f^+\).
+\end{corollary}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item[\(\Ra\)] Зафиксируем \(a \in \R\). Заметим, что \(\{x \in E: f^+(x) < a\} = \left\{\begin{array}{l}
+            \{x : f(x) < a\}, a \ge 0 \\
+            \emptyset,  a < 0
+        \end{array}\right.\). Поэтому \(f^+(x)\) измерима, аналогично доказывается, что и \(f^-(x)\) измерима
+        \item[\(\La\)] \(f = f^+ - f^-\)
+    \end{enumerate}
+\end{proof}
+
+\begin{theorem}
+    Пусть \(f_k, f: E \ra \overline{\R}\). Тогда
+    \begin{enumerate}
+        \item Если \(f_k \ra f\) на \(E\) и \(f_k\) --- измеримы, то и \(f\) --- измерима
+        \item Если \(f_k\) измеримы, то \(\inf f_k, \sup f_k\) --- измеримы
+    \end{enumerate}
+\end{theorem}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item \(\forall a \in \R \{x\in E: f(x) < a\} = \bigcup_{j = 1}^\infty\bigcup_{m = 1}^\infty \bigcap_{k = m}^\infty \left\{x \in E: f_k(x) < a - \frac{1}{j}\right\}\). \(f(x) < a \Ra \exists j : f(x) < a - \frac{1}{j} \Ra  \exists j \exists m: f_k(x) < a - \frac{1}{j}\) при всех \(k \ge m\). ''\(\subset\)''. Пусть \(x\) лежит в правой части, т.е. \(\exists j, m \forall k \ge m (f_x(x) < a - \frac{1}{j})\), \(k \ra \infty \Ra \exists j: f_k(x) < a - \frac{1}{j} < a\). ''\(\supset\)''
+        \item \(g = \inf f_k \Ra \{x : g(x) < a\} = \bigcup_{k = 1}^\infty \{x : f_k(x) < a\}\) --- измеримо. \(g(x) < a \Lra \exists k (f_k(x) < a)\). \(\sup f_k = -\inf(-f_k)\) --- измеримо.
+    \end{enumerate}
+\end{proof}
+
+\begin{definition}
+    Пусть \(E \subset \overline{\R}, Q(x)\) --- формула на \(E\). Говоярят, что \(Q(x)\) верно для почти всех \(x \in E \Lra \mu\{x \in E: Q(x)\text{ ложно}\} = 0\)
+\end{definition}
+
+\begin{lemma}
+    Пусть заданы функции \(f, g: E \ra \overline{\R}, f = g\) почти всюду на \(E\). Тогда, если \(f\) измерима, то \(g\) --- тоже.
+\end{lemma}
+\begin{proof}
+    По условию, \(\mu Z = 0, Z = \{x \in E: f(x) \ne g(x)\}\). \(\forall a \in \R \{x \in E: g(x) < a\} = \left(\{x \in E : f(x) < a\} \cap Z^c \right) \cup \underbrace{\left(\{x \in E: g(x) < a\} \cap Z\right)}_{\text{измеримо, т.к }\mu^*(\cdots) = 0}\) --- измеримо.
+\end{proof}
+
+\begin{corollary}
+    \(f_k, f: E \ra \overline{\R}\). Тогда \(f_k \ra f\) почти всюду на \(E\) и \(f_k\) измеримо \(\forall k \Ra f\) --- измеримо
+\end{corollary}
+
+\begin{definition}
+    \(\phi: \R^n \ra \R\) простая, если \(\phi\) --- измерима, а \(\phi(\R^n)\) конечно.
+\end{definition}
+\begin{note}
+    Любая линейная комбинация индикаторов является простой функцией
+\end{note}
+\begin{proposition}
+    Для всякой простой функции существует разбиение \(\R^n\) конечным набором измеримых множеств, на каждом из которых \(\phi\) постоянна (допустимое разбиение).
+\end{proposition}
+\begin{proof}
+    \(\phi(\R^n) = \{a_1, a_2, \dots a_m\} \Ra \phi^{-1}(\{a_i\})\) --- измеримы, причем \(\bigsqcup_{i = 1}^m \phi^{-1}(a_i) = \R^n\). Тогда \(A_i = \phi^{-1}(a_i)\) --- измеримое и \(\bigsqcup_{i = 1}^m A_i = \R^n\), \(\phi = \sum_{i = 1}^m a_iI_{A_i}\).
+\end{proof}
+
+\begin{theorem}
+    Пусть \(f: E \ra [0, +\infty]\) измерима. Тогда \(\exists \{\phi_k\}_{k = 1}^\infty\), где \(\phi\) --- простые неотрицательные функции, что \(\forall x \in E\)
+    \begin{enumerate}
+        \item \(\phi_k(x)\) --- неубывающая последовательность
+        \item \(\lim_{k \ra \infty} \phi_k(x) = f(x)\)
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    \(\forall k \in \N, j = 1, 2, \dots 2^k\) рассмотрим \(E_{kj} = \left\{x \in E: \frac{i - 1}{2^k} \le f(x) \le \frac{j}{2^k}\right\}, F_k = \left\{x \in E: f(x) \ge k\right\} \). Тогда эти множества попарно непересекаются, измеримы и в объединении дают \(\R^n\). Положим \(\phi_k = \sum_{j = 1}^{2^kk} \frac{j - 1}{2^k}I_{E_{kj}} +  kI_{F_k}\), тогда \(\{\phi_k\}\) --- последовательность неотрицательных измеримых простых функций. Зафиксируем \(x\in E\) и проверим условия:
+    \begin{enumerate}
+        \item Пусть \(f(x) \ge k \Ra \phi_{k + 1}(x) \ge k = \phi_k(x)\). Пусть \(f(x) < k \Ra \exists j: \frac{j - 1}{2^k} \le f(x) \le \frac{j}{2^k}\). Возможно 2 варианта
+        \begin{enumerate}
+            \item \(\frac{2j - 2}{2^{k + 1}} \le f(x) \le \frac{2j - 1}{2^{k + 1}}\)
+            \item \(\frac{2j - 1}{2^{k + 1}} \le f(x) \le \frac{2j}{2^{k + 1}}\)
+        \end{enumerate}
+        В обоих случаях, \(\phi_{k + 1} \ge \frac{2j - 2}{2^{k + 1}} = \frac{j - 1}{2^k} = \phi_k(x)\)/.
+    \end{enumerate}
+    \item Если \(f(x) = +\infty\), то \(\forall k \phi_k(x) = k \Ra \phi_k(x) \ra f(x)\) верно. Если \(f(x) \in \R \Ra \exists k = [f(x)] + 1, \exists j: \frac{j - 1}{2^k} \le f(x) < \frac{j}{2^k} \Ra |f(x) - \phi_k(x)| \le \frac{1}{2^k} \Ra \phi_k(x) \ra f(x)\)
+\end{proof}
+
+\begin{note}
+    Если дополнительно к условиям теоремы, \(f\) --- ограничена, то \(\phi_k \rightrightarrows f\) на \(E\).
+\end{note}
+
+\begin{corollary}
+    Пусть \(f: E \ra \overline{\R}\). Тогда \(f\) измерима \(\Lra \exists \{\phi_kz\}\) --- простые функций \(\phi_k \ra f\)
+\end{corollary}
+\hypertarget{lecture27}{}
+
+\section{Интеграл Лебега}
+\subsection{Интеграл Лебега для неотрицательных простых функций}
+Пусть \(E \subset \R^n\) измеримо.
+\begin{definition}
+    Пусть \(\phi\) --- неотрицательная протая функция и \(\{A_i\}_{i = 1}^m\) --- допустимое разбиение \(\phi = \sum_{i = 1}^m a_iI_{A_i}\). Интегралом от \(\phi\) по \(E\) называется 
+    \[\int_{E} \phi d\mu = \sum_{i = 1}^m a_i \mu(A_i \cap E)\]
+\end{definition}
+
+
+\subsection{Свойства интеграла Лебега для неотрицательных простых функций}
+\begin{proposition}[Монотонность]
+    Если \(\phi \le \psi \Ra \int_{E} \phi d \mu \le \int_{E} \psi d\mu\)
+\end{proposition}
+\begin{proof}
+    Пусть \(\{A_i\}_{i = 1}^m, \{B_j\}_{j = 1}^k\) --- допустимые разбиения относительно \(\phi, \psi\). Тогда \(C_{ij} = A_i \cap B_j\) образует допустимое разбиение и для \(\phi\), и для \(\psi\). Т.к. \(A_i = A_i \cap \R^n = A_i \cap \bigcup_{j = 1}^k B_j = \bigcup_{j = 1}^k C_{ij}\), то по свойству аддитивности меры, \(\int_E \phi d\mu = \sum_{i = 1}^m a_i \mu(A_i \cap E) = \sum_{i = 1}^m a_i \mu\left(\bigcup_{j = 1}^k (C_{ij} \cap E)\right) - \sum_{i = 1}^m \sum_{j = 1}^k a_i \mu(C_{ij} \cap E)\). Аналогично получаем, что \(\int_E \psi d \mu = \sum_{j = 1}^k \sum_{i = 1}^m b_j \mu(C_{ij} \cap E)\). Если \(x \in C_{ij} \cap E\), то \(a_i = \phi(x) \le \psi(x) = b_j \Ra \int_E \phi d \mu \le \int_E \psi d \mu\)
+\end{proof}
+
+\begin{note}
+    Вместе с монотонностью интеграла, мы доказали корректность его определения
+\end{note}
+\begin{proof}
+    Для двух разных разбиений можем рассмотреть \(\psi = \phi\). Тогда получим, что \(\int_E \phi d \mu \le \int_E \phi d \mu\) для двух разных разбиений. Тогда определение интеграла корректно.
+\end{proof}
+
+\begin{proposition}[Аддитивность]
+    \(\int_E (\phi + \psi) d \mu = \int_E \phi d \mu + \int_E \psi d \mu\)
+\end{proposition}
+\begin{proof}
+    Доказывается аналогично монотонности
+\end{proof}
+
+\begin{proposition}[Однородность]
+    \(\int_E \lambda \phi d \mu = \lambda \int_E \phi d  \mu\)
+\end{proposition}
+\begin{proof}
+    Доказывается аналогично аддитивности
+\end{proof}
+
+\subsection{Интеграл Лебега для неотрицательных функций}
+
+\begin{definition}
+    Пусть \(f: E \ra [0, + \infty]\) --- неотрицательная измеримая функция. Тогда интегралом Лебега \(f\) по множеству \(E\) называется
+    \[\int_E f d \mu = \sup\left\{\int_E \phi d \mu : 0 \le \phi \le f, \phi\text{ --- простая}\right\}\]
+\end{definition}
+
+Будем писать \((s)\int_E \phi d\mu\), если мы будем использовать определение для простой функции
+
+\begin{note}
+    Пусть \(f, \phi\) --- простые функции, \(0 \le \phi \le f\). Тогда 
+    \[(s)\int_E \phi d\mu \le (s)\int_E fd\mu \Ra \sup\left\{\int_E \phi d \mu\right\} = \int_E f d\mu \le (s)\int_E fd\mu\]
+    Таким образом, мы доказали согласованность определений для простых функций и произвольных неотрицательных
+\end{note}
+
+\subsection{Свойства интеграла Лебега для неотрицательных функций}
+\begin{proposition}[Монотонность]
+    Если \(f \le g \Ra \int_{E} f d \mu \le \int_{E} g d\mu\)
+\end{proposition}
+\begin{proof}
+    Заметим, что \(\phi\) --- простая и \(0 \le \phi \le f \Ra 0 \le \phi \le g \Ra \int_{E} f d \mu \le \int_{E} g d\mu\)
+\end{proof}
+
+
+\begin{proposition}[Однородность]
+    \(\int_E \lambda \phi d \mu = \lambda \int_E \phi d  \mu\)
+\end{proposition}
+\begin{proof}
+    При \(\lambda = 0\) верно. При \(\lambda \ne 0\), заметим, что \(\phi\) --- простая и \(0 \le \phi \le f \Lra 0 \le \lambda \phi \le \lambda f\). Тогда \(\int_E \lambda \phi d \mu = \lambda \int_E \phi d  \mu\)
+\end{proof}
+
+\begin{proposition}
+    \(E_0 \subset E\) --- измеримо, тогда \(\int_{E_0} f d \mu = \int_E f I_{E_0}d \mu\)
+\end{proposition}
+\begin{proof}
+    Для простых функций это верно. Пусть \(0 \le \phi \le f \Ra \int_{E_0} \phi d \mu = \int_E \phi I_{E_0} d \mu \le \int_E f I_{E_0} d\mu \Ra \int_{E_0} f d \mu \le \int_E f I_{E_0} d \mu\). Теперь, пусть \(0 \le \psi \le fI_{E_0} \Ra \psi = 0\) на \(E \setminus E_0 \Ra \psi = \psi I_{E_0}\) на \(E\). Тогда \(\int_{E_0} f d \mu \ge \int_E f I_{E_0}d \mu\).
+\end{proof}
+
+\begin{proposition}
+    Если \(E_0 \subset E\) --- измеримо, то 
+    \[\int_{E_0} f d \mu \le \int_E f d \mu\]
+\end{proposition}
+\begin{proof}
+    \[\int_{E_0} f d \mu = \int_E f I_{E_0} d \mu \le \int_E f d \mu\]
+\end{proof}
+
+\begin{theorem}[Беппо Леви]
+    Пусть \(f_k: E \ra [0, +\infty]\) --- неотрицательные измеримые функции, \(f_r \ra f\) на \(E\). Если \(\forall x \in E\) выполнено \(0 \le f_1(x) \le f_2(x) \le \dots\), то 
+    \[\lim_{n \ra \infty} \int_E f_k d \mu = \int_E f d \mu\]
+\end{theorem}
+\begin{proof}
+    Функция \(f\) измерима, как предел измеримых функций. При этом, \(f_k \le f_{k + 1} \le f\) на \(E \Ra \int_E f_k d \mu \le \int_E f_{k + 1} d \mu \le \int_E f d \mu\). Тогда \(\left\{\int_E f_k d \mu\right\}\) нестрого возрастает в\(\overline{\R}\), поэтому \(\exists \lim_{k \ra \infty} \int_E f_k d \mu \le \int_E f d \mu\). Докажем противное неравенство. Достаточно показать, что \(\lim_{n \ra \infty} \int_E f_k d \mu \ge \int_E \phi d \mu\) для любой простой функции \(\phi: 0 \le \phi \le f\). Пусть \(\phi\) --- такая функция. Зафиксируем \(t \in (0, 1)\) и рассмотрим \(E_k = \{x \in E : f_k(x) \ge t \phi(x)\}\). Из восрастания \(f_k\), получаем, что \(E_k \subset E_{k + 1}\). Покажем, что \(E \subset \bigcup_{k = 1}^\infty E_k\). Если \(x \in E\) и \(\phi(x) = 0\), то \(x \in E_k \forall k\). Если \(\phi(x) > 0 \Ra f(x) \ge \phi(x) > t \phi(x) \Ra \exists m \in \N: f_m(x) \ge t \phi(x) \Lra x\ in E_m\). По построению имеем:
+    \[\int_E f_k d \mu \ge \int_{E_k} f_k d \mu \ge t \int_{E_k} \phi d \mu \;\;\;(*)\]
+    Пусть \(\phi = \sum_{i = 1}^m a_i I_{A_i}\), где \(\{A_i\}\) --- допустимое разбиение. Тогда по непрерывности меры
+    \[\int_{E_k} \phi d \mu = \sum_{i = 1}^m a_i \mu(E_k \cap A_i) \ra_{k \ra \infty} \sum_{i = 1}^m a_i \mu(E \cap A_i) = \int_E \phi d \mu\]
+    \[\lim_{k \ra \infty} \int_E f_k d \mu \ge t \int_E \phi d \mu\]
+    При \(t \ra 1 - 0\), получаем обратное неравенство.
+\end{proof}
+
+\begin{problem}[Лемма Фату]
+    Пусть \(f_k: E \ra [0, +\infty]\) --- неотрицательные измеримые функции. Пусть \(f_k \ra f\). Докажите, что если \(\exists C \ge 0: \int_E f_k d \mu \le C \Ra \int_E f d \mu \le C\)
+\end{problem}
+
+\begin{proposition}
+    Если \(f, g: E \ra [0, +\infty]\), то \(\int_E (f + g) d \mu = \int_E f d \mu + \int_E g d \mu\)
+\end{proposition}
+\begin{proof}
+    \(\exists \{\phi_k\}\) --- неотрицательные простые функции, \(0 \le \phi_1(x) \le \phi_2(x) \le \dots\), такие, что \(\phi_k \ra f\) на \(E\), \(\exists \{\psi_k\}\) --- неотрицательные простые функции, \(0 \le \psi_1(x) \le \psi_2(x) \le \dots\), такие, что \(\psi_k \ra g\) на \(E\). Тогда \(\{\phi_k + \psi_k\}: \phi_k + \psi_k \ra f + g\) на \(E\). Тогда по теореме Беппо Леви и по свойству аддитивности:
+    \[\int_E(f + g)d \mu = \lim_{k \ra \infty} (\phi_k + \psi_k) = \lim_{k \ra \infty} \int_E\phi_k d \mu + \lim_{k \ra \infty} \int_E\psi_k d \mu = \int_E f d \mu + \int_E g d \mu\]
+\end{proof}
+
+\begin{corollary}[Теорема Леви для рядов]
+    Если \(f_k: E \ra [0, +\infty]\), то 
+    \[\int_E \sum_{k = 1}^\infty f_k d \mu = \sum_{k = 1}^\infty \int_E f_k d \mu\]
+\end{corollary}
+\begin{proof}
+    Сумма ряда --- измеримая функция, как предел частичных сумм. По свойству линейности, имеем
+    \[\int_E \sum_{k = 1}^m f_k d \mu = \sum_{k = 1}^m \int_E f_k d \mu\]
+    Перейдем к пределу в этом равенстве. 
+    \[\lim_{m \ra \infty} \sum_{k = 1}^m \int_E f_k d \mu = \sum_{k = 1}^\infty \int_E f_k d \mu\]
+    \[\lim_{m \ra \infty} \int_E \sum_{k = 1}^m f_k d \mu  = \int_E \sum_{k = 1}^\infty f_k d \mu\]
+    Получили, что
+    \[\int_E \sum_{k = 1}^\infty f_k d \mu = \sum_{k = 1}^\infty \int_E f_k d \mu\]
+\end{proof}
+
+\begin{theorem}[неравенство Чебышева]
+    Если \(f: E \ra [0, +\infty]\), то \(\forall t \in (0, +\infty)\). \(\mu(x \in E: f(x) \ge t) \le \frac{1}{t}\int_E f d \mu\).
+\end{theorem}
+\begin{proof}
+    Определим \(E_t = \{x \in E: f(x) \ge t\}\) --- измеримое подмножество \(E\). Тогда:
+    \[\int_E f d \mu \ge \int_{E_t}f d \mu = \int_{E_t} t d \mu = t \mu(E_t)\]
+\end{proof}
+
+\hypertarget{lecture28}{}
+
+\subsection{Интеграл Лебега от произвольной функции}
+
+\begin{definition}
+    Пусть \(f: E \ra \R\) --- измерима, тогда
+    \[\int_E f d \mu = \int_E f^+ d \mu - \int_E f^- d\mu\]
+    При условии, что хотя бы один из интегралов \(\int_E f^+ d \mu, \int_E f^- d\mu\) конечен
+\end{definition}
+
+\begin{definition}
+    Функция \(f\) называется интегрируемой по Лебегу, если оба интеграла \(\int_E f^+ d \mu, \int_E f^- d\mu\) конечны 
+\end{definition}
+
+\begin{note}
+    Данное определение согласуется с определением в неотрицательном случае: \(f^+ = f, f^- = 0 \int_E 0 d \mu = 0\)
+\end{note}
+
+\begin{note}
+    Если функция \(f\) измерима на \(E\), то интегрируемость \(f\) и \(|f|\) эквивалентны на \(E\)
+\end{note}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item[\(\Ra\)] Тогда \(\int_E f d \mu < \infty\). Т.к. \(|f| = f^+ + f^-\) на \(E \Ra \int_E|f|d\mu = \int_E f^+ d \mu + \int_E f^- d \mu < \infty\)
+        \item[\(\La\)] Пусть \(|f|\) интегрируема на \(E\). Тогда \(0 \le f^\pm \le |f| \Ra \int_E f^\pm d \mu \le \infty\)
+    \end{enumerate}
+\end{proof}
+
+\begin{note}
+    Если \(f\) интегрируема на \(E\), то
+    \[\left|\int_E f d \mu\right| \le \int_E |f|d \mu\]
+\end{note}
+\begin{proof}
+    \[\left|\int_E f d \mu\right| = \left|\int_E f^+ d \mu + \int_E f^- d \mu\right| \le \int_E f^+ d \mu + \int_E f^- d \mu = \int_E |f| d \mu\]
+\end{proof}
+
+\begin{note}
+    Если \(f\) интегрируема на \(E\), то \(f\) конечно почти всюду
+\end{note}
+\begin{proof}
+    Определим \(E_\infty = \{x \in E: |f(x)| = +\infty\}\). Тогда \(\forall t \in (0, \infty) \mu(x \in E: f(x) \ge t) \le \frac{1}{t}\int_E f d \mu \Ra \mu(E_\infty) = 0\)
+\end{proof}
+
+\begin{theorem}[Счетная аддитивность интеграла]
+    Пусть \(E_k\) измеримы, \(E_i \cap E_j = \emptyset, E = \bigcup_{k = 1}^\infty E_k\). Тогда, если \(f\) неотрицательная измеримая функция на \(E\), или \(f\) интегрируема на \(E\), то 
+    \[\int_E f d \mu = \sum_{k = 1}^\infty \int_E f_k d \mu\]
+\end{theorem}
+\begin{proof}
+    Докажем в первом случае. Т.к. \(E_k\) образуют разбиение \(E\), то \(I_E = \sum_{k = 1}^\infty I_{E_k} \Ra f = fI_{E} = \sum_{k = 1}^\infty f I_k \) на \(E\). Тогда по теореме Леви для рядов:
+    \[\int_E f d \mu = \sum_{k = 1}^\infty \int_E fI_{E_k} d \mu = \sum_{k = 1}^\infty \int_{E_k}f d \mu\]
+    Второй случай следует из измеримости и неотрицательности функций \(f^\pm\)
+\end{proof}
+
+\begin{lemma}
+    Пусть \(E\) --- измермо, \(E_0 \subset E: \mu(E_0 \subset E) = 0\). Тогда \(\int_E f d \mu = \int_{E_0} f d \mu\) существуют одновременно, и в случае существования, совпадают
+\end{lemma}
+\begin{proof}
+    Отметим, что \(f|_E, f|_{E_0}\) измеримы одновременно. Тогда по аддитивности интеграла 
+    \[\int_E f^\pm d \mu = \int_E f^\pm d \mu + \int_{E \setminus E_0} f^\pm d \mu = \int_{E_0} f^\pm d \mu\]
+    Последний переход верен, т.к. 
+    \[\forall g \exists \int_{E \setminus E_0} g d \mu = 0\]
+\end{proof}
+
+\begin{corollary}
+    Если \(f\) интегрируема на \(E\), \(g = f\) почти всюду на \(E\). Тогда \(g\) также интегрируема на \(E\), причем \(\int_E f d \mu = \int_E g d \mu\)
+\end{corollary}
+
+\begin{corollary}[Признак интегрируемости]
+    Если \(f\) измерима на \(E\) и \(\exists g\) --- интегрируемая на \(E\), такая, что \(|f| \le g\) почти всюду на \(E \Ra f\) тоже интегрируема
+\end{corollary}
+\begin{proof}
+    Интегрируемость \(|f|, f\) эквивалентны, поэтмоу докажем только интегрируемость \(|f|\). По монотонности интеграла и лемме,
+    \[\int_E f d\mu = \int_{E \setminus \{x : |f| > g\}} |f| d \mu \le \int_{E \setminus \{x : |f| > g\}} g d \mu = \int_E g d \mu < \infty\]
+\end{proof}
+
+\begin{theorem}
+    Пусть \(f, g: E \ra \overline{\R}\) интегрируемы и \(\lambda\) --- число. Тогда
+    \begin{enumerate}
+        \item Если \(f \le g\) на \(E\), то \(\int_E f d \mu \le \int_E g d \mu\)
+        \item \(\int_E \lambda f d \mu = \lambda \int_E f d \mu\)
+        \item \(\int_E (f + g) d \mu = \int_E f d \mu + \int_E g d \mu\)
+    \end{enumerate}
+\end{theorem}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item \(f^+ \le g^+, f^- \ge g^-\). Проинтегрируем эти неравенства, получаем:
+        \[\int_E f^+ d \mu \le \int_E g^+ d \mu, \int_E g^- d \mu \le \int_E f^- d \mu\]
+        Вычитая второй неравенство из первого, 
+        \[\int_E f^+ d \mu - \int_E g^- d \mu  \le \int_E g^+ d \mu - \int_E f^- d \mu\]
+        \item Для \(\lambda \ge 0\). Тогда \((\lambda f)^\pm = \lambda f^\pm\). Тогда
+        \[\int_E \lambda f d \mu = \int_E (\lambda f)^+ d \mu - \int_E (\lambda f)^- d \mu = \int_E \lambda f^+ d \mu - \int_E \lambda f^- d \mu = \lambda \int_E f d \mu\]
+        Для \(\lambda = -1\): \((-f)^+ = f^-, (-f)^- = f^+\). Тогда
+        \[\int_E (-f) d \mu = \int_E f^- d \mu - \int_E f^+ d \mu = -\int_E f d \mu\]
+        Для \(\lambda < 0: \lambda = -|\lambda|\) и пользуемся утверждением выше.
+        \item Обозначим \(h = f + g\). \(\exists E_0 \subset E\), такое, что \(\mu(E \setminus E_0) = 0\), \(f, g\) принимают на \(E_0\) конечные значения. (\(\Ra h\)) тоже будет на \(E_0\) конечной. Имеем:
+        \[h^+ - h^- = h = f + g = (f^+ - f^-) + (g^+ - g^-) \Ra h^+ + f^- + g^- = h^- + f^+ + g^+\]
+        \[\int_{E_0} h^+ d\mu + \int_{E_0} f^- d\mu + \int_{E_0} g^- d\mu = \int_{E_0} h^- d\mu + \int_{E_0} f^+ d\mu + \int_{E_0} g^+ d\mu = \]
+        Получили, что
+        \[\int_E h d \mu = \int_E f d \mu + \int_E g d \mu\]
+        Причем \(h\) интегрируема, т.к.  
+        \[\int_E h^\pm d\mu < \infty \Ra |h| \le |f| + |g|\]
+    \end{enumerate}    
+\end{proof}
+
+\begin{theorem}[Лебега о мажорированной сходимости]
+    Пусть \(f_k, f: E \ra \R, f_k \ra f\) почтю всюду на \(E\). Если \(\exists g\) --- интегрируемая на \(E\) и \(|f_k| \le g\) почти всюду на \(E\), то
+    \[\lim_{k \ra \infty}\int_E f_k d \mu = \int_E f d \mu\]
+\end{theorem}
+\begin{proof}
+    Будем считать, что \(f_k \ra f\) всюду на \(E\), \(|f_k| \le g\) всюду на \(E\), \(g\) --- конечна на \(E\). Так можно сделать, т.к. множествами меры 0 ''можно пренебрегать''. Переходя к пределу в неравенствах \(|f_k| \le g\) на \(E\), получим \(|f| \le g\). Следовательно, все \(f_k, f\) интегрируемы на \(E\). Определим \(h_k = \sup_{m \ge k}|f_m - f| \ge 0 \Ra 0 \le h_{k + 1}(x) \le h_k(x) \forall x \in E\). \(h_k\) интегрируемы на \(E\), т.к. \(|h_k| \le 2g\) на \(E\). Применим теорему Леви к последовательности \(\{2g - h_k\}\), получим
+    \[\lim_{k \ra \infty} \int_E (2g - h_k)d \mu = \lim_{n \ra \infty} h_k(x) = \inf_k \sup_{m \ge k} |f_m(x) - f(x)| = \limsup_{n \ra \infty} |f_k(x) - f(x)| = 0\]
+    Следовательно
+    \[\lim_{k \ra \infty} \int_E h_k d \mu = 0\]
+    Т.к. \(\int_E |f_k - f| d \mu \le \int_E h_k d \mu, \left|\int_E f_k d \mu - \int_E f d \mu\right| \le \int_E |f_k - f| d \mu\)
+\end{proof}
+
+\begin{theorem}
+    Пусть \(f\) ограничена на \([a, b]\). Тогда \(f\) интегрируема на \([a, b]\), когда \(f\) непрерывна почти всюду на \([a, b]\). В этом случае, \(f\) интегрируема по Лебегу, причем
+    \[\int_a^b fdx = \int_{[a, b]} fd\mu\]
+\end{theorem}
+\begin{proof}
+    Пусть \(T\) --- разбиение \([a, b]\). Определим \(\phi_T = \sum_{i = 1}^n m_iI_{[x_{i - 1}, x_i)}, \psi_T = \sum_{i = 1}^n M_iI_{[x_{i - 1}, x_i)}\), где \(M_i = \sup_{x \in [x_{i - 1}, x_i]}f(x)\). Имеем (\(s_T, S_T\)) --- нижняя и верхние суммы Дарбу.
+    \[\int_{[a, b]}\phi_T d \mu = s_T, \int_{[a, b]}\psi_T d \mu = S_T\]
+    Доказательство будет завершено на следующей лекции
+\end{proof}
+

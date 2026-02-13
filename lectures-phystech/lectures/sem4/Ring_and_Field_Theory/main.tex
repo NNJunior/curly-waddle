@@ -1,0 +1,272 @@
+
+\hypertarget{lecture1}{}
+
+\section{Вступление}
+
+\begin{definition}
+    \(K\) --- кольцо, если на нем определены две операции \(+, \cdot\) и 
+    \begin{enumerate}
+        \item \((K, +)\) --- абелева группа
+        \item Дистрибутивность: \(a(b + c) = ab + ac, (b + c)a = ba + ca\)
+    \end{enumerate}
+\end{definition}
+
+В нашем курсе все кольца будут сразу обладать еще двумя свойствами:
+
+\begin{enumerate}
+    \setcounter{enumi}{2}
+    \item Ассоциативность: \((ab)c = a(bc)\)
+    \item Существование единицы: \(\exists 1: 1 \cdot a = a \cdot 1 = a\)s
+\end{enumerate}
+
+Таким образом, под \textit{коммутативное кольцо} мы будем понимать кольцо, удовлетворяющее свойствам 1-4, которое является коммутативным (т.е. \(ab = ba\))
+
+\subsection{Примеры колец}
+\begin{enumerate}
+    \item \(\Z\)
+    \item \(\mathbb{F}[x_1, \dots x_n]\)
+    \item \(\Z_m = \Z/m\Z\)
+    \item \(\mathbb{F}\) --- поле
+\end{enumerate}
+
+\begin{definition}
+    Пусть \(K, L\) --- кольца, \(K \subset L, u \in L\). Тогда:
+    \[K[u] = {f(u) | f \in K[x]} = \text{минимальное подкольцо, содержащее \(K \cup \{u\}\)}\]
+\end{definition}
+
+Попробуем решить Великую Теорему Ферма: \(x^n + y^n = z^n\). Заметим, что достаточно доказать ее для случая \(n = p, 4\), где \(p\) --- простое. Пусть \(\xi_p\) --- примитивный корень \(p\)-ой степени из 1 в \(\Cm\). Тогда:
+\[x^p + y^p = (x + y)(x + \xi_py)\dots((x + \xi_p^{p - 1}y)) = z^p\]
+Приходим к тому, что если рассмотреть кольцо \(\Z[\xi_p]\) и доказать, что в нем работает ОТА (основная теорема арифметики), то тогда получится как-то получить противоречие, используя единственность разложение. Случай \(p = 3\) будет доказан далее.
+
+К сожалению, ОТА есть не не во всех \(\Z[\xi_p]\), а только для \(p < 23\). Для ''регулярных'' \(p\) есть некий аналог ОТА, но, к сожалению, регулярных простых чисел на данный момент около 61\% против 39\% нерегулярных. В общем, надо придумывать что-то другое.
+
+\subsection{Гауссовы целые числа}
+\begin{example}
+    \(\Z[\xi_4] = \Z[i] = \{a + bi, a, b \in \Z\}\)
+\end{example}
+
+\begin{example}[Числа Эйзенштейна]
+    \(\Z[\xi_3] = \Z[w] = \{a + bw, a, b \in \Z\}\), где \(w\) --- нетривиальный корень \(x^3 - 1\).
+\end{example}
+
+\subsection{Делимость}
+\begin{definition}
+    Пусть \(K\) --- коммутативное кольцо. Будем говорить, что \(a \vdots b\) или \(b | a\), если \(\exists c \in K: a = bc\)
+\end{definition}
+
+\begin{note}
+    \(a \vdots a\), \(a \vdots b, b \vdots c \Ra a \vdots c\).
+\end{note}
+
+\begin{definition}
+    \(a \in K\) --- делитель нуля, если \(a \ne 0, \exists b \ne 0 \in K: ab = 0\).
+\end{definition}
+
+\begin{note}
+    в \(\Z_m\) для любого составного \(m\) есть делители нуля.
+\end{note}
+
+\begin{definition}
+    \(K\) --- область целостности (целостное кольцо), если \(K\) --- коммутативное кольцо без делителей нуля.
+\end{definition}
+
+Далее считаем, что кольца --- это области целостности
+
+\begin{proposition}
+    Пусть \(K\) --- область целостности, \(c \ne 0\). Тогда \(ac = bc \Lra a = b\)
+\end{proposition}
+\begin{proposition}
+    \[ac = bc \Lra (a - b)c = 0 \Lra a - b = 0 \Lra a = b\]
+\end{proposition}
+
+\begin{definition}
+    Пусть \(K\) --- область целостности. \(K^* = \{a \in K | \exists b \in K: ab = ba = 1\}\).
+\end{definition}
+
+\begin{note}
+    \(K^*\) образует группу обратимых по умножению элементов
+\end{note}
+
+Таким образом, можно рассмотреть действие группы \(K^*\) на множестве \(K\).
+\begin{definition}
+    Орбиты данного действия называются классами ассоциированности. Соответственно, пишем \(a \sim b\), если \(\exists r \in K^*: a = rb\)
+\end{definition}
+
+\begin{note}
+    \(\sim\) --- отношение эквивалентности, это нам известно из курса теории групп.
+\end{note}
+
+\begin{proposition}
+    Следующие условия эквивалентны:
+    \begin{enumerate}
+        \item \(a \sim b\)
+        \item \(a \vdots b, b \vdots a\)
+        \item \(\{c \in K: c \vdots a\} = \{c \in K: c \vdots b\}\)
+    \end{enumerate}
+\end{proposition}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item[\(1 \Ra 2\)] \(a \sim b \Ra a = br \Ra b = ar^{-1} \Ra a \vdots b, b \vdots a\)
+        \item[\(2 \Ra 1\)] \(a \vdots b, b \vdots a \Ra a = cb, b = da \Ra a = cda \Ra 1 = cd\), т.е. \(c, d \in K^* \Ra a \sim b\).
+        \item[\(2 \Lra 3\)] \(a \vdots b \Lra \{c \in K: c \vdots a\} \subset \{c \in K: c \vdots b\}\).
+        \(b \vdots a \Lra \{c \in K: c \vdots a\} \supset \{c \in K: c \vdots b\}\)
+    \end{enumerate}
+\end{proof}
+
+\begin{definition}
+    Пусть \(K\) --- область целостности. \(x \in K\) называется неразложимым, если \(x \notin K^* \cup \{0\}\) и из \(x = ab \Ra a \in K^*\) или \(b \in K^*\).
+\end{definition}
+
+\begin{definition}
+    Область целостности \(K\) называется факториальным кольцом, если в нем выполнены два свойства:
+    \begin{enumerate}
+        \item \textbf{Существование:} \(\forall a \in K, a \ne 0\) представляется в виде \(a = up_1, \dots p_s\), где \(u \in K^*, p_1, \dots p_s\) --- неразложимые
+        \item \textbf{Единственность:} Пусть \(a = up_1\dots p_s = wq_1\dots q_l\). Тогда \(s = l\) и \(\exists\) перенумерация, такая, что \(p_i \sim q_i\).
+    \end{enumerate}
+\end{definition}
+
+\begin{note}
+    \(\text{Кольца} \supset \text{Области целостности} \supset \text{Факториальные кольца} \supset \text{Поля}\)
+\end{note}
+
+\begin{example}[Не факториальное кольцо]
+    \(\Z[2i]\) не является факториальным. Действительно:
+    \[4 = 2 \cdot 2 = 2i \cdot (-2i)\]
+    Но \(2 \not\sim 2i, 2 \not\sim -2i\), т.к. \(\Z[2i]^* = \{\pm 1\}\).
+\end{example}
+
+\hypertarget{lecture2}{}
+
+\subsection{Как доказывать факториальность колец?}
+Для натуральных чисел мы проверяли условие \textbf{Леммы Евклида}: \(ab \vdots p \Ra a\vdots p\) или \(b \vdots p\). Это приводит нас к следующему определению:
+
+\begin{definition}
+    \(p \in K\) называется простым, если \(p\) ненулевой, необратимый и \(ab \vdots p \Ra a \vdots p\) или \(b \vdots p\)
+\end{definition}
+
+\begin{note}
+    Таким образом, простые числа в \(\N\) можно обобщить двумя способами: как неразложимые и как простые.
+\end{note}
+
+\begin{proposition}
+    Простой элемент неразложим.
+\end{proposition}
+\begin{proof}
+    Пусть \(p\) --- простой. Пусть \(p = ab\). Тогда \(ab \vdots p \Ra a \vdots p\) или \(b \vdots p\). Б.О.О, \(a \vdots p\). Тогда \(p \vdots a \Ra b \in K^* \Ra p\) неразложим.
+\end{proof}
+
+\begin{theorem}
+    Пусть \(K\) --- область целостности, в котором выполнено свойство 1 факториаьлного кольца (т.е. существует разложение на неразложимые) и любой неразложимый прост. Тогда \(K\) --- факториальное кольцо
+\end{theorem}
+\begin{proof}
+    Пусть \(x = up_1\dots p_s\), где \(u \in K^*, p_i\) --- неразложимые. Будем вести индукцию по \(s\) (хотим доказать единственность разложения, пусть \(x = wq_1\dots q_l, w \in K^*, q_i\) --- неразложимые):
+    \begin{enumerate}
+        \item \textbf{База:} \(s = 0 \Ra l = 0\)
+        \item \textbf{Переход:}
+        Т.к. \(p_i | wq_1\dots q_l\), то получаем, что \(p_i | w\) или \(p_i | q_j\). Первое невозможно, т.к. тогда \(p_i \in K^*\), поэтому \(yp_i = q_j\). Т.к. \(q_j\) неразложим, то либо \(y \in K^*\), либо \(p_i \in K^*\). Второе невозможно, поэтому \(y \in K^*\), т.е. \(q_j \sim p_i\). Сократим обе части на \(q_j\) и применим предположение индукции.
+    \end{enumerate}
+\end{proof}
+
+\section{Евклидовы кольца}
+
+\begin{definition}
+    Область целостности \(K\) называется евклидовым кольцом, если \(\exists\) функция (называемая нормой) \(N: K \setminus \{0\} \ra \Z_{\ge 0}\), такая, что:
+    \begin{enumerate}
+        \item \(\forall a, b \in K \setminus \{0\} N(ab) \ge N(a)\)
+        \item \(\forall a, b \in K \setminus \{0\} \exists q, r: a = bq + r\) и \(N(r) < N(b)\) или \(r = 0\)
+    \end{enumerate}
+\end{definition}
+
+\subsection{Примеры}
+\begin{enumerate}
+    \item \(\Z, N(a) = |a|\)
+    \item \(\mathbb{F}[x], N(f) = \deg f\)
+    \item \(\mathbb{F}\) --- поле, \(N(a) = 0\) или \(N(a) = 1\)
+\end{enumerate}
+
+Для некоторых евклидовых колец верна более сильная формулировка первого свойства:
+\begin{enumerate}
+    \item[\(1^*\).] \(\forall a, b \in K \setminus \{0\} N(ab) = N(a)N(b)\)
+\end{enumerate}
+
+Это верно, например, для \(\Z[i], \Z[\omega]\).
+
+\begin{proposition}
+    \(\Z[i]\) --- евклидово кольцо с нормой \(N(a + bi) = a^2 + b^2\)
+\end{proposition}
+\begin{proof}[Геометрическое доказательство]
+    Хотим разделить \(a\) остатком на \(b\) и получить \(a = bq + r\). Тогда \(\frac{a}{b} = q + \frac{r}{b}\). Рассмотрим целочисленную решетку на комплексной плоскости, и квадрат, куда попадает число \(\frac{a}{b}\). Далее выберем ближайшую вершину к \(\frac{a}{b}\) и назовем ее \(q\). Т.к. сторона квалрата равна 1, получаем, что максимальная норма \(\frac{r}{b} = \frac{a}{b} - q\) не превосходит \(\left( \frac{1}{\sqrt{2}} \right)^2 = \frac{1}{2}\) (т.к. \(1/\sqrt{2}\) --- максимальное расстояние от точки до ближайшей вершины внутри квадрата).
+\end{proof}
+\begin{proof}[Алгебраическое доказательство]
+    Хотим разделить \(a\) остатком на \(b\) и получить \(a = bq + r\). Пусть \(\alpha + \beta i = \frac{a}{b}\). Рассмотрим \(q = [\alpha] + [\beta]i\) (здесь \([x]\) --- округление). Тогда \(\frac{r}{b} = (\alpha - [\alpha]) + (\beta - [\beta])i\) и \(N\left( \frac{r}{b} \right) \le \left( \frac{1}{2} \right)^2 + \left( \frac{1}{2} \right)^2 = \frac{1}{2}\).
+\end{proof}
+
+
+\begin{proposition}
+    \(\Z[w]\) --- евклидово кольцо с нормой \(N(a + bi) = a^2 + b^2\)
+\end{proposition}
+\begin{proof}[Геометрическое доказательство]
+    Аналогично рассматриваем сетку из треугольничков.
+\end{proof}
+
+\begin{note}
+    Аналогично можно доказать, что \(\Z[w], \Z[\sqrt{2}i]\) --- евклидовы кольца с нормой \(N(a + bi) = a^2 + b^2\), а вот \(\Z[\sqrt{3}i]\) уже таковым не будет (минимальное расстояние до вершины больше минимальной стороны прямоугольника).
+\end{note}
+
+\begin{lemma}
+    Пусть \(K\) --- евклидово кольцо, \(a, b \in K \setminus \{0\}\). Тогда \(N(ab) = N(a) \Lra b \in K^*\).
+\end{lemma}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item[\(\La\)] Заметим, что \(N(a) = N(abb^{-1}) \ge N(ab) \ge N(a) \Ra N(ab) = N(a)\)
+        \item[\(\Ra\)] Из евклидовости: \(a = (ab)q + r\), где \(r = 0\) или \(N(r) < N(ab) = N(a)\). Тогда \(a(1 - bq) = r\). Получаем, что либо \(1 - bq = 0 \Ra b \in K^*\), либо \(N(a(1 - bq)) = N(r) \ge N(a) > N(r)\), чего быть не может, значит \(b \in K^*\)
+    \end{enumerate}
+\end{proof}
+
+\subsection{Алгоритм Евклида}
+
+\begin{definition}
+    Пусть \(a, b \in K \setminus \{0\}\). \(d\) называется наибольшим общим делителем \(a, b\) (или \(\text{НОД}(a, b)\)), если \(d\) --- общий делитель с наибольшей нормой.
+\end{definition}
+
+\begin{definition}
+    Алгоритм Евклида --- следующий процесс. Пусть даны \(a, b \in K \setminus \{0\}\). Изначально \(r_0 = a, r_1 = b\). На каждом шаге мы делим \(r_{i - 1}\) на \(r_i\) с остатком и получаем \(r_{i + 1}\). Тогда, при \(i \ge 1: N(r_i) > N(r_{i + 1})\). Повторяем операцию, пока \(r_{i + 1}\) не станет равно 0.
+\end{definition}
+
+\begin{note}
+    \(\text{НОД}(r_{i - 1}, r_i) = \text{НОД}(r_i, r_{i + 1})\)
+\end{note}
+\begin{proof}
+    Следует из разложения \(r_{i - 1} = qr_i + r_{i + 1}\)
+\end{proof}
+
+\begin{lemma}
+    Пусть \(a, b \in K \setminus \{0\}\), \(d = \text{НОД}(a, b)\). Тогда \(\exists x, y \in K: ax + by = d\)
+\end{lemma}
+\begin{proof}
+    Заметим, что на каждом шаге алгоритма Евклида, каждый \(r_i\) является линейной комбинацией \(a, b\) (нетрудно доказать по индукции). Но тогда возьмем предпоследнее \(r_i\) в алгоритме Евклида (последний равен 0). Он и будет НОДом.
+\end{proof}
+
+\begin{theorem}
+    Любое евклидово кольцо факториально.
+\end{theorem}
+\begin{proof}
+    \begin{enumerate}
+        \item \textbf{Существование разложения.} Пусть \(x\) --- элемент с наименьшей нормой, для которого не существует разложения. Если \(x = ab \Lra a \in K^*\) или \(b \in K^* \Ra x\) --- неразложим. Но тогда его разложение \(x = x\). Если существует разложение, где \(a \notin K^*, b \notin K^*\), то \(N(ab) > N(a), N(b)\) (иначе б.о.о \(N(ab) = N(a)\) и тогда \(b \in K^*\)). Но тогда \(a, b\) разложимы и \(a = up_1\dots p_s, b = wq_1\dots q_l\) и \(x = (uw)p_1\dots p_s q_1\dots q_l\).
+        \item \textbf{Единственность разложения.} Докажем, что любой неразложимый элемент является простым. Пусть \(p\) неразложим и \(ab \vdots p\). Рассмотрим \(\text{НОД}(a, p) = \left[\begin{array}{l}
+            1 \\
+            p \Ra a \vdots p
+        \end{array}\right.\). Для случая \(\text{НОД}(a, p) = 1\) имеем: \(ax + py = 1\). Тогда: \(\underbrace{ab}_{\vdots p}x + pby = b\), левая часть делится на \(p\), поэтому правая --- тоже.
+    \end{enumerate}
+\end{proof}
+
+\begin{proposition}
+    Первое условие Евклидова кольца не существенно.
+\end{proposition}
+\begin{proof}
+    Пусть \(N: K \setminus \{0\}\) --- функция, которая удовлетворяет свойству 2: \(\forall a, b \exists q, r: a = bq + r\) причем \(r = 0\) или \(N(r) < N(b)\). Рассмотрим функцию \(\tilde{N}(a) = \min_{c \in K\setminus\{0\}} N(ac)\). Докажем, что это норма на \(K\). Докажем два свойства нормы:
+    \begin{enumerate}
+        \item \(\tilde{N}(ab) = N(abx)\) для некоторого \(x\), получаем, что \(\tilde{N}(ab) = N(a(bx)) \ge \min_{c \in K\setminus\{0\}} N(ac)\).
+        \item Пусть даны \(a, b \in K \setminus \{0\}\). При этом, \(\tilde{N}(b) = N(bc)\) для некоторого \(c\). Разделим \(a\) на \(bc\) в норме \(N\): \(a = (bc)q + r\). Тогда \(a = b(cq) + r\) и \(\tilde{N}(r) \le N(r) < N(bc) = N(b)\) или \(r = 0\), что и требовалось.
+    \end{enumerate}
+\end{proof}

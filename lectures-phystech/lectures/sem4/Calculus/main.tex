@@ -1,0 +1,253 @@
+
+\hypertarget{lecture1}{}
+
+
+\section{Пространство Лебега}
+\subsection{Пространства \(L_p\)}
+\begin{definition}
+    Пусть \(E \subset \R^m\). Будем говорить, что \(f: E \ra \Cm\) измерима (интегрируема) по Лебегу, если \(\Re f, \Im f\) измеримы (интегрируемы) по Лебегу.
+\end{definition}
+
+\begin{definition}
+    В случае интегрируемости положим \(\int_E f = \int_E \Re f + i \int_E \Im f\). Полученный интеграл линеен и аддитивен по множествам
+\end{definition}
+
+\begin{note}
+    \[\left\|\int_E f \right\| \le \int_E |f|\]
+\end{note}
+\begin{proof}
+    \[\int_E f = \left\|\int_E f\right\| e^{i \theta} \Ra \int_E fe^{-i \theta} = \left\|\int_E f\right\| = \int_E \Re(e^{-i\theta} f) \le \int_E |e^{i\theta} f| = \int_E |f|\]
+\end{proof}
+
+\begin{definition}
+    Пусть \(1 \le p \le < \infty\) и \(E\) измеримо. Определим:
+    \[L_p(E) = \{f: E \ra \Cm | \int_E |f|^p < \infty\}\]
+    В таком случае положим \(\|f\|_p = \left( \int_E |f|^p \right)^{\frac{1}{p}}\)
+\end{definition}
+
+Пусть \(f, g \in L_p(E)\). Если \(\lambda \in \Cm\), то \(\lambda f \in L_p(E)\) и ввиду \(|f + g|^p \le (2\max\{|f|, |g|\})^p \le 2^p(|f|^p + |g|^p)\) выполнено \(f + g \in L_p\). Получили, что \(L_p\) является линейным пространством относительно \(+, \lambda\cdot\).
+
+
+
+\begin{lemma}
+    Пусть \(a, b \ge 0\). Если \(1 < p < \infty, \frac{1}{p} + \frac{1}{q} = 1\), то \(ab \le \frac{a^p}{p} + \frac{b^q}{q}\), причем равенство достигается тогда и только тогда, когда \(a^p = b^q\)
+\end{lemma}
+\begin{proof}
+    Можно считать, что \(ab > 0\). Ввиду выпуклости экспоненты, имеем:
+    \[e^{\frac{x}{p} + \frac{y}{q}} \le \frac{1}{p}e^x + \frac{1}{q}e^y\]
+    Положим \(x = p\ln a, y = q\ln b\) и получаем желаемое.
+\end{proof}
+
+\begin{theorem}[Гельдер]
+    Пусть \(1 < p < \infty, \frac{1}{p} + \frac{1}{q} = 1\). Если \(f \in L_p(E), g \in L_q(E)\), то \(fg \in L_1(E)\) и \(\|fg\|_1 \le \|f\|_p\|g\|_q\)
+\end{theorem}
+\begin{proof}
+    Если \(\|f\|_p = 0 \Ra f = 0\) п.в. \(\Ra fg = 0\) п.в. \(\Ra \) утверждение доказано. Аналогично и для случая \(\|g\|_q = 0\). В противном случае, получаем:
+    \[\|f\|_p\|g\|_q > 0\]
+    По предыдущей лемме, имеем:
+    \[\frac{|f(x)|}{\|f\|_p}\frac{|g(x)|}{\|g\|_q} \le \frac{1}{p}\left( \frac{|f(x)|}{\|f\|_p} \right)^p + \frac{1}{q}\left( \frac{|g(x)|}{\|g\|_q} \right)^q\]
+    Проинтегрировав, получим:
+    \[\frac{1}{\|f\|_p\|g\|_q}\int_E |fg| \le \frac{1}{p}\left( \int_E \frac{|f|^p}{\|f\|_p^p} \right) + \frac{1}{q}\left( \int_E \frac{|g|^q}{\|g\|_q^q} \right) = 1\]
+\end{proof}
+
+\begin{note}
+    В неравенстве гельдера равенство имеет место тогда и только тогда, когда \(|f|^p = c|g|^q\) п.в. на \(E\) для некоторого \(c > 0\).
+\end{note}
+
+\begin{theorem}[Минковский]
+    Пусть \(1 \le p < \infty\). Если \(f, g \in L_p(E)\), то \(f + g \in L_p(E)\) и \(\|f + g\|_p \le \|f\|_p + \|g\|_p\).
+\end{theorem}
+\begin{proof}
+    При \(p = 1\) применим \(|f + g| \le |f| + |g|\). Далее при \(p \ge 1\): Применим неравенство Гельдера для \(p, q = \frac{p}{p - 1} \Ra \frac{1}{p} + \frac{1}{q} = 1\). 
+    \[\|f + g\|_p^p = \int_E |f + g|^p \le \int_E |f||f + g|^{p - 1} + \int_E |g||f + g|^{p - 1} \le\]
+    \[\le \left( \int_E |f|^p \right)^{\frac{1}{p}}\left( \int_E |f + g|^p \right)^{\frac{1}{q}} + \left( \int_E |g|^p \right)^{\frac{1}{p}}\left( \int_E |f + g|^p \right)^{\frac{1}{q}} = \]
+    \[ = \|f + g\|_p^{p - 1}(\|f\|_p + \|g\|_p)\]
+\end{proof}
+
+\begin{note}
+    Равенство в теореме Минковского выполняется тогда и только тогда, когда \(f = cg\) п.в. для некоторой \(c > 0\)
+\end{note}
+
+\begin{definition}
+    На \(L_p\) введем отношение \(\sim\). Будем говорить, что \(f \sim g \Lra f = g\) п.в. на \(E\).
+\end{definition}
+
+\begin{note}
+    \(\sim\) --- отношение эквивалентности на \(L_p\), согласованное с операциями сложения и умножения на скаляр. Факторпространство \(L_p(E)/_\sim\) будем также обозначать \(L_p(E)\)
+\end{note}
+
+\begin{corollary}
+    Пространство \(L_p\) относительно нормы \(\|\cdot\|_p\) является нормированным линейным пространством
+\end{corollary}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item \(\|f\|_p \ge 0, \|f\|_p = 0 \Lra f \sim 0\)
+        \item \(\|\lambda f\|_p = \lambda \|f\|_p\)
+        \item \(\|f + g\|_p \le \|f\|_p + \|g\|_p\)
+    \end{enumerate}
+\end{proof}
+
+\begin{problem}
+    Если \(\mu(E) < \infty, 1 \le p < q < \infty\), то \(L_q(E) \subsetneq L_p(E)\)
+\end{problem}
+
+\begin{reminder}
+    Полное метрическое пространство --- такое, что любая фундаментальная последовательность сходится
+\end{reminder}
+
+\begin{theorem}[Рисса]
+    Пространство \(L_p\) банахово (т.е. является полным относительно метрики, порожденной \(p\)-нормой). 
+\end{theorem}
+\begin{proof}
+    Будет позднее
+\end{proof}
+
+\begin{reminder}
+    Напомним, что \(\supp(f) = \overline{\{x: f(x) \ne 0\}}\). Будем называть функции с компактным носителем финитными.
+\end{reminder}
+
+\begin{lemma}
+    Пусть \(f \in L_p, \epsilon > 0\). Тогда \(\exists\) простая финитная функция \(\phi\) такая, что \(\|f - \phi\|_p < \epsilon\).
+\end{lemma}
+\begin{proof}
+    Можно считать, что \(f\) вещественнозначная (иначе приближаем \(\Re f, \Im f\)) отдельно. Т.к. \(|f - I_{B_k(0)}|^p \le |f|^p\). Тогда по Теореме Лебега о мажорируемой сходимости, \(\|f - fI_{B_k(0)}\|_p \ra 0, k \ra \infty\). Заменяя функцию \(f\) на \(fI_{B_k(0)}\) для достаточно большого \(k\), заключаем, что она финитная. Пусть сначала \(f \ge 0\). По теореме о приближении, найдется последовательность \(\{\phi_k\}\) --- простых функций, т.ч. \(0 \le \phi_1 \le \dots \), \(\phi_k \ra f\). Т.к. \(|f - \phi_k|^p \le |f|^p\). По теореме Лебега о мажорируемой сходимости \(f - \phi_k \ra 0, k \ra \infty\), причем все \(\phi_k\) финитны, т.к. \(0 \le \phi_k \le f\) на \(E\). Пусть \(f\) теперь произвольного знака \(\Ra f = f^+ - f^-\). Тогда по доказанному найдутся простые финитные функции \(\phi^+, \phi^-\), такие, что \(\|f^+ - \phi^+\|_p < \frac{\epsilon}{2}, \|f^- - \phi^-\|_p < \frac{\epsilon}{2}\). Положим \(\phi = \phi^+ - \phi^-\). Тогда \(\phi\) --- простая финитная функция и по неравенству треугольника:
+    \[\|f - \phi\|_p \le \|f^+ - \phi^+\| + \|f^- - \phi^-\| < \epsilon\]
+\end{proof}
+
+\begin{theorem}
+    Пусть \(f \in L_p, \epsilon > 0\). Тогда \(\exists g \in C_c^\infty(\R^m)\), т.ч. \(\|f - g\|_p < \epsilon\)
+\end{theorem}
+\begin{proof}
+    По предыдущей лемме, любую функцию можно приблизить финитной простой функцией. Всякая простая функция есть линейная комбинация индикаторов. Из этого заключаем, что достаточно доказать теорему для случая \(f = I_A\), где \(A\) --- ограниченное измеримое множество. По свойству регулярности меры Лебега, \(\exists G, H\) --- открытые, такие, что \(G \supset A, H \supset A^c\) и \(\mu(G \setminus A) < \frac{\epsilon}{2}, \mu(H \setminus A^c) < \frac{\epsilon}{2}\). Положим \(k = H^c\) --- замкнутое и ограниченное (т.к. лежит в \(A\)), т.е. компакт, лежащий в \(A\). \(\mu(G \setminus A) \le \mu(G \setminus A) + \mu(H \setminus A^c) < \epsilon\). По теореме о гладком разбиении единицы, \(\exists g \in C^\infty(\R^m)\) с носителем в \(G\), такая, что \(0 \le g \le 1\) и \(g|_K = 1\). Поэтому \(\|I_A - g|_E\|_p^p = \int_E |I_A - g|^p \le \int_{(G \cap E) \setminus K} |I_A - g|^p \le \mu(G \setminus K) < \epsilon\)
+\end{proof}
+
+\hypertarget{lecture2}{}
+
+\begin{theorem}[Кантора]
+    Пусть \(f: U \ra \Cm\), где \(U \subset \R^n\) --- открыто. Тогда, если \(K\) --- компакт и \(f\) непрерывна на нем, то \(f\) равномерно непрерывна на нем, т.е.
+    \[\forall \epsilon > 0 \exists \delta > 0 \forall x \in K \forall h \in \R^n (h < \delta \Ra |f(x) - f(x - h)| < \delta)\]
+\end{theorem}
+\begin{proof}
+    От противного. Тогда \(\exists \{x_k\} \subset K \exists \{h_k\} \subset \R^m |f(x_k) - f(x_k - h_k)| \ge \epsilon_0, h_k \ra 0\). Т.к. \(K\) --- компакт, то \(\exists x_{n_k} \ra x_0 \in K\) и \(x_{n_k} + h_{n_k} \ra x_0\). Тогда по непрерывности, \(f(x_{n_k}) \ra f(x_0), f(x_{n_k} - h_{n_k}) \ra f(x_0) \Ra |f(x_{n_k}) - f(x_{n_k} - h_{n_k})| \ra 0\)
+\end{proof}
+
+\begin{definition}
+    Пусть \(f: \R^m \ra \Cm, h \in \R^m\). Функция \(f_h: \R^m \ra \Cm, f_h(x) = f(x - h)\) называется сдвигом функции \(f\) на \(h\).
+\end{definition}
+
+\begin{note}
+    Функции \(f, f_h\) одновременно лежат в \(L_p(\R^m)\) и \(\|f\|_p = \|f_h\|_p\)
+\end{note}
+
+\begin{theorem}[Непрерывность сдвига]
+    Если \(f \in L_p(\R^m)\), то \(\|f_h - f\|_p \ra 0\) при \(h \ra 0\).
+\end{theorem}
+\begin{proof}
+    Зафиксируем \(\epsilon > 0\). \(\exists g \in C_c(\R^m)\) (можно считать, что \(g = 0\) вне \(B_r(0)\)), такая, что \(\|f - g\|_p < \frac{\epsilon}{3}\). По неравенству треугольника:
+    \[\|f_h - f\|_p \le \|f_h - g_h\|_p + \|g_h - g\|_p + \|g - f\|_p < \frac{2}{3}\epsilon + \|g_h - g\|\]
+    Т.к. \(g\) непрерывна на \(\overline{B_r(0)}\), то \(\exists \delta \in (0, 1] \forall h \in \R^m (|h| < \delta \Ra |g(x) - g(x - h)| < \frac{\epsilon}{3M})\), где \(M^p = \mu()B_{r + 1}(0)\). Поэтому:
+    \[\|g_h - g\|^p_p = \int |g(x - h) - g(x)|^pdx \le \left( \frac{\epsilon}{3M} \right)^p\mu(B_{r + 1}) = \left( \frac{\epsilon}{3} \right)^p\]
+    Следовательно, при \(|h| < \delta\), выполнено \(\|f_h - f\|_p < \epsilon\)
+\end{proof}
+
+\begin{corollary}[Непрерывность сдвига для периодических функций]
+    Пусть \(f\) --- \(2\pi\)-периодичная измеримая на \(\R\) функция. Если \(\int_{[-\pi, \pi]} |f(x)|^p dx < \infty\), то 
+    \[\int_{[-\pi, \pi]} |f(x - h) - f(x)|^pdx \ra 0, h \ra 0\]
+\end{corollary}
+\begin{proof}
+    Пусть \(g = \left\{\begin{array}{l}
+        f, x \in (-2\pi, 2\pi) \\
+        0, \text{иначе}
+    \end{array}\right.\). Тогда \(g \in L_p(\R)\). Также, при \(x \in (-\pi, \pi)\) и \(|h| < \pi\) имеем: \(|g(x - h) - g(x)| = |f(x - h) - f(x)|\), а значит,
+    \[\int_{[-\pi, \pi]} |f(x - h) - f(x)|^pdx = \int_{[-\pi, \pi]} |g(x - h) - g(x)|^pdx \le \|g_h - g\|_p \ra 0, h \ra 0\]
+\end{proof}
+
+\begin{theorem}[Римана об осцилляции]
+    Пусть \(I\) --- промежуток в \(\R\), \(f \in L_1(I)\). Тогда 
+    \[\int_I f(x)e^{i\lambda x}dx \ra 0, \lambda \ra \pm\infty\]
+    В частности, 
+    \[\int_I f(x)\cos xdx \ra 0, \int_I f(x)\cos xdx \ra 0, \lambda \ra \pm\infty\]
+\end{theorem}
+\begin{proof}
+    Рассмотрим случай \(I = \R\). Сделаем в интеграле замену \(x = t - \frac{\pi}{\lambda}\), тогда:
+    \[\int_I f(x)e^{i\lambda x}dx = \int_I f\left( t - \frac{\pi}{\lambda} \right)e^{i\lambda \left( t - \frac{\pi}{\lambda} \right)}dx = -\int_I f\left( t - \frac{\pi}{\lambda} \right)e^{i\lambda t}dx\]
+    Следовательно,
+    \[\int_I f(x)e^{i\lambda x}dx = \frac{1}{2}\left(  \int_I f(x)e^{i\lambda x}dx -\int_I f\left( x - \frac{\pi}{\lambda} \right)e^{i\lambda x}dx\right)= \frac{1}{2}\left(  \int_I \left( f(x) - f\left( x - \frac{\pi}{\lambda} \right) \right)e^{i\lambda x}dx\right)\]
+    Следовательно, 
+    \[\left|\int_I f(x)e^{i\lambda x}dx\right| \le \frac{1}{2}\left(  \int_I \left| f(x) - f\left( x - \frac{\pi}{\lambda} \right) \right|dx\right) = \|f_h - f\|_1 \ra 0\]
+\end{proof}
+
+\subsection{Свертка и аппроксимация функции}
+\begin{definition}
+    Пусть \(f, g\) --- измеримы в \(\R^m\), функция \(f * g\) определяемая по формуле
+    \[(f * g)(x) = \int_{\R^m} f(x - t)g(t)dt\]
+    называется сверткой функций \(f, g\).
+\end{definition}
+
+\begin{note}
+    Покажем измеримость функции \(f(x - t)g(t)\) в \(\R^{2m}\). Т.к. \(g(t)\) измерима в \(\R^{2m}\), достаточно показать измеримость \(f(x - t)\). Положим \(E_a = \{x \in \R^m: f(x) < a\}\) и определим оператор \(L: \R^{2m} \ra \R^{2m}, L(x, t) = (x - t, t)\). Тогда \(\{(x - t): f(x - t) < a\} = \{(x, t): x - t \in E_a\} = L^{-1}(E_a \times \R^m)\) --- измеримо как образ измеримого при диффеоморфизме \(L^{-1}\)
+\end{note}
+
+\begin{lemma}
+    Пусть \(f, g \in L_1(\R^m)\), тогда \(f * g\) определена почти всюду. Более того, \(f * g \in L_1(\R^m)\) и \(\|f * g\|_1 \le \|f\|_1\|g\|_1\)
+\end{lemma}
+\begin{proof}
+    Определим \(H(x) = \int_{\R^m}|f(x - t)||g(t)|dt\). По теореме Тонелли:
+    \[\int_{\R^m}H(x)dx = \int_{\R^m}\left( \int_{\R^m}|f(x - t)| dx\right)|g(t)|dt = \int_{\R^m}\left( \int_{\R^m}|f(y)| dy\right)|g(t)|dt = \|f\|_1\|g\|_1\]
+    Получаем:
+    \[\left|\int_{\R^m}f(x - t)g(t)\right| \le \int_{\R^m}H(x)dx = \|f\|_1\|g\|_1\]
+    Тогда \(|f(x - t)g(t)|\) конечна почти всюду \(\Ra (f * g)(x)\) определена почти всюду.
+\end{proof}
+
+\begin{theorem}
+    \begin{enumerate}
+        \item Если \(f \in L_p(\R^m), g \in L_q(\R^m), \frac{1}{p} + \frac{1}{q} = 1\), то \((f * g)\) существует, равномерно непрерывна на \(\R^m\) и \(|(f * g)(x)| \le \|f\|_p\|g\|_q\)
+        \item Если \(f \in L_p(\R^m), g\) измерима и ограничена в \(\R^m\), то \((f * g)\) существует, равномерно непрерывна на \(\R^m\) и \(|(f * g)(x)| \le \|f\|_p\|g\|_\infty\), где \(\|g\|_\infty = \sup_{\R^m} |g|\)
+    \end{enumerate}
+\end{theorem}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item \[\int_{\R^m} |f(x - t)g(t)|dt \le \left( \int_{\R^m}|f(x - t)|^p dt\right)\frac{1}{p} \left( \int_{\R^m}|g(t)|^q dt\right)\frac{1}{q}= \|f\|_p\|g\|_q < \infty\]
+        Тогда \(f * g\) определена всюду на \(\R^m\), и справедлива оценка из условия. Докажем равномерную непрерывность:
+        \[|(f * g)(x - h) - (f * g)(x)| = \left| \int_{\R^m}(f(x - h - t) - f(x - t))g(t)dt \right| = \]
+        \[= |((f_h - f) * g)(x)| \le \|f_h - f\|_p\|g\|_q \ra 0, h \ra 0\]
+        Последнее стремление равномерное, т.е. не зависит от \(x\), поэтому утверждение доказано
+        \item \[\int_{\R^m} |f(x - t)g(t)|dt \le \|g\|_\infty \|f\|_1 < \infty\]
+        Равномерное стремление доказывается аналогично пункту 1.
+    \end{enumerate}
+\end{proof}
+
+\begin{proposition}
+    Пусть \(f, g, h \in L_1(\R^m)\), тогда:
+    \begin{enumerate}
+        \item \((f * g) = (g * f)\)
+        \item \((f * g) * h = f * (g * h)\)
+    \end{enumerate}
+\end{proposition}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item \[(f * g) = \int_{\R^m} f(x - t)g(t) dt = \left\{\begin{array}{c}
+            x - t = y \\
+            |J| = 1
+        \end{array}\right\} = \int_{\R^m} f(y)g(x - y)dy = (g * f)\]
+        \item Следует из теоремы Фубини
+    \end{enumerate}
+\end{proof}
+
+\begin{definition}
+    Последовательность \(\{K_n\}_{n = 1}^\infty\) интегрируемых на \(\R^m\) функций называется аппроксимацией единицей (\(\delta\)-образным семейством), если 
+    \begin{enumerate}
+        \item \(K_n \ge 0 \forall n\)
+        \item \(\int_{\R^m} K_ndx = 1\)
+        \item \(\lim_{n \ra \infty} \int_{|x| \ge \delta} K_n(x)dx \ra 0\) для всех \(\delta > 0\).
+    \end{enumerate}
+\end{definition}
+
+\begin{example}
+    Рассмотрим \(\phi \in L_1(\R), \phi \ge 0\) с \(\int_{\R^m}\phi(x)dx = 1\), положим \(K_n(x) = n^m\phi(nx)\). Тогда:
+    \[\int_{|x| \ge \delta} = \int_{|x| \ge \delta} n^m\phi(nx)dx = \left\{\begin{array}{c}
+        y = nx \\
+        |J| = n^m
+    \end{array}\right\} = \int_{|y| \ge n\delta}\phi dy = \int_{\R^m}\phi I_{\{|y| \ge n\delta\}} dy \ra 0\]
+\end{example}
+

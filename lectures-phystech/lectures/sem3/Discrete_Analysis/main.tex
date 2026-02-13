@@ -1,0 +1,1180 @@
+
+\hypertarget{lecture1}{}
+
+\section{Ну-с, начнем}
+\subsection{Определения}
+\begin{definition}
+    Граф --- \(G = (V, E)\), \(|V| < \infty\). \(V\) --- множество вершин, \(E\) --- множество ререр (подмножество \(V\times V\)). По умолчанию, граф неориентированный, в нем нет петель и ребер. Приставка \textbf{ор} будет означать, что граф ориентированный, приставка \textbf{мульти} будет означать, что разрешены кратные ребра, а приставка \textbf{псевдо} будет означать, что граф разрешены петли. Другими словами, псевдомультиорграф --- граф, в котором разрешено все.
+\end{definition}
+
+\begin{definition}
+    Маршрут --- последовательность \(v_1e_1v_2e_2\dots v_{n-1}e_{n-1}v_n\), где \(e_i = (v_i, v_{i + 1}) \in E\)
+\end{definition}
+
+\begin{definition}
+    Путь (цепь) --- незамкнутый маршрут, в котором все ребра разные.
+\end{definition}
+
+\begin{definition}
+    Цикл --- замкнутый маршрут, в котором все ребра разные.
+\end{definition}
+
+\begin{definition}
+    Простой путь (цепь) --- путь, в котором все вершины разные.
+\end{definition}
+
+\begin{definition}
+    Простой цикл --- цикл, в котором все вершины разные (кроме, возможно, начальной и конечной).
+\end{definition}
+
+\begin{definition}
+    Граф связен, если \(\forall v, u \in V\) существует простая цепь с концами в \(v, u\).
+\end{definition}
+
+\begin{note}
+    Отношние \(u \sim v\), где \(\sim\) --- ''связны ли две вершины'' является отношением эквивалентности.
+\end{note}
+
+\begin{definition}
+    Классы эквивалентности по отношению выше называются компонентами связности.
+\end{definition}
+
+\begin{definition}
+    Пусть \(v \in V\). Степень вершины \(v\) --- \(\deg v\) --- количество ребер, которое исходит из данной вершины (петля добавляет 2 к степени вершины). \(indeg\ v, outdeg\ v\) --- входящие и исходящие степени для орграфов.
+\end{definition}
+
+\begin{note}
+    \[\sum_{v \in V} \deg v = 2|E|\]
+\end{note}
+
+\begin{definition}
+    Граф называется \(d\)-регулярным, если \(\forall v \in V \deg v = d\).
+\end{definition}
+
+\begin{note}
+    Всего существует \(2^{C_n^2}\) графов на \(n\) вершинах (верны пронумерованы числами от \(1\) до \(n\)).
+\end{note}
+
+\begin{definition}
+    Граф называется деревом, если он связен и в нем нет циклов.
+\end{definition}
+
+\begin{note}
+    В дереве на \(n\) вершинах \(n - 1\) ребро.
+\end{note}
+
+Положим \(\tau_n\) --- количество деревьев на \(n\) вершинах.
+
+\subsection{Асимптотика количества унициклических графов}
+\begin{proposition}
+    \(\tau_n = n^{n - 2}\)
+\end{proposition}
+\begin{proof}(Коды Прюфера)
+    Построим по дереву следующую последовательность: на каждой итерации будем находить лист с самым маленьким номером, запишем его соседа, а лист удалим. Далее нужно доказать, что по кодам Прюфера однозначно восстанавливается дерево и получить биекцию между кодами длины \(n - 2\) и деревьями на \(n\) вершинах.
+\end{proof}
+
+\begin{definition}
+    Унициклический граф --- связный граф, в котором \(n\) вершин и \(n\) ребер.
+\end{definition}
+
+Положим \(u_n\) --- количество унициклических графов на \(n\) вершинах
+
+\begin{lemma}
+    \(F(n, r)\) --- количество лесов с \(r\) деревьями на \(n\) вершинах. \(F(n, r) = r\cdot n^{n - 1 - r}\).
+\end{lemma}
+
+Пусть \(r = 3, \dots n\) --- количество вершин в цикле. Тогда
+\[u_n = \sum_{r = 3}^n \left(C_n^r \frac{(r - 1)!}{2}F(n, r)\right) = \sum_{r = 3}^n \left(C_n^r \frac{(r - 1)!}{2}r \cdot n^{n - 1 - r}\right)\]
+
+\begin{proposition}
+    \(u_n \sim \sqrt{\frac{\pi}{8}}\cdot n^{n - \frac{1}{2}}\)
+\end{proposition}
+
+\begin{proof}
+    \[C_n^r = \frac{n!}{r!(n - r)!} = \frac{n(n - 1)\dots(n - r + 1)}{r!} = \frac{n^r}{r!}\left(1 - \frac{1}{n}\right)\left(1 - \frac{2}{n}\right)\dots \left(1 - \frac{r-1}{n}\right) = \]
+    \[= \frac{n^r}{r!}e^{\ln\left(1 - \frac{1}{n}\right) + \ln\left(1 - \frac{2}{n}\right) + \dots + \ln\left(1 - \frac{r-1}{n}\right)}  = (*) \le \frac{n^r}{r!}e^{-\frac{1}{n}-\frac{2}{n} - \dots - \frac{r - 1}{n}} = \frac{n^r}{r!}e^{-\frac{r(r-1)}{2n}}\]
+    С другой стороны
+    \[(*) = \frac{n^r}{r!}e^{-\frac{1}{n}-\frac{2}{n} - \dots - \frac{r - 1}{n} + O\left(\frac{1}{n^2} + \frac{4}{n^2} + \dots + \frac{(r - 1)^2}{n^2}\right)} = \frac{n^r}{r!}e^{-\frac{r(r-1)}{2n} + O\left(\frac{r^3}{n^3}\right)}\]
+
+    Итого
+    \[u_n = \sum_{r = 3}^n \left(C_n^r \frac{(r - 1)!}{2}r \cdot n^{n - 1 - r}\right) \le \frac{1}{2}n^{n - 1}\sum_{r = 3}^n e^{-\frac{r(r-1)}{2n}}\]
+    \[u_n = \sum_{r = 3}^n \left(C_n^r \frac{(r - 1)!}{2}r \cdot n^{n - 1 - r}\right) = \frac{1}{2}n^{n - 1}\sum_{r = 3}^n e^{-\frac{r(r-1)}{2n} + O\left(\frac{r^3}{n^3}\right)}\]
+    
+    % При этом, \(r^3 = o(n^2) \Lra r = o(n^{\frac{2}{3}})\).
+    
+    \[u_n = \sum_{r = 3}^n \left(C_n^r \frac{(r - 1)!}{2}r \cdot n^{n - 1 - r}\right) = \frac{1}{2}n^{n - 1}\left(\underbrace{\sum_{r = 3}^{[n^{0.6}]} C_n^r r! n^{-r}}_{S_1} + \underbrace{\sum_{r = [n^{0.6}] + 1}^{n} C_n^r r! n^{-r}}_{S_2}\right)\]
+
+    \[S_2 \le \sum_{r = [n^{0.6} + 1]}^ne^{-\frac{r(r-1)}{2n}} \le n \cdot e^{\frac{n^{0.2}}{2}(1 + o(1))}\]
+    
+    Помним, что \(r \ge n^{0.6}\).
+
+    \[e^{-\frac{r(r-1)}{2n}} = e^{-\frac{r^2}{2n}(1 + o(1))} \le e^{-\frac{n^{1.2}}{2n}(1 + o(1))} = e^{-\frac{n^{0.2}}{2}(1 + o(1))}\]
+
+    Докажем, что \(\sum_{r = 3}^{[n^{0.6}]}e^{-\frac{r^2}{2n}} \sim \sum_{r = 0}^{\infty}e^{-\frac{r^2}{2n}}\).
+    \[\sum_{r = 0}^2e^{\frac{-r^2}{2n}} = O(1)\]
+    \[\sum_{r = [n^{0.6}] + 1}^\infty e^{\frac{-r^2}{2n}} = \underbrace{\sum_{r = [n^{0.6}] + 1}^{n^2} e^{\frac{-r^2}{2n}}}_{(1)} + \underbrace{\sum_{r = n^2 + 1}^\infty e^{\frac{-r^2}{2n}}}_{(2)}\]
+    Для \((1)\):
+    \[r \ge n^{0.6} \Ra e^{\frac{-r^2}{2n}} \le e^{\frac{-n^2}{2n}} = e^{-\frac{n}{2}} \Ra (1) \le n^2e^{-\frac{n}{2}}\]
+    Для \((2)\):
+    \[\frac{e^{\frac{-(r + 1)^2}{2n}}}{e^{\frac{-r^2}{2n}}}= e^{\frac{-(r+1)^2 + r^2}{2n}} = e^{\frac{-2r - 1}{2n}} = e^{-\frac{r}{n} - \frac{1}{2n}} < e^{-\frac{r}{n}} < e^n\]
+    Тогда \((2) \le e^{-\frac{-(n^2 + 1)^2}{2n}}\) (ограничили сверху геометрической прогрессией). Тогда:
+    \[S_1 = \sum_{r = 3}^{[n^{0.6}]}e^{-\frac{r(r-1)}{2n} + O\left(\frac{r^3}{n^3}\right)} \sim \sum_{r = 3}^{[n^{0.6}]}e^{-\frac{r(r-1)}{2n}} \sim \sum_{r = 3}^{[n^{0.6}]}e^{-\frac{r^2}{2n}} \sim \sum_{r = 0}^{\infty}e^{-\frac{r^2}{2n}} \sim_{\text{сх.}} \int_0^\infty e^{-\frac{r^2}{2n}}dr = \]
+    \[ = \int_0^\infty e^{-\frac{x^2}{2}}\sqrt{n}dx = \sqrt{n}\int_{0}^{+\infty} e^{-\frac{x^2}{2}}dx = \sqrt{n}\frac{\int_{-\infty}^{+\infty} e^{-\frac{x^2}{2}}dx}{2} = \sqrt{n}\frac{\sqrt{2\pi}}{2}\]
+\end{proof}
+\hypertarget{lecture2}{}
+
+\section{Число независимости и кликовое число графа}
+\begin{definition}
+    Пусть \(n, r, s \in \N, r < n, s \in \{0, 1, \dots r- 1\}\). \(G(n, r, s)\) --- такой, граф, что \(V = \{A \subset \{1, 2, \dots n\}: |A| = r\}\), \(E = \{(A, B) : |A \cap B| = s\}\).
+\end{definition}
+
+\begin{definition}
+    Клика в графе \(G\) --- полный подграф
+\end{definition}
+\begin{definition}
+    Кликовое число \(\omega(G)\) --- количесто вершин в самой большой клике.
+\end{definition}
+\begin{definition}
+    Независимое множество --- такое множество вершин \(W\), что \(\forall x, y \in W (x, y) \notin E\).
+\end{definition}
+\begin{definition}
+    Число независимости \(\alpha(G)\) --- количесто вершин в самом большом независимом множестве.
+\end{definition}
+
+
+Рассмотрим \(\omega\left(G\left(n, \frac{n}{2}, \frac{n}{4}\right)\right)\). Заметим, что если записать матрицу Адамара в нормальной форме, то у нас получится следующее:
+\[A = \left(\begin{array}{cccc}
+    1 & 1 & \dots & 1 \\
+    1 & & & \\
+    1 & & B & \\
+    1 & & & \\
+\end{array}\right)\]
+Тогда в \(A\) все столбцы будут ортогональны. При этом, каждые две строки \(B\) (если не рассматривать первую) пересекаются по \(\frac{n}{4}\) элементам. При этом, попарно ортогональные векторы с \(\frac{n}{2}\) единичками и \(\frac{n}{2}\) минус единичками живут в \(n - 1\) мерном пространстве. Таким образом, \(\omega\left(G\left(n, \frac{n}{2}, \frac{n}{4}\right)\right) \le n - 1\), а матрица Адамара позволяет привести пример для \(n - 1\). Таким образом, Гипотеза Адамара равносильна тому, что \(\omega\left(G\left(n, \frac{n}{2}, \frac{n}{4}\right)\right) = n - 1\).
+
+Посчитаем теперь число ребер \(\left|E\left(G\left(n, \frac{n}{2}, \frac{n}{4}\right)\right)\right| = \frac{C_n^{\frac{n}{2}}\left(C_{\frac{n}{2}}^{\frac{n}{4}}\right)^2}{2}\). Это верно, т.к. \(\forall v \in V: \deg v = \left(C_{\frac{n}{2}}^{\frac{n}{4}}\right)^2\).
+
+Посчитаем теперь число треугольников в данном графе. Для этого выберем ребро и посчитаем количество треугольников, присоединенных к этому ребру. Просуммируем полученные числа и разделим на \(3\).
+Для каждого конкретного ребра \(AB\) рассмотрим вершину \(C\), которая соединена с ними обоими. Тогда: пусть \(|C \cap (A \setminus B)| = x \Ra |C \cap (A \cap B)| = \frac{n}{4} - x \Ra |C \cap (B \setminus A)| = x \Ra |C \setminus (A \cup B)| = \frac{n}{4} - x\). Тогда для конкретного \(x\), количество вершин \(C\) равняется:
+\[C_{\frac{n}{4}}^xC_{\frac{n}{4}}^{\frac{n}{4} - x}C_{\frac{n}{4}}^xC_{\frac{n}{4}}^{\frac{n}{4} - x} = \left(C_{\frac{n}{4}}^x\right)^4\]
+
+Но тогда число треугольников:
+\[= \frac{C_n^{\frac{n}{2}}\left(C_{\frac{n}{2}}^{\frac{n}{4}}\right)^2 \cdot \sum_{x = 0}^{\frac{n}{4}}\left(C_{\frac{n}{4}}^x\right)^4}{6}\]
+
+\begin{definition}
+    Энтропия --- \(H(a) = -a\ln a - (1 - a)\ln(1 - a)\)
+\end{definition}
+
+\begin{theorem}
+    Пусть \(a \in \left(0, \frac{1}{2}\right)\). Тогда 
+    \[\ln\left(C_n^{[an]}\right) \sim \left(-a\ln a - (1 - a)\ln(1 - a)\right)n = H(a)n\]
+\end{theorem}
+
+\begin{corollary}
+    \[C_n^{[an]} = \left(\frac{1}{a^a(1-a)^{(1-a)}} + o(1)\right)^n\]
+\end{corollary}
+
+\begin{proposition}[Формула Стирлинга]
+    \[n! \sim \sqrt{2\pi n}\left(\frac{n}{e}\right)^n\]
+\end{proposition}
+\begin{proof}
+    Было на матане.
+\end{proof}
+
+\begin{definition}
+    \(C(n, k)\) --- количество связных графов на \(n\) верщинах с \(k\) ребрами.
+\end{definition}
+\begin{note}
+    \begin{enumerate}
+        \item \(k \le n - 2 \Ra C(n, k) = 0\)
+        \item \(k = n - 1 \Ra C(n, k) = t_n = n^{n - 2}\)
+        \item \(k = n \Ra C(n, k) = u_n \sim \sqrt{\frac{\pi}{8}}\cdot n^{n - \frac{1}{2}}\)
+        \item (б/д) \(k = n + 1 \Ra C(n, k) \sim \frac{5}{24}n^{n + 1}\)
+        \item (б/д) \(C(n, n + k) \sim \gamma(k)n^{n + \frac{3k + 1}{2}}\), при \(k = O\left(n^{\frac{2}{3}}\right)\)
+    \end{enumerate}
+\end{note}
+
+\hypertarget{lecture3}{}
+
+\subsection{Хроматическое число графа}
+\begin{definition}
+    \(\chi(G) = \min\{k: V = V_1 \cup V_2 \cup \dots \cup V_k: \forall i \forall x, y \in V_i (x, y) \notin E\}\) --- называется хроматическое число графа.
+\end{definition}
+
+\begin{proposition}
+    \(\chi(G) \ge \omega(G)\)
+\end{proposition}
+\begin{proof}
+    В самом большом полном подграфе точно все вершины должны быть разного цвета, откуда и следует оценка
+\end{proof}
+
+\begin{proposition}
+    \(\chi(G) \ge \frac{|V|}{\alpha(G)}\)
+\end{proposition}
+\begin{proof}
+    \(|V| = |V_1| + |V_2| + \dots + |V_k| \le k\alpha(G) \Ra k \ge \frac{|V|}{\alpha(G)}\)
+\end{proof}
+
+\begin{proposition}
+    \(\chi(G) \le \Delta(G) + 1\), \(\Delta(G)\) --- максимальная степень вершины в \(G\)
+\end{proposition}
+\begin{proof}
+    Ведем индукцию по \(n\) --- количеству вершин
+    \begin{enumerate}
+        \item[] \textbf{База:} \(n = 1\) --- очевидно
+        \item[] \textbf{Переход:} Уберем вершину с максимальной степенью. В оставшемся графе по предположению индукции можно вершины правильным образом покрасить в \(\Delta(G) + 1\) цвет. А новую вершину мы покрасим в тот цвет, которого нет среди ее соседей.
+    \end{enumerate}
+\end{proof}
+
+\begin{theorem}[Брукса]
+    Пусть \(G\) --- не клика и не нечетный цикл. Тогда \(\chi(G) \le \Delta(G)\)
+\end{theorem}
+
+\begin{definition}
+    \(G\) называется двудольным графом, если \(\chi(G) = 2\).
+\end{definition}
+
+\begin{proposition}
+    Граф двудолен тогда и только тогда, когда в нем нет нечетных циклов.
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}
+        \item[\(\Ra\)] Пусть есть, тогда этот цикл нельзя правильным образом покрасить в два цвета
+        \item[\(\La\)] Рассмотрим \(f(s, u)\) --- множество всех длин путей \(s \ra u\). Т.к. в \(G\) нет нечетных циклов, то в \(f(u, v)\) все числа одинаковой четности. Зафиксируем вершину \(s\) и покрасим каждую вершину \(v\) в цвет, равный \(f(s, v) \mod 2\). Тогда \(\forall l \in f(u, v): l \equiv_2 0\)
+    \end{enumerate}
+\end{proof}
+
+\begin{theorem}
+    Доля тех графов, у которых \(\omega(G) < w\log_2 n\), стремится к \(0\) при \(n \ra \infty\)
+\end{theorem}
+\begin{note}
+    Утверждение теоремы равносильно тому, что \(\lim_{n \ra \infty} P(\omega(G) \le 2 \log_2 n)\).
+\end{note}
+\begin{proof}
+    Заметим, что
+    \[P(\omega(G) \ge k) = P(\exists \text{ множество вершин мощности \(k\), которое является кликой в \(G\)}) =\]
+    \[ = P\left(\bigcup_{i = 1}^{C_n^k} \{G: \text{\(i\)-ое \(k\)-элементное множество вершин образуют клику в \(G\)}\}\right) \le\]
+    \[\le \sum_{i = 1}^{C_n^k}P(\text{\(i\)-ое \(k\)-элементное множество образует клику}) = \]
+    \[= \sum_{i = 1}^{C_n^k} \frac{2^{C_n^2 - C_k^2}}{2^{C_n^2}} = \sum_{i = 1}^{C_n^k} 2^{-C_k^2} = C_n^k 2^{-C_k^2} = C_n^k2^{-\frac{k(k - 1)}{2}} \le\]
+    \[\le \frac{n^k}{k!}2^{-\frac{k^2}{2} + \frac{k}{2}} = \frac{2^{k\log_2 n - \frac{k^2}{2} + \frac{k}{2}}}{k!} = \frac{2^{2\log_2^2n - 2\log_2^2n}}{k!} \ra 0\]
+    Для нецелого \(2\log_2n\) используем \(k = [2\log_2n]\), в силу того, что \(k!\) растет сильно быстрее, доказательство не поменяется.
+\end{proof}
+
+Рассмотрим граф \(G = G(n, 3, 1)\), т.е. такой, что \(V = \{A \subset \{1, 2, \dots n\}: |A| = 3\}, E = \{(A, B): |A \cap B| = 1\}\).
+
+\begin{proposition}
+    \(\omega(G) \le n\).
+\end{proposition}
+
+\begin{problem}
+    \(\omega(G) \ge \left[\frac{n - 1}{2}\right], n \ge 7\)
+\end{problem}
+
+\begin{theorem}
+    \(\alpha(G) = \left\{\begin{array}{l}
+        n, n \equiv_4 0 \\
+        n - 1, n \equiv_4 1 \\
+        n - 2, n \equiv_4 2 \text{ или } 3 \\
+    \end{array}\right.\)
+\end{theorem}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item[] \textbf{Пример:}
+        Берем все тройки, являющиеся подмножествами множеств \(\{4k + 1, 4k + 2, 4k + 3, 4k + 4, k \le \frac{n}{4}\}\) и еще тройки из множества \(\{n - mod(n, 4) + 1, \dots,  n\}\)
+        \item[] \textbf{Оценка:} 
+        Ведем индукцию по \(n\)
+        \begin{enumerate}
+            \item[] \textbf{База:} \(n = 1, 2, 3, 4 \Ra \alpha(n) = 0, 0, 1, 4\).
+            \item[] \textbf{Переход:} пусть \(A_1, \dots A_s\) --- вершины независимого множества в \(G(n, 3, 1)\).
+            \begin{enumerate}
+                \item \(\forall i, j A_i \cap A_j = \emptyset \Ra s \le \frac{n}{3}\), это хуже заявленного примера.
+                \item \(\exists i, j: |A_i \cap A_j| = 2\)
+                Тогда Б.О.О. это элементы \(\{1, 2, 3\}, \{1, 2, 4\}\).
+                \begin{enumerate}
+                    \item Больше нет множеств, содержащих \(1, 2\). Тогда все \(A_i\) либо лежат внутри \(\{1, 2, 3, 4\}\), либо лежат внутри \(\{5, 6, \dots n\}\). Тогда по предположению индукции, утверждение верно.
+                    \item Пусть Б.О.О. существуют еще \(r - 2\) множества: \(\{1, 2, 5\}, \{1, 2, 6\}, \dots \{1, 2, r\}, r \ge 5\). Все остальные \(A_i\) находятся среди \(\{r + 1, \dots n\}\) и их \(\le n - r\). Но тогда \(s \le r - 2 + (n - r) \le n - 2\)
+                \end{enumerate}
+            \end{enumerate}
+        \end{enumerate}
+    \end{enumerate}
+\end{proof}
+\begin{note}
+    \label{linalg_method}
+    Доказать, что \(s \le n\) можно, используя линейную алгебру. Сопоставим каждому множеству вектор из \(n\) нулей или единиц (маску множества). Докажем, что они линейно независимы над \(\Z_2\) (таким образом поймем, что их \(\le n\)).
+    \[c_1x_1 + c_2x_2 + \dots c_sx_s = 0\]
+    \[c_1(x_1, x_i) + c_2(x_2, x_i) + \dots c_s(x_s, x_i) = 0\]
+    \[3c_i = 0 \Ra c_i = 0\]
+\end{note}
+
+\begin{corollary}
+    Для графа \(G(n, 3, 1)\) верно: 
+    \[\omega(G) \le n, \lceil\frac{|V|}{\alpha(G)}\rceil \ge \frac{C_n^3}{n} \sim \frac{n^2}{6}\]
+    Таким образом, графы \(G(n, 3, 1)\) предъявляют пример, в котором оценка \(\chi(G) \ge \lceil\frac{|V|}{\alpha(G)}\rceil\) лучше, чем \(\chi(G) \ge \omega(G)\).
+\end{corollary}
+
+\hypertarget{lecture4}{}
+\section{Гамильтоновость графа}
+\begin{definition}
+    Граф \(G - \)гамильтонов, если \(\exists\) простой цикл, проходящий по всем вершинам графа.
+\end{definition}
+
+\begin{theorem}{Дирака}
+    Пусть \(G = (V, E), n = |V|, \forall v \in V \ deg \  v \ge \frac{n}{2}\). Тогда граф \(G\) гамильтонов.
+\end{theorem}
+
+\begin{definition}
+    \(\varkappa\) - вершинная связность, то есть минимальное количество вершин, которое нужно удалить из графа, чтобы нарушить его связность:
+    \[\varkappa(G) = min \{k : \exists W \subseteq V: |W| = k, G |_{V 
+    \setminus W} \text{несвязный}\}\]
+\end{definition}
+
+\begin{theorem}{(Эрдеш, Хватал)}
+    Пусть \(\varkappa(G) \ge \alpha(G)\). Тогда \(G\) гамильтонов. 
+\end{theorem}
+\begin{proof}
+    \begin{enumerate}
+        \item Случай, когда в \(G\) нет циклов. Тогда \(G\) --- дерево \(\Ra\) есть хотя бы \(2\) висячих вершины \(\Ra \alpha(G) \ge 2\), но есть и не висячие вершины \(\Ra \kappa(G) \le 1\).
+        \item Случай, когда в \(G\) есть циклы. Рассмотрим любой самый длинный простой цикл \(C = \{x_1, x_2, \dots x_k\}, k < n\) (при \(k = n\) граф будет гамильтонов). Тогда удалим \(C\) из \(G\), получим граф \(G'\). Пусть \(W\) --- связная компонента в \(G'\). Положим \(N_W(G) = \{x \in V \setminus W: \exists y \in W: (x, y) \in E\}\).
+        \begin{proposition}
+            \(N_W(G) \subset C\).
+        \end{proposition}
+        \begin{proof}
+            Это правда, т.к. ребра не могут вести в другие компоненты связности графа \(G'\).
+        \end{proof}
+        \begin{proposition}
+            Если \(x_i = N_W(G) \Ra x_{i + 1} \notin N_W(G)\).
+        \end{proposition}
+        \begin{proof}
+            Пусть \(\exists i: x_i \in N_W(G), x_{i + 1} \in N_W(G)\). Тогда существует цикл большей длины, проходящий через \(x_i\), заходящий в компоненту \(W\) и выходящий через \(x_{i + 1}\).
+        \end{proof}
+        \begin{corollary}
+            \(N_W(G) \subsetneq C\)
+        \end{corollary}
+        \begin{proposition}
+            \(\kappa(G) \le |N_W(G)|\).
+        \end{proposition}
+        \begin{proof}
+            Удалим \(N_W(G)\). Т.к. \(C \setminus N_W(G) \ne \emptyset\), то граф распался на \(\ge 2\) компоненты связности. Но тогда \(\kappa(G) \le |N_W(G)|\).
+        \end{proof}
+        \begin{proposition}
+            Рассмотрим \(M = \{x_{i + 1} | x_i \in N_W(G)\}\). Тогда \(M\) --- независимое множество.
+        \end{proposition}
+        \begin{proof}
+            Заметим, что \(|M| = |N_W(G)|, M \cap N_W(G) = \emptyset\). Предположим, что \(\exists x_{i + 1}, x_{j + 1} \in M: (x_{i + 1}, x_{j + 1}) \in E\). Но т.к. \(x_i, x_j \in N_W(G)\), то существует путь \(x_{i + 1} \ra x_{j + 1} \ra \text{по циклу} \ra x_{i} \ra \text{по \(W\)} \ra x_j \ra \text{обратно по циклу} \ra x_{i + 1}\).
+        \end{proof}
+        Рассмотрим \(x \in W\). Заметим, что \(M \cup \{x\}\) --- тоже независимое множество. Но тогда \(\alpha(G) \ge |M| + 1 = |N_W(G)| + 1 > \kappa(G)\). Пришли к противоречию.
+    \end{enumerate}
+\end{proof}
+
+\begin{note}
+    В 2 предыдущих теоремах связность графа следует из условия. В теореме Дирака все компоненты связности должны быть \(ge \frac{n}{2} + 1 \Longrightarrow \) их не более 1. А в теореме Эрдеша-Хватала \(\alpha(G) \ge 1 \Longrightarrow \kappa(G) \ge 1\)
+\end{note}
+
+\begin{example}
+    Рассмотрим граф \(G(n, 3, 1): V = \{A \subset \{1, 2, \dots n\}: |A| = 3\} \Ra |V| = C_n^3, E = \{(A, B): |A \cap B| = 1\}\). Известно, что \(\alpha(G(n, 3, 1)) \le n\).
+
+    Признак дирака на таком графе не работает, т.к. граф разреженный, т.е. \(\deg \text{каждой вершины} = 3C_{n - 3}^2 \sim \frac{3n^2}{2}\).
+
+    Однако, \(\kappa(G) \ge \min_{v, w \in V} f(v, w)\), где \(f\) --- количество общих соседей у \(v, w\). Рассмотрим, какие тройки могут быть аргументами \(f\). Б.О.О, положим первую тройку \(1, 2, 3\), вторую будем подбирать для того, чтобы было \(0, 1, 2\) пересечений с первой тоже не ограничивая общность.
+    \[\begin{array}{c|c|c}
+        A & B & f(A, B) \\
+        \hline
+        \{1, 2, 3\} & \{4, 5, 6\} & 9(n - 6) \\ 
+        \{1, 2, 3\} & \{3, 4, 5\} & C_{n - 5}^2 + 4(n - 5) \\ 
+        \{1, 2, 3\} & \{2, 3, 4\} & 2C_{n - 4}^2 + n - 4 \\ 
+    \end{array}\]
+    Теперь заметим, что теорема Эрдеша-Хватала доказывает гамильтоновость графа (т.к. \(\kappa(G) \ge n \ge \alpha(G)\)), в то время, как Дирак тут бессилен :(((.
+\end{example}
+
+Рассмотрим жадный алгоритм: будем красить вершины последовательно, причем каждую новую вершину будем красить в минимальный возможный цвет (иначе, добавляем новый цвет). Пусть \(\chi_\text{ж}(G)\) --- количество цветов, в которое наш алгоритм покрасил граф, \(\alpha_\text{ж}(G)\) --- максимальное количество вершин одного цвета при покраске жадным алгоритмом. 
+
+\begin{note}
+    \(\alpha_\text{ж}(G) \le \alpha(G), \chi_\text{ж}(G) \ge \chi(G)\).
+\end{note}
+
+\begin{note}
+    Когда \(P(\dots) \ra 1\), говорят, что \(\dots\) происходит ''асимптотически почти наверное'' (а.п.н.)
+\end{note}
+
+\begin{theorem}
+    Тогда \(\forall \epsilon > 0 P\left( \frac{\alpha(G)}{\alpha_\text{ж}(G)} \le 2 + \epsilon \right) \ra 1, n \ra \infty\), т.е. \(\frac{\alpha(G)}{\alpha_\text{ж}(G)} \le 2 + \epsilon\) (а.п.н.)
+\end{theorem}
+\begin{proof}
+    Известно, что а.п.н. \(\alpha(G) \le 2\log_2n \Ra\) достаточно доказать, что \(\forall \epsilon > 0\) а.п.н. \(\alpha_{\text{ж}} \ge (1 - \epsilon)\log_2n\). Докажем, что \(P(\alpha_{\text{ж}}(G) < (1 - \epsilon)\log_2n) \ra 0\). Положим за \(A\) событие \(\alpha_{\text{ж}}(G) < (1 - \epsilon)\log_2n\). Положим \(m = \left[ \frac{n}{2(1 - \epsilon)\log_2n}\right]\) и рассмотрим следующее событие \(B\):
+    \[B = \left\{\begin{array}{l}
+        \exists a_1, a_2, \dots a_m: \forall i: a_i < (1 - \epsilon)\log_2n \\
+        \exists C_1, C_2, \dots C_m: \forall i: |C_i| < a_i, \forall i, j: C_i \cap C_j = \emptyset \\
+        \forall x \notin \bigcup_{i = 1}^m C_i \forall i \exists y \in C_i: (x, y) \in E
+    \end{array}\right.\]
+    Зафиксируем \(x, i\). \(P(\exists y \in C: (x, y) \in E) = 1 - \left(\frac{1}{2}\right)^{a_i}\). Т.к. ребра выбираются независимо, множества ребер, ведущие в \(C_i, C_j\) выбираются тоже независимо. Тогда:
+    \[P(\forall i \exists y \in C_i (x, y) \in E) = \prod_{i = 1}^nP(\exists y \in C: (x, y) \in E) = \prod_{i = 1}^n\left( 1 - \left( \frac{1}{2} \right)^{a_i} \right)\]
+    События \(\forall i \exists y \in C_i (x, y) \in E\) также независимы по всем вершинам \(x\), т.к. ребра ведущие из одной вершины в \(\bigcup_{i = 1}^n C_i\) выбираются независимо от ребер другой такой же вершины. Тогда:
+    \[P\left(\forall x \notin \bigcup_{i = 1}^n C_i \forall i \exists y \in C_i (x, y) \in E\right) = \left( \prod_{i = 1}^n\left( 1 - \left( \frac{1}{2} \right)^{a_i} \right) \right)^{n - a_1 - a_2 - \dots - a_m} <\]
+    \[< \left( \prod_{i = 1}^n\left( 1 - \frac{1}{2^{(1 - \epsilon)\log_2n}} \right) \right)^{\frac{n}{2}} = \left( 1 - \frac{1}{n^{1 - \epsilon}} \right)^{\frac{mn}{2}} \le e^{-\frac{1}{n^{1 - \epsilon}}\cdot\frac{n}{2}\cdot\frac{n}{2\log_2n}} = e^{-\frac{n^{1 + \epsilon}}{4\log_2n}}\]
+    Итого, получаем:
+    \[P(B) \le \sum_{a_1 = 1}^{(1 - \epsilon)\log_2n}\dots \sum_{a_m = 1}^{(1 - \epsilon)\log_2n}\sum_{\begin{array}{l}
+        C_1, C_2, \dots C_m: \forall i: |C_i| = a_i\\
+        \forall i, j: C_i \cap C_j = \emptyset
+    \end{array}} e^{-\frac{n^{(1 + \epsilon)}}{4\log_2n}} \le\]
+    \[ \le e^{-\frac{n^{1 + \epsilon}}{4\log_2n}}\sum_{a_1 = 1}^{(1 - \epsilon)\log_2n}\dots \sum_{a_m = 1}^{(1 - \epsilon)\log_2n}C_n^{a_1}C_n^{a_2}\dots C_n^{a_m} < e^{-\frac{n^{1 + \epsilon}}{4\log_2n}}\sum_{a_1 = 1}^{(1 - \epsilon)\log_2n}\dots \sum_{a_m = 1}^{(1 - \epsilon)\log_2n}n^{a_1 + a_2 + \dots + a_m} \le\]
+    \[\le e^{-\frac{n^{1 + \epsilon}}{4\log_2n}}\cdot n^{\frac{n}{2}}\sum_{a_1 = 1}^{(1 - \epsilon)\log_2n}\dots \sum_{a_m = 1}^{(1 - \epsilon)\log_2n} 1 =\]
+    \[= e^{-\frac{n^{1 + \epsilon}}{4\log_2n} + \frac{n}{2}\ln n}(\log_2n)^n \le e^{-\frac{n^{1 + \epsilon}}{4\log_2n} + \frac{n}{2}\ln n + \frac{n}{(1 - \epsilon)\log_2n}\ln(\log_2n)} \ra 0\]
+\end{proof}
+
+Заметим, что жадный алгоритм полиномиальный (работает за \(O(n^2)\)), причем он ошибается всего в 2 раза. Возникает вопрос: можно ли придумать полиномиальный алгоритм лучше, который может ошибаться в меньшее количество раз. Ответ: никто не знает. Кокнуло?
+
+\hypertarget{lecture5}{}
+
+\section{Случайные графы}
+\begin{theorem}[Кучера]
+    \(\forall \epsilon > 0 \forall \delta > 0 \exists \) последовательность графов \(G_n\) на \(n\) вершинах, \(\exists n_0: \forall n > n_0\) доля тех нумераций, в которых окажется, что \(\frac{\alpha(G)}{\alpha_{\text{ж}, \sigma}} \ge n^{1 - \epsilon}\), не меньше, чем \(1 - \delta\).
+\end{theorem}
+
+\begin{definition}
+    \(g(G)\) \textit{(от английского girth)} --- обхват графа --- длина кратчайшего простого цикла.
+\end{definition}
+
+\begin{definition}
+    \(G(n, p)\) --- модель случайного графа Эрдеша и Реньи (также называется биномиальная модель). В данной модели граф выбирается случайно, каждое ребро проводится с вероятностью \(p\)
+\end{definition}
+
+\begin{theorem}[Эрдеш]
+    \(\forall k, l \in \N: \exists G: \chi(G) > k, g(G) > l\).
+\end{theorem}
+\begin{proof}
+    Положим \(\theta = \frac{1}{2l}, p = p(n) = n^{\theta - 1}\). Пусть \(X_l(G)\) --- количество простых циклов длины \(\le l\) в \(G\). \(\E X_l = \sum_{r = 3} \E(\text{число циклов длины \(r\)})\). Представив каждое из слагаемых как индикаторы конкретных циклов, получаем:
+    \[\E X_l = \sum_{r = 3}^l \E(\text{число циклов длины \(r\)}) = \sum_{r = 3}^l\underbrace{C_n^r \frac{(r - 1)!}{2}}_{\text{максимальное количество циклов длины \(r\)}}p^r \le \]
+    \[\le \sum_{r = 3}^l \frac{n^r}{r!}\cdot\frac{(r - 1)!}{2}p^r \le \sum_{r = 3}^l (np)^r = \sum_{r = 3}^l n^{\theta r} < ln^{\theta l} = l \sqrt{n}\]
+    По неравенству Маркова, имеем:
+    \[P\left( X_l > \frac{n}{2} \right) \le \frac{l\sqrt{n}}{n/2} \ra 0 \Ra \exists n_1: \forall n \ge n_1 P\left( X_l \le \frac{n}{2} \right) > \frac{1}{2}\]
+    Рассмотрим \(x = \left\lceil \frac{3\ln n}{p}\right\rceil \ra \infty\). Т.к. \(p = n^{1 - \theta}\), то \(x \ra \infty, n \ra \infty\). Докажем, что \(P(\alpha(G) \ge x) \ra 0\). Положим \(Y_x(G)\) ---количество независимых множеств на \(x\) вершинах в \(G\). Тогда \(P(\alpha(G) \ge x) \Lra P(Y_x \ge 1)\). По неравенству Маркова, имеем:
+    \[P(Y_x \ge 1) \le EY_x = C_n^x(1 - p)^{C_x^2} \le n^x e^{-pC_x^2} = e^{x\ln n - p\frac{x(x - 1)}{2}} = e^{x \left( \ln n - \frac{p(x - 1)}{2} \right)}\]
+    При этом, \(x \sim \frac{3\ln n}{p}\), поэтому \(\ln n - \frac{p(x - 1)}{2} = \ln n - (1 + o(1))\cdot\frac{p}{2}\cdot\frac{3\ln n}{p} \ra -\infty\), но тогда 
+    \[e^{x \left( \ln n - \frac{p(x - 1)}{2} \right)} \ra 0\]
+
+    Тогда \(P(\alpha(G) < x) \ra 1 \Ra \forall n > n_2 P(\alpha(G) < x) > \frac{1}{2}\). Но тогда \(\forall n > \max \{n_1, n_2\} \exists G: X_l(G) \le \frac{n}{2}, \alpha(G) < x\). Получим граф \(G'\), удалив по одной вершине из каждого ''плохого'' цикла. Тогда: \(g(G') > l, |V(G')| > \frac{n}{2}\). Тогда:
+    \[\alpha(G') < x \Ra \chi(G') \ge \frac{n/2}{x} \sim \frac{np}{2\cdot 3 \ln p} = \frac{n^\theta}{6\ln n} > k\text{ начиная с какого-то \(n_3\)}\]
+    Но тогда \(\forall n > \max\{n_1, n_2, n_3\} g(G') > l, \chi(G') > k\)
+\end{proof}
+
+\hypertarget{lecture6}{}
+
+\begin{theorem}[Эрдеш, Реньи, 1959]
+    Пусть \(p = p(n) = \frac{c \ln n}{n}, c > 0\). Тогда если \(c > 1\), то а.п.н. \(G(n, p)\) связен, а если \(c < 1\), то а.п.н. \(G(n, p)\) несвязен.
+    \begin{enumerate}
+        \item Если \(c > 1\), то а.п.н. \(G(n, p)\) связен
+        \item Если \(c < 1\), то а.п.н. \(G(n, p)\) несвязен
+        \item[3 (б/д).] Если \(c = 1\), то \(P(G(n, p)\text{ связен}) \ra \frac{1}{e}\) 
+    \end{enumerate}
+\end{theorem}
+\begin{proof}[Идея доказательства]
+    Положим \(X(G)\) --- число изолированных вершин графа \(G\). Тогда
+    \[\E X = nq^{n - 1} = n(1 - p)^{n - 1} = ne^{(n - 1)\ln(1 - p)} = ne^{-(1 + o(1))np} =\]
+    \[= ne^{-(1 + o(1))n\frac{c\ln n}{n}} = n\cdot n^{-(1 + o(1))c} \ra \left\{\begin{array}{l}
+        0, c > 1 \\
+        +\infty, c < 1
+    \end{array}\right.\]
+\end{proof}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item \(c < 1\).
+        \[P(X \ge 1) = 1 - P(X \le 0) = 1 - P(-X \ge 0) =\]
+        \[= 1 - P(\E X - X \ge \E X) \ge 1 - P(|X - \E X| \ge \E X) \ge 1 - \frac{\Variance X}{(\E X)^2}\]
+        \[\Variance X = \E X^2 - (\E X)^2\]
+        \[\E X^2 = E(X_1 + X_2 + \dots + X_n)^2 = E\left( X_1^2 + \dots + X_n^2 + \sum_{i \ne j}X_iX_j \right) = \E X + \E \left( \sum_{i \ne j} X_iX_j \right) =\]
+        \[= \E X + n(n - 1)(1 - p)^{2n - 3}\]
+        Итого:
+        \[\frac{\Variance X}{(\E X)^2} = \frac{\E X + n(n - 1)(1 - p)^{2n - 3} - (\E X)^2}{(\E X)^2} = o(1) - 1 + \underbrace{\frac{n(n - 1)(1 - p)^{2n - 3}}{n^2(1 - p)^{2n - 2}}}_{\sim 1} \ra 0\]
+        \item \(c > 1\). Положим теперь \(X(G)\) --- количество компонент связности \(G\) на \(1, 2, \dots n - 1\) вершинах.
+        \[P(X \ge 1) \le \E X = \sum_{k = 1}^n \sum_{j = 1}^{C_n^k} P(\text{\(j\)-е \(k\)-элементное множество является компонентой}) \le\]
+        \[\le \sum_{k = 1}^{n - 1}\sum_{j = 1}^{C_n^k}(1 - p)^{k(n - k)} = \sum_{k = 1}^{n - 1}C_n^k\]
+        Для доказательства, что данная сумма \(\ra 0\), докажем, что \(\sum_{k = 1}^{n/2}C_n^k \ra 0\) (сумма до \(n - 1\) симметрична относитнельно \(n/2\)).
+        Положим \(a_k(n) = C_n^k(1 - p)^{k(n - k)}\). Тогда
+        \[\frac{a_{k + 1}(n)}{a_k(n)} = \frac{C_n^{k + 1}(1 - p)^{(k + 1)(n - k - 1)}}{C_n^k(1 - p)^{k(n - k)}} = \frac{n - k}{k + 1}(1 - p)^{-k + n - k + 1} < n(1 - p)^{n - 1 - 2k}\]
+    \end{enumerate}
+\end{proof}
+
+\begin{theorem}[б/д]
+    Если \(p(n) = \frac{\ln n + \gamma}{n}, \gamma \in \R\), то \(P(G(n, p)\text{ связен}) \ra e^{-e^{-\gamma}}\)
+\end{theorem}
+
+\begin{corollary}[б/д]
+    Если \(c = 3, n \ge 100\), то \(P(G(n, p)\text{ связен}) \ge 1 - \frac{1}{n}\)
+\end{corollary}
+
+\hypertarget{lecture7}{}
+
+\[\sum_{k=1}^\frac{n}{2} \underbrace{C_n^k (1-p)^{k(n-k)}}_{a_k(n)} = \underbrace{\sum_{k=1}^{[\frac{n}{\sqrt{\ln{n}}}]}}_{S_1} \dots + \underbrace{\sum_{k = [\frac{n}{\sqrt{\ln{n}}}] + 1}^{\frac{n}{2}}}_{S_2}\]
+
+\[\frac{a_{k+1}(n)}{a_k(n)} \le n (1-p)^{(n-2k-1)} \le n(1-p)^{n(1 + o(1))}\]
+\[S_2 < n \cdot 2^n (1 - p)^{\frac{n}{\sqrt{\ln{n}}} \cdot \frac{n}{2}} \le n(1 - p)^{n - 2\frac{n}{\sqrt{\ln{n}}} - 1}  \le \]
+
+НЕ ЗАКОНЧЕНО
+
+\subsection{Связность случайного графа}
+
+Представим пьяницу, который ходит по целым точкам вещественной прямой либо вправо, либо влево, стартует в кабаке (в 0). Пусть \(\xi_n\) --- куда дошел пьяница за \(n\) шагов. Тогда:
+\[P(\xi_n \ge a) = P(\xi_n - \underbrace{\E \xi_n}_{0} \ge a) \le \frac{\Variance \xi_n}{a^2}\]
+При этом:
+\[\xi_n = \sum_{i = 1}^n \eta_i\]
+Где \(\eta_i \in \{\pm 1\}\) --- куда пошел пьяница на \(i\)-ом шаге. Тогда \(\Variance \xi_n = \E\xi_n^2 - (\E\xi_n)^2 = n\).
+
+\begin{proposition}[Неравенство Хёффдинга]
+    В условиях предыдущей задачи, \(P(\xi_n \ge a) \le e^{-\frac{a^2}{2n}}\)
+\end{proposition}
+\begin{proof}
+    \[P(\xi_n \ge a) = P(\lambda\xi_n \ge \lambda a) = P(e^{\lambda \xi_n} \ge e^{\lambda a}) \le e^{-\lambda a}\E (e^{\lambda \xi_n}) = e^{-\lambda a} \prod_{i = 1}^n \E (e^{\lambda \eta_i}) = \]
+    \[= e^{-\lambda a} \left( \frac{1}{2}e^\lambda + \frac{1}{2}e^{-\lambda} \right) = e^{-\lambda a}\left( \frac{1}{2}\left( \sum_{k = 0}^\infty \frac{\lambda^k}{k!} + \sum_{k = 0}^\infty \frac{(-\lambda)^k}{k!} \right) \right)^n = e^{-\lambda a} \left( \sum_{l = 0}^\infty \frac{\lambda^{2l}}{(2l)!} \right) \le \]
+    \[\le e^{-\lambda a} \left( \sum_{l = 0}^\infty \frac{\lambda^{2l}}{2^ll!} \right) = e^{-\lambda a + \frac{\lambda^2}{2}n}\]
+    При этом \(-\lambda a + \frac{\lambda^2}{2}n\) --- парабола, и ее минимум достигается в точке \(\lambda = \frac{a}{n}\), подставляя данное значение для \(\lambda\), получаем требуемое.
+\end{proof}
+
+\begin{theorem}[Интегральная предельная теорема Муавра --- Лапласа]
+    Пусть \(\xi \sim Bin(n, p)\). Тогда:
+    \[P\left( a \le \frac{\xi - n p}{\sqrt{npq}} \le b\right) \sim_{n \ra \infty} \frac{1}{\sqrt{2\pi}} \int_a^b e^{-\frac{x^2}{2}}dx\]
+\end{theorem}
+
+
+\begin{note}
+    Пусть \(p: pn^2 \ra 0\). \(\E\;|E| = C_n^2p\sim n^2p \ra 0\). Тогда по неравенству Маркова:
+    \[P(|E|) \le \E\;|E| \ra 0 \Ra \text{а.п.н.} \chi(G) = 1\]
+\end{note}
+\begin{proposition}
+    Пусть \(pn^2 \ra \infty, pn \ra 0 \Ra\) а.п.н. ребра есть, тогда:
+    \[\left\{\begin{array}{l}
+        \text{а.п.н. ребра есть \(\Ra\) а.п.н \(\chi(G) \ge 2\)} \\
+        \text{а.п.н. \(G(n, p)\) --- лес} \\
+        \text{а.п.н. \(\chi(G) = 2\)} \\
+    \end{array}\right.\]
+\end{proposition}
+\begin{proof}
+    Пусть \(X(G)\) --- число простых циклов.
+    \[\E X = \sum_{r = 3}^n C_n^r p^r \le \sum_{r = 3}^n \frac{n^r}{r!}\frac{(r - 1)!}{r}p^r < \sum_{r = 3}^n (np)^r < \sum_{r = 3}^\infty (np)^r =_{n \ge n_0} \frac{(np)^3}{1 - np} \ra 0\]
+\end{proof}
+
+\begin{problem}
+    Если \(p = \frac{c}{n}, c < 1\), то а.п.н. все компоненты --- либо деревья, либо унициклические графы \(\Ra\) а.п.н. \(\chi(G) = 3\)
+\end{problem}
+
+\hypertarget{lecture8}{}
+
+\begin{note}
+    Выведем интуицию, связывающую Хёффдинга из интегральной теоремы Муавра--Лапласа. Пусть \(\xi \sim Bin(n, p)\).
+    \[P(\xi_n \ge a) = P\left( \sum_{i = 1}^n \eta_i \ge a\right) = P\left( \sum_{i = 1}^n \frac{\eta_i + 1}{1} \ge \frac{a + n}{2} \right) = (*)\]
+    Положим \(\phi_i = \left\{\begin{array}{l}
+        1, \text{ с вероятностью \(p\)} \\
+        0, \text{ с вероятностью \(q\)} \\
+    \end{array}\right.\).
+    Тогда:
+    \[(*) = P\left( \sum_{i = 1}^n \phi_i \ge \frac{a + n}{2} \right) = P\left( \frac{\sum_{i = 1}^n \phi_n - \frac{n}{2}}{\sqrt{n/4}} \ge \frac{a/2}{\sqrt{n/4}}\right)\sim \frac{1}{2\pi}\int_{\frac{a}{\sqrt{n}}}^{+\infty}e^{-\frac{x^2}{2}} \approx e^{-\frac{a^2}{2n}}\]
+\end{note}
+
+\begin{theorem}
+    Пусть \(p = \frac{c}{n}, c > 0\).
+    \begin{enumerate}
+        \item Если \(c < 1\), то \(\exists \beta(c)\), такая, что а.п.н. каждая компонента \(G(n, p)\) имеет \(\le \beta \ln n\) вершин.
+        \item Если \(c > 1\), то \(\exists \beta(c), \gamma(c) \in (0, 1)\), такие, что а.п.н. в \(G(n, p)\) есть ровно одна компонента в которой \(\ge \gamma n\) вершин, а все остальные компоненты связности имеют \(\le \beta \ln n\) вершин.
+    \end{enumerate}
+\end{theorem}
+
+\begin{figure}[h!]
+    \begin{center}
+        \includegraphics[scale=0.3]{images/shpikachka.jpg}
+    \end{center}
+    \caption{Шпикачка}
+\end{figure}
+\begin{proof}
+    Запустим процесс: будем по очереди оживлять вершины. Пусть в момент времени \(t\), \(Y_t\) --- число живых вершин, \(Z_t\) --- число потомков живых вершин, \(N_t\) --- число нейтральных вершин. Тогда:
+    \[Y_0 = 1, N_0 = n - 1, Z_1 \sim Bin(n - 1, p)\]
+    \[Y_t = Y_{t - 1} + Z_t - 1, N_0 = n - 1, Z_1 \sim Bin(n - 1, p), Z_t \sim Bin(N_{t - 1}, p)\]
+    \[Y_t + N_t + t = n\]
+
+    \begin{lemma}
+        \(Y_t = 1 - t + Bin(n - 1, 1 - (1 - p)^t)\)
+    \end{lemma}
+    \begin{proof}
+        \[Y_t + N_t + t = n\]
+        \[N_t = n - 1 + 1 - t - Y_t = 1 - t + (n - 1 - Y_t)\]
+        Но тогда
+        \[Y_t = 1 - t + Bin(n - 1, 1 - (1 - p)^t) \Lra N_t = Bin(n - 1, (1 - p)^t)\]
+        Докажем последнее равенство по индукции по \(t\).
+        \begin{enumerate}
+            \item[] \textbf{База:} \(t = 0\), \(N_0 \sim Bin(n - 1, 1)\).
+            \item[] \textbf{Переход:} 
+            \[Y_{t - 1} + N_{t - 1} + t - 1 = n \Ra Y_{t - 1} = n - (t - 1) - N_{t - 1}\]
+            \[N_t = n - 1 - t + 1 - Y_t = (n - 1) - (t - 1) - Y_{t - 1} - Z_t + 1 = (n - 1) - (t - 1) - n + N_{t - 1} + (t - 1) - Z_t + 1 = N_{t - 1} - Z_t = N_{t - 1} - Bin(N_{t - 1}, p) = Bin(N_{t - 1}, 1 - p)\]
+            По предположению индукции, \(N_{t - 1} = Bin(n - 1, (1 - p)^{t - 1})\), тогда:
+            \[N_t = Bin(N_{t - 1}, 1 - p) = Bin(n, (1 - p)^t)\]
+        \end{enumerate}
+    \end{proof}
+
+    \[P(\text{существует компонента связности с \(\ge \beta \ln n\) вершинами}) \le\]
+    \[P(\text{существует вершина, такая, что \(Y_t > 0\) при \(t = \beta \ln n\)}) \le nP(Y_t > 0) = \]
+    \[ = nP(Bin(n - 1, 1 - (1 - p)^t) \ge t) \le nP(Bin(n - 1, pt) \ge t) = (*)\]
+    Помним, что \(p = \frac{c}{n}, c < 1\).
+
+
+    \begin{theorem}[б/д]
+        Пусть \(p = \frac{c}{n}, c < 1\). Тогда \(P(Binom(n, pt) \ge t) \le e^{-\gamma t}, \gamma = \gamma(c) > 0\).
+    \end{theorem}
+    \begin{proof}[Пояснение с использованием теоремы Муавра-Лапласа]
+        \[P\left( \frac{Bin(n, pt) - npt}{\sqrt{npt(1 - pt)}} \ge \frac{\overbrace{t - npt}^{t(1 - c)}}{\sqrt{npt(1 - pt)}} \right) \sim \frac{1}{\sqrt{2\pi}}\int_{\frac{t(1 - c)}{\sqrt{npt(1 - pt)}}}^{+\infty}e^{-\frac{x^2}{2}}dx \approx e^{-\frac{(t(1 - c))^2}{2npt(1 - pt)}} \le e^{-\gamma t}\]
+    \end{proof}
+
+    Но тогда 
+
+    \[(*) \le nP(Bin(n, pt) \ge t) \le ne^{-\gamma t} \le ne^{\gamma \beta\ln n} = \frac{n}{n^{\gamma\beta}}\]
+    Причем можно выбрать \(\beta\) так, что \(\frac{n}{n^{\gamma\beta}} \ra 0 \Ra\) утвеждение доказано
+\end{proof}
+
+\subsection{Хроматическое число случайного графа}
+\begin{theorem}
+    \begin{enumerate}
+        \item Если \(p = o\left( \frac{1}{n^2} \right)\), то а.п.н. \(\chi(G) = 1\)
+        \item Если \(pn^2 \ra \infty\), но \(p = o\left( \frac{1}{n} \right)\), то а.п.н. \(\chi(G) = 2\)
+        \item Если \(p = \frac{c}{n}, c < 1\), то а.п.н. \(\chi(G) = 3\).
+    \end{enumerate}
+\end{theorem}
+\hypertarget{lecture9}{}
+
+\begin{lemma}
+    Пусть \(p = n^{-\alpha}, \alpha \in \left( \frac{5}{6}, 1 \right)\). Тогда
+    \[P\left(\forall S \subset V, |S| \le \sqrt{n}\ln n: \chi\left( G|_S \right)\le 3 \right) \ge 1 - \frac{1}{\ln n}\]
+\end{lemma}
+\begin{proof}
+    \[P\left( \exists S \subset V, |S| \le \sqrt{n}\ln n: \chi\left( G|_S \right) \ge 4\right) = \]
+    \[ = P\left( \exists S \subset V, 4 \le |S| \le \sqrt{n}\ln n: \chi\left( G|_S \right) \ge 4\right) = \]
+    \[P\left( \exists S \subset V, |S| \le \sqrt{n}\ln n: \chi\left( G|_S \right) \ge 4, \forall x \in S: \chi\left( S|_{S\setminus \{x\}} \right) \le 3\right)\]
+    \[\le P\left( \exists s \in [4, \sqrt{n}\ln n] \exists S, |S| = s : \left| E\left( G|_S \right) \right| \ge \frac{3s}{2} \right) \le\]
+    \[\le \sum_{s = 4}^{\sqrt{n}\ln n}\sum_{S \subset V, |S| = s} P\left( \left| E\left( G|_S \right) \right| \ge \frac{3s}{2} \right) \le \]
+    \[ \le \sum_{s}\sum_S C_{C_s^2}^{\frac{3s}{2}}p^{\frac{3s}{2}} = \sum_sC_n^sC_{C_s^2}^{\frac{3s}{2}}p^{\frac{3s}{2}} \le \sum_s\left( \frac{en}{s} \right)^s\left( \frac{eC_s^2}{3s/2} \right)^{\frac{3s}{2}}p^{\frac{3s}{2}} \le\sum_s \left( \frac{en}{s} \right)^s s^{\frac{3s}{2}}p^{\frac{3s}{2}} = \]
+    \[ = \sum_s \left( \frac{en}{s}s^{\frac{3}{2}}p^{\frac{3}{2}} \right)^s = \sum_s\left( en\sqrt{s}p^{\frac{3}{2}} \right)^s \le \sum_s (en\sqrt[4]{n}\sqrt{\ln n}p^{\frac{3}{2}}) \sum_s \left( e\sqrt{\ln n}n^{\frac{5}{4} - \frac{3}{2}\alpha} \right)^s \le_{n \ge n_0}\]
+    \[\le_{n \ge n_0} \sum_s\left( n^{-\frac{\beta}{2}} \right)^s < \frac{n^{-2\beta}}{1 - n^{-\frac{\beta}{2}}} <_{n \ge n_1} \frac{1}{\ln n}\]
+\end{proof}
+
+\begin{definition}
+    Пусть \(f = f(G)\), в графе \(G\) на \(n\) вершинах. Тогда \(f\) липшицева по ребрам, если \(\forall G, G'\), таких, что \(G\) и \(G'\) отличаются одним ребром, \(|f(G) - f(G')| \le 1\).
+\end{definition}
+
+\begin{definition}
+    Пусть \(f = f(G)\), в графе \(G\) на \(n\) вершинах. Тогда \(f\) липшицева по вершинам, если \(\forall G, G'\), таких, что \(G\) и \(G'\) отличаются, быть может, только набором ребер, которые исходят из одной вершины, \(|f(G) - f(G')| \le 1\).
+\end{definition}
+
+\begin{example}
+    Число рёбер графа является липшицевым по рёбрам, а хроматическое число графа — липшицево по вершинам. Количество треугольников в графе не является лип- шицевым по рёбрам.
+\end{example}
+
+\begin{theorem}[б/д]
+    Пусть \(f\) липшицева по ребрам. Тогда
+    \[\forall a > 0: P(f - \E f \ge a) \le e^{-\frac{a^2}{2C_n^2}}\]
+    \[\forall a > 0: P(f - \E f \le -a) \le e^{-\frac{a^2}{2C_n^2}}\]
+
+\end{theorem}
+\begin{theorem}[б/д]
+    Пусть \(f\) липшицева по вершинам. Тогда
+    \[\forall a > 0: P(f - \E f \ge a) \le e^{-\frac{a^2}{2(n - 1)}}\]
+    \[\forall a > 0: P(f - \E f \le -a) \le e^{-\frac{a^2}{2(n - 1)}}\]
+\end{theorem}
+\begin{theorem}[Боллобаш]
+    Пусть \(p = n^{-\alpha}, \alpha \in \left( \frac{5}{6}, 1 \right)\). Тогда \(\exists u(n, \alpha):\) а.п.н. \(u \le \chi(G) \le u + 3\)
+\end{theorem}
+\begin{proof}[Доказательство теоремы Боллобаша]
+    Зафиксируем \(\alpha, n\). Пусть \(u\) --- минимальное число, такое, что:
+    \[P(\chi(G) \le u) > \frac{1}{\ln n}, P(\chi(G) \le u - 1) \le \frac{1}{\ln n}\]
+    \[P(\chi(G) \ge u) \ge 1 - \frac{1}{\ln n}\]
+    Положим \(Y(G) = \min \{k: \exists S \subset V, |S| = k: \chi(G_{V \setminus S}) \le u\}\). Эта функция является липшицевой по вершинам. Тогда:
+    \[P(Y - \E Y \ge a) \le e^{-\frac{a^2}{2(n - 1)}} \le \frac{1}{\ln n}\]
+    \[P(Y - \E Y \le -a) \le e^{-\frac{a^2}{2(n - 1)}} \le \frac{1}{\ln n}\]
+    Положим \(a = \sqrt{2(n - 1)\ln\ln n}\). Предположим, что \(\E Y > a\). Тогда
+    \[\frac{1}{\ln n} \ge P(Y \le \E Y - a) \ge P(Y \le 0) = P(\chi(G) \le u) > \frac{1}{\ln n}\]
+    Получили противоречие, тогда \(\E Y \le a\). Но тогда:
+    \[\frac{1}{\ln n} \ge P(Y \ge \E Y + a) \ge P(Y \ge 2a) \Ra P(Y < 2a) \ge 1 - \frac{1}{\ln n}\]
+    \[P(Y < \sqrt{n}\ln n) \ge 1 - \frac{1}{\ln n}\]
+    Пололжим за \(A = \{\chi(G) \ge u\}, B = \{\forall S \subset V, |S| \le \sqrt{n}\ln n: \chi\left( G|_S \right)\le 3\}, C = \{Y < \sqrt{n}\ln n\}\). Тогда:
+    \[P(A \cap B \cap C) = P(\overline{\overline{A} \cup \overline{B} \cup \overline{C}}) \ge 1 - \frac{3}{\ln n}\]
+    Тогда утвеждение доказано, т.к. графы из \(A \cap B \cap C\) нам подходят.
+\end{proof}
+
+\begin{exercise}
+    Докажите, что \(u(n, \alpha) \ra \infty, n \ra \infty\).
+\end{exercise}
+
+\begin{theorem}[Боллобаш]
+    Пусть \(p = \frac{1}{2}\). Тогда \(\exists \phi = o\left( \frac{n}{\ln n} \right):\) а.п.н. \(\left| \chi(G) - \frac{n}{2\log_2 n} \right| \le \phi(n)\)
+\end{theorem}
+\noindent\textit{Доказательство} 
+\begin{enumerate}
+    \item \(\chi(G) \ge \frac{n}{\alpha(G)}\), а.п.н. \(\alpha(G) \le 2\log_2 n \Ra\) а.п.н. \(\chi(G) \ge \frac{n}{2\log_2 n}\)
+    \item а.п.н. \(\chi(G) \le \frac{n}{2\log_2 n} + \phi(n)\), \(\phi(n) = ?\). Рассмотрим \(m = \left[ \frac{n}{\ln^2n} \right]\) --- количество вершин в \(G\) и положим \(X_k(G)\) --- число независимых множеств на \(k\) вершинах. Рассмотрим \(f_k(n) = \E X_k = C_n^k 2^{-C_k^2}, k = k(n) = [2\log_2n] \Ra f_k(n) \ra 0\).
+\end{enumerate}
+
+\hypertarget{lecture10}{}
+
+\begin{proposition}
+        \(\exists k_1 = k_1(n)\), такая, что:
+        \begin{enumerate}
+            \item \(k_1(n) \sim 2\log_2n\)
+            \item \(f_{k_1(n)}(n) = C_n^{k_1(n)}2^{-C_{k_1(n)}^2}= n^{3 + o(1)}\).
+        \end{enumerate}
+    \end{proposition}
+    \begin{proof}[Набросок доказательства]
+        Мы знаем, что \(\E X_k \ra 0\), если \(k = [2\log_2n] - 2\log_2n\). Положим \(k_0(n) = \min\{k: f_k(n) < 1\}\) и \(k_1(m) = k_0(m) - 3\). Нетрудно проверить, что \(k_0(n) \sim 2\log_2n\). Тогда \(k_1\) будет подходить.
+    \end{proof}
+
+    Тогда \(k_1(m) \sim 2\log_2m \sim 2\log_2n\).
+
+    \begin{lemma}
+        а.п.н. \(\forall S \subset V, |S| = m: \alpha\left( G|_S \right) \ge k_1(m)\)
+    \end{lemma}
+    \begin{proof}
+        \[P\left(\exists S \subset V, |S| = m: \alpha\left(G|_S\right) < k_1(m)\right) \le \sum_{S \subset V, |S| = m} P(\alpha\left( G|_S \right) < k_1(m)) \le \]
+        \[C_n^m P(\alpha(H) < k_1) < 2^nP(\alpha(H) < 1) = 2^nP(X_{k_1}(H) = 0)\]
+        Далее можно применить неравенство Чебышева, но это очень долго и муторно. Вместо этого рассмотрим:
+        \[Y_k(H) = \max\{s: \exists K_1, \dots K_s \subset V \forall i: K_i \text{ --- независимые мн-ва}, \forall i |K_i| = k, \forall i, j |K_j \cap K_i| \le 1\}\]
+        Но тогда: \(\alpha(H) < k_1 \Lra Y_{k_1}(H) = 0\). При этом, \(Y_{k_1}\) --- липшицева.
+        Нам уже известно:
+        \[P\left(\exists S \subset V, |S| = m: \alpha\left(G|_S\right) < k_1(m)\right) < 2^nP(\alpha(H) < 1)= \]
+        \[= 2^nP(Y_{k_1}(H) = 0) = 2^nP(Y_{k_1}(H) \le 0) = 2^nP(-Y_{k_1}(H) \ge 0) = \]
+        \[2^nP(\E Y_{k_1} - Y_{k_1} \ge \E Y_{k_1}) \le 2^n e^{-\frac{(\E Y_{k_1}^2)}{2C_m^2}}\]
+
+        \begin{lemma}
+            \(\E Y_{k_1} \ge \frac{m^2}{2k_1^4}(1 + o(1))\).
+        \end{lemma}
+        \begin{proof}
+            Рассотрим \(G \ra \mathcal{K}(K_1, K_2, \dots K_{X_k(G)})\) --- совокупность всех независимых множеств \(G\) с \(k\) вершинами. Рассмотрим \(q^* \in [0, 1]\) --- вероятность выбора \(K_i\) из \(\mathcal{K}\). Получим таким выбором множество \(C(G) \subset \mathcal{K}(G)\). Теперь положим \(W(G) = \{\{K_i, K_j\}: K_i, K_j \in \mathcal{K}(G): |K_i \cap K_j| \ge 2\}\), \(W(G) = \{\{K_i, K_j\}: K_i, K_j \in C(G): |K_i \cap K_j| \ge 2\}\). Пололжим \(\E |W| = \frac{\Delta}{2}\). Из \(C(G)\) удалим по одному \(K_i\) из каждой пары из \(W'(G)\). Получится \(C^*(G)\). Заметим, что \(Y_k(G) \ge C^*(G)\). Тогда:
+            \[\E Y_k \ge \E |C^*| \ge \E |C| - \E |W'|\]
+            Положим для удобства \(\mu = \E X_k\). Тогда \(\E |C| = q^*\mu, \E |W'| = \frac{\Delta}{2}\left( q^* \right)^2\). Но тогда:
+            \[\E Y_k \ge \mu^*q - \frac{\Delta}{2}\left( q^* \right)^2 = (*)\]
+            Положим \(q^* = \frac{\mu}{\Delta}\). Это можно сделать, т.к. \(\mu = \E X_{k_1} = C_m^{k_1}2^{-C_{k_1}^2 = m^{3 + o(1)}}\). Тогда:
+            \[(*) = \frac{\mu^2}{2\Delta}\]
+
+            Докажем, что \(\Delta \sim \frac{\mu^2 k_1^4}{m^2} \).
+
+            \[\Delta = \sum_{t = 2}^{k - 1}C_m^kC_k^tC_{m - k}^{k - t}\left( \frac{1}{2} \right)^{2C_k^2 - C_t^2}\]
+            
+            Разделим все на \(\mu^2k^4\). Тогда слагаемое при \(t = 2\):
+            \[\frac{C_m^kC_k^2C_{m - k}^{k - 2}2^{-2C_k^2 + 1}}{\left( C_m^k \right)^22^{-2C_k^2}k^4}m^2 = \frac{C_k^2C_{m - k}^{k - 2}\cdot 2}{C_m^kk^4}m^2 \sim \frac{C_{m - k}^{k - 2}m^2}{C_m^kk^2} \sim (*)\]
+            При этом, \(C_{m - k}^{k - 2} \sim \frac{(m - k)^{k - 2}}{(k - 2)!}, C_m^k \sim \frac{m^k}{k!}\). Тогда:
+
+            \[(*) \sim \frac{C_{m - k}^{k - 2}m^2}{C_m^k k^2}\]
+            \[\frac{C_{m - k}^{k - 2}}{C_m^k} \sim \frac{k^2(m - k)^{k - 2}}{m^k} \sim \frac{k^2m^{k - 2}}{m^k} = \frac{k^2}{m^2}\]
+
+            Оставшуюся часть суммы расписывать не будем и просто поверим, что там все сойдется.
+
+            Тогда \(\frac{\mu^2}{2\Delta} \sim \frac{m^2}{k_1^4}\), что и требовалось
+        \end{proof}
+
+        Тогда
+        \[2^n e^{-\frac{(\E Y_{k_1}^2)}{2C_m^2}} \le 2^ne^{-\frac{m^4}{4k_1^8m^2}(1 + o(1))} = 2^ne^{-\frac{m^2}{4k_1^8}(1 + o(1))} = 2^ne^{-\frac{n^2}{(\ln^4)\cdot 256 \log_2^8n}(1 + o(1))} = (*)\]
+        Заметим, что \(n^{\frac{\ln\ln n}{\ln n}} = n^{o(1)} = \ln n\). Тогда:
+        \[(*) = 2^ne^{-n^{2 + o(1)}} \ra 0\]
+    \end{proof}
+    Теперь возьмем любой граф, обладающий свойством из леммы. Тогда мы можем удалять из графа независимые подграфы размера \(k_1(m)\), пока количество вершин \(\ge m\) и красить каждый из них в новый цвет. Тогда, после того, как осталось \(< m\) вершин, мы задействуем \(\left[ \frac{n - m}{k_1(m)} \right]\) цветов. Оставшиеся вершины покрасим в новые цвета каждую. Тогда \(\chi(G) \le \left[ \frac{n - m}{k_1(m)} \right] = \frac{n}{2\log_2n} + \phi(n)\), что и требовалось доказать.
+\hypertarget{lecture11}{}
+
+\section{Гиперграфы}
+
+\begin{definition}
+    Гиперграф --- множество \(H = (V, E)\), где \(E \subset 2^V\).
+\end{definition}
+
+\begin{definition}
+    Гиперграф называется \(k\)-однородным, если \(\forall A \in E: |A| = k\).
+\end{definition}
+
+\begin{note}
+    В \(k\)-однородном полном гиперграфе ровно \(C_{|V|}^k\) вершин.
+\end{note}
+
+\begin{definition}
+    \(h(n, r, s) = \max\{h: \exists r\text{-однородный гиперграф \(G\), такой, что } |V| = n, |E| = h, \forall A, B \in E: |A \cap B| \le s\}\)
+\end{definition}
+
+\begin{definition}
+    \(f(n, r, s) = \max\{f: \exists r\text{-однородный гиперграф \(G\), такой, что } |V| = n, |E| = f, \forall A, B \in E: |A \cap B| \ge s\}\)
+\end{definition}
+
+\begin{definition}
+    \(m(n, r, s) = \max\{f: \exists r\text{-однородный гиперграф \(G\), такой, что } |V| = n, |E| = f, \forall A, B \in E: |A \cap B| \ne s\}\)
+\end{definition}
+
+\begin{reminder}
+    \(G(n, r, s)\) --- такой, граф, что \(V = \{A \subset \{1, 2, \dots n\}: |A| = r\}\), \(E = \{(A, B) : |A \cap B| = s\}\).
+\end{reminder}
+\begin{note}
+    \(m(n, r, s) = \alpha(G(n, r, s))\).
+\end{note}
+\begin{proof}
+    \(\alpha(G(n, r, s))\) --- максимальное количество вершин, никакие две из которых не образуют ребра, т.е. что \(|A \cap B| \ne s\). Из этого получаем желаемое.
+\end{proof}
+
+\begin{proposition}
+    \(h(n, r, s) \le \frac{C_n^{s + 1}}{C_r^{s + 1}}\)
+\end{proposition}
+\begin{proof}
+    Пусть \(A_1, \dots A_h\) --- ребра \(r\)-однородного гиперграфа на \(n\) вершинах, такие, что \(|A_i \cap A_j| \le s\). Полоэим \(\mathcal{A}_i\) --- все \((s + 1)\)-элементные подмножества в \(A_i\). Тогда \(\mathcal{A}_i \cap \mathcal{A}_j = \emptyset\), причем \(|\mathcal{A}_i| = C_r^{s + 1}\). Но тогда:
+    \[hC_r^{s + 1} = |\mathcal{A}_1| + |\mathcal{A}_2| + \dots + |\mathcal{A}_h| \le C_n^{s + 1} \Ra h \le \frac{C_n^{s + 1}}{C_r^{s + 1}}\]
+\end{proof}
+
+\begin{theorem}[(б/д) Рёдль, 1980е]
+    Пусть \(r, s\) фиксированны, \(n \ra \infty\). Тогда \(h(n, r, s) \sim \frac{C_n^{s + 1}}{C_r^{s + 1}}\).
+\end{theorem}
+
+\begin{theorem}[(б/д) Киваш, 2010е]
+    При определенных условиях ''делимости'' и при \(n \ge n_0\) верно: \(h(n, r, s) = \frac{C_n^{s + 1}}{C_r^{s + 1}}\).
+\end{theorem}
+
+\hypertarget{lecture12}{}
+
+\subsection{Изучение \(f(n, k, t)\)}
+\begin{theorem}[б/д, 1961, Эрдёш-Ко-Радо]
+    При \(n \ge n_0(k, t)\) верно: \(f(n, k, t) = C_{n - t}^{k - t}\)
+\end{theorem}
+
+\subsubsection{Случай \(f(n, k, 1)\)}
+Мы докажем более слабую версию данного утверждения
+\begin{proposition}
+    \[f(n, k, 1) = \left\{\begin{array}{l}
+        C_{n - 1}^{k - 1}, n \ge 2k \\
+        C_n^k, n < 2k
+    \end{array}\right.\]
+\end{proposition}
+\begin{proof}
+    При \(n < 2k\) утверждение очевидно. Докажем только для случая \(n \ge 2k\). Заметим, что для \(f(n, k, 1) = C_{n - 1}^{k - 1}\) существует очевидный пример (берем все \(k\)-элементные множества, содержащие один конкретный элемент). Докажем, что \(f(n, k, 1) \le C_{n - 1}^{k - 1}\). Рассмотрим \(\mathcal{F}\) --- такой набор \(k\)-элементных множеств, такой, что \(f(n, k, 1) = |\mathcal{F}|\), удовлетворяющий усовию. Положим \(\mathcal{A} = \{\{1, 2, \dots k\}, \{2, 3, \dots k + 1\}, \dots \{n, \dots k - 1\}\}\).
+
+    \begin{lemma}
+        \(\mathcal{F} \cap \mathcal{A} \le k\).
+    \end{lemma}
+    \begin{proof}
+        Если \(\mathcal{F} \cap \mathcal{A} = \emptyset \Ra\) очевидно. Рассмотрим случай \(\mathcal{F} \cap \mathcal{A} \ne \emptyset\). Б.О.О, \(\{1, 2, \dots k\} \in \mathcal{F} \cap \mathcal{A}\). Рассмотрим множества, которые пересекаются с \(\{1, 2, \dots k\}\):
+        \[\begin{array}{c|c}
+            \{2, \dots k + 1\} & \{n - k + 2, \dots 1\}\\
+            \hline
+            \{3, \dots k + 2\} & \{n - k + 3, \dots 2\}\\
+            \hline
+            \vdots & \vdots \\
+            \hline
+            \{k, \dots 2k - 1\} & \{n, \dots k - 1\}\\
+        \end{array}\]
+        Мы разбили наше множество на пары. Заметим, что из каждой пары мы можем взять не более одного множества в \(\mathcal{F} \cap \mathcal{A} \Ra |\mathcal{F} \cap \mathcal{A}| \le k\)
+    \end{proof}
+    Для \(\sigma \in S_n\) положим \(A_\sigma = \{\sigma(1), \dots \sigma(k)\}\). Заметим, что тогда лемма верна и для \(A_\sigma \forall \sigma \in S_n\). Обозначим \(F_i: F = \{F_1, \dots F_r\}\)Рассмотим функцию:
+    \[I(F_i, A_\sigma) = \left\{\begin{array}{l}
+        1, F_i \in A_\sigma \\
+        10, F_i \notin A_\sigma \\
+    \end{array}\right.\]
+
+    Посчитаем следующую сумму:
+    \[\sum_{i = 1}^r \sum_{\sigma \in S_n} I(F_i, A_\sigma) = \sum_{\sigma \in S_n}\left( \sum_{i = 1}^r I(F_i, A_\sigma) \right) \le kn!\]
+    С другой стороны:
+    \[\sum_{i = 1}^r\left( \sum_{\sigma \in S_n} I(F_i, A_\sigma)\right) = \sum_{i = 1}^r k!(n - k)!\cdot n = r\cdot k!(n - k)!\cdot n\]
+    Получаем:
+    \[r\cdot k!(n - k)!\cdot n \le kn!\]
+    \[r\cdot (k - 1)!(n - k)! \le (n - 1)!\]
+    \[r \le C_{n - 1}^{k - 1}\]
+\end{proof}
+
+\subsubsection{Результаты в общем случае}
+\begin{theorem}[б/д, 1979, Франкл]
+    При \(k \ge 15\) в теореме Эрдёша-Ко-Радо \(n_0(k, t) = (k - t + 1)(t + 1)\)
+\end{theorem}
+
+\begin{theorem}[б/д, 1983, Уилсон]
+    Пусть \(n_0(k, t) = (k - t + 1)(t + 1)\). Тогда \(n < n_0(k, t) \Ra f(n, k, t) > C_{n - k}^{k - t}\).
+\end{theorem}
+
+\begin{theorem}[Алсведе-Хачатаряна]
+    Пусть \(n\) удовлетворяет следующему условию:
+    \[(k - t + 1)\left( 2 + \frac{t - 1}{r + 1} \right) \le n < (k - t + 1)\left( 2 + \frac{t - 1}{r} \right)\]
+    Тогда: \(f(n, k, t) = \mathcal{F}\), где \(\mathcal{F} = \{F \subset \{1, \dots n\}, |F| = k, |F \cap \{1, 2, \dots t + 2r\}| \ge t + r\}\).
+\end{theorem}
+
+\begin{note}
+    Таким образом, мы получили точное значение для \(f(n, k, t)\). Действительно, при \(n \ge n_0(k, t)\) ответ находится по теореме Эрдёша-Ко-Радо и равен \(C_{n - t}^{k - t}\). В противном случае, \(f(n, k, t)\) находится по теореме Алсведе-Хачатаряна: нужно подобрать такой \(r\), чтобы выполнялось соответствующее равенство (получается, что отрезкок \(\{1, \dots n\}\) разбивается на части при \(r = 0, r = 1, \dots r = k\)) и из неё получаем ответ.
+\end{note}
+
+\begin{note}
+    Если нам не нужна точная оценка на \(f(n, k, t)\), то можно не искать соответствующее \(r\), а просто взять максимальную из оценок.
+\end{note}
+
+\subsection{Изучение \(m(n, k, t)\)}
+\subsubsection{Случай \(m(n, 3, 1)\)}
+\begin{reminder}
+    Мы уже считали \(\alpha(G(n, 3, 1))\): \ref{linalg_method}
+\end{reminder}
+
+\subsubsection{Случай \(m(n, 5, 2)\)}
+\begin{proposition}
+    \(m(n, 5, 2) \le C_n^2 + 2C_n^1 \sim \frac{n^2}{2}\)
+\end{proposition}
+\begin{proof}
+    Рассмотрим \(\mathcal{F}\) --- набор \(5\)-элементных множеств, таких, что \(\forall A, B \in \mathcal{F}: |A \cap B| \ne 2, |F| = m(n, 5, 2)\). Опять сопоставим маску \(\vec{x_1}, \dots \vec{x_r}\) (пусть \(r\) таково, что \(\mathcal{F} = \{F_1, \dots F_r\}\)) каждому множеству, \(\vec{x_i} \in \Z_3^n\). Положим \(f_i(\vec{y_1}, \dots \vec{y_n}) = (\vec{x_i}, \vec{y}) ((\vec{x_i}, \vec{y}) - 1)\). Заметим, что \(f_i \in Z_3[y_1, \dots y_n]\). Также, \(\deg f_i \le 2\). Таким образом, если \(f_1, \dots f_r\) линейно независимы, то \(r \le \dim \Z_3[y_1, \dots y_n]^{1 \le \deg \le 2} = C_n^2 + 2C_n^1\).  Последнее верно в силу того, что \(f_i\) --- точно не константа, а базис в пространстве таких многочленов --- это \(y_1, \dots y_n, y_1^2 \dots y_n^2, \underbrace{y_1y_2, \dots y_{n - 1}y_{n}}_{\text{всевозможыне попарные произведения}}\).
+    Пусть \(\exists \lambda_1, \dots \lambda_r\) такие, что:
+    \[\lambda_1 f_1 + \dots + \lambda_r f_r = 0\]
+    Заметим, что \(f_i(x_j) = \left\{\begin{array}{l}
+        0 \mod 3, i \ne j \\
+        2 \mod 3, i = j \\
+    \end{array}\right.\). Тогда
+    \[\lambda_1 f_1(x_j) + \dots + \lambda_r f_r(x_j) = 0\]
+    \[\lambda_j \cdot 2 = 0 \Ra \lambda_j = 0 \forall j\]
+\end{proof}
+
+\begin{note}
+    В утвержении выше верна оценка \(m(n, 5, 2) \le C_n^2 + C_n^1\).
+\end{note}
+\begin{proof}
+    Заметим, что так как мы подставляем в многочлены \(f_i\) только \(0\) и \(1\), то можно заменить все одночлены \(y_i^2\) на \(y_i\) и сумма не поменяется. Поэтому базис на самом деле будет  \(y_1, \dots y_n, \underbrace{y_1y_2, \dots y_{n - 1}y_{n}}_{\text{всевозможыне попарные произведения}}\)
+\end{proof}
+
+\begin{theorem}[1981, Франкл, Уилсон]
+    Пусть \(k - t = p^\alpha, k < 2p^\alpha, p\) --- простое. Тогда \(m(n, k, t) \le \sum_{j = 1}^{p^\alpha - 1}C_n^j\)
+\end{theorem}
+\begin{proof}[Доказательство при \(\alpha = 1\), иначе --- б/д]
+    Рассмотрим множества \(A_1, \dots A_n \subset \{1, \dots n\}, |A_i| = k, |A_i \cap A_j| \ne t\). Каждому множеству \(A_i\) сопоставим маску \(\vec{x_i}\). Теперь рассмотрим многочлены \(f_i\):
+    \[f_i(y_1, \dots y_n) = \prod_{l = 1, l \ne t}^p ((\vec{x}, \vec{y}) - l), f_i \in \Z_p[y_1, \dots y_n]\]
+    Рассмотрим теперь \(\tilde{f_i} = f_i\), в котором мы заменили все мономы \(y_i^2\) на \(y_i\). Тогда базис в пространстве, таких многочленов:
+    \[y_1, \dots y_n, \underbrace{y_1y_2, \dots y_{n - 1}y_{n}}_{\text{всевозможыне попарные произведения}}, \dots \underbrace{y_1y_2\dots y_{p - 1}, \dots y_{n - p + 1}\dots y_{n - 1}y_{n}}_{\text{всевозможыне произведения \(p-1\) переменных}}\]
+    Осталось проверить, что \(\tilde{f_i}\) линейно независимы. Тогда \(r \le \dim V = \sum_{j = 1}^{p - 1}C_n^j\), где \(V\) --- пространство соответствующих многочленов. Действительно:
+    \[\lambda_1 \tilde{f_1}(\vec{y}) + \dots + \lambda_r \tilde{f_r}(\vec{y}) = 0\]
+    Подставляя \(\vec{x_i}\), получаем:
+    \[\lambda_1 \tilde{f_1}(\vec{x_i}) + \dots + \lambda_r \tilde{f_r}(\vec{x_i}) = 0\]
+    При этом, \(\tilde{f_j}(\vec{x_i}) = f_j(\vec{x_i}) = \left\{\begin{array}{l}
+        0, j \ne i \\
+        \ne 0, j = i \\
+    \end{array}\right.\)
+    Получаем, что \(\lambda_i = 0 \forall i\), т.е. линейную независимость \(\tilde{f_i}\).
+\end{proof}
+
+\hypertarget{lecture13}{}
+
+\begin{note}
+    \(m(n, r, s) \ge f(n, r, s + 1) \ge C_{n - s - 1}^{r - s - 1}\).
+    Если \(r, s\) фиксированны, а \(n \ra \infty\), то
+    \[C_{n - s - 1}^{r - s - 1} \sim \frac{n^{r - s - 1}}{(r - s - 1)!}\]
+    Таким образом, верхняя граница \(m(n, r, s)\) точна, т.к. ее асимптотика также равна \(\frac{n^{r - s - 1}}{(r - s - 1)!}\).
+\end{note}
+
+\begin{theorem}
+    Пусть \(r - s = p, r - 2p \ge 0\). Тогда:
+    \[m(n, r, s) \le \frac{C_n^{r - 2p + 1}}{C_r^{r - 2p + 1}}\sum_{k = 0}^{p - 1}C_n^k\]
+\end{theorem}
+\begin{proof}
+    Пусть \(A_1, \dots A_t\) --- ребра нашего гиперграфа. Положим \(d = r - 2p + 1 = r - 2(r - s) + 1 = 2s - r + 1\). Рассмотрим все \(d\)-элементные подмножества множества вершин: \(\{D_1, \dots D_{C_n^d}\}\). Пусть \(I(D_i, A_j) = \left\{\begin{array}{l}
+        1, D_i \subset A_j \\
+        0, D_i \not\subset A_j
+    \end{array}\right.\)
+    \[\sum_{i = 1}^{C_n^d}\sum_{j = 1}^{t}I(D_i, A_j) = \sum_{j = 1}^{t}\sum_{i = 1}^{C_n^d}I(D_i, A_j) = tC_r^d\]
+    Существует \(i: \sum_{j = 1}^t I(D_i, A_j) \ge \frac{tC_r^d}{C_n^d}\) (т.к. сумма \(C_n^d\) слагаемых равна \(tC_r^d\)). Это значит, что для этого \(i\) хотя бы \(\frac{tC_r^d}{C_n^d}\) ребер содержат \(D_i = D\). Но тогда, если мы обозначим эти ребра за \(B_1, \dots B_l, l \ge \frac{tC_r^d}{C_n^d}\), получим: \(|B_i \cap B_j| \ge d\). Положим \(B_i' = B_i \setminus D \Ra |B_i'| = r - d = 2p - 1, |B_i' \cap B_j'| \ne s - d = p - 1\). Положим \(n' = n - d, r' = 2p - 1, s' = p - 1\).
+    \[m(n', r', s') \le \sum_{k = 0}^{p - 1}C_n^k\]
+    Неравенство верно по предыдущей теореме. Тогда:
+    \[\left\{\begin{array}{l}
+        l \le \sum_{k = 0}^{p - 1}C_{n - d}^k
+        l \ge t\frac{C_r^d}{C_n^d}
+    \end{array}\right. \Ra t \le \frac{C_n^d}{C_r^d}\sum_{k = 0}^{p - 1}C_{n - d}^k\]
+\end{proof}
+
+\begin{note}
+    \[\frac{C_n^{r - 2p + 1}}{C_r^{r - 2p + 1}}\sum_{k = 0}^{p - 1}C_n^k \sim \frac{n^{2s - r - 1}(2s - r + 1)!(2r - 2s - 1)!}{(2s - r + 1)!r!} \cdot \frac{n^{r - s - 1}}{(r - s - 1)!} = \frac{n^s(2r - 2s - 1)!}{r!(r - s - 1)!}\]
+
+    При этом:
+    \[m(n, r, s) \ge f(n, r, s + 1) \ge C_{n - s - 1}^{r - s - 1} \sim \frac{n^{r - s - 1}}{(r - s - 1)!}\]
+    И тогда:
+    \[r - 2p \ge 0 \Ra r - 2(r - s) \ge 0 \Ra 2s - r \ge 0 \Ra r \le 2s \Ra r - s - 1 \le s - 1\]
+\end{note}
+
+Рассмотрим \(B_1 \subset \{1, \dots n\}, |B_1| = 2r - s - 1\). Рассмотрим все \(C_{2r - s - 1}^r\) ребер, окторые можно составить из вершин \(B_1\). Очевидно, они будут пересекаться по \(p - 1\) вершине. Выберем как можно больше подмножеств \(B_1, \dots B_t\) в \(\{1, 2, \dots n\}\), таких, что \(|B_i| = 2r - s - 1\) и \(|B_i \cap B_j| \le s - 1\). Заметим, что \(t = h(n, 2r - s - 1, s - 1)\). Тогда:
+\[t \sim \frac{C_n^s}{C_{2r - s - 1}}\]
+Это верно по теореме Рёдля. Тогда:
+\[m(n, r, s) \ge C_{2r - s - 1}^r \frac{C_n^s}{C_{2r - s - 1}} (1 + o(1)) \sim \frac{n^s}{s!} \cdot \frac{s!(2r - 2s - 1)!}{r!(r - s - 1)!} = \frac{n^s(2r - 2s - 1)!}{r!(r - s - 1)!}\]
+Таким образом, полученная нами оценка тоже асимптотически неулучшаема.
+
+
+\hypertarget{lecture14}{}
+
+\section{Кнезеровские графы}
+
+\begin{definition}
+    \(KG_{n, r} = G(n, r, 0)\) --- Кнезеровский граф
+\end{definition}
+
+\begin{note}
+    \(|V| = C_n^r, |E| = \frac{1}{2}C_n^rC_{n - r}^r, \alpha(KG_{n, r}) = \left\{\begin{array}{l}
+        C_n^r, 2r > n \\
+        C_{n - 1}^{r - 1}, 2r \le n
+    \end{array}\right.\)
+
+    Также из предыдущих лекцияй, \(\alpha(G(n, r, 0)) = f(n, r, 1)\)
+\end{note}
+
+\begin{note}
+    \(\omega(G(n, r, 0)) = \left[\frac{n}{r}\right], 2r \le n\).
+\end{note}
+
+Получим теперь оценки на хроматическое число кнезеровского графа
+
+\begin{note}
+    \(\chi(KG_{n, r}) \ge \omega(KG_{n, r}) = \left[\frac{n}{r}\right]\)
+\end{note}
+
+\begin{note}
+    \(\chi(KG_{n, r}) \ge \left\lceil \frac{|V|}{\alpha(KG_{n, r})} \right\rceil = \left\lceil\frac{C_n^r}{C_{n - 1}^{r - 1}}\right\rceil = \left\lceil\frac{n}{r}\right\rceil\)
+\end{note}
+
+\begin{note}
+    \(\chi(KG_{n, r}) \le n\)
+\end{note}
+\begin{proof}
+    Действительно, будем красить все вершины, содержащие \(1\) в первый цвет. Из оставшихся вершин, покрасим во второй цвет все, которые содержат вершину 2. Аналогично будем красить оставшиеся вершины.
+\end{proof}
+
+\begin{note}
+    \(\chi(KG_{n, r}) \le n - r + 1\)
+\end{note}
+\begin{proof}
+    Будем действовать как в прошый раз. Однако заметим, что на \(n - r + 1\)-ой итерации все вершины исчерпаются. Тогда нам достаточно \(n - r + 1\) цвет
+\end{proof}
+
+\begin{note}
+    \(\chi(KG_{n, r}) \le n - 2r + 2\)
+\end{note}
+\begin{proof}
+    Будем действовать как в прошый раз. Однако заметим, что на \(n - 2r + 2\)-ой итерации все оставшиеся вершины будут образовывать независимое множество
+\end{proof}
+
+Несмотря на то, что верхняя и нижняя оценка расходятся достаточно сильно, есть примеры, для которых данные оценки равны:
+
+\begin{example}
+    \(KG_{n, 1} = K_n\) --- клика на \(n\) вершинах. \(\chi(KG_{n, 1}) = n = \left\lceil\frac{n}{1}\right\rceil\)
+\end{example}
+
+\begin{example}
+    \(KG_{n, \frac{n}{2}}\) --- паросочетание. \(\chi(KG_{n, \frac{n}{2}}) = 2 = \left\lceil\frac{n}{n / 2}\right\rceil\)
+\end{example}
+
+\begin{example}
+    \(KG_{5, 2}\) --- граф Петерсена. \(\chi(KG_{5, 2}) = 3 = \left\lceil\frac{5}{2}\right\rceil\)
+\end{example}
+
+\begin{theorem}
+    Пусть \(S^{n - 1}\) --- \(n - 1\)-мерная сфера. Пусть \(S^{n - 1} = A_1 \cup\dots \cup A_n\) и \(\forall i: A_i\) замкнуто, то \(\exists i, \vec{x}: \vec{x} \in A_i, -\vec{x} \in A_i\), т.е. \(A_i\) содержит антиподальные (или, диаметрально противоположные).
+\end{theorem}
+\begin{proof}
+    Тут в следующий раз появится доказательство
+\end{proof}
+
+\begin{note}
+    Предыдущая теорема равносильна точно такому же утверждению в случае, когда все \(A_i\) открыты.
+\end{note}
+
+\begin{note}
+    Предыдущая теорема равносильна следующему утверждению: Пусть \(f: S^n \ra \R^n\) --- непрерывное отображение. Тогда \(\exists \vec{x} \in S^n: f(\vec{x}) = f(-\vec{x})\).
+\end{note}
+
+Однако, существует усиление данных теорем:
+\begin{theorem}
+    Пусть \(S^{n - 1}\) --- \(n - 1\)-мерная сфера. Пусть \(S^{n - 1} = A_1 \cup\dots \cup A_n\) и \(\forall i: A_i\) замкнуто или открыто, то \(\exists i, \vec{x}: \vec{x} \in A_i, -\vec{x} \in A_i\), т.е. \(A_i\) содержит антиподальные (или, диаметрально противоположные).
+\end{theorem}
+\begin{proof}[Доказательство для \(n = 3\)]
+    Будем считать, что диаметр сферы равен 1. Пусть \(S^2 = A_1 \cup A_2 \cup A_3, \forall i: A_i\) замкнуто. Предположим противное. Рассмотрим \(A_1\). Т.к. \(A_1\) не содержит антиподальных точек, то \(diam\;A_1 < 1\). Разобьем нашу сферу на кирпичики:
+    \begin{center}
+        \includegraphics[scale=0.4]{images/image3.jpeg}
+    \end{center}
+    Причем пересечения могут быть только Т-образными
+    Пусть \(G_1\) --- объединение кирпичиков, имеющих непустое пересечение с \(A_1\). Тогда \(diam\;G_1 < 1\). Заметим, что \(\partial G_1 = L_1 \sqcup \dots \sqcup L_k\), где \(L_i\) --- замкнутая, несамопересекающаяся ломаная. Рассмотрим \(G'_1\) --- множество, симметричное \(G_1\) относительно центра \(S^2\). Тогда \(G_1' \cap G_1 = \emptyset\), т.к. их диаметры \(< 1\). Аналогично, \(\partial G'_1 = L'_1 \sqcup \dots \sqcup L'_k\). Мы получили \(2k\) связных ломаных. По теореме Жордана (б/д, просто используем этот факт), каждая ломаная делит сферу на две части: внутренняя и внешняя. Тогда мы получили \(2k + 1\) часть. Но тогда существует такой связный кусок, который симметричен относительно центра.
+\end{proof}
+
+\begin{proposition}[Гипотеза Кнезера]
+    \(\chi(KG_{n, r}) = n - 2r + 2\)
+\end{proposition}
+\begin{proof}
+    Предположим противное, т.е. \(\chi(KG_{n, r}) \le n - 2r + 1 = d\). Положим \(K_1, \dots K_n\) --- вершины \(KG_{n, r}\). \(K_i \cap K_j = \emptyset \Ra \chi(K_i) \ne \chi(K_j)\). Рассмотрим сферу \(S^d \subset \R^{d + 1}\). Расположим на сфере \(S^d\) некоторые точки \(\vec{x}_1, dots \vec{x}_n\) таким образом, чтобы на каждом ''экваторе'' было не больше \(d\) точек. Будем делать это так: каждый раз будем добавлять точку так, чтобы ничего не сломать. Нетрудно доказать, что такой алгоритм сработает. Сформируем Кнезеровский граф по этим точкам на \(S^d\), т.е. обозначим за \(L_1, \dots L_{C_n^r}\) --- все возможные подмножества \(\{\vec{x_1}, \dots \vec{x_n}\}\) размера \(r\) и будем соединять их ребром, если \(L_i \cap L_j = \emptyset\). Для них аналогично опредеделим раскраску \(\chi\). Положим \(H(\vec{x})\) --- открытая полусфера с центром в \(\vec{x}\). Положим также для \(i = 1, \dots d\), \(A_i = \{x \in S^d: H(\vec{x}) \cap \{\vec{x_1}, \dots \vec{x_n}\} \supset L_j: \chi(L_j) = i\}\). Теперь определим \(A_{d + 1} = \{x \in S^d: |H(\vec{x}) \cap \{\vec{x_1}, \dots \vec{x_n}\}| \le r - 1\}\). Таким образом, \(A_1, \dots A_d\) --- открыты, \(A_{d + 1} = S^d \setminus (A_1 \cup \dots \cup A_d)\) --- замкнуто. Итак, по предыдущей теореме, \(\exists i, \vec{x}: \vec{x} \in A_i, -\vec{x} \in A_i\). 
+    \begin{enumerate}
+        \item \(i \le d\). Тогда \(H(\vec{x}) \cap \{\vec{x_1}, \dots \vec{x_n}\} \supset L_j: \chi(L_j) = i, H(-\vec{x}) \cap \{\vec{x_1}, \dots \vec{x_n}\} \supset L_k: \chi(L_k) = i\). Но тогда \(L_k \cap L_j = \emptyset \Ra \chi(L_k) \ne \chi(L_j)\). Получили противоречие
+        \item \(i = d + 1\). Тогда \(|H(\vec{x}) \cap \{\vec{x_1}, \dots \vec{x_n}\}| \le r - 1, |H(-\vec{x}) \cap \{\vec{x_1}, \dots \vec{x_n}\}| \le r - 1\). Но тогда \(S^d \setminus (|H(\vec{x}) \cup H(-\vec{x})) \cap \{\vec{x_1}, \dots \vec{x_n}\}| \ge d + 1\), то есть, проще говоря, на экваторе, разделяющем \(H(\vec{x}), H(-\vec{x})\) лежит \(\ge d + 1\) точка, что противоречит тому, как мы выбирали их.
+    \end{enumerate}
+\end{proof}
+
+\hypertarget{lecture15}{}
+
+\section{Хроматическое число пространства}
+\begin{definition}
+    \(\chi(\R^n) = \min\{\chi: \R^n = V_1 \sqcup \dots \sqcup V_{\chi}: \forall i, \forall x, y \in V_i: |x - y| \ne 1\}\)
+\end{definition}
+
+\begin{note}
+    \(\chi(\R^1) = 2\). Красим все полуинтервалы вида \([n, n+1)\).
+\end{note}
+
+\begin{note}
+    \(\chi(R^2) \ge 4\)
+    \begin{center}
+        \includegraphics[scale=0.3]{images/IMG_4605.jpeg}
+    \end{center}
+\end{note}
+
+В 2018 году Обри ди Грей доказал, что \(\chi(\R^2) \ge 5\) (придумал очень очень большой граф). До этого (приблизительно за 40 лет было известно, что это верно, в случае, когда \(V_i\) измеримы). Известна верхняя оценка на \(7\):
+\begin{center}
+    \includegraphics[scale=0.3]{images/IMG_4606.jpeg}
+\end{center}
+
+Кроме того, доказано, что если запретить длины \([1, 1 + \epsilon]\), то оценка на 7 точна.
+
+\begin{proposition}
+    \(\chi(\R^3) \in 6, \dots 15\)
+\end{proposition}
+
+\begin{proposition}
+    \(\chi(\R^4) \in 10, \dots 49\)
+\end{proposition}
+
+\begin{proposition}
+    \(\chi(\R^n) \le (c\sqrt{n})^n\)
+\end{proposition}
+
+\begin{theorem}[Эрдеш-др Брёйна]
+    Если \(\chi(G) < \infty\), то \(\exists\) конечный подграф \(H\), такой, что \(\chi(H) = \chi(G)\).
+\end{theorem}
+
+\begin{definition}
+    \(G = (V, E)\) --- дистанционный граф, если в \(\R^n\), если \(V \subset \R^n, E = \{(x, y) \in V^2: |x - y| = a\}\)
+\end{definition}
+
+\begin{note}
+    \(G(n, r, s)\) --- дистанционный граф.
+\end{note}
+\begin{proof}
+    Мы сопоставляли каждому множеству, являющемуся вершиной, вектор из 0 и 1. Но тогда: \((x, y) = s \forall x, y \in V \Ra |x - y| = \sqrt{2(r - s)} = a\), т.е. он дистанционный.
+\end{proof}
+
+Тогда получаем, что \(\chi(\R^n) \ge \chi(G(n, r, s)) \ge \frac{|V(n, r, s)|}{\alpha(G(n, r, s))} = \frac{C_n^r}{m(n, r, s)}\)
+Вспомним, что на отрезке \([x, x + Cx^{0.525\dots}]\) существует простое число. Для произовльного \(r' \in \left( 0, \frac{1}{2} \right)\) положим \(r \sim r'n\). И выберем \(p\) --- простое минимально так, чтобы \(r - s = p, p > \frac{r}{2}\). Тогда \(r - 2p < 0\). Тогда \(p \sim \frac{r'}{2}n\)
+
+Выберем \(r, s\) так, что \(r - s = p, r - 2p < 0, p > \frac{r}{2}\).
+\[\chi(\R^n) \ge \chi(G(n, r, s)) \ge \frac{|V(n, r, s)|}{\alpha(G(n, r, s))} = \frac{C_n^r}{m(n, r, s)} \ge \frac{C_n^r}{\sum_{k = 0}^{p - 1}C_n^k}\]
+
+\[C_n^r = \left( \frac{1}{(r')^{r'}(1 - r')^{1 - r'}}  + o(1)\right)^n\]
+\[C_n^{p - 1} = \left( \frac{1}{\left( \frac{r'}{2} \right)^{\frac{r'}{2}}\left( 1 - \frac{r'}{2} \right)^{1 - \frac{r'}{2}}} + o(1) \right)^n \sim \sum_{k = 0}^{p - 1}C_n^k\]
+
+Тогда подставляем в \(\chi(\R^n) \ge \chi(G(n, r, s))\):
+\[\chi(\R^n) \ge \frac{\left( \frac{r'}{2} \right)^{\frac{r'}{2}}\left( 1 - \frac{r'}{2} \right)^{1 - \frac{r'}{2}}}{(r')^{r'}(1 - r')^{1 - r'}} + o(1)\]
+
+Прологарифмируем:
+\[\frac{r'}{2}\ln \frac{r'}{2} + \left( 1 - \frac{r'}{2} \right)\ln \left( 1 - \frac{r'}{2} \right) - r'\ln r' - (1 - r')\ln (1 - r')\]
+И возьмем производную:
+\[\frac{1}{2}\ln \frac{r'}{2} + \frac{1}{2} - \frac{1}{2}\ln\left( 1 - \frac{r'}{2} \right) - \frac{1}{2} - \ln r' - 1 + \ln(1 - r') + 1 = 0\]
+
+\[\ln \frac{r'}{2} - \ln\left( 1 - \frac{r'}{2} \right) - 2\ln r' + 2\ln(1 - r') = 0\]
+\[\frac{r'}{2}(1 - r')^2 = \left( 1 - \frac{r'}{2} \right)r'^2\]
+
+\[1 - 2r' + (r')^2 = 2r' - (r')^2\]
+
+\[2(r')^2 - 4r' + 1 = 0\]
+\[r' = \frac{2 \pm \sqrt{2}}{2} \Ra r' = \frac{2 - \sqrt{2}}{2}\]
+
+Подставляя в исходное неравенство, получаем:
+\[\chi(\R^n) \ge (1.239\dots + o(1))^n\]
+
+\begin{theorem}[1972, Ларман-Роджерс]
+    \[\chi(\R^n) \le (3 + o(1))^n\]
+\end{theorem}
+
+

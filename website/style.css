@@ -1,0 +1,235 @@
+:root {
+  --bg: #faf9f8;
+  --surface: #ffffff;
+  --primary: #2b3a67;
+  --primary-light: #3f5582;
+  --secondary: #496a81;
+  --secondary-light: #5f839c;
+  --text: #1e1e1e;
+  --text-light: #5a5a5a;
+  --border: #e4e4e4;
+  --shadow: 0 4px 12px rgba(0,0,0,0.12);
+  --radius: 16px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  padding: 2rem 1rem;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 2.5rem 2rem;
+}
+
+h1, h2, h3 {
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+h1 {
+  font-size: 2.2rem;
+  margin-bottom: 0.25rem;
+  color: var(--primary);
+}
+
+h2 {
+  font-size: 1.6rem;
+  margin: 1.5rem 0 0.75rem;
+  color: var(--secondary);
+}
+
+h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+a {
+  color: var(--primary);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.1s ease;
+}
+
+a:hover {
+  border-bottom-color: var(--primary);
+}
+
+.nav-bar {
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.nav-bar a {
+  font-weight: 500;
+  border-bottom: none;
+  background: var(--bg);
+  padding: 0.3rem 0.8rem;
+  border-radius: 30px;
+}
+
+.nav-bar a:hover {
+  background: var(--primary);
+  color: white;
+}
+
+.semester-grid, .subject-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+a.card {
+  display: block;
+  background: var(--bg);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  border: 1px solid var(--border);
+  transition: transform 0.1s ease, box-shadow 0.2s, border-bottom-color 0.1s ease;
+  color: inherit;
+  text-decoration: none;
+}
+
+a.card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow);
+  border-bottom-color: var(--primary);
+}
+
+.card h3 {
+  margin-bottom: 0.5rem;
+  color: var(--primary);
+}
+
+.card .date {
+  font-size: 0.85rem;
+  color: var(--text-light);
+  margin-bottom: 0.75rem;
+}
+
+.card .description {
+  color: var(--text-light);
+  font-size: 0.95rem;
+  margin-top: 0.5rem;
+}
+
+.pdf-btn {
+  background: var(--primary);
+  color: white !important;
+  padding: 0.3rem 1rem;
+  border-radius: 30px;
+  text-decoration: none;
+  display: inline-block;
+  border-bottom: none !important;
+  transition: background 0.15s ease;
+  font-size: 0.9rem;
+}
+
+.pdf-btn:hover {
+  background: var(--primary-light);
+  border-bottom: none !important;
+}
+
+.pdf-btn-large {
+  background: var(--primary);
+  color: white !important;
+  padding: 0.3rem 1.2rem;
+  border-radius: 30px;
+  text-decoration: none;
+  display: inline-block;
+  border-bottom: none !important;
+  transition: background 0.15s ease;
+}
+
+.pdf-btn-large:hover {
+  background: var(--primary-light);
+  border-bottom: none !important;
+}
+
+.lecture-list {
+  list-style: none;
+  margin-top: 1.5rem;
+}
+
+.lecture-item {
+  padding: 1.25rem;
+  background: var(--bg);
+  border-radius: var(--radius);
+  margin-bottom: 1rem;
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--secondary);
+  transition: transform 0.1s ease, box-shadow 0.2s;
+}
+
+.lecture-item:hover {
+  box-shadow: var(--shadow);
+}
+
+.lecture-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.lecture-name a {
+  color: var(--primary);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+}
+
+.lecture-name a:hover {
+  border-bottom-color: var(--primary);
+}
+
+.lecture-date {
+  font-size: 0.8rem;
+  color: var(--text-light);
+  margin-bottom: 0.5rem;
+}
+
+.lecture-desc {
+  font-size: 0.95rem;
+  color: var(--text);
+}
+
+.lecture-desc a {
+  color: var(--secondary);
+  border-bottom: 1px dashed var(--secondary);
+}
+
+.lecture-desc a:hover {
+  border-bottom-style: solid;
+}
+
+.meta {
+  color: var(--text-light);
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+footer {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.9rem;
+  color: var(--text-light);
+  text-align: center;
+}

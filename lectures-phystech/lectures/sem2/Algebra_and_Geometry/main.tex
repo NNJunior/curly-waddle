@@ -1,0 +1,755 @@
+
+\hypertarget{lecture1}{}
+
+\section{Алгебра многочленов}
+
+\begin{definition}
+    Многочленом называется функция \(f: \R \ra \R, f = a_nx^n + a_{n-1}x^{n-1} + \dots + a_1x + a_0\)
+\end{definition}
+
+\begin{definition}
+    \(\F[x]\) --- множество всех многочленов над \(\F\) (с коэффициентами в \(\F\))
+\end{definition}
+
+\subsection{Операции над многочленами}
+\begin{enumerate}
+    \item \(+\) --- сложение
+    \item \(\cdot\) --- умножение
+    \item \(\cdot\lambda\) --- домножение на константу
+\end{enumerate}
+
+\begin{note}
+    Многочлены над \(\R\) образуют коммутативное кольцо
+\end{note}
+
+\begin{definition}
+    Алгебра над полем \(\F\) называется называется множество \(A\), с определенными на нем операциями \(+, \cdot, \cdot \lambda\), которое удовлетворяет следующим условиям:
+    \begin{enumerate}
+        \item \((A, +, \cdot\lambda)\) --- линейное пространство над $\F$
+        \item \((A, +, \cdot)\) --- кольцо (необязательно коммутативное)
+        \item \(\lambda(xy) = x(\lambda y) = (\lambda x)y, \lambda \in \F, x, y \in A\)
+    \end{enumerate}
+\end{definition}
+
+\begin{example}\indent
+    \begin{enumerate}
+        \item \(\R[x]\)
+        \item \(M_n(\F)\)
+        \item \(\Z_p[x]\)
+    \end{enumerate}
+\end{example}
+
+\begin{note}
+    Возникает проблема: в \(\Z_p[x]\) сущесвтует многочлен \(x^p - x \equiv 0 \forall x \in \Z_p\). Но тогда у нас будет конечный базис в \(\Z_p[x]\), чего не хотелось бы. Определим многочлен по-другому:
+\end{note}
+
+\begin{definition}
+    Многочленом над коммутативным кольцом с 1 \(R\) называется бесконечная пооследовательность \(a_0, a_1 \dots \), в которой лишь конечное число коэффициентов отличны от 0. Такие пооследовательности называются финитными.
+\end{definition}
+
+\subsection{Операции над новыми многочленами}
+Пусть \(A = (a_i), B = (b_i)\)
+\begin{enumerate}
+    \item \(A + B = C \Lra c_i = a_i + b_i\)
+    \item \(A \cdot B = C \Lra c_k = \sum_{i = 0}^ka_ib_{k-i}\)
+    \item \(A \cdot \lambda = C \Lra c_k = \lambda\cdot a_i\)
+\end{enumerate}
+
+\begin{proposition}
+    \(R[x]\) --- коммутативное кольцо относительно ''\(+\)'', ''\(\cdot\)''
+\end{proposition}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item \((R[x], +)\) --- абелева группа (очев)
+        \item \(A \cdot B = B \cdot A\) --- тут мы пользуемся тем, что \(R\) --- коммутативное кольцо. Поэтому в сумме \(\sum_{i = 0}^ka_ib_{k-i}\) если переставить множители местами, ничего не поменяется
+        \item \(A(BC) = (AB)C\) 
+        \[\sum_{i = 0}^na_i\left(\sum_{j = 0}^{n-i}b_jc_{n-i-j}\right) = \sum_{i = 0}^k\sum_{j = 0}^{n-i}a_ib_jc_{n-i-j} = \sum_{i + j + k = n}a_ib_jc_k = \sum_{k = 0}^nc_k\left(\sum_{i = 0}^{n-k}a_ib_{n-k-i}\right)\]
+        \item \(A(B + C) = AB + AC\) --- Достаточно раскрыть скобки, чтобы проверить, мне лень техать.
+    \end{enumerate}
+\end{proof}
+
+\begin{corollary}
+    \(R[x]\) --- бесконечномерное линейное пространство с базисом \(1, x, x^2 \dots\).
+\end{corollary}
+\begin{corollary}
+    Нетрудно проверить, что в \(R[x]\), \(1 = (1, 0, 0, \dots)\). Аналогично, \(x^n = (\underbrace{0, 0, \dots 0}_{n} , 1, 0, 0, \dots)\)
+\end{corollary}
+
+\begin{definition}
+    Старший коэффициент --- последний ненулевой элемент последовательности.
+\end{definition}
+\begin{definition}
+    Индекс старшего коэффициента называется степенью многочлена \(\deg P\). У многочлена \((0, 0, \dots)\) степень зависит от контекста. Мы будем считать, что его степень \(-\infty\).
+\end{definition}
+\begin{definition}
+    Кольцо с \(1 \ne 0\) называется областью целостности, если в нем нет делителей нуля.
+\end{definition}
+\begin{proposition}
+    Пусть  \(R\) --- область целостности. Тогда \(ab = ac, a\ne 0 \Ra b = c\)
+\end{proposition}
+\begin{proof}
+    \[a(b - c) = 0\]
+    \[b - c = 0\]
+    \[b = c\]
+\end{proof}
+\begin{proposition}
+    \(A, B \in R[x], 1 \in R\). Тогда:
+    \begin{enumerate}
+        \item \(\deg A + \deg B \le \max(\deg A, \deg B)\)
+        \item \(\deg AB \le \deg A + \deg B\)
+    \end{enumerate}
+    Причем, если \(R\) --- область целотности, то во втором пункте будет равенство.
+\end{proposition}
+\begin{proof}
+    Все понятно
+\end{proof}
+\begin{corollary}
+    Если \(R\) --- область целостности, то \(R[x]\) --- тоже.
+\end{corollary}
+\begin{definition}
+    Многочлен от \(n\) переменных определяется рекурсивно: многочлен от одной переменной --- как мы определяли выше, далее \(R[x_1, x_2, \dots x_{n}] = R[x_1, x_2, \dots x_{n-1}][x_{n}]\).
+\end{definition}
+\subsection{Деление многочленов с остатком}
+\begin{theorem}
+    Пусть \(F\) --- поле, \(A, B \in F[x], B \ne 0\). тогда
+    \begin{enumerate}
+        \item \(\exists! Q, R: A = BQ + R, \deg R < \deg B\)
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    Существование доказывается алгоритмом деления в столбик. Проверим единственность:
+    \[BQ + R = BS + T\]
+    \[BQ - BS = T - R\]
+    \[\deg (B(Q - S)) > \deg(T - R)\]
+    Противоречие
+\end{proof}
+
+\begin{theorem}[Безу]
+    Пусть \(P \in F[x]\). Тогда \(P(x) - P(c) \vdots (x - c)\)
+\end{theorem}
+\begin{proof}
+    Разделим многочлен \(P\) на \(x - c\) с остатком. Получится \(P = Q(x - c) + R\), причем \(R\) --- константа. Тогда подставим \(x = c\), получим, что \(R = P(c)\).
+\end{proof}
+
+\subsubsection{Схема Горнера}
+Задан многочлен:
+\[P(x) = a_0 + a_1 x + a_2 x^2 + a_3 x^3 + \ldots + a_n x^n, \quad a_i \in \R\]
+
+Пусть требуется вычислить значение данного многочлена при фиксированном значении \(x = x_0\). Представим многочлен \(P(x)\) в следующем виде:
+\[P(x) = a_0 + x(a_1 + x(a_2 + \cdots x(a_{n-1} + a_n x) \dots))\]
+
+Определим следующую последовательность:
+\[b_n = a_n,\]
+\[b_{n-1} = a_{n-1} + b_n x_0,\]
+\[\vdots\]
+\[b_i = a_i + b_{i+1} x_0,\]
+\[\vdots\]
+\[b_0 = a_0 + b_1 x_0.\]
+
+Искомое значение \(P(x_0)\) есть \(b_0\). Покажем, что это так.
+
+В полученную форму записи \(P(x)\) подставим \(x = x_0\) и будем вычислять значение выражения, начиная с внутренних скобок. Для этого будем заменять подвыражения через \(b_i\)
+\[
+\begin{array}{ll}
+ P(x_0) & = a_0 + x_0(a_1 + x_0(a_2 + \cdots x_0(a_{n-1} + a_n x_0)\dots)) = \\
+  & = a_0 + x_0(a_1 + x_0(a_2 + \cdots x_0 b_{n-1}\dots)) = \\
+  & ~~ \vdots \\
+  & = a_0 + x_0 b_1 = \\
+  & = b_0.
+\end{array}
+\]
+\subsection{НОД двух многочленов. Алгоритм Евклида}
+\begin{definition}
+    Многочлен \(f\) делится на \(g\), еcли \(f = gh\) для некототорого \(h\)
+\end{definition}
+\begin{definition}
+    Многочлены \(f, g\) называются ассоциированными, если \(f \vdots g, g \vdots f\).
+\end{definition}
+\begin{definition}
+    Многочлен  \(d\) называется Наибольшим общим делителем двух многочленов \(f, g\), если:
+    \begin{enumerate}
+        \item \(f \vdots d, g \vdots d\)
+        \item \(f \vdots d', g \vdots d' \Ra d \vdots d', d \vdots d'\)
+    \end{enumerate}
+\end{definition}
+\begin{theorem}[О представлении НОДа]\indent
+    \begin{enumerate}
+        \item НОД любых двух многочленов существует
+        \item НОД любых двух многочленов представим в виде их линейной комбинации
+    \end{enumerate}
+\end{theorem}
+
+\hypertarget{lecture2}{}
+
+\section{Неприводимые многочлены}
+\begin{definition}
+    Пусть \(F\) --- поле, \(F[x]\) --- кольцо многочленов над \(F\). Многочлен \(P \in F[x], \deg P > 0\) называется наприводимым, если \(AB = P \Ra \deg A = 0 \vee \deg B = 0\). Иначе говоря, многочлен неприводим над полем \(F\), если он не раскладывается в произведение многолченов более низких степеней.
+\end{definition}
+
+\begin{example}
+    \(x^2 + 1 \in \R[x]\) --- неприводим. Очев, т.к. не имеет корней.
+\end{example}
+\begin{example}
+    \(x^2 + 1 = (x - i)(x + i) \in \Cm[x]\)
+\end{example}
+\begin{proposition}
+    \(P\) --- неприводимый, тогда \(\forall A: (A, P) = \left[\begin{array}{l}
+        \sim 1 \\
+        \sim P
+    \end{array}\right.\)
+\end{proposition}
+\begin{proof}
+    По-другому быть не может, т.к. у \(P\) нет делителей, кроме 1 и самого себя.
+\end{proof}
+\begin{lemma}[Евклида]
+    Пусть \(P\) --- неприводиный многочлен, \(AB \vdots P \Ra A \vdots P \vee B \vdots P\).
+\end{lemma}
+\begin{proof}
+    От противного, тогда \(A \not\vdots P, B \not\vdots P\). Тогда по теореме о представлении НОДа в виде линейной комбинации:
+    \[(A, P) = u_1A + u_2P = 1\]
+    \[u_1AB + u_2PB = B \vdots P\]
+    Противоречие
+\end{proof}
+
+\begin{theorem}[Основная Теорема Арифметики]
+    Пусть \(A\) --- ненулевой многочлен из \(F[x], F\) --- поле. Тогда \(\exists! P_1, P_2 \dots P_n\) c точностью до перестановки множителей и домножения на константу, где \(P_i\) --- неприводим и \(A = \Pi_{i = 1}^n P_i\).
+\end{theorem}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item[] \textbf{Существование.} По индукции: либо он неприводим и очев, либо нет, тогда разложим и для каждого множителя разложим его.
+        \item[] \textbf{Единственность.} Пусть не единственно, будем тогда сокращать на \(P_1, P_2, \dots\). Получим, что в разложении должны содержаться многочлены, пропорциональные \(P_1, \dots P_n\) соответственно
+    \end{enumerate}
+\end{proof}
+
+\begin{corollary}
+    Если \(A \vdots P\), то разложение \(A\) является подмножеством разложения \(P\)
+\end{corollary}
+
+\subsection{Корни многочленов}
+
+\begin{definition}
+    Многолчен \(P\) имеет корень \(c\) кратности \(k\), если \(P\vdots (x-c)^k, P \not\vdots(x-c)^{k+1}\)
+\end{definition}
+
+\begin{definition}
+    Если многочлен раскладывается в произведение линейных множителей над полем \(F\), то он называется линейно факторизуемым над ним.
+\end{definition}
+
+\begin{note}
+    Основная Теорема Арифметики неверна (разложение может быть не единственным) для случаев, когда \(F\) --- коммутативное кольцо.
+\end{note}
+
+\subsection{Основная Теорема Алгебры}
+
+На лекции было миллион лемм и вспомогательных утвеждений, но я просто вставлю доказательство из лекции по матану, потому что я так могу (и потому что доказательство идейно не отличается от него).
+
+\begin{theorem}[Больцано-вейерштрасса]
+    Пусть $\{z_n\}$ ограничена, то есть $\exists C > 0: \forall n (|z_n| \le C)$. Тогда у нее существует сходящаяся подпоследовательность
+\end{theorem}
+\begin{proof}
+    По обычной теореме Больцано-Вейерштрасса, ищем подпоследовательность, действительная часть которой имеет предел. В ней выбираем последовательность, мнимая часть которой имеет предел. Получили.
+\end{proof}
+
+\begin{definition}
+    Функция $f: E \subset \Cm \rightarrow \Cm$ непрерывна в точке $z_0$, если $\forall \{z_n\} \subset E (z_n \rightarrow z_0 \Rightarrow f(z_n) \rightarrow f(z_0))$.
+\end{definition}
+
+\begin{proposition}
+    Пусть $f: \{|z| \le R\} \rightarrow \R$ непрерывна на $\Cm$. Тогда $\exists z_0, |z_0| \le R, \inf_{|z| \le R} f(z) = f(z_0)$.
+\end{proposition}
+\begin{proof}
+    $$m = \inf_{|z| \le R} f(z)$$
+    Рассмотрим $r_n \rightarrow m, r_n > m$. $\exists z_n, |z_n| \le R, m \le f(z_n) \le r_n$
+    В частности, $f(z_n) \rightarrow m$. При этом, $\{z_n\}$ --- ограничена, $\Rightarrow \exists z_{n_k} \rightarrow  z_0 \Rightarrow |z_0| \le R$. В частности $||z| - |z_0|| \le |z - z_0|$. В силу непрерывности $f$ в $z_0$: $f(z_{n_k}) \rightarrow f(z_0), f(z_{n_k}) \rightarrow m \Rightarrow m = f(z_0)$.
+\end{proof}
+
+\begin{theorem}
+    Пусть \(f \in \Cm[z], \deg f > 0\). Тогда \(f\) имеет корень.
+\end{theorem}
+\begin{proof}
+    \begin{enumerate}
+        \item Покажем, что $\exists z_0 \in \Cm \inf_{z \in \Cm} |P(z)| = |P(z_0)|$. Для начала возьмем $R \ge 1$. 
+        $$\left|\sum_{k = 0}^{n-1} a_kz^k\right| \le \sum_{k = 0}^{n-1} |a_k||z|^k \le |z|^n\sum_{k = 0}^{n-1}|a_k| = A$$
+        Теперь рассмотрим $|z| \ge \frac{2A}{|a_n|} \Rightarrow A|z|^{n-1} \le \frac{1}{2}|a_n||z|^n$. Тогда $|P(z)| \ge |a_nz^n| - \left|\sum_{k = 0}^{n-1}a_kz^k\right| = \frac{1}{2}|a_n|z^n$. Возьем радиус $R = \max\left\{1, \frac{2A}{|a_n|}, \sqrt[n]{\frac{2|a_0|}{|a_n|}}\right\}$. Тогда при $|z| \ge R$ выполнено $|P(z)| \ge |P(0)|$, поэтому $\inf_{\Cm}|P(z)| = \inf_{|z| \le R}|P(z)|$. Но тогда найдется такое $|z_0| \le R$, что у нас $\inf_{\Cm}|P(z)| = |P(z_0)|$
+        \item Докажем, что если $P(z_0) \ne 0$, то $\exists z_* \in \Cm |P(z_*)| < |P(z_0)|$. Рассмотрим многочлен $Q(z) = \frac{P(z + z_0)}{P(z_0)}$. Тогда $Q(0) = 1$. Обозначим через $\alpha_k$ --- наименьший коэффициент $Q$, отличный от 0 и $k \ge 1$. $Q(z) = 1 + \alpha_kz^k + \dots$. Возьмем $z_1 \in \Cm$, $\alpha_kz_1^k = -1$, пусть $t \in (0, 1)$. $Q(tz_1) = 1 - t^k + t^{k+1}\phi(t)$, $\phi(t)$ --- многочлен степени $n - k - 1$. $C$ --- наибольший из модулей коэффициентов $\phi(t)$, тогда $|\phi(t)| \le C(n - k)$. Тогда
+        $$Q(tz_1) < 1 - t^k|\phi(t)| \le 1 - t^k(1 - tC(n - k))$$
+        Рассмотрим произвольное $t \in \left(0, \frac{1}{C(n - k)}\right)$. Тогда $|Q(tz_1)| < 1$. Но тогда при $z_* = tz_1$ верно, что $|P(z_*)| < |P(z_0)|$
+        
+        Но тогда, точка $z_0$ (из первого пункта) такова, что $P(z_0) = 0$.
+    \end{enumerate}
+\end{proof}
+
+\subsection{Следствия из основной теоремы алгебры}
+\begin{definition}
+    Поле \(F\) называется алгебраически замкнутым, если \(\forall f \in F[x], \deg f > 0\) он имеет хотя бы один корень.
+\end{definition}
+\begin{corollary}
+    Поле \(\Cm\) --- алгебраически замкнуто
+\end{corollary}
+\begin{corollary}
+    Любой многолчен из \(\Cm\) --- линейно факторизуем.
+\end{corollary}
+\begin{corollary}
+    Любой многолчен из \(\R\) раскладывается в произведение многочленов 1 и 2 степени
+\end{corollary}
+\begin{proof}
+    Пусть \(c \notin \R\) --- корень \(f\). Тогда \(\overline{c}\) --- тоже. Но тогда \(f \vdots (x - c)(x - \overline{c})\)
+\end{proof}
+
+\subsection{Формальная производная}
+\begin{definition}
+    \[(a_nx^n + \dots + a_1x + a_0)' = na_nx^{n-1} + \dots + 2a_2x + a_1\]
+\end{definition}
+\begin{note}
+    Все свойства обычной производной верны
+    \begin{enumerate}
+        \item \((\alpha P + \beta Q)' = \alpha P' + \beta Q'\)
+        \item \((PQ)' = P'Q + PQ'\)
+        \item \(\left(P_1 P_2 P_3 \dots P_{n-1} P_n\right)' = P_1' P_2 P_3 \dots P_{n-1} P_n + P_1 P_2' P_3 \dots P_{n-1} P_n + \dots P_1 P_2 P_3 \dots P_{n-1} P_n' \) 
+        \item \((P^n)' = nP^{n-1}P'\)
+    \end{enumerate}
+    \begin{proof}
+        \begin{enumerate}
+            \item Доказательство по определению: \\ \(\left(\sum_{i = 1}^k \alpha_i x^i\right)' + \left(\sum_{i = 1}^i \beta_k x^{i - 1}\right)' = \left(\sum_{i = 1}^k i \alpha_i x^{i - 1}\right) + \left(\sum_{i = 1}^i i \beta_i x^{i - 1}\right)' = \\ = \sum_{i = 0}^k (\alpha_i + \beta_i) \cdot i x^{i - 1} = \left(\sum_{i = 0}^k (\alpha_i + \beta_i) x^i\right)'\)
+            \item Раскроем скобки:
+            \(\left(\sum_{i = 0}^k \alpha_i x^i \cdot Q(x)\right)' = \left(\sum_{i = 0}^k \sum_{j = 0}^l \alpha_i \beta_j x^{i + j}\right)' = \\ = \sum_{i = 0}^k \sum_{j = 0}^l (i + j)\alpha_i \beta_j x^{i + j - 1} = \sum_{i = 0}^k \sum_{j = 0}^l i \alpha_i \beta_j x^{i + j - 1} + \sum_{i = 0}^k \sum_{j = 0}^l j \alpha_i \beta_j x^{i + j - 1} = \\ = P'Q + PQ'\)
+            \item Индукция: \textit{База} $n = 2 \to \text{см п. 2}$. \textit{Переход:} Объединим $P_{n-1}P_n$ в $Q \to$ 2 раза п. 2.
+            \item Применяем п. 4 для $P_1 = P_2 = \dots = P_{n-1} = P_n = P$
+        \end{enumerate}
+    \end{proof}
+\end{note}
+\hypertarget{lecture3}{}
+
+\section{Рациональные дроби}
+\subsection{Поле частных}
+Пусть \(A\) --- область целостности, обозначим  \(A^* = A\setminus\{0\}\). Рассмотрим множество \(A \times A^* = \{(f, g)\} = \{\frac{f}{g}\}\) и введем на нем следующие операции и отношения: 
+\subsection{Отношение равенства}
+    \[\frac{f_1}{g_1} = \frac{f_2}{g_2} \Lra f_1g_2 - f_2g_1 = 0\]
+\subsection{Операция сложения}
+\[\frac{f_1}{g_1} + \frac{f_2}{g_2} = \frac{f_1g_2 + f_2g_1}{g_1g_2}\]
+\begin{proof}[Доказательство корректности]
+    \[\frac{f_1}{g_1} = \frac{a}{b}, \frac{f_2}{g_2} = \frac{c}{d}, \frac{f_1g_2 + f_2g_1}{g_1g_2} =^? \frac{ad + bc}{bd}\]
+    \[(f_1g_2 + f_2g_1)bd =^? (ad + bc)g_1g_2\]
+    \[f_1g_2bd + f_2g_1bd =^? adg_1g_2 + bcg_1g_2\]
+    \[f_1g_2bd + f_2g_1bd - adg_1g_2 - bcg_1g_2 =^? 0\]
+    \[dg_2\underbrace{(bf_1 - g_1a)}_{0}  - bg_1\underbrace{(f_2d - cg_2)}_{0}  = 0\]
+\end{proof}
+
+\begin{note}
+    \(\frac{0}{f}, f\ne 0 \) --- нейтральный по сложению
+\end{note}
+
+\subsection{Операция умножения}
+\[\frac{f_1}{g_1}\frac{f_2}{g_2} = \frac{f_1f_2}{g_1g_2}\]
+\begin{proof}[Доказательство корректности]
+    \[\frac{f_1}{g_1} = \frac{a}{b}, \frac{f_2}{g_2} = \frac{c}{d} \Ra \frac{f_1f_2}{g_1g_2} = \frac{ac}{bd}\]
+    Доказательство предоставляется читателю в качестве нетрудного упражнения
+\end{proof}
+
+
+\begin{definition}
+    Полученное поле называется полем частных области целостности \(A\) и обозначается \(Q(A)\)
+\end{definition}
+
+\begin{definition}
+    Полученное поле называется полем частных области целостности \(A\) и обозначается \(Q(A)\)
+\end{definition}
+
+\begin{example}
+    \(Q(\Z) = \Q\)
+\end{example}
+\begin{example}
+    \(Q(F) = F\)
+\end{example}
+\subsection{Поле рациональных дробей}
+\begin{definition}
+    \(Q(F[x]) = F(x)\) --- поле рациональных дробей
+\end{definition}
+\begin{definition}
+    \(\deg \frac{f}{g} = \deg f - \deg g\). Если \(deg \frac{f}{g} < 0\), то дровь называется правильной, иначе --- неправильной
+\end{definition}
+
+\begin{proposition}
+    Любая рациональная дробь представима единственным образом в виде \(p + \frac{q}{r}\), где \(p\) --- многочлен, а \(\frac{q}{r}\) --- рациональная дробь
+\end{proposition}
+\begin{proof}
+    Делим с остатком и очев.
+\end{proof}
+
+\begin{proposition}
+    \[\deg\left(\frac{f_1}{g_1} + \frac{f_2}{g_2}\right) = \max\left(\deg\frac{f_1}{g_1}, \deg\frac{f_2}{g_2}\right)\]
+    \[\deg\left(\frac{f_1}{g_1} \cdot \frac{f_2}{g_2}\right) = \\deg\frac{f_1}{g_1} + \deg\frac{f_2}{g_2}\]
+\end{proposition}
+
+\begin{theorem}
+    Путсь \(\frac{f}{g}\) --- правильная рациональная дробь, \(g = g_1g_2\dots g_n\), причем \((g_i, g_j) = 1\). Тогда существует единственный набор \(f_1, f_2\dots f_n\), таких, что:
+    \[\frac{f}{g} = \frac{f_1}{g_1} + \frac{f_2}{g_2} + \dots + \frac{f_n}{g_n}, \deg f_i < \deg g_i\]
+\end{theorem}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item[] \textbf{Существование.} ведем индукцию по \(n\)
+        \begin{enumerate}
+            \item[] \textbf{База:} \(n = 1\). Очевидно.
+            \item[] \textbf{Переход:} Обозначим \(h = g_1g_2\dots g_{n-1}\). Тогда 
+            \[\frac{f}{g} = \frac{\mu f}{g_1} + \frac{\lambda f}{h}\]
+            Где \(\lambda g + \mu h = 1 = (g, h)\) (существуют из разложения НОДа). Но тогда по предположению индукции, разложим \(\frac{\lambda f}{h}\) и получим желаемое
+        \end{enumerate}
+        \item[] \textbf{Единственность.} ведем индукцию по \(n\)
+        \begin{enumerate}
+            \item[] \textbf{База:} \(n = 1\). Очевидно.
+            \item[] \textbf{Переход:} Обозначим \(h = g_1g_2\dots g_{n-1}\). Пусть это не так. Но тогда у нас есть два разложения, приведем в каждом из них дроби с \(g_i, i \ne n\) к общему знаменателю. Тогда сущесвтуют \(a, b, c, d\), такие, что
+            \[\frac{f}{g} = \frac{a}{g_n} + \frac{b}{h} = \frac{c}{g_n} + \frac{d}{h}\]
+            \[ah + bg_n = ch + dg_n\]
+            Но тогда \(h(a - c) = g_n(b - d)\). Т.к. \(\deg(b - d) < h \Ra (g_n, h) \ne 1 \), противоречие
+        \end{enumerate}
+    \end{enumerate}
+\end{proof}
+
+\begin{note}
+    Если в предыдущем утверждении \(g_1, g_2, \dots g_n\) --- неприводимые множители, то они взаимно просты между собой, но тогда любая правильная рациональная дробь единственным образом представляется в таком виде.
+\end{note}
+
+\begin{definition}
+    Правильная рациональная дробь \(\frac{f}{g}\) называется простейшей, если ее знаменатель --- степень неприводимого многочлена.
+\end{definition}
+
+\begin{corollary}
+    Любая правильная рациональная дробь единственным образом представима в виде суммы простейших дробей.
+\end{corollary}
+
+\begin{theorem}
+    Пусть \(f\) --- ненулевой многочлен, \(p\) --- многочлен положительной степени. Тогда \(\exists!\) представление \(f\) в виде:
+    \[f = \phi_0 + \phi_1p + \phi_2p^2 + \dots + \phi_np^n, \deg\phi_i < \deg p\]
+\end{theorem}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item[] \textbf{Cуществование.} ведем индукцию по степени \(f\).
+        \begin{enumerate}
+            \item[] \textbf{База:} \(\deg f = 1\). Очевидно.
+            \item[] \textbf{Переход:} Разделим \(f\) на \(p\) с остатком, получится \(\phi_0 + rp = f\). Получили \(\phi_0\), по предположению индукции разложим \(r\) и получим разложение
+        \end{enumerate}
+        \item[] \textbf{Единственность.} Пусть есть два разложения. Вычтем одно из другого: с одной стороны получим 0, с другой стороны, рассмотрим минимальный индекс, где \(\phi_i \ne \phi'_i\) и получим ненулевой многочлен. Противоречие.
+    \end{enumerate}
+\end{proof}
+
+\section{Инвариантные пространства}
+Теперь снова вернемся к линейным операторам
+\subsection{Напоминание}
+
+\begin{definition}
+    \(\phi: V \ra V\) называется линейным оператором, если он удовлетворяет следующим условиям:
+    \begin{enumerate}
+        \item Аддитивность --- \(\phi(x + y) = \phi(x) + \phi(y)\)
+        \item Однородность --- \(\phi(\lambda x) = \lambda\phi(x)\)
+    \end{enumerate}
+    Эти два условия можно заменить одним --- линейностью
+\end{definition}
+
+Пусть  \(\mathfrak{E}\) --- базис в \(V\). Т.к. линейный оператор линеен, то нам достаточно знать его значения на элементах \(\mathfrak{E}\) (все остальное узнаем из линейности).
+Пусть \(\phi(e_i) = \sum_{k = 1}^n a_{ki}e_k\). Тогда:
+\[\phi(\mathfrak{E}) = \mathfrak{E}\cdot A\]
+Где \([A]_{ij} = a_{ij}\).
+
+\begin{definition}
+    \(\mathfrak{L}(V)\) --- пространство всех линейных отображений
+\end{definition}
+
+Причем линейные операторы можно умножать:
+\[\phi\cdot\psi(x) = \phi(\psi(x))\]
+И тогда выполнено:
+\[\phi \longleftrightarrow_{\mathfrak{E}} A, \psi \longleftrightarrow_{\mathfrak{E}} B \Ra \phi\psi \longleftrightarrow{\mathfrak{E}} AB\]
+
+\subsection{Инвариантное подпространство}
+\begin{definition}
+    Подпространство \(U \le V\) называется инвариантным относительно оператора \(\phi\), если \(\forall x \in U\;\;\phi(x) \in U\). Иначе говоря, \(\phi(U) \subset U \Leftrightarrow \phi(U) \le U\).
+\end{definition}
+
+\begin{definition}
+    Базис \(\mathfrak{E}\) в \(V\) называется согласованным с инвариантным подпространством \(U\), если \(e_1, e_2, \dots e_k\) --- базис в \(U\).
+\end{definition}
+
+\begin{proposition}
+    Подпространство \(U\) инвариантно относительно \(\phi \Lra\) в базисе \(\mathfrak{E}\), солгласованным с \(U\), выполнено:
+    \[A_\phi = \left(\begin{array}{c|c}
+        A_U & B \\
+        \hline
+        0 & C
+    \end{array}\right), A_U \in M_{k \times k}, k = \dim U\]
+\end{proposition}
+\begin{proof}
+    Пусть \(\mathfrak{E}\) --- согласован с \(U\). \(U\) --- инвариантен относительно \(\phi \Lra \phi(e_j) \in U = \langle e_1, e_2, \dots e_k\rangle, i \le j \le k\)
+    \[\Lra \phi(e_j) = \left(\begin{array}{l}
+        *_1 \\
+        \vdots \\
+        *_k \\
+        0 \\
+        \vdots \\
+        0
+    \end{array}\right) \Ra A_\phi = \left(\begin{array}{c|c}
+        A_U & B \\
+        \hline
+        0 & C
+    \end{array}\right), A_U \in M_{k \times k}, k = \dim U\]
+\end{proof}
+
+\begin{proposition}
+    Если \(U, V\) --- инвариантны относительно \(\phi: V \ra V\), то \(U \cap V, U + V\) --- тоже.
+\end{proposition}
+\begin{proof}
+    \[\phi(U \cap W) \le \underbrace{\phi(U)}_{\le U}  \cap \underbrace{\phi(W)}_{\le W} \le U \cap W\]
+    \[\phi(U + W) = \phi(U) + \phi(W) \le U + W\]
+\end{proof}
+
+\begin{proposition}[О коммутатирующих операторах]
+    Пусть \(\phi, \psi \in \mathfrak{L}(V), \phi \cdot \psi = \psi \cdot \phi\). Тогда подпространства \(\ker \phi, \ker \psi, Im\phi, Im\psi\) инвариантны относительно каждого из этих операторов.
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}
+        \item \(\phi(\ker \phi) = \{0\}\)
+        \item \(\phi(Im \phi) \le Im \phi\) ---  очев
+        \item \(\phi(\ker \psi) \le \ker \psi\)
+        \[\psi(\phi(\ker\psi)) = \phi(\psi(\ker\psi)) = \{0\} \Ra \phi(\ker \psi) \le \ker\psi\]
+        \item \(\phi(Im \psi) \le Im \psi\)
+        \[\phi(x) = \phi(\psi(x')) = \psi(\phi(x')) \le Im \phi\]
+    \end{enumerate}
+\end{proof}
+
+Короче тут лектор так разогнался, что я ничего не успел записать, поэтому вот вам основные определения:
+\begin{definition}
+    Ненулевой вектор \(x\) называется собственным, если \(\phi(x) = \lambda x\)
+\end{definition}
+\begin{definition}
+    Собственным подпространством линейного преобразования \(\phi\) называется пространство \(\ker(\phi - \lambda \cdot \id)\)
+\end{definition}
+\hypertarget{lecture4}{}
+
+\subsection{Структура линейного оператора}
+\begin{definition}
+    \(\chi_A(\lambda) = \det(A - \lambda E)\) --- характеристический многочлен линейного оператора \(A\).
+\end{definition}
+
+\begin{proposition}[О свойствах характеристического многочлена]\indent
+    \begin{enumerate}
+        \item \(\chi_A(\lambda) = 0, \lambda \in F\), тогда \(\lambda\) --- собственное значение оператора \(A\).
+        \item \(\chi_A(\lambda)\) не зависит от выбора базиса, в котором записывается \(A\).
+    \end{enumerate}
+\end{proposition}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item \(Ax = \lambda x \Lra (A - \lambda E)x = 0\) имеет нетривиальное решение \(\Lra \det(A - \lambda E) = 0\)
+        \item
+        \(\det(SAS^{-1} - \lambda E) = \det(SAS^{-1} - \lambda SES^{-1}) = \det S \det S^{-1} \det (A - \lambda E) = \det(A - \lambda E)\)
+    \end{enumerate}
+\end{proof}
+
+\begin{definition}
+    Линейный оператор называется диагонализируемым, если существует базис, в котором его матрица является диагональной
+\end{definition}
+
+\begin{theorem}[Критерий диагонализируемости]
+    Пусть \(\phi: V \ra V\) --- линейный оператор, \(\lambda_1, \lambda_2 \dots \lambda_k\) --- все попарно различные корни характеристического многочлена. Тогда следующие утверждения эквивалентны:
+    \begin{enumerate}
+        \item \(\phi\) --- диагонализируема
+        \item В \(V\) суещствует бащис, состоящий из собственных векторов для \(\phi\)
+        \item \(V = V_{\lambda_1} \oplus V_{\lambda_2} \oplus \dots \oplus V_{\lambda_k}\)
+    \end{enumerate}
+\end{theorem}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item[\(1 \Ra 2\)] Рассмотрим базис, в котором матрица имеет диагоанльный вид \(\mathfrak{E}\). Но тогда \(\forall e \in \mathfrak{E}: Ae = \lambda_i e\) для некоторого \(i\). Но тогда этот базис состоит из собственных векторов.
+        \item[\(2 \Ra 3\)] Рассмотрим отдельно базисы, отвечающие собственным значениям \(\lambda_1, \lambda_2 \dots \lambda_k\). Они образуют базисы пространств \(V_{\lambda_1}, V_{\lambda_2}, \dots V_{\lambda_k}\). Но тогда \(V = V_{\lambda_1} \oplus V_{\lambda_2} \oplus \dots \oplus V_{\lambda_k}\)
+        \item[\(3 \Ra 1\)] Рассмотрим объединение базисов этих пространств. Т.к. каждый вектор полученного базиса будет собственным, в каждой строке и каждом столбце матрицы будет записано ровно одно число. Но тогда можно поменять местами векторы базиса так, чтобы матрица была диагональной
+    \end{enumerate}   
+\end{proof}
+
+\subsection{Алгебраическая и Геометрическая кратности}
+\begin{definition}
+    Алгебраической кратностью собственного значения \(\lambda_0\) многочлена \(\chi_A(\lambda)\) называется кратность его как корня данного многочлена.
+\end{definition}
+\begin{definition}
+    Геометрической кратностью собственного значения \(\lambda_0\) называется \(\dim V_{\lambda_0}\)
+\end{definition}
+
+\begin{proposition}
+    Пусть \(\phi: V \ra V\) --- линейный оператор, \(U \le V\), \(U\) инвариантно относительно \(phi, \psi = \phi|_U \in \mathcal{L}(U)\). Тогда \(\chi_\phi \vdots \chi_\psi\)
+\end{proposition}
+\begin{proof}
+    \[\mathfrak{E} = (\underbrace{\underbrace{e_1, e_2, \dots e_k}_{\text{Базис } U}, e_{k + 1}, \dots e_n}_{\text{Базис }V})\]
+    Но тогда:
+    \[A_\phi = \left(\begin{array}{c|c}
+        A_\psi & B \\ 
+        \hline
+        0 & C \\
+    \end{array}\right) \Ra \chi_\phi(\lambda) = |A_\phi - \lambda E| = |A_\psi - \lambda E||C - \lambda E| = \chi_\psi(\lambda)\chi_C(\lambda)\]
+\end{proof}
+
+\begin{corollary}
+    Пусть \(\lambda\) --- собственное значение \(\phi: V \ra V\). Тогда \(geom(\lambda) \le alg(\lambda)\)
+\end{corollary}
+\begin{proof}
+    Рассмотрим \(V_\lambda, \psi = \phi|_{V_\lambda}\). Тогда
+    \[\psi = \left(\begin{array}{cccc}
+        \lambda & 0 & \dots & 0\\
+        0 & \lambda & \dots & 0\\ 
+        \vdots & \vdots & \ddots & \vdots\\
+        0 & 0 & \dots & \lambda \\
+    \end{array}\right)\]
+    И тогда \(\chi_\psi(t) = (\lambda - t)^k\), где \(k = \dim V_{\lambda}\)
+    По вышедоказанному утверждению, \(\chi_\phi \vdots \chi_\psi \Ra \chi_\phi(t) \vdots (\lambda - t)^k \Ra alg(\lambda) \ge geom(\lambda)\)
+\end{proof}
+
+\begin{corollary}
+    Если \(\chi_\phi\) --- не линейно факторизуем, то \(\phi\) --- не диагонализируем
+\end{corollary}
+
+\begin{theorem}
+    Пусть \(\phi: V \ra V\) --- линейные оператор. Тогда он диагонализируем тогда и только тогда, когда 
+    \begin{enumerate}
+        \item \(\phi\) --- линейно факторизуем над \(F\)
+        \item \(\forall i\;\; alg(\lambda_i) = geom(\lambda_i)\)
+    \end{enumerate}
+\end{theorem}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item[\(\Ra\)] Т.к. \(V = V_{\lambda_1} \oplus V_{\lambda_2} \oplus \dots \oplus V_{\lambda_k}\), то \(\dim V = \dim V_{\lambda_1} + \dim V_{\lambda_2} + \dots + \dim V_{\lambda_k}\). Но тогда 1 и 2 верны, т.к. \(alg(\lambda_i) \ge geom(\lambda_i)\), и, при этом \(\sum alg(\lambda_i) = \sum geom(\lambda_i)\).
+        \item[\(\La\)] В таком случае \(\sum alg(\lambda_i) = \sum geom(\lambda_i)\). Но тогда \(\dim V = \sum geom(\lambda_i)\). Но тогда \(V = V_{\lambda_1} \oplus V_{\lambda_2} \oplus \dots \oplus V_{\lambda_k}\)
+    \end{enumerate}
+\end{proof}
+
+\begin{definition}
+    Жорданова клетка порядка \(n\), отвечающая собственному значению \(\lambda\) --- это матрица:
+    \[J_n(\lambda) = \left(\begin{array}{cccccc}
+        \lambda & 1 & 0 & \dots & 0 & 0 \\
+        0 & \lambda & 1 & \dots & 0 & 0 \\
+        0 & 0 & \lambda & \dots & 0 & 0 \\
+        \vdots & \vdots & \vdots & \ddots & \vdots & \vdots \\
+        0 & 0 & 0 & \dots & \lambda & 1 \\
+        0 & 0 & 0 & \dots & 0 & \lambda \\
+    \end{array}\right)\]
+\end{definition}
+
+\begin{note}
+    Линейной факторизуемости \(\chi_\phi\) недостаточно, чтобы утверждать диагонализируемость \(\phi\). Например, \(J_n(\lambda)\) не диагонализируема, т.к. \(J_n(\lambda) - \lambda E\) имеет размерность решений \(2\), но \(\chi_{J_n(\lambda)}(t) = (\lambda - t)^n\).
+\end{note}
+
+\begin{proposition}
+    \(\phi: V \ra V, \phi_\lambda = \phi - \lambda E\). Тогда следующие утверждения эквивалентны:
+    \begin{enumerate}
+        \item Подпространство \(U \le V\) инвариантно относительно \(\phi\).
+        \item \(\exists \lambda \in F: U\) --- инвариантно относительно \(\phi_\lambda\).
+        \item \(\forall \lambda \in F: U\) --- инвариантно относительно \(\phi_\lambda\).
+    \end{enumerate}
+\end{proposition}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item[\(1 \Ra 2\)] очевидно, \(\lambda = 0\)
+        \item[\(2 \Ra 3\)] \((\phi - \lambda E)x = \mu x \Ra (\phi - \lambda E - \lambda_1 E)x = (\mu - \lambda_1) x\)
+        \item[\(3 \Ra 1\)] Тоже очевидно
+    \end{enumerate}
+\end{proof}
+
+\begin{proposition}
+    Пусть \(\phi: V \ra V\) --- линейный оператор и \(\chi_\phi(t)\) линейно факторизуем. Тогда у \(\phi\) найдется \(n - 1\) мерное подпространство.
+\end{proposition}
+
+Я СДАЮСЬ
+он победил
+\subsection{Аннулирующие многочлены}
+\begin{definition}
+    Пусть \(V\) --- линейное пространство над полем \(F\), \(\phi: V \ra V\) --- линейный оператор. Многочлен \(P\) называется аннулирующим для оператора \(\phi\), если \(P(\phi) = 0\)
+\end{definition}
+
+Существование такого многочлена можно обосновать по Теореме Гамильтона-Кэли, а можно и другим способом:
+Заметим, что размерность пространства линейных операторов \(\phi: V \ra V = (\dim V)^2\). Поэтому, операторы \(E, \phi, \phi^2 \dots \phi^{n^2}\) линейно зависимы. Но тогда \(\exists \lambda_i: E\lambda_0 + \phi\lambda_1 + \dots + \phi^{n^2}\lambda_{n^2}\)
+
+\begin{definition}
+    Минимальным многочленом линейного оператора называется аннулирующий многочлен минимальной степени.
+\end{definition}
+
+
+\begin{proposition}
+    \(\mu_\phi\) --- минимальный многолчен линейного оператора \(\phi\). Тогда \(P\) --- аннулирующий многлчен \(phi \Ra P \vdots \phi\)
+\end{proposition}
+\begin{proof}
+    Разделим \(P\) на \(\mu_\phi\) с остатком 
+    \(Ra P = Q\mu_\phi + R\). Тогда \(P(\phi) = Q(\phi)\mu_\phi(\phi) + R(\phi) = 0 \Ra R(\phi) = 0\). Получили противоречие, т.к. \(\deg R < \deg \mu_\phi\)
+\end{proof}
+
+\begin{corollary}
+    Минимальный многочлен определен с точностью до умножения на константу
+\end{corollary}
+
+\begin{proposition}
+    \(\chi_\phi \vdots \mu_\phi\)
+\end{proposition}
+
+\begin{corollary}
+    Корни \(\mu_\phi\) являются корнями \(\chi_\phi\)
+\end{corollary}
+
+\begin{theorem}[О взаимно простых делителях аннулирующих многолченов]
+    Пусть \(\phi: V \ra V\) --- линейный оператор, \(f\) --- аннулирующий многочлен, причем \(f = f_1\cdot f_2\), где \((f_1, f_2) = 1\). Тогда, если \(V_i = \ker f_i(\phi)\), то \(V = V_1 \oplus V_2\), причем \(V_i\) инвариантно относительно \(\phi\)
+\end{theorem}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item Докажем, что \(V_i\) --- инвариантно относительно \(f_i(\phi)\). Заметим, что \(f_i(\phi)\phi = \phi f_i(\phi) \Ra V_i\) --- инвариантно
+        \item Докажем, что \(V_1 + V_2 = V\). Заметим, что \(\exists u_1, u_2: u_1f_1 + u_2f_2 = 1\). Но тогда \(x = Ex = u_1(\phi)f_1(\phi)x + u_2(\phi)f_2(\phi) = f_1(\phi)u_1(\phi)x + f_2(\phi)u_2(\phi) = \underbrace{f_1(\phi)x'}_{\in V_2} + \underbrace{f_2(\phi)x''}_{\in V_1}\).
+        \item Докажем, что \(V_1 \cap V_2 = \{0\}\). Действительно, если \(a \in V_1, V_2\), то \(\text{НОД}(f_1, f_2)(a) = 0 \Ra Ea = 0 \Ra a = 0\)
+    \end{enumerate}
+\end{proof}
+
+\begin{corollary}
+    \(\phi: V \ra V, f\) аннулирует \(\phi\). Тогда, если \(f = f_1f_2\dots f_s\), где \((f_i, f_j) = 1 \Ra V = \bigoplus_{i = 1}^s V_i\), причем \(V_i\) --- инвариантно относительно \(\phi\)
+\end{corollary}
+\begin{proof}
+    Тут должно быть очевидное доказательство по индукции.
+\end{proof}
+
+\subsection{Корневые подпространства}
+\begin{definition}
+    \(\phi: V \ra V\) --- линейный оператор. Вектор \(x\) называется корневым, если \(\exists k \in \N: (\phi - Ex)^k = 0\). Наименьшее \(k\), удовлетворяющее такому уравнению называется высотой корневого вектора \(x\)
+\end{definition}
+
+\begin{note}
+    Будем считать, что \(0\) --- корневой вектор высоты \(0\), отвечающий любому \(\lambda \in F\)
+\end{note}
+
+\begin{proposition}
+    Множество всех корневых векторов для оператора \(\phi\), отвечающих \(\lambda\) ялвяется подпространством пространства \(V\)
+\end{proposition}
+\begin{proof}
+    \(x_1, x_2\) --- корневые векторы, отвечающие числу \(\lambda\) высоты \(n, m\) соответственно. Заметим, что \((\phi - \lambda E)^{n + m}(x_1 + x_2) = 0 \Ra\) он тоже является корневым вектором, отвечающим тому же числу.
+\end{proof}
+\begin{definition}
+    Будем обозначать за \(V^\lambda\) корневое подпространство для \(\phi\), отвечающее числу \(\lambda\)
+\end{definition}
+
+\subsection{Корневые подпространства}
+\begin{proposition}
+    \(V^\lambda \ne \{0\} \Lra \lambda\) --- собственное значение.
+\end{proposition}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item[\(\Ra\)] Если \(V^\lambda \ne \{0\} \Ra \exists y \ne 0, y \in V^\lambda\). Пусть его высота --- \(k\). Тогда \(x = (\phi - \lambda E)^{k - 1} \ne 0, (\phi - \lambda E)x = 0 \Ra \lambda\) --- собственное значение \(\phi\)
+        \item[\(\La\)] Тогда существует ненулевой собственный вектор, который \(\in V^\lambda\).
+    \end{enumerate}
+\end{proof}
+
+\begin{theorem}[О свойствах корневых подпространств]
+    \(\phi: V \ra V\) --- линейный оператор. Тогда
+    \begin{enumerate}
+        \item \(V^\lambda\) --- инвариантно относительно \(\phi\)
+        \item На \(V^\lambda\) оператор \(\phi\) имеет единственное собственное значение, равное \(\lambda\)
+        \item Если \(W\) таково, что \(V^\lambda \oplus W = V\)
+    \end{enumerate}
+\end{theorem}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item Пусть \(m\) --- максимальная высота векторов из \(V^\lambda\). \(V^\lambda = \ker (\phi - \lambda E)^m \Ra \phi(\phi - \lambda E)^m = (\phi - \lambda E)^m\phi \Ra\) по теореме о коммутирующих операторах, \(V^\lambda\) инвариантно относительно \(\phi\)
+        \item От противного, пусть существует собственное значение, равное \(\mu \ne \lambda\). Тогда 
+        \[\exists x \in V: \phi(x) \Ra (\phi - \lambda E)(x) = \mu x - \lambda x = (\mu - \lambda)x\]
+        \[(\phi - \lambda E)^m(x) = (\mu - \lambda)^mx\]
+    \end{enumerate}
+\end{proof}
+
+ОН ОКОНЧАТЕЛЬНО ПОБЕДИЛ...

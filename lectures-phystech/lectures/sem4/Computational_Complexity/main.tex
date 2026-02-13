@@ -1,0 +1,318 @@
+
+\hypertarget{lecture1}{}
+
+\section{Класс \(\mathbf{P}\)}
+
+\subsection{Базовые определения}
+
+Будем рассматривать задачи на распознавание, т.е. дан \(A \subset \{0, 1\}^*\) и требуется по \(x \in \{0, 1\}^* \mapsto \left\{\begin{array}{l}
+    1, x \in A \\
+    0, x \notin A
+\end{array}\right.\). Пусть \(M\) решает данную задачу, т.е. \(\forall x (x \in A \Lra M(x) = 1)\).
+
+\begin{definition}
+    \(time_M(x)\) --- число шагов \(M(x)\) при вычислении ответа.
+\end{definition}
+
+\begin{definition}
+    \(time_M(n) = \max_{x: |x| = n} time_M(x)\)
+\end{definition}
+
+\begin{definition}
+    \(time_M(n) = O(f(n))\), если \(\exists C: \forall n: time_M(n) \le C \cdot f(n)\)
+\end{definition}
+
+Возникает вопрос: можно ли сказать, что \(time_A(n) = \min_{M: M \text{ решает }A} time_M(n)\)? Нет, но показать это достаточно сложно (Теорема Блюма).
+
+Поэтому мы приходим к данному определению:
+\begin{definition}
+    \(\mathbf{DTIME}(t(n)) = \{A | \exists M: M(x) = 1 \Lra x \in A, time_M(n) = O(t(n))\}\)
+\end{definition}
+
+Заметим, что для определения \(\mathbf{DTIME}\), необходимо задать модель вычислений. Обычно такой моделью выбирают многоленточную машину Тьюринга.
+
+\begin{definition}
+    \(\mathbf{P} = \mathbf{DTIME}(poly(n)) = \bigcup_{k = 1}^\infty \mathbf{DTIME}(n^k)\)
+\end{definition}
+
+\textbf{Тезис Черча-Тьюринга в сильной форме}: Любая задача, эффективно решаемая физическим устройстом, решается за полиномиальное время на машине тьюринга.
+
+\begin{example}[Нетривиальные примеры задач из \(\mathbf{P}\)]
+    \begin{enumerate}
+        \item \(\mathbb{P}\) --- множество простых чисел
+        \item Линейное программирование --- как пример, нахождения максимума функции на многограннике. Эта задача не бинарная, но вот задача ''достижима ли это число на многограннике'' принадлежит классу \(\mathbf{P}\).
+        \item Симплекс-метод --- алгоритм решения 
+    \end{enumerate}
+\end{example}
+
+\subsection{Неконструктивные оценки \(\mathbf{P}\)}
+Рассмотрим, например, задачу определения графа на планарность. Для этого существует два критерия: критерий Понтрягина-Куратовского: граф планарен \(\Lra\) в нем нет подграфов, гомеоморфных \(K_5, K_{3,3}\). Также, существует критерий Вагнера: граф планарен \(\Lra\) в нем нет миноров \(K_5, K_{3,3}\) (минор --- граф, полученный из исходного удалением и стягиванием ребер). Рассмотрим свойства, которые сохраняются при удалении и стягивании ребер.
+
+\begin{theorem}[Робертсона-Сеймура]
+    \begin{enumerate}
+        \item Для любого свойства, аналогичного планарности выполнен аналог критерия Вагнера с конечным числом запрещенных миноров.
+        \item Наличие такого минора проверяется за полиномиальное время
+    \end{enumerate}
+\end{theorem}
+
+\begin{corollary}
+    Любое такое свойство лежит в классе \(\mathbb{P}\).
+\end{corollary}
+
+Но проблема в том, что мы не знаем миноров, которые необходимо проверить, чтобы найти проверить выполнение данного свойства.
+
+\subsection{Другие классы задач}
+
+\begin{definition}
+    \(\mathbf{QP} = \mathbf{DTIME}(2^{poly(\log(n))}) = \bigcup_{c = 1}^\infty \mathbf{DTIME}(2^{(\log n)^c})\)
+\end{definition}
+
+\begin{definition}
+    \(\mathbf{E} = \mathbf{DTIME}(2^{O(n)}) = \bigcup_{c = 1}^\infty \mathbf{DTIME}(2^{cn})\)
+\end{definition}
+
+\begin{definition}
+    \(\mathbf{EXP} = \mathbf{DTIME}(2^{poly(n)}) = \bigcup_{c = 1}^\infty \mathbf{DTIME}(2^{n^c})\)
+\end{definition}
+
+\begin{definition}
+    \(\mathbf{EE} = \mathbf{DTIME}(2^{2^{cn}}) = \bigcup_{c = 1}^\infty \mathbf{DTIME}(2^{2^{cn}})\)
+\end{definition}
+
+\subsection{Асимптотики различных задач}
+
+\begin{example}
+    \(\mathsf{LOG-CLIQUE} = \{G | \omega(G) \ge \log_2 n\} \in \mathbf{QP}\). Является квазиполиномиальной, т.к. \(C_n^{\log n} \le n^{\log n}\), т.е. полный перебор осуществляется за квазиполином
+\end{example}
+
+\begin{example}[Задача о доминирующем множестве в турнире]
+    непон
+\end{example}
+
+\begin{example}
+    \(\mathsf{GI} = \{(G_1, G_2): G_1 \cong G_2\} \in \mathbf{QP}\)
+\end{example}
+
+\begin{example}
+    \(\mathsf{3COL} = \{G: \chi(G) \le 3\} \in E\)
+\end{example}
+
+\begin{theorem}[об иерархии по времени]
+    Если \(f \ll g \Ra \mathbf{DTIME(f(n))} \subsetneq \mathbf{DTIME(g(n))}\)
+\end{theorem}
+
+\hypertarget{lecture2}{}
+
+\section{Класс \(\mathbf{NP}\)}
+
+Сейчас будем рассматривать модель вычислений --- \textit{недетерминированную машину Тьюринга} или НМТ. В отличие от обычной машины Тьюринга, функция перехода теперь многозначна (по аналогии с ДКА и НКА). 
+
+Соответственно, время работы такой машины Тьюринга --- \(time_M(x) = \max \#\text{шагов}\) по всем вариантам перехода.
+
+\begin{note}
+    Можем считать, что дерево переходов двоичное. Действительно, размер ветвления ограничено мощностью \(|\Sigma|\cdot|Q|\cdot|\{N, R, L\}|\) --- некоторая константа, не зависищая от входа. Тогда каждое \(m\)-ветвление можно заменить \(\log_2 m\) \(2\)-ветвлениями.
+\end{note}
+
+Ответ данной машины будем понимать следующее:
+\[M(x) = \left\{\begin{array}{l}
+    1, \text{существует принимающая ветка}
+    0, \text{иначе}
+\end{array}\right.\]
+
+\begin{note}
+    Ответ вычисляется как дизъюнкция по всем результатам работы машины
+\end{note}
+
+\begin{definition}
+    \(\mathbf{NTIME}(t(n))\) --- класс языков, распознаваемых на НМТ за \(O(t(n))\) шагов
+\end{definition}
+
+\begin{definition}
+    \(\mathbf{NP} = \bigcup_{c = 1}^\infty \mathbf{NTIME}(n^c)\)
+\end{definition}
+
+\begin{definition}
+    \(\mathbf{NE} = \bigcup_{c = 1}^\infty \mathbf{NTIME}(2^{cn})\)
+\end{definition}
+
+\begin{definition}
+    \(\mathbf{NEXP} = \bigcup_{c = 1}^\infty \mathbf{NTIME}(2^{n^c})\)
+\end{definition}
+
+\begin{note}
+    \(\mathbf{NTIME(t(n))} \subset \mathbf{DTIME(2^{t(n)})}\)
+\end{note}
+
+\begin{note}
+    \(\mathbf{NP} \subset \mathbf{EXP}\) --- за время \(\mathbf{EXP}\) можно построить все дерево и вычислить ответ по определению.
+\end{note}
+
+\subsection{Определение через сертификат}
+
+\begin{theorem}
+    \(A \in \mathbf{NP} \Lra \exists V(x, s)\) --- ДМТ, т.ч. \(x \in A \Lra \exists s: V(x, s) = 1\) и \(V(x, s)\) работает за \(poly(|x|)\)
+\end{theorem}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item [\(\La\)] Расмотрим следующую НМТ, которая сначала печатает все возможные варианты \(s\) (достаточно написать полиномиальное количество символов, т.к. больше \(V\) не сможет прочесть), а потом на входе \(x, s\) запускает \(V\). Таким образом, Получили машину \(M\), которая в какой-то ветке напечатает нужный сертификат \(s\) и выведет \(V(x, s) = 1\).
+        \item [\(\Ra\)] Возьмем в качестве сертификата код нужной ветви в машине \(M\) (0, если надо идти вправо, 1, если влево). Оно и будет нашим сертификатом \(s\). Машина \(V\) будет спускаться, в соответствии с сертификатом, по дереву переходов. Тогда сертификат существует \(\Lra\) сущетсвует принимающая ветвь \(\Lra A \in \mathbf{NP}\).
+    \end{enumerate}
+\end{proof}
+
+\begin{exercise}
+    Сформулировать и доказать аналогичную теорему для классов \(\mathbf{NE}, \mathbf{NEXP}\)
+\end{exercise}
+
+\begin{proposition}
+    \begin{enumerate}
+        \item \(A, B \in \mathbf{P} \Ra A \cap B, A \cup B, \overline{A} \in \mathbf{P}\)
+        \item \(A, B \in \mathbf{NP} \Ra A \cap B, A \cup B \in \mathbf{NP}\)
+    \end{enumerate}
+\end{proposition}
+
+\begin{note}
+    Вообще говоря, \(\overline{A} \in \mathbf{NP}\) --- открытый вопрос. Нельзя просто инвертировать значение машины \(M\) (пусть мы получим машину \(\overline{M}\)): тогда \(x \in \overline{A} \Lra\) все ветки \(\overline{M}\) принимающие, а это не то, что мы хотим. Таким образом, мы приходим к следующему определению:
+\end{note}
+
+\begin{definition}
+    \(\mathbf{coNP} = \{A \in \{0, 1\}^*: \overline{A} \in \mathbf{NP}\}\).
+\end{definition}
+
+\begin{note}
+    Аналогично можно доказать, что \(A \in \mathbf{coNP}\) тогда и только тогда, когда ответ вычисляется как конъюнкция всех результатов работы машины или тогда и только тогда, когда \(\exists V: x \in A \Lra \forall s V(x, s) = 1\) и \(V\) вычисляется полиномиально от длины \(x\).
+\end{note}
+
+\begin{example}
+    \begin{enumerate}
+        \item \(\mathsf{SAT} = \{\phi: \exists x: \phi(x) = 1\} \in \mathbf{NP}\).
+        
+        Также имеет смысл рассмотреть двойственную задачу (к задаче опровержимости формулы):
+        \item \(\mathsf{TAUT} = \{\phi: \exists x: \phi(x) = 1\} \in \mathbf{coNP}\)
+    \end{enumerate}
+\end{example}
+
+\begin{note}
+    Несмотря на доказанную теорему о полноте, вывод не будет являться сертификатом. Действительно, вывод, вообще говоря, не обязан быть полиномиальным и, в таком случае, машина не сможет полностью его прочесть (т.к. работает полиномиально от \(|x|\))
+\end{note}
+
+Отдельный интерес у людей науки представляет множество \((\mathbf{coNP} \cap \mathbf{NP}) \setminus \mathbf{P}\). Рассмотрим следующую задачу:
+
+\begin{definition}
+    \(\mathsf{FACTORING} = \{(n, a, b): \exists d \in (a, b): d\text{ --- простое и }n \vdots d\}\)
+\end{definition}
+
+\begin{proposition}
+    \(\mathsf{FACTORING} \in \mathbf{NP} \cap \mathbf{coNP}\).
+\end{proposition}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item[\(\in \mathbf{NP}\)] \(d\) --- сертификат
+        \item[\(\in \mathbf{coNP}\)] сертификат --- разложение на простые, каждое из которых \(\notin (a, b)\).
+    \end{enumerate}
+\end{proof}
+
+\subsection{Некоторые следствия из определений}
+\begin{proposition}
+    \(\mathbf{P} = \mathbf{NP} \Lra \mathbf{P} = \mathbf{coNP}\)
+\end{proposition}
+\begin{proposition}
+    Следует из того, что \(\mathbf{coP} = \mathbf{P}\) (\(\mathbf{P}\) замкнут относительно дополнения).
+\end{proposition}
+
+\begin{note}
+    Тем не менее, может быть, что \(\mathbf{P} \ne \mathbf{NP}\), но \(\mathbf{NP} = \mathbf{coNP}\)
+\end{note}
+
+\begin{definition}
+    \(A \le_p B\) сводится по Карпу (сводится полиномиально), если \(\exists\) всюду полиномиально вычислимая от \(|x|\) функция \(f(x)\), такая, что \(x \in A \Lra f(x) \in B\).
+\end{definition}
+
+\begin{definition}
+    \(\mathsf{INDSET} = \{(G, k): \text{в графе \(G\) есть антиклика из \(k\) вершин}\}\)
+\end{definition}
+
+\begin{example}
+    \(\mathsf{CLIQUE} \le_p \mathsf{INDSET}\). Действительно, \(f(G, k) = f(\overline{G}, k)\) (дополнение по ребрам).
+\end{example}
+
+\begin{definition}
+    \(\mathsf{4COL} = \{G: \exists \text{правильная раскраска в 4 цвета}\}\)
+\end{definition}
+
+\begin{example}
+    \(\mathsf{4COL} \le_p \mathsf{SAT}\). Мы так уже делали на матлоге, когда сводили некоторые задачи к задачам выполнимости формулы. Для каждой вершины заведем две переменные \(p_i, q_i\), отвечающие за цвет. Нам нужно для каждого ребра записать, что две вершины, являющиеся его концами, имеют разный цвет, и взять конъюнкцию, т.е:
+    \[\bigwedge_{(i, j) \in E} (p_i \ne p_j) \vee (q_i \ne q_j)\]
+    Размер данной формулы будет полиномиальным относительно размера графа.
+\end{example}
+
+\begin{note}[Свойства \(\le_p\)]\indent
+    \begin{enumerate}
+        \item \(A \le_p B, B \le_p C \Ra A \le_p C\)
+        \item \(A \le_p B, B \in \mathbf{P} \Ra A \in \mathbf{P}\)
+        \item \(A \le_p B, B \in \mathbf{NP} \Ra A \in \mathbf{NP}\)
+        \item \(A \le_p B \Ra \overline{A} \le_p \overline{B}\)
+    \end{enumerate}
+\end{note}
+
+\begin{definition}
+    Задача \(B \in \mathbf{NPH}\) (\(\mathbf{NP}\)-трудной), если \(\forall A \in \mathbf{NP}: A \le_p B\).
+\end{definition}
+
+\begin{definition}
+    \(\mathbf{NPC} = \mathbf{NP} \cap \mathbf{NPH}\) (\(\mathbf{NP}\)-полные)
+\end{definition}
+
+\begin{corollary}\indent
+    \begin{enumerate}
+        \item \(B \in \mathbf{NPH}, B \le_p C \Ra C \in \mathbf{NPH}\)
+        \item \(B \in \mathbf{NPC}, B \le_p C, C \in \mathbf{NP} \Ra C \in \mathbf{NPC}\)
+    \end{enumerate}
+\end{corollary}
+
+\begin{proposition}\indent
+    \begin{enumerate}
+        \item \(\mathbf{P} \cap \mathbf{NPH} \ne \emptyset \Ra \mathbf{P} = \mathbf{NP}\)
+        \item \(\mathbf{coNP} \cap \mathbf{NPH} \ne \emptyset \Ra \mathbf{NP} = \mathbf{coNP}\)
+    \end{enumerate}
+\end{proposition}
+\begin{proof}\indent
+    \begin{enumerate}
+        \setcounter{enumi}{1}
+        \item \(B \in \mathbf{NPH}, \mathbf{coNP} \Ra \overline{B} \in \mathbf{NP}\). Теперь, если \(A \le_p B \Ra \overline{A} \le_p \overline{B}\). Отсюда получаем, что \(\overline{A} \in \mathbf{NP}\) и тогда \(\mathbf{NP} \subset \mathbf{coNP}\). Тогда:
+        \[S \in \mathbf{coNP} \Ra \overline{S} \in \mathbf{NP} \Ra \overline{S} \in \mathbf{coNP} \Ra S \in \mathbf{NP}\]
+    \end{enumerate}
+\end{proof}
+
+\begin{proposition}
+    \(A \in \mathbf{P}, B, \overline{B} \ne \emptyset \Ra A \le_p B\)
+\end{proposition}
+\begin{proof}
+    Рассмотрим 
+    \[f(x) = \left\{\begin{array}{l}
+        \in B, x \in A \\
+        \notin B, x \notin A
+    \end{array}\right.\]
+\end{proof}
+
+\begin{corollary}
+    \(\mathbf{P} = \mathbf{NP} \Ra \mathbf{NPC} = P \setminus \{\emptyset, \Sigma^*\}\)
+\end{corollary}
+
+\begin{definition}
+    \(\mathsf{TMSAT} = \{(M, x, 1^t): \exists y\;\;M(x, y)\text{ и работает за }\le t\text{ шагов}\}\).
+\end{definition}
+
+\begin{proposition}
+    \(\mathsf{TMSAT} \in \mathbf{NP}\)
+\end{proposition}
+\begin{proof}
+    Сертификат --- \(y\), верификатор --- УМТ
+\end{proof}
+
+\begin{proposition}
+    \(\mathsf{TMSAT} \in \mathbf{NPC}\)
+\end{proposition}
+\begin{proof}
+    Принадлежность \(\mathbf{NP}\) уже доказали, докажем принадлежность \(\mathbf{NPC}\). Пусть \(A \in \mathbf{NP}\). По определению: \(x \in A \Lra \exists s: V(x, s) = 1\). Положим \(M\) --- машину Тьюринга, вычисляющую \(V\), \(t(n)\) --- время работы \(V\) для \(|x| = n\). Тогда положим \(f(x) = (M, x, 1^{t(|x|)})\) и получим, что \(A \le_p \mathsf{TMSAT}\).
+\end{proof}
+

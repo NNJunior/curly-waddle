@@ -1,0 +1,1550 @@
+
+\hypertarget{lecture1}{}
+
+\section{Вступление}
+\subsection{Литература}
+\begin{enumerate}
+    \item Верещагин Н.К., Шень А.''Лекции по мат.логике'':
+    \begin{enumerate}
+        \item[ч.1] Начало теории множеств
+        \item[ч.2] Языки и исчисления
+        \item[ч.3] Вычислимые функции
+    \end{enumerate}
+\end{enumerate}
+
+\textbf{Синтаксис} (Правила составления ормул) $\longleftrightarrow$ \textbf{Семантика} (сопоставление формального выражения некоторому смыслу).
+Мы начнем с \textbf{Семантики}. Из-за лингвистической истории этого вопроса, в каждом формальном языке ест \textbf{алфавит}.
+
+\section{Алфавит и языки}
+\subsection{Определения}
+\begin{definition}
+    Алфавит --- множество символов. Мы будем считать, что алфавит непуст и конечен.
+\end{definition}
+
+\begin{definition}
+    Cлово --- конечная последовательность символов алфавита (может быть пустым). Оно состоит из букв (элементов алфавита). Пустое слово обозначается $\varepsilon$
+\end{definition}
+
+\begin{definition}
+    Язык --- множество слов. Пустой язык $\emptyset$
+\end{definition}
+
+\begin{definition}
+    Синглтон --- язык, состоящий только из пустого слова. $\{\varepsilon\}$
+\end{definition}
+
+\subsection{Операции}
+\begin{enumerate}
+    \item Конкатенация $u \cdot v$ --- дописываение слова
+    \item Длина $|u|$ --- длина слова
+    \item Возведение в степень $u^n = \underbrace{uu\dots u}_n$
+    \item Обращение $u^R = u_nu_{n-1}\dots u_1$, если $u = u_1u_2\dots u_n$
+    $(u\cdot v)^R = v^Ru^R$
+\end{enumerate}
+\subsection{Отношения}
+\begin{enumerate}
+    \item Префикс $u \sqsubset v \Leftrightarrow \exists w: uw = v$
+    \item Суффикс $u \sqsupset v \Leftrightarrow \exists w: wu = v$
+    \item Подслово $u \subset v$ --- вычеркнуть часть букв (сохраняя порядок), получив $v$ из $u$
+\end{enumerate}
+\subsection{Операции над языками}
+\begin{enumerate}
+    \item[0.] Теоретико-множественные
+    \item Конкатенация $L\cdot M = \{uv | u \in L, v \in M\}$, причем
+    \begin{enumerate}
+        \item $L\cdot \emptyset = \emptyset\cdot L = \emptyset$
+        \item $L\cdot \{\varepsilon\} = \{\varepsilon\}\cdot L = L$
+    \end{enumerate}
+    \item Возведение в степень $L^n = \underbrace{LLL\dots L}_n$, причем $L^0 = \{\varepsilon\}$
+    \item Итерация (Звезда Клини) $L^*=L^0\cup L^1\cup L^2\dots$
+    \item Плюс Клини $L^+=L^1\cup L^2\dots$. Тогда $L^+ = L^* \cdot L$
+\end{enumerate}
+\textbf{Мы будем считать, что натуральные числа начинаются с 0, но во всех местах это на всякий случай будут писать.}
+\\\\
+
+\begin{definition}
+    Правильная скобочная последовательность (ПСП) --- последовательность скобок, разбитых на пары, где в каждой паре ''('' идет раньше '')''.
+\end{definition}
+$$(_1\ (_2\ )_1\ )_2 \text{--- тоже правильная}$$
+
+\begin{definition}
+    Правильная скобочная последовательность (ПСП) --- последовательность скобок, индуктивно построенная из правил: 
+\end{definition}
+\begin{enumerate}
+    \item $\varepsilon$ --- ПСП
+    \item $S$ --- ПСП $\Leftrightarrow (S)$ --- ПСП
+    \item $S, T$ --- ПСП $\Rightarrow S\cdot T$ --- ПСП
+\end{enumerate}
+
+\begin{definition}
+    Баланс СП --- \(\#(\text{открывающих скобок}) - \#(\text{закрывающих скобок})\)
+\end{definition}
+
+\begin{definition}
+    ПСП --- такая СП, что ее баланс равен 0, а баланс любого префикса $\ge 0$.
+\end{definition}
+\begin{proposition}
+    Все три определения ПСП равносильны
+\end{proposition}
+\begin{proof}
+\indent
+    \begin{enumerate}
+        \item $\textbf{Определение 2.5} \Rightarrow \textbf{Определение 2.6}$. Все скобки разбиты на пары $\Rightarrow$ баланс = 0. Более того, в паре ''('' идет раньше '')'', поэтому в каждом префиксе не может быть только '')'' из одной пары. В каждой паре тогда сумма $\ge 0 \Rightarrow$ в префиксе сумма $\ge 0$. 
+        \item $\textbf{Определение 2.5} \Rightarrow \textbf{Определение 2.8}$. Такой алгоритм позволяет явным образом разбить скобки на пары.
+        \item $\textbf{Определение 2.8} \Rightarrow \textbf{Определение 2.5}$. Доказательство: индукция по длине СП.
+        \begin{enumerate}
+            \item[] \textbf{База:} $S = \varepsilon$ --- очевидно 
+            \item[] \textbf{Переход:} $|S| > 0$. Тогда из \textbf{Определения 2.8} следует, что первый символ --- ''(''. Рассмотрим кратчайший непустой префикс с балансом = 0. Если это все слово, то тогда $S = (S')$, т.к. это минимальный префикс, где баланс обратился в 0 (первую скобку надо было чем-то ''убить'', значит, последняя скобка идет с ней в паре). Тогда утверждение работает и для $S'$ по предположению индукции. Иначе, это какой-то префикс $T$. Тогда $S = TL$. По предположению индукции, $T, L$ --- ПСП, т.к. баланс $T$ равен 0. Значит Ч.Т.Д.
+        \end{enumerate}
+    \end{enumerate}
+\end{proof}
+Получается, что все три определения эквивалентны.
+\hypertarget{lecture2}{}
+
+\section{Пропозициональные формулы}
+Есть знаки логических $\wedge, \vee, \rightarrow, \neg$, действий и скобки.
+\subsection{Формулы с одной бинарной связкой}
+\begin{definition}
+    Правильные алгебраические выражения (ПАВ) --- формулы с одной бинарной связкой. Они задаются рекурсивным правилом:
+\begin{enumerate}
+    \item $p$ --- переменная $\Rightarrow p$ --- ПАВ
+    \item $\phi, \psi$ --- ПАВы $\Rightarrow (\phi * \psi)$ --- ПАВ
+\end{enumerate}
+По записи $((a*b)*(c*(d*e)))$ можно однозначно построить дерево.
+\end{definition}
+
+\begin{theorem}
+    ПАВы и деревья разбора взаимно однозначно сопоставляются друг другу. Мы докажем, что для любого ПАВ $\eta$ не являющегося переменной, существует единственная пара $(\phi, \psi)$, такая, что $\eta \eqcirc  (\phi * \psi)$
+\end{theorem}
+\begin{proof}
+\begin{lemma}[О балансе скобок]
+    Баланс любого префикса ПАВ $\ge 0$. При этом баланс равен 0 только для $\varepsilon$ и всего ПАВ.
+\end{lemma}
+\begin{proof}
+Доказательство по индукции по построению
+    \begin{enumerate}
+        \item[] \textbf{База:} $p$ --- переменная --- 2 префикса: $\varepsilon$, ПАВ, лемма верна 
+        \item[] \textbf{Переход:} пусть для $\phi, \psi$ лемма верна. Докажем для $(\phi*\psi)$. Рассмотрим префиксы: $\varepsilon, ($, потом баланс будет $\ge 1$ по предположению индукции (и так как у нас есть одна открывающая скобка) никогда не будет равен 0, только в начале $\phi$ и в конце, следовательно, он обнулится только, когда для самой первой скобки найдется пара, то есть в самом конце.
+    \end{enumerate}
+\end{proof}
+Теперь, пусть $A = (\phi*\psi) \eqcirc (\zeta'*\xi') = B$
+Б.О.О. у $A$ звездочка, разделяющая $\phi, \psi$ стоит на месте $k$, а у  $B$ --- на месте $l$. Б.О.О $k < l$. Но тогда $a_2a_3a_4\dots a_k$ --- ПАВ. Но тогда $a_2a_3a_4\dots a_k = \phi \sqsubset \zeta$, но по лемме о балансе у каждого выражения баланс 0 достигается только в начале и в конце. Противоречие, значит $\phi \eqcirc \zeta$
+\end{proof}
+\subsection{Пропозициональные формулы}
+\begin{enumerate}
+    \item $p$ --- переменная $\Rightarrow p$ --- ПФ
+    \item $\phi, \psi$ --- ПФы $\Rightarrow (\phi \wedge \psi), (\phi \vee \psi), (\phi \rightarrow \psi), $ --- ПФы
+    \item $\phi$ --- ПФ $\Rightarrow \neg\phi$ --- ПФ
+\end{enumerate}
+\begin{lemma}[О балансе скобок]
+    Баланс любого префикса ПФ $\ge 0$. При этом баланс равен 0 только для $\varepsilon$, всего ПФ и цепочки отрицаний ($\neg\neg\neg\dots\neg$).
+\end{lemma}
+\begin{proof}
+Доказательство представляется читателю в качестве несложного упражнения
+\end{proof}
+\subsection{Булевы функции}
+$f: \{0, 1\}^k \rightarrow \{0, 1\}$ --- булева функция от $k$ переменных. Тогда общее число функций $= 2^{2^k}$. Для $k = 1$ общее количесвто функций равно 4.
+$$\begin{array}{c|cccc}
+    p & \perp & p & \neg p & \top\\
+    \hline
+    0 & 0 & 0 & 1 & 1 \\
+    1 & 0 & 1 & 0 & 1
+\end{array}$$
+
+Для $k = 2$ общее количесвто функций равно 16.
+$$\begin{array}{cc|cccccccccccccccc}
+    p & q & \perp & \top & p & q & \neg p & \neg q & \wedge & \vee & \oplus & \rightarrow & \leftarrow & \leftrightarrow & \not\rightarrow & \not\leftarrow & \downarrow & \uparrow\\
+    \hline
+    0 & 0 & 0 & 1 & 0 & 0 & 1 & 1 & 0 & 0 & 0 & 1 & 1 & 1 & 0 & 0 & 1 & 1\\
+    0 & 1 & 0 & 1 & 0 & 1 & 1 & 0 & 0 & 1 & 1 & 1 & 0 & 0 & 0 & 1 & 0 & 1\\
+    1 & 0 & 0 & 1 & 1 & 0 & 0 & 1 & 0 & 1 & 1 & 0 & 1 & 0 & 1 & 0 & 0 & 1\\
+    1 & 1 & 0 & 1 & 1 & 1 & 0 & 0 & 1 & 1 & 0 & 1 & 1 & 1 & 0 & 0 & 0 & 0\\
+    \hline
+    . & . & . & . & . & . & . & . & \min & \max & \texttt{XOR} & \le & \ge & \setminus & > & < & \texttt{NOR} & \texttt{NAND}\\
+\end{array}$$
+Для $k > 2$:
+\begin{enumerate}
+    \item $\wedge_k, \vee_k, \oplus_k$
+    \item $maj(p, q, r) = \left\{\begin{array}{l}
+        1, p+q+r \ge 2  \\
+        0, p+q+r \le 1 
+    \end{array}\right.$
+    \item $maj_{2k-1}$ --- аналогично
+    \item $thr_{k, n} = \left\{\begin{array}{l}
+        1, p_1 + p_2 + \dots + p_n \ge k  \\
+        0,\text{иначе}
+    \end{array}\right.$ --- аналоги
+    \item $p?q:r\left\{\begin{array}{l}
+        q, p = 1\\
+        r, q = 0
+    \end{array}\right.$ --- тернарный оператор
+\end{enumerate}
+
+\textbf{Пропозициональные формулы} $\longleftrightarrow$ \textbf{Булевы функции}
+\begin{enumerate}
+    \item[$\rightarrow$] вычисление
+    \item[$\leftarrow$] представление
+\end{enumerate}
+
+$$((p\wedge q)\vee(r\rightarrow \neg s))$$
+Строим дерево по нему. Потом значения переменных переносим в дерево
+\subsection{Правило вычисления значения формулы}
+\noindent\textbf{\underline{Обозначения:}}
+\begin{enumerate}
+    \item $p_1, p_2, \dots p_n$ --- переменные (символы)
+    \item $a_1, a_2, \dots a_n$ --- их значения
+    \item $[\phi](a_1, a_2, \dots a_n)$ --- вычисление значения для аргументов $a_1, a_2, \dots a_n$.
+\end{enumerate}
+\noindent\textbf{\underline{Определения:}}
+\begin{enumerate}
+    \item $[p_i](a_1, a_2, \dots a_n) = p_i$ --- значение переменной
+    \item $[\neg\phi](a_1, a_2, \dots a_n) = neg([\phi](a_1, a_2, \dots a_n))$ --- значение переменной. Причем $\neg$ --- просто символ, а $neg$ --- булева функция.
+    \item $[\phi \wedge \psi](a_1, a_2, \dots a_n) = and([\phi](a_1, a_2, \dots a_n), [\psi](a_1, a_2, \dots a_n))$.
+    \item $[\phi \vee \psi](a_1, a_2, \dots a_n) = or([\phi](a_1, a_2, \dots a_n), [\psi](a_1, a_2, \dots a_n))$.
+    \item $[\phi \rightarrow \psi](a_1, a_2, \dots a_n) = implies([\phi](a_1, a_2, \dots a_n), [\psi](a_1, a_2, \dots a_n))$.
+\end{enumerate}
+Булева функция получается из пропозициональной формулы, если провести вычисления для всех $(a_1, a_2, \dots a_n)$.
+
+\subsection{ДНФ и КНФ}
+\begin{definition}
+    Литерал --- переменная или отрицательная переменная $p$ или $\neg p$
+\end{definition}
+
+\begin{definition}
+    Конъюнкт --- конъюнкция литералов ($p \wedge q\wedge\neg r$)
+\end{definition}
+
+\begin{definition}
+    Дизъюнкт --- конъюнкция литералов ($p \vee q\vee\neg r$)
+\end{definition}
+
+\begin{definition}
+    КНФ --- конъюнкция дизъюнктов
+\end{definition}
+
+\begin{definition}
+    ДНФ --- дизъюнкция конъюнктов
+\end{definition}
+
+\begin{theorem}
+    Любая булева функция выражается как КНФ, а также как ДНФ
+\end{theorem}
+\begin{proof}
+    Пусть $f(a_1, a_2 \dots a_n)$ принимает значение 1 на множестве $X$, а значение 0 на множестве $\overline{X}$ (универсум тут равен $\{0, 1\}^n$).
+    \begin{enumerate}
+        \item[ДНФ:] Для каждого $x \in X$ запишем конъюнкт, который на нем выдает истину, например:
+        $$(0, 1, 1, 0, 1) \leftrightarrow (\neg a_1 \wedge a_2 \wedge a_3 \wedge \neg a_4 \wedge a_5)$$
+        Такая функция выдает ложь на всех остальных элеменах множества $\{0, 1\}^n$. Потом делаем конъюнкцию всех таких формул и получаем $f(a_1, a_2, \dots a_n)$. Получается, что хотя бы 1 (на самом деле ровно 1, т.к. каждая функция зануляется на всех элементах, кроме одного) должна выдать истину, следовательно, она будет принимать истину только на тех значениях, на которых мы захотим.
+        \item[КНФ:] Для каждого $x \in \overline{X}$ запишем дизъюнкт, который на нем выдает 0, например:
+        $$(0, 1, 1, 0, 1) \leftrightarrow (a_1 \vee\neg a_2 \vee\neg a_3 \vee a_4 \vee \neg a_5)$$
+        Такая функция выдает истину на всех остальных элеменах множества $\{0, 1\}^n$. Потом делаем дизъюнкцию всех таких формул и получаем $f(a_1, a_2, \dots a_n)$. Получается, что итоговая формула будет иметь такой смысл: ''не зануляйся там, где я этого не хочу'', и будет принимать 0 только там, где хотя бы одно (на самом деле ровно одно) из наших выражений будет выдавать 0.
+    \end{enumerate}
+\end{proof}
+
+\begin{definition}
+    Cовершенная ДНФ (КНФ), или СКНФ, СДНФ --- это КНФ (ДНФ), где в каждой скобке стоит ровно $n$ переменных.
+\end{definition}
+
+\subsection{Сокращенное ДНФ (КНФ)}
+Есть две операции:
+\begin{enumerate}
+    \item ДНФ $= (A \wedge x) \vee (A \wedge \overline{x}) \vee \dots \Rightarrow$ приписываем $\vee A$
+    \item ДНФ $= (A \wedge B) \vee A \Rightarrow$ удаляем $(A\wedge B)$
+\end{enumerate}
+\begin{definition}
+    ДНФ(КНФ) с которой нельзя проделать эти две опреации называется сокращенной.
+\end{definition}
+
+\subsubsection{Метод Куайна}
+Проделываем следующий алгоритм:
+\begin{enumerate}
+    \item Берем СДНФ (СКНФ)
+    \item Делаем (1), пока можем
+    \item Делаем (2), пока можем
+    \item Рисуем таблицу:
+    $$\begin{array}{c|c|c|c|c}
+        & A_1 & A_2 & \dots & A_n \\
+        \hline
+        B_1 & + & + &\dots & \\
+        \hline
+        B_2 & + & & \dots & \\
+        \hline
+        \vdots & & + & \vdots & + \\ 
+        \hline
+        B_m & &  & \dots & +\\
+    \end{array}$$
+    Нам нужно найти минимальное покрытие всех столбцов строками.
+\end{enumerate}
+
+\subsubsection{Визуализация еще одного метода}
+
+Рисуем куб в $n$-мерном пространстве, координаты вершины которого лежат в $\{0, 1\}$:\\
+
+\begin{center}
+    \includegraphics[scale=0.6]{images/Pic_2_1d.png}
+\end{center}
+
+Отмечаем точки, на которых функция принимает 1. Заметим, что любой конъюнкт принимает значение 1 на какой-то гиперграни (грани, ребре или вершине для случая $n = 3$). Поэтому пытаемся найти минималное покрытие такими гипергранями. Так и строим.
+
+\subsubsection{Карта Карно}
+\href{https://ru.wikipedia.org/wiki/Карта_Карно}{тык}
+\hypertarget{lecture3}{}
+
+\subsection{Многочлены Жегалкина}
+
+Вместо $\neg, \vee, \wedge$ используем $\cdot, \oplus$
+\begin{note}
+    \begin{enumerate}
+        \item $x^2 = x$
+        \item $x \oplus x = 0$
+    \end{enumerate}
+\end{note}
+
+\begin{definition}
+    Пусть даны $x_1, x_2, \dots x_n$ --- переменные. Тогда одночленом жегалкина называется произведение каких то из этих переменных, в том числе 1, как произведение пустого подмножества переменных.
+\end{definition}
+
+\begin{definition}
+    Многочленом жегалкина называется сумма каких-то одночленов, в том числе 0, как сумма пустого множества одночленов. 
+\end{definition}
+
+\begin{center}
+    \textbf{Порядок в произведениях и суммах не важен}
+\end{center}
+
+
+\begin{enumerate}
+    \item \begin{enumerate}
+        \item $\neg p = p \oplus 1$
+        \item $p \wedge q = p\cdot q$
+        \item $p \vee q = p \oplus q \oplus pq$
+        \item $p \rightarrow q = \neg p \vee q = (p \oplus 1) \oplus q \oplus (p \oplus 1)q = 1 \oplus p \oplus pq$
+        \item $maj_3(p, q, r) = \left\{\begin{array}{cc}
+            1, p + q + r \ge 2  \\
+            0, p + q + r \le 1 & 
+        \end{array}\right. = pq \oplus qr \oplus rp$
+    \end{enumerate}    
+\end{enumerate}
+
+\begin{theorem}
+    Любую булеву функцию можно представить, как многочлен Жегалкина (с точностью до перерестановки множителей и слагаемых).
+\end{theorem}
+\begin{proof}[Первое доказательство]\indent
+    \begin{enumerate}
+        \item Количество булевых функций ---  $2^{2^n}$
+        \item Количество одночленов жегалкина ---  $2^n$
+        \item Количество многочленов жегалкина ---  $2^{2^n}$
+    \end{enumerate}
+    --- итого на каждый многочлен приходится не более одной функции. Докажем, что никакие два многочлена не могут соответствовать одной функции $\Leftrightarrow$ докажем, что у каждой функции есть представление среди многочленов жегалкина. Доказательство: по функции можно сделать КНФ, а по КНФ можно сделать многочлен, т.к. в КНФ участвуют только конъюнкция ($\wedge$), дизъюнкция ($\vee$), отрицание ($\neg$), а их мы умеет получать многочленами жегалкина.
+\end{proof}
+\begin{proof}[Второе доказательство]\indent
+    Пусть это не так, тогда есть $p \ne q$, такие, что $\forall x\ p(x) = q(x)$. Рассмотрим $S(x) = q(x) \oplus p(x)$. Тогда $S \ne 0$, но $S(x) = 0\ \forall x$. Рассмотрим одночлен, в котором меньше всего множителей. Б.О.О. это будет $x_1x_2x_3\dots x_k$. Тогда 
+    $$S(x) = x_1x_2\dots x_k \oplus (\text{в каждом из этих одночленов будет множитель не из }x_1\dots x_k)$$
+    Но тогда, если мы возьмем $x_1, x_2, \dots, x_k = 1$, а все остальные переменные за 0, то $S(x)$ будет равно 1, т.к. в правой части в каждом из одночленов будет 0. Противоречие.
+\end{proof}
+Все функции можно выразить через $\neg, \vee, \wedge$ (КНФ/ДНФ). Даже можно только используя $\neg, \wedge$, используя \textbf{Законы Де-Моргана}
+\begin{enumerate}
+    \item $p\wedge q = \neg (\neg p \vee \neg q)$
+    \item $p\vee q = \neg (\neg p \wedge \neg q)$
+\end{enumerate}
+
+Многочлены жегалкина позволяют выразить все функции через $\wedge, \oplus, 1$. А можно ли выразить все через $\wedge, \vee, \rightarrow$? Нет, т.к. любая формула, использующая их, будет выдавать 1 при входных данных $1, 1, 1, \dots, 1$
+
+\subsection{Классы Поста}
+
+\subsubsection{Классы \(P_0, P_1\)}
+\begin{definition}
+    $P_0$ --- класс функций, которые сохраняют 0. (Для которых $f(0, 0, \dots 0) = 0$)
+\end{definition}
+\begin{definition}
+    $P_1$ --- класс функций, которые сохраняют 1. (Для которых $f(1, 1, \dots 1) = 1$)
+\end{definition}
+
+
+\begin{definition}
+    Суперпозиция функций $f, g_1, g_2, \dots g_k$, где $k$ --- количество аргументов --- это $h(x_1, x_2, \dots x_n) = f(g_1(x_1, x_2, \dots x_n), g_2(x_1, x_2, \dots x_n), \dots g_k(x_1, x_2, \dots x_n))$. Более формально:
+    \begin{enumerate}
+        \item Суперпозиция 0-порядка --- это проекторы $pr_i(x_1, x_2, \dots, x_n) = x_i$
+        \item Суперпозиция $(m+1)$-порядка --- это где $f$ --- одна из базовых функций, а $g_1, g_2, \dots g_n$ --- не более $m$-ого порядка каждая.
+    \end{enumerate}
+\end{definition}
+
+\begin{definition}
+    Пусть $C$ --- множество функций. Тогда множество всех суперпозиций функций из $C$ называется замыканием $C$ и обозначается $[C]$.
+\end{definition}
+
+\begin{theorem}
+    Все базовые функции из $P_a$ $\Rightarrow$ все их суперпозиции тоже.
+\end{theorem}
+\begin{proof}
+    $$\underbrace{f(\underbrace{g_1(\underbrace{x_1, x_2, \dots x_n}_{a, a, a\dots a})}_{a}, \underbrace{g_2(\underbrace{x_1, x_2, \dots x_n}_{a, a, a\dots a})}_{a}, \dots \underbrace{g_n(\underbrace{x_1, x_2, \dots x_n}_{a, a, a\dots a})}_{a})}_{a}$$
+\end{proof}
+
+\begin{definition}
+    Пусть $C$ --- множество функций. Тогда множество всех суперпозиций функций из $C$ называется замыканием $C$ и обозначается $[C]$.
+\end{definition}
+
+\subsubsection{Монотонные функции}
+\begin{definition}
+    $f$ --- монотонная функция, если $\forall(a_1, a_2\dots a_n),\ \forall(b_1, b_2\dots b_n)$ верно следующее: $((a_1 \le b_1) \wedge (a_2 \le b_2) \wedge \dots \wedge (a_n \le b_n)) \Rightarrow f(a_1, a_2 \dots a_n) \le g(a_1, a_2 \dots a_n)$    
+\end{definition}
+
+\begin{theorem}
+    Для монотонных функций тоже выполнено, что их суперпозиции монотонны, т.к.
+\end{theorem}
+\begin{proof}
+    $$\underbrace{f(\underbrace{g_1(\underbrace{x_1, x_2, \dots x_n}_{\nearrow, \nearrow, \nearrow\dots \nearrow})}_{\nearrow}, \underbrace{g_2(\underbrace{x_1, x_2, \dots x_n}_{\nearrow, \nearrow, \nearrow\dots \nearrow})}_{\nearrow}, \dots \underbrace{g_n(\underbrace{x_1, x_2, \dots x_n}_{\nearrow, \nearrow, \nearrow\dots \nearrow})}_{\nearrow})}_{\nearrow}$$
+\end{proof}
+\hypertarget{lecture4}{}
+
+
+\subsubsection{Самодвойственные функции}
+\begin{definition}
+    Функция $f^*$ (двойственная к $f$) --- это такая функция, что
+    $$\neg f(\neg p_1, \neg p_2, \dots, \neg p_n) = f^*(p_1, p_2, \dots p_n)$$
+\end{definition}
+
+\begin{example}\indent
+    \begin{enumerate}
+        \item $\wedge^* = \vee$
+        \item $\vee^* = \wedge$
+        \item $\oplus^* = \leftrightarrow$
+    \end{enumerate}
+\end{example}
+
+\begin{definition}
+    Самодвойственные функции --- это такие, которые двойственны сами себе.
+\end{definition}
+
+\subsubsection{Линейные функции}
+\begin{definition}
+    Линейные функции --- это те, которые задаются линейными многочленами жегалкина.
+\end{definition}
+
+\subsubsection{Критерий Поста}
+
+\begin{definition}
+    Полная система связок --- это такая, в которой все функции можно выразить.
+\end{definition}
+
+\begin{example}
+    $$\{\neg, \wedge, \vee, \rightarrow\}, \{\neg, \vee\}, \{\neg, \wedge\}, \{\rightarrow, 0\}, \{1, \oplus, \wedge\}$$
+\end{example}
+
+Итак, вспомним, какие у нас уже были системы:
+\begin{enumerate}
+    \item $P_0$ --- $\{\wedge, \vee, \rightarrow\}$ --- сохраняют 1
+    \item $P_1$ --- $\{\wedge, \oplus\}$ --- сохраняют 0
+    \item $M$ --- $\{\wedge, \vee, 0, 1\}$ --- монотонные
+    \item $D$ --- $\{\neg, maj\}$ --- все самодвойственные  (без доказательства)
+    \item $L$ --- $\{\neg, \oplus\}$ --- все линейные (без доказательства)
+\end{enumerate}
+
+\begin{theorem}[Критерий Поста]
+    Система связок полна $\Leftrightarrow$ она не является подмножеством ни одного из 5 классов $\Leftrightarrow$ система содержит некие функции $f_0 \not\in P_0$, $f_1 \not\in P_1$, $g \not\in M$, $h \not\in D$, $k \not\in L$, 
+\end{theorem}
+\begin{proof}
+    Создадим полную систему связок пошагово:
+    \begin{enumerate}
+        \item $f_0(0, 0, \dots 0) = 1$, т.к. $f_0$ не сохраняет 1.
+        \begin{enumerate}
+            \item $f_0(1, 1, \dots, 1) = 1 \Rightarrow f_0 \sim 1$
+            \item $f_0(1, 1, \dots, 1) = 0 \Rightarrow f_0(p, p, \dots p) = \neg p$
+        \end{enumerate}
+        \item $f_1(1, 1, \dots 0) = 0$, т.к. $f_1$ не сохраняет 1.
+        \begin{enumerate}
+            \item $f_1(0, 0, \dots, 0) = 0 \Rightarrow f_1 \sim 0$
+            \item $f_1(0, 0, \dots, 0) = 1 \Rightarrow f_1(p, p, \dots p) = \neg p$
+        \end{enumerate}
+        Итого есть 4 варианта. Если мы нашли $\neg$ и константу (0 или 1), то вторую из них можно получить при помощи $\neg$ и перейти к 5 шагу. Если мы получили только $\neg$, то переходим к шагу 4, иначе к шагу 3.
+        \item $0, 1, g \not\in M$ --- получим $\neg$.
+        \begin{lemma}
+            Если $g$ не монотонна, то $\exists i \exists (a_1 \dots a_n)$, такие, что 
+            $$g(a_1, a_2 \dots a_{i-1}, 0, a_{i+1}, \dots, a_n) = 1 \wedge$$
+            $$g(a_1, a_2 \dots a_{i-1}, 1, a_{i+1}, \dots, a_n) = 0$$
+        \end{lemma}
+        \begin{proof}
+            По определению.
+        \end{proof}
+        Тогда мы нашли отрицание, т.к. $g(a_1, a_2 \dots a_{i-1}, p, a_{i+1}, \dots, a_n) = \neg p$
+        \item $\neg, h \not\in D$ --- получим $0, 1$.
+        Так как $h \not\in D \Leftrightarrow \exists(a_1, a_2, \dots, a_n):$
+        $$h(a_1, a_2, \dots, a_n) = h(\neg a_1, \neg a_2, \dots \neg a_n)$$
+        Тогда рассмотрим такую функцию от $p$:
+        $h(p, \neg p, \dots, \neg p)$, где на месте нулей в наборе $a_i$ стоят $\neg p$, а на месте единиц стоят $p$. Пример:
+        $h(1, 0, 0, 1, 0, 1, 1, 0) = h(0, 1, 1, 0, 1, 0, 0, 1)$, тогда рассматриваем $h(p, \neg p, \neg p, p, \neg p, p, p, \neg p)$. Тогда 
+        $$h(p, \neg p, \dots, p, \neg p) = h(\neg p, p, \dots, \neg p, p)$$
+        И тогда $h(p, \neg p, \dots, p, \neg p)$ --- некая константа. Тогда можно получить и вторую константу. 
+        \item $0, 1, \neg, k \not\in L$ --- получим все. Из определения $L$ следует (Б.О.О. переменные имеют индексы $x_1, x_2$):
+        $$k(x_1, x_2,\dots x_n) = x_1x_2A(x_3, \dots, x_n) + x_1B(x_3, \dots, x_n) + x_2C(x_3, \dots, x_n) + D(x_3, \dots, x_n)$$
+        И многочлен $A$ --- непустой. Но тогда $\exists (a_3, \dots a_n): A(a_3 \dots a_n) = 1$. Тогда $k(x_1, x_2, a_3, \dots a_n) = x_1x_2 + bx_1 + cx_2 + d$
+        Использование отрицания позволяет менять 1. Тогда нужно рассмотреть 3 случая.
+        \begin{enumerate}
+            \item $b=c=0$ Тогда получили $x_1x_2$ и выразили, таким образом, $x_1 \wedge x_2$.
+            \item $b=c=1$ Тогда получили $x_1x_2 + x_1 + x_2$ и выразили, таким образом, $x_1 \vee x_2$.
+            \item $b = 1, c = 0$ Тогда получили $x_1x_2 + x_2 + 1$, и выразили, таким образом, $\rightarrow$.
+        \end{enumerate}
+        Все три операции вместе с $0, 1, \neg$ позволяют составить полную систему связок.
+    \end{enumerate}
+\end{proof}
+\hypertarget{lecture5}{}
+
+\subsection{Типы пропозициональных формул}
+\begin{definition}
+    Тавтология --- всегда истинная формула
+\end{definition}
+\begin{definition}
+    Противореиче --- всегда ложная формула
+\end{definition}
+\begin{definition}
+    Опровержимая формула --- не противоречие
+\end{definition}
+\begin{definition}
+    Выполнимая формула --- не тавтология
+\end{definition}
+
+\subsection{Важные тавтологии (логические законы)}
+\begin{enumerate}
+    \item Закон непротиворечия $\neg (A \wedge \neg A)$
+    \item Закон двойного отрицания $A \leftrightarrow \neg\neg A$
+    \item Закон исключенного третьего $A\vee \neg A$
+    \begin{theorem}[Пример неконструктивного доказательства]
+        Существуют $\alpha, \beta \in \R\setminus\Q: \alpha^\beta \in \Q$
+    \end{theorem}
+    \begin{proof}
+        $$\left(\sqrt{2}^{\sqrt{2}}\right)^{\sqrt{2}} = 2$$
+        Тогда либо $\sqrt{2}^{\sqrt{2}} = x$ --- иррациональное число, и тогда $x^{\sqrt{2}}$ удовлетворяет условию, иначе $\sqrt{2}^{\sqrt{2}}$ подходит.
+    \end{proof}
+    
+    \item Контрпозиция $(A \rightarrow B) \leftrightarrow (\neg B \rightarrow \neg A)$
+    \item Законы де Моргана 
+    \begin{enumerate}
+        \item $\neg(A\wedge B) \leftrightarrow (\neg A \vee \neg B)$
+        \item $\neg(A\vee B) \leftrightarrow (\neg A \wedge \neg B)$
+    \end{enumerate}
+\end{enumerate}
+
+\section{Задача о выполнимости условий}
+Даны несколько формул, спрашивается, могут ли они одновременно быть истинными? 
+$$\varphi_1 \wedge \varphi_2 \wedge \dots \wedge \varphi_n$$
+\subsection{Пример превращения математической задачи в задачу о выполнимаости}
+\subsection{Задача о четырех красках}
+У нее была очень долгая история, когда ее решали о опровергали, но в итоге в 1976г. Эту задачу решили при помощи перебора. Переформулируем в терминах выполнимости условий. Вершинам планарного графа сопоставим 2 бита $(p, q)$ (цвет). Таким образом, если $u, v$ --- различные области на карте, то нужно, чтобы $(p_v \neq p_u) \vee (q_v \neq q_u)$.
+
+\section{Исчисление высказываний}
+\begin{definition}
+    Логический вывод --- это последовательность формул, в которой каждая формула либо является аксиомой, либо получается из более ранних по одному из правил вывода.
+\end{definition}
+
+Все теории отличаются аксиомами и правилами вывода. Обычно, когда нам в школе рассказывали аксиомы плоскости или, не дай бог, пространства, мы рассматривали сами аксиомы, но не способы их вывода. Итак, постараемся отвлечься от смысла, будем лишь наблюдать за синтаксисом. Идея такая: для того, чтобы формализовать математику, нам нужен четкий список правил, по которым она работает (тавтологий). Т.к. доказательство это, буквально, текст, мы сейчас будем работать исключительно с синтаксисом, но не семантикой. Проще говоря, мы хотим научиться получать все возможные тавтологии, причем конечным набором правил. Один из таких наборов правил приведен ниже:
+
+\subsection{Схемы аксиом}
+\begin{enumerate}
+    \item $A \rightarrow (B \rightarrow A)$
+    \item $(A \rightarrow (B \rightarrow C)) \rightarrow ((A \rightarrow B) \rightarrow (A \rightarrow C))$
+    \item $(A\wedge B) \rightarrow A$
+    \item $(A\wedge B) \rightarrow B$
+    \item $A \rightarrow (B \rightarrow (A\wedge B))$
+    \item $A \rightarrow (A \vee B)$
+    \item $B \rightarrow (A \vee B)$
+    \item $(A\rightarrow C) \rightarrow ((B \rightarrow C )\rightarrow ((A\vee B) \rightarrow C))$ --- разбор случаев
+    \item $\neg A \rightarrow (A \rightarrow B)$
+    \item $(A \rightarrow B) \rightarrow ((A \rightarrow \neg B) \rightarrow \neg A)$ --- рассуждение от противного.
+    \item $A\vee\neg A$
+\end{enumerate}
+\subsection{Правило Вывода}
+\begin{definition}
+    Modus Ponens ---
+    $$\frac{A, A\rightarrow B}{B}$$
+\end{definition}
+
+\subsection{Обозначения}
+\begin{enumerate}
+    \item $\vdash A$ --- $A$ --- выводима
+    \item $\models A$ --- $A$ --- тавтология
+\end{enumerate}
+
+\subsection{Примеры вывода}
+
+\begin{example}
+    $$\vdash (A \vee B) \rightarrow (B\vee A)$$
+    \begin{enumerate}
+        \item $A \rightarrow (B\vee A)$
+        \item $B \rightarrow (B\vee A)$
+        \item $(A\rightarrow(B\vee A)) \rightarrow((B \rightarrow (B \vee A))\rightarrow (( A \vee B ) \rightarrow (B \vee A )))$
+        \item $(B \rightarrow (B \vee A)) \rightarrow ((A\vee B) \rightarrow (B \vee A))$
+        \item $(A\vee B) \rightarrow (B \vee A)$
+    \end{enumerate}
+\end{example}
+
+\begin{example}
+    $$\vdash (A \rightarrow A)$$
+    \begin{enumerate}
+        \item $A \rightarrow ((A \rightarrow A) \rightarrow A)$
+        \item $(A \rightarrow ((A \rightarrow A) \rightarrow A)) \rightarrow ((A \rightarrow (A \rightarrow A)) \rightarrow (A \rightarrow A))$
+        \item $(A \rightarrow (A \rightarrow A)) \rightarrow (A \rightarrow A)$
+        \item $A \rightarrow (A \rightarrow A)$
+        \item $A \rightarrow A$
+    \end{enumerate}
+\end{example}
+
+\begin{theorem}
+    \(A\) --- выводима \(\Ra\) \(A\) --- тавтология
+\end{theorem}
+\begin{proof}
+    Аксиомы --- тавтологии.
+    $$\left.\begin{array}{r}
+        A\text{ --- тавтология }  \\
+        A\rightarrow B \text{ --- тавтология } 
+    \end{array}\right\} \Rightarrow B\text{ --- тавтология }$$
+\end{proof}
+
+\begin{theorem}[О полноте]
+    Правда ли, что \(A\) --- тавтология \(\Ra\) \(A\) --- выводима?
+\end{theorem}
+\begin{proof}
+    Доказательство будет дальше
+\end{proof}
+\hypertarget{lecture6}{}
+
+% \begin{theorem}[О полноте]
+%     $\vdash \phi \Rightarrow \phi$ --- выводима
+% \end{theorem}
+
+\subsection{Дополнительные правила вывода}
+\begin{definition}
+    Вывод из множества посылок $\Gamma$ --- это последовательноть $\phi_1, \phi_2 \dots, \phi_n$, где $\phi_i$ --- либо аксиома, либо $\in \Gamma$, либо получается по m.p.
+\end{definition}
+
+
+\subsubsection{Лемма о Дедукции}
+\begin{lemma}[О дедукции]
+    $\Gamma \vdash (A \rightarrow B) \Leftrightarrow \Gamma \cup \{A\} \vdash B$
+\end{lemma}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item[$\Rightarrow$] $$\left.\begin{array}{l}
+           \left.\begin{array}{c}
+            \dots  \\
+            \dots  \\
+            \dots  \\
+            A \rightarrow B
+        \end{array}\right\}\text{вывод  $A\rightarrow B$ из $\Gamma$}  \\
+            A\text{ --- элемент $\Gamma \cup \{A\}$ (посылка)} \\
+            B\text{ --- m.p.} \\
+        \end{array}\right\}\text{вывод $B$ из $\Gamma \cup \{A\}$}$$
+        \item[$\Leftarrow$] Пусть $ \Gamma \cup \{A\} \vdash B$. Тогда существует вывод $\phi_1, \phi_2, \dots \phi_n \eqcirc B$. Каждое $\phi_i$ --- либо аксиома, либо $\in \Gamma$, либо $\eqcirc A$, либо выводится по m.p. Мы докажем по индукции, что $\Gamma \vdash A \rightarrow \phi_i$.
+        \begin{enumerate}
+            \item $\phi_i$ --- аксиома. Вывод:
+                \begin{enumerate}
+                    \item $\phi_i$
+                    \item $\phi_i \rightarrow (A \rightarrow \phi_i)$ --- аксиома 1.
+                    \item $A \rightarrow \phi_i$ --- m.p.
+                \end{enumerate}
+            \item $\phi_i \in \Gamma$ --- аналогично
+            \item $\phi_i = A$. На прошлой лекции мы выводили $A \rightarrow A$.
+            \item $\phi_i$ по m.p.: $\exists j, k < i: \phi_k \eqcirc (\phi_j \rightarrow \phi_i)$. По предположению индукции, 
+            $$\left.\begin{array}{l}
+           \left.\begin{array}{c}
+            \dots  \\
+            \dots  \\
+            \dots  \\
+            A \rightarrow \phi_j
+        \end{array}\right\}\text{вывод из $\Gamma$}\\
+        \begin{array}{c}
+             \dots \\
+            \dots \\
+            A\rightarrow(\phi_j \rightarrow \phi_i)\text{ --- m.p.} \\
+        \end{array}  \\
+        \end{array}\right\}\text{вывод из $\Gamma$}$$
+        $$\Rightarrow (A \rightarrow (\phi_j \rightarrow \phi_i)) \rightarrow ((A \rightarrow \phi_j) \rightarrow (A\rightarrow \phi_i))\text{ --- аксиома 2}$$
+        $$\Rightarrow (A \rightarrow \phi_j) \rightarrow (A\rightarrow \phi_i)\text{ --- m.p.}$$
+        $$\Rightarrow A\rightarrow \phi_i\text{ --- m.p.}$$
+        \end{enumerate}
+    \end{enumerate}
+\end{proof}
+
+\begin{example}[Силлогизм]
+    $$\begin{array}{c}
+        (A \rightarrow B) \rightarrow ((B \rightarrow C) \rightarrow (A \rightarrow C))  \\
+        \{A \rightarrow B\} \vdash  (B \rightarrow C) \rightarrow (A \rightarrow C) \\
+        \{A \rightarrow B, B \rightarrow C\} \vdash (A \rightarrow C) \\
+        \{A, A \rightarrow B, B \rightarrow C\} \vdash C
+    \end{array}$$
+\end{example}
+Тогда вывод последней формулы можно провести следующим образом:
+\begin{enumerate}
+    \item $A$ --- посылка
+    \item $A\rightarrow B$ --- посылка
+    \item $B$ --- m.p. 1, 2
+    \item $B\rightarrow C$ --- посылка
+    \item $C$ --- m.p 3, 4
+\end{enumerate}
+
+
+\begin{example}
+    $\vdash (A \wedge B) \rightarrow (B \wedge A) \Leftrightarrow (A \wedge B) \vdash (B \wedge A)$`
+    \begin{enumerate}
+        \item $(A \wedge B)$ --- посылка
+        \item $(A \wedge B) \rightarrow B$ --- аксиома 4
+        \item $B$ --- m.p. 1, 2
+        \item $(A \wedge B) \rightarrow A$ --- аксиома 3
+        \item $A$ --- m.p. 1, 4
+        \item $B \rightarrow (A \rightarrow (B \wedge A))$ --- аксиома 5
+        \item $A \rightarrow (B \wedge A)$ --- m.p. 3, 6
+        \item $(B \wedge A)$ --- m.p. 5, 7
+    \end{enumerate}
+\end{example}
+
+\begin{example}
+    $\vdash (A \rightarrow \neg A) \rightarrow \neg A$
+    \begin{enumerate}
+        \item[1..5.] $A \rightarrow A$
+        \item[6.] $(A \rightarrow A) \rightarrow ((A \rightarrow \neg A) \rightarrow \neg A)$ --- аксиома 10
+        \item[7.] $(A \rightarrow \neg A) \rightarrow \neg A$ --- m.p. 5, 6
+    \end{enumerate}
+\end{example}
+
+\subsubsection{Рассуждение от противного}
+$$\frac{\Gamma, A \vdash B\ \ \ \ \Gamma, A \vdash \neg B}{\Gamma \vdash \neg A}$$
+\begin{proof}
+    $$\left.\begin{array}{l}
+        \Gamma, A \vdash B \Leftrightarrow \Gamma \vdash A \rightarrow B  \\
+        \Gamma, A \vdash \neg B \Leftrightarrow \Gamma \vdash A \rightarrow \neg B
+    \end{array}\right\}\Rightarrow\Gamma \vdash \neg A (\text{аксиома 10})$$
+\end{proof}
+
+\subsubsection{Законы де Моргана}
+я снова умер(
+
+Короче, мы вывели дофига разных законов и порассуждали, зачем они нужны, как их использовать и тд. 
+
+\subsubsection{Правило сечения}
+$$\frac{\Gamma\vdash  A\ \ \ \ \ \Delta, A \vdash B}{\Gamma, \Delta \vdash B}$$
+
+\subsubsection{Введение/разбиение конъюнкции}
+$$\frac{\Gamma, A\wedge B \vdash  C}{\Gamma, A, B \vdash C}$$
+\\
+$$\frac{\Gamma, A, B \vdash C}{\Gamma, A\wedge B \vdash  C}$$
+\\
+$$\frac{\Gamma, \vdash A \wedge B}{\Gamma\vdash  A\ \ \ \ \ \ \Gamma\vdash B}$$
+\\
+$$\frac{\Gamma\vdash  A\ \ \ \ \ \ \Gamma\vdash B}{\Gamma, \vdash A \wedge B}$$
+
+\subsubsection{Разбор случаев}
+$$\frac{\Gamma, A\vdash C\ \ \ \ \ \ \Gamma, B\vdash C}{\Gamma, A\vee B\vdash C}$$
+
+\subsubsection{Правила без названия}
+$$\frac{\Gamma \vdash A}{\Gamma\vdash A\vee B}$$
+$$\frac{\Gamma \vdash B}{\Gamma\vdash A\vee B}$$
+
+\subsubsection{Правило контрпозиции}
+$$\frac{\Gamma, A \vdash B}{\Gamma, \neg B \vdash \neg A}$$
+\hypertarget{lecture7}{}
+
+\section{Теорема о полноте}
+
+\begin{theorem}[О полноте]
+    Если $\phi$ --- тавтология, то тогда она выводима.
+\end{theorem}
+
+\subsection{Первое доказательство}
+
+% $$\frac{\Gamma, A \vdash B\ \ \ \ \ \ \Gamma, \neg A \vdash B}{\Gamma \vdash B}$$
+
+\begin{definition}
+    Обозначим $p^\varepsilon = \left\{\begin{array}{l}
+        p, \varepsilon = 1  \\
+        \neg p, \varepsilon = 0
+    \end{array}\right.$
+\end{definition}
+
+\begin{lemma}[Базовая Лемма]\indent
+\begin{enumerate}
+    \item $A, B \vdash A \wedge B$
+    \item $\neg A, B \vdash \neg(A \wedge B)$
+    \item $A, \neg B \vdash \neg(A \wedge B)$
+    \item $\neg A, \neg B \vdash \neg(A \wedge B)$
+    \item $A, B \vdash A \vee B$
+    \item $\neg A, B \vdash A \vee B$
+    \item $A, \neg B \vdash A \vee B$
+    \item $\neg A, \neg B \vdash \neg(A \vee B)$
+    \item $A, B \vdash A \rightarrow B$
+    \item $\neg A, B \vdash A \rightarrow B$
+    \item $A, \neg B \vdash \neg(A \rightarrow B)$
+    \item $\neg A, \neg B \vdash A \rightarrow B$
+    \item $\neg A \vdash \neg A$
+    \item $A \vdash \neg (\neg A)$
+\end{enumerate}
+\end{lemma}
+
+\begin{lemma}[Основная Лемма]
+    Пусть $\phi$ --- формула от $n$ переменных $p_1, p_2, \dots p_n$, $(a_1, a_2, \dots a_n) \in \{0, 1\}^n, \phi(a_1, a_2, \dots a_n) = a \in \{0, 1\}$. Тогда $p_1^{a_1}, p_2^{a_2}, \dots p_n^{a_n} \vdash \phi^a$.
+\end{lemma}
+\begin{proof}
+    Индукция по построению формулы.
+    \begin{enumerate}
+        \item[] \textbf{База:} переменная. $p_i^{a_i} \vdash p_i^{a_i}$.
+        \item[] \textbf{Переход:} пусть, например, $\phi = (\xi \wedge \nu)$. $\xi(a_1, a_2, \dots a_n) = a, \nu(a_1, a_2, \dots a_n) = b \Rightarrow \phi(a_1, a_2, \dots a_n) = ab$. По базовой лемме, $p_1^{a_1}, p_2^{a_2}, \dots p_n^{a_n} \vdash \xi^a, p_1^{a_1}, p_2^{a_2}, \dots p_n^{a_n} \vdash \nu^b$. По базовой лемме, $\xi^a, \nu^b \vdash \phi^{ab}$. Запишем три вывода подряд, получим желаемое
+    \end{enumerate}
+\end{proof}
+
+Тогда если $\phi$ --- тавтология, то при всех $(a_1, \dots a_n): \phi(a_1, a_2, \dots a_n) = 1$, тогда по правилу исчерпвающего разбора случаев, формула $\phi$ будет выводима, т.к. вне зависимости от любой переменной, $\phi$ будет истинна.
+
+\subsection{Второе доказательство}
+Пусть $\Gamma$ --- множество пропозициональных формул. Тогда:
+
+\begin{definition}
+    $\Gamma$ --- совместно, если при некоторых значениях переменных, все формулы из $\Gamma$ истинны.
+\end{definition}
+
+\begin{definition}
+    $\Gamma$ --- противоречиво, если из нее можно вывести $\psi, \neg \psi$ одновременно для некоторого $\psi$.
+\end{definition}
+
+\begin{definition}
+    $\Gamma$ --- полное, если для любого $\phi$ верно $\Gamma \vdash \phi$ или $\Gamma \vdash \neg \phi$.
+\end{definition}
+
+\begin{theorem}
+    $\Gamma$ совместна $\Leftrightarrow \Gamma$ непротиворечива.
+\end{theorem}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item $\Gamma$ --- противоречива, тогда она совместна. Если $\Gamma$ совместна, то все формулы из $\Gamma$ верны на некотором наборе. Тогда если $\Gamma \vdash \phi$, то и $\phi$ --- тоже верна на этом наборе. Аналогично и для $\neg \phi$. Но формулы $\phi, \neg \phi$ не могут быть одновременно истинны, тогда они не могут одновременно выводиться из $\Gamma$.
+        \item $\Gamma$ --- несовместна, тогда она противоречива. Пусть $\Delta$ непротиворечива. 
+        \begin{lemma}
+            $\Gamma$ непротиворечива $\Rightarrow \Gamma \subset \Delta$ для некоторого полного непротиворечивого $\Delta$.
+        \end{lemma}
+        \begin{proof}[для счетного множества переменных]
+            Если переменных счетное число, то и формул тоже счетное число. Пусть $\phi_1, \phi_2, \dots$ --- все формулы. Определим $\Gamma_i$ по индукции:
+            $$\Gamma_0 = \Gamma, \Gamma_i = \left\{\begin{array}{l}
+                \Gamma_{i-1} \cup \{\phi_i\}\text{, если это непротиворечиво}  \\
+                \Gamma_{i-1} \cup \{\neg\phi_i\} \text{, иначе}
+            \end{array}\right.$$
+            Заметим, что все $\Gamma_i$ --- непротиворечивы, т.к.
+            $$\left.\begin{array}{l}
+                \Gamma_{i-1} \cup \{\phi_i\}\text{ --- противоречиво } \Rightarrow \Gamma_{i-1}\vdash\neg\phi_i \\
+                \Gamma_{i-1} \cup \{\neg\phi_i\} \text{ --- противоречиво }\Rightarrow \Gamma_{i-1}\vdash\phi_i
+            \end{array}\right\} \Rightarrow \Gamma_{i-1}\text{ --- противоречиво }$$
+            Тогда 
+            $$\Delta = \bigcup_{i = 0}^{\infty}\Gamma_i$$
+            --- тоже непротиворечиво, т.к. в противном случае, вывод, при помощи котрого мы получили противоречие использует конечное число формул, но тогда он вывелся из какого-то конечного подмножества, но такого не может быть, т.к. все конечные подмножества непротиворечивы.
+        \end{proof}
+        \begin{lemma}
+            $\Delta$ --- полное и непротиворечивое, тогда оно совместное
+        \end{lemma}
+        \begin{proof}
+            $\Delta$ полное, тогда для переменной $p_i$ верно $\Delta\vdash p_i$ или $\Delta\vdash \neg p_i$. Рассмотрим следующий набор значений:
+            $$a_i = \left\{\begin{array}{l}
+                1, \Delta \vdash p_i  \\
+                0, \Delta \vdash\neg p_i
+            \end{array}\right.$$
+        \end{proof}
+    \end{enumerate}
+\end{proof}
+
+\begin{proof}[Теоремы о полноте]\indent
+    \begin{enumerate}
+        \item[] \textbf{Корректность} $\vdash \phi \Rightarrow \{\neg \phi\}$ --- противоречиво $\Rightarrow$ несовместно $\Rightarrow \forall a \neg \phi(a) = 0 \Rightarrow \forall \phi(a) = 1 \Rightarrow \phi$ --- тавтология
+        \item[] \textbf{Полнота} $\phi$ --- тавтология $\Rightarrow \{\neg \phi\}$ несовместна $\Rightarrow \{\neg \phi\}$ --- противоречиво, тогда, т.к. $\frac{\neg \phi \vdash B\ \ \ \neg \phi \vdash B}{\vdash \neg(\neg\phi)} \Rightarrow \vdash\phi$
+    \end{enumerate}    
+\end{proof}
+\hypertarget{lecture8}{}
+
+$$\text{Формулы }\left\{\begin{array}{l}
+    \text{выполнимые}  \\
+    \text{опровержимые}
+\end{array}\right.$$
+Мы хотим выразить различные задачи в терминах выполнимости формул.
+
+\section{Решение задач сведением к выполнимости формулы}
+\subsection{Задача про раскраску графа}
+Дан граф $G = (V, E)$. Необходимо найти функцию $f: V \rightarrow \{1, 2, 3\}: (u, v) \in E \Rightarrow col(u) \ne col(v)$.
+
+$$\begin{array}{ccc}
+    \text{Цвет вершины $u$} & \mapsto & (p_u, q_u) \\
+    \hline
+    \text{Не существует} & & 00 \\
+    1 & & 01 \\
+    2 & & 10 \\
+    3 & & 11 \\
+\end{array}$$
+Тогда $\forall p_u, q_u (p_u \vee q_u)$ и ребро может быть проведено между вершинами$(u, v)$, если $(p_u \ne p_v) \vee (q_u \ne q_v)$. Итоговая формула --- конъюнкция условий, и, если она выполнима, то задача имеет решение.
+
+\subsection{Задача про расстановку ферзей}
+Доска $n\times n, p_{ij}$ --- истинна, если на $(i, j)$-ой клетке стоит ферзь. Тогда можно записать в терминах $p_{ij}$ утверждение ''ни один ферзь не бьет никакого другого''. Это делается так:
+\begin{enumerate}
+    \item $(p_{i1} \vee p_{i2} \vee p_{i3} \vee \dots \vee p_{in})$ --- на $k$-ой горизонтали стоит хотя бы один ферзь.
+    \item $(\neg p_{ij} \vee \neg p_{ik})$ --- на $i$-ой горизонтали стоит хотя не более одного ферзя.
+    \item $(\neg p_{ik} \vee \neg p_{jk})$ --- на $i$-ой вертикали стоит хотя не более одного ферзя.
+    \item $(\neg p_{ij} \vee \neg p_{i+k, j+k})$ --- ферзи не бьют друг друга по направлению главной диагонали.
+    \item $(\neg p_{ij} \vee \neg p_{i-k, j+k})$ --- ферзи не бьют друг друга по направлению побочной диагонали.
+\end{enumerate}
+
+\subsection{Задача о клике}
+Дан граф $G, q_{uv} = 1 \Leftrightarrow (u, v) \in E$. Требуется понять, существует ли клика из $k$ вершин?
+
+$$\bigvee_{(v_1, v_2, \dots v_k)}\bigwedge_{i\ne j} q_{v_iv_j} \text{ --- длина} \sim C_n^k $$
+
+Тогда в общей формуле будет порядка 
+$$\frac{n!}{k!(n-k)!} > \frac{(n-k)^k}{k!} > \left(\frac{n-k}{k}\right)^k$$
+множителей, что очень много. Попробуем по-другому записать условие задачи: введем переменные $p_{iu}$ --- ''вершина $u$ является $i$-ой в клике'', $i \in \{1, \dots k\}$. Тогда накладываются следующие условия:
+\begin{enumerate}
+    \item $(p_{i1} \vee p_{i2} \vee \dots \vee p_{in})$.
+    \item $i \ne j \Rightarrow(\neg p_{iv} \vee \neg p_{jv})$ --- у одной вершины не может быть двух номеров.
+    \item $(u, v) \in E \Rightarrow (\neg p_{iu} \vee \neg p_{jv})$ --- внутри клики все вершины соединены.
+\end{enumerate}
+
+\subsection{Правило резолюции}
+$$\frac{A \vee x\;\;\;B\vee \neg x}{A \vee B}$$
+
+$A \vee B$ называется резольвентой
+
+\subsubsection{Пустой дизъюнкт $\perp$}
+$$\frac{x \;\;\;\;\neg x}{\perp}$$
+$$\frac{x \vee y \;\;\;\;\neg x \vee \neg y}{y \vee \neg y}$$
+
+Пусть дана КНФ, будем рассматривать ее как набор дизъюнктов.
+
+\begin{proposition}
+    Если на данном наборе выполняется $A\vee x, B \vee \neg x$, то и выполняется $A \vee B$.
+\end{proposition}
+\textbf{Следствие} если исходная формула выполнима, то и все ее резольветны тоже.
+
+\subsection{Метод резолюций}
+Строим все новые резольвенты, пока не выведем $\perp$ или не прекратится появление новых дизъюнктов.
+
+\begin{theorem}[О корректности метода резолюций]
+    Если исходная формула выполнима, то нельзя вывести $\perp$.
+\end{theorem}
+\begin{proof}
+    Если можно вывести $\perp$, то он будет истинный но он $\equiv 0$.
+\end{proof}
+
+\begin{theorem}[О полноте]
+    Если нельзя вывести $\perp$, то формула выполнима
+\end{theorem}
+\begin{proof}
+    Разобьем все дизъюнкты на классы. $C_i$ --- дизъюнкты, зависящие только от переменных $p_1, p_2, \dots p_i$. $C_0 = \varnothing$, т.к. $C_0 \subset \{\perp\}$. Будем доказывать по индукции, что выполнены все дизъюнкты из $C_i$.
+    \begin{enumerate}
+        \item[] \textbf{База:} $C_0$, все дизъюнкты выполнены.
+        \item[] \textbf{Переход:} Пусть все формулы из $C_{i-1}$ выполнены на значениях $a_1, a_2 \dots a_{i-1}$. Рассмотрим формулы из $C_i$, которые не будут выполнены на этом наборе. Предположим, что среди них есть и формула с $p_i$ и формула с $\neg p_i$: $p_i \vee D_0, \neg p_i \vee D_1$. Тогда $D_0(p_1, p_2, \dots p_i) = 0 = D_1(p_1, p_2, \dots p_i)$. Но $D_0 \vee D_1$ получается как резольвента этих двух формул, тогда она выполнима, т.к. лежит в $C_{i-1}$, противоречие. Тогда все формулы либо с $p_i$, либо с $\neg p_i$, тогда положим $p_i$ так, чтобы этот множитель выполнялся.
+    \end{enumerate}
+\end{proof}
+\hypertarget{lecture9}{}
+
+\subsubsection{Использование резолюций для проверки тавтологий}
+$\phi$ --- тавтология $\Leftrightarrow \neg \phi$ --- противоречие $\Leftrightarrow \neg \phi$ --- не выполнима.
+$\phi$ --- тавтология $\Leftrightarrow$ из некоторой задачи о выполнимости КНФ, построенной по $\neg \phi$ можно вывести $\perp$. 
+
+\subsubsection{Преобразование Цейтина}
+\begin{example}
+    $(p \wedge q) \vee (r \rightarrow \neg s)$. Запишем:
+    $$\begin{array}{ccc}
+        u = p \wedge q & \mapsto & (\neg u \vee p) \wedge (\neg u \vee q) \wedge (u \vee \neg p \vee \neg q)\\
+        t = \neg s & \mapsto & (\neg t \vee \neg s) \wedge (t \vee s)\\
+        v = r \rightarrow t & \mapsto & (r \vee v) \wedge (\neg t \vee v) \wedge (\neg v \vee \neg r \vee t)\\
+        w = u \vee v & \mapsto & (\neg u \vee w) \wedge (\neg v \vee w) \wedge (\neg w \vee u \vee v)\\
+    \end{array}$$
+\end{example}
+
+Все формулы могут быть одновременно верны $\Rightarrow \phi$ --- не тавтология. Это равносильно получению 3-КНФ из всех этих формул (в каждой скобке $\le 3$ литералов). На 2-КНФ метод резолюций работает за $O(n)$, но на 3-КНФ уже за экспоненциально долгое время. Хотелось бы придумать алгоритм, который работает быстрее. Эта проблема, также известная как проблема $P$ vs $NP$ на данный момент на имеет решения
+
+\section{Языки первого порядка}
+\subsection{Алфавит}
+\begin{enumerate}
+    \item Индивидные переменные $x, y, z, \dots$
+    \item Функциональные символы (с указанием числа аргументов (например, ''$-$'' может быть и бинарным, и унарным)) $f^{(1)}, g^{(2)}, \dots$, в том числе константные символы (функциональные символы валентности 0) $0, e, \pi, \dots$
+    \item Предикатные символы (с указанием валентности) $P^{(1)}, Q^{(3)}, \dots$
+    \item $\neg, \wedge, \vee, \rightarrow$
+    \item Кванторы $\forall, \exists$
+    \item Служебные символы ''$($'', ''$,$'', ''$)$''
+\end{enumerate}
+
+Символы из пунктов 2, 3 называются сигнатурами
+
+\subsection{Термы}
+\begin{enumerate}
+    \item $x$ --- переменная, тогда $x$ --- терм
+    \item $c$ --- константный символ, то $c$ --- терм
+    \item $t_1, t_2, \dots t_k$ --- термы, $f$ --- функциональный символ валентности $k$, то $f(t_1, t_2, \dots t_k)$ --- терм.
+\end{enumerate}
+\subsection{Формулы}
+\begin{center}
+    \textsc{Формулы --- это не термы, нумерация сквозная, чтобы у каждого правила был свой номер!!!}
+\end{center}
+\begin{enumerate}
+    \setcounter{enumi}{5}
+    \item $t_1, t_2, \dots t_k$ --- термы, $P$ --- предикатный символ валентности $k$, то $P(t_1, t_2, \dots t_k)$ --- формула
+    \item $\phi$ --- формула, тогда $\neg \phi$ --- формула
+    \item $\phi, \psi$ --- формулы тогда $(\phi * \psi)$, где ''$*$'' --- это одна из бинарных логических связок, тоже формула.
+    \item $\phi$ --- формулы тогда $\exists x\phi, \forall x\phi$ --- тоже формула.
+\end{enumerate}
+Тогда нам не запрещены записи вида $\exists x \forall xP(x)$ или $\exists x P(y)$. Часто добавляют отдельный вид атомарных формул с равенством $t_1 = t_2$. Но при таком определении появляются вопросы, например:
+$$\exists x x < y$$
+Что такое $y$? Что такое ''$<$''? Откуда берем $x$?
+
+\subsection{Интерпретация}
+$M$ --- непустое множество --- носитель интерпретации. 
+\begin{enumerate}
+    \item $f$ --- функциональный символ валентности $k > 0$. $[f]: M^k \rightarrow M$. 
+    \item $c$ --- константный символ, тогда $[c] \in M$.
+    \item $P$ --- предикатный символ валентности $k$, тогда $[P]: M^k \rightarrow \{0, 1\}$.
+\end{enumerate}
+
+Также, пусть $Var$ --- множество переменных. Оценкой называется произвольная функция $\pi: Var \rightarrow M$. Тогда, если заданы носитель интерпретации и оценка, то определены значения всех термов и формул.
+\begin{proof}\indent
+    \begin{enumerate}
+        \item $t \eqcirc x \Rightarrow [t](\pi) = \pi(x)$
+        \item $t \eqcirc C \Rightarrow [t](\pi) = [C]$
+        \item $t \eqcirc f(t_1, t_2, \dots t_k) \Rightarrow [t](\pi) = [f]([t_1](\pi), [t_2](\pi), \dots [t_k](\pi))$
+        \item $\phi \eqcirc P(t_1, t_2, \dots t_k) \Rightarrow [t](\pi) = [P]([t_1](\pi), [t_2](\pi), \dots [t_k](\pi))$
+        \item $\phi \eqcirc \neg \Rightarrow \psi [\phi](\pi) = neg([\psi](\pi))$
+        \item Для бинарных связок все как и в ПФах.
+        \item Обсудим потом
+    \end{enumerate}
+\end{proof}
+\hypertarget{lecture10}{}
+
+\begin{center}
+    \textit{... см. предыдущую лекцию}
+\end{center}
+\begin{enumerate}
+    \item[7.] $\phi = \exists x\, \psi$. Тогда
+    $$[\phi](\pi) = 1 \Leftrightarrow \text{ найдется } a \in M: [\psi](\pi_{x \mapsto a}) = 1$$
+    $$\pi_{x\mapsto a}(y) = \left\{\begin{array}{l}
+        \pi(y), y \ne x  \\
+        a, y = x
+    \end{array}\right.$$
+    Но тогда 
+    $$[\phi](\pi) = \bigvee_{a \in M} [\psi](\pi_{x \mapsto a})$$
+    \item[8.] $\phi = \forall x\, \psi$. Тогда
+    $$[\phi](\pi) = \bigwedge_{a \in M} [\psi](\pi_{x \mapsto a})$$
+\end{enumerate}
+
+\subsubsection{Параметры}
+
+\begin{definition}
+    Параметры терма $t$ ($Par(t)$), это множество, которое задается рекурсивно:
+    \begin{enumerate}
+        \item $t = x \in Var \Rightarrow Par(t) = x$
+        \item $t = c^{(0)} \Rightarrow Par(t) = \varnothing$
+        \item $t = f(t_1, t_2, \dots t_n) \Rightarrow Par(t) = \bigcup_{i = 1}^n Par(t_i)$
+    \end{enumerate}
+\end{definition}
+
+\begin{definition}
+    Параметры формулы $t$ ($Par(t)$), это множество переменных, которое задается рекурсивно:
+    \begin{enumerate}
+        \item $\phi = P(t_1, t_2, \dots t_n) \Rightarrow Par(\phi) = \bigcup_{i = 1}^n Par(t_i)$.
+        \item $\phi = \neg \psi \Rightarrow Par(\phi) = Par(\psi)$.
+        \item $\phi = \psi * \xi \Rightarrow Par(\phi) = Par(\psi) \cup Par(\xi)$
+        \item $\phi = \exists x \psi \Rightarrow Par(\phi) = Par(\psi) \setminus\{x\}$.
+        \item $\phi = \forall x \psi \Rightarrow Par(\phi) = Par(\psi) \setminus\{x\}$.
+    \end{enumerate}
+\end{definition}
+
+\begin{theorem}\indent
+    \begin{enumerate}
+        \item Если $\pi, \pi'$ --- оценки и для любой переменной $x \in Par(t), \pi(x) = \pi'(x)$, то $[t](\pi) = [t](\pi')$
+        \item Если $\pi, \pi'$ --- оценки и для любой переменной $x \in Par(t), \pi(x) = \pi'(x)$, то $[\phi](\pi) = [\phi](\pi')$
+    \end{enumerate}
+\end{theorem}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item Ведем индукцию по построению терма $t$
+        \begin{enumerate}
+            \item $t = x \Rightarrow [t](\pi) = \pi(x) = \pi'(x) = [t](\pi')$
+            \item $t = c \Rightarrow [t](\pi) = [c] = [t](\pi')$
+            \item $t = f(t_1, t_2, \dots t_n) \Rightarrow [t](\pi) = [f]([t_1](\pi), [t_2](\pi), \dots [t_n](\pi)) = [f]([t_1](\pi'), [t_2](\pi'), \dots [t_n](\pi'))$
+        \end{enumerate}   
+        \item Ведем индукцию по построению формулы $f$
+        \begin{enumerate}
+            \item $\phi = P(t_1, t_2, \dots t_n) \Rightarrow [\phi](\pi) = [P]([t_1](\pi), [t_2](\pi), \dots [t_n](\pi)) = [P]([t_1](\pi'), [t_2](\pi'), \dots [t_n](\pi'))$
+            \item $\phi = \psi * \xi \Rightarrow [\phi](\pi) = *([\psi](\pi), [\xi](\pi)) = *([\psi](\pi'), [\xi](\pi')) = [\phi](\pi')$
+            \item $\phi = \exists x \psi$.
+            $$[\phi](\pi) = \bigvee_{a \in M}[\psi](\pi_{x \mapsto a}) = \bigvee_{a \in M}[\psi](\pi'_{x \mapsto a}) = [\phi](\pi')$$
+            \item $\phi = \forall x \psi$.
+        \end{enumerate}   
+    \end{enumerate}
+\end{proof}
+
+\subsubsection{Типы формул}
+
+\begin{definition}
+    Формула $\phi$ называется замкнутой (или предположением), если $Par(\phi) = \varnothing$. Тогда пишут просто $[\phi]$, причем, если $[\phi] = 1$, то пишут, что $\phi$ истинна на своем носителе.
+\end{definition}
+
+\begin{definition}
+    Формула $\phi$ называется общезначной, если она верна для любого носителя интерпретации и любой оценке.
+\end{definition}
+
+\begin{definition}
+    $\phi \sim \psi$, если $\forall $ интерпретации $\forall $ оценки $[\phi](\pi) = [\psi](\pi)$.
+\end{definition}
+
+\begin{note}
+    $\phi \sim \psi \Leftrightarrow \phi \leftrightarrow \psi$ --- общезначная
+\end{note}
+
+\subsubsection{Примеры общезначних формул}
+\begin{center}
+    \textit{Я привел их без доказательства, проделайте это в качестве нетрудного упражнения на дом}
+\end{center}
+\begin{enumerate}
+    \item $\forall x P(x) \rightarrow (\exists y Q(x, y) \rightarrow \forall x P(x))$
+    \item $\forall x \phi \rightarrow \exists x \phi$
+    \item $\exists x \forall y \phi \rightarrow \forall y \exists x \phi$
+    \item $\forall x \forall y \phi \rightarrow \forall y \forall x \phi$
+    \item $\forall x (\phi \wedge \psi) \leftrightarrow \forall x \phi \wedge \forall x \psi$
+    \item $\exists x (\phi \wedge \psi) \rightarrow \exists x \phi \wedge \exists x \psi$
+    \item $\exists x (\phi \wedge \psi) \leftrightarrow \exists x \phi \wedge \psi$, при ($x \notin Par(\psi)$)
+    \item $\exists x (\phi \vee \psi) \leftrightarrow \exists x \phi \vee \exists x \psi$
+    \item $\forall x (\phi \vee \psi) \leftarrow \forall x \phi \vee \forall x \psi$
+    \item $\forall x (\phi \vee \psi) \leftrightarrow \forall x \phi \vee \psi$, при ($x \notin Par(\psi)$)
+    \item $\neg \exists x \phi \leftrightarrow \forall x \neg \phi$
+    \item $\neg \forall x \phi \leftrightarrow \exists x \neg \phi$
+    \item $\exists x (\phi \rightarrow \psi) \leftrightarrow (\forall x \phi \rightarrow \exists x \psi)$
+\end{enumerate}
+\hypertarget{lecture11}{}
+
+\subsection{Предварённая нормальная форма}
+\begin{definition}
+    Предваренная нормальная форма --- это такая формула, в которой сначала идут кванторы, а потом бескванторная форма.
+\end{definition}
+
+$$\underbrace{\forall\exists\exists\dots}_{\text{кванторы}}\underbrace{(\dots\dots\dots\dots\dots)}_{\text{''бескванторная форма''}}$$
+
+\begin{theorem}
+    У любой формулы первого порядка существует эквивалентная ей ПНФ
+\end{theorem}
+\begin{proof}
+    Будем проводить следующие эквивалентные преобразования:
+    \begin{enumerate}
+        \item $\neg \exists x \phi \longleftrightarrow \forall x \neg \phi$
+        \item \begin{enumerate}
+            \item $\forall x \phi \wedge \forall x \psi \longleftrightarrow \forall x (\phi \wedge \psi)$
+            \item $\exists x \phi \vee \exists x \psi \longleftrightarrow \exists x (\phi \vee \psi)$
+        \end{enumerate} 
+        \item $\exists x (\phi \wedge \psi) \rightarrow (\exists x\phi \wedge \exists x\psi)$ --- но это не эквивалентность, поэтому это использовать нельзя. Как тогда? Нужно сделать замену переменной:
+        $$\exists x \phi \longleftrightarrow \exists y \phi(^y/_x)$$
+        Где $\phi(^y/_x)$ --- все свободные вхождения $x$ заменили на $y$. При этом эти вхождения не должны подпадать под действие кванторов по $y$ и $y$ не входит свободно в формулу $\phi$. Примера некорректных замен:
+        \begin{enumerate}
+            \item $\exists x \forall y A(x, y) \not\rightarrow \exists y \forall y A(y, y)$
+            \item $\exists x A(x, y) \not\rightarrow \exists y A(y, y)$
+        \end{enumerate}
+        Причем, если мы заменяем на новую переменную, такая замена всегда будет корректна.
+
+        \item \(\exists x \phi * \psi\). Если $x$ --- не параметр $\psi$, то $(\exists x \phi) * \psi \longleftrightarrow \exists x (\phi * \psi)$. Но тогда, если $x$ --- параметр $\psi$, то $(\exists x \phi) * \psi \longleftrightarrow (\exists y \phi(^y/_x)) * \psi \longleftrightarrow \exists y (\phi(^y/_x) * \psi)$ ($y$ не встречается ни в $\phi$, ни в $\psi$).
+    \end{enumerate}
+\end{proof}
+
+\subsection{Предикаты и выразимость}
+
+Значение формулы зависит только от значения ее параметров. Формула с $k$ параметрами при фиксированной интерпретации задает $k$-местный предикат.
+
+\begin{definition}
+    Предикат называется выразимым в данной интерпретации, если его можно задать формулой первого порядка.
+\end{definition}
+
+
+\begin{example}
+    $$\langle \N, S, = \rangle, S(n) = n + 1$$
+    Тогда:
+    \begin{enumerate}
+        \item $x = 0 \Leftrightarrow \neg \exists y (x = S(y))$
+        \item $x = 1 \Leftrightarrow \exists y (x = S(y) \wedge \underbrace{y = 0}_{\text{подставляем предыдущее}})$
+    \end{enumerate}
+\end{example}
+
+\begin{example}
+    $$\langle \N, \cdot, = \rangle$$
+    Тогда:
+    \begin{enumerate}
+        \item $x = 0 \Leftrightarrow \neg \forall y (y\cdot x = x)$
+        \item $x = 0 \Leftrightarrow \neg \forall y (y\cdot x = y)$
+        \item $x \vdots y \Leftrightarrow \exists z (x = y\cdot z)$
+        \item $p$ --- простое $\Leftrightarrow (p \ne 1 \wedge \forall q(p \vdots q \rightarrow (q = 1 \vee q = p)))$
+        \item $d = \text{НОД}(x, y) \Leftrightarrow (x \vdots d \wedge y \vdots d \forall k ((x \vdots k \wedge y \vdots k) \rightarrow d \vdots k)$
+        \item $c = \text{НОК}(x, y) \Leftrightarrow (c \vdots x \wedge c \vdots y \forall k ((k \vdots x \wedge k \vdots y) \rightarrow k \vdots c)$
+    \end{enumerate}
+\end{example}
+
+\begin{example}
+    $$\langle 2^A, \subset \rangle$$
+    Тогда:
+    \begin{enumerate}
+        \item $x = y \Leftrightarrow (x \subset y \wedge y \subset x)$
+        \item $x = \varnothing \Leftrightarrow \forall y (x \subset y)$
+        \item $|x| = 1 \Leftrightarrow (x \ne \varnothing) \wedge \forall y (y \subset x \rightarrow (y = x \vee y = \varnothing))$
+        \item $z = x \cup y \Leftrightarrow (x \subset z \wedge y \subset z \wedge \forall t((x \subset t \wedge y \subset t)) \rightarrow z \subset t)$
+    \end{enumerate}
+\end{example}
+\hypertarget{lecture13}{}
+
+\subsection{Элиминация кванторов}
+Рассмотрим следующее множество:
+$$\langle \N, S, 0, =\rangle$$
+
+\begin{theorem}
+    Любая формула, записанная в этой сигнатуре $S, 0, =$ эквивалентна в интерпретации некоторой бескванторной формуле.
+\end{theorem}
+\begin{proof}
+    Ведем индукцию по построению формулы. 
+    \begin{enumerate}
+        \item[] \textbf{База:} Атомарные формулы --- бескванторные
+        \item[] \textbf{Переход:}
+        \begin{enumerate}
+            \item[$\neg$:] $\phi \eqcirc \neg\psi \Rightarrow$ по предположению индукции, $\psi \sim \psi'$, $\psi'$ --- бескванторная, тогда $\phi \sim \neg\psi'$ --- тоже бескванторная
+            \item[$\wedge, \vee, \rightarrow$:] $\phi \eqcirc (\psi * \eta) \Rightarrow$ по предположению индукции, $\psi \sim \psi', \eta \sim \eta'$, причем $\psi', \eta'$ --- бескванторные, $\Rightarrow \phi \sim (\psi' * \eta')$  --- тоже бескванторная
+            \item[$\forall$:] $\forall x \phi \leftrightarrow \neg \exists x \neg \phi$
+            \item[$\exists$:] $\exists x \phi$. Как быть? Одна из идей: заменить бесконечную конъюнкцию на конечную. Но сначала приведем саму формулу $\phi$ к бескванторному виду $\phi'$.
+
+            Заметим, что атомарные формулы у нас могут быть только вида $$S(S(\dots(S(u))\dots)) = S(S(\dots(S(v))\dots))$$
+            Где $u, v$ --- либо переменные, либо $0$. Но тогда:
+            $$\begin{array}{cc}
+                u \eqcirc v \eqcirc x & \text{ формула $\perp$ или $\top$ } \\
+                S(S(\dots(S(x))\dots)) = 0 & \perp \\
+                S(S(\dots(S(y))\dots)) = x & x = y + c\\
+                S(S(\dots(S(x))\dots)) = y & x = y - c \\
+            \end{array}$$
+            Итого: $\exists x \phi$, причем $\phi$ --- булевая комбинация $\perp, \top$ и равенств вида $x = d, x = y + c, x = y - c$. Рассмотрим $t_1, t_2, \dots t_k$ --- все ''правые'' части этих равенств. В таком случае, при $x \not\in \{t_1, t_2, \dots t_k\}$, формула не будет зависеть от $x$, т.к. все равенства вида $x = t_i$ будут заведомо ложны. Тогда 
+            $$\exists x \phi \sim \phi|_{\text{все $x_i = t$ ложны}} \vee \bigvee \phi[^{t_i}/_x]$$
+            (Все выражения с вычитанием преобразуются в сложение в другой части)
+        \end{enumerate}
+    \end{enumerate}
+\end{proof}
+
+\begin{definition}
+    2 интерпретации одной сигнатуры называются элементарно эквивалентными, если в них верны одни и те же формулы первого порядка.
+\end{definition}
+
+\begin{theorem}
+    $\langle \R, \le \rangle \sim \langle \Q, \le \rangle$
+\end{theorem}
+\begin{proof}
+    В обеих интерпретациях верна теорема об элиминации кванторов, причем элиминация происходит посимвольно одинаково. Отличие от предыдущего --- в формуле $\exists x \phi$ заменим $\psi$ на эквивалентную ей ДНФ.
+    $$\begin{array}{cc}
+        x = y & (x \le y \wedge y \le x)  \\
+        x < y & (x \le y \wedge \neg (y \le x))
+    \end{array}$$
+    $$\phi = C_1 \vee C_2 \vee \dots \vee C_n$$
+    Причем $C_i$ --- конъюнкции $x_j \le y_j \leftrightarrow (x_j < y_j \vee x_j = y_j)$ или $\neg (x_j \le y_j) \leftrightarrow x_j > y_j$. Тогда раскроем по дистрибутивности скобки в $C_i$, получится $\phi = C_1' \vee C_2' \vee \dots \vee C_n'$, где $C_i'$ --- конъюнкция формул вида $x_j = y_j$ или $x_j < y_j$.
+    $$\exists x \phi \sim \exists x (C_1' \vee \dots \vee C_n') \sim \exists x C_1' \vee \exists x C_2' \vee \dots \vee \exists x C_n'$$
+    Причем,
+    $$\exists x C_i' \eqcirc \exists x ((x > a_1) \wedge \dots \wedge (x > a_p) \wedge (x < b_1) \wedge \dots \wedge (x < b_q) \wedge (x = c_1) \wedge \dots \wedge (x = c_r) \dots$$
+    $$\dots \wedge (\text{формулы, значение которых не зависит от $x$}))$$
+    Но тогда, в силу того, что оба наши порядка плотны, такое число $x$ либо одновременно существует и там и там, либо одновременно не существует, следовательно, изначальные порядки эквивалентны.
+\end{proof}
+
+\subsection{Игра Эренфойхта}
+
+\begin{definition}
+    Игра Эренфойхта. Пусть заданы две интерпретации $A, B$, сигнатуры, состоящие только из предикатных символов ($p_1, \dots p_n$). Играют два игрока (их обычно называют Новатор и Консерватор или Спойлер и Дубликатор). Новатор фиксирует число ходов $m$. На $i$-ом ходу выбраны $a_1, a_2, \dots a_{i-1} \in A, b_1, b_2, \dots b_{i-1} \in B$ и Новатор выбирает либо $a_i \in A$, а Консерватор выбирает $b_i \in B$, или наоборот. Цель новатора --- чтобы на каком-то наборе для какого-то предиката, стало выполнено $p_j(a_{i_1}, a_{i_2}, \dots a_{i_l}) \ne p_j(b_{i_1}, b_{i_2}, \dots b_{i_l})$. Цель консерватора --- ему помешать.
+\end{definition}
+
+\subsubsection{Примеры}
+
+\begin{example}
+    $$\langle \N, \le\rangle, \langle \Z, \le\rangle$$
+    Хотим понять, что $\exists x \forall y\;x \le y$ --- верно в $\N$, но не в $\Z$.
+    2 хода:
+    $$\begin{array}{c|cc}
+        \text{№ хода} & \text{Новатор} & \text{Консерватор} \\
+        \hline
+        1 & 0 \in \N & b \in \Z \\
+        2 & b-1 \in \Z & a \in \N \\
+    \end{array}$$
+    Получилось, что $a \ge 0$ верно, но $b-1 \ge b$ ложно.
+\end{example}
+
+\begin{example}
+    $$\langle \Z, \le\rangle, \langle \Q, \le\rangle$$
+    $$\forall y \forall z (y < z \rightarrow \exists v (y < v < z))$$
+    3 хода:
+    $$\begin{array}{c|cc}
+        \text{№ хода} & \text{Новатор} & \text{Консерватор} \\
+        \hline
+        1 & 0 \in \Z & b_0 \in \Q \\
+        2 & 1 \in \Z & b_1 \in \Q \\
+        3 & \text{Победили, если $b_0 > b_1$, иначе называем $\frac{b_0 + b_1}{2}$} & a \in \Z
+    \end{array}$$
+    Получилось, что $0 < a < 1$ должно быть верно в $\Z$, а это неправда, тогда Новатор победил.
+\end{example}
+
+
+\begin{example}
+    $$\langle \Q, \le\rangle, \langle \R, \le\rangle$$
+    $$\forall y \forall z (y < z \rightarrow \exists v (y < v < z))$$
+    Выигрывает консерватор, даже если не фиксировать количество ходов. Новатор ставит точку либо совпадающую с уже выбранными, либо больше всех, либо меньше всех, либо внутри интервала. Ввиду плотности $\Q$, консерватор всегда сможет повторить выбор.
+\end{example}
+
+
+\begin{example}
+    $$\langle\Z, \le\rangle,  \langle\{0, 1\}\times\Z, \text{лексикографическое сравнение}\rangle$$
+    Выигрывает консерватор, но только для фиксированного числа ходов. Разобьем интервалы между точками, которые могут быть, на две группы: малые и большие (бесконечные или конечные, но длина больше, чем $2^l$, где $l$ --- количество ходов до конца игры). Поддерживаем инвариант: между соответствующим точками либо малые и одинаковые, либо большие интервалы (может быть, разные). Новатор не может поделить один интервал на 2 малых. В любом случае мы сможем повторить ход.
+\end{example}
+
+\begin{theorem}
+    Если в игре Эренфойхта победит Новатор, то интерпретации не являются эквивалентными, и являются таковыми иначе.
+\end{theorem}
+\hypertarget{lecture14}{}
+
+\section{Исчисление предикатов}
+Хотим расширить исчисление высказываний на формулы первого порядка, то есть, чтобы множество выводимых формул было равно множеству общезначных формул.
+
+$$\{\text{выводимые формулы}\} = \{\text{общезначные формулы}\}$$
+\begin{theorem}[Теорема о корректности]
+    $$\{\text{выводимые формулы}\} \subset \{\text{общезначные формулы}\}$$
+\end{theorem}
+\begin{theorem}[Слабая форма Теоремы о полноте]
+    $$\{\text{выводимые формулы}\} \supset \{\text{общезначные формулы}\}$$
+\end{theorem}
+
+\subsection{Аксиомы}
+\begin{enumerate}
+    \item[1...11.] A1-11
+    \setcounter{enumi}{11}
+    \item $\forall x \phi \rightarrow \phi(^t/_x)$, $t$ --- терм, подстановка корректна
+    \item $\phi(^t/_x) \rightarrow \exists x \phi$, $t$ --- терм, подстановка корректна
+
+    $\phi(^t/_x)$ --- результат замены свободного выхождения $x$ на $t$, при этом свободные переменные \(t\) не попадают под действие кванторов $\phi$.
+
+    Подстановка точно корректна, если:
+    \begin{enumerate}
+        \item $t$ --- замкнутый терм (состоящий только из констант)
+        \item $t \eqcirc x$
+    \end{enumerate}
+
+    \item
+\end{enumerate}
+
+\subsection{Правила Бернайса (правила вывода)}
+\begin{enumerate}
+    \item $\Sigma$-правило. Если $x$ --- не параметр $\psi$, то
+    $$\frac{\phi \rightarrow \psi}{\exists x \phi \rightarrow \psi}$$
+    \item $\Pi$-правило. Если $x$ --- не параметр $\psi$, то
+    $$\frac{\psi \rightarrow \phi}{\psi \rightarrow \forall x \phi}$$
+\end{enumerate}
+
+\subsection{Примеры вывода}
+\begin{example}
+    $$\forall x \phi \rightarrow \exists x \phi$$
+    \begin{enumerate}
+        \item $\forall x \phi \rightarrow \phi$ --- А12
+        \item $\phi \rightarrow \exists x \phi$ --- А13
+        \item $\forall x \phi \rightarrow \exists x \phi$ --- Силлогизм
+    \end{enumerate}
+\end{example}
+
+\begin{example}
+    $$\exists x \forall y \phi \rightarrow \forall y \exists x \phi$$
+    \begin{enumerate}
+        \item $\forall y \phi \rightarrow \phi$ --- А12
+        \item $\phi \rightarrow \exists x \phi$ --- А13
+        \item $\forall y \phi \rightarrow \exists x \phi$ --- Силлогизм
+        \item $\exists x \phi \forall y \phi \rightarrow \exists x \phi$ --- $\Sigma$-правило
+        \item $\exists x \forall y \phi \rightarrow \forall y \exists x \phi$ --- $\Pi$-правило
+    \end{enumerate}
+\end{example}
+
+
+\begin{example}[Вывод правила обощения]
+    \begin{definition}
+        Правило обобщения:
+        $$\frac{\phi}{\forall x \phi}$$    
+    \end{definition}
+    
+    Это значит, что $\vdash \phi \Rightarrow \vdash \forall x \phi$
+    \begin{enumerate}
+        \item $\phi$
+        \item $\psi$ --- Любая замкнутая аксиома
+        \item $\phi \rightarrow (\psi \rightarrow \phi)$ --- А1
+        \item $\psi \rightarrow \phi$ --- m.p. 1, 3
+        \item $\psi \rightarrow \forall x \phi$ --- $\Pi$-правило 4
+        \item $\forall x \phi$ --- m.p. 2, 5
+    \end{enumerate}
+\end{example}
+
+
+\begin{example}
+    $$\neg \exists x \phi \leftrightarrow \forall x \neg \phi$$
+    \begin{enumerate}
+        \item $\forall x \phi \rightarrow \phi$ --- А12
+        \item $\neg \phi \rightarrow \neg \forall x \phi$ --- контрапозиция
+        \item $\exists x \neg \phi \rightarrow \neg \forall x \phi$ --- $\Sigma$-правило 2
+    \end{enumerate}
+\end{example}
+
+\begin{example}
+    $$\neg \forall x \phi \leftrightarrow \exists x \neg \phi$$
+    \begin{enumerate}
+        \item $\forall x \neg \phi \rightarrow \neg \phi$
+        \item $\phi \rightarrow \neg\forall x \neg\phi$
+        \item $\exists x \phi \rightarrow \neg \forall x \neg \phi$
+        \item $\neg \forall x \phi \leftrightarrow \exists x \neg \phi$
+    \end{enumerate}
+\end{example}
+
+\begin{definition}
+    Вывод из посылок --- вывод, где в качестве посылок используются замкнутые фомрулы. (Посылки также называют аксиомами)
+\end{definition}
+
+\begin{definition}
+    Теория --- множество замкнтых формул
+\end{definition}
+
+\begin{definition}
+    Модель теории --- интерпретация, где все формулы теории истинны.
+\end{definition}
+
+\subsection{Лемма о дедукции для исчисления предикатов}
+\begin{lemma}[О дедукции]
+    Пусть $\Gamma$ --- теория, $A$ --- замкнутая формула, $B$ --- произвольная формула. Тогда $\Gamma \vdash A \rightarrow B \Leftrightarrow \Gamma, A \vdash B$.
+\end{lemma}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item[$\Rightarrow$.]\begin{enumerate}
+                \item[1.] $A \rightarrow B$ --- вывод
+                \item[2.] $A$ --- посылка
+                \item[3.] $B$ --- m.p. 1, 2
+            \end{enumerate}
+        \item[$\Leftarrow$.] Пусть $C_1, C_2, \dots C_n$ --- вывод $B$ из $\Gamma, A$. По индукции докажем, что $\Gamma \vdash A \rightarrow C_i$.
+        \begin{enumerate}
+            \item[] \textbf{База}
+            \item[] \textbf{Переход} \begin{enumerate}
+                \item $C_i$ --- аксиома, или элемент $\Gamma$, или получена по m.p. --- аналог для Исчисления Высказываний.
+                \item $C_i$ --- получена по $\Sigma$-правилу. Тогда $C_i \eqcirc (\exists x \phi \rightarrow \psi), C_j \eqcirc (\phi \rightarrow \psi), j < i$. По предположению индукции, $\Gamma \vdash (A \rightarrow (\phi \rightarrow \psi))$. Тавтология: $(A \rightarrow (\phi \rightarrow \psi)) \leftrightarrow (\phi \rightarrow (A \rightarrow \psi)) \Rightarrow \Gamma \vdash (\phi \rightarrow (A \rightarrow \psi)) \Rightarrow \Gamma \vdash (\exists x \phi \rightarrow (A \rightarrow \psi)) \underbrace{\Longrightarrow}_{\Sigma\text{-правило}} \Gamma \vdash (A \rightarrow ( \exists x \phi \rightarrow \psi)) \Rightarrow \Gamma \vdash (A \rightarrow C_i)$.
+                \item $C_i$ --- получена по $\Pi$-правилу.
+                $$\Gamma \vdash (A \rightarrow (\psi \rightarrow \phi)) \Rightarrow \left[\begin{array}{l}
+                    \Gamma \vdash (A \rightarrow (\psi \rightarrow \forall x \phi))  \\
+                    \Gamma \vdash ((A \wedge \psi) \rightarrow \phi) 
+                \end{array}\right.$$
+            \end{enumerate}
+        \end{enumerate}
+    \end{enumerate}    
+\end{proof}
+
+\begin{definition}
+    Теория $\Gamma$ называется полной, если $\forall \phi$ верно $\Gamma \vdash \phi$ или $\Gamma \vdash \neg\phi$.
+\end{definition}
+
+\begin{definition}
+    Теория $\Gamma$ называется экзистенциально полной, если $\Gamma \vdash \exists x \psi \Rightarrow \Gamma \vdash \psi(^t/_x)$ для некоторого замкнутого терма $t$.
+\end{definition}
+
+\begin{lemma}
+    Любая непротиворечивая теория вложена в какую-то полную
+\end{lemma}
+
+\begin{lemma}
+    $\Gamma$ --- непротиворечивая теория в сигнатуре $\sigma \Rightarrow$ существует $\tau \subset \sigma, \Delta \supset \Gamma$, $\Delta$ --- экзистенциально полная непротиворечивая теория в сигнатуре $\tau$.
+\end{lemma}
+
+\begin{theorem}[Сильная форма Теоремы о полноте ИП]
+    У любой непротиворечивой теории существует модель
+\end{theorem}
+\begin{proof}
+    Потом
+\end{proof}
+
+
+\begin{proof}[Доказательство слабой формы теоремы о полноте ИП]
+    $\phi$ --- общезначная $\Rightarrow \forall x \phi$ --- общезначная $\Rightarrow$ у $\{\neg \forall x \phi\}$ нет модели $\Rightarrow \{\neg \forall x \phi\}$ --- противоречива $\Rightarrow \left\{\begin{array}{l}
+        \{\neg \forall x \phi\} \vdash A  \\
+        \{\neg \forall x \phi\} \vdash \neg A 
+    \end{array}\right. = \left\{\begin{array}{l}
+        \vdash \{\neg \forall x \phi\} \rightarrow A  \\
+        \vdash \{\neg \forall x \phi\} \rightarrow \neg A 
+    \end{array}\right. \Rightarrow \vdash \neg\neg \forall x \phi \Rightarrow \vdash \forall x \phi \Rightarrow \phi$. 
+\end{proof}
+\hypertarget{lecture15}{}
+
+\subsection{Теорема Геделя о Полноте}
+
+\begin{definition}
+    $\Delta$ полная в сигнатуре $\sigma$, если для любой замкнутой формулы $\psi$ этой сигнатуры $\Delta \vdash \phi$ или $\Delta \vdash \neg\phi$.
+\end{definition}
+
+\begin{lemma}
+    $\Gamma$ --- непротиворечивая теория в сигнатуре $\sigma \Rightarrow$ существует теория $\Delta \supset \Gamma$ --- непротиворечивая, полная в сигнатуре $\sigma$.
+\end{lemma}
+\begin{proof}[Для конечного или счетного количесвта переменных]
+    $\Rightarrow$ Все формулы можно занумеровать натуральными числами ($\phi_1, \phi_2 \dots$). Обозначим:
+    $$\Gamma_0 := \Gamma, \Gamma_{i+1} = \left\{\begin{array}{l}
+        \Gamma_i \cup \{\phi_i\}, \text{ если непротиворечиво}  \\
+        \Gamma_i \cup \{\neg\phi_i\}, \text{ иначе}
+    \end{array}\right.$$
+    Заметим, что все $\Gamma_i$ непротиворечивы, т.к. $\Gamma$ --- непротиворечива, и если $\Gamma_{i+1}$ проиворечива, то и $\Gamma_i \cup \{\phi_i\}, \Gamma_i \cup \{\neg\phi_i\}$ --- тоже, но тогда $\Gamma \vdash \neg\phi_{i+1}, \Gamma \vdash \neg\neg\phi_{i+1}$, Но тогда и все предыдущие были противоречивы, в том числе, $\Gamma$, противоречие.
+    Рассмотрим
+    $$\Delta = \bigcup_{i = 0}^\infty\Gamma_i$$
+    $\Delta$ непротиворечива, т.к. иначе в нем было бы конечное противоречивое подмножество, а это неправда, т.к. все $\Gamma_i$ непротиворечивы.
+\end{proof}
+
+\begin{definition}
+    Теория $\Gamma$ экзистенциально полна относительно сигнатуры $\sigma$, если для любой замкнутой формулы вида $\exists x \phi$, если $\Gamma \vdash \exists x \phi$, то для некоторого константного символа $c \in \sigma$ (или замкнутого терма) выполнено, что $\Gamma \vdash \phi(^c/_x)$
+\end{definition}
+
+\begin{lemma}
+    %Любую непротиворечивую теорию можно расширить до экзистенциально полной в расширенной сигнатуре
+    $\Gamma$ --- непротиворечивая теория в сигнатуре $\sigma \Rightarrow$ существует непротиворечивая теория $\Delta \supset \Gamma$ и сигнатура $\tau \supset \sigma$, т.ч. если $\Gamma \vdash \exists x \phi$ и $\phi$ в сигнатуре $\sigma$, то для некоторого константного символа $c \in \tau$ выполнено, что $\Delta \vdash \phi(^c/_x)$
+\end{lemma}
+\begin{proof}
+    Если $\Gamma \vdash \exists x \phi$, то добавим в сигнатуру константу $c_\phi$, а в теорию --- формулу $\phi(^{c_\phi}/_\phi)$. Почему не будет противоречия? Пусть $\Gamma \cup \{\phi(^{c_\phi}/_x)\} \vdash \psi, \neg \psi$. По лемме о дедукции $\Gamma \vdash \phi(^{c_\phi}/_x) \rightarrow \psi, \Gamma \vdash \phi(^{c_\phi}/_x) \rightarrow \neg\psi$. Можно считать, что $\psi$ замкнута, иначе применим Аксиому 9. Получим, что $\Gamma \vdash \phi(^y/_x) \rightarrow \psi$, где $y$ --- свободная переменная. По $\Sigma$-правилу Бернайса, $\Gamma \vdash \exists y \phi(^y/_x) \rightarrow \psi$. Переименуем переменную $y \rightarrow x$: получится $\Gamma\vdash \exists x \phi \rightarrow \psi$. Т.к. $\Gamma \vdash \exists x \phi$, то $\Gamma \vdash \psi$. Аналогично $\Gamma \vdash \neg \psi \Rightarrow \Gamma$ --- проиворечива, противоречие.
+\end{proof}
+
+\begin{lemma}
+    $\Gamma$ --- непротиворечивая теория в сигнатуре $\sigma \Rightarrow$ существует теория $\Delta \supset \Gamma$ и сигнатура $\tau \supset \sigma$, т.ч. $\Delta$ --- непротиворечивая, полная и экзистениально полная относительно $\tau$.
+\end{lemma}
+\begin{proof}
+    Идея: поочередно применяем две предыдущие леммы.
+    $$\begin{array}{ccl}
+        \Gamma_0 = \Gamma & \sigma_0 = \sigma \\
+        \Gamma_1 \supset \Gamma_0 & \sigma_1 = \sigma_0 & \text{$\Gamma_1$ полная относительно $\sigma_1$} \\
+        \Gamma_2 \supset \Gamma_1 & \sigma_2 = \sigma_1 & \text{$\Gamma_2$ экзистенциально полная относительно $\sigma_1$} \\
+        \Gamma_3 \supset \Gamma_2 & \sigma_3 = \sigma_2 & \text{$\Gamma_3$ полная относительно $\sigma_3$} \\
+        \vdots & \vdots & \vdots \\
+        \Delta = \bigcup_{i = 0}^\infty\Gamma_i & \tau = \bigcup_{i = 0}^\infty\sigma_i
+    \end{array}$$
+    $\phi$ --- замкнутая формула в сигнатуре $\tau \Rightarrow \phi$ --- замкнутая формула $\Rightarrow \Gamma_{i+1} \vdash \phi$ или $\Gamma_{i+1} \vdash \neg\phi \Rightarrow \Delta \vdash \phi$ или $\Delta \vdash \neg \phi$. Аналогично для экзистенциальной полноты.
+\end{proof}
+
+\begin{lemma}
+    Полная, непротиворечивая, экзистенциально полная теория имеет модель
+\end{lemma}
+\begin{proof}
+    Носитель --- замкнутые термы (составленные из констант). Будем обозначать за ''$t$'' --- терм, как элемент носителя. Вычисляем термы и предикаты следующим образом:
+    $$[f]("t_1"\:,"t_2"\:, "t_3"\dots) = "[f](t_1, t_2, t_3, \dots)"$$
+    $$[P]("t_1"\:, "t_2"\:, "t_3"\dots) = \left\{\begin{array}{l}
+        0, \Delta\vdash P(t_1, t_2, t_3, \dots)  \\
+        1, \Delta\vdash \neg P(t_1, t_2, t_3, \dots)
+    \end{array}\right.$$
+    \begin{proposition}
+        Все формулы из $\Delta$ истинны в этой интерпретации , а все замкнутые формулы не из $\Delta$ ложны.
+    \end{proposition}
+    \begin{proof}
+        Ведем индукцию по построению формулы.
+        \begin{enumerate}
+            \item Атомарные формулы --- по определению
+            \item $\phi \eqcirc \neg \psi$
+            $\Delta\not\vdash\phi \Leftrightarrow \Delta\vdash\psi \Rightarrow \psi \text{ истинно } \Rightarrow \phi \text{ ложна }$
+            \item $\phi \eqcirc (\psi * \mu)$ --- Аналогично
+            \item $\phi \eqcirc \exists x \psi$
+            $$\Delta \vdash \exists x \psi \Leftrightarrow \Delta \vdash \psi(^t/_x) \Rightarrow \psi(^t/_x) \text{ истинна} \Rightarrow \exists x \psi \text{ истинна}$$
+            $$\Delta \vdash \neg \exists x \psi \Rightarrow \text{ для всех $t$ формула $\psi(^t/_x)$ ложна, тогда $\exists x \psi$ тоже ложна}$$
+            $$\text{иначе, если $\psi(^t/_x)$ истинно, то $\Delta\vdash\psi(^t/_x) \Rightarrow \Delta \vdash \exists x \psi$}$$
+            \item $\phi \eqcirc \forall x \psi$ --- аналогично
+        \end{enumerate}
+    \end{proof}
+\end{proof}
+
+\begin{theorem}[Мальцева о Компактности]
+    Если $\Gamma$ --- теория и любая конечная подтеория имеет модель, то и вся $\Gamma$ имеет модель
+\end{theorem}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item $\Gamma$ --- противоречивая $\Rightarrow$ конечная подтеория противоречива $\Rightarrow$ не имеет модели
+        \item $\Gamma$ --- непротиворечива $\Rightarrow$ имеет модель
+    \end{enumerate}
+\end{proof}

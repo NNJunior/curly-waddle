@@ -1,0 +1,1950 @@
+
+\hypertarget{lecture1}{}
+
+\section{Динамическое программирование}
+
+\underline{Задача:} Пусть есть полоска $1 \times n$, где в $i-$ой клетке записано число $a_i$. В нулевой клетке находится кузнечик, способный прыгать на 1 или 2 позиции вправо. Хотим найти максимальную сумму
+\begin{proof}
+\text{}
+
+    \textit{Достаточно заметить, что попав на $i$-ую позицию, предыдущие прыжки никак не повлияют на максимальное значение с начальной точкой в текущей позиции.}
+
+    \textbf{Решение:}
+    \begin{enumerate}
+        \item Заведем массив dp, где в dp[i] будет хранится максимальная сумма до данной клетки (то есть из всевозможных путей выбираем наибольший)
+        \item Запишем в dp$\left[0\right]$ $= 0$, в dp$\left[1\right]$ $= a_1$
+        \item Пусть $k$ клеток заполнены. Тогда $k+1$-ая будет пересчитываться по формуле
+        $$\text{dp$\left[k + 1\right]$} = a_{k+1} + max(\text{dp$\left[k\right]$, dp$\left[k-1\right]$})$$
+        \item Тогда наш ответ равен значению dp$\left[n\right]$
+
+        -Асимптотика O(n)
+    \end{enumerate}
+\end{proof}
+\textit{Доказательства во всех задачах ДП проводятся по индукции по шагу алгоритма}
+
+\textsc{\textbf{Общая концепция:}}
+
+$\kr{\text{Придумываем, что хранить}} \to \circlesq{\text{Пишем пересчет}}\to \sq{\text{Находим ответ в конце}}$
+
+\text{}
+
+
+\underline{Задача с ЕГЭ:} Есть таблица $n \times m$, где в каждой клетке написана ее цена. Хотим найти максимальный путь из нижнего левого угла в правый верхний.
+
+\textit{P.S. двигаемся только вверх или вправо}
+
+\textbf{Решение:}
+\begin{enumerate}
+    \item Создаем массив $n \times m$, где в каждой клетке хранится наибольшая цена среди путей до этой клетки.
+    \item Записываем во всех "крайних клетках" сумму на единственном пути до нее.
+    \item Для остальных клеток формула пересчета такая:
+    $$dp\left[i\right] \left[j\right] = a_{ij} + max(dp\left[i-1\right] \left[j\right], dp\left[i\right] \left[j-1\right])$$
+    \item Получаем ответ в клетке $dp[n][m]$
+
+-Асимптотика O(nm)
+\end{enumerate}
+\underline{\textbf{Еще задачка:}} НОП (наибольшая общая последовательность)
+
+Ищем наибольшую по длине общую последовательность в двух $s$ и $t$. 
+
+\begin{enumerate}
+    \item Пусть dp$\left[i\right] \left[j\right]$ - длина НОП для последовательностей $s_{1, 2, \dots, i}$ и $t_{1, 2, \dots, j}$
+
+    \item dp$\left[0\right] \left[\circ\right]$ = 0, dp$\left[\circ\right] \left[0\right] = 0$
+    \item Хотим найти dp$\left[i\right] \left[j\right]$:
+    \begin{enumerate}
+        \item $s_i$ не участвует в НОП $\to$ dp$\left[i-1\right] \left[j\right]$
+        \item $t_j$ не учатствует в НОП $\to$ dp$\left[i\right] \left[j-1\right]$
+        \item $s_i$ и $t_j$ участвуют в НОП, тогда они должны быть равны и ответ: dp$\left[i-1\right] \left[j-1\right]$ + 1
+    \end{enumerate}
+\end{enumerate}
+
+\underline{\textbf{И еще одна:}} НВП (наибольшая возрастающая последовательность)
+
+\textbf{Решение 1:}
+
+\begin{enumerate}
+    \item dp$\left[i\right] \left[k\right]$ - минимальное значение элемента, на котором заканчивается последовательности длины $k$, если рассматривать только элементы $a_1, a_2, \dots, a_i$
+    \item dp$\left[0\right] \left[0\right] = -\infty, dp[0][k > 0] = +\infty$
+    \item Пусть известна dp$\left[i - 1\right] \left[\circ\right]$
+
+    Далее, есть 2 случая:
+    \begin{enumerate}
+        \item Не берем $a_i$, тогда ответ равен dp$\left[i - 1\right] \left[j\right]$
+        \item Берем $a_i$
+        Тогда найдем $min\ k$, что dp$\left[i\right] \left[k\right] \ge a_i$ и поменяем значение на $a_i$
+    \end{enumerate}
+    Заметим, что выполняется инвариант: $$\text{dp$\left[i\right] \left[0\right]$ < dp$\left[i\right] \left[1\right]$ < $\dots$ < dp$\left[i\right] \left[k\right]$}$$
+
+А тогда, кроме dp$\left[i\right] \left[k\right]$ под условие б) ничего не подойдет, а еще, это $k$ можно найти с помощью бин поиска. 
+\end{enumerate}
+
+\textit{Таким образом, ДП в этой задаче будет заполняться построчно, где $i+1$-ая строка получается из $i$-ой изменением одного элемента}
+
+Асимптотика $O(n \log{n})$
+
+\textbf{Решение 2}:
+
+Оживляем элементы по возрастанию, предварительно стабильно отсортировав их. dp$\left[i\right]$ - максимальная длина ВП, оканчивающейся в $a_i$ на момент оживления этого элемента.
+
+\text{} 
+
+$\begin{array}{|c|c|c|c|c|c|c|c|}
+\hline
+     a_i & 2 & 3 & 1 & 5 & 4 & 6 & 5  \\
+\hline
+     dp\left[i\right] & \times & \times & \times & \times & \times & \times & \times\\
+    \hline
+\end{array} \to \ \begin{array}{|c|c|c|c|c|c|c|c|}
+\hline
+     a_i & 2 & 3 & 1 & 5 & 4 & 6 & 5  \\
+\hline
+     dp\left[i\right] & \times & \times & 1 & \times & \times & \times & \times\\
+    \hline
+\end{array}$ 
+
+\text{}
+
+$ \begin{array}{|c|c|c|c|c|c|c|c|}
+\hline
+     a_i & 2 & 3 & 1 & 5 & 4 & 6 & 5  \\
+\hline
+     dp\left[i\right] & 1 & \times & 1 & \times & \times & \times & \times\\
+    \hline
+\end{array} \to \ \begin{array}{|c|c|c|c|c|c|c|c|}
+\hline
+     a_i & 2 & 3 & 1 & 5 & 4 & 6 & 5  \\
+\hline
+     dp\left[i\right] & 1 & 2 & 1 & \times & \times & \times & \times\\
+    \hline
+\end{array} $
+
+\text{}
+
+$  \begin{array}{|c|c|c|c|c|c|c|c|}
+\hline
+     a_i & 2 & 3 & 1 & 5 & 4 & 6 & 5  \\
+\hline
+     dp\left[i\right] & 1 & 2 & 1 & \times & 3 & \times & \times\\
+    \hline
+\end{array} \to \ \begin{array}{|c|c|c|c|c|c|c|c|}
+\hline
+     a_i & 2 & 3 & 1 & 5 & 4 & 6 & 5  \\
+\hline
+     dp\left[i\right] & 1 & 2 & 1 & 3 & 3 & \times & 4\\
+    \hline
+\end{array} $
+
+\text{}
+
+$\begin{array}{|c|c|c|c|c|c|c|c|}
+\hline
+     a_i & 2 & 3 & 1 & 5 & 4 & 6 & 5  \\
+\hline
+     dp\left[i\right] & 1 & 2 & 1 & 3 & 3 & 4 & 4\\
+    \hline
+\end{array}$
+
+\text{}
+
+Несложно заметить, что $dp\left[i\right]$ будет равно максимальному значению слева от текущей ячейки, что мы умеем находить за $O(\log{n})$ через ДО
+
+Тогда итог (максимальное значение в таблице) будет найдено за $O(n \log{n})$
+
+\underline{\textbf{Последняя:}} (Рюкзак)
+
+Есть $n$ предметов, $w_i$ - вес $i$-го элемента, а $c_i$ - его стоимость. Вместимость рюкзака - $W$. Найти максимальную стоимость содержимого.
+
+Обозначим за $dp\left[i\right]\left[a\right]$ максимальную стоимость предметов, если выбирать какие-то предметы из первых $i$ с суммой веса $a$.
+
+Тогда аналогично с предыдущей задачей будем вычислять $dp\left[i+1\right]\left[a\right]$, выбирая $a_{i + 1}$ или не выбирая его.
+
+Это будет соответствовать значениям $dp\left[i\right]\left[a - w_i\right] + c_i$ и $dp\left[i\right]\left[a\right]$
+
+Тогда поскольку $a \in {0, 1, \dots, W}$, окончательная асимптотика будет равна $O(nW)$
+% О писька
+\hypertarget{lecture2}{}
+
+\section{Продолжение ДП}
+
+\subsection{Рюкзак с оптимизацией}
+
+\begin{enumerate}
+  \item[$\longrightarrow$] \(w\) предметов
+  \item[$\longrightarrow$] \(w_i\) - вес
+  \item[$\longrightarrow$] \(c_i\) - стоимость  
+\end{enumerate}
+
+Решение мы помним с прошлой лекции, а сейчас займемся оптимизацией памяти:
+
+\(dp[i][\circ]\) зависят только от $dp[i - 1][\circ]$, поэтому нам достаточно хранить не всю таблицу целиком, а всего 2 слоя, с которыми мы работаем.
+
+Итог - память \(O(W)\)
+
+\subsubsection{Альтернативный вариант}
+
+Будем действовать от стоимости предметов:
+
+\begin{enumerate}
+  \item Заводим массив $dp[0\dots n-1][0\dots C-1]$, где $C = \sum_{i = 0} ^ {n - 1} c_i$
+  \item $dp'[i][b]$ - min суммарный вес предметов, имеющих номера \(\le i\), и общую стоимость b
+  \item $dp'[i][b] = min(dp[i-1][b], dp'[i-1][b-c_i] + w_i$)
+\end{enumerate}
+\textit{Это используется, если суммарная стоимость значительно меньше суммарного веса.}
+
+\subsection{Динамическое программирование с помощью матриц}
+Попробуем найти $F_n = F_{n-1} + F_{n-2}$ с методом матриц.
+$$\left(\begin{array}{c}
+  F_n \\
+  F_{n-1}
+\end{array}\right) = \left(\begin{array}{c c}
+ 1 & 1 \\
+  1 & 0
+\end{array}\right) \cdot \left(\begin{array}{c}
+  F_{n-1} \\
+  F_{n-2}
+\end{array}\right) = \left(\begin{array}{c c}
+  1 & 1 \\
+   1 & 0
+ \end{array}\right) \cdot \left(\begin{array}{c c}
+  1 & 1 \\
+   1 & 0
+ \end{array}\right) \cdot \left(\begin{array}{c}
+   F_{n-2} \\
+   F_{n-3}
+ \end{array}\right) = \left(\begin{array}{c c}
+  1 & 1 \\
+   1 & 0
+ \end{array}\right)^{n-1}\cdot \left(\begin{array}{c}
+  F_{1} \\
+  F_{0}
+\end{array}\right)$$
+
+\textsc{\textbf{Бинарное возведение матрицы в степень}}
+
+Проводится так же, как и для натуральных чисел:
+
+\begin{equation}
+  a^n =
+  \begin{cases}
+    1,& \text{если $n$ = 0} \\
+    \left(a^{\frac{n}{2}}\right)^2,& \text{если $n$ четно}\\
+    a \cdot a ^ {n-1},& \text{если $n$ нечетно}
+  \end{cases}
+\end{equation}
+
+Если две матрицы имеют размеры $k \times k$, то их произведение можно найти за $O(k^3)$
+
+Тогда $A^n$ описанным алгоритмом находится за $O(k^3 \log{n})$
+
+ \underline{Задача} $a_n = \lambda a_{n - 1} + \mu a_{n-2} + 1$
+$$\left(\begin{array}{c}
+  a_n \\
+  a_{n-1} \\
+  1
+\end{array}\right) = \left(\begin{array}{c c c}
+  \lambda & \mu & 1 \\
+  1 & 0 & 0\\
+  0 & 0 & 1
+\end{array}\right) \cdot \left(\begin{array}{c c c}
+  a_{n-1} \\
+  a_{n-2} \\
+  1
+\end{array}\right)$$
+
+Взяв произведение этих матриц, получим ответ за $O(3^3 \log{n})$
+
+ \underline{Задача} Пусть $G$ -- невзвешенный ориентированный граф. Найти количество путей длины ровно \(k\) из вершины $x$ в вершину $y$ 
+ 
+ \textit{На ввод дается матрица смежности $M$, где $m_{ij}$ = 1 $\Leftrightarrow$ есть ребро $i \to j$, а 0 иначе.}
+
+ Пусть $dp[v][l]$ - количество путей длины $l$ от $x$ до $v$.
+
+ Тогда $dp[v][l] = \sum_{u \in v: M_{uv} = 1} dp[u][l - 1]$
+ $$\left(\begin{array}{c}
+  dp[1][l]\\
+  dp[2][l] \\
+  \ddots \\
+  dp[v][l]\\
+  \ddots\\
+  dp[n][l]
+ \end{array}\right) = M^T \cdot \left(\begin{array}{c}
+  dp[1][l - 1]\\
+  dp[2][l - 1] \\
+  \ddots \\
+  dp[v][l - 1]\\
+  \ddots\\
+  dp[n][l - 1]
+ \end{array}\right)$$
+
+\textbf{Комментарий от эксперта:}
+
+\texttt{Пересчет динамики получается домножением столбца $dp[v][i-1]$ на транспонированную матрицу смежности слева}
+\begin{proposition}
+  $M^k$ - количество путей из $u$ в $v$ длины ровно $k$.
+\end{proposition}
+
+\subsection{Задача} Найти количество путей длины \(\leq k\) из $x$ в $y$.
+
+Можно найти ответ из суммы $(M^0 + M^1 + \dots + M^k)_{xy}$, но как ее посчитать быстро?
+
+Введем $f(M, k) = (M^k, M^0 + M^1 + \dots + M^{k - 1}).$
+\begin{enumerate}
+  \item $k = 0 \to f(M, k) = (E, E)$
+  \item  $k \cancel{\vdots} 2 \to f(M, k - 1) = (M^{k - 1}, M^0 + M^1 + \dots + M^{k - 2})$, откуда $f(M, k) = f(M, k - 1)$, в котором умножили первый элемент на $M$, предварительно прибавив его ко второму.
+  \item  $k \vdots 2$, $f(M, k)$ получается из $f(M, \frac{k}{2})$ умножением первой части, увеличенной на 1, на вторую и возведением первой части в квадрат.
+\end{enumerate}
+
+\textsc{\textbf{Второй комментарий от эксперта:}}
+
+\texttt{По формуле геометрической прогрессии $\sum_{i = 0} ^ {k} M^{i} = (M^{k + 1} - E) \cdot {(M - E) ^ {-1}}.$ Если $M - E$ необратима, подкрутим её коэффициент на 0.00001.}
+
+\subsection{Задача} 
+Пусть $G$ - граф. Надо проверить, есть ли хотя бы 1 путь из \(x\) в \(y\) длины ровно $k$?
+
+$$d[v][l] = \bigvee_{u}(dp[u][l - 1] \wedge M_{uv})$$
+
+Обозначим $A * B = C$, где $*$ - булевское умножение, такое выражение:
+
+$$c_{ij} = \bigvee_{k}(A_{ik} \wedge B_{kj})$$
+\begin{proposition}
+  $M^{*k}_{uv} = 1, \text{если есть пусть $u \to v$, а иначе 0}$
+
+  Такое тоже работает за $O(n^3 \log{k})$
+\end{proposition}
+\subsection{Задача} $G$ - взвешенный граф. Хотим найти $min$ стоимость пути длины ровно $k$ из $x$ в $y$.
+
+Пусть $dp[v][l]$ - минимальная стоимость пути $x \to v$ за $l$ ребер.
+Тогда его можно найти по формуле $min(dp[u][l-1] + cost(u, v))$
+
+Обозначим: $A \circ B = C$, где $$c_{ij} = min_{k}(a_{ik} + b_{kj})$$
+
+$(A \circ B) \circ C = A \circ (B \ circ C)$
+
+\begin{proposition}
+  
+  $M^{\circ k}$ - минимальная стоимость пути из $u$ в $v$, используя ровно $k$ ребер.
+\end{proposition}
+
+
+\hypertarget{lecture3}{}
+
+\section{Динамическое программирование (окончание)}
+
+\subsection{ДП с помощью масок}
+Пусть \(U = \{0, 1, \dots, n-1\}\) $A \subset U$
+
+Тогда будем записывать $A$ как массив длины $n$, где $i \in A \leftrightarrow a_i = 1$. Такое представление называется \textit{маской множества}
+
+\textbf{Как проверить входит ли $x$ в $A$?}
+\begin{center}
+   bit(mask, pos) \{ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 
+
+     \ \ return (mask >> pos) \& 1; \}
+\end{center}
+
+\textbf{Как брать пересечения и объединения?}
+
+$$\begin{array}{|c|c|}
+  \hline
+  A \cap B & A \cup B \\
+  \hline
+   mask_{A} || mask_{B} &  mask_{A} \& mask_{B}\\
+   \hline
+\end{array}$$
+
+\subsubsection{Задача 1} 
+
+Пусть даны $a_{ij}$ - стоимость выполнения $j$-го задания $i$-ым работников.
+Найти минимальную стоимость выполнения всех заданий.
+
+\textsc{\textbf{Решение:}}
+
+Пусть $dp[i][mask]$ - минимальная стоимость распределить первых $i$ работников, чтобы они выполнили множество заданий маски.
+
+$$dp[i][mask] = min_{b \in mask}(a_{ib} + dp[i-1][\underbrace{mask | b}_{mask + (1 << b)}])$$
+
+\textit{Асимптотика:} $O(2^n n^2)$
+
+\subsubsection{Задача 2} Максимальная клика в графе за $O(2^{\frac{n}{2}})$
+
+\begin{definition}
+  Клика $C \subset V$ такова, что для любых ее двух вершин есть ребро между ними.
+\end{definition}
+
+Решим пока задачу за $O(2^k)$, где $k$ - количество вершин
+
+Обозначим за $neighbour(v)$ маску соседей $v$
+
+Тогда $clique(mask) = true \leftrightarrow clique(mask | v) = true, mask | v \subset neighbour(v)$
+
+Осталось только придумать, как из маски за $O(1)$ выкидывать ее вершину.
+
+Сделаем это предпосчетом для каждой маски за $O(2^k)$, записывая последовательно  ее старший бит.
+
+\newpage 
+\subsubsection{Задача 3} Найти максимальную клику в маске. 
+
+\textsc{\textbf{Решение:}}
+
+\begin{enumerate}
+  \item Если clique(mask) == true, то subclique(mask) = |mask|
+  \item Возьмем максимальное значение из:\begin{enumerate}
+    \item subclique(mask | v) - не берем v
+    \item 1 + subclique(mask \& neighbour(v)) - берем v
+  \end{enumerate}
+\end{enumerate}
+
+Такое тоже работает за $O(2^k)$
+ 
+Теперь мы готовы решить основную задачу\dots
+
+\begin{enumerate}
+  \item [\textbf{Шаг 1}] Разобьем граф на 2 половинки, где будем искать клики. Пусть $corr[mask]$ - множество вершин правой доли, которые соединены со всеми вершинами mask.
+  \item [\textbf{Шаг 2}] Хотим добавить их к mask, чтобы получилась клика. Единственное требование - все выбранные вершины $corr[mask]$ должны быть кликой --> \textsc{А это ведь Задача 3!!!}
+
+То есть ответ будет состоять из $max (|mask| + subclique(mask))$, где mask - клика из левой части. Осталось понять, как считать $corr[mask]$
+\item[\textbf{Шаг 0}] $corr[mask] = corr[mask | v] \ \& \ neighbour(v)$
+\end{enumerate}
+
+\subsection{ДП по профилю}
+
+\subsubsection{Задача 1}
+
+Пусть есть доска $n \times m$, сколько существует способов покрыть ее доминошками.
+
+$dp[j][mask]$ - количество способов полностью покрыть $j$ столбцов, т. ч. mask - множество строк, где лежат "торчащие" доминошки.
+
+\textit{"Торчащие" доминошки} - те, что расположены в $j$ и $j + 1$ столбцах.
+
+\begin{enumerate}
+  \item База: $dp[0][0] = 1, dp[0][\ne 0] = 0$
+  \item Переход:
+  Обозначим за $old_mask$ маску на $j-1$ столбце. Переберем по всевозможным old\_mask.
+  \item Заметим, что, зафиксировав mask и old\_mask, картинка полностью заполняется.
+Добавляем $dp[i - 1][old]$ к $dp[j][mask]$, если 
+    \begin{enumerate}
+  \item old $\cap$ mask = 0
+  \item В old $\cup$ mask все блоки из нулей-четной длины
+  \end{enumerate}
+\end{enumerate}
+
+Получаем асимптотику $O(4^n m)$, но можно подправить на $O(3^n m)$, если не рассматривать случаи $old \cap mask = 1$ в каком-то бите.
+
+\subsection{Изломанный профиль}
+
+Считаем, что профиль - теперь часть доски, покрытая доминошками по предположению. 
+
+\textit{\underline{Комментарий:} Раньше профиль получался из целых столбцов, а теперь нет}
+
+
+
+\hypertarget{lecture4}{}
+
+\section{Графы}
+
+\begin{definition}
+  Ориентированный граф $G = (V, E)$, где $V$ - конечное множество. $E \subset V \times V$
+\end{definition}
+\begin{definition}
+  Неориентированный граф $G = (V, E)$, где $V$ - конечное множество. $E \subset C_v^2$
+\end{definition}
+
+\begin{center}
+  $\xymatrix{
+  *=0{\bullet} \ar[r] & *=0{\bullet} \ar[rd]\\
+  & *=0{\bullet}\ar[r] \ar[u] & *=0{\bullet}\\ 
+}\hspace{20mm}\xymatrix{
+{\circ}\ar@{|->} '[dr] 
+'[rr]
+[drrr]
+& {\circ} & {\bullet} & {\circ} \\
+{\circ} & {\circ} & {\circ} & {\circ} }$
+\end{center}
+
+\subsection{Алгоритм dfs (поиск в глубину)}
+\textbf{Псевдокод:}
+
+\begin{verbatim}
+vector<vector<int>> g;
+
+vector<int> parent;
+
+vector<int> tin, tout; // время входа и выхода из вершины
+
+vector<string> color; // для покраски вершин
+\end{verbatim}
+
+\textit{Изначально все вершины покрашены в белый цвет - сигнал, что в вершину еще не заходили, цвет серый - вершина в обработке, цвет черный - вершина полностью обработана, больше нас не интересует}
+
+\begin{verbatim}
+ 
+void dfs(int v) {
+  color[v] = "GRAY"; tin[v] = timer; ++timer;
+  for (int to: g[v]) {
+    if (color[to] == "WHITE"): parent[to] = v; dfs(to);
+  }
+  tout[v] = timer; ++timer;
+  color[v] = "BLACK";
+}
+\end{verbatim}
+
+\begin{lemma}[О белых путях]
+  За время с $tin[v]$ до $tout[v]$ dfs посетит все те вершины, которые были достижимы из $v$ по белым путям и перекрасит их в черный цвет.
+\end{lemma}
+
+\begin{proof}
+  Понятно, что перекрасить можем только описанные вершины. Заметим, что GRAY вершины - это в точности стек рекурсии. Значит, в момент $tout[v]$ новых серых не появилось. 
+
+$\xymatrix{
+  \ar@{}[r]^>{G} & *=0{\bullet} \ar[r]^>{G}& *=0{\bullet}\ar[r]^>{G}  &  *=0{\bullet}\ar[r]^>{W} & \\
+}$
+
+Остается доказать, что белые вершины достижимы по белым путям и не могут остаться белыми. Рассотрим вершину $u$ - самую высокую оставшуюся из белых. 
+Тогда ее родитель не мог почернеть без захода в эту вершину.
+\end{proof}
+\begin{corollary}
+  Пусть изначально все вершины - белые. Тогда после внешнего запуска dfs($s$) посетятся все достижимые из $s$ вершины.
+\end{corollary}
+\begin{corollary}
+  В графе $\exists$ цикл, достижимый из $s \leftrightarrow dfs(s)$ в какой-то момент ведет ребро в серую вершину.  
+\end{corollary}
+
+\begin{note}
+Мы не пытаемся обойтись 2 цветами - черным и белым, чтобы иметь возможность понять, есть ли цикл в графе
+\end{note}
+\begin{note}
+  Асимптотика алгоритма равно $O(n + m)$, где $n = |V|, m = |E|$.
+\end{note}
+\begin{definition}
+  DAG(directed acyclic graph) - ориентированный граф без циклов.
+\end{definition}
+\begin{definition}
+  Топологическая сортировка графа: перестановка вершин графа, чтобы все ребра вели "слева направо".
+  $$\xymatrix{
+    *=0{\bullet}\ar@/_/[rr] & *=0{\bullet}\ar@/^/[rr] \ar@/_/[rrr]& *=0{\bullet}\ar[rr]&*=0{\bullet} &*=0{\bullet}\\
+  }$$
+\end{definition}
+
+\begin{proposition}
+Топологическая сортировка сущесутвует тогда и только тогда, когда граф - $DAG$
+\end{proposition}
+
+\begin{proof}
+
+\text{}
+
+  \begin{enumerate}
+    \item[$\rightarrow$] Очев
+    \item[$\leftarrow$] Алгоритмом:
+    все вершины красим в белый цвет.
+    \begin{verbatim}
+      for (s = 0...n-1)
+        if (color[s] == "WHITE") dfs(s)
+    \end{verbatim}  
+    \textit{Топологическая сортировка} - перестановка вершин в порядке убывания $tout$
+
+  \textbf{Проверим корректность:} Достаточно показать, что не может быть ребра из $u$ в $v$: $tout[u] < tout[v]$. Предположим противное и разберем 2 случая:
+    \begin{enumerate}
+      \item $tin[u] < tin[v]$
+   
+   По лемме о белых путях, к моменту времени выхода из $u$ вершина $v$ уже полностью обработается $\rightarrow tout[v] < tout[u]$. Противоречие.
+  \item $tin[v] < tin[u]$
+  Тогда $\cancel \exists$ пути из $v$ в $u$. Значит, пол лемме, к моменту $tout[v]$ мы даже не увидим $u$. А следовательно, $tout[v] < tout[u]$. Противоречие.
+\end{enumerate}
+  \end{enumerate}
+\end{proof}
+
+\begin{definition}
+  Пусть $G$ - ориентированный граф, $u, v \in V(G)$. Тогда говорим, что $u, v$ сильно связны, если $\exists$ пусть из $u$ в $v$ и из $v$ в $u$.
+\end{definition}
+
+\begin{problem}
+Сильная связанность - отношение эквивалентности.
+\end{problem}
+\begin{definition}
+  Класс эквивалентности по этому отношению - компонента сильной связности (КСС)
+\end{definition}
+
+\newpage
+\subsubsection{Алгоритм Косарайю}
+\textbf{Алгоритм выделения КСС за $O(n + m)$}
+
+\begin{enumerate}
+  \item dfs от всех вершин, сортируя все вершины в порядке убывания tout
+  \item В этом порядке запускаем dfs по обратным ребрам (dfs Reversed). Все, что посетим за один такой запуск - очередная КСС. 
+\end{enumerate}
+
+\textbf{Корректность?}
+
+\begin{proof}
+  Ясно, что каждый запуск dfs Reversed обойдет одну или несколько КСС целиком. Но вдруг мы возьмем 2 КСС вместо одной\dots
+
+  \begin{proposition}
+    \text{}
+
+    Пусть $C_1, C_2$ - две КСС, причем есть ребро из $C_1$ в $C_2$. Тогда $max_{x \in C_1}(tout(x)) > max_{y \in C_2}(tout(y))$
+  \end{proposition}
+  \begin{proof}
+    \text{}
+
+    \begin{enumerate}
+      \item $min_{a \in C_1} tin(a) < min_{b \in C_2} tin(b)$
+      
+      В этом случае к моменту времени входа в $a$ все вершины в $C_1$ и $C_2$ - еще белые. По лемме о белых путях к  моменту $tout[a]$ все вершины из $C_1$ и $C_2$ покрасятся в черный $\Longrightarrow$ $tout(a) > max_{y \in C_2}(tout(y))$.
+    
+
+    \item $min_{a \in C_1} tin(a) > min_{b \in C_2} tin(b)$
+    
+    Тогда к моменту входа в $b$ все вершины из $C_1$ и $C_2$ еще белые. Отметим, что не существует пути из $b$ в $C_1$ (иначе $C_1$ и $C_2$ - одна КСС). Значит, к моменту выхода из $b$ вся $C_1$ еще белая $\Longrightarrow$ $max_{x \in C_1}(tout(x)) > max_{y \in C_2}(tout(y))$
+  \end{enumerate}
+  \end{proof}
+
+  Теперь воспользуемя утверждением и получим искомое.
+\end{proof}
+
+\begin{note}
+  Пусть алгоритм Косарайю нумерует все КСС в порядке их обнаружения. $id[v]$ - номер КСС, содержащий $v$. Значит, если есть ребро из $a$ в $b$, $id[a] \leq id[b]$
+\end{note}
+
+\textit{$a, b$ сильно связаны $\Longrightarrow id[a] = id[b]$}
+\hypertarget{lecture5}{}
+
+\section{Продолжаем графы}
+
+\subsection{2-КНФ}
+
+\textit{Дана 2-КНФ. Есть ли у нее решение?}
+
+\text{}
+
+Кто не помнит, что такое 2-КНФ, вот \underline{пример:} $(x_1 \vee x_2) \wedge (\neg x_1 \vee x_3)\wedge (\neg x_1 \vee \neg x_4) = 1$
+
+
+Понятно, что решение найдется только в случае равенства всех скобок.
+
+$$a \vee b = (\neg a \to b) = (\neg b \to a)$$
+
+Перепишем все дизъюнкции через импликации по правилу выше 
+
+\begin{enumerate}
+  \item Введем граф: в нем $2n$ вершин (для каждой переменной будет она и ее отрицание) и $2m$ ребер, соответствующие импликациям. 
+  
+\end{enumerate}
+
+$$\xymatrix{
+  *+[o]+[F]{\neg a} \ar[r] & *+[o]+[F]{b}\\
+  *+[o]+[F]{\neg b} \ar[r] & *+[o]+[F]{a}
+}$$
+
+\begin{proposition}
+  Формула выполнима $\Longleftrightarrow \forall p$ вершины $p$ и $\neg p$ лежат в разных КСС
+\end{proposition}
+
+\begin{proof}
+  Пусть $\phi$ выполнима, но $p$ и $\neg p$ лежат в одной КСС. Переходя по стрелкам, мы однозначно определяем, что $p$ = $\neg p$ = 1
+
+  В обратную сторону докажем, запустив алгоритм Косарайю: 
+
+  \begin{enumerate}
+    \item Положим $p = 1$, если $id[p] > id[\neg p]$, и $p = 1$, если $id[\neg p] > id[p]$
+  \end{enumerate}
+
+  Докажем, что это - выполняющий набор. Пойдем от противного. Есть скобка $(x \vee y) = 0 $
+  $$(x \vee y) = 0\Rightarrow x = y = 0 \Rightarrow id[\neg x] > id[x], id[\neg y] > id[y]$$
+
+  Как мы знаем по прошлой лекции, из наличия ребра $u \to v \Rightarrow$ $id[u] \le id[v]$. Получаем:
+
+  $$id[\neg x] > id[x] \ge id[\neg y] > id[y] \ge id[\neg x] $$
+\end{proof}
+
+
+\subsection{Эйлеровость}
+\begin{definition}
+  Эйлеровым циклом в графе называется цикл, проходящий по всем ребрам ровно по 1 разу. 
+\end{definition}
+
+\begin{theorem}
+  В ориентированном графе $G$ существует эйлеровый цикл тогда и только тогда, когда после удаления всех изолированных вершин $G$ становится сильно связным и $\forall v \ indeg(v) = outdeg(v)$ 
+\end{theorem}
+
+\begin{proof}
+  \begin{enumerate}
+    \item[$\Rightarrow$] Удалили все все изолированных вершины, получили граф, где есть цикл по всем ребрам. Тогда понятно, что количество вхождений в вершину равно количеству выходов из нее
+    \item[$\Leftarrow$] Алгоритм. Пусть стек S - последовательность ребер на эйлеровом цикле. 
+    \text{}
+    
+    Напишем \textbf{Псевдокод:}
+
+    \begin{verbatim}
+      def euler(v, pe):
+        while из v есть неиспользованные исходящие ребра:
+          пусть e - произвольное из них
+          e - помечаем использованным
+          e = (v, to); ++ptr[v]
+          euler(to, e)
+        S push(pe)
+    \end{verbatim}
+  \end{enumerate}
+  \textit{Дальше идет индукция по размеру стека, ограничимся рисунком происходящего}
+  $$\xymatrix{
+  & & & \\
+  {\circ}\ar[r]^>>>>>>{pe} ^>{V} & *=0{\bullet}\ar[ur] \ar[r] \ar[dr]^>>>>>>>{e} ^>{to} &\\
+  & & &\\
+  }$$
+ 
+\end{proof}
+
+\textbf{Как восстанавливать этот путь?}
+
+\begin{lemma}
+  Пусть граф $G$ удовлетворяет условию на равенство количества входящих и исходящих ребер, тогда $euler(v, pe)$ первым положит ребро на стек, когда будет в вершине $v$. 
+\end{lemma}
+
+\begin{proof}
+  Понятно из картинки. Мы кладем ребро, когда возвращаемся в $v$.
+\end{proof}
+
+\begin{note}
+Как проверить наличие эйлерова пути? Найти 2 вершины, являющиеся началом и концом потенциального пути, провести ребро и запустить алгоритм.
+
+\textit{У конечных вершин indeg и outdeg отличаются на 1, причем в разные стороны}
+\end{note}
+
+\begin{proposition}
+  Переложить описанный результат на неориентированный граф. 
+\end{proposition}
+
+\subsection{DFS на Неориентированных графах}
+
+Назовем дерево ребер графа, вдоль которых ходит алгоритм $dfs$, деревом $dfs$. 
+
+\begin{note}
+  Ребра в неориентированном графе могут быть 2 типов:
+  \begin{enumerate}
+    \item Прямые или древесные - ребра, по которым мы переходим в вершину в алгоритме
+    \item Обратные (остальные)
+  \end{enumerate}
+\end{note}
+
+\begin{definition}
+  $G$ - Неориентированный граф, $e$ - ребро в нем. Ребро $e$ называется мостом в нем, если при удалении $e$ в нем количество компонент связности возрастет. 
+\end{definition}
+
+\begin{definition}
+  $V$ - точка сочленения, если при удалении $V$ количество компонент связности возрастет.
+\end{definition}
+
+\begin{proposition}
+  Обратные ребра не являются мостами
+\end{proposition}
+
+Пусть в dfs поддерживает tin. Обозначим $ret[v] = min(tin[v], tin[u])$, где последнее выбирается из тех вершин $u$, не лежащих в поддереве $v$, для которых существует обратное ребро $w \to u, \ w \in \text{поддереву $v$}$
+
+\begin{proposition}
+  $ret[v]$ - минимум из следующих значений:
+
+  \begin{enumerate}
+    \item $tin[v]$
+    \item $tin[p]$ по всем обратным ребром $(v, p)$
+    \item $ret[to]$ по всем прямым ребрам $(v, to)$
+  \end{enumerate}
+\end{proposition}
+
+\begin{proposition}
+  Ребро $(u, v)$ является мостом $\Leftrightarrow$ $(u, v)$ - древесное и $ret[v] = tin[v]$
+\end{proposition}
+\hypertarget{lecture6}{}
+
+\section{И снова графы}
+
+\begin{definition}
+  Пусть $G$ - неориентированный граф. $v$ - точка сочленения (ТС), если после ее удаления количество компонент связности увеличивается хотя бы на 1.
+\end{definition}
+
+\begin{proposition}
+  \text{}
+
+  \begin{enumerate}
+    \item Если $v$ - корень, то $v$ - точка сочленения $\Longleftrightarrow$ у $v$ в дереве dfs хотя бы 2 ребенка
+    \item Если $v$ - не корень, то $v$ - точка сочленения $\Longleftrightarrow \exists$ деревесное ребро $(v, to)$ $ret[v] \ge tin[v]$
+  \end{enumerate}
+\end{proposition}
+
+\begin{proof}
+  \text{}
+
+  \begin{enumerate}
+    \item Корень либо является листом - тогда после его удаления количество компонент не изменится, либо у него есть 2 сына, которые образуют 2 компоненты связности, что удовлетворяет определению ТС.
+  
+\textit{Подграфы сыновей не связаны, иначе по dfs это была бы 1 общая компонента.}
+    \item Если есть сын $to$, что $ret[to] \ge tin[v]$, то после удаления $v$ заведомо пропадает путь между $to$ и $p$, родителем $v$.
+    
+    Если же, напротив, для всех сыновей $ret[to] < tin[v]$, то после удаления $v$ сохраняется путь между $p$ и поддеревьями $v$. 
+  \end{enumerate}
+\end{proof}
+\section{Кратчайшие пути. BFS}
+
+\begin{definition}
+  Взвешенным графом называется $(V, E, w)$, где $(V, E)$ - граф, $w: E \to \R$ Иначе говоря, просто граф с весами на каждом ребре.
+\end{definition}
+
+\begin{definition}
+  Весом (стоимостью) пути назовем сумму весов рёбер в нем. $dist(s, t)$ определим, как минимальное значение среди весов путей от $s$ до $t$.
+\end{definition}
+\textbf{Важное уточнение!}
+
+\begin{note}
+\begin{enumerate}
+  \text{}
+
+  \item Если пути от $s$ до $t$ нет, то $dist(s, t) = +\infty$
+  \item Если есть отрицательный цикл, то считаем, что $dist(s, t) = -\infty$
+\end{enumerate}
+\end{note}
+
+\textit{Далее временно считаем, что $\forall e \ w(e) \ge 0$, $w$ = 1}
+
+\subsection{BFS (breadth first search)}
+\textbf{Цель:} по фиксированной вершине $s$ найти $dist(s, v) \forall v$
+
+
+Понятно, что $dist (s, s) = 0, dist (s, x) = 1, \forall \ \text{смежных с $s$ вершин.}$ Продолжим цепочку\dots
+
+\begin{enumerate}
+  \item Заведем массив $d[v]$ - найденная длина пути от $s$ до $v$.
+  \item Введем функцию $expand(int\ v)$ - раскрытие $v$:
+  \begin{verbatim}
+    for (edge e : g[v]) {
+      обновляем d[e.to] через
+      d[v] + e.w
+      если нужно, кладем e.to в структуру
+    }
+  \end{verbatim}
+
+  \item $d[0\dots n - 1] = +\infty$, $d[s] = 0$, $queue \ q;\  q.push(s)$
+  \item \begin{verbatim}
+    while (q непусто) {
+      v = q.front(); q.pop();
+      for (edge e: g[v]) {
+        if (d[e.to] == +infty) {
+          d[e.to] = d[v] + 1;
+          q.push(e.to);
+        }
+      }
+    }
+  \end{verbatim} 
+\end{enumerate}
+
+\begin{proposition}
+  К моменту рассмотрения последней вершины очереди с $d[v] = k$:
+  \begin{enumerate}
+    \item До всех вершин $u: dist(s, u) \leq k + 1$ найден правильный ответ ($d[u] = dist(s, u)$)
+    \item В очереди лежат все вершины с $dist(s, u) = k + 1$ (и только они)
+  \end{enumerate}
+\end{proposition}
+
+\textit{Проводится по индукции. Оставим в качестве упражнения для читателей:)}
+
+\subsection{0-k BFS}
+\underline{Асимптотика O(V + E)}
+
+\textbf{Похожая задача. Цель:} $\forall v$ найти длину минимального найденного пути от $s$ до $v$, но теперь веса $w \in \{0, 1, 2, \dots, k\}$
+
+\begin{enumerate}
+  \item Храним в $dp[v]$ длину минимального найденного пути от $s$ до $v$
+  \item $d = +\infty$, $d[s] = 0$, $q[x]$ - очередь вершин с $d = x$
+  \newpage
+  \item
+  \begin{center}
+ \begin{verbatim}
+    expand(v):
+      if (expanded[v]) return;
+      expanded[v] = true;
+      for (e: g[v]) {
+        y = d[v] + e.w
+        if (d[e.to] > g) {
+          d[e.to] = y;
+          q[y] push(e.to);
+        }
+      } 
+  \end{verbatim}
+\end{center}
+  \item Заведем $q[0], q[1], \dots, q[nk]$, $expanded = false, \ q[0].push(s)$
+  
+  \item \begin{verbatim}
+    for (x = 0 ... nk) {
+      while (q[x] непусто):
+        достаем из нее вершину u и раскрываем
+    }
+  \end{verbatim}  
+\end{enumerate}
+
+\underline{Асимптотика: O(E + kV)}
+
+\begin{exercise}
+К моменту завершения рассмотрения очереди $q[x]$ обработаны и раскрыты все вершины, для которых расстояние не больше $x$.
+\end{exercise}
+
+\subsection{Двусторонний BFS}
+\textbf{Цель:} найти $dist(s, t)$. \textbf{Общая идея:} Наращиваем слои по глубине $k$ от двух вершин, пока области не пересекутся.
+
+\textbf{Решение:}
+
+\begin{enumerate}
+  \item Запускаем $BFS$ параллельно. Назовем слоем $k$ множество вершин, до которых можно добраться за $k$ или меньше ребер.
+  
+  \item Заметим, что $dist(s, t) = min_m(d_s[m] + d_t[m])$. Так что когда найдется такое $k$, что слои от $s$ и $t$ пересекутся, мы получим эту вершину $m$ и, соответсвенно, путь между $s$ и $t$.
+\end{enumerate}
+
+\textit{Проверять пересечение слоев можно проверять быстро через хеш-таблицы.}
+
+\subsection{Алгоритм Дейкстры}
+\textbf{Цель: }$w \ge 0, fix s$ Найти $dist(s, v) \ \forall v$. 
+\begin{enumerate}
+  \item $d = +\infty, \ expanded[v] = false \forall v, \ d[s] = 0$
+  \item \begin{verbatim}
+    for i = 0 ... n-1:
+      пусть v - вершина с min d[v] среди всех нераскрытых
+      Йййййеессслииии d[v] = +\infty: break
+  \end{verbatim}
+\end{enumerate}
+\textit{Асимптотика $O(n + n\log{n})$ через Фиб кучу и $O(m \log{n})$ через бин кучу}
+
+\hypertarget{lecture7}{}
+
+\subsection{Двусторонний алгоритм Дейкстры}
+\textit{\underline{Задача:}} хотим найти минимальный путь при условии, что все веса неотрицательные.
+
+\textbf{Идея решения:} такая же, что и в двустороннем bfs - наращивать слои до их пересечения. 
+
+$$dist(s, t) = min_m(d_s[m] + d_t[m])$$
+
+Пусть запущены два алгоритма Дейкстры. Будем каждый раз раскрывать вершины с $min\ d$. Завершаем алгоритм, когда какая-то вершина раскрыта с обеих сторон.
+
+\section{Алгоритм $A^*$}
+
+\begin{enumerate}
+  \item Заведем функцию $h(v)$ - эвристика - оценка на $dist(v, t)$
+
+Например, $h(v)$ - евклидово расстояние между $v$ и $t$.
+
+\textit{Естественно, стоит брать как можно более точную оценку для эвристики, чтобы алгоритм работал эффективнее}.
+
+\item  Пусть $g[v]$ - текущая $min$ длина пути от $s$ до $v$.
+$$f(v) = g[v] + h(v)$$
+
+\item Применяем алгоритм Дейкстры на $f$:
+\begin{verbatim}
+  g = {+\infty, +\infty,..., +\infty}; g[s] = 0
+  // Всегда поддерживаем f(v) = g[v] + h(v)
+  Заводим кучу, кладем в нее s;
+  while (куча не пуста) {
+    Достаем $v$ - вершину из кучи с минимальным значением $f$
+    Удаляем ее из кучи; if(v == t) break;
+    Раскрываем v; обновляем соседей;
+  }
+\end{verbatim}
+\end{enumerate}
+
+\begin{definition}
+  Эвристика $h$ называется допустимой, если $\forall v: \ h(v) \le dist(v, t)$
+\end{definition}
+
+\begin{definition}
+  Эвристика $h$ называется монотонной, если $h(t) = 0, \ h $удовлетворяет неравенству треугольника:
+
+  $$h(u) \le h(v) + x$$
+\end{definition}
+
+
+\begin{theorem}
+  \text{}
+
+  \begin{enumerate}
+    \item Если $h$ - монотонная эвристика, то в $A^*$ каждая вершина раскрывается не больше 1 раза, причем все $g$ находятся корректно.
+  
+  Это в частности означает, что $A^*$ ведет себя не хуже, чем алгоритм Дейкстры
+
+  \item Если $h$ - допустимая эвристика, то алго $A^*$ может раскрывать вершины по несколько раз (exp(n)), но все $g$ найдутся корректно.
+  \item Если $h$ не является допустимой, то ничего не гарантируется. Но обычно приближается не очень плохо \textbf{(???)}
+  \end{enumerate}
+\end{theorem}
+
+\begin{lemma}
+  Пусть $k$ - монотонная. Тогда вершины в $A^*$ раскрываются в порядке неубывания $f$
+\end{lemma}
+
+\begin{proof}
+  $f[v] - min$ в куче. 
+  \begin{enumerate}
+    \item $f[u]$ не изменяется, тогда $f[u] \ge f[v]$, так как $v$ - минимальная в куче
+    \item $f[u]$ становится равным $\cancel{g[v]} + x + h(u) \ge^{?} f(v) = \cancel{g[v]} + h(v)$, что верно по неравенству треугольника.
+  \end{enumerate}
+\end{proof}
+
+\textbf{Теперь докажем утверждения теоремы:}
+
+\begin{proof}
+  По лемме $f$ не убывает $\then$ вершина $v$ не может извлечься из кучи больше 1 раза.
+
+  \textbf{Почему $g$ находится корректно?}
+
+  Пусть $u$ - первая из $s$ нераскрытая вершина.
+
+  $f[v] = g[v] + h(v) > f[u]?$
+
+  $$f[u] = g[u] + h[u] = dist(s, u) + h(u)$$
+  \textit{Пусть $l$ - размер пути от $u$ до $v$}
+  $$h(u) \le h(v) + l$$
+  $$g[v] > dist(s, u) + l$$
+  $f[v] = g[v] + h(v) \ge dist(s, u) + l + h(v) \ge dist(s, u) + l + h(u) - l = f(u)$. Противоречие
+\end{proof}
+
+\begin{proposition}
+  $dist(s, t) = -\infty$ тогда и только тогда, когда существует цикл отрицательного веса.
+\end{proposition}
+\begin{proof}
+  \begin{enumerate}
+    \item[$\Longleftarrow$] Очевидно
+    \item[$\then$] Пусть $M$ - ограничение сверху на абсолютное значение всех весов, то есть $|w(e)| \le M$. Рассмотрим путь из $s$ до $t$ веса меньше, чем $-Mn$, где $n$ - количество ребер. Тогда, очевидно, он зацикливается.
+  Если цикл имеет неотрицательный вес, то отбросим его, получив более короткий путь. Действуя таким образом, получим либо искомый цикл, лиюо противоречие.
+  \end{enumerate}
+\end{proof}
+
+\section{Алгоритм Форда-Беллмана}
+$w: E \to R$. Хотим найти $dist(s, v) \forall v$ 
+
+\begin{enumerate}
+  \item Заведем $dp[k][v]$ - минимальная стоимость пути от $s$ до $v$, который испольует не более $k$ ребер.
+  \item 
+ \begin{equation}
+    dp[0][k] = 
+    \begin{cases}
+      0 & v == s\\
+      +\infty & v \ne s
+    \end{cases}
+  \end{equation}
+
+  \item  \underline{Переход:}
+  \begin{equation}
+    dp[0][k] = min
+    \begin{cases}
+      min(dp[k - 1][v])\\
+      min_{(u, v) \in E} dp[k - 1][u] + cost(u, v)\\
+    \end{cases}
+  \end{equation}
+\end{enumerate}
+
+\begin{note}
+Если в графе нет отрицательных циклов, то $dp[n - 1][v] = dist(s, v) \forall v$
+
+\textit{Асимптотика:} $O(nm)$
+\end{note}
+
+\textbf{Что делать в случае отрицательных циклов?}
+
+\begin{proposition}
+  \begin{enumerate}
+    \item Если $C$ - отрицательный цикл, достижимый из $S$, то $\exists v \in C: dp[n][v] < dp[n - 1][v]$
+    \item Если для некоторого $t: d[n][t] < dp[n - 1][t]$. то $\exists$ отрицательный цикл такой, что $S \to C \to t$.
+  \end{enumerate}
+\end{proposition}
+
+\underline{\textsc{Вывод:}} Чтобы найти все вершины с $dist(s, t) = -\infty$, достаточно запустить $dfs$ от всех вершин $v$, для которых $dp[u][v] < dp[n - 1][v]$.
+
+\hypertarget{lecture8}{}
+
+\section{Минимальные остовные деревья}
+\begin{definition}
+  Пусть $G = (V, E)$ - неориентированный граф. Тогда остовным подграфом $G$ называется такой граф $H = (V', E')$, что $V' = V, E' \subset E$.
+\end{definition}
+\begin{definition}
+  Остовным деревом графа $G$ (MST) называется любой его подграф, являющийся деревом.
+\end{definition}
+
+\begin{lemma}{(о безопасном ребре)}
+  Пусть $S$ - множество ребер, такие что $\exists$ MST T, содержащее все ребра $S$. Пусть $C$ - одна из компонент связности относительно $S$ $(V, S)$, $e$ - самое дешевое ребро между $C$ и $V \setminus C $. Тогда $S + e$ - тоже подмножество некоторого MST.
+\end{lemma}
+
+\begin{proof}
+  $S + e \subset T$
+  \begin{enumerate}
+    \item[а)] Если да, то доказывать нечего
+    \item[б)] Если нет, то рассмотрим путь между $u$ и $v$ в дереве $T$. Пусть $e'$ - ребро в нем, выходящее из C.
+    $$\omega(e) \le \omega(e')$$
+
+    Заметим, что если удалить ребро $e'$ и добавить e, то получим остовное дерево с лучшим ребром. Противоречие
+    
+    
+    $$\xymatrix{
+    & & *={}\ar@{-}_{T}[r]&*={}\ar@{-}^{e'}[dr]&\\
+    &*={}\ar@{-}[ru]&&&*={}\ar@{-}[dl]\\
+    & &*={}\ar@{-}[lu] &*={}\ar@{.}^{e}[l] & & &}$$
+  \end{enumerate}
+\end{proof}
+
+\subsection{Алгоритм Прима}
+
+\begin{enumerate}
+  \item Заводим текущее остовное дерево $S = \varnothing$
+  \item $S_1 = \{e_1\}$
+  \item $S_2 = \{e_2\} \vee S_1$
+  \item Пусть $S_i$ - текущее множество ребер. На каждом шаге будем рассматривать самое дешевок ребро между $C_i$ и $V \setminus C_i$ и добавлять его, как в примерах выше.
+  $$S_{i + 1} = S_i + e_{i + 1}, C_{i + 1} = C_i + V_{i + 1}$$
+\end{enumerate}
+
+\textsc{Асимптотика: $O(n^2 + m) \sim O(n^2)$}
+
+Пусть $d[v]$ - наименьшая стоимость ребра между $C_i$ и $v$. На каждом шаге в $C_i$ добавляется вершины $v$ с минимальным значением $d[v]$. После выбора $v$:
+\begin{verbatim}
+  for (u: g[v]) {
+    d[u] = min(d[u], cost(v, u));
+  }
+\end{verbatim}
+
+\begin{note}
+Как и в алгоритме Дейкстры, если завести структуру, способную извлекать минимальное значение и делать decreaseKey, то можно обойтись асимптотикой $O(m + n\log{n})$ с кучей Фибоначчи и $O(m \log{n})$ с биномиальной кучей.
+\end{note}
+\subsection{Алгоритм Крускала}
+\begin{enumerate}
+  \item Сортируем все ребра в порядке возрастания веса. 
+  \item Идем по $m$ ребрам в этом порядке, каждое ребро добавляем в ответ, если оно не образует цикла с другими.
+  
+  \noindent
+  \textit{Корректность следует из лемма о безопасном ребре}
+
+  \textbf{Как проверить наличие цикла?}
+\end{enumerate}
+
+\subsubsection{Система непересекающихся множеств (СНМ)}
+\begin{enumerate}
+  \item[$\then$] \textbf{unite:} объединение двух непересекающихся множеств.
+  \item[$\then$] \textbf{same?} : проверить лежат ли два заданных элемента в одном множестве. 
+\end{enumerate}
+
+Через такую структуру достаточно хранить компоненты связности в качестве рассматриваемых множеств и добавлять ребро, только если оно соединяет вершины разных множеств.
+
+Каждое множество в СНМ храним в виде корневого дерева (дерева с отмеченной вершиной - корнем). Тогда для каждой вершины достаточно дойти до корня дерева и сравнить эти вершины. 
+
+\begin{verbatim}
+  int get(v) {
+    if (p[v] == v) {
+      return v;
+    }
+
+    return get(p(v));
+  }
+\end{verbatim}
+
+Чтобы провести $unite$ достаточно подвесить корень одного дерева к корню другого.
+
+\textbf{Важный нюанс:} Подвешиваем всегда меньшее по размеру дерево к большему. 
+
+Пусть $s[r]$ - размер поддерева вершины $r$
+\begin{verbatim}
+  unite(u, v) {
+    u = get(u) \\ корень 1 дерева
+    v = get(v) \\ корень 2 дерева
+    if (s[u] < s[v]) swap(u, v)
+    p[v] = u \\ подвешиваем дерево с меньшим размером
+    s[u] += s[v]
+  }
+\end{verbatim}
+
+Будем дополнительно использовать эвристику сжатия путей:
+
+Если мы впервые обращаемся к вершине (что означает, что вершина пока не подвешена напрямую к корню), то все промежуточные до корня вершины мы будем обновлять корректно и подвешивать к корню. 
+
+\begin{theorem}{(б/д)}
+  Пусть функция Акермана $A(m, n):$
+  \begin{equation}
+    A(m, n) =: 
+    \begin{cases}
+      n + 1 & \text{если $m = 0$}\\
+      A(m - 1, 1) & \text{если m > 0, n = 0}\\
+      A(m - 1, A(m, n - 1)) & \text{если n, m > 0}
+    \end{cases}
+  \end{equation}
+
+   Определим $\alpha(k) = min \{n: A(n, n) \ge k \}$ Тогда асимптотика обработки запроса есть $O^*(\alpha(m))$
+\end{theorem}
+\begin{note}
+  $A(4, 4) = 2^{2^{2^{65536}}} - 3$. Так что $\alpha(n)$ - довольно маленькое число.
+\end{note}
+
+\noindent
+Возвращаясь к алгоритму Крускала, получаем асимптотику $O(SORT + m \cdot \alpha(n))$
+
+\subsection{Алгоритм Борувки}
+\begin{enumerate}
+  \item Для каждой вершины определить самое дешевое исходящее ребро.
+  \item Все выбранные ребра добавить в ответ; сжать компоненты связности и запустить рекурсию. 
+\end{enumerate}
+
+\begin{note}
+  Если из вершины выходит несколько ребер минимального веса, то мы будем брать то из них, которое имеет минимальный номер.
+\end{note}
+
+\textbf{Почему не появляется циклов?}
+
+Ориентируем выбранные ребра "от себя". Получим функциональный граф. Понятно, что для каждой вершины будет выбрано ровно 1 исходящее ребро (на этапе рассмотрения этой вершины).
+
+\begin{enumerate}
+  \item Петель не бывает.
+\begin{proof}
+  Очев.
+\end{proof}
+  \item Цикл длины больше 2 возникнуть не может. 
+  \begin{proof}
+    Несложно понять, что пройдя по этому циклу, мы получим, что ребра на нем не возрастают. Но если рассмотреть первую рассмотренную вершину из этого цикла, то мы получим, что все веса должны быть равны. В этом случае произойдет убывание номеров ребер у вершин:
+    $$number(1) < number(2) < number(3) < \dots < number(n) < number(1)$$ 
+  \end{proof}
+  \item Цикл длины 2 возникает только при ориентировании одного ребра в 2 стороны
+  \begin{proof}
+    Можно считать, что всегда между 2 вершинами существует не больше 2 ребер (ведь среди кратных можно оставить наименьшее). А тогда цикл на 2 вершинах возможен только при описанном ориентировании.
+  \end{proof}
+\end{enumerate}
+
+\textbf{Корректность?}
+
+Мы получаем некоторое остовное дерево. Почему же оно является минимальным?
+
+Ответ - в многократном применении леммы о безопасном ребре. 
+
+\textbf{Асимптотика:} $O(m \log{n})$
+
+\begin{proposition}
+  Глубина рекурсии всегда не превосходит $\log{n}$
+\end{proposition}
+\begin{proof}
+  В худшем случае количество вершин уменьшается вдвое, так как каждая компонента будет содержать хотя бы 2 вершины. Алгоритм остановится, когда вершина будет 1.
+\end{proof}
+\hypertarget{lecture9}{}
+
+\section{Паросочетания (в двудольных графах)}
+
+\begin{definition}
+$G = (V, E)$ - граф, $M \subset E$ называется паросочетанием, если никакие два ребра из $M$ не имеют общих концов. 
+\end{definition}
+
+\textit{Подобные темы будут часто встречаться в задачах о назначениях, где нужно находить максимальное паросочетание}
+
+\begin{definition}
+  \text{}
+
+  \begin{enumerate}
+    \item  Назовем ребро $e$ \underline{насыщенным}, если $e \in M$
+    \item Назовем вершину $v$ \underline{насыщенной}, если есть насыщенное ребро с этой вершиной.
+  \end{enumerate}
+ 
+\end{definition}
+
+\begin{definition}
+  Путь $P$ в графе называется увеличивающим относительно паросочетания $M$, если:
+
+  \begin{enumerate}
+    \item $P$ - простой
+    \item $|P| \ge 1$, то есть содержит хотя бы 1 ребро
+    \item Концы $P$ - ненасыщенные
+    \item Типы ребер вдоль $P$ чередуются
+  \end{enumerate}
+\end{definition}
+$$\xymatrix{
+  *={\circ} \ar@{.}^{\cancel \in M}[r] &  *={\bullet} \ar@{-}^{\in M}[r] & *={\bullet} \ar@{.}^{\cancel \in M}[r] & ... \ar@{-}^{\in M}[r]  & *={\bullet} \ar@{.}^{\cancel \in M}[r] & *={\bullet} \ar@{-}^{\in M}[r] & *={\bullet} \ar@{.}^{\cancel \in M}[r] &*={\circ}
+}$$
+
+\begin{theorem}[Берж]
+  Паросочентание $M$ - максимальное (то есть самое большое по размеру среди всех паросочетаний) $\Longleftrightarrow$ относительно $M$ нет увеличивающих путей.
+\end{theorem}
+
+\begin{proof}
+  \text{}
+
+  \begin{enumerate}
+    \item[$\then$] От противного. Пусть $M$ - максимальное, но существует увеличивающий путь $P$. Выполнив чередование вдоль $P$, заменяя ребра не из $M$ на ребра из $M$, мы его увеличим.
+    \item[$\Longleftarrow$] От противного. Пусть $M'$ - максимальное паросочетание, $H = (V, M \Delta M')$. Тогда в $H$ степень каждой вершины не превосходит 2, так как каждое ребро берется из паросочетания, в котором степень каждой вершины равна 1.
+    \begin{lemma}
+      Если $\Delta(H) \le 2$, то любая компонента связности в $H$ - либо простой путь, либо простой цикл.
+    \end{lemma}
+
+    \textit{$\Delta(H)$ - максимальная степень вершины}
+
+    \begin{proof}
+      Ходим, ходим, ходим - либо зациклились (тогда предпериода нет), либо дошли до конца пути.
+    \end{proof}
+  \end{enumerate}
+
+  Теперь заметим, что $H$ не содержит нечетных циклов, то есть циклов нечетной длины. Ведь цикл получен из ребер $M$ и $M'$, а значит, в нем ребра вида $M$ и вида $M'$ чередуются $\then$ длина цикла четна.
+
+  \newpage
+  \textbf{Итог:} В $H$ могут быть только
+  
+  \begin{enumerate}
+    \item[$\Rightarrow$] четные циклы
+    \item[$\Rightarrow$] четные пути
+    \item[$\Rightarrow$] нечетные пути
+  \end{enumerate}
+
+  Первые два типа содержат одинаковое число ребер из $M$ и $M'$, тогда по нашему предположению существует хотя бы 1 нечетный путь, причем в нем количество ребер из $M'$ больше. Тогда это будет увеличивающим для $M$. Противоречие.
+\end{proof}
+
+\begin{note}
+Для поиска наибольшего паросочетания можно находить увеличивающий путь, делать из него паросочетание и т. д.
+\end{note}
+
+\subsection{Алгоритм Куна:} $G$ - двудольный граф. Положим $M$ максимальное паросочетание, равное изначально $\varnothing$. Пока в $G$ есть увеличивающий путь относительно $M$, выполняем вдоль него чередование, увеличивая $|M|$.
+
+\textbf{Как находить увеличивающий путь?}
+
+Заметим, что увеличивающий путь в двудольном графе - это просто путь в ориентированном графе из ненасыщенной вершины левой доли в ненасыщенную вершину правой доли. А значит, нам нужно просто запустить $dfs$.
+
+\begin{center}
+\begin{verbatim}
+  // L - левая доля 
+  // R - правая доля
+  vector<vector<int>> g; // g[v] - список соседей вершин L
+  vector<int> match; // match[u] = -1, если u (из R) не насыщенна, и сосед слева иначе
+  vector<bool> used = {false, false, ..., false};
+
+  // функция проверки "есть ли увеличивающий путь с начальной вершиной v"
+  bool Augment(int v) {
+    if (used[v]) return false;
+    used[v] = true;
+    for (int to : g[v]) {
+      if ((match[to] == -1) || Augment(match[to])) {
+        match[to] = v; return true;
+      }
+    }
+    return false;
+  }
+
+  for (int v = 0; v < n; ++v) {
+    if (Augment(v)) {
+      used = {false, false, ..., false};
+    }
+  }
+\end{verbatim}
+\end{center}
+
+\textit{Асимптотика $O(ans \cdot m)$}
+
+\begin{note}
+  Кажется, что после $Augment(v) = true$ надо начинать проверку с самой первой вершины, но это не так. 
+\end{note}
+\begin{proposition}
+  Пусть $M$ получено из $M$ чередованием вдоль увелчивающего пути. Пусть из $v   \not \exists$ увеличающего пути относительно $M$. Тогда из $v  \not \exists$ увеличивающего пути относительно $M'$.
+\end{proposition}
+\begin{proof}
+  Пусть $x, y$ - ненасыщенные концы увеличивающего путя L, из которого $M$ была получена. Пусть существует увеличивающий путь K из $v$ относительно $M'$. Понятно, что $v$ лежит вне L. Пусть пути $K$ и $L$ пересекаются в вершине $z$ (Почему пересекаются?), тогда какой-то из путей $v \to z \to x$ или $v \to z \to y$ будет увеличивающим относительно $M$, то есть будет рассмотрен нами.
+\end{proof}
+
+\begin{definition}
+  Независимое множество графа $G$ - подмножество вершин, где никакие 2 вершины не соединены ребром. 
+\end{definition}
+
+\begin{definition}
+  Вершинное покрытие графа $G$ - подмножество вершин $C$ такое, что любое ребро графа содержит хотя бы один элемент $C$. 
+\end{definition}
+
+\begin{theorem}[Кёниг]
+  В двудольном графе размер минимального вершинного покрытия равен размеру максимального паросочетания. 
+\end{theorem}
+
+\begin{proof}
+  Предъявим алгоритм:
+
+  \begin{enumerate}
+    \item Находим максимальное паросочетание. 
+    \item Ориентируем все ребра так, чтобы ребра не из $M$ вели из левой доли в правую, а ребра из $M$ - из правой в левую.
+    \item Запустим обход графа из всех ненасыщенных вершин $L$. 
+  
+  Обозначим за $L^+, R^+$ - посещенные вершины из соответсвующих долей графа, а $L^-, R^-$ - непосещенные
+    \item $L^+ \cup R^-$ - максимальное независимое множество, $(L^- \cup R^+)$ - минимальное вершинное покрытие. 
+  
+  Это так, так как не существует ребер из 
+  \begin{enumerate}
+    \item $L^+ \to R^-$
+    \item $R^+ \to L^-$
+    \item $R^- \to L^+$
+  \end{enumerate}
+  \end{enumerate}
+
+
+  \item Почему $(L^- \cup R^+) -$ минимальное вершинное покрытие?
+  
+  Заметим, что все вершины в этом множестве насыщенные. 
+  
+  $L^-:$ все ненасыщенные из левой доли лежат в $L^+$
+
+  $R^+:$ если есть ненасыщенная, то мы нашли увеличивающий путь.
+
+
+  При этом каждое ребро $M$ пересекается с $L^- \cup R^+$ не более чем 1 концом. А тогда размер этого множества не больше размера паросочетания. Оценка в другую сторону очевидна. 
+\end{proof}
+\hypertarget{lecture10}{}
+
+\subsection{Алгоритм Эдмондса}
+
+\textit{Алгоритм сжатия соцветий - для поиска максимального паросочетания в двудольном графе}
+
+\textbf{\underline{Напоминание:}}
+С прошлой лекции знаем, что по теореме Бержа паросочетание является максимальным тогда и только тогда, когда в графе нет увеличающих путей. Будем пользоваться этим утверждением.
+
+\underline{Мотивация:} Для случай, когда в графе нет нечетных циклов, находить паросочетание мы научились (см алгоритм Куна в двудольном графе), теперь постараемся это сделать для других случаев.
+
+\begin{definition}
+  Пусть $M$ - паросочетание. Тогда $d(M)$ - количество \underline{ненасыщенных} вершин относительно $M$.
+\end{definition}
+\begin{note}
+ Понятно, что в максимальном паросочетании $d(M)$ минимальное.
+\end{note}
+\begin{lemma}{(Татт, Берж)}
+  $\forall$ паросочетания $M$:
+  $$d(M) \ge max_{R \subset V} (C_{odd}(G \setminus R) - |R|)$$
+  \textit{$C_{odd}$ - количество компонент связности с нечетным числом вершин}
+\end{lemma}
+
+\begin{proof}
+Чтобы насытить все вершины из какой-то нечетной компоненты, надо взять хотя бы одно ребро и хотя бы 1 веошину из $R$. Если $C_{odd}(G - R) > |R|$, то по крайней мере $C_{odd}(G - R) - |R|$ не могут быть покрыты целиком.
+\end{proof}
+
+\begin{definition}
+  Чередующееся дерево (aternating tree):
+  \begin{enumerate}
+    \item Корень - ненасыщенная вершина
+    \item Четная глубина вершина $\to$ синий цвет
+    \item Нечетная глубина $\to$ красный цвет
+    \item Из красной вершины "вниз" уходит только 1 ребро из паросочетания
+  \end{enumerate}
+\end{definition}
+
+\textbf{Алгоритм построения дерева}:
+\begin{enumerate}
+  \item Берем ненасыщенную вершину, назваем ее корнем и красим в синий
+  \item Берем ребра из текущей вершины (всегда вершина на этом этапе синяя). Если есть ребро в насыщенную вершину, "подгружаем" ребро из паросочетания и запускаемся от появившейся новой синей вершины
+  \item Если нет ребра из синей вершины в насыщенную, то алгоритм для этой вершины закончен, продолжаем строить от других синих вершин
+  \item Когда алгоритм заканчивается, берем новую ненасыщенную вершину и строим от нее дерево
+\end{enumerate}
+\begin{proposition}
+  Если в процессе построения дерева найдена ненасыщенная вершина, то найден увеличивающий путь.
+\end{proposition}
+
+\begin{proposition}
+  Пусть ребра, исходящие из синих вершин, ведут только в красные. Тогда увеличивающего пути нет $\then$ return
+\end{proposition}
+
+\begin{proof}
+  Пусть всего построили $k$ чередующихся деревьев. Тогда синих вершин = количество красных + $k$ (поскольку в каждом дереве количество синих равно количеству красных + 1).
+
+  Удали все красные вершины из графа, тогда по лемме Татта-Бержа получаем, что $d(M) \ge k$. А значит, улучшить $M$ нельзя.
+\end{proof}
+
+\begin{proposition}
+  Если между синими есть хотя бы одно ребро между синими вершинами. Тогда можно перейти к графу с меньшим числом вершин.
+\end{proposition}
+
+\begin{proof}
+Понятно, что ребро должно быть внутри одного дерева (иначе во время построения одного из деревьев мы бы рассматривали синюю вершину как неиспользованную, поэтому мы бы просто увеличили первое дерево). Несложно увидеть, что в графе будет нечетный цикл, начинающийся в синей вершине (общем предке) и заканчивающийся на двух связных синих вершинах (далее, соцветие). Сжимаем соцветие в одну вершину и запускаем алгоритм заново.
+\end{proof}
+
+\begin{proposition}
+  Пусть $G'$ отличается от $G$ сжатием одного соцветия. Тогда $\exists$ увеличивающий путь в $G$ $\Longleftrightarrow$ $\exists$ увеличивающий путь в $G'$. 
+\end{proposition}
+
+\begin{proof}
+  Ну вроде понятно...
+\end{proof}
+
+\textit{\underline{Асимптотика:}} $O(n^2 m)$
+
+\begin{note}
+  Можно свести к $O(nm)$, если после сжатия соцветия продолжаем строить чередующиеся деревья без явного построения нового графа. 
+\end{note}
+
+\textit{P.S. Проанализиров алгоритм, можно понять, что в теореме Татта-Бержа знак равенство, ведь алгоритм заканчивается именно в момент равенства} 
+\hypertarget{lecture11}{}
+
+
+\section{Потоки}
+
+\begin{definition}
+  Сеть (транспортная сеть) - кортеж $(G, s, t, c)$, где 
+  \begin{enumerate}
+    \item $G$ - ориентированный граф
+    \item $s, t$ - вершины графа, $s$ называется истоком, $t$ - стоком.
+    \item $c$ : $E \to \Z \ge 0$ - ограничение на ребро ($capacity$) 
+  \end{enumerate}
+\end{definition}
+
+\begin{definition}
+  Поток в сети $f: V \times V \to \Z$ удовлетворяет свойствам:
+  \begin{enumerate}
+    \item $\forall(u, v) f(u, v) \le c(u, v)$
+    \item $\forall (u, v): f(u, v) = -f(v, u)$ - \textit{антисимметричность потока}
+    \item $\forall v \in V \setminus \{s, t\}: \sum_{u \in V} f(v, u) = 0$ 
+  \end{enumerate} 
+\end{definition}
+
+\textit{Последнее условие можно понимать, как правило "сумма втекающего потока равна сумме вытекающего"}
+
+\begin{note}
+По умолчанию считаем, что для всех пар вершин без ребер пропускная способность $c$ равна 0.
+\end{note}
+
+\begin{definition}
+  Величина потока $f$: $$ |f| = \sum_{v \in V} f(s, v)$$
+\end{definition}
+
+\begin{definition}
+  Пусть $G$ - сеть, $f$ - поток в ней. Остаточная сеть $$G_f: \forall(u, v) c_f(u, v) = c(u, v) - f(u, v)$$
+  
+  \textit{$c_f$ - остаточная пропускная способность ребра.}
+
+  \textit{Если появляется ребро с $c = 0$, то его в граф удобно не добавлять.}
+\end{definition}
+
+\begin{lemma}
+  $|f| = max \Longleftrightarrow$ в $G_f$ нет пути из $s$ в $t$. 
+\end{lemma}
+
+\begin{definition}
+Пусть $G$ - сеть, $(S, T)$ - разрез, если $s \in S, t \in T$; $S \sqcup = V(G)$.  
+
+\textbf{Величина разреза:} $$c(S, T) = \sum_{u \in S, v \in T} c(u, v)$$
+
+\textbf{Величина потока через разрез:}$$f(S, T) = \sum_{u \in S, v\in T}$$
+\end{definition}
+
+\begin{proposition}
+  Если $(S, T) - $разрез, а $f$ - поток, то $f(S, T) = |f|$
+\end{proposition}
+
+\begin{proof}
+\text{}
+
+
+  $f(S, T) = f(S, V) - f(S, S) = f(S, V) = f(\{s\}, V) + f(S\setminus \{s\}, V) = |f| + 0 = |f|$
+\end{proof}
+
+\begin{theorem}{(Форда-Фалкерсона)} Следующие условия эквивалентны:
+  \begin{enumerate}
+    \item $|f| - max$
+    \item в $ G_f$ нет пути из s в $t$
+    \item $\exists (S, T): c(S, T) = |f|$
+  \end{enumerate}
+\end{theorem}
+
+\begin{proof}
+  \text{}
+
+
+  \begin{enumerate}
+    \item[$1 \then 2$] Если поток максимален, но в $G_f$ есть путь, то пустим по нему еще поток, увеличивая размер $|f|$
+    \item[$2 \then 3$] $S$ - все вершины, достижимые из $s$ в $G_f$ $T = V \setminus S$, то есть недостижимые 
+    $$c(S, T) = \sum_{u \in S, v \in T} c(u, v) = \sum_{u \in S, v \in T} f(u, v) = |f|$$
+    \item[$3 \then 1$] Раз любой поток меньше любого разреза $|f|_{max} = c_{min}(S, T) $
+  \end{enumerate}
+\end{proof}
+
+\subsection{Алгоритм Форда-Фалкерсона}
+
+Пока в $G_f$ есть путь из $s$ в $t$. Вдоль этого пути пускает $min_e c_f(e)$ потока, насыщая какое-то ребро.
+
+\textbf{Асимптотика}: $O(F \cdot E)$
+
+Однако такой алгоритм может работать неоптимально, например, находить много раз путь размера 3, а не 1000. 
+
+\subsection{Алгоритм Эдмондса-Карпа}
+
+\textbf{Основная идея:} $dfs \to bfs$
+
+Мы будем искать всегда кратчайший по количеству ребер путь из в $s$ в $t$
+
+\textbf{Асимптотика:} O$(VE^2)$
+
+\begin{lemma}
+  Пусть $G_f$ и $G_{f'}$ - две последовательных состояния остаточной сети в последнем алгоритме. Обозначим за $d(v) = dist(s, v)$ в $G_f$, аналогично определим $d'(v)$.
+
+  Тогда $\forall v: d(v') \ge d(v)$
+\end{lemma}
+
+\begin{proof}
+  Пусть это не так. Среди всех вершин с $d(v') < d(v)$ возьмем ту, в которой значение $d(v')$ минимально. Тогда
+
+  $d'(u) + 1 = d'(v) \then d'(u) < d'(v) \then d'(u) \ge d(u)$ из минимальности $d'(v)$
+
+  \begin{enumerate}
+    \item[Случай 1] Ребро $(u, v)$ было в $G_f$. 
+    \begin{proof}
+      $d(v) \le d(u) + 1 \le d'(u) + 1 = d'(v)$. Противоречие
+    \end{proof}
+
+    \item[Случай 2] Ребра $(u, v)$ не было в $G_f$. 
+    \begin{proof}
+      Это значит, что при переходе от $G_f$ до $G_{f'}$ пускается поток вдоль обратного ребра.
+
+      $d(v) = d(u) - 1 \le d'(u) - 1 = d'(v) - 2$. Противоречие
+    \end{proof}
+  \end{enumerate}
+\end{proof}
+
+\begin{lemma}
+  Каждое ребро в алгоритме ЭК насыщается не больше $O(V)$. 
+\end{lemma}
+
+\subsection{Техника масштабирования}
+
+\textbf{Основная идея:} ищем поток величины $2^k$
+
+Пусть $C$ - максимальная $capacity$ в исходном графе.
+
+Далее, пишем цикл:
+\begin{center}
+  \begin{verbatim}
+    for k = log C, ..., 0:
+      все c_f -> [c_f / 2^k]
+      находим поток в этом графе
+      разжимаем обратно все ребра, умножая на 2^k
+  \end{verbatim}
+\end{center}
+
+Таким образом, асимптотика можно преобразовать до $O(E^2 \log{C})$
+
+\begin{lemma}
+  Пусть $F - max$ поток в исходной сети. $F_k$ - суммарный найденный поток после итераций $\log{C} ... k$. Тогда $F \le F_k + 2^k \cdot E$
+\end{lemma}
+\begin{lemma}
+  $\forall k$ алгоритм при поиске потока находит не больше $2E$ путей.
+\end{lemma}
+
+\hypertarget{lecture12}{}
+
+\begin{lemma}{про масштабирование}
+  После выполнение $k$ итераций остается пустить не более $2^k E$ потока
+  $$F \le F_k + 2^k E, \text{где $F_k$ - поток на $k$-ой итерации}$$
+\end{lemma}
+
+\begin{proof}
+  $c_f \to \frac{c_f}{2^k} \then $ в остаточной сети с $capacity = \frac{c_f}{2^k}$ есть резрез веса 0. Масштабируем обратно. Поскольку при замене (масштабировании) мы округляем $capacity$ вниз, то рассматриваемый разрес будет иметь величину не больше $2^k E$, так как у каждого ребра остаток не превышает $2^k$.
+\end{proof}
+
+\subsection{Алгоритм Диница}
+\textbf{Основаная идея:} Мы хотим насытить все кратчайшие пути на каждой итерации
+
+\textit{В алгоритме ЭК насыщался один кратчайший путь, а сейчас мы хотим сделать несколько его итераций в одной}
+
+\textbf{Асимптотика:} $O(V^2E)$
+
+\begin{definition}
+  Слоистая сеть по сети $G$ - граф, в котором вершины разбиты на множества $V_i = \{ v | dist(s,v) = i\}$, в которой ребра ведут из $V_i$ в $V_{i + 1}$ для какого-то $i$.
+\end{definition}
+
+\begin{note}
+В слоистой сети не будет ребер внутри $V_i$ и между $V_j$ и $V_i$, если $j > i$
+\end{note}
+
+\begin{definition}
+  Блокирующий поток - такой поток, который нельзя увеличить без введения обратных ребер.
+\end{definition}
+
+\textbf{Алгоритм:}
+  Пока в $G_1$ есть путь из $s$ в $t$, по $G_f$ строим слоистую сеть и в ней ищем блокирующий поток.
+
+  \begin{enumerate}
+    \item Как строить слоистую сеть?
+
+    Для этого будем запускать $BFS$ для ребер с положительной $capacity$.
+
+    \item Как искать блокирующий поток?
+    
+    Объявим все ребра, заканчивающиеся в вершине $v$, из которой нельзя дойти до $t$, бесполезными. Их мы не будем использовать для увеличения потока.
+
+    Пусть $ptr[v]$ - номер первого интересующего нас ребра, исходящего из вершины $v$
+
+
+    \textbf{\textsc{Приведем реализацию функции на следующей странице:}}
+  \newpage
+  \begin{verbatim}
+    int dfs(int v, int f) { \\ f - минимальное из capacity до пути к v
+      if (v == t) return f;
+  
+      while(ptr[v] != g[v].size()) {
+        пусть e - ptr[v]-ое ребро, исходящее из v
+
+        if (e.capacity == e.flow || dist[e.to] != dist[v] + 1) {
+          ++ptr[v]; continue; // ребро бесполнезное
+        }
+
+        x = dfs(e.to, std::min(f, e.flow - e.capacity));
+  
+        if (x == 0) {
+          ++ptr[v]; continue; // ребро бесполнезное
+        }
+
+        e.flow += x; reversed_e.flow -= x; return x;
+      }
+
+      return 0;
+    }
+  \end{verbatim}
+  \end{enumerate}
+
+  \textbf{\textsc{Поиск блокирующего потока:}}
+
+  \begin{verbatim}
+    while(true) {
+      x = dfs(s, \infty);
+
+      if (x == 0) break;
+    }
+  \end{verbatim}
+
+  \textit{Для оценки асимптотики достаточно понять следующее:}
+  \begin{note}
+    Если $k$ - количество увеличений $ptr$, то один запуск $dfs(s, \infty)$, будет работать за $O(V + k)$
+  \end{note}
+
+  \textbf{Итого:}
+  $$\sum^E_{i = 1} (V + k_i) = VE + \underbrace{\sum k_i}_{\leq E} = O(VE)$$
+  \begin{proposition}
+    Пусть $G_f$ и $G_{f'}$ - остаточные сети после двух последовательных итераций алгоритма Диница. Тогда $dist'(s, t) > dist(s, t)$
+  \end{proposition}
+  \textit{Отсюда и следует искомая асимптотика}
+  \begin{definition}
+    \text{}
+
+    \begin{enumerate}
+      \item $c_{in}(v) = \sum_{u} c(u, v)$ - втекающая $capacity$
+       \item $c_{out}(v) = \sum_{u} c(v, u)$ - вытекающая $capacity$
+        \item $p(v) = min(c_{in}, c_{out}(v))$ - потенциал вершины $v$
+        \item $P = \sum_{v \ne s, v \ne t} p(v)$ - потенциал сети.
+    \end{enumerate}
+  \end{definition}
+  \begin{theorem}{1-ая теорема Карзанова}
+    Количество итераций в алгоритме Диница есть $O(\sqrt{P})$
+  \end{theorem}
+  \begin{proof}
+    \begin{lemma}
+      Пусть $G$ - сеть, $l = dist(s, t)$, $F - max$ поток из $s$ в $t$, $P$ - потенциал сети. Тогда $l \le 1 + \frac{P}{F}$.
+    \end{lemma}
+    \begin{proof}
+      Назовем потенциал в слое $V_i$: $P_i = \sum_{v \in V_i} p(v_i)$. Понятно, что $F \le P_i$.
+      Складывая для каждого слоя нер-во, получаем $(l - 1) F \le \sum_{i = 1}^{l - 1} P_i \le P \then l - 1 \le \frac{P}{F}$
+    \end{proof}
+
+    \begin{lemma}
+      При пропускания потока в сети ее потенциал не изменяется, то есть $P(G) = P(G_f)$
+    \end{lemma}
+    \begin{proof}
+      Очев
+    \end{proof}
+
+    \textit{Теперь докажем теорему:}
+
+    Выполним первые $sqrt{P}$ итераций в алгоритме Диница. Пусть $F$ - сколько потока осталось пустить. $l = dist(s, t)$ в текущей $G_f$. $P$ сейчас - такое же, как в начале. Так как $dist$ увеличивается хотя бы на 1, получаем с учетом леммы: $$\sqrt{P} \le l \le 1 + \frac{P}{F} \then \frac{P}{F} \ge \sqrt{P} - 1$$
+
+    Таким образом, $F \le \frac{P}{\sqrt{P} - 1} = O(\sqrt{P})$, а тогда осталось не больше $O(\sqrt{P})$ итераций.
+  \end{proof}
+
+
+  \begin{proposition}{о декомпозиции потока}
+    Любой поток можно представить в виде суммы единичных путей из $s$ в $t$ и единичных циклов.
+  \end{proposition}
+
+  \section{Единичные сети}
+
+  Для таких сетей пропускная способность может равнять либо 0, либо 1. 
+
+  \begin{enumerate}
+    \item Алгоритм Диницы работает за $O(E \sqrt{E})$
+    \begin{proof}
+      Поскольку число итераций по теореме Карзанова равно $O(\sqrt{P}) = O(\sqrt{E})$, достаточно понять асимптотику работы одной итерации.
+
+      Каждая итерация подразумевает $bfs$ и поиск блокирующего потока. Заметим, что каждое ребро рассматривается $\le 2$ раза, ведь все ребра на каждом пути сразу насыщаются и становятся бесполезными $\to O(E)$.
+    \end{proof}
+
+    \item В двудольном графе максимальное паросочетание может быть найдено за $O(E \sqrt{V})$.
+    \begin{proof}
+      Введем исток, соединенный с левой долей, и сток, соединенный с правой долей. Тогда максимальное паросочетание = максимальный поток в графе. Так как у вершин левой доли $c_{in} = 1$, а у правой - $c_{out} = 1 \then P = O(V)$.
+    \end{proof}
+  \end{enumerate}
+
+  \textbf{Последний алгоритм называется алгоритмом Хопкрофта-Карпа}
+\hypertarget{lecture13}{}
+
+\subsection{Глобальный минимальный разрез}\subsubsection{Алгоритм Штор-Вагнера}
+
+\begin{note}
+  Как мы знаем по прошлым теоремам, минимальный разрез между вершинами $s, t$ в графе равен максимальному потоку, протекающему между ними. Поэтому можно запустить Эдмондса-Карпа $n^2$ раз и выбрать минимальный среди них. Но постараемся улучшить асимптотику.
+\end{note}
+
+Пусть мы нашли maxFlow для некоторых $s, t$. Как они могут быть размещены относительно искомого глобального разреза? 
+
+\begin{enumerate}
+  \item Либо $s, t$ содержатся в одной доли относительно разреза.
+  \item Либо они лежат в разных долях.
+\end{enumerate}
+
+Заметим, что во втором случае максимальный поток между $s, t$ будет равен минимальному разрезу в графе, который будет равен минимального глобальному разрезу.
+
+Во втором случае мы можем слить $s, t$  в новую вершину $r$, пересчитав ребра:
+\begin{center}
+$\textbf{Было: }\xymatrix{
+  s \ar @{.>}[r]^{c} & A\\
+  t \ar @{.>}[r]^{d} & A
+} \hspace{1cm}\ \ \textbf{Стало:}\xymatrix{\\
+  r \ar @{->}[r]^{c + d} & A
+}$
+\end{center}
+
+Таким образом, ответ для графа $G$:
+$$MinGlobalCut(G) = min(MaxFlow(G, s, t), MinGlobalCut(G_{(s,t) \to r}))$$
+
+ \textit{Последнее, что нам осталось сделать - это правильным образом выбрать $s, t$}
+
+ \begin{enumerate}
+  \item Пусть $a_1$ - произвольная точка графа.
+  \item На $i$-ом шаге определим $A_i = \{a_1, a_2, \dots, a_{i - 1}\}$. Далее, за $a_i$ обозначим вершину в $G \setminus A_i$, суммарное капасити до которой от вершин $A_i$ будет минимальным:
+  $$a_i = arg \ max_{u \in G \setminus A_i} \left( \sum_{v \in A_i} c(u, v)\right)$$
+ \end{enumerate}
+
+ Оказывается, что минимальный разрез между вершинами $s = a_{n-1}, t = a_n$, где $n$ - количество вершин в графе, равен минимальному потоку между $S = G \setminus t, T = \{t\}$. 
+
+ \textbf{Если Вы все еще не понимаете, как работает алгоритм, то}
+
+\begin{enumerate}
+  \item Строим последовательность $a_1, a_2, \dots, a_n$ по принципу выше.
+  \item Выбираем за $s$ предпоследнюю вершину, а за $t$ - последнюю.
+  \item Находим минмимальный разрез, как сумма капасити, ведущих из $t$. 
+  \item Сливаем $s$ и $t$ в одну вершину и запускаем алгоритм для нового графа. 
+  \item Считаем минимум из п. 3 и п. 4
+\end{enumerate}
+
+\textbf{Асимптотика:} $O(n^3)$. 
+
+\textit{$n$ раз запускаем алгоритм, $n^2$ - строим последовательность}
+
+Строить последовательность можно так:
+\begin{enumerate}
+  \item Считаем суммарные капасити от каждой вершины до всех в графе
+  \item Находим максимум, добавляем рассматриваемую вершину в множество $A_i$, пересчитываем все значения из п 1 (добавляем капасити, связанные с добавляемой вершиной) и повторяем
+\end{enumerate}
+
+\textbf{Корректность:}
+
+Нам осталось доказать тождество:
+$$MinCut(a_{n-1}, a_n) = \sum_{v \in A_{n-1}}c(v, a_n)$$
+
+Неравенство "$\le$" очевидно, поэтому докажем знак "$\ge$". 
+
+Фиксируем некоторый разрез $(S, T), a_{n-1} \in S, a_n \in T$
+
+\begin{proposition}
+  Назовем вершину $a_i$ активной, если $a_i$ и $a_{i - 1}$ не содержатся в одной доли.
+\end{proposition}
+
+\begin{lemma}
+  $a_i$ - активная $\then$ $c(\{a_i\}, A_{i-1}) \le c(S \cap A_i, T \cap A_i)$
+ \end{lemma}
+
+ \begin{proof}
+  Доказательство индукцией по номеру активной вершину.
+
+  \textbf{База:} $a_j$ - первая активная вершина. Тогда Б.О.О все $a_i$ с $i < j$ лежат в $S$, а $a_j$ - в $T$. Тогда в условии леммы стоит тождественное равенство.
+
+  \textbf{Переход:}
+    Пусть $a_u, a_v$ - две последовательные активные вершины. Тогда все вершины между $a_u$ и $a_v$ лежат в одной доли.
+
+    $c(\{a_v\}, A_{v - 1}) = c(\{a_v\}, A_{u - 1}) + c(\{a_v\}, A_{v - 1} \setminus A_{u - 1})$. 
+
+    По определению выбора $a_i$ и предположению индукции справедливо:
+    $$c(\{a_v\}, A_{u - 1}) \le c(\{a_u\}, A_{u - 1}) \le c(S \cap A_u, T \cap A_{u})$$
+
+    Для завершения перехода остается заметить неравенство:
+    $$c(\{a_v\}, A_{v - 1} \setminus A_{u - 1})  + c(S \cap A_u, T \cap A_{u})\le c(S \cap A_v, T \cap A_{v})$$
+ \end{proof}
+
+ Теперь докажем корректность алгоритма:
+ \begin{proof}
+  $a_n$ по определению $(S, T)$ активна, поэтому для нее можно применить лемму:
+
+  $$c(\{a_n\}, A_{n-1}) \le c(S \cap A_n, T \cap A_n) = c(S, T)$$
+ \end{proof}
+
+\subsection{Потоки минимальной стоимости}
+
+Теперь считаем, что на каждом ребре написаны пропускная способность и стоимость 1 единицы потока.
+
+\begin{definition}
+  $Min-cost \ k-flow$ - задача поиска $s-t$ потока величины $k$
+\end{definition}
+
+\textit{Поскольку в нашей теории периодически приходится вводить обратные ребра, то будем считать, что на них написаны противоположные стоимости}
+
+\begin{definition}
+  $$cost(f) = \frac{1}{2} \sum_e{f(e) \cdot cost(e)}$$ 
+\end{definition}
+
+\subsubsection{Алгоритм $Min-cost \ k-flow$}
+Будем использовать наивный жадный алгоритм - найдем путь минимальный стоимости из $s$ в $t$ и пустим по нему поток величины 1. Повторим рассуждение $k$ раз.
+
+\textbf{Важно!} Считаем, что нет циклов отрицательной стоимости.
+
+\begin{lemma}{(Критерий минимальности)}
+  $f$ - поток величины $k$. Тогда он минимален $\Longleftrightarrow$ в $G_f$ нет циклов отрицательной стоимости.
+\end{lemma}
+
+\begin{proof}
+\text{}
+
+  \begin{enumerate}
+    \item[$\then$] Очев
+    \item[$\Longleftarrow$] Предположим, что нашелся $f^*$ - $Min-cost \ k-flow$ такой, что $cost(f^*) < cost(f)$. Введем функцию $g: g(e) = f^*(e) - f(e)$.
+    
+    Докажем, что $g$ - поток величины 0 в \underline{$G_f$}. Проверим по определению:
+
+    \begin{enumerate}
+      \item $g(e) = f^*(e) - f(e) \le c(e) - f(e) = c_f(e)$
+      \item $g(u, v) = f*(u, v) - f(u, v) = -f*(v, u) + f(v, u) = -g(v, u)$
+      \item $v \cancel{\in} \{s, t\}$
+      
+      $$\sum_{u}{g(v, u)} = \underbrace{\sum_{u}f^*(v, u)}_{0} - \underbrace{\sum_{u}f(u, v)}_{0} = 0 $$
+
+      \textbf{Почему величина потока 0?}
+
+    \item Распишем по определению:
+   $$\sum_{u}{g(s, u)} = \underbrace{\sum_{u}f^*(s, u)}_{k} - \underbrace{\sum_{u}f(s, u)}_{k} = 0 $$
+
+   \item $cost(g) =  cost(f^*) - cost(f) \le 0$
+  \end{enumerate}
+
+  $g$ - поток величины 0 $\then$ по лемме о декомпозиции потоков его можно представить объединением циклов в $G_f$. Мы предполагали, что циклов нет, поэтому получаем противоречие. 
+
+
+  \end{enumerate}
+\end{proof}
+
+\begin{proposition}
+  Пусть в $G$ нет циклов отрицательного веса, пусть $P$ - самый дешевый путь от $s$ до $t$. $f$ - поток величины 1 вдоль $P$. Тогда в $G_f$ нет отрицательных циклов. 
+\end{proposition}
+\begin{proof}
+  Пусть в $G_f$ появился отрицательный цикл $C$. Рассмотрим $g = P + C$ - поток в $G$ величины 1. Причем стоимость $g$ < стоимости $f$. Тогда $g$ - (по лемме о декомпозиции потоков) объединение нескольких циклов, которые имеют неотрицательный вес, и одного пути $p$. Но тогда $cost(g) \ge cost(p) \ge cost(f)$.  
+\end{proof}
+
+\textbf{Асимптотика:} $O(k\underbrace{VE}_{\text{Форд-Беллман}})$
+
+Можно ввести \textbf{Потенциал Джонсона}:
+$$\phi: V \to \Z. \ \ cost_\phi(u, v) = cost(u,v) + \phi(u) - \phi(v) $$
+Тогда  $cost_\phi(p) = cost(p) + \phi(s) - \phi(t)$.
+
+Чтобы ввести $\phi$, запустим 1 раз алгоритм Форда-Беллмана и положим $\phi(v) = dist(s, v)$. 
+
+\begin{proposition}
+  Все стоимости $cost_\phi$ неотрицательны
+\end{proposition}
+
+После такого введения можно использовать алгоритм Дейкстры.
+
+
+

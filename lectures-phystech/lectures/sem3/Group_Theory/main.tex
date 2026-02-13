@@ -1,0 +1,505 @@
+
+\hypertarget{lecture1}{}
+
+\section{Введение}
+\subsection{Определения}
+\begin{definition}
+    В рамках Основы Вероятности мы будем рассматривать \((\Omega, P)\), где \(\Omega\) --- элементарные события, а \(P: 2^\Omega \ra [0, 1]\), которые удовлетворяют следующими свойствами:
+    \begin{enumerate}
+        \item \(|\Omega| \le \N\), элементы \(\Omega\) называются элементарными исходами
+        \item \(\sum_{\omega \in 2^\Omega} P(\omega) = 1\)
+    \end{enumerate}
+\end{definition}
+
+\begin{definition}
+    Событие --- элемент \(2^\Omega, P(A) = \sum_{\omega \in A} P(\{\omega\})\) --- вероятность события \(A\).
+\end{definition}
+
+В дальнейшем будем сокращать \(P(\{\omega\})\) как \(P(\omega)\).
+
+\begin{note}
+    \(P\) обладает следующими свойствами
+    \begin{enumerate}
+        \item \(P(\emptyset) = 0\)
+        \item \(P(\Omega) = 1\)
+        \item \(A \subset B \Ra P(A) \le P(B)\)
+        \item \(P\left(\bigsqcup_{i = 1}^\infty A_i\right) = \sum_{i = 1}^\infty P(A_i)\)
+    \end{enumerate}
+\end{note}
+
+\begin{definition}
+    Классическая модель --- случай, когда все элементарные исходы равновероятны, т.е. \(\forall \omega \in \Omega P(\omega) = \frac{1}{|\Omega|}\).
+\end{definition}
+
+\begin{definition}
+    \(P(A | B)\) --- вероятность события \(A\) при улсовии, что произошло событие \(B\).
+    \[P(A|B) = \frac{P(A \cap B)}{P(B)}\]
+\end{definition}
+
+\begin{definition}(Формула полной вероятности)
+    Пусть \(\Omega = \bigsqcup_{i = 1}^\infty B_i\). Тогда \(P(A) = \sum_{i = 1}^\infty P(B_i)P(A | B_i)\).
+\end{definition}
+
+\begin{definition}(Формула Байеса)
+    \[P(A | B) = \frac{P(B | A)P(A)}{P(B)}\]
+\end{definition}
+
+\begin{note}
+    \[P(A_1A_2 \dots A_n) = P(A_1)P(A_2 | A_1)P(A_3 | A_1A_2)\dots P(A_n|A_1\dots A_{n - 1})\]
+\end{note}
+
+\begin{definition}
+    События \(A, B\) называются независимыми, если \(P(AB) = P(A)P(B)\)
+\end{definition}
+
+\begin{definition}
+    События \(A_1, \dots\) называются независимыми в совокупности, если 
+    \[P(A_{i_1}A_{i_2}\dots A_{i_k}) = P(A_{i_1})P(A_{i_2})\dots P(A_{i_k})\]
+\end{definition}
+
+\begin{definition}(Схема испытаний Бернулли)
+    \(\Omega = \{0, 1\}^n, P(1) = p, P(0) = 1 - p \Ra P(\omega) = p^{\sum w_i}(1 - p)^{n - \sum w_i}\).
+\end{definition}
+
+\begin{definition}
+    Отображение \(\xi: \Omega \ra \R\) --- случайная величина.
+\end{definition}
+
+\noindent\textbf{Соглашение.} вместо \(\xi(\omega)\) будем писать \(\omega\).
+
+\begin{example}
+    \(P(\xi = \sqrt{2})\) вместо \(P(\{\omega | \xi(\omega) = \sqrt{2}\})\)
+\end{example}
+
+\subsection{Распределение случайных величин}
+\subsubsection{Равномерное распределение}
+\[\begin{array}{c|cccccc}
+    x \in Im\xi & 1 & 2 & 3 & 4 & 5 & 6 \\
+    \hline
+    P(\xi = x) & \frac{1}{6} & \frac{1}{6} & \frac{1}{6} & \frac{1}{6} & \frac{1}{6} & \frac{1}{6} \\
+\end{array}\]
+
+\subsubsection{Распределение Бернулли}
+\(\Omega = \{0, 1\}, \xi(\omega) = \omega, P(\xi = 1) = p, P(\xi = 0) = 1 - p\). Пишут \(\xi \sim Bern(p)\).
+
+\subsubsection{Биномиальное распределение}
+\(\Omega = \{0, 1\}^n, \xi(\omega) = \sum \omega_i\) (количество успехов). \(P(\xi = k) = C_n^kp^k(1-p)^{n - k}\). Пишут \(\xi \sim Bin(n, p)\).
+
+\begin{note}
+    Распределение Бернулли --- частный случай Биномиального (при \(n = 1\))
+\end{note}
+
+\begin{theorem}(Пуассона)
+    Пусть \(\xi_n \sim Bin(n, p_n)\) --- случайные величины, такие, что \(np_n \ra \lambda > 0\). Тогда \(P(\xi_n = k) \ra \frac{\lambda^k}{k!}e^{-\lambda}\).
+\end{theorem}
+\begin{proof}
+    \[P(\xi_n = k) = C_n^kp^k(1-p)^{n - k}\]
+    Т.к. количество множителей фиксированно, переходим к пределу.
+    \[\frac{n!}{k!(n-k)!}p^k(1-p)^{n - k} = \frac{(np_n)^k}{k!}\cdot1\cdot\left(1 - \frac{1}{n}\right) \cdot\left(1 - \frac{2}{n}\right)\cdot\dots\cdot\left(1 - \frac{k - 1}{n}\right)\frac{(1 - p_n)^n}{(1 - p_n)^k} \ra \frac{\lambda^k}{k!}e^{-\lambda}\]
+\end{proof}
+
+\begin{definition}
+    Распределение, задаваемого формлуой \(P(\xi = k) = \frac{\lambda^k}{k!}e^{-\lambda}\) называется распределением Пуассона и пишется \(Pois(\lambda)\)
+\end{definition}
+
+\subsubsection{Геометрическое распределение}
+\[\Omega = \{0^k1 | k \in \N\} P(\xi = k) = (1 - p)^kp\]
+По сути, \(\xi(\omega)\) --- количество нулей перед первой единицей.
+\hypertarget{lecture2}{}
+
+\subsection{Математическое ожидание}
+\begin{definition}
+    Пусть \(\xi\) --- случайная величина. \(\E\xi = \sum_{\omega \in \Omega} \xi(\omega)P(\omega)\)
+\end{definition}
+
+\begin{note}
+    Ряд должен сходиться абсолютно, т.к. элементы \(\Omega\) можно суммировать в разном порядке.
+\end{note}
+
+\begin{proposition}
+    \(\E(\alpha\xi + \beta\eta) = \alpha\E\xi + \beta\E\eta\).
+\end{proposition}
+\begin{proof}
+    \[\E((\alpha\xi + \beta\eta)) = \sum_{\omega \in \Omega} (\alpha\xi + \beta\eta)(\omega)|P(\omega) = \sum_{\omega \in \Omega} (\alpha\xi(\omega) + \beta\eta(\omega))P(\omega) =\]
+    \[ = \sum_{\omega \in \Omega} \alpha\xi(\omega)P(\omega) + \sum_{\omega \in \Omega} \beta\eta(\omega)P(\omega) = \E\xi + \E\eta\]
+\end{proof}
+\begin{proposition}
+    \(\xi \le \eta \Ra \E\xi \le \E\eta\).
+\end{proposition}
+\begin{proposition}
+    \(|\E\xi| \le E|\xi|\).
+\end{proposition}
+\begin{proof}
+    \[\E|\xi| = \sum_{\omega \in \Omega} |\xi(\omega)|P(\omega)\]
+    Т.к. \(-|\xi| \le \xi \le |\xi| \Ra -\E|\xi| \le \E \xi \le \E|\xi| \Ra |\E\xi| \le \E|\xi|\)
+\end{proof}
+\begin{proposition}
+    \(\xi = c \le E\xi = c\).
+\end{proposition}
+\begin{proof}
+    \[\E\xi = \sum_{\omega \in \Omega} \xi(\omega)P(\omega) = \E\xi = \sum_{\omega \in \Omega} c P(\omega) = \E\xi = c \sum_{\omega \in \Omega} P(\omega) = c\]
+\end{proof}
+
+\begin{proposition}
+    \(\E\xi = \sum_{x \im \xi} x\cdot P(\xi = x)\)
+\end{proposition}
+\begin{proof}
+    \[\E\xi = \sum_{\omega \in \Omega} \xi(\omega)P(\omega) = \sum_{x \in \im \xi}\sum_{\omega: \xi(\omega) = x} x P(\omega) = \sum_{x \in \im \xi}x \sum_{\omega: \xi(\omega) = x} P(\omega) = \sum_{x \in \im \xi}x P(\xi = \omega)\]
+\end{proof}
+
+\begin{definition}
+    \(\xi, \eta\) называются независимыми, если события \(\{\xi = x_i\}\) и \(\eta = x_j\) независимы
+\end{definition}
+
+\begin{definition}
+    \(\xi_i\) называются независимыми в совокупности, если события \(\{\xi_i = x_i\}\) независимы в совокупности.
+\end{definition}
+
+\begin{proposition}
+    Пусть \(\xi_1, \xi_2 \dots \xi_n\) --- независимые в совокупности. Тогда 
+    \[\E \xi_1\xi_2\dots\xi_n = \E\xi_1\E\xi_2\dots\E\xi_n\]
+\end{proposition}
+\begin{proof}
+    \[\E \xi_1\xi_2\dots\xi_n = \sum x_1x_2\dots x_nP(\xi_1 = x_1 \cap \xi_2 = x_2 \cap \dots \cap \xi_n = x_n) =\]
+    \[= \sum x_1x_2\dots x_nP(\xi_1 = x_1)P(\xi_2 = x_2)\dots P(\xi_n = x_n) =\]
+    \[=\left(\sum_{x_1} x_1P(\xi_1 = x_1)\right)\left(\sum_{x_2} x_2P(\xi_2 = x_2)\right) \dots \left(\sum_{x_n} x_nP(\xi_n = x_n)\right)\]
+    \[= \E\xi_1\E\xi_2\dots\E\xi_n\]
+\end{proof}
+\begin{definition}
+    Пусть \(\xi\) --- случайная величина. Дисперсия \(\xi\) = \(\Variance \xi = \E(\xi - \E\xi)^2\)
+\end{definition}
+
+\begin{proposition}
+    \(\Variance \xi = \E\xi^2 - (\E\xi)^2\)
+\end{proposition}
+\begin{proof}
+    \[\Variance \xi = \E(\xi^2 - 2\xi\E\xi + (\E\xi)^2) = \E\xi^2 - 2(\E\xi)^2 + (\E\xi)^2 = \E\xi^2 - (E\xi)^2\]
+\end{proof}
+
+\begin{proposition}
+    \(\Variance(c\xi) = c^2 \Variance \xi\)
+\end{proposition}
+\begin{proof}
+    \[\Variance (c\xi) = \E(c\xi - \E c\xi)^2 = c^2\E(\xi - \E\xi)^2 = c^2\Variance \xi\]
+\end{proof}
+\begin{proposition}
+    \(\Variance \xi = 0 \Lra \xi = c\) с вероятностью \(1\)
+\end{proposition}
+\begin{proof}
+    \[\Variance \xi = 0 \Lra \E(\xi - \E\xi)^2 = 0 \Lra (\xi - \E\xi)^2 \Lra \xi = c \text{ с вероятностью \(1\)}\]
+\end{proof}
+
+\begin{definition}
+    \(cov(\xi, \eta) = \E(\xi - \E\xi)(\eta - \E\eta)\).
+\end{definition}
+
+\begin{note}
+    \(cov(\xi, \eta) \lessgtr 0 \Lra\) величины растут либо в разных направлениях, либо в одном.
+\end{note}
+
+\begin{proposition}
+    \(cov(\xi, \eta) = \E\xi\eta - \E\xi\E\eta\)
+\end{proposition}
+\begin{proof}
+    \[cov(\xi, \eta) = \E(\xi - \E\xi)(\eta - \E\eta) = \E(\xi\eta - \eta\E\xi - \xi\E\eta - \E\xi\E\eta) = \E(\xi\eta) - (\E\eta\E\xi) - (\E\xi\E\eta) + \E\xi\E\eta =\]
+    \[= \E\xi\eta - \E\xi\E\eta\]
+\end{proof}
+\begin{proposition}
+    \(cov(\xi, \eta) = 0 \La \xi, \eta\) независимые.
+\end{proposition}
+\begin{note}
+    \(cov(\xi, \eta) = cov(\eta, \xi)\)
+\end{note}
+\begin{note}
+    \(cov(\xi, \xi) = \Variance \xi\)
+\end{note}
+\begin{note}
+    \(cov(\alpha\xi + \beta\eta, \mu) = \alpha cov(\xi, \mu) + \beta cov(\eta, \mu)\).
+\end{note}
+
+\begin{proposition}
+    Пусть \(\xi_1, \xi_2, \dots \xi_n\) --- случайные величины, причем \(cov(\xi_i, \xi_j) = 0 \forall i \ne j\). Тогда 
+    \[\Variance\left(\sum_i \xi_i\right) = \sum \Variance \xi_i\]
+\end{proposition}
+\begin{proof}
+    \[cov\left(\sum_i \xi_i, \sum_j \xi_j\right) = \sum_{i, j} cov(\xi_i, \xi_j) = \sum_i cov(\xi_i, \xi_i) + \underbrace{\sum_{i \ne j} cov(\xi_i, \xi_j)}_{0} = \sum_i \Variance \xi_i\]
+\end{proof}
+
+\begin{definition}
+    Коэффициент корреляции \(\rho(\xi, \eta) = \frac{cov(\xi, \eta)}{\sqrt{\Variance \xi}\sqrt{\Variance \eta}}\)
+\end{definition}
+
+\begin{definition}
+    Матрица ковариаций случайных величин \(\xi_1, \xi_2 \dots \xi_n\) --- матрица
+    \[\Sigma = \left(\begin{array}{cccc}
+        cov(\xi_1, \xi_1) & cov(\xi_2, \xi_1) & \dots & cov(\xi_n, \xi_1) \\
+        cov(\xi_1, \xi_2) & cov(\xi_2, \xi_2) & \dots & cov(\xi_n, \xi_2) \\
+        \vdots & \vdots & \ddots & \vdots \\
+        cov(\xi_1, \xi_n) & cov(\xi_2, \xi_n) & \dots & cov(\xi_n, \xi_n) \\
+    \end{array}\right)\]
+    То есть \(\Sigma_{i, j} = cov(\xi_i, \xi_j)\).
+\end{definition}
+
+\begin{proposition}
+    Пусть \(\Sigma\) --- матрица ковариаций. Тогда
+    \begin{enumerate}
+        \item \(\Sigma\) неотрицательно определена.
+        \item \(\Sigma\) не определена положительно тогда и только тогда, когда \(\exists x \in \R^n: \sum x_i\xi_i = c\) с вероятностью 1.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}
+        \item \[\sum_{i, j}x_i\Sigma_{i, j}x_j = \sum_{i, j} x_ix_j cov(\xi_i, \xi_j) = cov\left(\sum_i x_i\xi_i, \sum_j x_j\xi_j\right) = \Variance \left(\sum \xi_i x_i\right) = (*) \ge 0\]
+        \item \(\Sigma\) не определена положительно тогда и только тогда, когда \((*) = \Variance \left(\sum \xi_i x_i\right) = 0 \Ra \xi = c\) с вероятностью \(1\).
+    \end{enumerate}
+\end{proof}
+
+\begin{proposition}[Неравенство Коши-Буняковского-Шварца]
+    \[|cov(\xi, \eta)| \le \sqrt{\Variance \xi}\sqrt{\Variance \eta}\]
+\end{proposition}
+\begin{proof}
+    Рассмотрим матрицу ковариаций для \(\xi, \eta\) --- \(\Sigma\). Т.к. она неотрицательно определена, то \(|\Sigma| \ge 0\). Причем:
+    \[\left|\begin{array}{cc}
+        \Variance \xi & cov(\xi, \xi) \\ 
+        cov(\eta, \xi) & \Variance \eta \\ 
+    \end{array}\right| = \Variance \xi \Variance \eta - cov^2(\xi, \eta)\ge 0\].
+\end{proof}
+
+\hypertarget{lecture3}{}
+
+\begin{proposition}[Неравенство Маркова]
+    Пусть \(\xi \ge 0, a > 0\). Тогда:
+    \[P(\xi \ge a) \le \frac{\E \xi}{a}\]
+\end{proposition}
+\begin{proof}
+    Пусть \(I_{\{\xi \in A\}}(\omega) = \left\{\begin{array}{l}
+        1, \xi(\omega) \in A \\
+        0, \xi(\omega) \notin A
+    \end{array}\right.\)
+    \[\E\xi = \E(\xi I_{\{\xi \ge a\}} + \xi I_{\{\xi < a\}}) = \E\xi I_{\{\xi \ge a\}} + \E\xi I_{\{\xi < a\}}\ge \E aI_{\{\xi \ge a\}} = a \E I_{\{\xi \ge a\}} = aP(\xi \ge a)\]
+    \[\frac{\E \xi}{a} \ge P(\xi \ge a)\]
+\end{proof}
+
+\begin{proposition}[Неравенство Чебышева]
+    Пусть \(\xi, \E \xi < \infty, \Variance \xi < \infty, a > 0\). Тогда:
+    \[P(\{|\xi - \E\xi| > a\}) \le \frac{\Variance \xi}{a^2}\]
+\end{proposition}
+\begin{proof}
+    \[P(\{|\xi - \E\xi| > a\}) = P(\{(\xi - \E\xi)^2 > a^2\}) \le \frac{\Variance \xi}{a^2}\]
+\end{proof}
+
+\begin{theorem}[Закон Больших Чисел]
+    Пусть \(\{\xi_i\}\) --- некоторые случайные величины, для которых выполнено:
+    \begin{enumerate}
+        \item \(\E \xi_n = \E \xi_1 \forall n\)
+        \item \(\xi_i\) попарно некоррелированные
+        \item \(\forall n \Variance \xi_n \le C\).
+    \end{enumerate}
+    Тогда
+    \[\forall \epsilon > 0: \forall \epsilon > 0: P\left\{\left|\frac{S_n}{n} - \E\frac{S_n}{n}\right|\right\} \ra 0\]
+\end{theorem}
+\begin{proof}
+    Положим \(S_n = \sum_{k = 1}^n \xi_k\). Тогда 
+    \[\forall \epsilon > 0: P\left\{\left|\frac{S_n}{n} - \underbrace{\E\frac{S_n}{n}}_{\E\xi_1}\right|\right\} > \epsilon \le \frac{\Variance \frac{S_n}{n}}{\epsilon^2} = \frac{\Variance S_n}{n^2\epsilon^2} = \frac{\sum_{k = 1}^n \Variance \xi_k + \sum cov(\xi_i, \xi_j)}{n^2\epsilon^2} \le \frac{C}{n\epsilon^2} \ra 0\]
+\end{proof}
+
+\begin{theorem}[Центральная предельная теорема (б/д)]
+    Пусть \(\xi_n\) --- последовательность независимых в совокупности одинаково распределенных случайных величин с ограниченными математическими ожиданиями и дисперсиями. Тогда \(\forall a, b \in [-\infty, +\infty], a < b\):
+    \[P\left\{a \le \frac{S_n - \E S_n}{\sqrt{\Variance S_n}}\le b\right\} \ra_{n \ra \infty} \int_a^b \frac{1}{\sqrt{2\pi}}e^{-\frac{x^2}{2}}dx\]
+\end{theorem}
+
+\section{Теория Меры}
+\begin{definition}
+    Пусть дано некоторое множество \(\Omega\). Множество \(S \subset 2^\Omega\) называется полукольцом, если:
+    \begin{enumerate}
+        \item \(A, B \in S \Ra A \cap B \in S\)
+        \item \(A, B \in S \Ra A \setminus B = \bigsqcup_{k = 1}^n A_k, A_k \in S\)
+    \end{enumerate}
+\end{definition}
+
+\begin{example}
+    Рассмотрим \(\Omega = [0, 1)\). Тогда \(S = \{[a, b) | [a, b) \subset \Omega\}\)
+\end{example}
+
+\begin{definition}
+    Полуалгебра --- такое полукольцо, что \(\exists E \in S: \forall A \in S: A \subset E\).
+\end{definition}
+
+\begin{definition}
+    Пусть дано некоторое множество \(\Omega\). Множество \(R \subset 2^\Omega\) называется кольцом, если:
+    \begin{enumerate}
+        \item \(A, B \in R \Ra A \cap B \in R\)
+        \item \(A, B \in R \Ra A \Delta B \in R\)
+    \end{enumerate}
+\end{definition}
+
+\begin{definition}
+    Алгебра --- кольцо, являющееся полуалгеброй
+\end{definition}
+
+\begin{proposition}
+    \(\forall \mathcal{X} \subset 2^\Omega \exists\) наименьшее по включению кольцо (алгебра) над \(x\)
+\end{proposition}
+\begin{proof}
+    Положим \(D = \{\text{кольца}\supset \mathcal{X}\}\). Рассмотрим
+    \(R = \bigcap_{d \in D} d\) --- тоже кольцо (алгебра) над \(\mathcal{X}\).
+    \[A, B \in R \Ra \forall S \in D: A, B \in S \Ra A \cap B \in S, A \Delta B \in S\]
+\end{proof}
+
+\begin{proposition}
+    Пусть \(S\) --- полукольцо. Тогда \(\forall A, B_1, \dots B_n \in S \exists m, A_1, \dots A_m \in S\), такие, что
+    \[A \setminus B_1 \setminus B_2 \setminus \dots \setminus B_n = \bigsqcup_{k = 1}^m A_k, A_k \in S, m \in \N\]
+\end{proposition}
+\begin{proof}
+    Ведем индукцию по \(n\)
+    \begin{enumerate}
+        \item[] \textbf{База:} \(n = 1\)
+        \item[] \textbf{Переход:}
+        \[A \setminus B_1 \setminus B_2 \setminus \dots \setminus B_n = \left(\bigsqcup_{k = 1}^m A_k\right)\setminus B_n = \bigsqcup_{k = 1}^m \underbrace{(A_k \setminus B_n)}_{\in S}\]
+    \end{enumerate}
+\end{proof}
+
+\begin{proposition}
+    Пусть \(S\) --- полукольцо. Тогда \(R(S) = \left\{\bigcup_{k = 1}^n A_k | n \in \N, A_k \in S\right\}\). Тогда \(R(S)\) --- минимальное кольцо, содержащее \(S\).
+\end{proposition}
+\begin{proof}
+    Пусть \(\mathcal{R}\) --- наименьшее кольцо, содержащее \(S\). Докажем, что \(R(S) = \mathcal{R}\)
+    \begin{enumerate}
+        \item [] \(R(S) \subset \mathcal{R}\) --- очевидно, т.к. любое кольцо включает в себя \(R(S)\) как подсистему.
+        \item[]\(R(S) \supset \mathcal{R}\) Рассмотрим 
+        \[\bigsqcup_{k = 1}^n A_k \cap \bigsqcup_{s = 1}^m B_s = \bigsqcup_{k \le n, s \le m} \underbrace{(A_k \cap B_s)}_{\in S}\]
+        Теперь рассмотрим 
+        \[\bigsqcup_{k = 1}^n A_k \Delta \bigsqcup_{s = 1}^m B_s = \bigsqcup_{k = 1}^n (A_k \setminus B_1 \setminus B_2 \setminus \dots \setminus B_m) \cup \bigsqcup_{s = 1}^m (B_s \setminus A_1 \setminus A_2 \setminus \dots \setminus A_n)\]
+    \end{enumerate}
+\end{proof}
+
+\begin{proposition}[Об общих кирпичах]
+    \(\forall A_1, A_2, \dots A_k \in S \exists B_1, \dots B_m\) --- попарно непересекающиеся множества, такие, что \(\forall i = 1, \dots n \exists \Gamma_i \subset \{1, 2, \dots m\}: A_i = \bigsqcup_{\gamma \in \Gamma_i}B_\gamma\).
+\end{proposition}
+\begin{proof}
+    Ведем индукцию по \(n\)
+    \begin{enumerate}
+        \item[] \textbf{База:} \(n = 1\), берем \(m = 1, B_1 = A\).
+        \item[] \textbf{Переход:} известно:
+        \[A_{n + 1} \setminus B_1 \setminus \dots \setminus B_m = \bigsqcup_j D_j\]
+        Каждое из множеств \(B_s \setminus A_{n + 1}\) разобъем по определению, получим множества \(B_{s, i}\). Итого искомые множества: \(B_{s, i}, D_j, A_{n + 1} \cap B_s\).
+    \end{enumerate}
+\end{proof}
+
+\begin{definition}
+    \(\sigma\)-алгебра --- такая алгебра, которая замкнута относительно относительно \(\bigcap^\infty A_i\)
+\end{definition}
+
+\begin{definition}
+    \(\delta\)-алгебра --- такая алгебра, которая замкнута относительно относительно \(\bigcup^\infty A_i\)
+\end{definition}
+\begin{note}
+    \(\sigma\)-алгебра и \(\delta\)-алгебра --- это одно и то же
+\end{note}
+
+\begin{definition}
+    \(\sigma\)-кольцо --- такое кольцо, которое замкнуто относительно относительно \(\bigcap^\infty A_i\)
+\end{definition}
+
+\begin{definition}
+    \(\delta\)-кольцо --- такая кольцо, которое замкнуто относительно относительно \(\bigcup^\infty A_i\)
+\end{definition}
+\begin{note}
+    \(\sigma\)-кольцо и \(\delta\)-кольцо --- это \textbf{НЕ} одно и то же, однако \(\sigma\)-кольцо всегда является \(\delta\)-кольцом
+\end{note}
+\begin{example}
+    Рассмотрим \(X = \{A \subset \N |\;|A| < \infty\}\). Оно является \(\delta\)-кольцом, но не \(\sigma\) (т.к. \(\bigcap_{n \in \N}\{n\} = \N \notin X\)).
+\end{example}
+
+\begin{definition}
+    \(\mathcal{B}(\R)\) --- борелевская \(\sigma\)-алгебра --- минимальная по включению алгебра, содержащая все открытые множества
+\end{definition}
+
+\hypertarget{lecture4}{}
+
+
+\begin{definition}
+    Пусть \(\mathcal{X} \subset 2^\Omega\). Тогда \(m: \mathcal{X} \ra [0, +\infty)\) называется мерой, если она аддитивна, т.е.
+    \[A_1, A_2, \dots A_n \in X, A_i \cap A_j = \emptyset \Ra m(A_1 \sqcup A_2 \sqcup \dots \sqcup A_n) = \sum_{i = 1}^n m(A_i)\]
+\end{definition}
+
+\begin{definition}
+    Отображение \(m: \mathcal{X} \ra 2^\Omega\) называется субаддитивным, если 
+    \[\forall A_1, A_2, \dots A_n, A \subset \bigcup_{i = 1}^n A_i \Ra m\left( A  \right) \le \sum_{i = 1}^n m(A_i)\]
+\end{definition}
+
+\begin{definition}
+    Отображение \(m: \mathcal{X} \ra 2^\Omega\) называется супераддитивным, если 
+    \[\forall A_1, A_2, \dots A_n \in X, A_i \cap A_j = \emptyset, A \supset \bigsqcup_{i = 1}^n A_i  \Ra m\left( A \right) \ge \sum_{i = 1}^n m(A_i)\]
+\end{definition}
+
+\begin{proposition}
+    Пусть \(R\) --- кольцо. Тогда \(m\) --- мера на \(R\) тогда и только тогда, когда \(m\) субаддитивна и супераддитивна.
+\end{proposition}
+\begin{proof}
+    Т.к. следствие \(\La\) очевидно, докажем только \(\Ra\).
+    \begin{enumerate}
+        \item[] \textbf{Субаддивность меры:} Пусть \(A_1, A_2, \dots A_n \in R, A \subset \bigcup_{i = 1}^n A_i\). По утверждению об общих кирпичах, \(\exists B_i: B_i \cap B_j = \emptyset: A_i = \bigsqcup_{s \in \Gamma_i} B_s\). Тогда \(m(A) = \sum_{i \in I} m(B_i)\le \sum_i m(B_i) \le \sum_{i = 1}^n m(A_i)\).
+        \item[] \textbf{Супераддивность меры:} Пусть \(A_1, A_2, \dots A_n \in R, A \supset \bigsqcup_{i = 1}^n A_i\). По утверждению об общих кирпичах, \(\exists B_i: B_i \cap B_j = \emptyset: A_i = \bigsqcup_{s \in \Gamma_i} B_s\). Тогда \(m(A) = \sum_{i \in I} m(B_i)\ge \sum_{i = 1}^n m(A_i)\).
+    \end{enumerate}
+\end{proof}
+
+\begin{definition}
+    Мера называется \(\sigma\)-аддитивной, если \(\forall A_1, A_2, \dots\) верно:
+    \[m\left( \bigsqcup_{i = 1}^\infty A_i \right) = \sum_{i = 1}^\infty m(A_i)\]
+\end{definition}
+
+\begin{definition}
+    Отображение \(m: \mathcal{X} \ra 2^\Omega\) называется \(\sigma\)-субаддитивным, если 
+    \[\forall A_1, A_2, \dots, A \subset \bigcup_{i = 1}^\infty A_i \Ra m\left( A  \right) \le \sum_{i = 1}^\infty m(A_i)\]
+\end{definition}
+
+\begin{definition}
+    Отображение \(m: \mathcal{X} \ra 2^\Omega\) называется \(\sigma\)-супераддитивным, если 
+    \[\forall A_1, A_2, \dots \in X, A_i \cap A_j = \emptyset, A \supset \bigsqcup_{i = 1}^\infty A_i  \Ra m\left( A \right) \ge \sum_{i = 1}^\infty m(A_i)\]
+\end{definition}
+
+\begin{proposition}
+    Мера \(m: S \ra [0, +\infty)\) является \(\sigma\)-аддитивной тогда и только тогда, когда она \(\sigma\)-субаддитивна.
+\end{proposition}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item[\(\La\)] Следует из антисимметричности \(\ge\).
+        \item[\(\Ra\)] Докажем \(\sigma\)-субаддитивность для \(A = \bigcup^\infty A_i, A, A_i \in S\). Заменим \(A_i \ra A_i \cap A\), тогда \(\sum_{i = 1}^\infty m(A_i) \) не увеличится. Заменим \(A_i \ra A_i \setminus \bigcup_{j < i} A_j\). Тогда 
+    \end{enumerate}
+\end{proof}
+
+\begin{proposition}
+    Пусть \(m: S \ra [0, +\infty)\) --- мера. Тогда \(\exists ! \nu: R(S) \ra [0, +\infty)\), такая, что \(\nu|_S = m\). Более того, \(\sigma\)-аддитивность наследуется
+\end{proposition}
+\begin{proof}
+    \[R(S) = \left\{ \bigsqcap^n_{i = 1} A_i | n \in \N, A_k \in S \right\}\]
+    Положим \(\nu\left( \bigsqcup_{i = 1}^n A_i \right) = \sum_{i = 1}^n m(A_i)\).
+    \[\bigsqcup_{i = 1}^n A_i = \bigsqcup_{i = 1}^n B_i\]
+    \[\bigsqcup_{i = 1}^n A_i = \bigsqcup_{i = 1}^n B_i\]
+\end{proof}
+
+\hypertarget{lecture5}{}
+
+\subsection{Меры Жордана и Лебега}
+\begin{definition}
+    Пусть \(S\) --- полуалгебра, \(m: S \ra [0, +\infty)\). Тогда внешняей мерой Жордана называется функция: \(\mu_J^*(A) = \inf_{\bigcup^n A_k \supset A} \sum m(A_k), A_k \in S\).
+\end{definition}
+
+\begin{example}[Мера Жордана не \(\sigma\)-аддитивна]
+    Расмотрим \(\mu_J^*(\Q\cap [0, 1]) = 1\), однако, если рассматривать отрезки длины \(q^n\) для каждой точки с номером \(n\), и устремить \(q \ra 0\), то получим, что \(\sum q^n = 0\).
+\end{example}
+
+Приведем внешнюю меру, которая является \(\sigma\)-аддитивной на полуалгебре \(S\).
+
+\begin{definition}
+    Пусть \(S\) --- полуалгебра, \(m: S \ra [0, +\infty)\). Тогда внешняей мерой Жордана называется функция: \(\mu_J^*(A) = \inf_{\bigcup^infty A_k \supset A} \sum m(A_k), A_k \in S\).
+\end{definition}
+
+\begin{proof}
+    Сужения 
+\end{proof}
+\begin{proof}
+    
+\end{proof}
+

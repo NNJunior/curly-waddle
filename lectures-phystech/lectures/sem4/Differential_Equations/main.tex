@@ -1,0 +1,152 @@
+
+\hypertarget{lecture1}{}
+\section{Продолжение автономных систем}
+
+\begin{reminder}
+    Мы рассматриваем автономные системы, т.е. вида \(x' = f(x)\).
+\end{reminder}
+
+\subsection{Линейные системы}
+Будем рассматривать уравнение в \(\R^2\):
+\begin{equation}
+    x' = Ax
+\end{equation}
+Где \(A \in \R^{2\times 2}\) --- матрица, причем \(\det A \ne 0\) (система простая)
+
+\subsubsection{Вещественные собственные числа у матрицы}
+
+Для начала рассмотрим случай наличия двух собственных векторов у матрицы \(A\). Положим \(h_1, h_2\) --- собственные векторы, тогда они ЛНЗ. Заметим, что тогда:
+\[x(t) = c_1e^{\lambda_1t}h_1 + c_2e^{\lambda_2t}h_2\]
+
+Рассмотрим плоскость в базисе \((h_1, h_2)\). Пусть \(\xi_i\) --- \(i\)-ая координатная функция решения. Тогда:
+\[\xi_1 = c_1e^{\lambda_1t}, \xi_2 = c_2e^{\lambda_2t} = c_2e^{\frac{\lambda_2}{\lambda_1}\lambda_1t} = c_2\left( \frac{\xi_1}{c_1} \right)^{\frac{\lambda_2}
+{\lambda_1}}\]
+
+Таким образом, в координатах \(h_1, h_2\) и при \(t \ra \infty\), мы можем видеть следующую картинку (стрелки показывают движение решения при \(t \ra \infty\)):
+
+\paragraph{Случай \(\lambda_1 < 0, \lambda_2 < 0, |\lambda_1| < |\lambda_2|\)}
+
+В таком случае поведение траектории в окрестности положения равновесия называется \textit{устойчиывм узлом}. Картинка в данном случае будет следующая:
+
+\begin{center}
+    тут должна быть картинка
+\end{center}
+
+\paragraph{Случай \(\lambda_1 > 0, \lambda_2 > 0, \lambda_1 < \lambda_2\)}
+В таком случае поведение траектории в окрестности положения равновесия называется \textit{неустойчивым узлом}. Картинка в данном случае будет следующая:
+
+\begin{center}
+    тут должна быть картинка
+\end{center}
+
+\paragraph{Случай \(\lambda_1 < 0 < \lambda_2\)}
+В таком случае поведение траектории в окрестности положения равновесия называется \textit{седлом}. Картинка в данном случае будет следующая:
+
+\begin{center}
+    тут должна быть картинка
+\end{center}
+
+\paragraph{Случай \(\lambda_1 = \lambda_2\)}
+В таком случае поведение траектории в окрестности положения равновесия называется \textit{дикритическим узлом}. Картинка в данном случае будет следующая:
+
+\begin{center}
+    тут должна быть картинка
+\end{center}
+
+Для случая, когда собственный вектор один:
+
+\paragraph{Случай одного собственного вектора с собственным числом \(\lambda\)}
+Тогда пусть \(h_1\) --- собственный вектор, \(h_2\) --- присоединенный к нему. Тогда:
+\[x(t) = c_1e^{\lambda t}h_1 + c_2e^{\lambda t}(h_1t + h_2) = h_1\underbrace{(c_1e^{\lambda t} + c_2e^{\lambda t}t)}_{\xi_1} + h_2 \underbrace{c_2e^{\lambda t}}_{\xi_2}\]
+
+Тогда имеем:
+\[\xi_1 = \frac{c_1}{c_2}\xi_2 + \xi_2 \frac{1}{\lambda}\ln\frac{\xi_2}{c_2}\]
+
+В таком случае поведение траектории в окрестности положения равновесия называется \textit{дикритическим узлом}. Картинка в данном случае будет следующая:
+
+\begin{center}
+    тут должна быть картинка
+\end{center}
+
+\subsubsection{Комплекснозначные собственные числа у матрицы}
+Пусть \(\lambda = \alpha + i\beta, \beta \ne 0\). Тогда \(h = h_1 \pm ih_2\) --- собственные векторы, где \(h_1, h_2\) --- ЛНЗ. Тогда:
+\[x(t) = ce^{\lambda t}h + \overline{c}e^{\overline{\lambda}t}\overline{h}, c \in \Cm\]
+Положим \(c = \frac{r}{2}e^{i\phi}\), тогда:
+\[x(t) = \frac{r}{2}e^{\alpha t}\left( e^{i\phi + i\beta t}(h_1 + ih_2) e^{-i\phi - i\beta t}(h_1 - ih_2) \right) = re^{\alpha t}(\cos(\phi + \beta t)h_1 - \sin(\phi + \beta t)h_2)\]
+Получаем:
+\[\xi_1(t) = re^{\alpha t}\cos(\phi + \beta t)\]
+\[\xi_2(t) = re^{\alpha t}\sin(\phi + \beta t)\]
+
+Картинки в зависимости от ранзых \(\alpha, \beta\) будут следующие:
+\begin{center}
+    тут должны быть картинки
+\end{center}
+
+\subsection{Нелинейные системы}
+Будем рассматривать уравнение
+\begin{equation}
+    x' = f(x), f: \Omega \ra \R^2, f \in C^2, \Omega\text{ --- открытое}
+\end{equation}
+Пусть \(\tilde{x} \in \Omega\) таково, что \(f(\tilde{x}) = 0\), т.е. \(\tilde{x}\) --- положение равновесия. Рассмотрим еще одно уравнение:
+\begin{equation}
+    y' = f'(\tilde{x})y, f'(x) = \left( \begin{array}{cc}
+        \frac{\partial f_1}{\partial x_1}(x) & \frac{\partial f_1}{\partial x_2}(x) \\ 
+        \frac{\partial f_2}{\partial x_1}(x) & \frac{\partial f_2}{\partial x_2}(x) \\ 
+    \end{array} \right)
+\end{equation}
+
+\begin{theorem}[б/д]
+    Пусть \(\det f(\tilde{x}) \ne 0\), (т.е. система (1.3) простая), причем \(0\) не является ее центром. Тогда \(\exists U\) --- окрестность \(\tilde{x}\), \(\exists V\) --- окрестность \(0\), \(\exists \psi: U \ra V\) --- гомеоморфизм, такие, что выполнены следующие условия:
+    \begin{enumerate}
+        \item \(\forall\) траектории \(X \subset V\) системы (1.2), \(\psi(X)\) --- тракетория системы (1.3)
+        \item \(\forall\) траектории \(Y \subset U\) системы (1.3), \(\psi^{-1}(Y)\) --- тракетория системы (1.2)
+    \end{enumerate}
+\end{theorem}
+
+\begin{example}
+    Рассмотрим систему:
+    \begin{equation*}
+        \begin{cases*}
+            x_1' = -x_2 - x_1|x| \\
+            x_2' = x_1 - x_2|x|
+        \end{cases*}, \tilde{x} = \left( \begin{array}{c}
+            0 \\
+            0
+        \end{array} \right)
+    \end{equation*}
+
+    Тогда:
+    \[f'(0) = \left( \begin{array}{cc}
+        0 & -1 \\
+        1 & 0
+    \end{array} \right)\]
+    И линеаризованная система имеет вид:
+    \[y' = \left( \begin{array}{cc}
+        0 & -1 \\
+        1 & 0
+    \end{array} \right)y\]
+    Заметим, что тогда \(\lambda \pm i\) и \(0\) --- центр. Сделаем замену \(x_1 = r\cos\phi, x_1 = r\sin\phi\), имеем:
+    \begin{eqnarray*}
+        \begin{cases*}
+            r'\cos\phi - r(\sin\phi)\phi' = -r\sin\phi - r^2\cos\phi \\
+            r'\sin\phi + r(\cos\phi)\phi' = r\cos\phi - r^2\sin\phi
+        \end{cases*}
+    \end{eqnarray*}
+    \begin{eqnarray*}
+        \begin{cases*}
+            r' = -r^2
+            -r\phi' = -r \Ra \phi' = 1
+        \end{cases*}
+    \end{eqnarray*}
+    Получили, что \(\phi = \phi_0 + t\) и 
+    \[x(t) = \left( \begin{array}{c}
+        r(t)\cos(\phi_0 + t) \\
+        r(t)\sin(\phi_0 + t) \\
+    \end{array} \right)\]
+    Таким образом, картинка будет следующей:
+    \begin{center}
+        тут должна быть картинка
+    \end{center}
+    Т.е. одна траектория получилась не замкнутой. Но тогда между ними не может существовать гомеоморфизма. Таким образом, условие, что 0 --- не центр существенно.
+\end{example}
+

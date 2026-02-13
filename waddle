@@ -1,0 +1,516 @@
+#!/usr/bin/env python3
+r"""
+Compiles a lecture from folder lectures/semN/SubjectName into a PDF,
+or commits changes in both lectures-phystech and curly-waddle repositories.
+
+This script is intended to be placed in the **root directory of the lectures-phystech project**
+(i.e. where the 'preamble' folder lives).
+
+Usage:
+  # Compile a lecture
+  ./compile_lecture.py compile lectures/sem1/MathLog
+
+  # Commit all changes in both repositories
+  ./compile_lecture.py commit -m "Commit message" [--cw-dir PATH]
+
+The script copies:
+  - the common preamble folder,
+  - the global images folder (if present),
+  - setting.tex and main.tex from lectures/semN/SubjectName,
+  - preamble/main.tex → document.tex (verbatim, no rewriting).
+
+It then runs pdflatex twice and places the resulting PDF into
+../curly-waddle/pdf/semN/SubjectName.pdf (or a custom location
+given with --result-dir).
+"""
+
+from __future__ import annotations
+
+import argparse
+import shutil
+import subprocess
+import sys
+import tempfile
+from pathlib import Path
+
+# Optional chardet for better encoding detection
+try:
+    import chardet
+    HAS_CHARDET = True
+except ImportError:
+    HAS_CHARDET = False
+
+# ---------- ANSI color helpers ----------
+class Color:
+    """ANSI color codes for terminal output."""
+    RED = '\033[91m'
+    GREEN = '\033[92m'
+    YELLOW = '\033[93m'
+    BLUE = '\033[94m'
+    MAGENTA = '\033[95m'
+    CYAN = '\033[96m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+    RESET = '\033[0m'
+
+    @staticmethod
+    def red(text: str) -> str:
+        return f"{Color.RED}{text}{Color.RESET}"
+
+    @staticmethod
+    def green(text: str) -> str:
+        return f"{Color.GREEN}{text}{Color.RESET}"
+
+    @staticmethod
+    def yellow(text: str) -> str:
+        return f"{Color.YELLOW}{text}{Color.RESET}"
+
+    @staticmethod
+    def blue(text: str) -> str:
+        return f"{Color.BLUE}{text}{Color.RESET}"
+
+    @staticmethod
+    def bold(text: str) -> str:
+        return f"{Color.BOLD}{text}{Color.RESET}"
+
+
+# ---------- Encoding utilities ----------
+def detect_file_encoding(path: Path, default: str = "utf-8") -> str:
+    """
+    Detect the encoding of a file.
+
+    First tries UTF-8, then cp1251, koi8-r, latin1.
+    If chardet is installed, it is used for a smarter guess.
+
+    Args:
+        path: Path to the file.
+        default: Fallback encoding if detection fails.
+
+    Returns:
+        Name of the detected encoding.
+    """
+    if HAS_CHARDET:
+        try:
+            with open(path, "rb") as f:
+                raw = f.read()
+            result = chardet.detect(raw)
+            enc = result.get("encoding")
+            if enc:
+                return enc
+        except Exception as e:
+            print(
+                Color.yellow(
+                    f"Warning: chardet failed for {path.name}: {e}. "
+                    "Falling back to manual encoding detection."
+                ),
+                file=sys.stderr,
+            )
+
+    for enc in ["utf-8", "cp1251", "koi8-r", "latin1"]:
+        try:
+            with open(path, "r", encoding=enc) as f:
+                f.read()
+            return enc
+        except UnicodeDecodeError:
+            continue
+        except Exception as e:
+            raise RuntimeError(f"Failed to read file {path} with encoding {enc}: {e}")
+
+    return default
+
+
+def read_file_with_encoding_detection(path: Path) -> tuple[list[str], str]:
+    """
+    Read a file, automatically detecting its encoding.
+
+    Returns:
+        A tuple: (list of lines, encoding used).
+
+    Raises:
+        FileNotFoundError: If the file does not exist.
+        RuntimeError: If encoding detection or reading fails.
+    """
+    if not path.is_file():
+        raise FileNotFoundError(f"File not found: {path}")
+
+    enc = detect_file_encoding(path)
+    try:
+        with open(path, "r", encoding=enc) as f:
+            lines = f.readlines()
+        return lines, enc
+    except Exception as e:
+        raise RuntimeError(f"Could not read file {path} with encoding {enc}: {e}")
+
+
+# ---------- Filesystem utilities ----------
+def safe_copy_tree(src: Path, dst: Path, ignore_dangling_symlinks: bool = False) -> None:
+    """Copy a directory tree with proper error handling."""
+    try:
+        shutil.copytree(src, dst, ignore_dangling_symlinks=ignore_dangling_symlinks)
+    except FileExistsError:
+        raise RuntimeError(f"Destination directory already exists: {dst}")
+    except PermissionError as e:
+        raise PermissionError(f"Permission denied copying {src} to {dst}: {e}")
+    except OSError as e:
+        raise RuntimeError(f"Failed to copy {src} to {dst}: {e}")
+
+
+def safe_copy_file(src: Path, dst: Path) -> None:
+    """Copy a single file with metadata and proper error handling."""
+    try:
+        shutil.copy2(src, dst)
+    except FileNotFoundError:
+        raise FileNotFoundError(f"Source file not found: {src}")
+    except PermissionError as e:
+        raise PermissionError(f"Permission denied copying {src} to {dst}: {e}")
+    except OSError as e:
+        raise RuntimeError(f"Failed to copy {src} to {dst}: {e}")
+
+
+def get_project_root() -> Path:
+    """
+    Return the directory containing this script, and verify that it contains
+    the required subdirectories 'preamble' and 'lectures'.
+    """
+    script_dir = Path(__file__).parent.resolve()
+    if not (script_dir / "preamble").is_dir():
+        raise RuntimeError(f"Preamble folder not found in {script_dir}")
+    if not (script_dir / "lectures").is_dir():
+        raise RuntimeError(f"Lectures folder not found in {script_dir}")
+    return script_dir
+
+
+# ---------- Compilation logic ----------
+def prepare_compilation_directory(
+    temp_dir: Path, project_root: Path, src_dir: Path
+) -> None:
+    r"""
+    Populate a temporary directory with all files needed for compilation.
+
+    Copies:
+      - Entire preamble folder from project root
+      - images folder from project root (if it exists)
+      - setting.tex and main.tex from the lecture source directory
+      - preamble/main.tex → document.tex (verbatim copy, no modifications)
+
+    The template already contains \input{setting} and \input{main} which work
+    because setting.tex and main.tex are in the same directory.
+    """
+    # 1. Copy preamble
+    preamble_src = project_root / "preamble"
+    if not preamble_src.is_dir():
+        raise NotADirectoryError(f"Preamble folder not found: {preamble_src}")
+    safe_copy_tree(preamble_src, temp_dir / "preamble")
+
+    # 2. Copy images folder if it exists (optional)
+    images_src = project_root / "images"
+    if images_src.is_dir():
+        safe_copy_tree(images_src, temp_dir / "images")
+    else:
+        print(
+            Color.yellow("Warning: images folder not found, images may be missing."),
+            file=sys.stderr,
+        )
+
+    # 3. Copy the lecture's specific TeX files
+    setting_src = src_dir / "setting.tex"
+    main_src = src_dir / "main.tex"
+    if not setting_src.is_file():
+        raise FileNotFoundError(f"Missing required file: {setting_src}")
+    if not main_src.is_file():
+        raise FileNotFoundError(f"Missing required file: {main_src}")
+
+    safe_copy_file(setting_src, temp_dir / "setting.tex")
+    safe_copy_file(main_src, temp_dir / "main.tex")
+
+    # 4. Copy the template (preamble/main.tex) to document.tex verbatim
+    template_path = temp_dir / "preamble" / "main.tex"
+    if not template_path.is_file():
+        raise FileNotFoundError(f"Template not found: {template_path}")
+
+    # Detect encoding for informational message only
+    _, template_encoding = read_file_with_encoding_detection(template_path)
+    print(Color.blue(f"Template encoding: {template_encoding}"))
+
+    # Copy the file as-is (preserves encoding, no rewriting)
+    document_path = temp_dir / "document.tex"
+    safe_copy_file(template_path, document_path)
+    print(Color.blue("Template copied verbatim to document.tex"))
+
+
+def compile_pdf(temp_dir: Path, pdflatex_cmd: str, runs: int = 2) -> Path:
+    """
+    Run pdflatex the specified number of times to generate a PDF.
+
+    Returns:
+        Path to the generated PDF.
+
+    Raises:
+        RuntimeError: If pdflatex is not found or compilation fails.
+        FileNotFoundError: If PDF is not created after compilation.
+    """
+    pdflatex = shutil.which(pdflatex_cmd)
+    if not pdflatex:
+        raise RuntimeError(
+            f"'{pdflatex_cmd}' not found in PATH. Please install LaTeX or specify a valid path."
+        )
+
+    for i in range(runs):
+        try:
+            result = subprocess.run(
+                [pdflatex, "-interaction=nonstopmode", "document.tex"],
+                cwd=temp_dir,
+                capture_output=True,
+                timeout=60,
+            )
+        except subprocess.TimeoutExpired:
+            raise RuntimeError(f"pdflatex timed out after 60 seconds (run {i+1}/{runs})")
+        except Exception as e:
+            raise RuntimeError(f"Failed to execute pdflatex: {e}")
+
+        if result.returncode != 0:
+            sys.stderr.buffer.write(result.stderr)
+            sys.stderr.buffer.write(result.stdout)
+            raise subprocess.CalledProcessError(
+                result.returncode,
+                result.args,
+                output=result.stdout,
+                stderr=result.stderr,
+            )
+
+    pdf_path = temp_dir / "document.pdf"
+    if not pdf_path.is_file():
+        raise FileNotFoundError("PDF was not created after compilation")
+    return pdf_path
+
+
+def run_compile(args: argparse.Namespace) -> None:
+    """Handle the 'compile' subcommand."""
+    # Determine project root (directory where this script resides)
+    try:
+        project_root = get_project_root()
+    except RuntimeError as e:
+        sys.exit(Color.red(f"Error: {e}"))
+    print(Color.blue(f"Project root: {project_root}"))
+
+    # Construct full source path relative to current working directory
+    src_dir = (Path.cwd() / args.source_dir).resolve()
+    if not src_dir.is_dir():
+        sys.exit(Color.red(f"Error: {src_dir} is not a directory or does not exist."))
+
+    # Verify that the source directory is inside the project root
+    try:
+        src_dir.relative_to(project_root)
+    except ValueError:
+        sys.exit(Color.red(f"Error: {src_dir} is not inside the project root {project_root}."))
+
+    # Check required files
+    setting_path = src_dir / "setting.tex"
+    main_path = src_dir / "main.tex"
+    if not setting_path.is_file():
+        sys.exit(Color.red(f"Error: {setting_path} is missing."))
+    if not main_path.is_file():
+        sys.exit(Color.red(f"Error: {main_path} is missing."))
+
+    # Extract semester and subject name from the source path
+    sem_dir = src_dir.parent.name
+    subject_name = src_dir.name
+
+    # Prepare output directory
+    result_root = Path(args.result_dir)
+    # If result_dir is relative, interpret it relative to project root
+    if not result_root.is_absolute():
+        result_root = (project_root / result_root).resolve()
+    target_dir = result_root / sem_dir
+    try:
+        target_dir.mkdir(parents=True, exist_ok=True)
+    except Exception as e:
+        sys.exit(Color.red(f"Error creating output directory {target_dir}: {e}"))
+    target_pdf = target_dir / f"{subject_name}.pdf"
+
+    # Temporary directory and compilation
+    try:
+        with tempfile.TemporaryDirectory(prefix="compile_lecture_") as tmp:
+            temp_dir = Path(tmp)
+            try:
+                prepare_compilation_directory(temp_dir, project_root, src_dir)
+                pdf_path = compile_pdf(temp_dir, args.pdflatex, args.runs)
+                safe_copy_file(pdf_path, target_pdf)
+                print(Color.green(f"Done: {target_pdf}"))
+            except Exception as e:
+                print(Color.red(f"Compilation error: {e}"), file=sys.stderr)
+                if args.keep_temp:
+                    print(Color.yellow(f"Temporary files kept in {temp_dir}"), file=sys.stderr)
+                sys.exit(1)
+
+            if args.keep_temp:
+                keep_path = Path.cwd() / f"temp_{sem_dir}_{subject_name}"
+                try:
+                    shutil.move(str(temp_dir), str(keep_path))
+                    print(Color.yellow(f"Temporary files moved to {keep_path}"))
+                except Exception as e:
+                    print(Color.red(f"Failed to move temporary directory: {e}"), file=sys.stderr)
+                    sys.exit(1)
+
+    except KeyboardInterrupt:
+        print(Color.yellow("\nInterrupted by user."), file=sys.stderr)
+        sys.exit(130)
+    except Exception as e:
+        print(Color.red(f"Unexpected error: {e}"), file=sys.stderr)
+        sys.exit(1)
+
+
+# ---------- Commit logic ----------
+def run_commit(args: argparse.Namespace) -> None:
+    """Handle the 'commit' subcommand."""
+    project_root = get_project_root()  # lectures-phystech
+    print(Color.blue(f"Lectures repo: {project_root}"))
+
+    # Determine curly-waddle repo path
+    if args.cw_dir:
+        cw_dir = Path(args.cw_dir).expanduser().resolve()
+    else:
+        # Default: ../curly-waddle relative to project root
+        cw_dir = (project_root.parent / "curly-waddle").resolve()
+    print(Color.blue(f"Curly-waddle repo: {cw_dir}"))
+
+    # Verify both are directories
+    if not project_root.is_dir():
+        sys.exit(Color.red(f"Error: Lectures repo directory not found: {project_root}"))
+    if not cw_dir.is_dir():
+        sys.exit(Color.red(f"Error: Curly-waddle directory not found: {cw_dir}"))
+
+    # Check that they are git repositories (optional but helpful)
+    def is_git_repo(path: Path) -> bool:
+        return (path / ".git").exists() or (path / ".git").is_dir()
+
+    if not is_git_repo(project_root):
+        print(Color.yellow(f"Warning: {project_root} does not appear to be a git repository."))
+    if not is_git_repo(cw_dir):
+        print(Color.yellow(f"Warning: {cw_dir} does not appear to be a git repository."))
+
+    message = args.message
+    if not message:
+        sys.exit(Color.red("Error: Commit message (-m) is required."))
+
+    # Helper to run git commands
+    def git_commit(repo_path: Path, msg: str) -> bool:
+        """Returns True if a commit was made, False if nothing to commit."""
+        try:
+            # First add all changes
+            subprocess.run(
+                ["git", "-C", str(repo_path), "add", "-A"],
+                check=True,
+                capture_output=True,
+                text=True,
+            )
+            # Then commit
+            result = subprocess.run(
+                ["git", "-C", str(repo_path), "commit", "-m", msg],
+                capture_output=True,
+                text=True,
+            )
+            if result.returncode == 0:
+                print(Color.green(f"Committed in {repo_path.name}"))
+                return True
+            elif "nothing to commit" in result.stderr or "nothing to commit" in result.stdout:
+                print(Color.yellow(f"No changes to commit in {repo_path.name}"))
+                return False
+            else:
+                # Some other error
+                print(Color.red(f"Git error in {repo_path.name}:"), file=sys.stderr)
+                print(result.stderr, file=sys.stderr)
+                return False
+        except subprocess.CalledProcessError as e:
+            print(Color.red(f"Git command failed in {repo_path.name}: {e}"), file=sys.stderr)
+            print(e.stderr, file=sys.stderr)
+            return False
+        except Exception as e:
+            print(Color.red(f"Unexpected error in {repo_path.name}: {e}"), file=sys.stderr)
+            return False
+
+    committed_any = False
+    if git_commit(project_root, message):
+        committed_any = True
+    if git_commit(cw_dir, message):
+        committed_any = True
+
+    if not committed_any:
+        sys.exit(Color.yellow("No commits were made."))
+    else:
+        print(Color.green("Commit operation completed."))
+
+
+# ---------- Main parser ----------
+def main() -> None:
+    parser = argparse.ArgumentParser(
+        description=Color.bold("Compile a lecture or commit changes in both repositories."),
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
+    subparsers = parser.add_subparsers(dest="command", required=True, help="Subcommand")
+
+    # Parser for 'compile'
+    compile_parser = subparsers.add_parser(
+        "compile",
+        help="Compile a lecture into PDF",
+        description="Compile a lecture: copy preamble, images, and lecture TeX files, then run pdflatex.",
+    )
+    compile_parser.add_argument(
+        "source_dir",
+        help="Path to the lecture folder (relative to current directory or absolute). "
+             "Example: 'lectures/sem1/MathLog' or simply 'MathLog' if already inside lectures/sem1/",
+    )
+    compile_parser.add_argument(
+        "--result-dir",
+        dest="result_dir",
+        default="../curly-waddle/pdf",
+        help="Root folder where the result will be stored (default: ../curly-waddle/pdf). "
+             "Inside it, semN/SubjectName.pdf is created.",
+    )
+    compile_parser.add_argument(
+        "--pdflatex",
+        default="pdflatex",
+        help="Path to the pdflatex executable (default: search in PATH)",
+    )
+    compile_parser.add_argument(
+        "--runs",
+        type=int,
+        default=2,
+        help="Number of pdflatex runs (default: 2)",
+    )
+    compile_parser.add_argument(
+        "--keep-temp",
+        action="store_true",
+        help="Do not delete the temporary directory (useful for debugging)",
+    )
+
+    # Parser for 'commit'
+    commit_parser = subparsers.add_parser(
+        "commit",
+        help="Commit all changes in both lectures-phystech and curly-waddle repositories",
+        description="Run 'git add -A' and 'git commit' in both repositories with the same message.",
+    )
+    commit_parser.add_argument(
+        "-m", "--message",
+        required=True,
+        help="Commit message",
+    )
+    commit_parser.add_argument(
+        "--cw-dir",
+        help="Path to the curly-waddle repository (default: ../curly-waddle relative to lectures-phystech)",
+    )
+
+    args = parser.parse_args()
+
+    if args.command == "compile":
+        run_compile(args)
+    elif args.command == "commit":
+        run_commit(args)
+    else:
+        # This should not happen because required=True
+        parser.print_help()
+        sys.exit(1)
+
+
+if __name__ == "__main__":
+    main()

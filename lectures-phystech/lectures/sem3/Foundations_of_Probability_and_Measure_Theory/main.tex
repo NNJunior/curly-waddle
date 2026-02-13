@@ -1,0 +1,226 @@
+
+\hypertarget{lecture1}{}
+
+\section{Введение}
+\subsection{Определения}
+\begin{definition}
+    Группа --- это множество \(G\) с введенным на нем бинарной операцией \(*\), удовлетворяющее следующим свойствам:
+    \begin{enumerate}
+        \item \textbf{Ассоциативность:} \((a * b) * c = a * (b * c)\)
+        \item \textbf{Наличие нейтрального элемента:} \(\exists e \in G: \forall g \in G g * e = e * g = g\).
+        \item \textbf{Наличие обратного элемента:} \(\forall a \in G \exists a^{-1}: a * a^{-1} = a^{-1} * a = e\)
+    \end{enumerate}
+\end{definition}
+
+\begin{note}
+    В группе нейтральный элемент единственнен
+\end{note}
+\begin{proof}
+    От противного, тогда \(e_1 = e_1 * e_2 = e_2\).
+\end{proof}
+
+\begin{note}
+    В группе обраный элемент единственнен для любого элемента \(G\).
+\end{note}
+\begin{proof}
+    Пусть \(\exists b, c: a * b = b * a = e, a * c = c * a = e\). Рассмотрим \(b = (c * a) * b = c * (a * b) = c\).
+\end{proof}
+
+\begin{note}
+    Существует более слабое определение группы --- можно не писать \textbf{одну} из коммутативностей в пунктах \(2, 3\).
+\end{note}
+
+\begin{proposition}
+    В группе выполняется правило левого и правого сокращения, т.е. \(a * b = c * b \Lra a = c\) или \(b * a = b * c \Lra a = c\) (необходимо домножить на \(b^{-1}\) справа или слева).
+\end{proposition}
+
+\begin{definition}
+    Группа \(G\) называется Абелевой, если операция \(*\) \textbf{коммутативна}, т.е. \(\forall a, b \in G a * b = b * a\).
+\end{definition}
+
+\begin{definition}
+    Порядок группы --- \(|G| \in \N \cup \{\infty\}\) --- мощность группы (в случае бесконечной, порядок равен \(\infty\)).
+\end{definition}
+
+\begin{definition}
+    \(a^n = \underbrace{a * a * \dots * a}_{n}, a^0 = e\).
+\end{definition}
+
+\begin{definition}
+    Порядок элемента группы --- \(\ord a = \min\{n \in \N | a^n = e\}\) (или \(\infty\) в случае пустоты указанного множества).
+\end{definition}
+
+\begin{definition}
+    Множество \(H\) называется подгруппой \(G\), если \(G \subset H\) и \(H\) является группой относительно операции \(*_G\).
+\end{definition}
+
+\begin{proposition}[Критерий подгруппы]
+    Непустое подмножество \(H\) в группе \(G\) является подгруппой (\(H \le G\)), если
+    \begin{enumerate}
+        \item \(H\) замкнуто относительно операции \(*\), т.е. \(a, b \in H \Ra a * b \in H\)
+        \item \(H\) замкнуто относительно операции взятия обратного элемента, т.е. \(a \in H \Ra a ^{-1} \in H\)
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    \item \textbf{Ассоциативность:} следует из ассоциативности группы \(G\) и замкнутости относительно операции \(*\).
+    \item \textbf{Наличие нейтрального элемента:} следует из замкнитости относительно взятия обратного и произведения \(a * a^{-1} = e\)
+    \item \textbf{Наличие обратного элемента:} следует из замкнутости относительно операции взятия нейтрального элемента.
+\end{proof}
+
+\begin{definition}
+    Пусть \((G_1, *), (G_2, \cdot)\) --- группы. Гомоморфизмом \(G_1 \ra G_2\) называется всякое отображение \(f: G_1 \ra G_2\), такое, что \(f(a * b) = f(a) \cdot f(b)\).
+\end{definition}
+
+\begin{definition}
+    Изоморфизм --- гомоморфизм, являющийся биекцией. Если группы изоморфны, пишут \(G \cong H\).
+\end{definition}
+
+\begin{theorem}[Кэли]
+    Всякая конечная группа, порядок которой нравен \(n\), изоморфна некоторой подгруппе группы \(S_n\).
+\end{theorem}
+
+\subsection{Примеры групп}
+\begin{example}
+    \((\Z_n, +), |Z_n| = n\)
+\end{example}
+
+\begin{example}
+    \((V, +)\)
+\end{example}
+
+\begin{example}
+    \(GL_n(F)\) --- группа невырожденных матриц
+\end{example}
+
+\begin{example}
+    \(S_n\) --- группа перестановок, \(|S_n| = n!\)
+\end{example}
+
+\begin{example}
+    \(Q\) --- группа кватернионов, \(|Q| = 8, Q = \{\pm 1, \pm i, \pm j, \pm k\}\),
+    \[ij = k, jk = i, ki = j, ji = -k, kj = -i, ik = -j\]
+\end{example}
+
+\subsection{Примеры подгрупп}
+\begin{example}
+    \(n\Z \le \Z\)
+\end{example}
+
+\begin{example}
+    \(W \le V\)
+\end{example}
+
+\subsection{Подгруппа, порожденная подмножеством}
+Пусть \(M \subset G\). Рассмотрим \(\langle M \rangle = \bigcap_{M \subset H_i \le G} H_i\)
+
+\begin{theorem}[Об описании подгруппы, порожденной множеством]
+    \(\langle M \rangle = \{m_1^{\epsilon_1}m_2^{\epsilon_2}\dots m_s^{\epsilon_s} | s \in \Z_{\ge 0}\}\).
+\end{theorem}
+\begin{proof}
+    \begin{enumerate}
+        \item[\(\subset\)] Заметим, что полученное множество является подгруппой по критерию подгруппы (\((m_1^{\epsilon_1}\dots m_s^{\epsilon_s})^{-1} = m_s^{-\epsilon_1}\dots m_1^{-\epsilon_1}\)).
+        \item[\(\supset\)] Все представленные элементы обязаны лежать в \(\langle M \rangle\), т.к. они лежат в каждой группе, содержащей \(M\).
+    \end{enumerate}
+\end{proof}
+
+\begin{definition}
+    \(G = \langle M \rangle\) --- тогда говорят, что \(G\) порождается множеством \(M\). Тогда элементы из \(M\) называются порождающими элементами.
+\end{definition}
+
+\begin{definition}
+    Пусть \(a \in G\). Тогда группа \(\langle a \rangle \) называется циклической.
+\end{definition}
+
+\begin{theorem}[Об элементе конечного порядка]
+    Пусть \(a \in G, \ord a = n\). Тогда \(\langle a \rangle\) конечна и \(|\langle a \rangle| = n\) и \(\langle a \rangle = \{e, a, a^2, \dots a^{n - 1}\}\) 
+\end{theorem}
+
+\begin{theorem}
+    Все циклические группы одного и того же порядка (в том числе и бесконечного) изоморфны.
+\end{theorem}
+\begin{proof}
+    \begin{enumerate}
+        \item \(\ord \in \N\). Тогда эта группа изоморфна \((Z_n, +)\)
+        \item \(\ord = \infty\). Тогда эта группа изоморфна \((Z, +)\)
+    \end{enumerate}
+\end{proof}
+
+\subsection{Описание подгрупп циклических групп}
+\begin{theorem}
+    Всякая подгруппа циклической группы является циклической
+\end{theorem}
+
+\begin{theorem}
+    Если \(G = \langle a \rangle \cong C_n\) и \(H_d = \langle a^d \rangle, d | n\), то
+    \begin{enumerate}
+        \item \(H_d \le G, |H_d| = \frac{n}{d}\)
+        \item \(d_1 \ne d_2 \Ra H_{d_1} \ne H_{d_2}\)
+        \item У группы \(G\) не существует никаких других подгрупп, кроме \(H_d, d | n\).
+    \end{enumerate}
+\end{theorem}
+
+\begin{definition}
+    Пусть \(A, B \subset G\). \(A \cdot B = \{ab | a \in A, b \in B\}\).
+\end{definition}
+
+\begin{note}
+    \(A(BC) = (AB)C\)
+\end{note}
+
+\begin{definition}
+    Если \(H\) --- подгруппа в \(G, x \in G\), то \(xH\) называется левым смежным классом, а \(Hx\) --- правым смежным классом.
+\end{definition}
+
+\subsection{Свойства правых и левых смежных классов}
+\begin{proposition}
+    \(y \in xH \Ra xH = yH\)
+\end{proposition}
+\begin{proof}
+    \(\exists h \in G: yh = x \Ra yH = x(hH) = xH\).
+\end{proof}
+
+\begin{corollary}
+    Любые два смежных класса либо совпадают, либо не пересекаются.
+\end{corollary}
+
+\begin{corollary}
+    \(\forall H \le G, G = \bigsqcup x_i H\) для некоторых \(x_i\)
+\end{corollary}
+\begin{proof}
+    \(x \in xH \Ra G = \bigcup_{x \in G} xH\). Оставим в данном объединении только по одному представителю каждого смежного класса. Получили желаемое.
+\end{proof}
+
+Аналогичные свойства верны и для правых смежных классов.
+
+\begin{theorem}[Лагранжа]
+    Порядок любой подгруппы \(H\) конечной группы \(G\) является делителем порядка группы.
+\end{theorem}
+\begin{proof}
+    Разложим \(G\) по \(H\). Получим, что \(G = \bigsqcup x_i H \Ra |G| = \sum_i |H|\).
+\end{proof}
+
+\begin{definition}
+    \((G:H) = |G:H| = \frac{|G|}{|H|}\), если \(H \le G\).
+\end{definition}
+
+\begin{corollary}
+    \(a \in G \Ra \ord a |\;|G|\).
+\end{corollary}
+
+\begin{corollary}
+    \(|G| = p \Ra G\) --- циклическая
+\end{corollary}
+
+\begin{corollary}
+    Существует единственная с точностью до изоморфизма группа порядка \(p\).
+\end{corollary}
+
+\begin{corollary}[Теорема Эйлера]
+    Пусть \((a, n) = 1 \Ra a^{\phi(n)} \equiv_n 1\)
+\end{corollary}
+
+\begin{corollary}[Малая Теорема Ферма]
+    Пусть \(a^p \equiv_p a\)
+\end{corollary}
+
+

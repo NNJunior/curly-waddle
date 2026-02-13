@@ -1,0 +1,692 @@
+
+\hypertarget{lecture1}{}
+
+\section{Конечные Автоматы}
+\subsection{Напоминание}
+\begin{definition}
+    Алфавит --- конечное непустое множество
+\end{definition}
+
+\begin{definition}
+    Слово --- кортеж из букв
+\end{definition}
+
+\begin{definition}
+    Пусть \(L_1, L_2\) --- множества слов. \(L_1L_2 = \{uv | u \in L_1, v \in L_2\}\)
+\end{definition}
+
+\begin{definition}
+    \(\Sigma^* = \bigcup_{\bigcup_{k = 0}^\infty} \Sigma^k\) --- звезда Клини
+\end{definition}
+
+\begin{definition}
+    \(\epsilon\) --- пустое слово
+\end{definition}
+
+\subsection{Недетерминированный Конечный Автомат}
+\begin{definition}
+    Недетерминированный Конечный Автомат --- кортеж \((Q, \Sigma, \Delta, q_0, F)\), удовлетворяющий следующим условиям:
+    \begin{enumerate}
+        \item \(Q\) называется множеством состояний, \(Q\) конечное
+        \item \(\Sigma\) --- Алфавит
+        \item \(\Delta \subset Q \times \Sigma^* \times Q\) --- переходы, \(\Delta\) конечное
+        \item \(q_0 \in Q\) --- стартовое состояние
+        \item \(F \subset Q\) --- множество завершающих состояний
+    \end{enumerate}
+\end{definition}
+
+\begin{definition}
+    Конфигурация Автомата --- элемент \(Q \times \Sigma^*\). обозначается \(\langle q, w\rangle\)
+\end{definition}
+
+\begin{definition}
+    \(\vdash\) --- наименьшее по включению рефлексивное транзитивное отношение над \(Q \times \Sigma^*\), что \(\forall u \in \Sigma^*, (\langle q_1, w \rangle \ra q_2) \in \Delta \Ra \langle q_1, wu\rangle \vdash \langle q_2, u\rangle)\).
+\end{definition}
+
+\begin{definition}
+    \(L(M) = \{w \in \Sigma^* | \exists q_F \in F: \langle q_0, w \rangle \vdash \langle q_F, \epsilon \rangle\}\).
+\end{definition}
+
+\begin{definition}
+    Язык \(L\) называется автоматным, если \(\exists M\) --- автомат, такой, что \(L(M) = L\)
+\end{definition}
+
+\begin{proposition}
+    В определении автомата можно считать, что \(|F| = 1\).
+\end{proposition}
+\begin{proof}[Неформально]
+    Добавим новое состояние \(q_F\). Из всех конечных состоянии сделаем в него переходы по \(\epsilon\). Сделаем \(q_F\) единственным конечным. Тогда наш автомат успешно завершился \(\Lra\) мы перешли в \(q_F\) и слово закончилось, но в него можно было прийти только по \(\epsilon\)-переходу, значит в исходном автомате мы бы остановились в конечном состоянии и на пустом слове.
+\end{proof}
+\begin{proof}
+    Рассмотрим автомат \(M' = (Q \cup \{q_F\}, \Sigma, \Delta \cup F \times \{\epsilon\} \times \{q_F\}, q_0, \{q_F\})\).
+    \begin{enumerate}
+        \item \(L(M) \subset L(M')\)
+        \[w \in L(M) \Ra \exists q \in F: \langle q_0, w \rangle \vdash_M \langle q, \epsilon \rangle\]
+        \[\Delta \subset \Delta' \Ra \langle q_0, w \rangle \vdash_{M'} \langle q, \epsilon \rangle \vdash_{M'} \langle q_F, \epsilon \rangle \Ra \langle q_0, w \rangle \vdash_{M'} \langle q_F, \epsilon \rangle\]
+        \item \(L(M) \supset L(M')\)
+        \[w \im L(M') \Ra \langle q_0, w\rangle \vdash_{M'} \langle q_F, \epsilon\rangle\]
+        \[\exists u, q_1 \in F: \langle q_0, w\rangle \vdash_{M'} \langle q_1, u\rangle \vdash_{M', 1} \langle q_F, \epsilon\rangle \Ra u = \epsilon \Ra \langle q_0, w\rangle \vdash_{M'} \langle q_1, \epsilon\rangle\]
+    \end{enumerate}
+\end{proof}
+
+\begin{proposition}
+    В определении автомата можно считать, что \(\forall \langle q_1, w \rangle \ra q_2 \in \Delta: |w| \le 1\).
+\end{proposition}
+\begin{proof}
+    Превращаем \(q_1 \ra_{abc} q_2\) в \(q_1 \ra_a q_3 \ra_b q_4 \ra_c q_2\).
+\end{proof}
+
+\begin{theorem}
+    В определении автомата можно считать, что \(\forall \langle q_1, w \rangle \ra q_2 \in \Delta: |w| = 1\).
+\end{theorem}
+\begin{proof}[Неформально]
+    Делаем две операции:
+    \begin{enumerate}
+        \item В цепочку \(q_1 \ra_\epsilon q_2 \ra_\epsilon q_3 \ra_\epsilon \dots \ra_\epsilon q_{n - 1} \ra_a q_n\) удаляем \(\epsilon\)-переходы, вместо них добавим переходы вида \(q_1 \ra_a q_i\).
+        
+        \item В цепочке \(q_1 \ra_\epsilon q_2 \ra_\epsilon q_3 \ra_\epsilon \dots \ra_\epsilon  q_n\), где \(q_n\) --- конечное состояние делаем все состояния конечными
+    \end{enumerate}
+    Сначала до упора делаем 1, потом 2, потом удаляем оставшиеся \(\epsilon\)-переходы.
+\end{proof}
+\begin{proof}
+    Положим \(\Delta(q, w) = \{q' \in Q | \langle q, w\rangle \vdash \langle q', \epsilon\rangle\}\), \(M' = \{Q, \Sigma, \Delta', q_0, F'\}\), где \(\Delta' = \{\langle q_1, w\rangle \ra q_2 | \exists q_3 \in \Delta(q_1, \epsilon): \langle q_3, \epsilon\rangle \ra q_2 \in \Delta\}, F' = \{q' | \exists q \in F: \langle q', \epsilon\rangle \vdash \langle q, \epsilon\rangle\}\)
+
+    \begin{enumerate}
+        \item \(L(M) \subset L(M')\)
+        \[w \in L(M), w = w_1w_2\dots w_k, w_i \in \Sigma\]
+        \[\exists q \in F \langle q_0, w\rangle \vdash \langle q, \epsilon\rangle\]
+        \[\Ra \begin{array}{lclclcl}
+            \langle q_0, w_1w_2\dots w_k\rangle & \vdash_{M} & \langle q_1, w_1w_2\dots w_k\rangle & \vdash_{M, 1} & \langle q_1', w_2\dots w_k\rangle & \vdash_M \\
+            
+            & \vdash_{M} & \langle q_2, w_2\dots w_k\rangle & \vdash_{M, 1} & \langle q_2', w_3\dots w_k\rangle & \vdash_M \\
+            
+            & & \vdots & & & \\
+
+            & \vdash_{M} & \langle q_s, w_k\rangle & \vdash_{M, 1} & \langle q_s', \epsilon\rangle & \vdash_M  &\langle q, \epsilon\rangle\\
+        \end{array}\]
+    \end{enumerate}
+\end{proof}
+
+\hypertarget{lecture2}{}
+
+\subsection{Детерминированный Конечный Автомат}
+\begin{definition}
+    НКА \(M = \langle Q, \Sigma, \Delta, q_0, F\rangle\) называется Детерминированным конечным автоматом, если
+    \begin{enumerate}
+        \item \(\forall \langle q, w\rangle \ra q_1 \in \Delta: |w| = 1\)
+        \item \(\forall \langle q, w\rangle \ra q_1 \in \Delta: |\Delta(q, w)| \le 1\)
+    \end{enumerate}
+\end{definition}
+
+\begin{definition}
+    Если в определении выше \(|\Delta(q, w)| = 1\), то такой ДКА называется полным
+\end{definition}
+
+\begin{theorem}
+    \(\forall\) НКА \(M\) \(\exists\) полный ДКА \(M'\), такой, что \(L(M) = l(M')\), причем \(M' = \langle 2^Q, \Sigma, \Delta', \{q_0\}, F'\rangle\), где
+    \[\Delta(S, w) = \bigcup_{a \in S} \Delta(a, w)\]
+    \[F' = \{S \subset Q: S \cap F \ne \emptyset\}\]
+    \[\Delta' = \{\langle S, a\rangle  \ra \Delta(S, a)\}\]
+\end{theorem}
+\begin{lemma}
+    В условиях теоремы, \(\Delta'(\{q_0, w\}) = \{\Delta(\{q_0\}, w)\}\)
+\end{lemma}
+\begin{proof}
+    \(\Delta'(\{q_0\}, w) = \Delta(q_0, w)\). Ведем индукцию по \(|w|\)
+    \begin{enumerate}
+        \item[] \textbf{База:} \(|w| = 0 \Ra w = \epsilon\). \(\Delta(q_0, \epsilon) = \{q_0\}\), т.к. в \(M\) все переходы однобуквенные. \(\Delta'(\{q_0\}, \epsilon) = \{S | \langle \{q_0\}, \epsilon \rangle\} \vdash_{M'}\langle S, \epsilon \rangle = \{\{q_0\}\} \Ra \{\Delta(q_0, \epsilon)\} = \{\{q_0\}\} = \Delta'(\{q_0\}, \epsilon)\)
+        
+        \item[] \textbf{Переход:}
+        \[\Delta'(\{q_0\}, w'a) = \{S | \langle \{q_0\}, w'a \rangle \vdash \langle S, \epsilon \rangle\} = \{S| \exists T \subset Q: \langle \{q_0\}, w'a \rangle \vdash_{M'} \langle T, a \rangle \vdash \langle S, \epsilon \rangle\} =\]
+        \[ = \{S | \exists T \subset Q: T \in \Delta'(\{q_0\}, w), \langle T, a \rangle \vdash_{M', 1} \langle S, \epsilon \rangle\} = \]
+        \[ = \{S | \exists T \subset Q: T \in \{\Delta(\{q_0\}, w')\}, \langle T, a \rangle \vdash_{M', 1} \langle S, \epsilon \rangle\} = \]
+        \[ = \{S | \exists T \subset Q: T = \Delta(\{q_0\}, w'), S = \Delta(T, a)\} = \{\Delta(q_0, w'a)\}\]
+        \[\Delta(q_0, w'a) = \{q | \langle q_0, w'a \rangle \vdash \langle q, \epsilon \rangle\} = \{q | \exists q': \langle q_0, w'a \rangle \vdash \langle q', a \rangle \vdash_{M, 1} \langle q, \epsilon \rangle\} = \]
+        \[= \{q | \exists q' \in \Delta(q_0, w') : q \in \Delta(q', a)\} = \Delta(T, a) = S\]
+
+    \end{enumerate}
+\end{proof}
+\begin{proof}[Доказательство Теоремы]
+    \[w \in L(m) \Lra \exists q \in F: \langle q_0, w \rangle \vdash \langle q, \epsilon \rangle \Lra \Delta(q_0, w) \cap F \ne \emptyset \Lra \Delta(\{q_0\}, w) \cap F \ne \emptyset \Lra\]
+    \[\Lra \Delta(\{q_0\}, w) \in F' \Lra \Delta'(\{q_0\}, w) = \{\Delta(\{q_0\}, w)\} \subset F' \Lra \Delta'(\{q_0\}, w) \cap F \ne \emptyset \Lra w \in L(M')\]
+\end{proof}
+
+\begin{proposition}
+    \(\forall M\) --- ДКА \(\exists M'\) ---  ПДКА, такой, что \(L(M) = L(M')\)
+\end{proposition}
+\begin{proof}[Идея доказательства]
+    Добавим сток \(q_s\), в который можно зайти, но нельзя выйти. Т.е. \(M' = \langle Q \cup \{q_s\}, \Sigma, \Delta', q_0, F\rangle\), где \(\Delta' = \Delta \cup \{\langle q_s, a \rangle \ra a | a \in \Sigma\} \cup \{\langle q, a \rangle \ra q_s | \nexists q: \langle q, a \rangle \ra q'\}\). Таким образом, если мы попали в сток, то мы из него не выберемся
+\end{proof}
+
+\begin{theorem}
+    Пусть \(L_1, L_2\) --- автоматные языки. Тогда следующие языки также автоматные:
+    \begin{enumerate}
+        \item \(L_1L_2\)
+        \item \(L_1 \cup L_2\)
+        \item \(L_1 \cap L_2\)
+        \item \(\overline{L}\)
+        \item \(L^*\)
+    \end{enumerate}
+\end{theorem}
+
+\subsection{Регулярные выражения}
+\begin{definition}
+    Пусть \(\Sigma\) --- алфавит. Регулярное выражение --- конечная последовательность из \(\Sigma, *, \cdot, +, 0, 1\), определяемая индуктивно:
+    \begin{enumerate}
+        \item \(0\) --- регулярное выражение 
+        \item \(1\) --- регулярное выражение
+        \item \(a\) --- регулярное выражение, \(a \in \Sigma\)
+        \item \(\alpha + \beta\) --- регулярные выражение, где \(\alpha, \beta\) --- регулярные выражения
+        \item \(\alpha \cdot \beta\) --- регулярные выражение, где \(\alpha, \beta\) --- регулярные выражения
+        \item \(\alpha^*\) --- регулярные выражение, где \(\alpha\) --- регулярное выражение
+    \end{enumerate}
+\end{definition}
+
+\begin{definition}
+    \(L(\alpha): \{\text{Множество регулярных выражений}\} \ra 2^\Sigma\), где \(\alpha\) --- регулярное выражение задается рекурсивно:
+    \begin{enumerate}
+        \item \(L(0) = \emptyset\)
+        \item \(L(1) = \{\epsilon\}\)
+        \item \(L(a) = \{a\}, a \in \Sigma\)
+        \item \(L(\alpha + \beta) = L(\alpha) \cup L(\beta)\)
+        \item \(L(\alpha \cdot \beta) = L(\alpha)L(\beta)\)
+        \item \(L(\alpha^*) = (L(\alpha))^*\)
+    \end{enumerate}
+\end{definition}
+
+\begin{definition}
+    Язык \(L\) называется регулярным, если \(\exists \alpha\) --- регулярное выражение, т.ч. \(L(\alpha) = L\)
+\end{definition}
+
+\begin{definition}
+    Регулярный автомат --- автомат, в котором на ребрах написаны регулярные выражения.
+\end{definition}
+
+\begin{theorem}[Клини]
+    Язык \(L\) регулярен тогда и только тогда, когда он автоматный
+\end{theorem}
+\begin{proof}
+    \begin{enumerate}
+        \item[\(\Ra\)] Ведем индукцию по построению регулярного выражения
+        \begin{enumerate}
+            \item[] \textbf{База:} 
+            \[\begin{array}{c|c}
+                R & \text{Автомат} \\
+                \hline
+                0 & q_0, q_F \\
+                1 & q_0 \ra_{\epsilon} q_F \\
+                a & q_0 \ra_a q_F
+            \end{array}\]
+            \item[] \textbf{Переход:}
+            \[\begin{array}{c|l}
+                R & \text{Автомат} \\
+                \hline
+                \alpha \cdot \beta & M(\alpha) \ra_\epsilon M(\beta) \\
+                \alpha + \beta & \text{соединяем параллельно \(M(\alpha), M(\beta)\)} \\
+                \alpha^* & \text{Зацикливаем автомат \(M(\alpha)\) с переходом \(\ra_\epsilon\)}
+            \end{array}\]
+        \end{enumerate}
+
+        \item[\(\La\)] Ведем индукцию по \(|Q|\) в регулярном автомате
+        \begin{enumerate}
+            \item[] \textbf{База:} \(Q = 1, 2\) --- позже
+            \item[] \textbf{Переход:}
+            \[\begin{array}{c|l}
+                R & \text{Автомат} \\
+                \hline
+                \alpha \cdot \beta & M(\alpha) \ra_\epsilon M(\beta) \\
+                \alpha + \beta & \text{соединяем параллельно \(M(\alpha), M(\beta)\)} \\
+                \alpha^* & \text{Зацикливаем автомат \(M(\alpha)\) с переходом \(\ra_\epsilon\)}
+            \end{array}\]
+        \end{enumerate}
+
+    \end{enumerate}
+\end{proof}
+
+\hypertarget{lecture3}{}
+
+\begin{lemma}[О разрастании]
+    Пусть \(L\) --- автоматный язык. Тогда:
+    \[\exists P \forall w \in L: |w| \ge P \exists x, y, z: w = xyz, |xy| \le P, |y| \ne 0:\]
+    \[\forall k \in \N: xy^kz \in L\]
+\end{lemma}
+\begin{proof}
+    \(L\) --- автоматный \(\Ra \exists M\) --- НКА с однобуквенными переходами, т.ч. \(L(M) = L\). Положим \(P = |Q|\), где \(Q\) --- множество состояний \(M\). Рассмотрим \(w = w_1w_2\dots w_P\dots\).
+    \[\langle q_0, w_1\dots w_Pu\rangle \vdash_1 \langle q_1, w_2\dots w_Pu\rangle \vdash \dots \vdash \langle q_P, u\rangle \vdash \langle q, \epsilon \rangle\]
+    Тогда \(\exists k' < l' \le P: q_{k'} = q_{l'}\) по принципу Дирихле (всего состояний \(P\), а мы посетили больше). Положим \(x = w_1\dots w_{k'}, y = w_{k' + 1}\dots w_{l'}, w = w_{l' + 1}\dots w_P u\). Т.к. \(k1 \ne l' \Ra |y| = l' - k' > 0, l' \le P \ra |x| = l' \le P\). Таким образом, \(xy^kz \in L \forall k\).
+\end{proof}
+
+\begin{note}[Отрицание к лемме]
+    Пусть \(L\) --- некоторый язык и
+    \[\forall P \exists w \in L: |w| \ge P \forall x, y, z: w = xyz, |xy| \le P, |y| \ne 0:\]
+    \[\exists k \in \N: xy^kz \notin L\]
+    Тогда \(L\) --- не автоматный
+\end{note}
+\begin{example}
+    Рассмотрим \(L = \{a^nb^n | n \in \N\}\). \(\forall P \exists w = a^Pb^P \in L\). Рассмотрим \(w = xyz\). \(|xy| < P \Ra xy = a^k, |y| > 0 \Ra y = a^l, l > 0\). Тогда \(xy^2z = a^{k - l}a^{2l}b^P = a^{P + l}b^P\). Т.к. \(l > 0\), то \(a^{P + L}b^P \notin L \Ra L\) --- не автоматный.
+\end{example}
+
+\begin{proposition}
+    Пусть \(L\) --- язык, \(R\) --- регулярное выражение, \(L(R) \cap L\) --- неавтоматный \(\Ra\) \(L\) --- неавтоматный
+\end{proposition}
+\begin{proof}
+    Пусть \(L\) --- автоматный, но тогда \(L \cap L(R)\) --- тоже.
+\end{proof}
+
+\begin{example}
+    Рассмотрим \(L = \{w | |w|_a = |w|_b\}\). Т.к. \(L = \{a^kb^k | k \in \N\} \cap L(a^*b^*)\), то \(L\) --- неавтоматный
+\end{example}
+
+\subsection{Минимальный Полный Конечный Детерминированный Автомат?}
+Пусть есть два ПДКА: \(M_1, M_2\). Проверим, что \(L(M_1) = L(M_2)\). Это равносильно тому, что \(L(M_1) \Delta L(M_2) = \emptyset\). Однако есть более удобный способ это проверять.
+
+Далее \(M\) --- ПДКА, \(L\) --- автоматный язык.
+
+\begin{definition}
+    Будем говорить, что \(u \sim_L v,\;\; u, v \in \Sigma^* \Lra \forall w \in \Sigma^* uw \in L \Lra vw \in L\).
+\end{definition}
+\begin{proposition}
+    \(\sim_L\) --- отношение эквивалентности
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}
+        \item [] \textbf{Рефлексивность} \(u \sim_L u: uw \in L \Lra uw \in L\)
+        \item [] \textbf{Симметричность} \(u \sim_L v \Lra (uw \in L \Lra vw \in L) \Lra v \sim_L u\)
+        \item [] \textbf{Транзитивность} \(u \sim_L v, v \sim s \Lra (uw \in L \Lra vw \in L) \wedge (vw \in L \Lra sw \in L) \Ra u \sim_L s\).
+    \end{enumerate}
+\end{proof}
+
+\begin{note}
+    \(\Sigma^*/_{\sim_L}\) --- фактормножество \(\Sigma^*\) по отношению \(\sim_L\). Класс эквивалентности слова \(u\) будем обозначать \([u]\).
+\end{note}
+
+\begin{definition}
+    Будем говорить, что \(q_1 \sim_M q_2,\;\; q_1, q_2 \in Q \Lra \forall w \in \Sigma^* \Delta(q_1, w) \subset F \Lra \Delta(q_2, w) \subset F\).
+\end{definition}
+\begin{proposition}
+    \(\sim_M\) --- отношение эквивалентности
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}
+        \item [] \textbf{Рефлексивность} \(q_1 \sim_M q_1: \Delta(q_1, w) \subset F \Lra \Delta(q_1, w) \subset F\)
+        \item [] \textbf{Симметричность} \(q_1 \sim_M q_2 \Lra (\Delta(q_1, w) \subset F \Lra \Delta(q_2, w) \subset F) \Lra q_2 \sim_M q_1\)
+        \item [] \textbf{Транзитивность} \(q_1 \sim_L q_2, q_2 \sim q_3 \Lra (\Delta(q_1, w) \subset F \Lra \Delta(q_2, w) \subset F) \wedge (\Delta(q_1, w) \subset F \Lra \Delta(q_3, w) \subset F) \Ra q_1 \sim_L q_3\).
+    \end{enumerate}
+\end{proof}
+
+\begin{lemma}
+    Пусть \(L_q = \{w | \Delta(q_0, w) = q\}\). Тогда каждый класс эквивалентности в \(\Sigma^*/_{\sim_L}\) --- объединение классов в \(L_q\).
+\end{lemma}
+\begin{proof}
+    Пусть \(u, v \in L_q\). Тогда \(\Delta(q_0, u) = q, \Delta(q_0, v) = q\). Рассмотрим произвольное \(w \in \Sigma^*\). \(\Delta(q_0, uw) = q'\).
+    \[\langle q_0, uw \rangle \vdash \langle q_0, \epsilon \rangle  \Ra \langle q_0, uw \rangle \vdash \langle q_1, w \rangle \vdash \langle q', \epsilon \rangle \Ra q' = \Delta(q, w)\]
+    Аналогично, \(\Delta(q_0, vw) = \Delta(q, w)\). Но тогда \(uw \in L \Lra \Delta(q, w) \in F \Lra w \in L\).
+\end{proof}
+\begin{corollary}
+    \(|Q| \ge |\Sigma^*/_{\sim_L}|\)
+\end{corollary}
+\begin{proof}
+    В каждом классе \([u]\) существует хотя бы один \(L_q\).
+\end{proof}
+
+\begin{lemma}
+    Пусть \(L\) --- автоматный язык. Тогда \(\exists\) ПДКА \(M'\), такой, что все состояния в \(M'\) попарно неэквивалентны.
+\end{lemma}
+\begin{proof}
+    Построим автомат над классами \([q] \in Q/_{\sim_M}\):
+    \[M' = (Q/_{\sim_M}, \Sigma, \Delta', [q_0], F')\]
+    \[\Delta' = \{\langle [q], a \rangle \ra [\Delta(q, a)]\}\]
+    \[F' = \{[q] | q \in F\}\]
+    \begin{enumerate}
+        \item \textbf{Согласованность переходов:}
+        \[q_1 \in [q] \Ra \Delta(q_1, a) \in [\Delta(q, a)]\]
+        \[q_1 \in [q] \Ra q_1 \sim q \Ra \forall w \in \Sigma^* \Delta(q_1, w) \in F \Lra \Delta(q, w) \in F\]
+        \[\forall w = au: \Delta(q_1, au) \in F \Lra \Delta(q, au) \in F\]
+        \[\forall u: \Delta(\Delta(q_1, a), u) \in F \Lra \Delta(\Delta(q, a), u) \in F\]
+        \[\Delta(q_1, a) \sim_M \Delta(q, a)\]
+
+        \item \textbf{Согласованность завершающих состояний:}
+        
+        Пусть \(q \in F\)
+        \[q_1 \sim q \Ra \forall w (\Delta(q_1, w) \in F \Lra \Delta(q, w) \in F)\]
+        \[w = \epsilon \Ra ((\Delta(q_1, \epsilon) = q_1 \in F) \Lra (\Delta(q, \epsilon) = q \in F)) \Ra q_1 \in F\]
+    \end{enumerate}
+
+    Покажем, что \(\Delta([q_0], w) = [\Delta(q_0, w)]\) индукцией по \(|w|\).
+    \begin{enumerate}
+        \item[] \textbf{База:} уже доказана
+        \item[] \textbf{Переход:} Пусть \(w = ua\).
+        \[\Delta([q_0], ua) = \Delta(\Delta([q_0], u), a) = \Delta([\Delta(q_0, u)], a) = [\Delta(\Delta(q_0, u), a)] = [\Delta(q_0, ua)]\]
+        Тогда:
+        \[w \in L(M) \Lra \Delta(q_0, w) \in F \Lra \Delta([q_0], w) \in F' \Lra w \in L(M')\]
+    \end{enumerate}
+
+    Осталось показать, что состояния неэквивалентны.
+    Пусть \([q_1] \sim_M [q_2]\).
+    \[\forall w: \Delta([q_1], w) \in F' \Lra \Delta([q_2], w) \in F'\]
+    \[\forall w: [\Delta(q_1, w)] \in F' \Lra [\Delta(q_2, w)] \in F'\]
+    \[\forall w: \Delta(q_1, w) \in F \Lra \Delta(q_2, w) \in F\]
+    \[q_1 \sim_M q_2\]
+    \[[q_1] = [q_2]\]
+\end{proof}
+
+\begin{definition}
+    \(M\) --- МПДКА, если \(M\) --- ПДКА и \(\nexists M'\), такой, что \(L(M) = L(M'), |Q| > |Q'|\).
+\end{definition}
+
+\begin{theorem}
+    \(M\) --- МПДКА, такой, что \(L(M) = L \Lra\) все состояния недостижимы из стартового и никакие два неэквивалентны.
+\end{theorem}
+\begin{proof}
+    \begin{enumerate}
+        \item[\(\Ra\)] Пусть \(M\) --- МПДКА. Если в нем есть два эквивалентных состояния, то строим автомат на \(Q/_{\sim_M}\). Если же какое-то состояние недостижимо, то убираем его, таким образом всегда можно уменьшить число состояний
+        \item[\(\La\)] Пусть в \(M\) нет эквивалентных состояний. Пусть \(\Delta(q_0, w_1) \ne \Delta(q_0, w_2)\)
+        \[\exists u: \Delta(\Delta(q_0, w_1), u) \notin F, \Delta(\Delta(q_0, w_2), u) \in F\]
+        \[\exists u: \Delta(q_0, w_2u) \notin F, \Delta(q_0, w_2u) \in F\]
+        \[\exists u: w_1u \notin L, w_2u \in L\]
+        \[w_1 \not\sim_L w_2\]
+        Тогда \(|\Sigma^*/_{\sim_L}| \ge |Q|\). Однако, \(|Q| \ge |\Sigma^*/_{\sim_L}| \Ra M\) --- минимальный.
+    \end{enumerate}
+\end{proof}
+
+\begin{note}
+    \(|Q| \le |\Sigma^*/_{\sim_L}| \le |Q| \Ra |Q| = |\Sigma^*/_{\sim_L}|\)
+\end{note}
+\hypertarget{lecture5}{}
+
+\section{Грамматики}
+
+\begin{definition}
+    \(G = \langle N, \Sigma, P, S \rangle\), где 
+    \begin{enumerate}
+        \item \(N\) --- алфавит, называется множеством нетерминалов
+        \item \(\Sigma\) --- алфавит, называется множеством терминалов
+        \item \(P \subset (N \cup \Sigma)^+ \setminus \Sigma^* \times (N \cup \Sigma)^*\)
+        \item \(S\) --- стартовый нетерминал
+    \end{enumerate}
+    Называется грамматикой
+\end{definition}
+
+\begin{definition}
+    \(\vdash_G\) --- наименьшее транзитивное отношение, такое, что 
+    \[\forall \alpha \ra \beta, \phi, \psi \in (N \cup \Sigma)^*: \phi \alpha \psi \vdash_G \phi\beta\psi\]
+\end{definition}
+
+\begin{corollary}
+    Тогда \(w \in L(G) \Lra S \vdash w\)
+\end{corollary}
+
+\subsection{Иерархия Хомского}
+\begin{definition}[Порождающие грамматики]
+    Порождающие грамматики --- класс вообще всех грамматик
+\end{definition}
+
+\begin{definition}[Контекстно-зависимые грамматики]
+    Контекстно-зависимые грамматики --- такие, в которых все правила имеют вид \(\psi A \phi \ra \psi \alpha \phi, \alpha \ne \epsilon\)
+\end{definition}
+
+\begin{definition}[Контекстно-свободные грамматики]
+    Контекстно-свободные грамматики --- такие, в которых все правила имеют вид \(A \ra \alpha\)
+\end{definition}
+
+\begin{definition}[Праволинейные грамматики]
+    Контекстно-свободные грамматики --- такие, в которых все правила имеют вид \(A \ra wB, A \ra w\).
+\end{definition}
+
+\begin{theorem}
+    Множество автоматных языков равно множеству языков, задаваемых праволинейными грамматиками.
+\end{theorem}
+\begin{proof}
+    \begin{enumerate}
+        \item[\(\subset\)] Пусть \(G = \langle N, \Sigma, P, S \rangle\) --- наша грамматика, \(M = \langle N \cup \{q_f\}, \Sigma, \Delta, S, \{q_f\} \rangle\), \(\Delta = \{\langle A, w \rangle \ra B | A \ra wB\} \cup \{\langle A, w \rangle \ra q_f | A \ra w\}\). Хотим доказать два утверждения:
+        
+        \begin{enumerate}
+            \item \(<A, w> \vdash_M <B, \epsilon> \Lra A \vdash_G wB\)
+            \item \(<A, w> \vdash_M <q_f, \epsilon> \Lra A \vdash_G w\)
+        \end{enumerate}
+        Докажем оба следствия вправо. Ведем индукцию по \(|\vdash_M|\) --- количеству шагов в выводе автомата.
+        \begin{enumerate}
+            \item[] \textbf{База:}
+            \[<A, w> \vdash_0 <B, \epsilon> \Ra A = B, w = \epsilon \Ra A \vdash_{G, 0} B = A\]
+            \[<A, w> \vdash_1 <q_f, \epsilon> \Ra <A, w> \ra q_f \in \Delta \Ra A \ra w \in P \Ra A \vdash w\]
+            \item[] \textbf{Переход:}
+            Положим, для общности, \(\alpha\) так, что \(<A, w> \vdash <\alpha, \epsilon> (\alpha \in N \cup \{q_0\})\)
+            Положим \(w = uv\)
+            \[<A, uv> \vdash_1 <C, v> \vdash <\alpha, \epsilon>\]
+            \[<A, uv> \ra C \in \Delta \Ra A \vdash_1 uC\]
+            Но, по предположению индукции:
+            \[\left[\begin{array}{l}
+                C \vdash vB, B \in N (\alpha = B) \Ra A \vdash_G uvB\\
+                C \vdash v, \alpha = q_f  \Ra A \vdash_G w\\
+            \end{array}\right.\]
+        \end{enumerate}
+        Докажем оба следствия влево. Ведем индукцию по \(|\vdash_G|\) --- длине вывода в грамматике
+        \begin{enumerate}
+            \item[] \textbf{База:}
+            \[A \vdash_0 wB \Ra A = B, w = \epsilon \Ra <A, w> \vdash_0 <B, \epsilon>\]
+            \[A \vdash_1 w \Ra A \ra w \in P \Ra <A, w> \vdash_1 <q_s, \epsilon>\]
+
+            \item[] \textbf{Переход:} 
+            Положим, для общности \(\alpha\) так, что \(A \vdash w\alpha, \alpha \in N \cup \{\epsilon\}\)
+            \[A \vdash_1 uC \vdash uv\alpha, w = uv\]
+            Тогда \(<A, u> \vdash <C, \epsilon>\), и по предположению индукции
+            \[\left[\begin{array}{l}
+                <C, v> \vdash <B, \epsilon>, B = \alpha \\
+                <C, v> \vdash <q_f, \epsilon>, \alpha = \epsilon
+            \end{array}\right.\]
+        \end{enumerate}
+
+        Тогда \(w \in L(G) \Lra S \vdash w \Lra <S, w> \vdash <q_f, \epsilon> \Lra w \in L(M)\)
+
+        \item[\(\supset\)] Можно считат, что исходный автомат с одним завершающим состоянием, \(M = <Q, \Sigma, \Delta, q_0, F = \{q_s\}>\). Построим по нему грамматику \(G = <Q, \Sigma, P, q_0>\), такую, что
+        \[P = \{q_1 \ra wq_2 | <q_1, w> \ra q_2 \in \Delta\} \cup \{q \ra \epsilon | q \in F\}\]
+        Теперь, построим по грамматике \(G\) автомат \(M'\). Тогда \(M' = <Q, \Sigma, \Delta', q_0, \{q_f'\}>\), где \(\Delta' = \Delta \cup \{<q_f, \epsilon> \ra q_f'\}\). Тогда \(w \in L(M) \Lra <q_0, w> \vdash_M <q_f, \epsilon> \Lra <q_0, w> \vdash{M'} <q_f, \epsilon> \vdash_1 <q_f', \epsilon> \Lra w \in L(M')\). Но тогда \(L(M) = L(M')\).
+    \end{enumerate}
+\end{proof}
+
+\begin{example}
+    Пусть грамматика у нас следующая:
+    \begin{enumerate}
+        \item \(S \ra abC\)
+        \item \(C \ra a\)
+        \item \(C \ra ab\)
+        \item \(C \ra bD\)
+        \item \(D \ra dE\)
+    \end{enumerate}
+    Тогда для данной грамматики, автомат следующий:
+    \begin{center}\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto] 
+        \node[state,initial] (S)  {\(S\)};
+        \node[state] (C) [right=of S] {\(C\)};
+        \node[state] (D) [below=of C] {\(D\)};
+        \node[state] (E) [right=of D] {\(E\)};
+        \node[state,accepting] (q_f) [right=of C] {\(q_f\)};
+
+        \path[->] 
+            (S) edge node {\(ab\)} (C)
+            (C) edge [bend left] node {\(a\)} (q_f)
+            (C) edge [bend right] node {\(ab\)} (q_f)
+            (C) edge node {\(b\)} (D)
+            (D) edge node {\(d\)} (E)
+            ;
+    \end{tikzpicture}\end{center}
+\end{example}
+
+\subsection{Контекстно-свободные граммаики}
+
+Далее, для краткости, будем обозначать контекстно-свободные грамматики за КС
+
+\begin{definition}
+    Дерево вывода --- последовательность слов из \((N \cup \Sigma)^+\), каждый из элементов которой получается при переходе грамматики.
+\end{definition}
+
+\begin{definition}
+    Дерево называется право(лево)сторонним, если для каждого слова, дерево его вывода единственно
+\end{definition}
+
+\begin{definition}
+    Существенно неоднозначный язык --- язык, которого не существует однозначной КС-грамматики, распознающей этот язык.
+\end{definition}
+
+\begin{problem}
+    Доказать, что языки \(\{a^kb^lc^m | k = l\}\), \(\{a^kb^lc^m | m = l\}\) существенно неоднозначные.
+\end{problem}
+
+\subsection{Нормальная форма Хомского}
+
+\begin{definition}
+    КС грамматика \(G\) находится в нормальной форме Хомского, если все правила имеют вид:
+    \begin{enumerate}
+        \item \(A \ra BC, B \ne S, C \ne S\)
+        \item \(A \ra a, a \in \Sigma\)
+        \item \(S \ra \epsilon\)
+    \end{enumerate}
+\end{definition}
+\begin{note}\indent
+    \begin{enumerate}
+        \item \(S \vdash \epsilon \Ra S \vdash_1 \epsilon\)
+        \item \(A \vdash \epsilon \Ra A = S\)
+    \end{enumerate}
+\end{note}
+
+\subsubsection{Удаление непорождающих нетерминалов}
+
+\begin{definition}
+    \(D \in N\) называеся порождающим, если \(\exists w: D \vdash w\).
+\end{definition}
+
+\begin{proposition}
+    Пусть нам дана грамматика \(G_0\). Рассмотрим грамматику \(G_1\), такую, что \(N_1 = N_0 \setminus \{D | D \text{ непорождающий}\}\). Тогда \(L(G_0) = L(G_1)\).
+\end{proposition}
+\begin{proof}
+    Пусть \(\exists w \in L(G_0) \setminus L(G_1)\). \(S \vdash_{G_0} w \Ra \exists D\) --- непорождающий, такой, что \(S \vdash uDv \vdash uxv = w \Ra D\) --- порождающий, противоречие. Вложение в другую сторону очевидно.
+\end{proof}
+
+\begin{note}(Алгоритм для поиска непорождающих символов)
+    Храним \(R_A\) --- множество нетерминалов справа для каждого нетерминала \(A\), создаем пустую очередь. Далее делаем следующие шаги, пока очередь не пуста:
+    \begin{enumerate}
+        \item Добавляем все нетерминалы с пустым \(R_X\)
+        \item Удаляем из всех \(R_Y\) нетерминал \(X\)
+    \end{enumerate}
+\end{note}
+
+\hypertarget{lecture6}{}
+
+\subsubsection{Удаление недостижимых нетерминалов}
+
+\begin{definition}
+    Нетерминал \(D\) называется достижимым, если \(\exists \phi, \psi \in (N \cup \Sigma)^*\), такие, что \(S \vdash \phi D\psi\).
+\end{definition}
+
+\begin{proposition}
+    Пусть нам дана грамматика \(G_1\). Рассмотрим грамматику \(G_2\), такую, что \(N_2 = N_1 \setminus \{D | D\text{ --- недостижимый}\}\). Тогда \(L(G_1) = L(G_2)\).
+\end{proposition}
+\begin{proof}
+    Очевидно, что \(L(G_1) \supset L(G_2)\). Пусть \(w \in L(G_1) \setminus L(G_2)\). Тогда \(\exists w \in \sigma^*: S \vdash \phi D \psi \vdash w \Ra D\) --- достижимый, противоречие
+\end{proof}
+
+\begin{note}
+    Алгоритм для поиска недостижимых символов --- просто запускаем \texttt{dfs}.
+\end{note}
+
+\begin{proposition}
+    Пусть нам дана грамматика \(G_1\) без непорождающих символов. Рассмотрим грамматику \(G_2\), такую, что \(N_2 = N_1 \setminus \{D | D\text{ --- недостижимый}\}\). Тогда в ней не нет непорождающих символов.
+\end{proposition}
+\begin{proof}
+    Пусть есть непорождающий символ \(B\). Тогда есть вывод \(B \vdash_{G_1} \phi C \psi \vdash_{G_1} u\)
+\end{proof}
+
+\subsubsection{Удаление смешанных правил}
+
+\begin{exercise}
+    Для каджого \(a \in \Sigma\) заведем новый нетерминал \(X_a\) с единственным переходом \(X_a \ra a\). Заменим все вхождения буквы \(a\) в правила справа (слева \(a\) не может стоять) на \(X_a\). Тогда полученная грамматика \(G_3\) такова, что \(L(G_3) = L(G_2)\)
+\end{exercise}
+
+\subsubsection{Удаление длинных цепочек}
+\begin{exercise}
+    Если заменить \(A \ra A_1A_2\dots A_n\) в грамматике \(G_3\) на \(A \ra A_1A_1', A_1' \ra A_2\dots A_n \dots\), то \(L(G_4) = L(G_3)\).
+\end{exercise}
+
+\subsubsection{Удаление \(\epsilon\)-переходов}
+\begin{proposition}
+    Если в грамматике \(G_4\) провести следующие операции:
+    \[\left.\begin{array}{r}
+        A \ra BC \\
+        C \ra \epsilon
+    \end{array}\right] \Ra \text{ добавляем } A \ra B\]
+
+    \[\left.\begin{array}{r}
+        A \ra BC \\
+        B \ra \epsilon
+    \end{array}\right] \Ra \text{ добавляем } A \ra C\]
+    А после этого удалить все переходы вида \(A \ra \epsilon\), то множество слов полученной грамматики \(G_5\) не изменится, кроме, быть может, пустого слова (которое удалится).
+\end{proposition}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item \(L(G_4) \setminus \{\epsilon\} \subset L(G_5)\). Ведем индукцию по длине слова \(w \ne \epsilon\)
+        \begin{enumerate}
+            \item[] \textbf{База:} \(|w| = 1\). Очевидно выводим за один шаг
+            \item[] \textbf{Переход:} пусть \(A \vdash_{G_4, 1} \alpha \vdash_{G_4} w\).
+            \begin{enumerate}
+                \item \(\alpha = B\). Тогда \(A \ra B \in P_4\)
+                \item \(\alpha = BC \Ra B \vdash w_1, C \vdash w_2\).
+                
+                \begin{enumerate}
+                    \item \(w_1, w_2 \ne \epsilon \Ra B \vdash_{G_5} w_1, C \vdash_{G_5} w_2 \Ra A \vdash_{G_5} w\).
+                    \item \(w_1, w_2 \ne \epsilon \Ra B \vdash_{G_5} w_1, C \vdash_{G_5} w_2 \Ra A \vdash_{G_5} w\).
+                    \item \(w_1 = \epsilon, w_2 \ne \epsilon \Ra A \vdash_{G_5} C, C \vdash_{G_5} w_2 \Ra A \vdash_{G_5} C \vdash_{G_6} w\).
+                    \item \(w_1 \ne \epsilon, w_2 = \epsilon\) --- аналогично предыдущему
+                \end{enumerate}
+                
+            \end{enumerate}
+        \end{enumerate}
+        \item \(L(G_4) \setminus \{\epsilon\} \supset L(G_5)\). \(A \vdash_{G_5} w \Ra w \ne \epsilon\).Докажем, что \(A \vdash_{G_5} w \Ra A \vdash_{G_4} w\). Ведем индукцию по длине слова \(|\vdash_{G_5}|\). 
+        \begin{enumerate}
+            \item[] \textbf{База:} \(|\vdash_{G_5}| = 1\). \(A \ra w \in P_5 \Ra A \ra w \in P_4\)
+            \item[] \textbf{Переход:}
+            \begin{enumerate}
+                \item \(A \vdash_{G_5, 1} BC \vdash_{G_5} w_1w_2 = w \Ra A \ra BC \in P_5 \ra A \ra BC \in P_4\), но по предположению индукции \(B \vdash_{G_4} w_1, C \vdash{G_4} w_2\)
+                \item \(\alpha = BC \Ra B \vdash w_1, C \vdash w_2\), тогда \(A \vdash_{G_4} BC \vdash_{G_4} w\).
+                
+                \item \(A \vdash_{G_5, 1} B \vdash_{G_5} w\).
+                \begin{enumerate}
+                    \item \(A \ra B \in P_4\), по предположению индукции \(B \vdash_{G_5} w \Ra A \vdash_{G_4} B \vdash_{G_4} w\).
+                    
+                    \item \(A \vdash_{G_4} CB \in P_4, C \vdash_{G_4} \epsilon \Ra A \vdash_{G_4} CB \vdash_{G_4} B \vdash_{G_4} w\).
+                    
+                    \item \(A \vdash_{G_4} BC \in P_4, C \vdash_{G_4} \epsilon \Ra A \vdash_{G_4} BC \vdash_{G_4} B \vdash_{G_4} w\).
+                \end{enumerate}
+            \end{enumerate}
+        \end{enumerate}
+    \end{enumerate}
+\end{proof}
+
+После этого добавим новый нетерминал \(S'\), с переходом \(S' \ra S\), таким образом он не будет стоять нигде справа и множество слов грамматики не изменится. При этом, если \(S \vdash_{G_4} \epsilon\), то добавим еще правило \(S \ra \epsilon\). Тогда новая грамматика \(G_6\) такова, что \(L(G_4) = L(G_6)\).
+
+\subsubsection{Удаление одиночных правил}
+Сделаем аналогично удалению \(\epsilon\)-переходов в автомате.
+
+Бинго! Мы получили нормальную форму Хомского
+
+\begin{corollary}\indent
+    \begin{enumerate}
+        \item В нормальной форме Хомского дерево вывода бинарное
+        \item Слово длины \(n > 0\) выводится за \(2n - 1\) шаг
+    \end{enumerate}
+\end{corollary}
+
+Перед нами стоит задача проверки \(w \in L(G)\), и, если да, построения вывода.
+
+\subsection{Разбор КС-грамматики}
+\subsubsection{Рекурсивый спуск}
+Рекурсивно спускаемся и таким образом перебираем все возможные выводы. К сожалению, может не закончиться (если есть \(\epsilon\)-переходы).
+
+\begin{enumerate}
+    \item Определить функцию обработки для каждого нетерминала из N.
+    \item Для каждого правила сгенерировать обработку:
+    \item Если символ слова совпадает с символом правила, то обработать символ.
+    \item Если следующий символ правила - нетерминал, то обрабатываем рекурсивно.
+    \item Если символ не совпадает - то выполняем \texttt{backtrack}.
+\end{enumerate}
+
+\subsubsection{Алгоритм Кока-Янгера-Касами}
+\href{https://t.me/c/3021064992/17}{См. презентацию}

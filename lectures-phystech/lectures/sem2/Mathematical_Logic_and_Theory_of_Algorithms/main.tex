@@ -1,0 +1,1727 @@
+
+\hypertarget{lecture1}{}
+
+Короче, как-то будем сдавать какой-то экзамен. Очень сложно, ничего не понятно
+
+\section{Вступление}
+Вот у нас были натуральные числа:
+\[
+\begin{array}{c}
+    0 = \emptyset \\
+    1 = \{\emptyset\} \\
+    2 = \{\emptyset, \{\emptyset\}\} = \{0, 1\} \\
+    \vdots\\
+    n + 1 = \{0, 1, 2, \dots n\} \\
+\end{array}
+\]
+Вопрос: что будет в бесконечности?
+\[
+\begin{array}{c}
+    \omega = \{0, 1, 2, \dots\} \\ 
+    \omega + 1 = \{0, 1, 2, \dots, \omega\} \\ 
+    \omega + 2 = \{0, 1, 2, \dots, \omega, \omega + 1\} \\
+    \vdots \\
+    2\omega = \dots\\
+    2\omega + 1 = \dots\\
+    \vdots\\
+    3\omega = \dots\\
+    \vdots\\
+    \omega\cdot\omega = \dots\\
+\end{array}
+\]
+Таким образом, получаем различные многочлены от \(\omega\), если продолжать этот абсурд, то получится \(\omega^\omega\), потом получится \(\underbrace{\omega^{\omega^{\omega^{\dots^\omega}}}}_{\omega} \) и короче всякое такое.
+
+\section{Фундированные множества}
+\begin{definition}
+    Пусть \(S\) --- ЧУМ. Тогда \(S\) называется Фундированным, если \(\forall A \subset S \exists \min A\)
+\end{definition}
+\begin{example}[Фундированные]\indent
+    \begin{enumerate}
+        \item \(\N, \le\)
+        \item \(\N, |\)
+        \item \(\{a, b\}^*, \sqsubset \)
+    \end{enumerate}
+\end{example}
+\begin{example}[Не фундированные]\indent
+    \begin{enumerate}
+        \item \(\Z, \le\)
+        \item \(\N, \ge\)
+        \item \([0, 1], \le \)
+        \item \(\{a, b\}^*, \le_{lex} \)
+    \end{enumerate}
+\end{example}
+
+\subsection{Свойства, эквивалентные фундированности}
+\begin{enumerate}
+    \item (БС) Невозможность бесконечного спуска
+    \[\nexists a_1 > a_2 > a_3 \dots\]
+    \item (Ст) Стабилизация
+    \[\forall a_1 \ge a_2 \ge a_3 \dots \Ra \exists k: \forall n > k (a_k = a_n)\]
+    \item (ТИ) Трансфинитная индукция
+    \[\forall x (\forall y < x\;\; \phi(y) \ra \phi(x)) \Ra \forall z \phi(z)\]
+\end{enumerate}
+\begin{theorem}
+    Свойства Фундированность, БС, Ст, ТИ эквивалентны.
+\end{theorem}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item \(\neg \text{Ф} \Ra \neg \text{БС}\). Пусть \(A \neq \emptyset, \nexists \min A\). Тогда \(\forall a_1 \in A \exists a_2 \in A: a_2 < a_1\). Используя аксиому выбора (выбирая по одному элементу из оставшихся), получается бесконечную убывающую последовательность.
+        \item \(\neg \text{Ф} \La \neg \text{БС}\). Тогда существует \(a_1 > a_2 > a_3 \dots\). Рассмотрим это множество, в нем не будет минимального элемента.
+        \item \(\neg \text{БС} \Ra \neg \text{Ст}\). Тогда существует \(a_1 > a_2 > a_3 \dots\). Заметим, что для это последовательности неверна стабилизация.
+        \item \(\neg \text{БС} \La \neg \text{Ст}\). Рассмотрим последовательность, которая не стабилизируется. Тогда \(\forall n \exists k: a_n > a_k\). Тогда \(\exists\) бесконечная убывающая цепочка.
+        \item \(\neg \text{Ф} \Ra \neg \text{ТИ}\). \(A \ne \emptyset\) --- множество без минимального элемента, \(\phi(x) \Lra x \notin A \Ra \phi(x) \not\equiv 1\).
+        \[\forall y < x\;y\notin A \Ra x \notin A\]
+        Утверждение вверу верно, т.к. \(\forall y < x (y \notin A, x \in A) \Ra x = \min A\).
+        \item \(\neg \text{Ф} \La \neg \text{ТИ}\). Тогда для некоторго \(\phi\) верно, что  
+        \[\forall x (\forall y < x \; \phi(y) \ra \phi(x))\]
+        Но
+        \[\neg\forall z \phi(z) (1)\]
+        Пусть \(A = \{z | \phi(z) = 0\}\). Причем \(A\) непусто, т.к. \((1)\). Тогда рассмотрим минимальный элемент в \(A\) и получим противоречие с определением ТИ.
+    \end{enumerate}
+\end{proof}
+
+\begin{definition}
+    Вполне упорядоченное множество --- Линейная упорядоченность + Фундированность
+\end{definition}
+\begin{example}
+    \[
+    \begin{array}{lc}
+        \N, \le & \omega \\\\
+        \left\{1 - \frac{1}{n}| n \in \N_+\right\} & \omega \\\\
+        \left\{1 - \frac{1}{n}| n \in \N_+\right\}\cup\left\{2 - \frac{1}{n}| n \in \N_+\right\} & \omega\cdot2 \\\\
+        \left\{k - \frac{1}{n}| k, n \in \N_+\right\} & \omega^2 \\\\
+        \left\{1 - \frac{1}{n} - \frac{1}{m}| m, n \in \N_+\right\} & \omega^2 \\\\
+        \left\{1 - \frac{1}{n} - \frac{1}{m} - \frac{1}{k}| m, n, k \in \N_+\right\} & \omega^3 \\\\
+        \left\{1 - \frac{1}{n_1} - \frac{1}{n_2} - \dots - \frac{1}{n_k}| k \text{ --- произвольное}\right\} & \text{не фундированное}\\\\
+        \left\{k - \frac{1}{n_1} - \frac{1}{n_2} - \dots - \frac{1}{n_k}| k \text{ --- произвольное}\right\} & \omega^\omega \\\\
+    \end{array}
+    \]
+\end{example}
+
+\begin{definition}
+    Пусть \(S\) --- ВУМ. Тогда \(K \subset S\) называется начальным отрезком, если \(\forall x, y ((x \in K \wedge y < x) \ra y \in K)\)
+\end{definition}
+Эквивалентные свойства:
+\[\forall x \in K \forall y \notin K x < y\]
+\[\forall x, y ((x \notin K \wedge y > x) \ra y \notin K)\]
+\subsection{Непосредственно следующие элементы}
+\begin{proposition}
+    \(S\) --- ВУМ, \(x \in S, x\) --- не наибольший в \(S \Ra \exists!y(y > x \wedge \neg\exists z y > z > x)\).
+\end{proposition}
+\begin{proof}
+    \(\exists\) --- из Фундированности, \(y = \min\{t \in S | t > x\}\)
+\end{proof}
+\begin{definition}
+    \(y\) из предыдущего утверждения называется непосредственно следующим элементом после \(x\) и обозначается \(x + 1\).
+\end{definition}
+
+\begin{note}
+    \[[0, a] = [0, a + 1)\]
+\end{note}
+
+\begin{theorem}
+    \(K\) --- начальный отрезок \(S \Ra K = S \vee K = [0, a)\)
+\end{theorem}
+\begin{proof}
+    Если \(K = S\), то победили, иначе рассматриваем \(a = \min(S \setminus K)\). Докажем, что \(K = [0, a)\).
+    \begin{enumerate}
+        \item \(K \subset [0, a)\): Если \(x \in K, x > a\), то \(a \in K\), но \(a \in S \setminus K\)
+        \item \(K \supset [0, a)\): Если \(x < a, x \notin K\), то \(a \ne \min(S \setminus K)\) --- противоречие.
+    \end{enumerate}
+\end{proof}
+
+\begin{example}\indent
+    \begin{enumerate}
+        \item \(S\)
+        \item \([0, \alpha] = \{x | x \le \alpha\}\)
+        \item \([0, \alpha) = \{x | x < \alpha\}\)
+    \end{enumerate}
+\end{example}
+
+\subsection{Предельные элементы}
+\begin{definition}
+    \(z\) назывется предельным элементом, если \(\nexists y (z = y + 1)\).
+\end{definition}
+или 
+\begin{definition}
+    \(z\) назывется предельным элементом, если
+    \[\forall y < z \exists t \in (y, z)\]
+\end{definition}
+
+\begin{theorem}
+    \(S\) --- ВУМ, \(x \in S \Ra \exists l \in S, k \in \N: x = l + k = l + \underbrace{1 + 1 + \dots + 1}_{k} \)
+\end{theorem}
+
+\subsection{Сложение и умножение Фундированных множеств и ВУМов}
+Сложение и умножение определены так же, как и для ЧУМов.
+\begin{theorem}
+    \begin{enumerate}
+        \item \(A, B\) --- фундированные, тогда и \(A + B\) --- тоже.
+        \item \(A, B\) --- ВУМ, тогда и \(A + B\) --- тоже.
+        \item \(A, B\) --- фундированные, тогда и \(A \cdot B\) --- тоже.
+        \item \(A, B\) --- ВУМ, тогда и \(A \cdot B\) --- тоже.
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    \(C \subset A \sqcup B\):
+    \begin{enumerate}
+        \item \begin{enumerate}
+            \item \(C \cap A \ne \emptyset \Ra \min(C \cap A) \text{ --- существует, т.к. } A \text{ --- фундированное}\)
+            \item \(C \cap B \ne \emptyset \Ra \min(C \cap B) \text{ --- существует, т.к. } B \text{ --- фундированное}\)
+        \end{enumerate}
+        \item  Подмножество ЛУМа --- ЛУМ, поэтому победили по (1).
+    \end{enumerate}
+\end{proof}
+
+\begin{note}
+    Любое подмножество ВУМ --- тоже ВУМ
+\end{note}
+\begin{note}
+    Множество предельных элемнтов ВУМа --- ВУМ
+\end{note}
+\begin{note}
+    Между любыми двумя предельными элементами бесконечно много других
+\end{note}
+\begin{note}
+    Элементы между соседними предельными элементами образуют множество, \(\approxeq \omega\)
+\end{note}
+ 
+\begin{theorem}[О структуре ВУМ]
+    \(S\) --- ВУМ, тогда \(\exists L\) --- тоже ВУМ, конечное множество \(K\), такие, что \(S \cong \omega \cdot L + K\)
+\end{theorem}
+\hypertarget{lecture2}{}
+
+\begin{theorem}[О трансфинитной рекурсии]
+    Пусть задано рекурсивное правило:
+    \[F: f|_{[0, x)} \mapsto f(x) \in R\]
+    Тогда \(\exists! f: S \ra R\), т.ч. \(\forall x f(x) = F(f|_{[0, x)})\)
+    % Если задано правило \(f(x) = F(f|_{[0, x)})\), то есть ровно одна \(f\), которая соответствует правилу.
+\end{theorem}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item[] \textbf{Единственность}. Пусть \(f, g\) --- 2 подходящие функции.
+        \[\{x | f(x) \ne g(x)\} \ne \emptyset \Ra \exists m = \min\{x| f(x) \ne g(x)\} \Ra f|_{[0, m)} = g|_{[0, m)}\]
+        Но тогда \(f(m) = F(f|_{[0, m)}) = F(g|_{[0, m)}) = g(m)\), противоречие.
+
+        \item[] \textbf{Cуществование}. По трансфинитной индукции докажем сущесвование \(f|_{[0, x)}\), соответствующее \(F\).
+        \[\forall y < x \exists f|_{[0, y)} \Ra \exists f|_{[0, x)}\]
+        \begin{enumerate}
+            \item \(x = w + 1 \Ra \exists f|_{[0, w)}, f(w) = F(f|_{[0, w)})\)
+            \item \(x\) --- предельное
+            \[y < x \Ra \exists z: y < z < x\]
+            \[z < x \Ra \exists f: [0, z) \ra R\]
+            Так и доопределяем \(f(y)\) (если разные \(z\) дают разные значения, то противоречие аналогично с доказательством единственности). То есть \(\forall y < x\) задано \(f(y) \Ra f\) задано на \([0, x)\).
+        \end{enumerate}
+    \end{enumerate}
+    По трансфинитной индукции получили, что \(\forall x \phi(x)\). 
+    Теперь нужно сделать последний переход ко всему множеству (\textit{Прим. от автора:} мы научились делать ее на начальных отрезках \(\Ra\) для ''самых больших элементов'' потенциально могут быть проблемы, т.к. начальные отрезки --- полуинтервалы. Их мы и будем чинить последним переходом). Если в множестве есть наибольший элемент, то доопределяем так же, как и в случае а) (Важно: наибольший элемент может быть предельным). Если наибольшего элемента нет, то доопределяем значение, как в пункте б).
+\end{proof}
+\begin{theorem}[Обобщенная теорема о трансфинитной рекурсии]
+    \(F\) может быть частично определена, тогда \(f\) определена на начальном отрезке.
+\end{theorem}
+\begin{proof}
+    Добавим значение \(f(x) = \perp\), если функция \(f\) не определена в точке \(x\). Тогда по теореме о Трансфинитной рекурсии, \(\exists! f: S \ra R \cup \{\perp\}\).
+\end{proof}
+\begin{theorem}[О сравнимости ВУМов]
+    Любые два ВУМа либо изоморфны, либо один из них изоморфен начальному отрезку другого.
+\end{theorem}
+\begin{proof}
+    Строим \(f: S \ra T\), заданное правилом \(F(f|_{[0, x)}) = \min (T \setminus f([0, x)))\). По обобщенной теореме о трансфинитной рекурсии, \(\exists! f\), соответствующая \(F\). Есть два случая:
+    \begin{enumerate}
+        \item \(f\) определена на \(S\). \(Im_f = \left[\begin{array}{l}
+            T \\
+            \left[0, t\right)
+        \end{array}\right.\). Тогда  иначе \(\exists t_1 < t_2: t_1, t_2 \notin Im_f\).
+        \item \(f\) определена на \([0, s) \Ra Im_f = T\), иначе доопределим \(f(s)\)
+    \end{enumerate}
+\end{proof}
+
+\begin{proposition}
+    \(S\) --- ВУМ, \(s \in S \Ra s \not\cong [0, s)\)
+\end{proposition}
+\begin{proof}
+    Иначе \(\exists\) монотонная \(g: S \ra [0, s) \Ra\) т.к. \(g(s) \ge s\) (нетрудно доказать) \(\Ra g(s) \notin [0, s)\), противоречие.
+\end{proof}
+\begin{corollary}
+    Из \(S \cong T, S \cong [0, t), T \cong [0, s)\) выполнено ровно 1 утверждение
+\end{corollary}
+
+\begin{theorem}[Цермело]
+    У любого множества есть равномощный ему ВУМ
+\end{theorem}
+
+Из теоремы Цермело и теоремы о сравнимости ВУМов:
+\begin{corollary}
+    \[\forall A, B\;\;\left[\begin{array}{l}
+        \exists B' \subset B: A \cong B' \\
+        \exists A' \subset A: B \cong A' \\
+    \end{array}\right.\]
+\end{corollary}
+
+\section{Ординалы}
+\begin{definition}
+    \(S\) --- транзитивно, если \(y \in S, x \in y \Ra x \in S\).
+\end{definition}
+\begin{example}
+    \(\emptyset, \{\emptyset\}\) и все элементы \(\N\)
+\end{example}
+\begin{example}
+    \(\{\emptyset, \{\emptyset\}, \{\{\emptyset\}\}\}\)
+\end{example}
+\begin{definition}
+    Ординал --- транзитивное множество, любой элемент которого --- транзитивен.
+\end{definition}
+
+Неформально --- порядковый тип (отношение эквивалентности на всех множествах)
+
+\begin{proposition}
+    \(\alpha\) --- ординал, тогда \(\beta \subset \alpha\) --- тоже.
+\end{proposition}
+\begin{proof}
+    \(\beta\) --- транзитивно, т.к. \(\beta\) --- элемент ординала. \(\gamma \in \beta \Ra\) по транизитивности \(\alpha \Ra \gamma \in \alpha \Ra \gamma\) --- транзитивно.
+\end{proof}
+
+\begin{proposition}
+    \(\alpha\) --- ординал \(\Ra \alpha \cup \{\alpha\}\) --- ординал.
+\end{proposition}
+\begin{proof}
+    \[\beta \in \alpha \cup \{\alpha\} \Ra \beta \in \alpha \vee \beta = \alpha\] 
+    В обоих случаях, \(\beta\) транзитивно.
+    Теперь рассмотрим \(\gamma \in \beta\). 
+    \[\begin{array}{l}
+        \beta \in \alpha \Ra \gamma \in \alpha \\
+        \beta = \alpha \Ra \gamma \in \alpha
+    \end{array}\]
+    Т.к. \(\alpha\) --- транзитивно, то и \(\gamma\) --- тоже.
+\end{proof}
+\begin{proposition}
+    Объединение любого множества ординалов --- ординал.
+\end{proposition}
+\begin{proof}
+    \[\alpha = \bigcup_{i \in I}\alpha_i\]
+    \[\gamma \in \beta, \beta \in \alpha \Ra \gamma \in \beta, \beta \in \alpha_i \Ra \beta, \gamma \in \alpha_i\]
+    \(\Ra \beta, \gamma\) транзитивны
+\end{proof}
+
+\begin{proposition}
+    Ординал --- ВУМ с отношением \(\in\) (как строгого порядка)
+\end{proposition}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item Антирефлексивность: По Аксиоме фундированности, \(\neg\exists x_1 \ni x_2 \ni x_3 \dots \Ra x \notin x\)
+        \item Антисимметричность: \(\neg\exists x, y (x \in y \wedge y \in x) \Ra\)
+        \item Транзитивность: по определению
+        \item Линейность: \(x\) --- минимальный элемент, не сравнимый с кем-то, а \(y\) --- минимальный, не сравнимый с \(x\).
+        \(z \in x \Ra z \text{ сравнимо с } y\). 
+        
+        Но \(z \ne y\), поэтому \(y \in z \Ra y \in x\), тогда \(z \in y \Ra x \subset y\).
+        
+        Теперь, \(w \in y \Ra w\) --- сравним с \(x, w \ne x\). \(x \in w \Ra x \in y\). Поэтому \(w \in x (\Ra y \subset x)\).
+        Но тогда \(x = y\), противоречие.
+    \end{enumerate}
+\end{proof}
+\begin{proposition}
+    \(\alpha\) --- ординал, \(x \in \alpha \Ra x = [0, x)\)
+\end{proposition}
+\begin{proof}
+    \(y \in x \Ra\) по транизитивности \(y \in \alpha \). \(y \in [0, x)\)  (по определению начального отрезка). \(y \in [0, x) \Ra y < x \Lra y \in x\)
+\end{proof}
+\begin{theorem}
+    Любой ординал --- ВУМ, с отношением порядка \(\in\), при этом отношение ''быть начальным отрезком'' --- тот же порядок. Подмножества являющиеся ординалами --- тоьлко начальные отрезки. То есть \(\in, \subset, \text{''быть начальным отрезком''}\) --- один и тот же порядок, называемый ординальным
+\end{theorem}
+\begin{proof}
+    очев
+\end{proof}
+\begin{theorem}[О сравнимости ординалов]
+    \(\alpha, \beta\) --- ординалы \(\Ra \alpha = \beta, \alpha \in \beta, \beta \in \alpha\)
+\end{theorem}
+\subsection{Конечные ординалы}
+\[\begin{array}{l}
+    0 = \emptyset \\
+    1 = \{\emptyset\} \\
+    2 = \{\emptyset, \{\emptyset\}\} \\ 
+    \vdots \\
+    n + 1 = \{0, 1, 2, \dots n\} \\ 
+\end{array}\]
+
+\subsection{Сложение ординалов}
+Неформально: \(A\) --- ВУМ, \(A \cong \alpha\) --- ординал; \(B\) --- ВУМ, \(B \cong \beta\) --- ординал, тогда \(\alpha + \beta\) --- ординал, изоморфный \(A + B\)
+
+Формально:
+\begin{enumerate}
+    \item \(\alpha + 0 = \alpha\)
+    \item \(\alpha + (\beta + 1) = (\alpha + \beta) + 1\)
+    \item \(\alpha + \bigcup \gamma_i = \bigcup (\alpha + \gamma_i)\)
+\end{enumerate}
+\begin{note}
+    \[1 + \omega = 1 + \bigcup n = \bigcup (1 + n) = \omega \ne \omega + 1\]
+\end{note}
+
+\begin{proposition}
+    \[B \ne \emptyset \Ra A + B \not\cong A\]
+    \[\beta > 0 \Ra \alpha + \beta > \alpha\]
+\end{proposition}
+\begin{proof}
+    Верно, т.к. \(\alpha\) --- начальный отрезок \(\alpha + \beta\)
+\end{proof}
+
+\begin{theorem}[О вычитании]
+    \(\alpha \ge \beta \Ra \exists! \gamma: \beta + \gamma = \alpha\)
+\end{theorem}
+\begin{proof}
+    Рассмотрим \(A \cong \alpha, B \cong \beta \Ra C = A \setminus B\). Тогда \(C\) --- ВУМ, \(\gamma\) --- ординал, \(\cong C\).
+\end{proof}
+
+\subsection{Умножение ординалов}
+\(\alpha \cdot \beta\) --- ординал, изоморфный \(A \cdot B\) (обратный лексикографический порядок)
+\begin{enumerate}
+    \item \(\alpha \cdot 0 = 0\)
+    \item \(\alpha \cdot (\beta + 1) = \alpha\beta + \alpha\)
+    \item \(\alpha \cdot (\bigcup \gamma_i) = \bigcup (\alpha + \gamma_i)\)
+\end{enumerate}
+\begin{note}
+    \[2\cdot \omega = \omega, \omega \cdot 2 = \omega + \omega \ne \omega\]
+\end{note}
+\begin{theorem}[О делении с остатком]
+    Пусть \(\alpha \ne 0, \beta\) --- ординалы. Тогда \(\exists! \gamma, \delta: \beta = \alpha\cdot\gamma + \delta, \delta < \alpha\)
+\end{theorem}
+\begin{proof}
+    Пусть \(\mu\) таково, что \(\alpha \cdot \mu > \beta\)
+\end{proof}
+\subsection{Возведение в степень}
+\begin{enumerate}
+    \item \(\alpha^0 = 1\)
+    \item \(\alpha^{\beta + 1} = \alpha^\beta \cdot \alpha\)
+    \item \(\alpha^{\bigcup \gamma_i} = \bigcup \alpha^{\gamma_i}\)
+\end{enumerate}
+\begin{note}
+    \[2^\omega = \omega\]
+\end{note}
+
+\subsubsection{ВУМ, изоморфный \(\alpha^\beta\)}
+Рассмотрим все функции, которые \(\ne 0\) на конечном числе элементов. Тогда: \(f > g\), если:
+\begin{enumerate}
+    \item \(\underbrace{\max \{x| f(x) \ne 0\}}_{m_f}  > \underbrace{\max\{x| g(x) \ne 0\}}_{m_g} \)
+    \item \(m_f = m_g, f(m_f) > g(m_g)\)
+    \item \(m_f = m_g, f(m_f) = g(m_g), \{x < m_f| f(x) \ne 0\} > \max\{x < m_g|g(x) \ne 0\}\)
+\end{enumerate}
+Или: рассмотрим конечное число точек, где \(f \ne 0 \vee g \ne 0\), сравниваем обратно лексикографически.
+\begin{note}
+    \(2^\omega\) по этому определению --- обратная двоичная запись натуральных чисел
+\end{note}
+\begin{theorem}[Об ординарной системе счисления]
+    Пусть \(\gamma < \alpha^\beta\). Тогда \(\exists!\) представление \(\gamma = \alpha^{\beta_1}\cdot\alpha_1 + \alpha^{\beta_2}\cdot\alpha_2 + \dots + \alpha^{\beta_n}\cdot\alpha_n\), где \(\beta > \beta_1 > \beta_2 > \dots > \beta_n, \alpha_i < \alpha\)
+\end{theorem}
+\hypertarget{lecture3}{}
+
+\section{Лемма Цорна, Теорема Цермело}
+
+\begin{theorem}
+    Если \(A, B\) бесконечны, то \(A \cup B \cong A \times B \cong \max \{A, B\}\)
+\end{theorem}
+
+\begin{proposition}[Аксиома Выбора]
+    Пусть \(A\) --- множество. Тогда существует \(\phi: 2^A \setminus \{A\}\ra A: \forall S \subsetneq A\;\;\phi(S) \notin S\)
+\end{proposition}
+
+\begin{definition}
+    \((S, \le_S)\) --- корректный фрагмент множества \(A\), если
+    \begin{enumerate}
+        \item \(S \subset A\)
+        \item \((S, \le_S)\) --- ВУМ
+        \item \(\forall x \in S\;\; x = \phi([0, x)_S)\), где \(\phi\) --- функция из аксиомы выбора
+    \end{enumerate}
+\end{definition}
+\begin{lemma}
+    Если \(S, T\) --- корректные фрагменты, то тогда \(S\) --- начальный отрезок \(T\), или \(T\) --- начальный отрезок \(S\)
+\end{lemma}
+\begin{proof}
+    По теореме о сравнимости, \(T \cong [0, S)\), или \(T \cong S\), или \(S \cong [0, T)\). Докажем, что изоморфизм тождественнен
+    Б.О.О. \(T \cong [0, S)\). Пусть \(\mu: [0, S) \ra T\) --- изоморфизм. Пусть \(x\) --- минимальный элемент, такой, что \(\mu(x) \ne x\). Но тогда, т.к. \(x\) --- минимальный такой элемент, тогда \([0, x)_S = [0, x)_T \Ra x = \phi([0, x)_S) = \phi([0, x)_T) \Ra x \in T\). Но тогда \(\Ra \mu(x) <_T x \vee \mu(x) >_T x\). Предположим, что \(\mu(x) > x\), тогда \(z = \mu^{-1}(x) >_S x \Ra \mu(z) = x <_T \mu(x)\). Если \(\mu(x) < x\), тогда \(\mu(\mu(x)) < \mu(x) < x\), противоречие с тем, что \(x\) --- минимальный
+\end{proof}
+
+\begin{lemma}
+    Объединение \(S = \bigcup S_i\) любого множества корректных фрагментов является корректным фрагментом относительно порядка \(x \le_S y\), если \(\exists i\;\;x \le_{S_i} y\)
+\end{lemma}
+\begin{proof}
+    Докажем все свойства корректного фрагмента:
+    \begin{enumerate}
+        \item \textbf{Рефлексивность.} \(x \le_S x\)
+        \[x \in S \Ra \exists i: x \in S_i \Ra x \le_{S_i} x \Ra x \le_S x\]
+        \item \textbf{Антисимметричность.} \(x \le_S y, y \le_S x \Ra x = y\).
+        \[\exists i, j: x \le_{S_i} y, x \ge_{S_j} y\]
+        При этом, Б.О.О, \(S_i\) --- начальный отрезок \(S_j\). Тогда \(x \le_{S_j} y, x \ge_{S_j} y \Ra x = y\)
+        \item \textbf{Транзитивность.} \(x \le_S y, y \le_S z \Ra x \le_S z\)
+        \[x \le_{S_i} y, y \le_{S_j} z\]
+        При этом, Б.О.О, \(S_i\) --- начальный отрезок \(S_j\). Тогда \(x \le_{S_j} y, y \ge_{S_j} z \Ra x \le_{S_j} z\)
+        \item \textbf{Линейность.} Линейность. \(x \in S_i, y \in S_j\), при этом, Б.О.О, \(S_i\) --- начальный отрезок \(S_j\). Тогда \(x, y\) сравимы отношением \(\le_{S_j}\)
+        \item \textbf{Фундированность.} Пусть \(x_1 \ge_S x_2 \ge_S x_3 \dots\), где \(x_k \in S_{i_k}\). Докажем, что \(x_k \in S_{i_1}\). Действительно, в проивном случае \(S_{i_k} \not\subset S_{i_1}\), но \(x_k \le x_1\), и, т.к. \(S_{i_1}\) --- начальный отрезок \(S_{i_k}\) и \(x_k \le x_1\), то \(x_k \in S_{i_1}\). Но тогда в эта бесконечная последовательность стабилизируется, из чего следует, что наше множесво --- ВУМ
+        \item \textbf{Корректность.}
+        \[x \in S \Ra x = \phi([0, x)_S)\]
+        \[x \in S_i, y \le_S x \Lra y \le_{S_i} x\]
+        \[[0, x)_S = [0, x)_{S_i}\]
+        Но тогда \(x = \phi([0, x)_{S_i}) = \phi([0, x)_S)\), т.к. \(S_i\) --- корректный фрагмент.
+    \end{enumerate}
+\end{proof}
+
+\begin{lemma}
+    Объединение всех корректных фрагментов является исходым множеством
+\end{lemma}
+\begin{proof}
+    Пусть объединение всех корректных фрагментов дало \(B \subseteq A\). Тогда \(B \cup \{\phi(B)\}\) --- тоже корректный фрагмент. Проиворечие с тем, что \(B\) содержало все корректные фрагменты.
+\end{proof}
+
+\begin{theorem}[Цермело]
+    \(\forall A \exists B\) --- ВУМ, такой, что \(B \cong A\)
+\end{theorem}
+\begin{proof}
+    Объединение всех корректных фрагментов будет являться ВУМом и будет равно исходному множеству.
+\end{proof}
+
+\begin{corollary}
+    Любые два множества сравнимы по мощности
+\end{corollary}
+
+\begin{definition}
+    Пусть \(A\) --- ЧУМ. Цепь в нем --- его линейно упорядоченное подмножество
+\end{definition}
+\begin{definition}
+    Пусть \(A\) --- ЧУМ, \(S \subset A\). Верхняя грань \(S\) --- такой элемент \(b \in A\), что \(\forall x \in S x \le b\).
+\end{definition}
+\begin{lemma}[Цорна]
+    Пусть у любой цепи есть верхняя грань. Тогда в \(A\) есть максимальный элемент, более того, \(\forall x \in A \exists\) максимальный элемент \(m \ge x\)
+\end{lemma}
+\begin{proof}
+    Пусь \(I\) --- ВУМ, мощнее \(A\). Построим функцию \(f: I \ra A, f(y) =\) элемент, больший всех элементов \(f([0, y))\). По теореме о трансфинитной рекурсии, \(\exists! f\), удовлетворяющая такому условию. \(f\) --- инъективно \(\Ra f\) определена на начальном отрезке \([0, S)\). Образ \(f([0, S))\) --- цепь в \(A\). По условию леммы, у \(f([0, S))\) есть верхняя грань \(m\). \(m \notin f([0, S)) \Ra\) можно доопределить \(m = f(S)\). Если \(m\) --- не максимальный, то можно доопределить \(f(s) = w > m\).
+\end{proof}
+\subsection{Приложения Леммы Цорна и Теоремы Цермело}
+
+\begin{theorem}
+    Любой порядок монжо дополнить до линейного
+\end{theorem}
+\begin{proof}
+    Пусть \(R\) --- порядок на множестве \(X\). Рассмотрим \(A\) --- множество всех порядков на \(X\), и упорядочим \(A\) по вложению. Цепь в \(A\) --- набор порядков, где следующий продолжает предыдущий.
+    \begin{proposition}
+        Объединение порядков цепи --- порядок.
+    \end{proposition}
+    \begin{proof}
+        Пусть \(\{\le_i\}_{i \in I}\) --- цепь. Обозначим \(a \le b \Lra \exists i: a\le_i b\). Докажем, что \(\le\) --- порядок
+        \begin{enumerate}
+            \item[] \textbf{Рефлексивность:} \(\forall i a \le_i a \Ra a \le a\)
+            \item[] \textbf{Антисимметричность:} \(a \le_i b, b \le_j a \Ra a \le_{\max(i, j)} b, a \ge_{\max(i, j)} b \Ra a = b\)
+            \item[] \textbf{Транзитивность:} \(a \le_i b, b \le_j c \Ra a \le_{\max(i, j)} b, b \le_{\max(i, j)} c \Ra a \le_{\max(i, j)} c \Ra a \le c\)
+        \end{enumerate}
+    \end{proof}
+    Заметим, что тогда в нашем множестве у любой цепи есть верхняя грань (обьединение всех элементов цепи). Тогда существует максимальный порядок \(\le\), такой, что \("\le" \ge "R"\). Докажем, что \(\le\) --- линейный. Предположим противное. Тогда существуют несравнимые \(a, b\). Положим \(x \le' y \Lra \left[ \begin{array}{l}
+        x \le y \\
+        x \le a, b \le y \\
+    \end{array}\right.\).
+    Докажем, что тогда \(\le'\) --- порядок.
+    \begin{enumerate}
+        \item[] \textbf{Рефлексивность:} \(a \le a\) --- выполнено
+        \item[] \textbf{Антисимметричность:} \(x \le a, b \le y, y \le a, b \le x \Ra b \le a\) --- противоречие.
+        \item[] \textbf{Транзитивность:} \(x \le' y, y \le' z\). Несколько случаев разбираются достаточно просто
+    \end{enumerate}
+\end{proof}
+
+\begin{theorem}
+    \(A\) --- конечно, \(B\) бесконечно, тогда \(B \cong A \cup B\).
+\end{theorem}
+
+\begin{theorem}
+    \(A\) --- бесконечно \(\Ra A \cong A \times \N\).
+\end{theorem}
+\begin{proof}
+    По теореме Цермело, \(\exists S\) --- ВУМ, такой, что \(S \cong A\). Но \(S = \omega L + R\) для некоторых \(L\) и конечного \(R\). Но тогда \(S\) равномощно \(\omega L \cong L \times \N \Ra A \cong L \times \N \cong L \times (\N \times \N) \cong A \times \N\).
+\end{proof}
+
+\begin{theorem}
+    \(A, B\) --- бесконечны, тогда \(A \cup B \cong \max\{A, B\}\)
+\end{theorem}
+\begin{proof}
+    Б.О.О, \(A \ge B\). Тогда \(A \cup B \lesssim A \times \{0, 1\} \lesssim  A \times \N \cong A \lesssim A \cup B\). Тогда по Теореме Кантора-Бернштейна, \(A \cong A \cup B\)
+\end{proof}
+
+\begin{theorem}
+    \(A\) --- бесконечно \(\Ra A \cong A^2\)
+\end{theorem}
+\begin{proof}
+    Построим ЧУМ из пар \((X, f)\), таких, что \(f\) --- биекция из \(X \ra X^2\), \(X \subset A\). Определим \((X, f) \le (Y, g) \Lra \left\{\begin{array}{l}
+        X \subset Y \\
+        g|_x \equiv f
+    \end{array}\right.\).
+    Докажем, что выполнено условие Леммы Цорна. Цепь \(\{(X_i, f_i)\}_{i \in I}\). Рассмотрим \(\left(X, f\right)\), где \(X = \bigcup_{i \in I} X_i, f(x) = f_i(x) \Lra x \in X_i\). Заметим, что \(\bigcup_{i \in I} X_i \subset A\), и \(x \in X_i \cap X_j \Ra \) Б.О.О. \(X_i \subset X_j \Ra f_j|_{X_i} = f_i \Ra f_i(x) = f_j(x)\). Тогда эта пара корректна. Проверим, что \(f\) --- биекция \(X \ra X^2\).
+    \begin{enumerate}
+        \item[] \textbf{Инъективность:} Пусть \(f(x) = f(y), x \ne y\). При этом, \(x \in X_i, y \in X_j\), Б.О.О. \(X_i \subset X_j \Ra f_j(x) = f_j(y)\) --- не инъективно, противоречие.
+        \item[] \textbf{Сюрьективность:} Пусть \((x, y) \in X^2, x \in X_i, y \in X_j\). Б.О.О. \(X_i \subset X_j \Ra (x, y) \in X_j^2 \Ra \exists z: f_j(z) = (x, y) \Ra f(z) = (x, y)\).
+    \end{enumerate}
+    Теперь, пусть \((M, h)\) --- какой-то максимальный элемент, такой, что \(M\) бесконечно.
+    \begin{enumerate}
+        \item \(M \cong A \Ra A \cong M \cong M^2 \cong A\)
+        \item \(M \lesssim A \Ra A \setminus M \cong A \Ra M \lesssim A \setminus M \ra \exists Q \subset A \setminus M, Q \cong M\). Но тогда \(Q \cong Q^2 \cong Q^2 \times \{0, 1, 2\} \cong \Q^2 \cup (Q\times M) \cup (M \times Q)\). Обозначим за \(b\) биекцию между множествами \(Q, \Q^2 \cup (Q\times M) \cup (M \times Q)\). Положим \(f' = \left\{\begin{array}{l}
+            f(x), x \in M \\
+            b(x), x \in Q
+        \end{array}\right.\). Заметим, что \(f': (M \cup Q) \ra (M \cup Q)^2\) --- биекция, противоречие, т.к. \((M, f)\) --- не максимальный элемент
+    \end{enumerate}
+\end{proof}
+
+\begin{definition}
+    Базис Гамеля в пространстве  \(\R\) над \(\Q\) --- такое множество \(H\), что 
+    \begin{enumerate}
+        \item \(\alpha_1h_1 + \dots + \alpha_nh_n = 0, \alpha_i \in Q, h_i \in H \Ra \alpha_i = 0\)
+        \item \(\forall x \in \R \exists n \exists \{h_1,\dots h_n\} \subset H, \exists \{\alpha_1 \dots \alpha_n\} \subset \Q\)
+    \end{enumerate}
+\end{definition}
+\begin{theorem}
+    Базис Гамеля существует.
+\end{theorem}
+\begin{proof}
+    По Лемме Цорна, рассмотрим линейно независимые над \(\Q\) системы с отношением подмножества. Рассмотрим объединение элементов некоторой цепи. Оно тоже будет линейно независимо, т.к. любое конечное подмножество этого множества будет линейно независимо. Тогда в любой цепи есть максимум. Выберем его, он будет базисом Гамеля
+\end{proof}
+
+\begin{theorem}
+    Существует такая функция \(f: \R \ra \R\), такая, что верно следующее: \(f(x + y) = f(x) + f(y)\), но \(\nexists \alpha: \forall x f(x) = \alpha x\).
+\end{theorem}
+\begin{proof}
+    Рассмотрим функцию, которая меняет местами две координаты в базисе Гамиля при числах \(a, b\). Заметим, что \(f(0) = 0\). При этом \(f(a) = b, f(b) = a\). Но тогда \(\alpha = \frac{a}{b} = \frac{b}{a}\), противоречие, т.к. \(b \ne a\).
+\end{proof}
+\hypertarget{lecture5}{}
+
+\section{Теория вычислимости}
+\subsection{Алгоритм}
+Неформально: алгоритм --- это процедура, преображающая данные, закодированные конечными словами, которая тоже имеет конечное описание и выполняется пошагово
+
+\begin{example}[Не алгоритм]
+    Метод Ньютона нахождения нуля дифференцируемой. Не является алгоритмом, т.к. нельзя сделать предельный переход, однако, если установить точность с которой мы хотим узнать корень, тогда норм.
+\end{example}
+\begin{example}[Не алгоритм]
+    Метод дележа пирога. Есть пирог, хотим поделить его. Берем нож и несем его над пирогом. Второй человек говорит, когда нам остановиться. Тогда мы и режем пирог. Не является алгоритмом, т.к. время тут не дискретно.
+\end{example}
+
+\subsection{Однолетночная машина Тьюринга}
+Одноленточная машина Тьюринга
+\[\begin{array}{c|c|c|c|c|c|c|c}
+    \hline
+    \dots & m & a & t & l & o & g & \dots \\
+    \hline
+\end{array}\]
+Есть бесокнечная в обе стороны лента (см. выше), в которой хранятся некоторые символы некоторого алфавита. Машина тьюринга представляет собой функцию от этой ленты:
+\(qa \mapsto rbD\)
+\begin{enumerate}
+    \item \(q\) --- текущее состояние машины
+    \item \(a\) --- символ в ячейке, на которую смотрит машина Тьюринга
+    \item \(r\) --- новое состояние машины
+    \item \(b\) --- новый символ в ячейке
+    \item \(D\) --- направление сдвига \(L, N, R\)
+\end{enumerate}
+
+Итак, формально:
+\begin{definition}
+    Машина Тьюринга --- это кортеж \((\Sigma, \Gamma, Q, q_1, q_0, \delta)\), где \(Sigma, \Gamma, Q\) --- конечные множества
+    \begin{enumerate}
+        \item \(\Sigma\) --- входной алфавит
+        \item \(\Gamma \supset \Sigma\) --- ленточный алфавит. \(\#\) --- пробел, принадлежит \(\Gamma \setminus \Sigma\)
+        \item \(Q \cap \Gamma = \emptyset\) --- множество состояний
+        \item \(q_1, q_0 \in Q\) --- начальное и кончное состояния соответственно
+        \item \(\delta: Q \times \Gamma \ra Q \times \Gamma \times \{L, N, R\}\)
+    \end{enumerate}
+\end{definition}
+
+Удобно записывать состояние машины Тьюринга так:
+\[AqaB\]
+\begin{enumerate}
+    \item \(a\) --- символ, на который мы сейчас смотрим
+    \item \(q\) --- состояние машины в данный момент
+    \item \(A, B\) --- лента до и после символа, на который мы смотрим, соответственно
+\end{enumerate}
+
+\begin{definition}
+    Вычисление --- последовательность конфигураций, где каждая следующая получается из предыдущей по правилу Машины Тьюринга
+\end{definition}
+
+\begin{definition}
+    Функция \(f: \Sigma^* \ra \Sigma^*\) называется вычислимой, если существует Машина Тьюринга, такая, что
+    \[\forall x\left\{\begin{array}{l}
+        f(x) \text{ определена }\Ra M(x) = f(x) \\ 
+        f(x) \text{ не определена }\Ra M(x) \text{не останавливается} \\
+    \end{array}\right.\]
+\end{definition}
+
+Заметим, что Машин Тьюринга счетное множество, а функций \(\Sigma^* \ra \Sigma^*\) континуум  \(\Ra \exists\) невычислимые функции.
+
+\begin{proposition}
+    У \(f\) конечная область определения \(\Ra f\) вычислима
+\end{proposition}
+\begin{proposition}
+    \(f, g\) --- вычислимы \(\Ra f\circ g\) --- тоже
+\end{proposition}
+
+\begin{definition}
+    \(S \subset \Sigma^*\) разрешимо, если \(\exists\) Машина Тьюринга с бинарным ответом, такая, что \(M(x) \left\{\begin{array}{l}
+        1, x \in S \\
+        0, x \notin S
+    \end{array}\right.\)
+    Иначе говоря, \(S\) разрешимо, если \(\chi_S(x) = \left\{\begin{array}{l}
+        1, x \in S \\
+        0, x \notin S
+    \end{array}\right.\) вычислима
+\end{definition}
+
+\begin{proposition}
+    \(S\) --- конечное \(\Ra S\) разрешимо
+\end{proposition}
+\begin{proposition}
+    \(S, T\) --- разрешимы \(\Ra S\cup T, S \cap T,\overline{S}\) --- тоже
+\end{proposition}
+
+\begin{note}
+    Подмножество разрешимого множества может быть неразрешимо.
+\end{note}
+
+\begin{theorem}[Критерий Разрешимости]
+    \(S\) разрешимо \(\Lra S\) можно перечислить по возрастанию
+\end{theorem}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item[\(\Ra\)] 
+        \begin{verbatim}
+for i in 0, 1, 2...
+    if i in S:
+        print i
+        \end{verbatim}
+        \item[\(\La\)] Пусть \(S\) бесконечно, а на вход подается \(x\). Печатаем элементы, пока они \(< x\). Тогда первый элемент, на котором это сломается будет либо равен \(x\), либо будет \(> x\). В первом случае выдаем 1, иначе 0. Для конечных оно и так разрешимо.
+    \end{enumerate}
+\end{proof}
+
+\begin{definition}
+    Множество называется перечислимым, если существует Машина Тьюринга, которая выводит все его элеметы \(S\) и только их
+\end{definition}
+
+\begin{theorem}[Поста]
+    \(S\) разрешимо \(\Lra S, \overline{S}\) перечислимы
+\end{theorem}
+\begin{proof}
+    \item[\(\Ra\)] пробегаемся по \(\Sigma^*\), и, если элемент \(\in S\), то выводим его. Аналогично для \(\overline{S}\)
+    \item[\(\La\)] По очереди перечисляем элементы \(S, \overline{S}\). Рано или поздно мы встретим \(x \Ra\) выведем, где мы его встретили, в \(S\) или \(\overline{S}\).
+\end{proof}
+\hypertarget{lecture6}{}
+
+\subsection{Свойства, эквивалентные перечислимости}
+Далее будем считать, что наш алфавит --- \(\{0, 1\}\).
+\begin{enumerate}
+    \item Можно выводить все элементы, но без повторов
+    \item Вычислима полухарактеристическая функция \(\overline{\chi_A}(x) = \left\{\begin{array}{l}
+        1, x \in A \\
+        \text{не определено, }x \notin A
+    \end{array}\right.\)
+    \item \(A\) --- область определения некоторой вычислимой функции
+    \item \(A\) --- область значений некоторой вычислимой функции
+    \item \(A = \emptyset\) или \(A\) --- область значений всюду вычислимой функции.
+    \item \(A\) --- проекция разрешимого множества пар \(A = \{x | \exists y (x, y) \in B\}\), где \(B \subset \{0, 1\}^*\times \{0, 1\}^*\)
+\end{enumerate}
+
+\begin{proposition}
+    \(A\) вычислимо \(\Ra\) 2)
+\end{proposition}
+\begin{proof}\indent
+    \begin{verbatim}
+    chi_A(x) {
+        fot i in A {
+            if i == x { // если встретим x, то вернем 1
+                return 1;
+            }
+        }
+    } 
+    \end{verbatim}
+\end{proof}
+\begin{proposition}
+    2) \(\Ra\) 3)
+\end{proposition}
+\begin{proof}
+    \(A = Dom\;\overline{\chi_A(x)}\)
+\end{proof}
+\begin{proposition}
+    3) \(\Ra\) 4)
+\end{proposition}
+\begin{proof}
+    Рассмотрим \texttt{f'(x)}:
+    \begin{verbatim}
+    f'(x) {
+        f(x);
+        return x;
+    }
+    \end{verbatim}
+    Тогда \(f'(x) = \left\{\begin{array}{l}
+        x, x \in Dom\;f \\
+        \text{не определено, иначе}
+    \end{array}\right.\)
+    Заметим, что \(Rad\;f' = Dom\;f\).
+\end{proof}
+% \begin{proposition}
+%     1) \(\Ra\) 5)
+% \end{proposition}
+% \begin{proof}
+    
+% \end{proof}
+\begin{proposition}
+    4) \(\Ra\) 5)
+\end{proposition}
+\begin{proof}
+    Пусть \(A = Ran\;f\). Если \(A \ne \emptyset\), то положим \(a_0\) --- произвольный элемент в \(a_0\). Положим \(f': \{0, 1\}^*\times\N \ra \{0, 1\}^*\), так, что 
+    \[f'(x, t) = \left\{\begin{array}{l}
+        f(x), \text{ если }f(x)\text{ остановится за }t\text{ шагов} \\
+        a_0, \text{ иначе}
+    \end{array}\right.\]
+    Заметим, что \(Ran\;f = Ran\;f'\), а \(f'\) --- вычислима.
+\end{proof}
+\begin{proposition}
+    5) \(\Ra\) 6)
+\end{proposition}
+\begin{proof}
+    Пусть \(A = Ran\;f\). Положим \(B = \{(y, (x, t)): f(x) = y\text{ за \(t\) шагов}\}\).
+\end{proof}
+\begin{proposition}
+    6) \(\Ra A\) вычислимо
+\end{proposition}
+\begin{proof}
+    Обойдем все пары \((x, y)\), и, если \((x, y) \in B \Ra \) печатаем \(x\).
+\end{proof}
+
+\subsection{Универсальная машина Тьюринга}
+Гарвардская архитектура машины --- когда есть фиксированная программа и данные, с которыми она работает.
+
+Принстонская архитектура машины --- когда есть некоторый процессор, который может запускать различные программы, которые, в свою очередь, будут взаимодействовать с данными
+\begin{definition}
+    Универсальная Машина Тьюринга --- такая функция \(U(M, x) = M(x)\) --- по сути, машина, которая запускает машину \(M\) с вводом \(x\).
+\end{definition}
+\begin{definition}
+    Будем считать, что код Машины Тьюринга записан (как-то) последовательностью \(0, 1\). Фунуция \(U: \{0, 1\}^*\times\{0, 1\}^* \ra \{0, 1\}^*\) называется универсальной вычислимой функцией, если
+    \begin{enumerate}
+        \item \(U\) вычислима как функция от двух аргументов
+        \item \(\forall f: \{0, 1\}^* \ra \{0, 1\}^*\), где \(f\) --- вычислима, верно \(\exists p \forall x\;U(p, x) = f(x)\)
+    \end{enumerate}
+\end{definition}
+\hypertarget{lecture7}{}
+
+\begin{theorem}
+    Универсальная Машина Тьюринга существует.
+\end{theorem}
+
+\subsection{Тезис Черча-Тьюринга}
+\href{https://ru.wikipedia.org/wiki/Тезис_Чёрча_—_Тьюринга}{\textit{Подробнее...}}
+
+\subsection{Проблема самоприменимости}
+Пусть нам дана УМТ \(U\). Рассмотрим \(S = \{p | U(p, p) \text{ остановится}\}\)
+
+\begin{theorem}[Тьюринга]
+    \(S\) --- перечислимо, неразрешимо
+\end{theorem}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item[] \textbf{Перечислимость:} \(S\) перечислимо, т.к. \(S = Dom\;d(p) = U(p, p)\) --- область определения вычислимой функции
+        \item[] \textbf{Нерезрешимость:} от противного. Пусть \(S\) разрешимо \(\Lra \chi_S\) вычислимо. Рассмотрим 
+        \[f(x) = \left\{\begin{array}{l}
+            0, \chi_S(x) = 0 \\
+            \ne U(x, x), \chi_S(x) = 1\\
+        \end{array}\right.\]
+        Т.к. \(U(p, p)\) --- УВФ, то \(\exists q \forall x U(q, x) = f(x)\). 
+        \begin{enumerate}
+            \item \(q \in S \Ra U(q, q) = f(q) \ne U(q, q)\)
+            \item \(q \notin S \Ra f(q) = 0\), но \(U(q, q)\) не определено
+        \end{enumerate}
+        Получили противоречие.
+    \end{enumerate}
+\end{proof}
+
+\subsection{Проблема остановки}
+\(H = \{(p, x) | U(p, x) \text{ остановится}\}\)
+\begin{theorem}
+    \(H\) --- перечислимо, неразрешимо
+\end{theorem}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item[] \textbf{Перечислимость:} \(H\) перечислимо, т.к. \(S = Dom\;U(p, x)\) --- область определения вычислимой функции
+        \item[] \textbf{Нерезрешимость:} от противного. Пусть \(H\) разрешимо, но тогда и \(S = H \cap D\) тоже разрешимо, где \(D = \{(p, p) | p\text{ проивольное}\}\), противоречие, т.к. \(S\) неразрешимо.
+    \end{enumerate}
+\end{proof}
+
+Рассмотрим множества:
+\begin{enumerate}
+    \item \(C = \{p| \forall x, y (U(p, x), U(p, y) \text{ определены }\Ra U(p, x) = U(p, y))\}\)
+    \item \(T = \{p | \forall x  (U(p, x)\text{ определено})\}\)
+    \item \(FD = \{p | \{x | U(p, x)\text{ определено}\}\text{ конечно}\}\)
+\end{enumerate}
+
+\begin{definition}
+    Множество \(X\) называется коперечислимым, если \(\overline{X}\) перечислимо
+\end{definition}
+
+\begin{proposition}
+    \(C\) --- коперечислимо, неразрешимо
+\end{proposition}
+\begin{proof}
+    \(\overline{C} =\{p | \exists (x, y, t, s)\;\;U(p, x) \text{ ост. за \(t\) шагов}, U(p, y) \text{ ост. за \(s\) шагов}, U(p, x) \ne U(p, y)\}\), а оно перечислимо
+\end{proof}
+
+\begin{proposition}
+    \(T, FD\) --- некоперечислимо, некоперечислимо
+\end{proposition}
+
+\subsection{\(m\)-сводимость}
+\begin{definition}
+    \(A \le_m B\), если \(\exists\) вычислимая всюду определенная функция \(f: \{0, 1\}^* \ra \{0, 1\}^*\), такая, что \(\forall x (x \in A \Lra f(x) \in B)\).
+\end{definition}
+\subsubsection{Свойства \(m\)-сводимости}
+\begin{proposition}
+    \(A \le_m B, B\) разрешимо \(\Ra A\) --- разрешимо
+\end{proposition}
+\begin{proof}
+    \(\chi_A(x) = \chi_B(f(x))\)
+\end{proof}
+\begin{proposition}
+    \(A \le_m B \Lra \overline{A} \le_m \overline{B}\)
+\end{proposition}
+\begin{proposition}
+    \(A \le_m B, B \le_m C \Lra A \le_m C\)
+\end{proposition}
+
+\begin{note}
+    Т.к. \(A \le_m A\), получили, что \(\le_m\) --- предпорядок
+\end{note}
+
+\begin{proposition}
+    \(A \le_m B, B\) перечислимо \(\Ra A\) --- перечислимо
+\end{proposition}
+
+\begin{corollary}
+    \(A \le_m B, A\) неперечислимо \(\Ra B\) неперечислимо
+\end{corollary}
+
+\subsection{Как получать новые неперечислимые множества?}
+Докажем, что \(T\) неперечислимо и некоперечислимо. Заметим, что \(\overline{H}\) --- неперечислимое множество. Если мы покажем, что 
+\[\left\{\begin{array}{l}
+    \overline{H} \le_m T \\
+    \overline{H} \le_m \overline{T} \\
+\end{array}\right.\]
+То мы получим, что \(T\) --- неперечислимо, некоперечислимо. Однако, удобнее доказывать, что 
+\[\left\{\begin{array}{l}
+    H \le_m T (1)\\
+    H \le_m \overline{T} (2)\\
+\end{array}\right.\]
+Для этого
+\begin{enumerate}
+    \item \((p, x) \mapsto q\), так, что \(\forall y U(q, y) = U(p, x)\). Тогда \(q \in H \Lra q \in T\)
+    \item \((p, x) \mapsto q\), так, что
+    \[U(q, y) = \left\{\begin{array}{l}
+        1, \text{ если }U(p, x)\text{ не оставновится за \(y\) шагов} \\
+        \text{не определено, иначе} \\
+    \end{array}\right.\]
+    \[(p, x) \in H \Ra \exists t \forall y \ge t U(q, y)\text{ не определено }\Ra q \notin T\]
+    \[(p, x) \notin H \Ra \forall y U(q, y) = 1\Ra q \in T\]
+\end{enumerate}
+Получили \(T\), неперечислимое и некоперечислимое.
+
+\subsection{Существует ли универасальная тотально вычислимая функция?}
+Что мы хотим: \(U_T: \{0, 1\}^* \times \{0, 1\}^* \ra \{0, 1\}^*\), такую, что
+\begin{enumerate}
+    \item \(\forall p, x\;U_T(p, x)\) определена
+    \item \(U_T\) вычислима
+    \item \(\forall f: \{0, 1\}^* \ra \{0, 1\}^*\), такая, что \(f\) --- вычислима, всюду определена и \(\exists p \forall x f(x) = U_T(p, x)\)
+\end{enumerate}
+
+\begin{proposition}
+    \(\nexists U_T\)
+\end{proposition}
+\begin{proof}
+    Иначе рассмотрим \(d'(x) = U_T(x, x) + 1\). Тогда \(\exists p \forall x\;d'(x) = U_T(p, x) = d'(p) \Ra U_T(p, p) + 1 = U_T(p, p)\)
+\end{proof}
+
+Рассмотрим множество \(NED = \{p | \exists x U(p, x)\text{ определено}\}\). Оно перечислимо (можно добавить квантор, указывающий, за какое число шагов). 
+\begin{proposition}
+    \(\overline{NED}\) неперечислимо
+\end{proposition}
+\begin{proof}
+    Покажем, что \(H \le_m NED \Lra \overline{H} \le_m \overline{NED}\). Сопостивим \((p, x) \mapsto q\), так, что
+    \[U(q, y) = \left\{\begin{array}{l}
+        \text{не определено}, U(p, x) \text{ не остановится за }y\text{ шагов} \\
+       1, \text{ иначе} \\
+    \end{array}\right., (p, x) \in H \Lra q \in NED\]
+    Пусть \(p_1, p_2, \dots \) --- перечисление \(\overline{NED}\). Рассмотрим
+    \[U'(n, x) = \left\{\begin{array}{l}
+        \text{не определено, если }n = 0 \\
+        U(p_n, x), n > 0 \\
+    \end{array}\right.\]
+    Заметим, что \(NED_{U'} = \{n | \exists x U'(n, x) \text{ определено}\} = \N \setminus \{0\}\) --- разрешимо
+\end{proof}
+\hypertarget{lecture8}{}
+
+\begin{definition}
+    \(U: \N\times\N \ra \N\) --- главная универсальная вычислимая функция, если 
+    \begin{enumerate}
+        \item \(U\) вычислима как функция от двух аргументов
+        \item \(\forall f: \N\ra\N\) --- вычислимой \(\exists p: U(p, x) = f(x)\).
+        \item \(\forall V: \N\times\N \ra \N\) --- вычислимой \(\exists\) вычислимая и всюду определенная \(s: \N \ra \N\), такая, что \(\forall p \forall x V(p, x) = U(s(p), x)\).
+    \end{enumerate}
+\end{definition}
+
+\begin{theorem}
+    Главная Универсальная Вычислимая Функция существует
+\end{theorem}
+\begin{proof}[Первое доказательство]
+    УМТ задает ГУВФ. \(V\) вычислима \(\Ra V\) вычисляется некоторой машиной \(M\). Пусть \(p\) --- программа для \(V\). Тогда если мы положим \(s(p)\) --- машина \(M\) с фиксированным первым аргументом, то получим желаемое
+\end{proof}
+\begin{proof}[Второе доказательство]
+    Рассмотрим вычислимую \(W: \N\times\N\times\N \ra \N\), универсальную для вычислимых функций от двух аргументов, то есть 
+    \[\forall V: \N \times \N \ra \N \exists q \forall p \forall x W(q, p, x) = V(p, x)\]
+\end{proof}
+
+\begin{theorem}[Райса-Успенского]
+    \(\mathcal{A}\) --- множество вычислимых функций, причем \(\mathcal{A}, \overline{\mathcal{A}} \ne \emptyset\). Пусть \(U\) --- ГУВФ, \(A = \{p| U(p, \cdot) \in \mathcal{A}\} \). Тогда \(A\) неразрешимо
+\end{theorem}
+\begin{proof}
+    Рассмотрим \(\zeta(x)\) --- нигде не определенную функцию. Т.к. \(\overline{\mathcal{A}} \ne \emptyset \Ra \exists \xi \in \mathcal{A}\). Рассотрим \(K\) --- перечислимое, но не разрешимое множество. Положим:
+    \[V(p, x) = \left\{\begin{array}{l}
+        \xi(x), p \in K \\
+        \zeta(x), p \notin K
+    \end{array}\right.\]
+    \(\exists s \forall p \forall x V(p, x) = U(s(p), x)\).
+    \begin{enumerate}
+        \item \(p \in K \Ra U(s(p), x) = \xi(x)\ \Ra s(p)\notin A\)
+        \item \(p \notin K \Ra U(s(p), x) = \zeta(x) \Ra s(p)\in A\)
+    \end{enumerate}
+    Тогда \(p \in K \Lra s(p) \notin A \Ra K \le_m \overline{A} \Ra A\) --- нерзрешимо
+\end{proof}
+
+\begin{theorem}[Фридберга]
+    \[\exists V: \forall f\text{ --- вычислимой } \exists ! p: \forall x V(p, x) = f(x)\]
+\end{theorem}
+
+\begin{definition}
+    Куайн --- программа, печатающая свой текст. Например:
+    \begin{verbatim}
+        Напечатать дважды, взяв вторую копию в кавычки:"Напечатать дважды, взяв вторую копию в кавычки"
+    \end{verbatim}
+\end{definition}
+
+\begin{theorem}[Клини о неподвижной точке]
+    Пусть \(U\) --- ГУВФ, \(h: \N \times \N\) --- вычислимая всюду определенная функция. Тогда \(\exists p \forall x U(p, x) = U(h(p), x)\)
+\end{theorem}
+
+\begin{corollary}
+    Существует Куайн.
+\end{corollary}
+
+Доделаю потом
+\hypertarget{lecture9}{}
+
+\section{Связь этого бреда с языками первого порядка}
+\subsection{Арифметическая иерархия}
+В прошлом мы рассматривали свойства \textit{Перечислимость}, \textit{Коперечислимость}, а их пересечение давало нам \textit{Разрешимость}. Также мы рассматривали множества:
+\[H = \{(p, x) | U(p, x)\text{ определено}\}\]
+\[ED\text{ (Empty Domain) } = \{p|\forall x U(p, x)\text{ не определено}\}\]
+\[T = \{p| \forall x U(p, x)\text{ определено}\}\]
+\[FD\text{ (Finite Domain) } = \{p| \{x |U(p, x)\text{ определено}\}\text{ конечно}\}\]
+Заметим, что эти определения этих множеств можно записать так:
+\[(p, x) \in H \Lra \exists t(U(p, x)\text{ остановится за }\le t\text{ шагов})\]
+\[p \in ED \Lra \forall (t, x)(U(p, x)\text{ не остановится за }t\text{ шагов})\]
+\[p \in T \Lra \forall x \exists t(U(p, x)\text{  остановится за }\le t\text{ шагов})\]
+\[p \in FD \Lra \exists N \forall (t, x)(x > N \ra U(p, x)\text{ не остановится за }t\text{ шагов})\]
+
+\begin{definition}
+    \(A \in \Sigma_k\), если существует разрешимый предикат \(R\), такой, что
+    \[\forall x (x \in A \Lra \exists y_1 \forall y_2 \exists y_3 \dots^\forall_\exists y_k R(x, y_1, y_2, \dots y_k))\]
+\end{definition}
+\begin{definition}
+    \(B \in \Pi_k\), если существует разрешимый предикат \(R\), такой, что
+    \[\forall x (x \in B \Lra \forall y_1 \exists y_2 \forall y_3 \dots^\forall_\exists y_k R(x, y_1, y_2, \dots y_k))\]
+\end{definition}
+
+Итак, по определениям выше:
+\begin{enumerate}
+    \item Разрешимые множества \(= \Sigma_0 = \Pi_0\)
+    \item Перечислимые множества \(= \Sigma_1\)
+    \item Коперечислимые множества \(= \Pi_1\)
+\end{enumerate}
+
+\begin{theorem}
+    \(\Sigma_i \subset \Sigma_{i + 1}, \Sigma_i \subset \Pi_{i + 1}, \Pi_i \subset \Sigma_{i + 1}, \Pi_i \subset \Pi_{i + 1}\)
+\end{theorem}
+\begin{proof}
+    В предикате \(R\) добавим фиктивный аргумент --- тогда квантор, сооветствующий ему можно поставить в любое место формулы. Если поставить его в начало и в конец, получим желаемое.
+\end{proof}
+
+\begin{theorem}[б/д]
+    \(\Sigma_i \subsetneq \Sigma_{i + 1}, \Sigma_i \subsetneq \Pi_{i + 1}, \Pi_i \subsetneq \Sigma_{i + 1}, \Pi_i \subsetneq \Pi_{i + 1}\)
+\end{theorem}
+
+\begin{proposition}
+    \(A \in \Sigma_k \Lra \overline{A} \in \Pi_k\)
+\end{proposition}
+\begin{proposition}
+    \(x \in \overline{A} \Lra \neg \exists y_1 \forall y_2 \dots \exists y_k R(x, y_1, \dots y_k) \Lra \forall y_1 \exists y_2 \dots \forall y_k \neg R(x, y_1, \dots y_k)\)
+\end{proposition}
+
+\begin{proposition}
+    \(A, B \in \Sigma_k \Ra A \cap B \in \Sigma_k\)
+\end{proposition}
+\begin{proof}\indent
+    \[x \in A \cap B \Lra (x \in A \wedge x \in B) \Lra (\exists y_1 \forall y_2 \dots \exists y_k R(x, y_1, \dots y_k) \wedge \exists z_1 \forall z_2 \dots \exists z_k Q(x, z_1, \dots z_k)) \Lra \]
+    \[\Lra \exists y_1\exists z_1 \forall y_2 \forall z_2 \dots \exists y_k \exists z_k (R(x, y_1, \dots y_k) \wedge Q(x, z_1, \dots z_k)) \Lra\]
+    \[\exists (y_1, z_1) \forall (y_2, z_2) \dots \exists (y_k, z_k) (R(x, y_1, \dots y_k) \wedge Q(x, z_1, \dots z_k))\]
+\end{proof}
+
+Рассмотрим следующий язык:
+\begin{definition}
+    Язык арифметики: \(\langle0, S, =, +, \cdot\rangle\)
+\end{definition}
+
+\begin{definition}
+    Предикат \(P: \N^k \ra \{0, 1\}\) называется выразимым в арифметики (или арифметичным), если существует формула \(\phi\) c \(k\) параметрами, такая, что \(P(x_1, \dots x_k) = 1 \Lra \phi(x_1, \dots x_k)\) истинно
+\end{definition}
+
+\begin{example}\indent
+    \begin{enumerate}
+        \item \(x \ge y \Lra \exists z\;x = y + z\)
+        
+        \item \(x \vdots y \Lra \exists z\;x = y \cdot z\)
+        
+        \item \(p\text{ --- простое }\Lra(p > 1 \wedge (\forall q (p \vdots q \ra (q = p \vee q = 1))))\)
+        \item \(d = \text{НОД}(x, y) \Lra (x \vdots d \wedge y \vdots d \wedge \forall t((x\vdots t \wedge y \vdots t) \ra d \vdots t))\)
+        \item \(S\text{ --- степень }2 \Lra \forall d(s \vdots d \ra d = 1 \vee d \vdots 2)\)
+        \item \(S\text{ --- степень }4 \Lra \exists q:(q \text{ степень }2 \wedge s = q^2)\)
+        \item \(S\text{ --- степень }6 \Lra \exists k \exists (s_0, \dots s_k)(s_0 = 1 \wedge s_k = s \wedge \forall i \in [0, k - 1] s_{i + 1} = 6 \cdot s_i)\), но это не формула первого порядка, проблема
+    \end{enumerate}
+\end{example}
+
+Чтобы понять, как действовать в последнем пункте, надо научиться как-то кодировать такие кортежи произвольной длины. Традиционно сущесвует два способа:
+\begin{enumerate}
+    \item \(\beta\)-функция Геделя
+    \item Кодирование Смаллиана
+\end{enumerate}
+
+\subsection{Построение \(\beta\)-функции}
+\begin{lemma}
+    \(\forall k \forall B \exists b > B: b + 1, 2b + 1, \dots (k + 1)b + 1\) --- попарно взаимно просты
+\end{lemma}
+\begin{proof}
+    Возьмем \(b = k!\cdot c\), где у \(c\) нет простых делителей \(> k\). Положим \(d = ((i + 1)b + 1, (j + 1)b + 1)\) --- делитель \((j - i)b = (j - i)k!c \Ra\) все простые делители \(d < k \Ra (i + 1)b\) делится на простой делитель \(d\), но и \((i + 1)b\) не них делится, противоречие при \(d > 1\).
+\end{proof}
+\begin{lemma}
+    \(\forall (s_0, s_1, \dots s_k) \exists a \exists b \forall i \in [0, k]\; s_i = a \mod((i + 1)b + 1)\) --- попарно взаимно просты
+\end{lemma}
+\begin{proof}
+    Следует из КТО и предыдущей леммы
+\end{proof}
+\begin{theorem}[О \(\beta\)-функции]
+    Существует \(\beta(a, b, i)\), задаваемая арифметической формулой, т.ч. \(\forall (s_0, s_1 \dots s_k) \exists (a, b): \forall i \in [0, k] s_i = \beta(a, b, i)\)
+\end{theorem}
+\begin{proof}
+    Положим \(\beta(a, b, i) = a \mod (i + 1)b + 1\)
+\end{proof}
+
+\begin{proposition}
+    Через \(\beta\)-функцию можно выразить предикат \(m = 2^n\)
+\end{proposition}
+\begin{proof}
+    \(\exists (m_0, m_1, \dots m_k): m_0 = 1 \wedge m_n = m \wedge \forall i\;m_i = 2m_{i - 1}\).
+\end{proof}
+
+
+\subsection{Кодирование Смаллиана}
+\(n \mapsto \widehat{n} = bin(n + 1)\text{ без ведущей единицы}\).
+Тогда \((n, m) \mapsto \widehat{k}\), такое, что \(\widehat{k} = \widehat{n}\cdot\widehat{m}\), где \(\cdot\) --- конкатенация
+
+Второе определение: строим биекцию между строками из 0 и 1 и натуральными числами по возрастанию длины, слова одинаковой длины сравниваем лексигографически
+\[\begin{array}{ccccccccccc}
+    0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & \dots \\
+    \epsilon & 0 & 1 & 00 & 01 & 10 & 11 & 000 & 001 & 010 & \dots
+\end{array}\]
+
+\begin{proposition}
+    \(\exists\) арифметическая формула \(S(a, b, x)\), такое, что
+    \begin{enumerate}
+        \item \(\forall a, b \{x | S(a, b, x) = 1\}\) конечно
+        \item \(S\) конечно \(\Lra \exists (a, b) \{x | S(a, b, x) = 1\} = S\)
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    Рассмотрим \(S(a, b, x): axa \sqsupset\sqsubset b \wedge |x| < |a|\) (\(axa\) является подсловом \(b\))
+    \begin{enumerate}
+        \item очевидно, т.к. \(|x| < |a|\)
+        \item рассмотрим a = \(1\underbrace{0 \dots 0}_{L}1, L > \max \{|x_i|\}, b = ax_1ax_2a_3a\dots ax_ka\)
+    \end{enumerate}
+\end{proof}
+
+
+\hypertarget{lecture10}{}
+
+\subsection{Важная Теорема}
+
+\begin{definition}
+    \(Ar\) --- множество арифметических предикатов
+\end{definition}
+\begin{definition}
+    \(AH = \bigcup_{k = 0}^\infty \Sigma_k\) --- арифметическая иерархия
+\end{definition}
+
+\begin{theorem}
+    \(Ar = AH\) (в том смысле, что прекдикаты из \(Ar\) --- это те и только те, которые формируют \(AH\))
+\end{theorem}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item[] \(Ar \subset AH\). \(\phi\) --- выражает \(P \Ra\) приведем к предварительной нормальной форме. Получилось нечто следующее:
+        \[\dots \forall \dots \exists \dots P(\dots)\]
+        Причем \(P\) --- предикат, полученный композицией \(S, +, \cdot, =\;\;\Ra\) вычислим ариметически.
+
+        \item[] \(Ar \supset AH\). Покажем, что любой разрешимый предикат можно превратить в арифметическую формулу. Тогда выражение некоторого элемента арифметической иерархии можно будет представить как какое-то количество кванторов + арифметическая формула \(\Ra\) получим желаемое. Пусть \(M\) --- Машина Тьюринга, вычисляющая \(R\), то есть \(R(x, y_1, y_2, \dots y_k) = 1\Lra M\), начав с конфигурации \(C_0 \eqcirc q_1x\#y_1\#\dots\#y_k\), сделав некоторое число ходов, приходит в \(q_a\). Более формально, \(M\) обходила состояния \((C_0, C_1, \dots C_t)\), так, что \(C_i \mapsto C_{i + 1}\) в соответствии с программой. Тогда нам нужно выразить предикат 
+        \[\exists(C_0, C_1, \dots C_k)(C_0 \eqcirc q_1x\#y_1\#\dots\#y_k \wedge \forall i (C_{i} \mapsto C_{i + 1} \text{ корректно}) \wedge C_t \eqcirc q_a)\]
+        Тут у нас возникает несколько проблем:
+        \begin{enumerate}
+            \item Как записать \(\exists (C_0, C_1, \dots C_t)\) --- решается \(\beta\)-функцией
+            \item Как записывать корректные переходы и различные операции со строками, в терминах натуральных чисел --- эту проблему решает кодирование Смаллиана
+        \end{enumerate}
+    \end{enumerate}
+\end{proof}
+
+\subsection{Доказательства в формальной арифметике}
+\subsubsection{Аксиомы}
+\begin{enumerate}
+    \item[А] Аксиомы исчисления высказываний и исчисления предикатов
+    \item[Б] \textbf{Аксиомы равенства} 
+    \begin{enumerate}
+        \item[Б1] \textbf{Аксиомы отношения эквивалентности}
+        \begin{enumerate}
+            \item \(\forall x\;\;x = x\)
+            \item \(\forall x \forall y (x = y \ra y = x)\) 
+            \item \(\forall x \forall y \forall z ((x = y \wedge y = z) \ra x = z)\)
+        \end{enumerate}
+        \item[Б2] \textbf{Аксиома замены} \(\forall x, y, z, t ((x = y \wedge z = t) \ra x + z = y + t)\)
+        \begin{note}
+            Для произвольной сигнатуры, аксиом замены больше. Допустим, что у нас есть два предикатных символа \(P^{(1)}, Q^{(2)}\) и два функциональных символа \(f^{(2)}, g^{3}\). Тогда аксиомы замены для них выглядят следующим образом:
+            \begin{enumerate}
+                \item[] \(\forall x \forall y((x = y) \ra (P(x) \lra  P(y)))\)
+                \item[] \(\forall x \forall y \forall z \forall t((x = y \wedge z = t) \ra (Q(x, z) \lra  Q(y, t)))\)
+                \item[] \(\forall x_1 \forall y_1 \forall x_2 \forall y_2 \forall x_3 \forall y_3((x_1 = y_1 \wedge x_2 = y_2 \wedge x_3 = y_3) \ra (f(x_1, x_2, x_3) = f(y_1, y_2, y_3)))\)
+                \item[] \(\forall x_1 \forall y_1 \forall x_2 \forall y_2 ((x_1 = y_1 \wedge x_2 = y_2) \ra (g(x_1, x_2) = g(y_1, y_2)))\)
+            \end{enumerate}
+            Однако, в аксиоматике Пеано, нам достаточно только одной аксиомы замены.
+        \end{note}
+    \end{enumerate}
+    \item[В] \textbf{Аксиомы арифметики (Аксиомы Пеано)}
+    \begin{enumerate}
+        \item[В1] \textbf{Аксиомы порядка}
+        \begin{enumerate}
+            \item \(\nexists x: S(x) = 0\)
+            \item \(\nexists x, y: (x \ne y \wedge S(x) = S(y))\)
+            \item \textbf{Принцип индукции} \((\phi(0) \wedge \forall n \phi(n) \ra \phi(S(n))) \ra \forall x \phi(x)\).
+            Откуда берем \(\phi\)? Есть несколько вариантов. Принцип первого порядка: \(\phi\) --- произвольная формула с одним параметром. Принцип второго порядка: гласит, что это выполнено \(\forall \phi\)
+        \end{enumerate}
+        \item[В2] \textbf{Аксиомы сложения}
+        \begin{enumerate}
+            \item \(x + 0 = x\)
+            \item \(x + S(y) = S(x + y)\)
+        \end{enumerate}
+        \item[В2] \textbf{Аксиомы умножения}
+        \begin{enumerate}
+            \item \(x \cdot 0 = 0 \)
+            \item \(x \cdot S(y) = x\cdot y + x\)
+        \end{enumerate}
+    \end{enumerate}
+\end{enumerate}
+
+\subsubsection{Правила вывода}
+Те же самые, что и в формулах первого порядка
+
+Иногда вместо \(S(x)\) пишут просто \(Sx\)
+
+\begin{proposition}
+    \[2 + 2 = 4\]
+\end{proposition}
+\begin{proof}
+    Хотим доказать, что \(SS0 + SS0 = SSSS0\).
+    \[SS0 + SS0 = S(SS0 + S0) = S(S(SS0 + 0)) = SSSS0\]
+\end{proof}
+
+\begin{proposition}
+    \[0 + x = x\]
+\end{proposition}
+\begin{proof}
+    Почему \(0 + x = x\)? Рассмотрим \(\phi(x) = (0 + x = x)\) (как булеву формулу)
+    \begin{enumerate}
+        \item \(\phi(0)\) --- по аксиоме В2.i
+        \item \(0 + x = x \Ra 0 + Sx = S(0 + x) = Sx\). Получили, что \(\phi(x) \ra \phi(x + 1)\)
+    \end{enumerate}
+    Тогда по индукции доказали, что \(\forall x \phi(x)\)
+\end{proof}
+
+\hypertarget{lecture11}{}
+
+\begin{corollary}
+    \(x + 0 = 0 + x\)
+\end{corollary}
+
+\begin{lemma}
+    \(\forall x \forall y (Sx + y = S(x + y))\)
+\end{lemma}
+\begin{proof}
+    \begin{enumerate}
+        \item \(\forall t\;\;t + 0 = t\) --- В2.i
+        \item \(Sx + 0 = Sx\) --- подставили \(t = Sx\)
+        \item \(x + 0 = x\) --- подстановка \(t = x\)
+        \item \(x + 0 = x \ra S(x + 0) = S(x)\) --- Б1.iii
+        \item \(S(x + 0) = Sx\) --- m.p. 3, 4
+        \item \(Sx = S(x + 0)\) --- Б1.ii
+        \item \(Sx + 0 = S(x + 0)\) --- Б1.iii 2, 6
+        \item \(\forall x Sx + 0 = S(x + 0)\) --- обобщение. Далее:
+        \(\forall y((\forall x Sx + y = S(x + y)) \ra (\forall x Sx + Sy = S(x + Sy)))\)
+        \item \(Sx + Sy = S(Sx + y)\)
+        \item \(x + Sy = S(x + y)\)
+        \item \(Sx + y = S(x + y) \ra S(Sx + y) = SS(x + y)\)
+        \item \(x + Sy = S(x + y) \ra S(x + Sy) = SS(x + y)\)
+        \item \(S(x + Sy) = SS(x + y)\)
+        Получили, что \(Sx + Sy = S(Sx + y) = SS(x + y) = S(x + Sy)\)
+        Тогда по индукции \(\forall x \forall y Sx + y = S(x + y)\)
+    \end{enumerate}
+\end{proof}
+
+\begin{proposition}[Коммутативность сложения]
+    \(\forall x \forall y x + y = y + x\).
+\end{proposition}
+\begin{proof}
+    Доказываем по индукции, что \(\phi(y) = \forall x x = y = y + x\). \(\phi(0)\) уже есть. Докажем \(\forall n \phi(n) \ra \phi(S(n))\). Следует из того, что \(S(x + y) = x + S(y) = S(y) + x = S(y + x)\)
+\end{proof}
+
+\section{Теорема Геделя}
+\begin{theorem}
+    Множества истинных и доказуемых формул не совпадают
+\end{theorem}
+\subsection{Первое доказательство}
+\begin{definition}
+    Замкнутая формула \(\phi\) нащывается доказуемой в формальной арифметике, если \(\exists\) вывод, содержащий \(\phi\)
+\end{definition}
+
+\begin{proposition}
+    Множество доказуемых формул перечислимо (не только в арифметике, но и в любой теории с разрешимым множеством аксиом)
+\end{proposition}
+\begin{proof}
+    Оно является проекцией разрешимного множества пар \((\phi, \text{ доказательство }\phi)\).
+\end{proof}
+
+\begin{theorem}
+    Все \(\Sigma_k\) различны
+\end{theorem}
+
+\begin{theorem}
+    Все \(\Sigma_k \cup \Pi_k \subsetneq \Sigma_{k + 1} \cup \Pi_{k + 1}\) различны
+\end{theorem}
+
+\begin{theorem}[Тарского]
+    Предикат ''истинна ли формула в стандартной модели'' неарифметичен (т.е. не выражается арифметической формулой, т.е не лежит в арифметической иерархии)
+\end{theorem}
+\begin{proof}
+    Пусть \(True(\phi)\) --- такой предикат. Он выражается формулой \(\Ra\) он лежит на конкретном уровне \(\Sigma_n\). Пусть \(\psi(x) \in \Sigma_{n + 1} \setminus \Sigma_n\). Положим \(\underline{m} = \underbrace{S\dots S}_m0\). Тогда \(\forall m \phi(m) \lra True(\phi(\underline{m}))\). Получили, что \(\phi(x)\) выразим как \(True(\phi(\underline{m}))\). Можно выбрать такое кодирование, чтобы \(\phi(\underline{m})\) не требовало бы новых кванторов
+\end{proof}
+\begin{corollary}[Теорема Геделя о неполноте]
+    Получили, что истинные формулы неарифметичны. Но тогда истинные \(\ne\) доказуемые. Тогда в каждой теории есть либо истинная недоказуемая формула, либо существует ложная доказуемая формула.
+\end{corollary}
+
+\subsection{Второе доказательство}
+Положим \(Proof(p, x)\) --- предикат проверки, является ли текст с номером \(p\) доказательством формулы с номером \(x\).  Положим \(\Pr(x) = \exists p\;Proof(p, x)\) --- предикат доказуемости.
+
+Положим \(G(x) \lra \exists y (\neg Pr(y) \wedge Subst(y, x, x))\). Положим \(Subst(q, r, s)\) --- ''\(q\) является номером формулы, полученной подстановкой числа \(s\) в формулу с одним параметром и номером \(r\)''. Заметим, что \(G(G) = \exists y (\neg Pr(y) \wedge Subst(y, G, G))= \bigvee_y(\neg Pr(y) \wedge Subst(y, G, G)) = \neg P(G(G))\) (подходит единственный \(y = G(G)\)). Тогда \(G(G)\) либо истинна и не доказуема, либо ложна и доказуема.
+
+\begin{proof}[Тарского]
+    Рассмотрим \(T(x) \lra \exists y (\neg True(y) \wedge Subst(y, x, x)) =\) аналогично \(= \neg True(T(T))\). Получили, что предикат \(True\) неарифметичен.
+\end{proof}
+
+\begin{theorem}[Геделя-Россера]
+    Любая теория либо непротиворечива, либо неполна
+\end{theorem}
+
+\begin{theorem}[Вторая теорема Геделя]
+    Если арифметика непроиворечива, то факт непротиворечивости нельзя доказать (непротиворечивость = \(\neg Pr(0 = 1)\))
+\end{theorem}
+
+\subsection{Колмогоровская сложность}
+\begin{definition}
+    Колмогоровская сложность слова \(x\) --- \(K(x)\) --- длина кратчайшей программы, печатающей \(x\). 
+\end{definition}
+
+\begin{proposition}
+    \(K(x)\) невычислима
+\end{proposition}
+\begin{proof}
+    Положим \(a_n = \min\{x | K(x) > n\}\). Если \(K\) вычислимо \(\Ra K(a_n) < n + c\)
+\end{proof}
+
+\begin{note}
+    Среди утвеждений вида \(K(x) > t\) есть истинные, но не доказуемые
+\end{note}
+
+\hypertarget{lecture12}{}
+
+\section{\(\lambda\)-исчисление}
+Исторически это один из первых подходов к теории вычислимости. Раньше все рассматриваемые нами объекты являлись множествами (натуральные числа, машины Тьюринга и т.д.). Сейчас все рассматриваемые нами объекты мы будем определять через функции.
+
+\subsection{Синтаксис}
+\subsubsection{Алфавит}
+Алфавит \(\lambda\)-исчисления состоит из переменных, \(\lambda\), ''.'' и скобок
+
+\subsubsection{\(\lambda\)-термы}
+\begin{enumerate}
+    \item[] \textbf{Базовое правило:} Переменная --- терм
+    \item[] \textbf{Конкатенация:} \(P, Q\) --- термы, тогда \((PQ)\) --- тоже
+    \item[] \textbf{\(\lambda\)-абстракция:} \(x\) --- переменная, \(P\) --- терм \(\Ra (\lambda x . P)\) --- тоже
+\end{enumerate}
+
+\begin{example}
+    \[((\lambda x.(\lambda y. ((xy)x)))(\lambda x.x))\]
+\end{example}
+
+\textbf{Соглашения:} 
+\begin{enumerate}
+    \item \(PQRS = (((PQ)R)S)\)
+    \item \(\lambda xyz.P = \lambda x.(\lambda y.(\lambda z.P))\)
+    \item \(\lambda x.PQ = \lambda x.(PQ) \ne ((\lambda x.P)Q)\)
+\end{enumerate}
+
+\subsubsection{\(\alpha\)-конверсия}
+По сути, переименование связной переменной. Формально: \(\lambda x.P \mapsto \lambda x.P(^x/_y)\), т.е. мы заменяем все свободные вхождения \(x\) в \(P\) на \(y\). При этом, 
+\begin{enumerate}
+    \item Свободных вхождений \(y\) в \(P\) не должно 
+    \item области действия квантора \(\lambda y\) не должно быть свободных вхождений \(x\).
+\end{enumerate}
+
+\begin{example}[Плохая конверсия]
+    \[\lambda x.xy \not\mapsto \lambda y.yy\]
+    Нарушается первое правило
+\end{example}
+\begin{example}[Плохая конверсия]
+    \[\lambda x.x(\lambda y.xy) \not\mapsto \lambda y.y(\lambda y.yy)\]
+    Нарушается второе правило
+\end{example}
+
+\begin{proposition}
+    \(\alpha\)-конверсия обратима
+\end{proposition}
+
+\subsubsection{\(\beta\)-редукция}
+По сути, подстановка значения переменной. \((\lambda x.P)Q \mapsto P(^Q/_x)\). Причем, переменная из \(Q\) не должна попасть под действие квантора из \(P\)
+
+\begin{example}[Плохая редукция]
+    \[(\lambda x.y(\lambda y.xy))y \not\mapsto y(\lambda y.yy)\]
+    Правильно:
+    \[(\lambda x.y(\lambda y.xy))y \mapsto_\alpha (\lambda x.y(\lambda z.xz))y \mapsto_\beta y(\lambda z.yz)\]
+\end{example}
+\begin{note}
+    \(\alpha\)-конверсию и \(\beta\)-редукцию можно применять как для формул, так и для их корректных подформул
+\end{note}
+\subsubsection{Равенство термов}
+Введем \(=\), которое является симметричным, транзитивным замыканием, для которго выполнено \(P \ra_\alpha Q \Ra P = Q, P \ra_\beta Q \Ra P = Q\)
+
+\begin{definition}
+    \(P \ra Q\), если существуют \(P = P_0, P_1, \dots P_m = Q\), такие, что \(P_i \ra_\alpha P_{i + 1}\) или \(P_i \ra_\beta P_{i + 1}\).
+\end{definition}
+
+\begin{theorem}[Черча-Россера о ромбическом свойстве]
+    \(P \ra Q, P \ra R \Ra \exists S: Q \ra S, R \ra S\)
+\end{theorem}
+\begin{corollary}
+    \(P = Q \Lra \exists S: (P \ra S, Q \ra S)\)
+\end{corollary}
+\begin{corollary}
+    \(P = Q, P, Q\) в нормальной форме \(\Ra P \ra_\alpha Q\), т.е. нормальная форма единственна с точностью до замены переменных, если она существует.
+\end{corollary}
+
+\begin{definition}
+    \(\lambda\)-терм \(P\) находится в нормальной форме, если нельзя применить \(\beta\)-редукцию после нескольких \(\alpha\)-конверсий.
+\end{definition}
+
+\begin{example}
+    \[\Omega = (\lambda x.xx)(\lambda x.xx)\]
+    Заметим, что \(\Omega \ra_\beta \Omega \Ra \Omega\) --- терм без нормальной формы.
+\end{example}
+
+\subsection{Семантика}
+\begin{definition}
+    Комбинатор --- замкнутые терм
+\end{definition}
+
+\subsubsection{Комбинаторы логических значений:}
+\begin{enumerate}
+    \item \textbf{\(True\):} \(\lambda xy.x\)
+    \item \textbf{\(False\):} \(\lambda xy.y\)
+    \item \textbf{\(And\):} \(\lambda pq.pqp\) или \(\lambda pq.pq\;False\)
+    \item \textbf{\(Or\):} \(\lambda pq.ppq\) или \(\lambda pq.p\;True\;q\)
+    \item \textbf{\(Not\):} \(\lambda p.p\;False\;True\)
+\end{enumerate}
+
+\subsubsection{Операции с парами}
+\[Pair = \lambda xyp.pxy \Ra Pair XY = \lambda p.pXY\]
+\begin{enumerate}
+    \item \textbf{\(Left\):} \(\lambda p.p\;True\)
+    \item \textbf{\(Right\):} \(\lambda p.p\;False\)
+\end{enumerate}
+
+\begin{proof}
+    Дейтсвительно:
+    \[(\lambda p.p\;True)(\lambda p.pXY) = (\lambda p.pXY)True = (\lambda p.pXY)(\lambda xy.x) = \]
+    \[= (\lambda xy.x)XY = ((\lambda xy.x)X)Y = (\lambda y.X)Y = X\]
+    Аналогично:
+    \[(\lambda p.p\;False)(\lambda p.pXY) = (\lambda p.pXY)False = (\lambda p.pXY)(\lambda xy.y) = \]
+    \[= (\lambda xy.y)XY = ((\lambda xy.y)X)Y = (\lambda y.y)Y = Y\]
+\end{proof}
+
+\hypertarget{lecture13}{}
+
+\subsection{Нумералы Черча}
+\begin{definition}
+    
+    \[\begin{array}{ccl}
+        \underline{0} & = & \lambda fx.x \\
+        \underline{1} & = & \lambda fx.fx \\
+        \underline{2} & = & \lambda fx.f(fx) \\
+        \vdots & \vdots & \vdots\\
+        \underline{n} & = & \lambda fx.\underbrace{f(f(\dots(f}_{n\text{ раз}}x)))
+    \end{array}\]
+\end{definition}
+
+Как определить сложение? Для начала определим \(Inc\; \underline{n} = \underline{n + 1}\). 
+\begin{definition}
+    \[Inc = \lambda nfx.f(nfx)\]
+\end{definition}
+\begin{proof}
+    Действительно, заметим, что 
+    \[\underline{n}fx = (\underline{n}f)x = ((\lambda fx.\underbrace{f(f(\dots(f}_{n\text{ раз}}x)))f)x = (\lambda x.\underbrace{f(f(\dots(f}_{n\text{ раз}}x))))x = \underbrace{f(f(\dots(f}_{n\text{ раз}}x)))\]
+    \[Inc\;\underline{n} = f(\underbrace{f(f(\dots(f}_{n\text{ раз}}x)))) = \underbrace{f(f(\dots(f}_{n + 1\text{ раз}}x))) = \underline{n + 1}\]
+\end{proof}
+
+\subsubsection{Сложение}
+Далее, хотим, чтобы \(Add\;\underline{m}\;\underline{n} = \underline{m + n}\)
+\begin{definition}[Первый способ]
+    \[Add = \lambda mn.m \;Inc\;n\]
+\end{definition}
+\begin{proof}
+    \[Add\;\underline{m}\;\underline{n} = \underbrace{f(f(\dots(f}_{m\text{ раз}}x)))\;Inc\;n = \lambda fx.\underbrace{Inc(Inc(\dots(Inc}_{m\text{ раз}}n))) =  \underline{m + n}\]
+\end{proof}
+
+\begin{definition}[Второй способ]
+    \[Add = \lambda mnfx.mf(nfx)\]
+\end{definition}
+\begin{proof}
+    Воспользуемся двойной \(\beta\)-редукцией: \((\lambda xy.P)QR \ra_\beta P(^Q/_x, ^R/_y)\) и получим, что:
+    \[Add\;\underline{m}\;\underline{m} = \lambda fx.\underline{m}f(\underline{n}fx) = \lambda fx.\underbrace{f(f(\dots(f}_{m\text{ раз}}(\underline{n}fx)))) = \lambda fx.\underbrace{f(f(\dots(f}_{m\text{ раз}}(\underbrace{f(f(\dots(f}_{n\text{ раз}}fx))))))) = \underline{m + n}\]
+\end{proof}
+
+\subsubsection{Умножение}
+\begin{definition}[Первый способ]
+    \[Mult = \lambda mn.m \;Add\;n\;\underline{0} = \lambda mn.m \;(\lambda k.Add\;n\;k)\;\underline{0}\]
+\end{definition}
+\begin{proof}
+    По сути, мы \(m\) раз прибавляем \(\underline{n}\) к \(\underline{0}\)
+\end{proof}
+
+\begin{definition}[Второй способ]
+    \[Mult = \lambda mnfx.m(nf)x\]
+\end{definition}
+\begin{proof}
+    \[Mult\;\underline{m}\;\underline{n} = \lambda fx.\underline{m}(f\underline{n})x = \lambda fx.\underbrace{(\underline{n}f)((\underline{n}f)(\dots((\underline{n}f)}_{m\text{ раз}}x))) = \lambda fx.\underbrace{f^n(f^n(\dots(f^n}_{n\text{ раз}}(x)))) =\]
+    \[ = \lambda fx.f^{mn}x = \underline{mn}\]
+\end{proof}
+
+\subsubsection{Возведение в степень}
+\begin{definition}[Первый способ]
+    \[\lambda mn.n(\lambda k.Mult\;m\;k)\underline{1}\]
+\end{definition}
+\begin{proof}
+    По сути, мы \(m\) раз умножаем \(\underline{n}\) на \(\underline{1}\)
+\end{proof}
+
+\begin{definition}[Второй способ]
+    \[\lambda mnfx.nmfx\]
+\end{definition}
+\begin{proof}
+    Набросок доказательства:
+    \[\underline{n}\underline{m}fx = ((\underline{n}\underline{m})f)x = \underbrace{\underline{m}(\underline{m}(\dots(\underline{m}}_{n\text{ раз}}f)))x\]
+    По сути, \(n\) раз умножаем на \(m\)
+\end{proof}
+
+\subsubsection{Проверка на равенство нулю}
+Реализуем функцию \(IsZero\), которая удовлевторяет следующим условиям:
+\begin{enumerate}
+    \item \(IsZero\;\underline{0} = True\)
+    \item \(IsZero\;\underline{n + 1} = False\)
+\end{enumerate}
+
+\begin{definition}
+    \[IsZero = \lambda n.n (\lambda x.False)True\]
+\end{definition}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item \(IsZero\;\underline{0} = (\lambda fx.x)(\lambda x.False)True = True\)
+        \item \(IsZero\;\underline{n + 1} = (\lambda fx.f(\dots))(\lambda x.False)True = (\lambda x.False)(\dots) = False\)
+    \end{enumerate}
+\end{proof}
+
+\subsubsection{Трюк Клини}
+Мы хотим реализовать декремент. Строго говоря, он не определен для всех пар натуральных чисел. Поэтому мы реализуем ''срезанный декремент'':
+\[Dec\;\underline{m} = \underline{\max\{m - 1, 0\}}\]
+Идея состоит в том, что мы рассматриваем следующее преобразование пар:
+\[(x, y) \mapsto_g (f(x), x)\]
+Чтобы каким-то образом получить число \(n - 1\), мы сделаем следующее:
+\[(x, y) \mapsto (f(x), x) \mapsto (f(f(x)), f(x)) \mapsto \dots \mapsto (f^n(x), f^{n - 1}(x))\]
+Поэтому для того, чтобы получить \(f^{n - 1}\), надо взять функцию \(f\), функцию \(g\), котоаря будет данным образом преобразовывать пару и применить \(g^n\) к изначальной паре. Получится \((f^n(x), f^{n - 1}(x))\) и теперь достаточно будет взять правую часть этой пары. Формально:
+
+\begin{definition}
+    \[DecAux = \lambda fp.Pair(f(Left\;p))(Left\;p)\]
+    Это аналог \(g\) для декремента
+\end{definition}
+\begin{definition}
+    \[Dec = \lambda nfx.Right(n(DecAux\;f)(Pair\;x\;x))\]
+\end{definition}
+\begin{proof}
+    По сути, мы проделываем описанную выше процедуру. Формально:
+    \begin{enumerate}
+        \item \(Dec\;\underline{0}\) 
+        \[= \lambda fx.Right(\underline{0}(DecAux\;f)(Pair\;x\;x)) = \lambda fx.Right(Pair\;x\;x) = \lambda fx.x = \underline{0}\]
+        \item \(Dec\;\underline{n + 1}\)
+        \[= \lambda fx.Right(\underline{n + 1}(DecAux\;f)(Pair\;x\;x)) = \]
+        \[ = \lambda fx.Right(\underbrace{(DecAux\;f)((DecAux\;f)(\dots((DecAux\;f)}_{n + 1\text{ раз}}(Pair\;x\;x)))))\]
+        Заметим, что 
+        \[DecAux\;f = \lambda p.Pair(f(Left\;p))(Left\;p)\]
+        \[(DecAux\;f)(Pair\;x\;x) = Pair(f(Left\;(Pair\;x\;x)))(Left\;(Pair\;x\;x)) = Pair(fx)x\]
+        Поэтому крокодил выше свернется в \(\underline{n}\)
+        
+    \end{enumerate}
+\end{proof}
+
+\subsubsection{Вычитание}
+Как и декремент, вычитаение будет ''срезанным'':
+\[m - n = \underline{\max\{m - n, 0\}}\]
+\begin{definition}
+    \[Sub = \lambda mn.n\;Dec\;m\]
+\end{definition}
+
+\subsection{Рекурсивное программирование в \(\lambda\)-исчислении}
+Хотим рекурсивно определить деление:
+\[\left[\frac{m}{n}\right] = \left\{\begin{array}{l}
+    0, m < n \\
+    1 + \left[\frac{m - n}{n}\right], m \ge n
+\end{array}\right.\]
+
+Получим уравнение:
+\[Div\;\underline{n}\;\underline{m} = (LT\;m\;n)\underline{0}(Inc\;(Div(Sub\;m\;n)n))\]
+
+\(Div\) --- ''Решение уравнения выше'' или неподвижная точка преобразования.
+
+\begin{definition}
+    \[DivAux = \lambda gmn.(LT\;m\;n)\underline{0}(Inc(g(Sub\;m\;n)n))\]
+\end{definition}
+Хотим, чтобы \(Div = DivAux\;Div\)
+
+\subsection{\(Y\)-Комбинатор}
+Хотим, чтобы \(YF = F(YF)\). Тогда, если мы сможем представить \(Div\) в виде \(Y\;DivAux\), то мы победим.
+
+\begin{definition}
+    \[Y = (\lambda xy.y(xxy))(\lambda xy.y(xxy))\]
+\end{definition}
+\begin{proof}
+    \[YF = (\lambda xy.y(xxy))(\lambda xy.y(xxy))F = F((\lambda xy.y(xxy))(\lambda xy.y(xxy))F) = F(YF)\]
+\end{proof}
+
+\subsection{Комбинатор Клопа}
+\[\mathcal{L} = \lambda abcdefghijklmnopqstuvwxyzr.r(thisisafixedpointcombinator)\]
+Тогда \(Y = \underbrace{\mathcal{L}\mathcal{L}\dots\mathcal{L}}_{26}\)
+\hypertarget{lecture14}{}
+
+\section{\(P\) vs \(NP\)}
+
+\subsection{Неформально}
+
+\begin{definition}
+    \(P\) --- полиномиальное время. 
+\end{definition}
+
+\begin{definition}
+    \(NP\) --- недетерминированное полиномиальное время
+\end{definition}
+
+\subsection{Задача раскраски}
+
+\begin{problem}[2-Раскраска]
+    Возможно ли раскрасить все вершины графа в два цвета так, что никакие две вершины одного цвета не соединены ребром?
+\end{problem}
+\begin{proof}[Решение]
+    Спасибо, Илья Даниилович, за то, что научили такое решать за \(O(n + m)\)
+\end{proof}
+
+\begin{problem}[3-Раскраска]
+    Возможно ли раскрасить все вершины графа в 3 цвета так, что никакие две вершины одного цвета не соединены ребром?
+\end{problem}
+\begin{proof}[Решение]
+    Пока что Илья Даниилович не научил такое решать. Все известные алгоритмы экспоненциальны. Тем не менее, если раскраска дана, то это можно проверить за \(O(poly)\)
+\end{proof}
+
+\subsection{Задача на графах}
+
+\begin{problem}[Эйлеровость графа]
+    Является ли данный граф эйлеровым?
+\end{problem}
+\begin{proof}[Решение]
+    Существует критерий эйлеровости, который работает за линию
+\end{proof}
+
+\begin{problem}[Гамильтоновость графа]
+    Является ли данный граф гамильтоновым?
+\end{problem}
+\begin{proof}[Решение]
+    Нет критерия, который бы легко проверялся. Однако, если дан цикл, то можно проверить, что он гамильтонов
+\end{proof}
+
+
+\subsection{Задача про простоту}
+
+
+\begin{problem}[Проверка на простоту]
+    Является ли данное число простым
+\end{problem}
+\begin{proof}[Решение]
+    Существует алгоритм, работающий за \(O(\log^6 n)\)
+\end{proof}
+
+\begin{problem}[Разложение на множители]
+    Даны \(n, a, b\). Существует ли \(d: d|n \wedge d \in [a, b]\)
+\end{problem}
+\begin{proof}[Решение]
+    Существует алгоритм для квантового компьютера. Для обычных компьютеров пока что такого нет.
+\end{proof}
+
+Проще говоря, \(NP\) --- множество таких задач, которые можно быстро проверить за полиномиальное время.
+
+\subsection{Формально}
+
+\begin{definition}
+    \(A \subset \{0, 1\}^*\). Тогда \(A \in P\), если \(\exists M\) --- Машина Тьюринга, что
+    \begin{enumerate}
+        \item \(\forall x (x \in A \Lra M(x) = 1)\)
+        \item \(\exists c, d: \forall x M(x)\) останавливается не больше чем за \(c|x|^d\) шагов
+    \end{enumerate}
+\end{definition}
+
+\begin{definition}
+    \(A \subset \{0, 1\}^*\). Тогда \(A \in NP\), если \(\exists V(x, y)\) --- Машина Тьюринга, что
+    \begin{enumerate}
+        \item \(\forall x (x \in A \Lra \exists y V(x, y) = 1)\)
+        \item \(\exists c, d: \forall x, y V(x, y)\) останавливается не больше чем за \(c|x|^d\) шагов
+    \end{enumerate}
+\end{definition}
+
+\begin{proposition}
+    \(NP \subset EXP\), где \(EXP\) --- множество, разрешимое за \(O(2^{poly(n)})\).
+\end{proposition}
+\begin{proof}
+    В определении выше, количество бит в \(y\) ограничено \(c|x|^d\). Тогда можно перебрать все \(y\).
+\end{proof}
+
+\section{Заключение}
+Ура! Курс логики закончился. Впереди --- сессия! Желаю всем удачи!

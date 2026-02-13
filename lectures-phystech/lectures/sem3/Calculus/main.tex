@@ -1,0 +1,2112 @@
+
+\hypertarget{lecture1}{}
+
+\section{Методы вычисления кратного интеграла}
+\subsection{Сведение кратного интеграла к повторному}
+
+\underline{\textbf{Обозначение:}} \(\mu_n\) --- Мера Лебега в \(\R^n\)
+
+\begin{definition}
+    Интерграл по мере \(\mu_n\) называется \(n\)-кратным и обозначается
+    \[\int_E fd\mu_n, \int_{E\subset \R^n} f(x)d\mu_n(x), {\int\int\dots\int}_E f(x_1, x_2, \dots x_n) dx_1dx_2\dots dx_n\]
+\end{definition}
+
+\underline{\textbf{Обозначение:}} \(x = (x_1, x_2, \dots x_n), y = (y_1, y_2, \dots y_n)\).
+
+\begin{definition}
+    Пусть \(E \subset \R^{n + m}, x \in \R^n\). Тогда \(E_x = \{y \in \R^m | (x, y) \in E\}\), \(E_x\) называется сечением \(E\) по переменной \(x\).
+\end{definition}
+
+\begin{proposition}
+    Пусть \(\{E_i\}_{i \in I}\subset 2^{R^{m + n}}\). Тогда 
+    \begin{enumerate}
+        \item \(\left(\bigcup_{i \in I} E_i\right)_x = \left(\bigcup_{i \in I} (E_i)_x\right)\)
+        \item \((E \setminus F)_x = E_x \setminus F_x\)
+        \item \(\left(\bigcap_{i \in I} E_i\right)_x = \left(\bigcap_{i \in I} (E_i)_x\right)\)
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}
+        \item \(y \in \left(\bigcup_i E_i\right)_x \Lra (x, y) \in \left(\bigcup_i E_i\right) \Lra y \in (\bigcup_i (E_i)_x)\)
+        Остальные пункты доказываются аналогично
+    \end{enumerate}
+\end{proof}
+
+\begin{theorem}[Принцип Кавальери]
+    Пусть \(E \in \R^{n + m}\) --- измеримо. Тогда справедливо следующее:
+    \begin{enumerate}
+        \item Сечение \(E_x\) измеримо в \(\R^m\) для почти всех \(x \in \R^n\).
+        \item \(x \mapsto \mu_m(E_x)\) измерима на \(\R^n\)
+        \item \(\int_{\R^m}\mu_m(E_x)d\mu_n(x) = \mu_{n + m}(E)\)
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    \begin{enumerate}
+        \item Пусть \(E\) --- брус. Тогда \(B = B' \times B''\), где \(B', B''\) --- брусы в \(\R^n, \R^m\) соответственно. Для любого \(x \in \R^n\) верно 
+        \[B_x = \left\{\begin{array}{ll}
+            B'', x \in B' \\
+            \emptyset, x \notin B'
+        \end{array}\right. \Ra \mu_m(B_x) = \left\{\begin{array}{ll}
+            \mu_m(B''), x \in B' \\
+            0, x \notin B'
+        \end{array}\right.\]
+        Функция \(x \mapsto \mu_m(B'') I_{B'}\) --- измерима (как произведение индикатора на константу)
+
+        \[\int_{\R^n} \mu_n(B_x) d\mu(x) = \mu_m(B'')\int_{\R^n}\mu_n(B') = \mu_{n + m}(B)\]
+
+        \item Пусть \(E \subset G\) --- ограниченное открытое множество в \(\R^{n + m}\), тогда \(G = \bigsqcup_{k = 1}^\infty B_k\), где \(B_k\) --- брусья. Для любого \(x \in \R^n\) имеем: \(G_x = \bigsqcup_{k = 1}^\infty (B_k)_x\) --- измеримо, тогда \(\mu_m(G_x) = \sum_{k = 1}^\infty \mu_m((B_k)_x)\). Функция \(\mu_m(G_x)\) измерима, как сумма ряда измеримых функций. По теореме Леви для рядов, 
+        \[\int_{\R^n} \mu_m(G_x)d\mu(x) = \sum_{k = 1}^\infty \int_{\R^n}\mu_m((B_k)_x)d\mu(x) = \sum_{k = 1}^\infty \mu_{n + m}(B_k) = \mu(G)\]
+        \item Пусть \(E = \bigcap G_k\) --- пересечение вложенных ограниченных открытых множеств (\(G_k \supset G_{k + 1} \forall k\)). Для любого \(x \in \R^n\) имеем \((G_k)_x \supset (G_{k + 1})_x\), \(\mu(G_1)_x < \infty\), тогда \(E_x = \bigcap_{k = 1}^\infty(G_k)_x\) по непрерывности меры. \(\mu_m(E_x) = \lim_{k \ra \infty}\mu_m((G_k)_x)\). Т.к. 
+        \[\int_{\R^n} \mu_m((G_1)_x)d\mu(x) = \mu_{n + m}(G_1) < \infty\]
+        \[\int_{\R^n}\mu_m(E_x)d\mu(x) = \lim_{k \ra \infty} \int_{\R^n} \mu_m((G_k)_x)d\mu(x) = \lim_{k \ra \infty} \mu_{n + m}(G_k) = \mu_{n + m}(E)\]
+        \item Пусть \(E = Z\) --- ограниченное множество меры нуль в \(\R^{n + m}\). По критерию измеримости, существует \(G_\delta\)-множество \(A \supset Z\) и \(\mu_{n + m}(A) = 0\). Можно считать, что \(A\) ограничено (иначе заменим на пересечение с открытым шаром, содержащим \(Z\)). Тогда по предыдущему пункту, \(\int_{\R^n} \mu_m(A_x)d\mu(x) = 0 \Ra \mu_m(A_x) = 0\) для почти всех \(x \in \R^n\). Т.к. \(A_x \supset Z_x\), то \(\mu_m(Z_x) = 0\), и \(Z_x\) измеримо для таких \(x\). Следовательно, функция \(x \mapsto \mu_m(Z_x)\) нулевая почти всюду и тогда она измерима. Также, \[\int_{\R^n} \mu_m(Z_x) d\mu(x) = 0 = \mu_{n + m}(Z)\] 
+        \item Пусть \(E\) --- ограниченное измеримое множество. По критерию измеримости, \(\exists \Omega\)--- \(G_\delta\)-множество, \(\Omega \supset E\) и \(Z\) --- множество меры нуль, что \(E = \Omega \setminus Z\) (считаем, что \(\Omega\) ограниченное). По свойству сечений, \(E_x = \Omega_x \setminus Z_x\). Пусть \(E\) --- произвольное измеримое множество. Тогда \(E = \bigsqcup_{k = 1}^\infty (E \cap A_k)\), где \(A_k = \{x \in \R^{n + m}\}, k - 1 \le |x| \le k\)
+    \end{enumerate}
+\end{proof}
+
+\begin{theorem}[Тонелли]
+    Пусть \(E \subset \R^{n + m}\) и функция \(f: E \ra [0, +\infty]\) измерима. Тогда
+    \begin{enumerate}
+        \item Функция \(f(x, \cdot)\) измерима на \(E_x\) для почти всех \(x \in \R^n\)
+        \item Функция \(\mathcal{G}(x) = \int_{E_x}f(x, y)d\mu(y)\) измерима на \(\R^n\)
+        \item \(\int_{\R^n}\mathcal{G}(x)d\mu(x) = \int_E f d \mu\)
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    Пусть \(A \subset \R^{n + m}, x \in \R^n\). Тогда для любого \(y \in \R^m\) верно: \(I_A(x, y) = \left\{\begin{array}{ll}
+        1, y \in A_x \\ 
+        0, y \notin A_x
+    \end{array}\right. = I_{A_x}(y)\), поэтому для индикатора теорема верна (а, значит, и для всех простых функций).
+    Пусть \(f: E \ra [0, +\infty]\) --- произвольная измеримая функция. По теореме о приближении, \(\exists \{\phi_k\}\) --- простые функции, т.ч. \(0\le \phi_1 \le \phi_2 \le \dots, \phi_k \ra_E f\). Для любого \(x \in \R^n \exists \{\phi_k(x, \cdot)\}, 0 \le \phi_1(x, \cdot) \le \phi_2(x, \cdot) \le \dots, \phi_k(x, \cdot) \ra_E f(x, \cdot)\). \(\exists Z_k\) --- множество меры нуль в \(\R^n\), что \(\phi_k(x, \cdot)\) измерима (простая функция) на \(Z_k^c\). Положим \(Z = \bigcap_{k = 1}^\infty Z_k\) --- множество меры нуль и для \(x \in \Z^c\) функция измерима (как предел измеримых функций) (доказали 1). По теореме Леви для \(x \in Z^c\) имеем
+    \[\mathcal{G}(x) = \lim_{k \ra \infty} \int_{E_x}\phi_k(x, y)d\mu(y) =: \lim_{k \ra \infty} \mathcal{G}_k(x)\]
+    Следовательно, \(\mathcal{G}\) измерима (как предел измеримых функций \(\mathcal{G}_k\)) на \(Z^c\), а значит, и на \(\R^n\). Снова по Теореме Леви,
+    \[\int_{\R^n}\mathcal{G}_xd\mu(x) = \lim_{k \ra \infty} \int_{\R^n} \mathcal{G}_k(x)d\mu(x) = \lim_{k \ra \infty} \int_E \phi_kd\mu_{n + m} = \int_E f d \mu_{n + m}\]
+\end{proof}
+
+\begin{corollary}
+    Пусть \(f: E \ra \overline{\R}\) измерима. Функция \(f\) интегрируема на \(E\) тогда и только тогда, когда 
+    \[\int_{\R^n}\left(\int_{E_x}|f(x, y)|d\mu(y)\right)d\mu(x) < \infty\]
+\end{corollary}
+
+\begin{theorem}[Фубини]
+    Пусть \(E \subset \R^{n + m}\) и функция \(f: E \ra \overline{\R^n}\) интегрируема. Тогда
+    \begin{enumerate}
+        \item Функция \(f(x, \cdot)\) измерима на \(E_x\) для почти всех \(x \in \R^n\)
+        \item Функция \(\mathcal{G}(x) = \int_{E_x}f(x, y)d\mu(y)\) интегрируема на \(\R^n\)
+        \item \(\int_{\R^n}\mathcal{G}(x)d\mu(x) = \int_E f d \mu\)
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    Пусть \(f \ge 0\). Тогда по т. Тонелли, \(\int_{\R^n} \mathcal{G}(x)d\mu(x) = \int_E f d \mu < \infty\), следовательно, \(\mathcal{G}\) интегрируема на \(\R^n\) (доказали 2). В частности, функция \(\mathcal{G}\) конечна почти всюду (доказали 1). В случае \(f\) произвольного знака, применяем утверждение для \(f^\pm\):\(f = f^+ - f^-\), пользуясь тем, что \(f^\pm(x, \cdot) = (f(x, \cdot))^\pm\), заключаем, что утверждение верно и для \(f\).
+\end{proof}
+
+\begin{note}
+    В предыдущих теоремах переменные \(x, y\) равноправны, поэтому 
+    \[\int_E f d \mu = \int_{\R^n}\left(\int_{E_x}f(x, y)d\mu(y)\right)d\mu(x) = \int_{\R^n}\left(\int_E f(x, y)d\mu(x)\right)d\mu(y)\]
+    Внешний интеграл (в среднем выражении) можно брать не по всему \(\R^n\), а только по тем \(x\), для которых \(E_x \ne \emptyset\)
+\end{note}
+
+\begin{definition}
+    \(\Pr_xE = \{x \in \R^n | \exists (x, y) \in E\}\) --- проекция \(E\) на \(\R^n_x\)
+\end{definition}
+
+\begin{example}
+    Проекция измеримого множества может оказаться неизмеримым:
+    Рассмотрим \(e \subset \R\) --- неизмеримое. Тогда проекция \(e \times \{c\}, c \in \R\) --- измеримо (его мера равна 0), но его проекция на первую координату равна \(e\) --- неизмеримо.
+\end{example}
+
+\begin{corollary}
+    Если дополнительно (с условием теорем выше) \(\Pr_x E\) измеримо, то 
+    \[\int_E f d \mu_{n + m} = \int_{\Pr_x E} \left(\int_{E_x} f(x, y)d\mu(y)\right)d\mu(x)\]
+\end{corollary}
+
+\begin{example}
+    Доказать интегрируемость и найти интеграл \(f(x, y) = y\sin x \cdot e^{-xy}\) на \(E = (0, +\infty) \times (0, 1)\)
+\end{example}
+\begin{proof}
+    \[\iint_E |f(x, y)| dxdy \le \iint_E ye^{-yx}dxdy = \int_{(0, 1)}\left(\int_{0, +\infty}ye^{-xy}dx\right)dy =\]
+    \[ = \int_{(0, 1)}\left(\int_0^{+\infty} ye^{-yx}dx\right)dy = \int_{(0, 1)}\left(\int_0^{+\infty} e^{-t}dt\right)dy = 1\]
+\end{proof}
+
+По теореме Фубини, \(F(y) = \int_0^{+\infty} \sin x e^{-xy}dx \stackrel{\text{после нетрудных преобразований}}{=}\frac{y}{y^2 + 1}, y \in (0, 1)\)
+\[\iint_E f(x, y)dxdy = \int_{(0, 1)}\left(\int_{(0, +\infty)} f(x, y)dx\right)dy = \int_0^1 \frac{y}{y^2 + 1}dy = \frac{1}{2} \ln(y^2 + 1)|_0^1 = \frac{1}{2}\ln 2\]
+
+\hypertarget{lecture2}{}
+
+\begin{note}
+    Если \(g: E \ra \overline{\R}\) измерима, то \(\tilde{g}: E \times \R \ra \overline{\R}: \tilde{g}(x, t) = g(x)\) также измерима.
+\end{note}
+\begin{proof}
+    Вытекает из того, что если \(A = \{x \in E: g(x) < a\}\) измеримо, то \(\{(x, t): \tilde{g}(x, t) < a\} = A \times \R\).
+\end{proof}
+\begin{problem}
+    Проверить, что \(A \times \R\) измеримо и тогда доказать замечание.
+\end{problem}
+
+Рассмотрим важнейшее приложение принципа Кавальери:
+\begin{corollary}
+    Пусть \(f: E \ra [0, 1]\) измерима, то подграфик: \(S_f = \{(x, t): x \in E 0 < t < f(x)\}\) измерим в \(\R^{n + 1}\) и \(\mu_{n + 1}(S_f) = \int_E f d\mu\)
+\end{corollary}
+\begin{proof}
+    По замечанию, \(F(x, t) = t - f(x)\) измерима. Тогда \(S_f = \{(x, t): t > 0\} \cap \{(x, t): F(x, t) < 0\}\) измеримо.
+    \[(S_f)_x\left\{\begin{array}{l}
+        (0, f(x)), x \in E \\
+        \emptyset, x \notin E
+    \end{array}\right. \Ra \mu_1((S_f)_x) = f(x)\]
+    Тогда по принципу Кавальери, \(\mu_{n + 1}(S_f) = \int_E f d\mu\).
+\end{proof}
+
+\begin{problem}
+    Доказать, что \(\mu_{n + 1}(S_f) = \int_0^{+\infty} \mu(\{x \in E: f(x) > t\})dt\)
+\end{problem}
+
+\begin{problem}
+    Пусть \(T: \R^n \ra \R^n\) --- обратимое линейное отображение и \(E \subset \R^n\) измеримо. Докажите, что \(\mu(T(E)) = |\det T|\mu(E)\). Указание: \(\Delta = [0, 1)^n\).
+\end{problem}
+
+\subsection{Замена переменных в кратном интеграле}
+\begin{definition}
+    Пусть \(U, V\) открыты в \(\R^n\). Отображение \(g: U \ra V\) называется \(C^r\)-диффеоморфизмом, если \(g\) --- биекция, \(g \in C^r(U, V), g^{-1} \in C^r(V, U)\).
+\end{definition}
+
+\begin{definition}
+    Всюду далее за \(Dg(x)\) обозначается матрица Якоби отображения \(g\) в точке \(x\). Определитель \(J_g(x) = |\det Dg(x)|\) называется Якобианом.
+\end{definition}
+
+\begin{definition}
+    Если \(g\) --- диффеоморфизм, то \(g\circ g^{-1} = I_U\) --- тождественное отображение \(U\). По правилу дифференцирования композиции для матриц Якоби, \(Dg^{-1}(g(x))Dg(g^{-1}(x)) = E\). Следовательно, \(Dg(x)\) невырождена и \(Dg^{-1}(g(x)) = (Dg(x))^{-1}\)
+\end{definition}
+
+\begin{theorem}
+    Пусть \(g: U \ra V\) --- диффеоморфизм открытых \(U, V \subset \R^n\). Пусть \(E \subset U\) --- измеримо по Лебегу. Если \(f\) --- неотрицательная измеримая или интегрируемая на \(g(E)\) функция, то
+    \[\int_{g(E)} f(y) d\mu(y) = \int_E f \circ g(x) |\det Dg(x)|d\mu(x)\]
+\end{theorem}
+\begin{example}
+    Вычислить меру \(n\)-мерного шара \(B_R(a)\)
+\end{example}
+\begin{proof}[Решение]
+    По свойству преобразования меры при сдвиге и гомотетии, имеем:
+    \[\mu_n(B_R(a)) = \mu_n(B_R(0)) = R^n\mu_n(B_1(0))\]
+    Положим \(B = B_1(0), \mu_n(B) = \omega_n\). Рассмотрим сечение \(B_{(x_1, x_2)} = \{y: |y|^2 < 1 - x_1^2 - x_2^2\} \Ra B_{(x_1, x_2)} = \left\{\begin{array}{l}
+        B_{\sqrt{1 - x_1^2 - x_2^2}}(0), x_1^2 + x_2^2 < 1 \\
+        \emptyset, \text{иначе}
+    \end{array}\right.\)
+    Следовательно, по принципу Кавальери,
+    \[\omega_n = \int_{x_1^2 + x_2^2 < 1}\mu_{n - 2}(B_{\sqrt{1 - x_1^2 - x_2^2}}(0))dx_1dx_2 = \int_{x_1^2 + x_2^2 < 1} \sqrt{R^n}\omega_{n - 2}dx_1dx_2 =\]
+    \[= \omega_{n - 2}\int_{x_1^2 + x_2^2 < 1} (1 - x_1^2 - x_2^2)^{\frac{n - 1}{2}}dx_1dx_2 = (*)\]
+    Рассмотрим \(\left\{\begin{array}{l}
+        x = r\cos \phi \\
+        y = r\sin \phi
+    \end{array}\right.\). Пусть \(U = [0, 2\pi] \times [0, +\infty), V = \R^2\). Тогда при замене, мы должны домножить на \(\left|\begin{array}{cc}
+        \cos \phi & \sin \phi \\
+        -r \sin \phi & r\cos \phi
+    \end{array}\right|\).
+    \[(*) = \omega_{n - 2}\int_0^{2\pi}d \phi \int_0^1 (1 - r^2)^{\frac{n - 2}{2}}rdr = \frac{-2\pi}{2}\omega_{n - 2}\int_0^1(1 - r^2)^{\frac{n - 2}{2}} = \left.-\pi\omega_{n - 2}\frac{(1 - r^2)^{\frac{n}{2}}}{\frac{n}{2}}\right|_0^1 = \frac{2\pi}{n}\omega_{n - 2}\]
+    \begin{enumerate}
+        \item \(n = 2k\)
+        \[\omega_{2k} = \frac{2\pi}{2k}\omega_{2k - 2} = \dots = 2\frac{(2\pi)^{k - 1}}{(2k)!!} = \frac{(2\pi)^k}{(2k)!!}\]
+        \item \(n = 2k + 1\)
+        \[\omega_{2k + 1} = \frac{2\pi}{2k + 1}\omega_{2k - 1} = \dots = 2\frac{(2\pi)^{k - 1}}{(2k - 1)!!}\omega_1 = 2\frac{(2\pi)^k}{(2k - 1)!!}\]
+    \end{enumerate}
+\end{proof}
+
+В основе доказательства будет лежать следующее утверждение:
+\begin{lemma}
+    Пусть \(x_0 \in U, \epsilon > 0\). Положим \(l(Q)\) --- длина ребра куба \(Q\). Тогда найдется такое \(\delta > 0\), что для всягого замкнутого куба \(Q, x_0 \in Q \subset U, l(Q) < \delta\) справедливо равенство:
+    \[\frac{\mu(g(Q))}{\mu(Q)} \le |\det J_g(x_0)| + \epsilon\]
+\end{lemma}
+\begin{proof}
+    Все мы помним, что в \(\R^n\) все нормы эквивалентны. Будем рассматривать норму \(\|x\| = \max_{1 \le i \le n}|x_i| =\|\cdot\|_{\infty}\). Тогда \(C_r(y) = \{x: \|x - y\| \le r\}\) --- замкнутый куб и \(l(C) = 2r\). Сначла рассмотрим случай \(Dg(x_0) = E\) и \(g(x_0) = 0\). По определению диффеоморфизма, имеем:
+    \[g(x) = x + \alpha(x) \|x - x_0\|, \alpha(x) \ra 0, x \ra x_0\]
+    \textit{На лекции была ошибка, на самом деле \(g(x) = x - x_0 + \alpha(x) \|x - x_0\|, \alpha(x) \ra 0, x \ra x_0\), но это фиксится параллельным переносом на \(x_0\)}.
+    Выберем \(\eta > 0\) так, что \((1 + \alpha \nu)^n < 1 + \epsilon\) и пусть \(\delta > 0\) такое, что если \(x \in U (\|x - x_0\| < \delta \Ra \|\alpha(x)\| < \eta)\). Пусть \(Q\) --- замкнутый куб, такой, что \(Q, x \in Q \subset U, l(Q) < \delta\). Положим \(s = L(Q)\) Если \(a\) --- центр \(Q\), то \(Q = C_{\frac{s}{2}}(a)\). Пусть \(x \in Q\). Тогда \(\|x - x_0\| < \|x - a\| + \|a - x_0\| \le \frac{s}{2} + \frac{s}{2} < s < \delta \Ra \|\alpha(x)\| \le \eta\). Следовательно, \(\|g(x) - a\| \le \|x - a\| + \|\alpha(x)\|\cdot\|x-x_0\| < \frac{s}{2} + \eta s = \frac{s}{2}(1 + 2\eta) \Ra g(x) \in C_{\frac{s}{2}(1 + 2\eta)}(a) \Ra g(Q) \subset C_{\frac{s}{2}(1 + 2\eta)}(a)\). По монотонности меры, \(\mu(g(Q)) \le s^n(1 + 2\eta)\). Учитывая, что \(\mu(Q) = s^n \Ra \frac{\mu(g(Q))}{\mu(Q)} \le (1 + 2\eta)^n < 1 + \epsilon\).
+
+    Для общего случая, рассмотрим \(h = T^{-1} g - T^{-1} g(x_0)\) --- диффеоморфизм. \(Dh(x_0) = T^{-1}T = E\). Следовательно, \(\exists \delta > 0: l(Q) < \delta \Ra \frac{\mu(h(Q))}{\mu(Q)} \le |J_g(x_0)| + \frac{\epsilon}{|\det T|} \le 1 + \frac{\epsilon}{|\det T|}\).
+    \[\mu(h(Q)) = \mu(T^{-1}g(Q)) = |\det T^{-1}|\mu(g(Q)) = \frac{\mu(g(Q))}{|\det T|} \Ra \frac{\mu(g(Q))}{\mu(Q)} \le |\det T| + \epsilon\]
+    Получили желаемое.
+\end{proof}
+
+\begin{corollary}
+    Пусть \(\{Q_k\}\) --- последовательность замкнутых, вложенных кубов и \(l(Q_k) \ra 0\). Если \(x_0\) --- единственная точка из \(\bigcap_{k = 1}^\infty Q_k\), то \(\limsup_{n \ra \infty} \frac{\mu(g(Q_k))}{\mu(Q_k)} \le |J_g(x_0)|\)
+\end{corollary}
+
+\begin{lemma}
+    Если \(G\) --- открытое в \(U\), то \(g(G)\) открыто в \(V\) и \(\mu(g(G)) \le \int_G |J_g| d \mu (*)\).
+\end{lemma}
+\begin{proof}
+    По свойству счетной аддитивности меры Лебега и счетной аддитивности интеграла, достаточно установить \((*)\) для двоичного куба.
+    \[G = \bigsqcup_{k = 1}^\infty Q_k, \text{где \(Q_k\) --- двоичные кубы} \Ra Q_k = \left[\frac{p}{2^q}, \frac{p + 1}{2^q}\right)^n, p \in \Z, q \in \N\]
+    Т.к. \(Q = \bigcup_{i = 1}^\infty \left[\frac{p}{2^q}, \frac{p + 1}{2^q} - \frac{1}{2^q\cdot i}\right]^n\) --- \(\sigma\)-компакт, тогда и \(g(Q)\) --- \(\sigma\)-компакт --- измеримое множество.
+
+    Предположим, что \(\exists Q\) --- двоичный куб, такой, что \(\overline{Q} \subset U\), для которого \(\mu(g(Q)) > \int_Q |J_g|d\mu + \epsilon \mu(Q)\). Деля каждое ребро пополам, получаем разбиение \(Q\) на \(2^n\) двоичных кубов \(\{Q_i\}\). Предположим, что для каждого из \(Q_i\) выполнена лемма. Тогда пользуясь конечной аддитивностью меры и интеграла, для \(Q\) выполнена лемма. Тогда Б.О.О, \(\mu(g(Q_1)) > \int_{Q_1} |J_g|d\mu + \epsilon \mu(Q_1)\). Положим \(C_1 = \overline{Q}, C_2 = \overline{Q_1}, \dots\). По индукции строим последовательность замкнутых вложенных кубов, \(l(C_k) \ra 0\), такую, что \(\forall k \mu(g(C_k)) > \int_{C_k}|J_g(x)|d \mu(x) + \epsilon(\mu(C_k))\). Т.к. \(J_g\) --- непрерывна, то \(\frac{1}{\mu(C_k)}\int_{C_k} |J_g|d\mu \ra_{k \ra \infty} |J_g(x)| \Ra \limsup_{k \ra \infty} \frac{\mu(g(C_k))}{\mu(C_k)} \ge |J_g(x_0)| + \epsilon\).
+\end{proof}
+
+\hypertarget{lecture3}{}
+
+\begin{lemma}
+    Если \(E \subset U\) измеримо, то \(g(E)\) измеримо и \(\mu(g(E)) \le \int_E |J_g(x)| d\mu\)
+\end{lemma}
+\begin{proof}
+    Для \(m \in \N\) определим \(W_m = \{x \in U | \|x\| < m, |J_g(x)| < m\}\). Из непрерывности функций \(\|x\|J_g(x)\) и открытоти множеств \((-\infty, m)\) заключаем, что \(W_m \subset U\) открыто и \(\bigcap_{m = 1}^\infty W_m = U\). Докажем утверждение для \(E \subset W_m\)
+    \begin{enumerate}
+        \item Пусть \(E = \bigcap_{k = 1}^\infty G_k\), где \(G_k\) --- открыто и \(G_k \supset G_{k + 1}\). Б.О.О. можно считать, что все \(G_k \subset W_m\) (иначе заменим \(G_k\) на \(G_k \cap W_m\)). Тогда \(g(E) = \bigcap_{k = 1}^\infty g(G_k)\) измеримо и по непрерывности меры, \(\mu(g(E)) = \lim_{k \ra \infty}\mu(g(G_k))\) (т.к. \(\{x \in U: \|x\| \le m, |J_g(x)| \le m\}\) --- компакт \(\Ra\) ограничен)
+        \[\mu(g(E)) = \lim_{k \ra \infty}\mu(g(G_k)) \le \lim_{k \ra \infty}\int_{G_k}|J_g(x)|d\mu(x) = \int_E |J_g(x)|d\mu\]
+        Последнее равенсво выполняется по теореме Лебега, примененной к функции \(f_k = |J_g(x)|\cdot I_{G_k}\)
+
+        \item Пусть \(E = Z \subset W_m, \mu(Z) = 0\). По критерию измеримости, \(\exists \Omega_0\) --- \(G_\delta\) множество, такое, что \(\Omega_0 \supset E, \mu(\Omega_0) = 0\). Без ограничения счиатем, что \(\Omega_0 \in W_m\). Тогда 
+        \[\mu^*(g(E)) \le \mu^*(g(\Omega_0)) = \mu(g(\Omega_0)) \le \int_{\Omega_0}|J_g(x)|d\mu(x) = 0\]
+        То есть \(g(E)\) измеримо и \(\mu(g(E)) = 0\).
+
+        \item Пусть \(E\) --- произвольное измеримое множество в \(W_m\). Тогда \(E = \Omega \setminus Z\), где \(\Omega\) --- \(G_\delta\)-множество, а \(\mu(Z) = 0\). Тогда \(g(E) = g(\Omega) \setminus g(Z)\). Т.к \(\mu(g(Z)) = 0\) и по первому пункту \(g(\Omega)\) --- измеримо, то \(g(E)\) --- тоже измеримо. Следовательно,
+        \[\mu(g(E)) \le \mu(g(\Omega)) \le \int_\Omega |J_g(x)|d\mu(x) = \int_E |J_g(x)|d\mu(x)\]
+
+        \item Пусть \(E\) --- произвольное измеримое множество в \(U\). Тогда \(E = \bigcup_{m = 1}^\infty E_m\), где \(E_m = E \cap W_m\). По доказанному, \(\mu(g(E_m)) \le \int_E |J_g(x)|d\mu\). Получаем
+        \[\mu(g(E)) = \lim_{m \ra \infty} \mu(g(E_m)) \le \lim_{m \ra \infty} \int_{E_m} |J_g(x)|d\mu= \int_E |J_g(x)|d\mu\]
+        Последнее равенство получено по теореме Леви для \(f_m = |J_g|\cdot I_{E_m}\).
+    \end{enumerate}
+\end{proof}
+
+% \begin{theorem}
+%     Пусть \(g: U \ra V\) --- диффеоморфизм открытых \(U, V \subset \R^n\). Пусть \(E \subset U\) --- измеримо по Лебегу. Если \(f\) --- неотрицательная измеримая или интегрируемая на \(g(E)\) функция, то
+%     \[\int_{g(E)} f(y) d\mu(y) \int_E f \circ g(x) |\det Dg(x)|d\mu(x)\]
+% \end{theorem}
+\begin{proof}
+    Для любого \(a \in \R\) условия \(f \circ g(x) \le a \Lra g(x) \in \{y: f(y) < a\}\). Поэтому, \(\{x: f(g(x)) < a\} = g^{-1}(\{y: f(y) < a\})\). Поскольку диффеоморфизм сохраняет измеримость \(\Ra\) множества \(\{x : f(g(x)) < a\}, \{y: f(y) < a\}\) измеримы одновременно, т.е. функции \(f \circ g\) на \(E\) и \(f\) на \(g(E)\) измеримы одновременно.
+
+    Рассмотрим \(F: U \times \R \ra V \times \R, F(x, t) = (g(x), t)\) --- диффеоморфизм. Получаем:
+    \[DF = \left(\begin{array}{cccc}
+        & & & 0\\
+        & Dg & & \vdots \\
+        &  & & 0 \\
+        0 & \dots & 0 & 1 \\
+
+    \end{array}\right) \Ra |J_F| = |J_g|\]
+    Пололжим \(B = \{(y, t): y \in g(E), 0 < t < f(y)\}, A = \{(x, t): x\in E, 0 < t < f(g(x))\}\). Т.к. \(f\) --- неотрицательная измеримая функция, то \(\mu(B) = \int_{g(E)} f(y)d\mu\). Имеем \(F(A) = B, \mu(B) = \mu(F(A)) \le \int_A |J_F|d\mu(x, t)\). По теореме Тонелли \(\int_A |J_F|d\mu = \int_E\left(\int_{(0, f(g(x)))} |J_g| dt\right)dx\ = \int_E f \circ g(x) |J_g|dx\). Итак, справедлива формула:
+    \[\int_{g(E)} f(y)d\mu(y) \le \int_E f\circ g(x) |J_g|d\mu(x)\]
+    В правом интеграле сделам замену \(x = g^{-1}(y)\).
+    \[\int_E f\circ g(x) |J_g|d\mu(x) \le \int_{E} f(y) \underbrace{|J_g(g^{-1}(y))|\cdot|J_{g^{-1}}(y)|}_{1}d\mu(y)\le \int_{g(E)} f(y)d\mu(y)\]
+\end{proof}
+
+\begin{corollary}
+    В условиях теоремы, \(\mu(g(E)) = \int_E |J_g(x)|d\mu(x)\)
+\end{corollary}
+
+\begin{note}
+    В теореме о замене переменной условие на \(g\) можно ослабить, а именно: Пусть \(U \subset W \subset \R^n\), \(U\) --- открыто, \(g: W \ra \R^n, g|_{U}\) --- диффеоморфизм и \(\mu(W \setminus U) = \mu(g(W) \setminus g(U)) = 0\). Тогда для \(E \in W\) --- измеримого справедлива формула замены
+    \[\int_{g(E)} f(y) d\mu(y) \int_E f \circ g(x) |\det Dg(x)|d\mu(x)\]
+\end{note}
+\begin{proof}
+    Пренебрегая множествами меры \(0\), имеем: 
+    \[\int_{g(E)} f(y) d\mu(y) = \int_{g(E \cap U)} f(y) d\mu(y) = \int_{E \cap U} f \circ g(x) |J_g(x)|d\mu(x) = \int_{E} f \circ g(x) |J_g(x)|d\mu(x)\]
+\end{proof}
+
+\begin{example}[Интеграл Эйлера-Пуассона]
+    \[I = \int_0^{+\infty} e^{-x^2}dx\]
+\end{example}
+\begin{proof}[Решение]
+    \[I^2 = \int_0^{+\infty} e^{-x^2}dx \int_0^{+\infty} e^{-y^2}dy = \iint_{(0, +\infty)^2} e^{-(x^2+y^2)}dxdy = \]
+    Заменяем координаты на полярные:
+    \[= \iint_{(0, \pi/2) \times (0, +\infty)} e^{-r^2}rdrd\phi = \int_0^{\frac{\pi}{2}}d\phi \int_0^\infty e^{-r^2}rdr = \int_0^{\frac{\pi}{2}}d\phi \left(\left.-\frac{1}{2}e^{-r^2}\right|_0^{+\infty}\right) = \int_0^{\frac{\pi}{2}} \frac{1}{2} d\phi = \frac{\pi}{4}\]
+\end{proof}
+
+\section{Теоремы об обратной и неявной функциях}
+% Начнем с одного варианта теоремы о среднем:
+\begin{definition}
+    \(B \subset \R^n\) называется выпуклым, если \(\forall x, y \in B: [x, y] \subset B\)
+\end{definition}
+
+\begin{lemma}
+    Пусть \(f: U \ra \R^m, f = (f_1, f_2, \dots d_m)\) --- дифференцируема на \(U \subset \R^n\) --- открытом множестве и пусть \(B \subset U\) открыто. Если \(\left| \frac{\partial f_i}{\partial x_j}(x) \right| \le M\) для всех \(x \in B\), то \(\forall x, y \in B: |f(y) - f(x)| \le nmM|y - x|\).
+\end{lemma}
+\begin{proof}
+    Пусть \(x, y \in B\), тогда для \(i = 1, \dots m\) рассмотрим функцию \(g_i(t) = f_i(x + t(y - x)), t \in [0, 1]\) --- дифференцируема. Тогда про теореме Лагранжа о среднем:
+    \[f_i(y) - f_i(x) = g(1) - g_i(0) = g'_i(c_i), c_i \in (0, 1)\]
+    \[g_i'(c_i) = \sum_{j = 1}^n \frac{\partial f_i}{\partial x_j}(x + c_i(y - x))(y_j - x_j) \Ra |g_i'(c_i)| \le M\sum_{j = 1}^n |y_j - x_j| \le nM|y - x|\]
+    Откуда \(|f_i(y) - f_i(x)| \le nM|y - x|\). При этом, \(|a| \le \sum_{i = 1}^n |a_i|\). Получаем \(f(y) - f(x) \le nmM|y - x|\)
+\end{proof}
+
+\begin{corollary}
+    Если частные производные \(f\) непрерывны в \(a \in U\), то \(\forall \epsilon > 0 \exists \delta > 0 \forall x, y \in B_\delta(a): |f(y) - f(x) - df_a(y - x)| \le \epsilon|y - x|\)
+\end{corollary}
+\begin{proof}
+    Применим лемму к \(g(z) = f(z) - df_a(z)\). Т.к. дифференциал линейного отображения совпадает с ним, то \(dg_z = df_z - df_a\), откуда \(\frac{\partial g_i}{\partial x_j}(z) = \frac{\partial f_i}{\partial x_j}(z) - \frac{\partial g_i}{\partial x_j}(a)\). В силу непрерывноси частных производных, \(\forall \epsilon > 0 \exists \delta > 0: \forall z \in B_\delta(a) \left| \frac{\partial g_i}{\partial x_j}(z) \right| \le \frac{\epsilon}{mn} \Ra |g(y) - g(x)| \le \epsilon|y - x|\).
+\end{proof}
+
+\begin{theorem}[Банах]
+    Пусть \(C\) --- непустое замкнутое множество в \(\R^m\). Пусть \(f: C \ra C\), такое, что \(\exists \lambda \in (0, 1)\), что \(\forall x, y \in C |F(x) - F(y)| \le \lambda|x - y|\). Тогда \(\exists! x^* \in C: F(x^*) = x^*\)
+\end{theorem}
+\begin{proof}
+    Пусть \(x_0 \in C\) и рассмотрим \(x_{k + 1} = F(x_K)\). Тогда \(\forall k |x_{k + 1} - x_k| \le \lambda^k |x_1 - x_0|\). Следовательно \(|x_{n + p} - x_n| |x_{n + p} - x_{n + p - 1}| + |x_{n + p - 1} - x_{n + p - 2}| + \dots + |x_{n + 1} - x_n| = \left(\lambda^{n + p - 1} + \dots + \lambda^n\right)|x_1 - x_0| \le \frac{\lambda^n}{1 - \lambda}\). Т.к. \(\lambda^n \ra 0\) при \(n \ra \infty\), то последовательность \(\{x_n\}\) фундаментальна. Следовательно, \(x_n \ra x^*\). В силу замкнутости, \(x^* \in C\). Т.к. \(x_{n + 1} = F(x_n)\), то \(F\) непрерывна и \(F(x^*) = x^*\). Пусть \(y^*\) --- другая точка, такая, что \(F(y^*) = y^*\). Но тогда \(|y^* - x^*| = |F(y^*) - F(x^*)| \le \lambda |y^* - x^*| \Ra |y^* - x^*| = 0 \Ra y^* = x^*\).
+\end{proof}
+
+\subsection{Теорема об обратной функции}
+
+\begin{theorem}[Об обратной функции]
+    Пусть \(U\) --- открыто в \(\R^n\) и \(a \in U\). Если \(f: U \ra \R^n\) класса \(C^1\) и \(\det Df(a) \ne 0\), то \(\exists\) открытые \(W, V: a \in W \subset U, f(a) \in V\), такие, что \(f^{-1}: V \ra W\) --- диффеоморфизм.
+\end{theorem}
+\begin{proof}
+    Можно считать, что \(Df(a) = E\): положим \(T = Df(a)\) и заменим \(f\) на \(\tilde{f} = T^{-1}f\). Такая замена не меняет обратимости, при этом \(f^{-1}\) и \(\tilde{f}^{-1} = f^{-1}T\) одновременно лежат в \(C^1\).
+
+    Рассмотрим \(g(x) = f(x) - x_j, x \in U\). \(g \in C^1, Dg(a) = 0\). Тогда \(\exists \overline{B}_r(a)\), что \(\forall x \in \overline{B}_r(a) \left(\left| \frac{\partial g_i}{\partial x_j}(x) \right| \le \frac{1}{2n^2} \forall i, j = 1, \dots n\right)\). Следовательно, \(\forall x, x' \in \overline{B}_r(a) (|g(x) - g(x')| \le \frac{1}{2}|x - x'|)\). Покажем, что \(\forall y \in B_{\frac{r}{2}}(f(a)) \exists !x \in B_r(a) (y = f(x))\). Для этого рассмотрим отображение \(F_y(x) = y - g(x), x \in U\). Тогда \(\forall x \in \overline{B}_r(a)\) имеем: 
+    \[|F_y(x) - a| \le |F(x) - F(a)| + |F(a) - a| \le |g(x) - g(a)| + |y - f(a)| \le \frac{1}{2}|x - a| + |y - f(a)| < \frac{r}{2} + \frac{r}{2} = r\]
+    То есть, \(F(\overline{B}_r(a)) \subset B_r(a)\). Кроме того, \(\forall x, x' \in \overline{B}_r(a), |F(x) - F(x')| = |g(x) - g(x')| \le \frac{1}{2}|x - x'|\). По теореме Банаха, \(\exists! x: F(x) = x \Lra y = f(x)\). Более того, \(x \in B_r(a)\). Положим \(V = B_{\frac{r}{2}}(f(a)), W = f^{-1}(V) \cap B_r(a)\). Тогда \(W, V\) --- открыты и \(f\) биективно отображает \(W\) на \(V\) по построению, т.е. определена обратная функция \(f^{-1}: V \ra W\).
+
+    По неравенству треугольника, имеем: \(|f(x) - f(x')| \ge |x - x'| + |g(x) - g(x')| = (*), x, x' \in W\). Т.к. \(g\) --- сжимающее, то \((*) \ge \frac{1}{2}|x - x'| = |f^{-1}(y) - f^{-1}(y')|\). Тогда:
+    \[|f^{-1}(y) - f^{-1}(y')| \le 2|y - y'| \forall y, y' \in V (1)\]
+    Так что \(f^{-1}\) непрерывно, а значит, \(f\) --- гомеоморфизм.
+    Так как \(J_f\) непрерывна и \(J_f(a) \ne 0\), то можно считать, что \(J_f \ne 0\) на \(W\). Зафиксируем \(y \in V\) и пусть \(x = f^{-1}(y)\). Покажем, что \(f\) дифференцируема в \(y\). В силу биективности \(f, \forall y + k \in V \exists ! n : y + k = f(x + h)\). Положим \(h(k) = f^{-1}(y + k) - f^{-1}(y)\). Тогда \(h(k) \ra_{k \ra 0} 0\). Функция \(f\) дифференцируема в \(x\), т.е. \(f(x + h) - f(x) = df_x(h) + \alpha(h)|h|\), где \(\alpha\) непрерывна и \(\alpha(0) = 0, h = h(k)\). Положим \(A = [df_x]^{-1}\), получим \(Ak = h(k) + A\alpha(h(k))|h(k)|\) или \(f^{-1}(y + k) - f^{-1}(y) = Ak + \beta(k)|k|\), где \(\beta(k) = -A\alpha(h(k))\frac{|h(k)|}{|k|}\). В силу \((1)\), \(\frac{|h(k)|}{|k|} \le 2\). Следовательно, \(\beta(k) \ra 0\), при \(k \ra 0\), тогда \(f^{-1}\) дифференцируема в \(y\) и \(df^{-1}_y = [df_x]^{-1}\).
+    В частности, матрица Якоби \(Df^{-1}(y) = (Df(f^{-1}(y)))^{-1}\).
+
+    Из курса линейной алгебры известно, что элементы \(Df^{-1}(y)\) есть рациональные функции от \(\frac{\partial f_i}{\partial x_j}(f^{-1}(y))\) со знаменателем \(J_f(f^{-1}(y))\). В силу класса \(C^1\) функции \(f\) и непрерывности \(f^{-1}\), заключаем, что \(f^{-1} \in C^1(V)\).
+\end{proof}
+
+\hypertarget{lecture4}{}
+
+\begin{note}
+    Если в условиях Теоремы об обратной функции, \(f \in C^r\), где \(r \in \N \cup \{\infty\}\), то \(f^{-1} \in C^r\).
+\end{note}
+\begin{proof}
+    Ведем индукцию по \(n\)
+    \begin{enumerate}
+        \item[] \textbf{База:} \(n = 1\) --- Теорема об обратной функции
+        \item[] \textbf{Переход:} Если \(f \in C^{n + 1}\), то \(\frac{\partial f_i}{\partial x_j} \in C^n\) и \(f^{-1} \in C^n \Ra \frac{\partial f^{-1}_i}{\partial x_j} \in C^n\), т.е. \(f^{-1} \in C^{n + 1}\)
+    \end{enumerate}
+\end{proof}
+
+\begin{corollary}
+    Пусть \(U \subset \R^n\) --- открыто и \(f: U \ra \R^n\) класса \(C^1\). Если \(J_f \ne 0\) на \(U\), то \(f(U)\) открыто
+\end{corollary}
+\begin{proof}
+    Пусть \(b \in f(U), b = f(a)\). По теореме об обратной функции, \(\exists W \subset U, V\) --- открытые, такие, что \(f: W \ra V\) --- дифференцируема. Т.к. \(V \subset f(U) \Ra b \in int\;f(U)\)
+\end{proof}
+
+\begin{definition}
+    Если \(\forall x \in U \exists W_x \subset U\) --- открытое, такое, что \(f|_W\) --- диффеоморфизм, то \(f\) называется локальным диффеоморфизмом.
+\end{definition}
+
+\begin{note}
+    Таким образом мы показали, что если \(f: U \ra \R^n\) класса \(C^1\) с \(J_f \ne 0\), то \(f\) --- локальный диффеоморфизм.
+\end{note}
+
+\begin{note}
+    Верно и обратное.
+\end{note}
+
+\begin{problem}
+    Пусть \(U \subset \R^n\) --- открыто, \(f: U \ra \R^n\) класса \(C^1\) и инъективно. Если \(J_f \ne 0\) на \(U\), то \(f\) --- диффеоморфизм
+\end{problem}
+
+\begin{problem}[Проблема Якобиана]
+    Пусть \(f: \R^n \ra \R^n, f_i\) --- полиномы, причем \(J_f \equiv 1\). Верно ли, что \(f\) инъективна?
+\end{problem}
+
+\begin{example}[Полярные координаты]
+    Пусть \(U = \{(r, \phi): r > 0, 0 < \phi < 2\pi\}, V = \R^2 \setminus \{(x, 0): x \ge 0\}\). Тогда \(g: U \ra V, g(r, \phi) = (r\cos \phi, r\sin \phi)\) --- диффеоморфизм
+\end{example}
+\begin{proof}
+    Покажем, что \(g\) --- биекция. \(\forall (x, y) \in V \exists ! (r, \phi) \in V: g(r, \phi) = (x, y)\). Тогда \(g^{-1}(x, y) = \)
+    \[r = \sqrt{x^2 + y^2}, \phi = \left\{\begin{array}{l}
+        \arctg \frac{y}{x}, y > 0, x \ge 0 \\
+        \pi - \arctg \frac{y}{x}, x < 0 \\
+        2\pi + \arctg \frac{y}{x}, y < 0
+    \end{array}\right.\]
+    Проверять, что \(g^{-1}\) --- диффеоморфизм очень долго и неприятно, поэтмоу воспользуемся теоремой об обратной функции. \(g \in C^1(U), Dg = \left( \begin{array}{cc}
+        \cos & -r\sin\phi \\
+        \sin \phi & r\cos \phi
+    \end{array} \right) \Ra J_g = r > 0\). Следовательно, \(g^{-1} \in C^1(V)\).
+\end{proof}
+
+\begin{problem}
+    Пусть \(U = \{(r, \phi, \psi), r > 0, 0 < \phi < 2\pi, -\frac{\pi}{2} < \psi < \frac{\pi}{2}\}, V = \R^3 \setminus \{(x, 0, z), x \ge 0, z \in \R\}\). Докажите, что \(g: U \ra V\):
+    \[g(r, \phi, \psi) = (r\cos\phi\cos\psi, r\sin\phi\cos\psi, r\sin\psi)\]
+    Является диффеоморфизмом
+\end{problem}
+
+\begin{definition}
+    Если \(g: U \ra V\) --- диффеоморфизм, \(U, V \subset \R^n\) --- открыты, то говорят, что на \(V\) введена криволинейная система координат. Точке \(x\) сопоставляется точка \((u_1, u_2, \dots u_n)\) --- декартова координата \(a = g^{-1}(x)\).
+\end{definition}
+
+\begin{note}
+    Локальный диффеоморфизм при \(n > 1\) необратим.
+\end{note}
+
+\begin{example}
+    \(g: U \ra V\), где \(U = \{(r, \phi): r > 0, \phi \in \R\}, V = \R^2, g(r, \phi) = (r\sin\phi, r\cos\phi)\) не является диффеоморфизмом, хотя \(J_f \ne 0\) (т.к. это не биекция).
+\end{example}
+
+\begin{problem}
+    Пусть \(f: \R^n \ra \R^n\) класса \(C^1\) и \(|f(x) - f(y)| \ge |x - y| \forall x, y \in \R^n\). Докажите, что \(f\) --- диффеоморфизм
+\end{problem}
+
+% Изучим вопрос, при каких условиях множество нулей гладкой функции \(\)
+
+\subsection{Теорема о неявной функции}
+Пусть \(U \subset \R^{n + m}\) --- открыто, \(F: U \ra \R^m, F = (F_1, F_2, \dots F_n)\) дифференцируема в точке \(p = (a, b)\). Тогда матрица Якоби \(DF(p)\) имеет вид
+\[\left( \begin{array}{cccccc}
+    \frac{\partial F_1}{\partial x_1} & \dots & \frac{\partial F_1}{\partial x_n} & \frac{\partial F_1}{\partial y_1} & \dots & \frac{\partial F_1}{\partial y_m} \\
+    \frac{\partial F_2}{\partial x_1} & \dots & \frac{\partial F_2}{\partial x_n} & \frac{\partial F_2}{\partial y_1} & \dots & \frac{\partial F_2}{\partial y_m} \\
+    \vdots & \ddots & \vdots & \vdots & \ddots & \vdots \\
+    \frac{\partial F_m}{\partial x_1} & \dots & \frac{\partial F_m}{\partial x_n} & \frac{\partial F_m}{\partial y_1} & \dots & \frac{\partial F_m}{\partial y_m}
+\end{array} \right) = \left( \frac{\partial F}{\partial x}(p), \frac{\partial F}{\partial y}(p) \right)\]
+Где \( \frac{\partial F}{\partial x}(p)\) --- матрица Якоби \(x \mapsto F(x, b)\) в точке \(a\), а \( \frac{\partial F}{\partial y}(p)\) --- матрица Якоби \(y \mapsto F(a, y)\) в точке \(b\).
+
+\begin{theorem}[О неявной функции]
+    Пусть \(U \subset \R^{n + m}\) --- открыто, \(a, b \in U\) и задана \(F: U \ra \R^m\) класса \(C^1\). Если
+    \begin{enumerate}
+        \item \(F(a, b) = 0\)
+        \item \(\det \frac{\partial F}{\partial{y}}(a, b) \ne 0\)
+    \end{enumerate}
+    То существуют открытые \(W \ni a, V \ni b\) и функция \(f: W \times V \subset U\) и \(\forall x, y \in W \times V (F(x, y) = 0 \Lra y = f(x))\).
+\end{theorem}
+\begin{proof}
+    Рассмотрим \(\Phi: U \ra \R^{n + m}, \Phi(x, y) = (x, F(x, y))\). Функция \(\Phi \in C^1(U)\) и
+    \[D\Phi(a, b) = \left( \begin{array}{cccc}
+        E & 0 \\
+        \frac{\partial F}{\partial x}(a, b) & \frac{\partial F}{\partial y}(a, b)
+    \end{array} \right)\]
+    Тогда \(J_\Phi = \det \frac{\partial F}{\partial y}(a, b) \ne 0\), а, значит, по теореме об обратной функции, существуют открытые \(O_1 \ni (a, b), O_2 \ni (a, 0)\), что \(\Phi: O_1 \ra O_2\) --- диффеоморфизм. Из вида \(\Phi\) получаем, что \(\Phi^{-1}(u, v) = (u, g(u, v))\) для некоторой \(g \in C^1\). Композиции \(\Phi^{-1} \circ \Phi, \Phi \circ \Phi^{-1}\) приводят к равенствам
+    \[\begin{array}{cc}
+        (x, y) = \Phi^{-1}(x, F(x, y)) \Ra y = g(x, F(x, y)) & (1) \\
+        (u, v) = \Phi(u, g(u, v)) \Ra v = F(u, g(u, v)) & (2)
+    \end{array}\]
+    Положим \(W = \{x: (x, 0) \in O_2\}\) и функцию \(f(x) = g(x, 0), x \in W\). Тогда \(W\) открыто и \(f \in C^1(W)\). Уменьшая \(W\), если необходимо, можно выбрать открытое \(V \ni b, V \subset \R^n\) так, что \(W \times V \subset O_1\). Пользуясь непрерывностью \(f\), уменьшим \(W\) так, что \(f(W) \subset V\). Проверим заключение теоремы. Пусть фиксирована точка \(x, y \in W \times V\), тогда
+    \begin{enumerate}
+        \item \(F(x, y) = 0 \stackrel{(1)}{\Ra} y = g(x, 0)\), т.е. \(y = f(x)\)
+        \item \(y = f(x) \stackrel{(2)}{\Ra}_{(u, v) = (x, 0)} 0 = F(x, f(x))\)
+    \end{enumerate}
+\end{proof}
+
+\begin{corollary}[О неявном дифференцировании]
+    В условиях теоремы о неявной функции, матрица Якоби \(\frac{\partial f}{\partial x}\) на \(W\) имеем вид 
+    \[\frac{\partial f}{\partial x} = -\left( \frac{\partial F}{\partial y} \right)^{-1}\frac{\partial F}{\partial x}\]
+\end{corollary}
+\begin{proof}
+    \(F(x, f(x)) \equiv 0\) на \(W\). Дифференцируя это равенство, получим
+    \[\underbrace{\left( \frac{\partial F}{\partial x} \frac{\partial F}{\partial y} \right)}_{m \times (m + n)} \underbrace{\left( \begin{array}{c}
+        E \\
+        \frac{\partial f}{\partial x}
+    \end{array} \right)}_{(m + n) \times n} = 0 \Lra \frac{\partial F}{\partial x} + \frac{\partial F}{\partial y}\frac{\partial F}{\partial x} = 0\]
+    Т.к. \(\det \frac{\partial F}{\partial y} \ne 0\) на \(W\), получаем ответ.
+\end{proof}
+
+\begin{note}
+    В условиях теоремы о неявной функции, если \(F \in C^r\), то и неявно заданная функция \(f \in C^r\) на своей области определения.
+\end{note}
+
+\begin{problem}
+    Докажите, что теоремы о неявной функции и обратной функции эквивалентны.
+\end{problem}
+
+\hypertarget{lecture5}{}
+
+\section{Гладкие многообразия и гладкие отображения}
+
+\subsection{Соглашения}
+\begin{enumerate}
+    \item Под окрестностью точки будем понимать любое открытое множество, содержащее эту точку
+    \item Зафиксируем \(r \in \N \cup \{\infty\}\). Под гладкостью функции далее будем понимать принадлежность ее классу \(C^r\), т.е. под ''гладкостью'' понимается \(C^r\)-гладкость
+\end{enumerate}
+
+\subsection{Основные определения}
+\begin{definition}
+    Пусть \(m, n \in \N, m \le n\). Множество \(M\) в \(\R^n\) называется гладким \(m\)-мерным многообразием, если \(\forall p \in M \exists W \ni p\) --- открытое в \(\R^n\), \(\exists V \subset \R^m\) --- открытое и \(\phi: V \ra \R^n\), такое, что
+    \begin{enumerate}
+        \item \(\phi\) --- гладкое
+        \item \(\phi: V \ra M \cap W\) --- гомеоморфизм
+        \item \(rk\;D\phi(x) = m\) на \(V\)
+    \end{enumerate}
+    При этом, \(\phi\) называется локальной параметризацией в окрестности \(p\), а \(\phi^{-1}: M \cap W \ra V\) называется картой.
+\end{definition}
+
+\begin{example}
+    Параметризация плоскости \(\Pi_p\), проходящей через \(p\):
+    \[\left( \begin{array}{c}
+        x \\
+        y \\
+        z
+    \end{array} \right) = \underbrace{\left( \begin{array}{c}
+        x_0 \\
+        y_0 \\
+        z_0
+    \end{array} \right)}_p + u\left( \begin{array}{c}
+        a_1 \\
+        b_1 \\
+        c_1
+    \end{array} \right) + v\left( \begin{array}{c}
+        a_2 \\
+        b_2 \\
+        c_2
+    \end{array} \right)\]
+    Где векторы \(\left( \begin{array}{c}
+        a_1 \\
+        b_1 \\
+        c_1
+    \end{array} \right), \left( \begin{array}{c}
+        a_2 \\
+        b_2 \\
+        c_2
+    \end{array} \right)\) неколлинеарны.
+\end{example}
+
+\begin{example}
+    \[S^2 = \{(x, y, z) | x^2 + y^2 + z^2 = 1\}\]
+    Параметризация сферы в окрестности любой точки \(p \in S^2 \setminus \{Oxz, x \ge 0\}\).
+    \[r: (0, 2\pi)\times\left( -\frac{\pi}{2}, \frac{\pi}{2} \right) \ra \R^3, r(\phi, \psi) = (\cos\phi\cos\psi, \sin\phi\cos\psi, \sin\psi)\]
+    \[Dr = \left( \begin{array}{cc}
+        -\sin\phi\cos\psi & -\cos\phi\sin\psi \\
+        \cos\phi\cos\psi & -\sin\phi \sin\psi \\
+        0 & \cos\psi \\
+    \end{array} \right) \Ra rk\;Dr = 2\]
+\end{example}
+
+\begin{problem}
+    Зафершите доказательство
+\end{problem}
+
+\begin{problem}
+    Докажите, что гладкое \(n\)-мерное многообразие в \(\R^n\) открыто.
+\end{problem}
+
+\begin{example}
+    Пусть \(V\) открыто в \(\R^m\) и функция \(f: V \ra \R^{n - m}\) гладкая. Тогда \(\Gamma_f = \{(x, f(x)) : x \in V\}\) --- гладкое \(m\)-мерное многообразием в \(\R^n\)
+\end{example}
+\begin{proof}
+    Рассмотрим \(\phi: V \ra \R^n, \phi(x) = (x, f(x))\), тогда \(\phi\) --- гладкая, причем \(D\phi = \left( \begin{array}{c}
+        E \\
+        Df
+    \end{array} \right)\) имеет ранг \(m\) и обратное отображение \(\psi: \Gamma_f \ra V\), где \(\psi(x, f(x)) = x\) --- непрерывно. Следовательно, \(\phi\) является параметризацией \(\Gamma_f\) в области каждой точки.
+\end{proof}
+
+\begin{theorem}
+    Следующие утверждения эквивалентны:
+    \begin{enumerate}
+        \item \(M\) --- гладкое \(m\)-мерное многообразие в \(\R^n\)
+        \item \(\forall p \in M \exists U \ni p, W\) --- открытые в \(\R^n\) и диффеоморфизм \(\Phi: U \ra W\), такой, что \(\Phi(M \cap U) = W \cap (\R^m \times \{0\})\) (\(0 \in \R^{n - m}\)).
+        \item \(\forall p \in M \exists U \ni p\) --- открытое в \(\R^n\) и гладкая функция \(F: U \ra \R^{n - m}\), такая, что \(M \cap U = F^{-1}(0)\) и \(rk\;Df(x) = n - m \forall x \in M \cap U\).
+    \end{enumerate}
+\end{theorem}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item[\((1) \Ra (2)\)] Пусть \(\phi: V \ra \R^n\) --- локальная параметризация \(M\) в окрестности \(p = \phi(a)\). По определению, столбцы матрицы \(D\phi(a)\) линейно независимы. Дополним их до базиса. Следовательно, найдется матрица \(A \in M_{n \times (n - m)}\), что \(\det\left( \begin{array}{cc}
+            D\phi(a) & A
+        \end{array} \right)\ne 0\). Рассмотрим \(f: V \times \R^{n - m} \ra \R^n, F(x, y) = \phi(x) + Ay\). Эта функция гладкая и \(DF(a, 0) = \left( \begin{array}{cc}
+            DF(a) & A
+        \end{array} \right)\) --- невырожденная. Тогда по теореме об обратной функции, \(\exists \tilde{V} \subset V \times \R^{n - m}, (a, 0) \in \tilde{V}, \tilde{U}\) --- открытые в \(\R^n\), т.ч. \(F: \tilde{V} \ra \tilde{U}\) является диффеоморфизмом. Пусть \(V_0 = \{x \in \R^n: (x, 0) \in \tilde{V}\}\). Тогда \(V_0\) открыто, а значит, \(\phi(V_0) = F(V_0 \times \{0\})\) открыто в \(M\) (\(\phi: V \ra \phi(V)\) --- гомеоморфизм). Найдется открытое \(U_0 \in \R^n\), т.ч. \(M \cap U_0 = \phi(V_0)\). Положим \(U = U_0 \cap \tilde{U}, W = F^{-1}(U), \Phi = F^{-1}\). Покажем, что \(\Phi\) --- искомое отображение. \(U \ni p, \Phi: U \ra W\) --- диффеоморфизм, как сужение диффеоморфизма \(F^{-1}\). \(\Phi(M \cap U) = \Phi(\phi(V_0)) = F^{-1}(F(V_0 \times \{0\})) = V_0 \times \{0\} = W \cap (\R^m \times \{0\})\)
+        \item[\((2) \Ra (3)\)] Пусть \(\Phi = (\Phi_1, \dots \Phi_n)\) на \(U\), положим \(F = (\Phi_{m + 1}, \dots \Phi_n)\). Докажем, что полученная функция удовлетворяет пункту \((3)\). \(x \in M \cap U \Lra F(x) = 0, rk\;DF = n - m\), т.к. \(\Phi\) --- диффеоморфизм.
+        \item[\((3) \Ra (1)\)] Зафиксируем \(p \in M\). Без ограничения общности, можно считать, что последние \(n - m\) столбцов \(DF(p)\) линейно независимы (иначе заменим \(F\) на композицию с перестановкой координат). Положим \(\R^n = \R^m_x \times \R^{n - m}_y, p = (a, b)\). Тогда \(\frac{\partial F}{\partial y}\) невырождена и \((x, y) \in M \cap U \Lra F(x, y) = 0\). Тогда по теореме о неявной функции, \(\exists V' \ni a\) --- открытое в \(\R^n, \exists V''\) --- открытое в \(\R^{n - m}, \exists V_0 = V' \times V''\) и \(f: V' \ra \R^{n - m}\), т.ч. \(M \cap U = \{(x, y): F(x, y) = 0\} = \{(x, f(x)): x \in V'\} = \Gamma\). Пользуясь предыдущим утверждением, получаем желаемое.
+    \end{enumerate}
+\end{proof}
+
+\begin{example}
+    Покажем, что \(S^{n - 1}\) --- гладкое \((n-1)\)-мерное многообразие в \(\R^n\)
+\end{example}
+\begin{proof}
+    \(F: \R^n \setminus \{0\} \ra \R, F(x) = |x|^2 - 1 \nabla F(x) = 2x \ne 0\). Следовательно, \(S^{n - 1} = F^{-1}(0)\) --- \((n-1)\)-мерное многообразие
+\end{proof}
+
+\subsection{Гладкие отображения}
+\begin{definition}[Гладкость по Милнеру]
+    Пусть \(X \subset \R^n, Y \subset \R^l, f: X \ra Y\). Отображение \(f\) называется гладким, если \(\forall x \in X \exists U\) --- окрестность \(x\) и гладкая функция \(F: U \ra \R^l\), т.ч. \(F|_{X \cap U} = f|_{X \cap U}\). Функция \(F\) называется гладким продолжением \(f\) в окрестности \(x\).
+\end{definition}
+
+\begin{note}
+    Если \(f: X \ra Y, g: Y \ra Z\) --- гладкие по Милнеру, то их композиция тоже гладкая.
+\end{note}
+
+Пусть \(M\) --- гладкое \(m\)-мерное многообразие в \(\R^n\)
+\begin{lemma}
+    Если \(\phi: V \ra \R^n\) --- локальная параметризация в окрестности \(p\), \(\phi(V) = U_0\), то \(\phi^{-1}: U_0 \ra V\) --- гладкое.
+\end{lemma}
+\begin{proof}
+    Из доказательства пункта 2 предыдущей теоремы следует, что диффеоморфизм \(\Phi: U \ra W\) можно выбрать так, что \(M \cap U \subset U_0\). Тогда \(\Phi(q) = (\phi^{-1}(q), 0)\) для всех \(q \in M \cap U\). Сужая \(W\), если необходимо, можно считать, что \(W = W' \times W''\), где \(W'\) --- открытое в \(\R^m, W''\) --- открытое в \(\R^{n - m}\). Рассмотрим \(\pi: W \ra W', \pi(x, y) = x\) --- проектирование на \(W'\). Положим \(f = \pi \circ \Phi: U \ra \R^m\). Тогда \(F\) гладкое и \(F|_{M \cap U} = \phi^{-1}|_{M \cap U}\). Поскольку такие рассуждения можно провести в окрестности каждой точки из \(U_0\), это доказывает, что отображение \(\phi^{-1}\) гладкое.
+\end{proof}
+
+\begin{corollary}
+    Отображение \(\phi^{-1}\) локально липшицево, т.е. \(\forall p \in U_0 \exists C > 0 \exists W_0 \subset U_0\) --- открытое в \(M\) и содержащее \(p\), верно \(\forall x, y \in W_0 |\phi^{-1}(x) - \phi^{-1}(y)| \le C|x - y|\)
+\end{corollary}
+\begin{proof}
+    Рассмотрим гладкое продолжение \(F = (F_1, F_2)\) функции \(\phi^{-1}\) в окрестности \(p\). Тогда \(\frac{\partial F_i}{\partial x_j}\) ограничены в некотором шаре \(B\) с центром \(p\). Тогда \(\exists C > 0 \forall x, y \in B |F(x) - F(y)| \le C|x - y| \Ra \forall x, y \in B \cap U_0 = W_0 |\phi^{-1}(x) - \phi^{-1}(y)| \le C|x - y|\)
+\end{proof}
+
+\begin{definition}
+    Пусть \(M\) --- гладкое многообразие. Отображение \(f: M \ra N\) называется дифференцируемым, если \(f\) --- биекция, \(f, f^{-1}\) --- гладкие.
+\end{definition}
+
+\begin{corollary}
+    Пусть \(\phi: V \ra U_0\) --- параметризация окрестности \(U_0\) в \(M\). Тогда \(\phi\) является диффеоморфизмом
+\end{corollary}
+
+\begin{note}
+    \(U_0:\) --- точке\(q \in U_0\) сопостовляется \((U_1, \dots U_m)\) точки \(\phi^{-1}(q)\) в \(\R^m\)
+\end{note}
+
+\begin{corollary}[О функциях перехода]
+    Пусть \(\phi: V \ra \R^n \psi: W \ra \R^n\) --- локальная параметризация, \(O = \phi(V) \cap \psi(W) \ne \emptyset\). Тогда \(g: \psi^{-1}(O) \ra \phi^{-1}(O), g = \phi^{-1}\circ\psi\) является диффеоморфизмом.
+\end{corollary}
+
+\hypertarget{lecture6}{}
+
+Гладкость можно определить в координатах
+\begin{lemma}
+    Пусть \(M\) --- гладкое многообразие в \(\R^n\), \(f: M \ra \R^l\). Тогда следующие условия эквивалентны:
+    \begin{enumerate}
+        \item \(f\) --- гладкое по Милнеру
+        \item \(\forall p \in M, \phi: V \ra \R^n\) --- параметризации в окрестности точки \(p\), верно \(f \circ \phi\) --- гладкая
+        \item \(\forall p \in M \exists \phi: V \ra \R^n\) --- параметризации в окрестности точки \(p\), такая, что \(f \circ \phi\) --- гладкая
+    \end{enumerate}
+\end{lemma}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item[\(1 \Ra 2\)] Пусть \(\phi: V \ra \R^n\) --- параметризация \(M\) в окрестности точки \(p\) и пусть \(a \in V\). Рассмотрим \(F\) --- гладкое продолжение \(f\) в окрестности \(q = \phi(a)\). Тогда \(f \circ \phi = F \circ \phi\) в некоторой окрестности \(a\). Следовательно, \(f \circ \phi\) гладкая в некоторой окрестности точки \(a\).
+        
+        \item [\(2 \Ra 3\)] Очевидно
+        \item [\(3 \Ra 2\)] \(f = (f \circ \phi) \circ \phi^{-1}\) --- гладкое как композиция гладких отображений.
+    \end{enumerate}    
+\end{proof}
+
+\begin{definition}
+    Пусть \(M, N\) --- гладкие многообразия и гладкое отображение \(f: M \ra \R^l\), такое, что \(f(M) \subset N\). Если \(\phi, \psi\) --- параметризации многообразий в окрестностях \(p, f(p)\) соответственно, то \(\psi^{-1} \circ f \circ \phi\) называется координатным представлением \(f\) в окрестности точки \(p\). Если \(N\) --- открыто в \(\R^l\), то \(\psi\) будем полагать только тождественным.
+\end{definition}
+
+\begin{example}
+    Пусть \(\gamma\) --- гладкая параметризованная кривая на многообразии \(M\), т.е. \(\gamma: I \ra \R^n\), где \(I\) --- интервал, такое, что \(\gamma(I) \subset M\) --- гладкое. Если \(p \in \gamma(I)\) и \(\phi: V \ra \R^n\) --- локальная параметризация \(f\) в окрестности \(p\), то \(\beta = \phi^{-1} \circ \gamma\) --- координатное представление \(\gamma\) в окрестности точки \(p\). Таким образом на гладкую кривую \(\gamma\) можно смотреть локально как на образ гладкой кривой \(\beta\) под действием \(\phi\).
+\end{example}
+
+\begin{definition}
+    Пусть \(M\) --- гладкое \(m\)-мерное многообразие в \(\R^n, p \in M\). Вектор \(v \in \R^n\) называется касательным вектором к \(M\) в точке \(p\), если найдется такая гладкая кривая \(\gamma\), что \(\gamma(0) = p, \gamma'(0) = v\). Множество касательных векторов к \(M\) в точке \(p\) обозначается \(T_pM\) и называется касательным пространством к \(M\) в точке \(p\).
+\end{definition}
+
+\begin{theorem}
+    Пусть \(M\) --- гладкое \(m\)-мерное многообразие в \( \R^n, p \in M\). Справедливы следующие утверждения.
+    \begin{enumerate}
+        \item Пусть \(\phi: V \ra \R^n\) --- параметризация \(M\) в окрестности \(p = \phi(a)\). Тогда \(T_pM = d\phi_a(\R^m)\)
+        \item Пусть \(U \ni p, W\) --- открытые множества в \(\R^n\) и \(\Phi: U \ra W\) --- такой диффеоморфизм, что \(\Phi(M \cap U) = W \cap (\R^m \times \{0\}), 0 \in \R^{n - m}\). Тогда \(T_pM = d\Phi^{-1}_p(\R^m \times \{0\})\)
+        \item Пусть \(U\) --- открыто в \(\R^n, F: U \ra \R^{n - m}\) --- гладкая, т.ч. \(M \cap U = F^{-1}(0)\) и \(rk\;DF = n - m\) на \(M \cap U\). Тогда \(T_pM = \ker dF_p\)
+    \end{enumerate}
+\end{theorem}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item[1, 2.] Пусть \(\phi: V \ra \R^n\) из пункта \(1\), а \(\Phi: U \ra W\) из пункта 2. Покажем, что \(d\phi_a(\R^m) \subset T_pM \subset d\Phi_p^{-1}(\R^m \times \{0\})\). Пусть \(h \in \R^m\). Рассмотрим \(B_r(a) \subset V\). Выберем такое \(\delta\), что \(\delta|h| < r\), тогда \(a + th \in V\) для всех \(|t| < \delta\). Определим \(\gamma(t) = \phi(a + th), t \in (-\delta, \delta)\). Тогда \(\gamma: (-\delta, \delta) \ra M\) --- гладкая, \(\gamma(0) = \phi(a) = p, \gamma'(0) = d\phi_a(h)\), т.е. \(d\phi_a(h) \in T_pM\). Пусть \(v \in T_pM\). Тогда \(\exists \gamma (-\delta, \delta) \ra M\) --- гладкая, такая, что \(\gamma(0) = p, \gamma'(0) = v\). Уменьшая \(\delta\), если это необходимо, можно считать, что \(\gamma(-\delta, \delta) \subset M \cap U\). Следовательно \(\Phi(\gamma(t)) \in \R^m \times \{0\}\) при \(|t| < \delta\), а значит, \(d\Phi_p(v) = d\Phi_{\gamma(0)}(\gamma'(0)) = \left.\frac{d}{dt}\right|_0\Phi(\gamma(t)) \subset \R^m \times \{0\}\), т.е. \(d\Phi_p(v) \in \R^m \times \{0\}\) или \(v \in d\Phi^{-1}_p(\R^m \times \{0\})\). Таким образом доказано желаемое вложение. Поскольку \(d\phi_a, d\Phi^{-1}_p\) --- инъекции, то \(d\phi_a(\R^m)\) и \(d\Phi_p^{-1}(\R^m \times \{0\})\) --- \(m\)-мерные линейные пространства в \(\R^n\). Тогда заключаем, что они равны.
+        \item[3.] Пусть \(v \in T_pM\), тогда \(\exists \gamma: (-\delta, \delta) \ra M: \gamma(0) = p, \gamma'(0) = v, \gamma\) --- гладкая. Следовательно, в некоторой окрестности \(t = 0\) выполнено \(F(\gamma(t)) \equiv 0\). Продифференцируем тождество при \(t = 0\). \(0 = dF_{\gamma(0)}(\gamma'(0)) = dF_p(v)\), т.е. \(v \in \ker dF_p\) или \(T_pM \subset \ker dF_p\). Равнество выполняется из совпадения размерностей.
+    \end{enumerate}    
+\end{proof}
+
+\begin{note}
+    Во втором пункте неважно, мы берем \((d\Phi)^{-1}\) или \(d(\Phi^{-1})\), т.к. \(\Phi\) --- диффеоморфизм.
+\end{note}
+
+Пользуясь известными фактами из линейной алгебры, получим несколько следствий:
+
+\begin{corollary}
+    Отображение \(d\phi_a\) задает линейный изоморфизм между \(\R^m, T_pM\).
+\end{corollary}
+\begin{proof}
+    Пусть \((u_1, u_2, \dots u_m)\) --- координаты в \(\R^m\). Тогда \(\frac{\partial \phi}{\partial u_1}(u) = d\phi_a(e_1), \frac{\partial \phi}{\partial u_2}(u) = d\phi_a(e_2), \dots, \frac{\partial \phi}{\partial u_m}(u) = d\phi_a(e_m)\) образуют базис в \(T_pM\). Если \(h = (h_1, h_2, \dots h_m) \in \R^m\), то по линейности, \(d\phi_a(h) = \sum_{i = 1}^m\frac{\partial \phi}{\partial u_i}(a)h_i\). Причем, геометрический смысл у \(h\) --- \(\gamma = \phi \circ \beta, v = d\phi_a(\beta'(0)) \Ra h = \beta'(0)\).
+\end{proof}
+
+\begin{corollary}
+    Если \(M\) локально задано уравнением \(F(x) = v\) (из пункта 3) и \(F = (F_1, F_2, \dots F_n)\), то \(T_pM\) задается СЛУ:
+    \begin{equation*}
+        \begin{cases*}
+            (\nabla F_1(p), v) = 0 \\
+            (\nabla F_2(p), v) = 0 \\
+            \vdots \\
+            (\nabla F_{n - m}(p), v) = 0
+        \end{cases*}
+    \end{equation*}
+    В частности, векторы \(\nabla F_1(p), \nabla F_2(p), \dots \nabla F_{n - m}(p)\) образуют базис в \(T_pM\).
+\end{corollary}
+
+\begin{example}
+    Пусть \(S^{n - 1}\) --- \(n-1\)-мерная сфера в \(\R^n\), задается уравнением \(F(x) = 0\), где \(F(x) = |x|^2 - 1\). Заметим, что \(\nabla F(x) = 2x \Ra T_xS^{n - 1} = x^{\perp}\).
+\end{example}
+
+\begin{definition}
+    Аффинное пространство \(\Pi_p = p + T_pM\) называется касательной плоскостью к \(M\) в \(p\).
+\end{definition}
+
+Пусть \(\phi: V \ra \R^n\) --- локальная параметризация \(M\) в окрестности \(p = \phi(a)\). Тогда \(p + d\phi_a(u - a) \in \Pi_p\) и \(\phi(u) = p + d\phi_a(u - a) + o(|u - a|), u \ra a\). Следовательно, расстояние от \(x = \phi(u)\) до \(\Pi_p\) есть \(d(x, \Pi_p) = \inf_{y \in \Pi_p} |x - y| \le o(|u - a|), u \ra a\). Но \(\phi^{-1}\) локально Липшицево, т.е. \(|\phi^{-1}(x) - \phi^{-1}(y)| \le C|x - y|\). А значит, \(d(x, \Pi_p) = o(|x - p|), x \ra p\).
+
+\begin{lemma}[О почти изометрии]
+    Для любого \(\epsilon > 0, p \in M\) найдутся окрестности \(U \subset M, W \subset \Pi_p\) и диффеоморфизм \(\psi: U \ra W\), что \((1 - \epsilon)|x - y| \le |\psi(x) - \psi(y)| \le (1 + \epsilon)|x - y|\)
+\end{lemma}
+\begin{proof}
+    Зафиксируем \(\epsilon > 0\). Пусть \(\phi: \tilde{V} \ra \tilde{U}\) --- параметризация в окрестности \(p = \phi(a)\) и \(L(u) = p + d\phi_a(u - a)\). Отображение \(\phi^{-1}\) локально Липшицево. Сужая \(\tilde{U}\), если необходимо, можно считать, что \(|\phi^{-1}(x) - \phi^{-1}(y)| \le C|x - y| \forall x, y \in \tilde{U}\). Известно, что найдется \(V \ni a\) --- окрестность, такая, что \(|\phi(u) - \phi(v) - d\phi_a(u - v)| \le \frac{\epsilon}{C}\). Определим \(U = \phi(V), W = L(V), \psi = L^{-1}\). Тогда \(\psi\) --- диффеоморфизм из \(U\) в \(W\). Пусть \(x = \phi(u), y = \phi(v)\). Имеем: \(|\psi(x) - \psi(y)| = |L(u) - L(v)| = |d\phi_a(u - v)|\). Прибавив \(\phi(u) - \phi(v)\), получим: \(|\psi(x) - \psi(y)| \le |x - y| + \frac{\epsilon}{C}|u - v| \le (1 + \epsilon)|x - y|\). Второе неравенство доказывается аналогично
+\end{proof}
+
+\begin{example}
+    \(M = \{(x, y) : y = |x|\}\). Покажем, что \(M\) --- не одномерное многообразие. Докажем от противного. Пусть \(M\) --- одномерное многообразие, тогда найдется гладкая кривая \(\gamma = (\gamma_1, \gamma_2)\), такая, что \(\gamma(0) = 0, \gamma'(0) \ne 0\). Имеем: \(\gamma_1^2(t) = \gamma_2^2(t)\). Дифференцируя  это равнество, получаем \(2\gamma_1(t)\gamma'_1(t) = 2\gamma_2(t)\gamma_2'(t)\). \(\gamma_2(t) \ge 0 \Ra \) если \(\gamma_2(t) = 0 \Ra \gamma_2'(t) = 0 \Ra \gamma_1'(t) = 0\), противоречие, т.к. \( \gamma'(t) = 0\), противоречие.
+\end{example}
+
+\hypertarget{lecture7}{}
+
+\subsection{Дифференциал гладкого отображения}
+\begin{definition}
+    Пусть \(M\) --- гладкое многообразие, \(f: M \ra \R^l\) --- гладкое отображение. Дифференциал \(df_p: T_pM \ra \R^l\) определяется следующим образом:
+    Пусть \(\gamma(-\delta, \delta)\) --- гладкая кривая, \(\gamma(0) = p, \gamma'(0) = v\), тогда 
+    \begin{equation}
+        df_p(v) = \left.\frac{d}{dt}\right|_{t = 0}f(\gamma(t))
+    \end{equation}
+\end{definition}
+
+\begin{theorem}
+    Пусть \(M\) --- гладкое \(m\)-мерное многообразие в \(\R^n\) и задано гладкое отображение \(f: M \ra \R^l\). Тогда справедливы следующие утверждения:
+    \begin{enumerate}
+        \item (3.1) не зависит от выбора \(\gamma\)
+        \item \(df_p: M \ra \R^l\) линейное
+        \item Если \(N\) --- гладкое многообразие в \(\R^l, f(M) \subset N\), то \(df_p(T_pM) \subset T_qN\), где \(q = f(p)\).
+    \end{enumerate}
+\end{theorem}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item Пусть \(v \in T_pM\). Выебрем гладкую кривую \(\gamma: (-\delta, \delta) \ra M\) так, что \(\gamma(0) = p, \gamma'(0) = v\). Рассмотрим \(F: U \ra \R^l\) --- гладкое продолжение \(f\) в некоторой окрестности \(U\) точки \(p\) в \(\R^n\). Т.к. \(\gamma(t) \in M \cap U\) при малых \(|t|\), то если обозначить через \(DF(p)\) матрицу Якоби отображение \(F\) в точке \(p\), имеем:
+        \[DF(p)v = DF(\gamma(0))\gamma'(0) = \left.\frac{d}{dt}\right|_{t = 0}F(\gamma(t)) = \left.\frac{d}{dt}\right|_{t = 0}f(\gamma(t))\]
+        Заметим, что \(DF(p)v\) не зависит от \(\gamma\), а \(\left.\frac{d}{dt}\right|_{t = 0}f(\gamma(t))\) --- от \(F\).
+
+        \item Линейность следует из того, что \(df_p(v) = DF(p)v\)
+        \item Если \(\gamma: (-\delta, \delta) \ra M\) --- гладкая кривая, то \(\gamma(0) = p, \gamma'(0) = v\), то \(\beta = f \circ \gamma: (-\delta, \delta) \ra N\) --- гладкая кривая, \(\beta(0) = f(p) = q, \beta'(0) = df_p(v)\). Тогда \(df_p(v) \in T_qN\).
+    \end{enumerate}
+\end{proof}
+
+\begin{corollary}
+    Если в пункте 3 дополнительно \(g: N \ra \R^s\) --- гладкое, то справедливо цепное правило:
+    \[d(g \circ f)_p = dg_{f(p)} \circ df_p\]
+\end{corollary}
+\begin{proof}
+    Достаточно продифференцировать функцию \(g(f(t))\) в \(t = 0\) по правилу дифференцирования композиции.
+\end{proof}
+
+\begin{corollary}
+    Пусть \(M\) --- гладкое \(m\)-мерное многообразие, \(N\) --- гладкое \(r\)-мерное многообразие. Если \(f: M \ra N\) --- диффеоморфизм, то \(m = r\).
+\end{corollary}
+\begin{proof}
+    Пусть \(p \in M, q = f(p) \in N\). Обозначим через \(g = f^{-1}: N \ra M\), тогда \(g \circ f = \id_M, f \circ g = \id_N\), откуда:
+    \[dg_q \circ df_p = \id: T_pM \ra T_pM\]
+    \[df_p \circ dg_q = \id: T_qN \ra T_qN\]
+    Следовательно, \(df_p: T_pM \ra T_qN\) --- линейный изоморфизм и \((df_p)^{-1} = dg_p\). Следовательно \(m = \dim T_pM = \dim T_qN = r\).
+\end{proof}
+
+\begin{note}
+    Пусть \(\phi: V \ra \R^n\) --- параметризация \(M\) в окрестности точки \(p = \phi(a)\), \(v \in T_pM\) и \(d\phi_a(h) = v\), тогда 
+    \[df_p(v) = df_p(d\phi_a(h)) = d(f \circ \phi)_a(h)\]
+    В частности, в координатах \(df_p\) задается матрицей Якоби координатного представления \(f \circ \phi\).
+\end{note}
+
+\begin{definition}
+    Пусть \(f: M \ra N\) --- гладкое отображение гладкого многообразия \(M\) в гладкое многообразие \(N\). Точка \(q \in N\) называется регулярным значением \(f\), если \(df_p: T_pM \ra T_qN\) сюръективен \(\forall p \in f^{-1}(q)\).
+\end{definition}
+
+\begin{theorem}[О регулярном значении]
+    Пусть \(f: M \ra N\) --- гладкое отображение гладкого \(m\)-мерного многообразия \(M \subset \R^s\) в гладкое \(n\)-мерное многообразие \(N\), \(n < m\) и \(q \in N\) --- регулярное значение \(f\). Тогда \(P = f^{-1}(q) = \{p \in M: f(p) = q\}\) является гладким \(m - n\) мерным многообразием в \(\R^s\).
+\end{theorem}
+\begin{proof}
+    Зафиксируем \(p \in f^{-1}(q)\) и рассмотрим параметризации \(\phi: U_0 \ra U\) в окрестности \(p\) в \(M\), \(\psi: V_0 \ra V\) в окрестности \(q\) в \(N\). Уменьшая \(U\), если это необходимо, и пользуясь непрерывностью \(f\) в точке \(p\), можно считать, что \(f(U) \subset V\). Тогда определено отображение \(f_0 = \psi \circ f \circ \phi: U_0 \ra V_0\) --- координатное представление \(f\). Пусть \(b = \psi^{-1}(q)\). Если \(a \in U_0\) такая, что \(f_0(a) = b\), то \(\phi(a) = p \in U \cap P\) и отображения \(d\phi_a: \R^m \ra T_pM, df_p: T_pM \ra T_qN, d\psi^{-1}_q: T_qN \ra \R^n\) сюръективны, а значит сюръективна и их композиция, т.е. \(d(f_0)_a: \R^m \ra \R^n\). Следовательно, \(b\) --- регулярное значение \(f_0\). Множества \(f^{-1}_0(b) = \{x \in U_0: f(\phi(x)) = q\} = \phi^{-1}(U \cap P)\) является \(m - n\) мерным гладким многообразием в \(\R^s\). Уменьшая \(U_0\), если это необходимо, найдем открытые \(W \subset \R^{m - n}\) и параметризацию \(\alpha: W \ra \phi^{-1}(U \cap P)\). Следовательно, \(\phi \circ \alpha: W \ra U \cap P\) --- параметризация \(P\) в окрестности \(p\).
+\end{proof}
+
+\begin{problem}
+    Докажите, что \(T_pP = \ker df_p\)
+\end{problem}
+
+\section{Экстремумы функций многих переменных}
+\subsection{Безусловный экстремум}
+Пусть \(f: U \ra \R\), где \(U\) --- открыто в \(\R^n\)
+\begin{definition}
+    Точка \(a \in U\) называется точкой локального максимума \(f\), если \(\exists \delta > 0: \forall x \in \stackrel{\circ}{B_{\delta}}(a) (f(x) \le f(a))\). Аналогично определяются локальный минимум, и локальные строгие максимум и минимум (если соответствующий знак строгий).
+\end{definition}
+
+\begin{note}
+    Все такие точки называются точками локального экстремума
+\end{note}
+
+\begin{theorem}
+    Если \(a\) --- точка экстремума \(f\) и существует \(\frac{\partial f}{\partial x_k}(a)\), то \(\frac{\partial f}{\partial x_k}(a) = 0\)
+\end{theorem}
+\begin{proof}
+    Заметим, что \(a_k\) --- экстремум функции \(\phi(t) = f(a_1, a_2, \dots a_{k - 1}, t, a_{k + 1}, \dots a_n)\). По условию, \(\phi(t)\) дифференцируема в точке \(a\), поэтому по теореме Ферма, \(0 = \phi'(a_k) = \frac{\partial f}{\partial x_k}(a) = 0\)
+\end{proof}
+
+\begin{corollary}
+    Если \(a\) --- точка экстремума функции \(f\) и \(f\) дифференцируема в точке \(a\), то \(df_a = \nabla f(a) = \vec{0}\)
+\end{corollary}
+
+\begin{definition}
+    Точка \(a \in U\) называется стационарной точкой функции \(f\), если \(f\) дифференцируема в этой точке и \(df_a = 0\).
+\end{definition}
+
+\begin{reminder}
+    Если \(f \in C^2(U)\), то \(d^2f_a(h) = \sum_{i = 1}^n\sum_{j = 1}^n \frac{\partial^2 f}{\partial x_i \partial x_j}(a)h_ih_j\) --- квадратичная форма в \(\R^n\) относительно компонент вектора \(h\).
+\end{reminder}
+
+\begin{definition}
+    Матрица \(d^2f_a\) обозначается через \(Hf(a)\), причем
+    \[Hf(a) = \left( \frac{\partial^2 f}{\partial x_i \partial x_j}\right)\]
+    Называется матрицей Гессе
+\end{definition}
+
+\begin{theorem}
+    Пусть \(f \in C^2(U)\) и \(a\) --- стационарная точка \(f\). Тогда справедливы следующие утверждения:
+    \begin{enumerate}
+        \item Если \(d^2f_a(h) > 0 \forall h \ne 0 \Ra a\) --- точка строгого минимума
+        \item Если \(d^2f_a(h) < 0 \forall h \ne 0 \Ra a\) --- точка строгого максимума
+        \item Если \(\exists h_+, h_- \in \R^n\), такие, что \(d^2f_a(h_+) > 0, d^2f_a(h_-) < 0\), то \(a\) не является точкой экстремума функции \(f\).
+    \end{enumerate}
+\end{theorem}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item По формуле Тейлора с остаточным членом в форме Пеано, имеем:
+        \[f(a + h) = f(a) + \frac{1}{2}d^2f_a(h) + \alpha(h)|h|^2 = f(a) + \frac{1}{2}|h|^2\left( d^2f_a\left( \frac{h}{|h|} \right) + \alpha(h)\right)\]
+        Где \(\alpha(h) \ra 0, h \ra 0\). Функция \(d^2f_a\left( h \right)\) --- непрерывная функция относительно \(h\) и \(S = \{h \in \R^n: |h| = 1\}\) --- компакт в \(\R^n\). Тогда по теореме Вейшерштрасса, \(\exists m = \inf_{|h| = 1} d^2f_a(h) > 0\). Выберем \(\delta > 0\) так, что \(|\alpha(h)| \le \frac{m}{4}|h|^2 \forall h: 0 < |h| < \delta\). Тогда \(f(a + h) - f(a) \ge \frac{m}{4} > 0 \forall h \in \stackrel{\circ}{B_{\delta}}(0)\). Это доказывает, что \(a\) --- точка строгого локального минимума.
+
+        \item Доказывается аналогично
+        \item По формуле Тейлора, 
+        \[f(a + th_+) = f(a) + t^2\left( \frac{1}{2}d^2f_a(h_+) + \alpha(th_+)|h_+|^2 \right)\]
+        Заметим, что \(\lim_{t \ra 0} \frac{1}{2}d^2f_a(h_+) + \alpha(th_+)|h_+|^2 > 0\), поэтому \(\exists \delta_1 > 0: f(a + th_+) - f(a) > 0 \forall t: 0 < |t| < \delta_1 \). Аналогично, \(\exists \delta_2 > 0: f(a + th_-) - f(a) < 0 \forall t: 0 < |t| < \delta_2 \). Выражение \(f(x) - f(a)\) не сохраняет знак ни в какой окрестности точки \(a\), т.е. \(a\) не является точкой локального экстремума функции \(f\)
+    \end{enumerate}
+\end{proof}
+
+\begin{note}
+    Если \(d^2f_a\) как квадратичная форма полуопределена, то теорема не позволяет сделать вывод о наличии экстремума в точке \(a\).
+\end{note}
+
+\begin{example}
+    \(f: \R^2 \ra \R, f(x, y) = x^2 + y^n, n \in \N, n \ge 3\). Тогда \(d^2f_O(h_1, h_2) = 2h_1^2\) --- положительно полуопределенная квадратичная форма. Однако при четных \(n\), \(O\) является точка строгого минимума \(f\), а при нечетных --- не является.
+\end{example}
+
+\begin{note}
+    Для исследования формы на определенность можно либо привести ее к диагональному виду, либо воспользоваться критерием Сильвестра.
+\end{note}
+
+\subsection{Условный экстремум}
+Пусть \(U \subset \R^n\) --- открыто и задана функция \(g: U \ra \R^m, g = (g_1, g_2, \dots g_m), 0 < m < n\). Изучим \(f: U \ra \R\) на экстремум на множестве нулей \(M = g^{-1}(0)\).
+\begin{definition}
+    Точка \(p \in M\) называется точкой локального условного максимума функции \(f\) на множестве \(M\), если \(\exists \delta > 0 \forall x \in \stackrel{\circ}{B}_\delta(p) \cap M (f(x) \le f(p))\). Аналогично определяются точки других типов условного экстремума.
+\end{definition}
+
+\begin{theorem}[Лагранж]
+    Пусть \(f \in C^1(U, g \in C^1(U, \R^n)), rk\;Dg(p) = m\). Если \(p\) --- точка условного экстремума \(f\) на \(M\), то \(\exists \lambda_1, \lambda_2, \dots \lambda_m \in \R: \nabla f(p) = \sum_{k = 1}^m \lambda_k \nabla g_k(p)\).
+\end{theorem}
+\begin{proof}
+    Т.к. \(rk\;Dg(p) = m\), то матрица Якоби имеет минор порядка \(m\), \(\ne 0\). Учитывая, что \(g \in C^1\), то этот минор будет отличен от \(0\) в некоторой окрестности точки \(p\). Б.О.О. можно считать, что \(rk\;Dg(x) = m \forall x \in U\). Тогда \(M\) является гладким \(m - n\) мерным многообразием в \(\R^n\). Пусть \(v \in T_pM\). Рассмотрим гладкую кривую \(\gamma: (-\delta, \delta) \ra M\), такую, что \(\gamma(0) = p, \gamma'(0) = v\). Функция \(f \circ \gamma\) имеет экстремум в точке \(t = 0\), поэтому
+    \[0 = \left.\frac{d}{dt}\right|_{t = 0}f(\gamma(t)) = (\nabla f(p), v)\]
+    То есть \(\nabla f(p) \in (T_pM)^{\perp}\). Т.к. \(\nabla g_1(p), dots \nabla g_m(p)\) образуют базис в \((T_pM)^{\perp}\), поэтому такие \(\lambda_1, \lambda_2, \dots \lambda_m\) найдутся
+\end{proof}
+
+\hypertarget{lecture8}{}
+
+\begin{note}
+    Из Теоремы Лагранжа следует метод множителей Лагранжа: если \(p\) --- точка условного экстремума \(f\) на \(M\), то \(p\) --- стационарная точка функции Лагранжа:
+    \[L: U \ra \R, L(x) = f(x) - \sum_{i = 1}^n \lambda_i g_i(x)\]
+\end{note}
+
+\begin{theorem}
+    Пусть \(f \in C^2(U), g \in C^2(U, \R^m), rk\;Dg(p) = m\), где \(p\) --- стационарная точка функции Лагранжа, соответствующая множителям \(\lambda_1, \dots \lambda_n\).
+    \begin{enumerate}
+        \item Если \(d^2L_p(h) > 0 \forall h \in T_pM \setminus \{0\}\), то \(p\) --- точка условного минимума \(f\) на \(M\)
+        \item Если \(d^2L_p(h) < 0 \forall h \in T_pM \setminus \{0\}\), то \(p\) --- точка условного максимума \(f\) на \(M\)
+        \item Иначе \(p\) не является точкой условного экстремума.
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    Пусть \(x = \phi(y)\) --- локальная параметризация многообразия \(M\) в окрестности \(p = \phi(a)\). Точка \(p\) --- точка условного минимума (максимума) \(f\) на \(M\) тогда и только тогда, когда \(a\) --- точка безусловного минимума (максимума) функции \(H = f \circ \phi\). Функции \(f, L\) совпадают на \(M\), поэтому \(H = L \circ \phi\). Поскольку \(\forall v \in \R^{n - m}\) выполнено:
+    \[dH_a(v) = dL_p(d\phi_a(v)) = 0\]
+    Последнее равенство выполняется в силу того, что \(p\) --- стационарная точка функции \(L\). Тогда \(a\) --- стационарная точка функции \(H\). Найдем \(d^2H_a\)
+    \[\frac{\partial H}{\partial y_k} = \sum_{i = 1}^n \frac{\partial L}{\partial x_i} \frac{\partial \phi_i}{\partial y_k}\]
+    \[\frac{\partial^2 H}{\partial y_i \partial y_k} = \sum_{i = 1}^n \sum_{j = 1}^n \frac{\partial^2 L}{\partial x_j \partial x_i}\cdot \frac{\partial \phi_j}{\partial x_l}\cdot \frac{\partial \phi_i}{\partial x_k} + \sum_{i = 1}^n \frac{\partial L}{\partial x_i} \frac{\partial^2 \phi_i}{\partial y_l \partial y_k}\]
+    Т.к. \(p\) --- стационарная точка \(L\), то \(\frac{\partial L}{\partial x_i}(p) = 0\) для всех \(i\). Но тогда
+    \[\frac{\partial^2 H}{\partial y_l \partial y_k}(a) = \sum_{i = 1}^n \sum_{j = 1}^n \frac{\partial^2 L}{\partial x_j \partial x_i}(p)\cdot \frac{\partial \phi_j}{\partial x_l}(a)\cdot \frac{\partial \phi_i}{\partial x_k}(a)\]
+    \[d^2H_a = \sum_{k = 1}^{n - m}\sum_{l = 1}^{n - m}\frac{\partial^2 H}{\partial y_l \partial y_k}(a)v_lv_k = \sum_{k = 1}^{n - m}\sum_{l = 1}^{n - m}\sum_{i = 1}^n \sum_{j = 1}^n \frac{\partial^2 L}{\partial x_j \partial x_i}(p)\cdot \frac{\partial \phi_j}{\partial x_l}(a)\cdot \frac{\partial \phi_i}{\partial x_k}(a)v_kv_l = \]
+    \[\sum_{i = 1}^n \sum_{j = 1}^n \frac{\partial^2 L}{\partial x_j \partial x_i}(p)\left( \sum_{k = 1}^{n - m} \frac{\partial \phi_i}{\partial y_l}v_l \right)\left( \sum_{k = 1}^{n - m} \frac{\partial \phi_j}{\partial y_k}v_k \right) = d^2L_p(d\phi_a(v))\]
+    Отметим, что \(d\phi_a\) --- изоморфизм \(\R^{n - m}\) на \(T_pM\), причем \(\ker d\phi_a = \{0\}\).
+\end{proof}
+
+\begin{definition}
+    Назовем шар \(B_r(x)\) в \(\R^n\) рациональным, если \(r \in \Q, x \in \Q^n\).
+\end{definition}
+
+\begin{note}
+    Любое открытое множество в \(\R^n\) представимо в виде объединения рациональных шаров, которые в нем содержатся
+\end{note}
+
+\begin{lemma}
+    Если \(M\) --- гладкое многообразие в \(\R^n\), то существует его покрытие \(\{U_i\}\) координатными окрестностями (т.е. образами параметризаций).
+\end{lemma}
+\begin{proof}
+    Рассмотрим \(\{U_p\}_{p \in M}\) --- произвольное покрытие \(M\) координатными окрестностями. \(\forall p \exists \tilde{U}_p\) --- открытое в \(\R^n: \tilde{U}_p \cap M = U_p\). Положим \(\{B_j\}: \forall j \exists p = p(j) (B_j \cap M \subset U_p) \Ra \{B_j \cap M\}\). Для каждого \(j\) выберем ровно одно \(p_j\): \(B_j \cap M \subset U_p\). Следовательно, \(\{U_p\}\) образует искомое покрытие.
+\end{proof}
+
+\section{Интегрирование на многообразиях}
+\subsection{Мера на многообразии}
+Пусть \(M\) --- гладкое \(m\)-мерное многообразие в \(\R^n, m < n\).
+
+\begin{definition}
+    Множество \(E \subset M\) называется измеримым, если \(\forall \phi: V \ra U\) --- параметризации окрестности \(U\) в \(M\), множество \(\phi^{-1}(E \cap U)\) измеримо по Лебегу в \(\R^m\).
+\end{definition}
+\begin{note}
+    Для измеримости \(E\) достаточно проверить измеримость по Лебегу множеств \(\phi_j^{-1}(E \cap U_j)\) для счетного набора параметризаций \(\{\phi_j\}\), образы \(U_j\) которых покрывают \(M\).
+\end{note}
+\begin{proof}
+    Пусть \(W\) --- образ параметризации \(\psi\). Имеем: \(W = \bigcup_{j} (W \cap U_j) \Ra \psi^{-1}(E \cap W) = \bigcup_{j} \psi^{-1}(E \cap W \cap U_j)\). Для любого \(j\), \(\phi^{-1}_i(E \cap W \cap U_j) = \phi_i^{-1}(E \cap U_j) \cap \phi^{-1}_j(W)\) измеримо в \(\R^m\), поэтому \(\psi^{-1}(E \cap W \cap U_j) = \psi^{-1} \circ \phi_j(\phi_j^{-1}(E \cap W \cap U_j))\) --- измеримо в \(\R^n\) как образ измеримого множества под действием диффеоморфизма. \(\mathcal{A}_M = \{E \subset M | E\text{ измеримы}\}\)
+\end{proof}
+
+\begin{lemma}
+    \(\mathcal{A}_M\) --- \(\sigma\)-алгебра, содержащая \(\mathcal{B}(M)\)
+\end{lemma}
+\begin{proof}
+    Пусть \(E \in \mathcal{A}_M\) измеримо и \(\phi: V \ra U\) --- параметризация \(U\) в \(M\). Тогда:\(\phi^{-1}(E \cap U)\) измеримо в \(\R^n\). Имеем: \(\phi^{-1}(E^c \cap U) = \phi^{-1} \setminus \phi^{-1}(E \cap U)\). Пусть \(\{E_j\}_{j = 1}^\infty \subset \mathcal{A}_M\) --- измеримы в \(\mathcal{A}_M\). Тогда: \(\phi^{-1}\left( \left( \bigcup E_i \right) \cap U \right) = \phi^{-1}\left( \bigcup E_j \cap U \right) = \bigcup \phi^{-1}(E_j \cap U)\) --- измеримо в \(\R^n \Ra \bigcup E_j \in \mathcal{A}_M\). Очевидно, что \(M \subset \mathcal{A}_M\). Пусть \(O\) --- открытое в \(M \Ra \phi^{-1}(O \cap U)\) --- открытое в \(\R^m \Ra O \in \mathcal{A}_M \Ra \mathcal{B}(M) \subset \mathcal{A}_M\).
+\end{proof}
+
+\begin{definition}
+    Набор \(\{E_j\}_{j = 1}^\infty\) назовем счетным измеримым разбиением \(M\), соответствующим набору параметризаций \(\{\phi_i\}_{i = 1}^\infty\), если \(M = \bigsqcup_{i = 1}E_i\), причем \(E_i\) измеримы и \(\forall i: E_i \in U_i\) --- образе параметризации \(\phi_i\).
+\end{definition}
+
+\begin{note}
+    Измеримое разбиение существует
+\end{note}
+\begin{proof}
+    \(M = \bigcup_{j = 1}^\infty U_j\) --- образы параметризаций. Положим \(E_1 = U_1\). \(E_i = U_i \setminus \bigcup_{j = 1}^{i - 1}U_j\).
+\end{proof}
+
+В случае аффинных пространств на \(\mathcal{A}_M\) можно каноническим образом ввести меру. Пусть \(\Pi\) --- \(m\)-мерное подпространство в \(\R^n\). Тогда \(\exists \Phi\) --- движение, такое, что \(\Phi(\R^m) = \Pi\). Для \(A \in \mathcal{A}_\Pi\) положим \(\mu_\Pi(A) = \mu(\Phi^{-1}(A))\). Покажем, что это определение корректно. Пусть \(\psi\) --- движение в \(\R^n\), такое, что \(\psi(\R^m) = \Pi\). Тогда \(H = \psi^{-1} \circ \Phi |_\R\) --- движение в \(\R^m\) и \(\psi^{-1}(A) = H(\Phi^{-1}(A)) \forall A \subset \R^m\). Т.к. движение сохраняет меру в \(\R^n\), то \(\mu(\psi^{-1}(A)) = \mu(\Phi^{-1}(A)) \forall A \in \mathcal{A}_M\). Тогда мера \(\mu_\Pi\) называется мерой Лебега на подпространстве \(\Pi\).
+
+\begin{lemma}
+    Пусть \(\Pi = L(\R^m)\) где \(L(x) = Ax + b\) --- аффинное отображение, причем \(rk\;A = m\). Тогда \(\mu_\Pi(L(E)) = \sqrt{\det A^TA}\mu(E) \forall E\) --- измеримого в \(\R^m\).
+\end{lemma}
+\begin{proof}
+    Пусть \(\Pi_p\) --- касательная плоскость к \(M\) в точке \(p\). Если \(\phi\) --- параметризация \(M\) в окрестности \(p = \phi(a)\), то \(\Pi_p = L(\R^m)\), где \(L(u) = p + d\phi_a(u - a)\). Пусть \(a = (a_1, \dots a_m), h > 0, Q_h = [a_1, a_1 + h) \times \dots \times [a_m, a_m + h)\). Возьмем за основу, что \(\nu\) на \(M\) должна сохраняться при изометриях. По лемме о почти изометрии, имеем:
+    \[\lim_{n \ra 0} \frac{\nu(\phi(Q_n))}{\mu_\Pi(L(Q_n))} = 1\]
+    \[\nu(\phi(Q_n)) \sim_{n \ra 0} \sqrt{g_\phi(a)}h^m\]
+    Где \(g_\phi = G_\phi, G_\phi = D\phi(a)^TD\phi(a)\) --- матрица Грама.
+\end{proof}
+
+\hypertarget{lecture9}{}
+
+\begin{theorem}
+    Существует единственная мера \(\nu\) на \(\mathcal{A_M}\), такая, что \(\forall\) параметризации \(\phi: V \ra U\) окрестности \(U\) в \(M\) и любого измеримого \(A \subset U\) выполнено:
+    \[
+        \nu(A) = \int_{\phi^{-1}(A)}\sqrt{g_\phi} d \mu
+    \]
+\end{theorem}
+\begin{proof}
+    Определим \(\nu\) на \(\sigma\)-алгебре измеримых множеств \(\mathcal{A_U}\) таким образом, потом докажем, что продолжение \(\nu\) на \(\mathcal{A_M}\) единственно.
+    \begin{enumerate}
+        \item Покажем, что \(\nu(A)\) не зависит ни от координатной окрестности \(A\), ни от ее параметризации. Пусть \(\phi: V \ra \R^n, \psi: W \ra \R^n\) --- локальные параметризации, \(A \subset O = \phi(V) \cap \psi(W)\). Тогда \(\Phi = \psi^{-1} \circ \phi: \phi^{-1}(O) \ra \psi^{-1}(O)\) --- диффеоморфизм. Обозначим матрицу Якоби \(\Phi\) через \(S\), тогда дифференцируя равенство \(\phi = \psi \circ \Phi\), имеем:
+        \[D\phi = D\psi \cdot S\]
+        Тогда \(G_\phi = S^TG_\psi S, g_\phi = g_\psi(\det S)^2\). Теперь независимость следует из теоремы о замене переменной в кратном интеграле:
+        \[\int_{\psi^{-1}(A)}\sqrt{g_\psi}dy =_{y = \Phi x} \int_{\Phi^{-1}(\psi^{-1}(A))}\sqrt{g_\psi \circ \Phi}|\det S|dx = \int_{\phi^{-1}(A)}\sqrt{g_\phi}dx\]
+
+        \item Пусть \(\{E_i\}_{i = 1}^\infty\) --- измеримое координатное разбиение \(M\). Для \(A \in \mathcal{A_M}\) определим \(A_i = A \cap E_i\). Тогда \(A_i\) измеримо и лежит в образе некоторой параметризации и \(A = \bigsqcup+{i = 1}^\infty A_i\). Любая мера на \(\nu\) на \(\mathcal{A_M}\) удовлетворяет равенству \(\nu(A) = \sum_{i = 1}^\infty \nu(A_i)\). Поскольку \(\nu(A_i)\) определены одназначно, то и \(\nu(A)\) на \(A\) также определено однозначно. Это дает способ продолжения \(\nu\) с \(A_U\) на \(A_M\)
+        
+        \item Покажем, что \(\nu\) является мерой. Пусть дано измеримое разбиение \(A = \bigsqcup_{k = 1}^\infty B_k\). Определим \(B_{ki} = B_k \cap E_i\). Тогда \(B_k = \bigsqcup_{i = 1}^\infty B_{ki}, A_i = A \cap E_i = \bigsqcup_{k = 1}^\infty B_k \cap E_i = \bigsqcup_{k = 1}^\infty B_{ki}\). Поскольку интеграл Лебега счтено аддитивен, имеем:
+        \[\nu(A_i) = \sum_{k = 1}^\infty \nu(B_{ki})\]
+        Меняя порядок суммирования, имеем:
+        \[\nu(A) = \sum_{i = 1}^\infty \nu(A_i) = \sum{i = 1}^\infty \sum_{k = 1}^\infty \nu(B_{ki}) = \sum{k = 1}^\infty \sum_{i = 1}^\infty \nu(B_{ki}) = \sum_{k = 1}^\infty B_k\]
+    \end{enumerate}
+    В частности, показана независимость продолжения \(\nu\) от выбора \(\{E_i\}_{i = 1}^\infty\)
+\end{proof}
+
+\begin{definition}
+    Мера \(\nu\) называется поверхностной мерой на \(M\). 
+\end{definition}
+
+\begin{definition}
+    Пусть \(E \in \mathcal{A_M}, f: E \ra \overline{\R}\). Функция \(f\) называется измеримой, если \(\{p \in E: f(p) < a\} \in \mathcal{A_M}\) для любого \(a\).
+\end{definition}
+
+\begin{lemma}
+    Пусть \(f: E \ra \overline{\R}\). Следующие условия эквивалентны:
+    \begin{enumerate}
+        \item \(f\) измерима
+        \item \(f \circ \phi\) измерима на \(\phi^{-1}(E)\) для любой параметризации \(\phi\)
+        \item \(f \circ \phi_j\) измерима на \(\phi_j^{-1}(E)\) для счетного набора параметризаций \(\phi_j\), образы которых покрывают \(M\)
+    \end{enumerate}
+\end{lemma}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item[\((1) \Ra (2)\)] Вытекает из равенства \(\{x \in \phi^{-1}(E) | f(\phi(x)) < a\} = \phi^{-1}(\{p \in E | f(p) < a\})\).
+        \item[\((2) \Ra (3)\)] Очевидно
+        \item[\((3) \Ra (1)\)] Пусть \(\{U_j\}_{j = 1}^\infty\) --- набор координатных окрестностей, покрывающих \(M\), причем \(U_j\) --- образ параметризации \(\phi_j\). Пусть \(F = f^{-1}([-\infty, a))\). По равенству из первого следствия получаем, что \(\phi^{-1}_j(F \cap U_j)\) измеримо \(\forall j\). Тогда результат следует по первому замечанию после определения измеримости.
+    \end{enumerate}
+\end{proof}
+\subsection{Интеграл на многообразии}
+\begin{definition}
+    Пусть функция \(f: A \ra [0, +\infty]\) измерима, \(\{E_i\}_{i = 1}^\infty\) --- измеримое координатное разбиение \(M\), соответствующее набору параметризаций \(\{\phi_i\}_{i = 1}^\infty\). Определим
+    \[\int_A fd\nu = \sum_{i = 1}^\infty \int_{\phi^{-1}(A \cap E_i)} f \circ \phi_i \sqrt{g_{\phi_i}}d\mu\]
+\end{definition}
+
+\begin{note}
+    Определение не зависит ни от выбора измеримого координатного разбиения, ни от выбора параметризаций \(\phi_i\). Для этого достаточно в доказательстве теоремы заменить \(\sqrt{g_\phi}\) на \(f \circ \phi\sqrt{g_\phi}\).
+\end{note}
+
+\begin{definition}
+    Функция \(f: A \ra \overline{\R}\) называется интегрируемой, если \(f: A \ra \overline{\R}\) измерима и \(\int_{A} f^\pm d\nu < \infty\). В этом случае
+    \[\int_A f d \nu = \int_A f^+ d \nu - \int_A f^- d \nu\]
+\end{definition}
+
+\subsection{Примеры}
+
+\begin{example}
+    Пусть \(I \subset \R\) --- интервал, \(\gamma: I \ra \R^n\) --- гладкая с \(\gamma'(t) \ne 0\) на \(I\). Если \(\gamma: I \ra \gamma(I)\) --- гомеоморфизм, то \(\Gamma = \gamma(I)\) является гладким одномерным многообразием в \(\R^n\), покрытым образом одной параметризации \(\gamma\). Если \(f: \Gamma \ra \overline{\R}\) неотрицательно измеримая или интегрируема, то:
+    \[\int_{\Gamma}f ds = \int_I f(\gamma(I))\gamma'(t)dt\]
+
+    Такой интеграл называется криволинейным интегралом I рода. Если \(\tilde{\Gamma} = \gamma([a, b])\), то \(\nu(\tilde{\Gamma}) = \int_a^b |\gamma'(t)|dt\) --- длина кривой \(\gamma|_{[a, b]}\)
+\end{example}
+
+\begin{example}
+    Пусть \(V \subset \R^2\) --- открыто, \(r: V \ra \R^n, rk\;Dr = 2\) на \(V\), \(r: V \ra r(V)\) --- гомеоморфизм, то \(M = r(V)\) является 2-мерным многообразием, покрытым образом одной параметризации \(r\), причем:
+    \[(Dr)^TDr = \left( \begin{array}{cc}
+        (r'_u, r'_u) & (r'_u, r'_v) \\
+        (r'_v, r'_u) & (r'_v, r'_v) \\
+    \end{array} \right) = \left( \begin{array}{cc}
+        E & F \\
+        F & G
+    \end{array} \right)\]
+
+    Если \(f: M \ra \overline{\R}\) неотрицательно измерима или интегрируема, то, если положить \(S = \nu\)
+    \[\int_M f dS = \iint_V f(r(u, v))\sqrt{EG - F^2}dudv\]
+    Такой интеграл называется криволинейным интегралом I рода.
+\end{example}
+
+\begin{example}
+    Пусть \(U \subset \R^{n - 1}\) --- открыто, \(h: U \ra \R\) гладкая, тогда \(M = \{(x, h(x)) | x \in U\}\) --- гладкое \((n - 1)\)-мерное многообразие в \(\R^n\), покрытое образом одной параметризации \(\phi: U \ra M, phi(x) = (x, h(x))\). Имеем:
+    \[D\phi = \left( \begin{array}{c}
+        E_{n - 1} \\
+        \nabla h^T
+    \end{array} \right), (D\phi)^TD\phi = \left( \begin{array}{cc}
+        E_{n - 1} & \nabla h
+    \end{array} \right)\left( \begin{array}{c}
+        E_{n - 1} \\
+        \nabla h^T
+    \end{array} \right) = E_{n - 1} + \nabla h(\nabla h)^T\]
+    \[\det G_\phi = 1 + |\nabla h|^2\]
+    Если \(f: M \ra \overline{\R}\) неотрицательно измерима или интегрируема, то
+    \[\int_M f d \nu = \int_U f(x, h(x))\sqrt{1 + \sum_{i = 1}^{n - 1}\left( \frac{\partial h}{\partial x_i} \right)^2}d\mu\]
+\end{example}
+
+\subsection{Площадь поверхности сферы}
+\begin{example}
+    Пусть \(M = \{x \in \R^n: |x| = r, x_n > 0\}\) --- верхняя полусфера. Тогда \(M\) --- график функции \(h(y) = \sqrt{r^2 - |y|^2}\). Имеем:
+    \[\frac{\partial h}{\partial x_i} = \frac{x_i}{\sqrt{r^2 - |y|^2}}, 1 + \sum_{i = 1}^{n - 1}\left( \frac{\partial h}{\partial x_i} \right)^2 = \frac{r^2}{r^2 - |y|^2}\]
+    \[\int_M f d\nu = \int_{B_r(0)}f(y, \sqrt{r^2 - |y|^2})\frac{r}{\sqrt{r^2 - |y|^2}}dy = \int_{B_r(0)}f(rt, r\sqrt{1 - |t|^2})\frac{r^{n - 1}}{\sqrt{1 - |t|^2}}dt\] 
+    В частности,
+    \[\nu(M) = r^{n - 1}\int_{B_1(0)}\frac{dt}{\sqrt{1 - |t|^2}} = r^{n - 1}\nu(M_1)\]
+    Где \(M_1\) --- единичная полусфера.
+\end{example}
+
+\begin{lemma}
+    Пусть \(A \in \mathcal{A_M}\). Тогда следующие утверждения эквивалентны:
+    \begin{enumerate}
+        \item \(\nu(A) = 0\)
+        \item \(\mu(\phi^{-1}(A \cap U)) = 0\) для любой параметризации \(\phi\) (здесь \(U\) --- образ \(\phi\))
+        \item \(\mu(\phi_j^{-1}(A \cap U)) = 0\) для счетного набора параметризаций \(\phi_j\) (здесь \(U_j\) --- образ \(\phi_j\)), образы которых покрывают \(M\).
+    \end{enumerate}
+\end{lemma}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item[\((1) \Ra (2)\)] Поскольку \(A \cap U\) измерима, то \(0 = \nu(A) \ge \nu(A \cap U) = \int_{\phi^{-1}(A \cap U)}\sqrt{g_\phi}d\mu\). Т.к. \(\sqrt{g_\phi}\) положительно, то \(\phi^{-1}(A \cap U)\) имеет меру \(0\).
+        \item[\((2) \Ra (3)\)] Очевидно
+        \item[\((3) \Ra (1)\)] Имеем \(A = A \cap \bigcup_{j = 1}^\infty U_j = \bigcup_{j = 1}^\infty (A \cap U_j)\). По условию, \(\mu(\phi_j^{-1}(A \cap U_j)) = 0 \Ra \nu(A \cap U_j) = 0\). По счетной аддитивности, \(\nu(A) = 0\).
+    \end{enumerate}
+\end{proof}
+
+\begin{corollary}
+    Пусть \(P \subset M\) --- гладкое \(k\)-мерное многообразие, \(k < m\). Тогда \(\nu(P) = 0\) (\(\nu\) --- поверхностная мера на \(M\).
+\end{corollary}
+
+\begin{definition}
+    Множество \(M \subset \R^n\) называется кусочно-гладким \(m\)-мерным многообразием, если \(M = N \cup \bigcup_{i = 1}^\infty P_i\), где \(N, P_i\) --- гладкие многообразия, \(\dim N = m, \dim P_i < m\)
+\end{definition}
+
+\hypertarget{lecture10}{}
+
+\begin{theorem}[Формула коплощади]
+    Пусть \(f: \R \ra \R (n > 1)\) интегрируемо по Лебегу, тогда для почти всех \(r \in \R_+\) функция \(f\) интегрируема по сфере \(S_r(0) = \{x \in \R^n : |x| = r\}\) и справедлива формула:
+    \[\int_{\R^n} f d\mu = \int_0^{+\infty}\left( \int_{S_r(0)} f(x)d\nu(x) \right) d\mu(r)\]
+\end{theorem}
+\begin{proof}
+    Введем обозначения \(x = (y, x_n), y = (y_1, \dots y_{n - 1}), H_{\pm} = \{x \in \R^n, \pm x_n > 0\}, B = \{y \in \R^{n - 1}: |y| < 1\}\). Рассмотри отображение \(\phi: B \times \R_+ \ra H_+, \phi(y, r) = (ry, r\sqrt{1 - |y|^2})\). Отображение \(\phi\) обратимо, причем \(\phi^{-1}(x) = \left( \frac{y}{|x|}, |x| \right)\). Следовательно, \(\phi\)-дифференциируема. Запишем ее матрицу Якоби:
+    \[D\phi = \left( \begin{array}{ccccc}
+        r & 0 & \dots & 0 & x_1 \\
+        \vdots & \vdots & \ddots & \vdots & \vdots \\
+        0 & 0 & \dots & r & x_{n - 1} \\
+        -\frac{rx_1}{\sqrt{1 - |y|^2}} & -\frac{rx_2}{\sqrt{1 - |y|^2}} & \dots & -\frac{rx_{n - 1}}{\sqrt{1 - |y|^2}} & \sqrt{1 - |y|^2} \\
+    \end{array} \right)\]
+    Тогда:
+    \[\det D\phi = \left| \begin{array}{ccccc}
+        r & 0 & \dots & 0 & x_1 \\
+        \vdots & \vdots & \ddots & \vdots & \vdots \\
+        0 & 0 & \dots & r & x_{n - 1} \\
+        -\frac{rx_1}{\sqrt{1 - |y|^2}} & -\frac{rx_2}{\sqrt{1 - |y|^2}} & \dots & -\frac{rx_{n - 1}}{\sqrt{1 - |y|^2}} & \sqrt{1 - |y|^2} \\
+    \end{array} \right| = \]
+    \[ = r^{n - 1}\left| \begin{array}{ccccc}
+        1 & 0 & \dots & 0 & x_1 \\
+        \vdots & \vdots & \ddots & \vdots & \vdots \\
+        0 & 0 & \dots & 1 & x_{n - 1} \\
+        -\frac{x_1}{\sqrt{1 - |y|^2}} & -\frac{x_2}{\sqrt{1 - |y|^2}} & \dots & -\frac{x_{n - 1}}{\sqrt{1 - |y|^2}} & \sqrt{1 - |y|^2} \\
+    \end{array} \right| = \frac{r^{n - 1}}{\sqrt{1 - |y|^2}}\]
+    % \[ = \frac{r^{n - 1}}{\sqrt{1 - |y|^2}}\left| \begin{array}{ccccc}
+    %     r & 0 & \dots & 0 & x_1 \\
+    %     \vdots & \vdots & \ddots & \vdots & \vdots \\
+    %     0 & 0 & \dots & r & x_{n - 1} \\
+    %     rx_1 & rx_2 & \dots & rx_{n - 1} & 1 \\
+    % \end{array} \right|\]
+    По формуле замены переменной в интеграла и по теореме Фубини:
+    \[\int_{H_+}f d\mu = \int_{B \times \R_+}f(ry, r\sqrt{1 - |y|^2})\frac{r^{n - 1}}{\sqrt{1 - |y|^2}} dydr = \]
+    \[= \int_0^{+\infty} \left( \int_B f(ry, r\sqrt{1 - |y|^2})dy \right)dr = \int_0^{+\infty}\left( \int_{S_r(0) \cap H_+}f(x)d\nu(x)d\mu(r) \right)\]
+    Аналогично проверяется и для замены \(H_+\) на \(H_-\). Складывая полученные формулы, получаем требуемую формулу. Осталось заметить, что так как \(f\) интегрируема, то теорема Фубини дает, тчо внутренний интеграл должен быть конечен для почти всех \(r\).
+\end{proof}
+
+\begin{corollary}
+    Поверхностная мера сферы \(\sigma_{n - 1}\) сферы \(S_1(0) = \{x \in \R^n: |x| = 1\}\) считается через меру \(\omega_n\) единичного шара \(B_1(0)\):
+    \[\omega_n = \int_{R^n}I_{B_1}(x)d\mu = \int_0^{+\infty} \left( \int_{S_r(0)} I_{B_1}(x) d\nu(x) \right) d\mu(r) = \]
+    \[ = \int_{R^n}I_{B_1}(x)d\mu = \int_0^{+\infty} \left( \int_{S_r(0)} d\nu(x) \right) d\mu(r) = \int_{R^n}I_{B_1}(x)d\mu = \int_0^{+\infty} \left( \int_{S_1(0)} r^{n - 1} d\nu(x) \right) d\mu(r) = \]
+    \[\sigma_{n - 1}\int_0^1 r^{n - 1}dr = \frac{\sigma_{n - 1}}{n}\]
+\end{corollary}
+
+\begin{problem}
+    Покажите, что если \(x \mapsto f(|x|)\) неотрицательна или интегрируема, то справедлива формула:
+    \[\int_{\R^n} f(|x|)d\mu(x) = \sigma_{n - 1}\int_0^{+\infty} f(r)r^{n - 1}dr\]
+\end{problem}
+
+\section{Дифференциальные формы}
+\subsection{Дифференциальные 1-формы}
+\begin{definition}
+    Пусть \(U \subset \R^n\) открыто. Дифференциальной 1-формой на \(U\) называется \(\omega: U \ra (\R^n)^*\). (\(X^*\) --- сопряженное пространство к \(X\))
+\end{definition}
+
+\begin{note}
+    На дифференциальную 1-форме можно смотреть как на функцию \(\omega: U \times \R^n \ra \R\), линейную по второму аргументу. Действительно, \(\omega(x, h) = (\omega(x))(h)\), но т.к. \(\omega(x) \in (\R^n)^*\), то замечание верно.
+\end{note}
+
+Пусть \(e_1, \dots e_n\) --- стандартный базис в \(\R^n\). Тогда по линейности \(\omega(x, h) = \sum_{i = 1}^n h_i\omega(x, e_i)\). Функции \(f_i: U \ra \R^n: f_i(x) = \omega(x, e_i)\) называются коэфициентами формы \(\omega\).
+
+\begin{reminder}
+    \(\{dx_1, \dots dx_n\}\), где \(dx_i: \R^n \ra \R, dx_i(h) = h_i\) --- базис \((\R^+)^*\), двойственный к стандартному базису \(\{e_1, \dots e_n\}\).
+\end{reminder}
+
+Следовательно, имеет место координатное представление 1-формы:
+\[\omega = f_1(x)dx_1 + \dots + f_n(x)d_n\]
+
+\begin{note}
+    Сложение и умножение на скаляр производятся поточечно. Множества дифференциальных 1-форм относительно этих операций образует линейное пространство.
+\end{note}
+
+\begin{definition}
+    Будем говорить, что 1-форма непрерывна, если все ее коэфициенты непрерывны.
+\end{definition}
+
+Аналогично определяется 1-форма класса \(C^r(U)\)
+
+\begin{example}
+    Если \(f \in C^1(U)\), то \(df\) --- 1-форма на \(U\).
+\end{example}
+
+\begin{definition}
+    Пусть \(\gamma: [a, b] \ra U\) --- гладкая параметризованная кривая, \(\omega\)-непрерывная 1-форма на \(U\). Интеграл от \(\omega\) по кривой \(\gamma\) (криволинейный интеграл второго рода) определяется по формуле:
+    \[\int_\gamma \omega = \int_a^b \omega(\gamma(t), \gamma'(t))dt = \int_a^b f_1(\gamma(t))\gamma'1(t) + \dots + f_n(\gamma(t))\gamma'_n(t) dt\]
+\end{definition}
+
+\begin{note}
+    Интеграл не зависит от параметризации, т.е. пусть \(\tilde{\gamma}: [c, d] \ra U\) --- гладкая кривая, эквивалентная \(\gamma\). Тогда \(\exists h: [c, d] \ra [a, b]\) --- \(C^1\)-сюрьекция с \(h' > 0\) на \([c, d]\), такой, что \(\tilde{\gamma}(u) = \gamma(h(u)) \forall u \in [c, d]\). Поэтому \(\tilde{\gamma} = \gamma'\cdot h'\) и по формуле замены переменной:
+    \[\int_a^b \omega(\gamma(t), \gamma'(t))dt = \int_c^d \omega(\gamma(h(u)), \gamma'(h(u)))h'(u)du =\]
+    \[ = \int_c^d \omega(\tilde{\gamma}(u), \tilde{\gamma}^{-1}(u))du\]
+    То есть
+    \[\int_\gamma \omega = \int_{\gamma'}\omega\]
+\end{note}
+
+\subsection{Свойства интеграла от 1-форм}
+\begin{proposition}
+    Пусть \(\tilde{\gamma}: [a, b] \ra U, \tilde{\gamma}(t) = \gamma(a + b - t)\), тогда:
+    \[\int_{\tilde{\gamma}}\omega = -\int_\gamma \omega\]
+\end{proposition}
+
+\begin{proposition}
+    Пусть \(\alpha, \beta \in \R\), тогда
+    \[\int_\gamma \alpha\omega_1 + \beta\omega_2 = \alpha\int_\gamma\omega_1 + \beta\int_\gamma\omega_2\]
+\end{proposition}
+
+\begin{proposition}
+    Пусть \(a < c < b, \gamma_1 = \gamma|_{[a, c]}\) и \(\gamma_2 = \gamma_{[c, b]}\), тогда:
+    \[\int_\gamma \omega = \int_{\gamma_1} \omega + \int_{\gamma_2}\omega\]
+\end{proposition}
+
+\begin{proposition}
+    \[\left| \int_\gamma \omega \right| \le \max_{x \in \underbrace{[\gamma]}_{\text{носитель}}}|f(x)|\underbrace{L(\gamma)}_{\text{длина \(\gamma\)}}, f = (f_1, \dots f_n)\]
+\end{proposition}
+\begin{proof}
+    \[\left| \sum_{i = 1}^n f_i(\gamma_i(t))\gamma_i'(t) \right| = |(f(\gamma(t)), \gamma'(t))| \le |f(\gamma(t))||\gamma'(t)| \le \max_{x \in [\gamma]}|f(x)||\gamma'(t)|\]
+\end{proof}
+
+\begin{reminder}
+    Напомним, что кривая \(\gamma: [a, b] \ra \R^n\) называется кусочно-гладкой, если сущесвует такое \(T = \{t_k\}_{k = 0}^N\) --- разбиение \([a, b]\), что каждое сужение \(\gamma_{[x_i, x_{i + 1}]}\) является гладким. В частности, если каждое сужение \(\gamma_{[x_i, x_{i + 1}]}\) постоянна, то \(\gamma\) называтеся ломаной
+\end{reminder}
+
+\begin{definition}
+    Интеграл от 1-формы по кусночно-гладкой кривой определяется как сумма интегралов по отрезкам гладкости
+\end{definition}
+
+\begin{theorem}
+    Пусть \(U \subset \R^n, F \in C^1(U)\) и \(\gamma: [a, b] \ra U\) --- кусочно-гладкая криавая, \(\gamma(a) = p, \gamma(b) = q\). Тогда:
+    \[\int_\gamma dF = F(q) - F(p)\]
+\end{theorem}
+\begin{proof}
+    Предположим, что \(\gamma\) --- гладкая. Тогда по определению:
+    \[\int_\gamma dF = \int_a^b \sum_{i = 1}^n \frac{\partial F}{\partial x_i}(\gamma(t))\gamma'(t)dt = \int_a^b \frac{d}{dt}F(\gamma(t)) = F(\gamma(t))|_{t = a}^{t = b}\]
+    Для кусочно-гладкой кривой утверждение получается по аддитивности.
+\end{proof}
+
+\begin{corollary}
+    Если \(\gamma: [a, b] \ra U\) замкнутая, т.е. \(\gamma(a) = \gamma(b)\), то \(\int_\gamma dF = 0\)
+\end{corollary}
+
+\begin{definition}
+    Пусть \(U \subset \R^n, \omega\) --- 1-форма в \(U\).
+    \begin{enumerate}
+        \item Функция \(F: U \ra \R^n\) называется первообразной \(\omega\), если \(dF = \omega\) на \(U\).
+        \item Форма \(\omega\) называется точной в \(U\), если она имеет там первообразную
+    \end{enumerate}
+\end{definition}
+
+\begin{lemma}
+    Если \(U\) --- область в \(\R^n\), то любую пару точек из \(U\) можно соединить ломаной со сторонами, параллельными осям координат.
+\end{lemma}
+\begin{proof}
+    Отметим, что шар \(B \subset U\) обладает указанным свойством. Теперь, пусть \(x_0 \in U\). Рассмотрим \(A = \{x \in U: \exists \gamma_{x_0, x}\}\), где \(\gamma_{x_0, x}\) --- ломаная со сторонами, параллельными осям, соединяющая \(x_0\), \(x\). Если \(x \in A \ra \exists r: B_r(x) \subset A\). Тогда \(A\) --- открыто. Аналогично, \(U \setminus A\) --- открыто. Т.к. \(U = \underbrace{A}_{\text{открыто}} \sqcup \underbrace{(U \setminus A)}_{\text{открыто}}\). Т.к. \(A \ni x_0 \Ra U \setminus A = \emptyset\). Тогда \(U = A\).
+\end{proof}
+
+\begin{theorem}
+    Пусть \(U\) --- область в \(\R^n\), \(\omega\) --- непрерывная 1-форма в \(U\). Тогда следующие утверждения эквивалентны:
+    \begin{enumerate}
+        \item \(\omega\) точна в \(U\)
+        \item \(\int_\gamma \omega = 0\) по любой замкнутой кусочно-гладкой кривой \(\gamma\) с носителем \(U\).
+        \item \(\int_{\gamma_1} \omega = \int_{\gamma_2} \omega\) для любых \(\gamma_1, \gamma_2\) со сторонами, параллельными осям координат, с совпадающими концами.
+    \end{enumerate}
+\end{theorem}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item[\((1) \Ra (2)\)] Вытекает из следствия теоремы 1.
+        \item[\((2) \Ra (3)\)] Зафиксируем \(\gamma_1, \gamma_2\) и рассмотрим кривую \(\gamma(t) = \left\{\begin{array}{l}
+            \gamma_1(t), t \in [a, b] \\
+            \gamma_2(2b - t), t \in [b, 2b - a]
+        \end{array}\right.\). Т.к. \(\gamma\) --- замкнутая кусочно-гладкая кривая, то \(\int_\gamma \omega = \int_{\gamma_1} \omega - \int_{\gamma_2} \omega\).
+        \item [\((3) \Ra (1)\)] Зафиксируем \(x_0 \in U\) и рассмотрим \(F(x) = \int_{\gamma_{x_0, x}}\), где интеграл берется по ломаной \(\gamma_{x_0, x}\) со сторонами, параллельными осям координат и соединяет \(x_0, x\). По пункту 3, \(F\) не зависит от выбора \(\gamma_{x_0, x}\). Покажем, что \(F\) --- первообразная для \(\omega\), т.е. \(\frac{\partial F}{\partial x_i} = f_i\) на \(U\), где \(\omega = f_1(x)dx_1 + \dots + f_n(x)dx_n\). Т.к. \(x\) --- внутренняя \(U\), то \(\exists \delta > 0: \forall t \in (-\delta, \delta) (x + te_j \in U)\). Параметризуем отрезок с концами \(x\) и \(x + te_i: \lambda_i \mapsto x + se_i\). При этом:
+        \[\frac{\partial F}{\partial x_i} = \lim_{t \ra 0} \frac{1}{t}(F(x + te_i) - F(x)) = \lim_{t \ra 0}\frac{1}{t}\int_{\gamma_i}\omega =\]
+        \[= \lim_{t \ra 0}\int_0^t f(x + se_i)ds = \left.\frac{d}{dt}\right|_{t = 0} \int_0^t f_i(x + se_i)ds = f_i(x)\]
+    \end{enumerate}
+\end{proof}
+\begin{corollary}
+    При \(n = 2\) для точности формы достаточно проверять равенство нулю интеграла по любому прямоугольнику со сторонами, параллельным осям.
+\end{corollary}
+
+\hypertarget{lecture11}{}
+
+\begin{note}
+    Пусть \(F_1, F_2\) --- первообразные 1-формы \(\omega\) в области \(U\), \(x_0, x \in U\). Тогда 
+    \[\int_{\gamma_{x_0, x}} \omega = F_1(x) - F_1(x_0) = F_2(x) - F_2(x_0)\]
+    Где \(\gamma_{x_0, x}\) --- кусочно-гладкая кривая из \(U\) с концами \(x_0, x\). Тогда \(F_1 - F_2 = const\) на \(U\).
+\end{note}
+
+\begin{corollary}
+    Итак, \(f\) по своему дифференциалу \(\omega\) восстанавливется следующим образом:
+    \[f(x) = C + \int_{\gamma_{x_0, x}}\omega = C + \int_a^b \left( f_1(\gamma_1(t)\gamma_1'(t)) + \dots + f_n(\gamma_n(t))\gamma_n'(t) \right)dt\]
+    Где \(\gamma_{x_0,x}: [a, b] \ra U, \gamma_{x_0, x}(a) = x_0, \gamma_{x_0, x}(b) = x\)
+\end{corollary}
+
+\begin{lemma}(Лебега о покрытии)
+    Пусть \(X\) --- компакт, \(\{U_\alpha\}_{\alpha \in \Lambda}\) --- открытое покрытие. Тогда \(\exists \delta > 0: \forall E \subset X (diam\;E \le \delta \Ra (\exists \alpha \in \Lambda: E \subset U_\alpha))\)
+\end{lemma}
+\begin{proof}
+    См. 2 семестр.
+\end{proof}
+
+\begin{definition}
+    Непрерывная 1-форма называется локально точной в \(U\), если \(\forall x \in U \exists B \subset U\) --- открытый шар, такой, что \(x \in B\) и \(\omega\) точна в \(B\).
+\end{definition}
+
+\begin{note}
+    В конце курса будет доказано, что 1-форма \(\omega = f_1(x)dx_1 + \dots + f_n(x)dx_n\) будет локально точна тогда и только тогда, когда:
+    \[\frac{\partial f_i}{\partial x_j} = \frac{\partial f_j}{\partial x_i} \forall i, j = 1, 2, \dots n\]
+\end{note}
+
+\begin{example}
+    \[\omega = \frac{xdy - ydx}{x^2 + y^2}, U = \R^2 \setminus \{(0, 0)\}\]
+    Рассмотрим \(P = -\frac{y^2}{x^2 + y^2}, Q = \frac{x}{x^2 + y^2}\).
+    \[\frac{\partial Q}{\partial x} = \frac{1}{x^2 + y^2} - \frac{y^2 - y^2}{(x^2 + y^2)^2} = \frac{\partial P}{\partial y}\]
+    Это верно на \(U \Ra \omega\) локально точна. Однако \(\omega\) не является точной, т.к. если рассмотреть \(\gamma(t) = (\cos t, \sin t), t \in (0, 2\pi)\), то:
+    \[\int_\gamma \omega = \int_0^{2\pi} (\cos^2t + \sin^2t)dt = 2\pi \ne 0\]
+\end{example}
+
+\begin{definition}
+    Пусть \(\omega\) --- локально точна в области \(U\) и \(\gamma: [a, b] \ra U\) --- непрерывный путь. Рассмотрим разбиение \(P = \{t_i\}_{i = 0}^m\) отрезка \([a, b]\), такое, что \(\gamma([t_{i - 1}, t_i]) \subset B_i\) --- шар, причем \(\omega\) точна в \(B_i\). Тогда интеграл от \(\omega\) по \(\gamma\) вычисляется по формуле:
+    \[\int_\gamma \omega = \sum_{i = 1}^m (F_i(\gamma(t_i)) - F(\gamma(t_{i - 1})))\]
+    Где \(F_i\) --- произвольная первообразная \(\omega\) на \(B_i\)
+\end{definition}
+
+\begin{lemma}
+    Определение интеграла от \(\omega\) корректно
+\end{lemma}
+\begin{proof}
+    Покажем существование необходимого разбиения \(P\). Рассмотрим \(\{B_{\alpha}\}\) --- покрытие \(\gamma([a, b])\) открытыми шарами, в которых \(\omega\) точна. Тогда \(\{\gamma^{-1}(B_\alpha)\}\) --- открытое покрытие \([a, b]\) и пусть \(\delta\) --- число из леммы Лебега о покрытии. Тогда в качестве \(P\) можно взять любое разбиение \([a, b]\) мелкости \(\le \delta\). Покажем, что правая часть формулы не изменится при добавлении точки к \(P\). Пусть \(P \cup \{c\}\) --- разбиение \([a, b], t_{j - 1} < c < t_{j}\). Имеем:
+    \[F_j(\gamma(t)j) - F_j(\gamma(t_{j - 1})) = F_j(\gamma(t)j) - F_j(\gamma(c)) + F_j(\gamma(c)) - F_j(\gamma(t_{j - 1}))\]
+    Пусть \(Q\) --- другое разбиение \([a, b]\). Применяя предыдущий пункт к \(P \cup Q\), получаем, что достаточно доказать утверждение для \(P = Q\) и первообразных \(F_1, F_2, \dots F_n\) на шарах \(B_1, \dots B_n\) и \(\tilde{F_1}, \dots \tilde{F_n}\) на шарах \(\tilde{B_1}, \dots \tilde{B_n}\). Т.к. \(B_i \cap \tilde{B_i} \ne \emptyset\) --- область, то \(\tilde{F_i} - F_i = const\). Это доказывает корректность определения.
+\end{proof}
+
+\begin{definition}
+    Пусть \(\gamma_1, \gamma_2: [a, b] \ra U\) --- пути с общими концами. Пути \(\gamma_1, \gamma_2\) называются гомотопными, если \(\exists H: [a, b] \times [0, 1] \ra U\) --- непрерывное (в таком случае \(H\) называется гомотопией), т.е.
+    \[H(t, 0) = \gamma_1(t), H(t, 1) = \gamma_2(t), H(a, s) = \gamma_1(a) = \gamma_2(a), H(b, s) = \gamma_1(b) = \gamma_2(b)\]
+\end{definition}
+
+\begin{note}
+    \(\gamma_s(t) = H(t, s)\) --- семейство путей, непрерывно зависящих от \(t\).
+\end{note}
+
+\begin{example}
+    Пусть \(\gamma_1, \gamma_2: [a, b] \ra \R^n\) --- пути с общими концами. Тогда \(\gamma_1, \gamma_2\) гомотопны.
+\end{example}
+\begin{proof}
+    Действительно, при \(H(t, s) = (1 - s)\gamma_1(t) + s\gamma_2(t)\) условие гомотопии выполняется.
+\end{proof}
+
+\begin{theorem}
+    Пусть \(\omega\) локально точна в области \(U\). Тогда если \(\gamma_1, \gamma_2\) гомотопны, то \(\int_{\gamma_1} \omega = \int_{\gamma_2} \omega\)
+\end{theorem}
+\begin{proof}
+    Пусть \(H: [a, b] \times [0, 1] \ra U\) --- гомотопия для \(\gamma_1, \gamma_2\). По лемме Лебега, \(\exists \{t_0, \dots t_m\}\) --- разбиение отрезка \([a, b]\), \(\{s_0, \dots s_k\}\) --- разбиение отрезка \([0, 1]\), такие что \(\forall R_{ij} = [t_{i - 1}, t_i] \times [s_{j - 1}, s_j]: H(R_{ij} \subset B_{ij})\) --- шар, где \(\omega\) точна. Для любого \(j \in \{0, \dots k\}\) положим \(\gamma^{(j)}(t) = H(t, s_j)\). Достаточно показать, что \(\int_{\gamma^{(j)}}\omega = \int_{\gamma^{(j - 1)}}\omega \forall j \in \{1, \dots k\}\). Зафиксируем \(j \in \{1, \dots k\}\). Пусть \(F_i\) --- произвольная первообразная для \(\omega\) в \(B_{ij}\) (\(i = 1, \dots m\)). Положим \(x_i = \gamma^{(j - 1)}(t_i)\). Тогда
+    \[\int_{\gamma^{(j)}}\omega - \int_{\gamma^{(j - 1)}}\omega = \sum_{i = 1}^m ((F_i(y_i) - F_i(y_{i - 1})) - (F_i(x_i) - F_i(x_{i - 1}))) = \]
+    \[ = \sum_{i = 1}^m ((F_i(y_i) - F_i(x_i)) - (F_i(y_{i - 1}) - F_i(x_{i - 1}))) = (*)\]
+    Т.к. \(F_i, F_{i - 1}\) --- первообразные \(\omega\) на пересечении \(B_{(i - 1)j} \cap B_{ij}\) --- что является областью, то \(F_i - F_{i - 1} = const\), а значит:
+    \[F_i(y_{i - 1}) - F_i(x_{i - 1}) = F_{i - 1}(y_{i - 1}) - F_{i - 1}(x_{i - 1}), i > 1\]
+    Тогда сумма \((*)\) телескопическая. Тогда:
+    \[\int_{\gamma^{(j)}}\omega - \int_{\gamma^{(j - 1)}}\omega = (F_1(y_1) - F_1(x_1)) - (F_1(y_0) - F_1(x_0)) + (F_m(y_m) - F_m(x_m)) - (F_1(y_1) - F_1(x_1)) = \]
+    \[= (F_m(y_m) - F_m(x_m)) - (F_1(y_0) - F_1(x_0)) = 0\]
+    Последне верно в силу того, что концы путей совпадают
+\end{proof}
+
+\begin{definition}
+    Область \(U \subset \R^n\) называется односвязной, если каждый замкнутый путь в \(U\) гомотопен точке (тождественному пути).
+\end{definition}
+
+\begin{corollary}
+    В односвязной области всякая локально точная форма точна.
+\end{corollary}
+
+\subsection{Внешние формы}
+Пусть \(V\) --- вещественное линейное пространство, пусть \(m = \dim V, k \in N\).
+\begin{reminder}
+    \(S_k\) --- множество перестановок (биекций в себя) множеста \(\{1, 2, \dots k\}\). Четность перестановки \(\epsilon(\sigma) = (-1)^{\nu(\sigma)}\), \(\nu(\sigma) =\) количество инверсий в \(\sigma\), т.е. количество таких пар \(i < j\), что \(\sigma(i) > \sigma(j)\).
+\end{reminder}
+
+\begin{definition}
+    Полилинейная функция \(\omega: \underbrace{V\times V \times \dots \times V}_k \ra \R\) называется кососимметричной (внешней) \(k\)-формой, если 
+    \[\omega(v_{\sigma(1)}, \dots v_{\sigma(k)}) = \epsilon(\sigma)\omega(v_1, \dots v_k)\]
+\end{definition}
+
+\begin{definition}
+    Линейное пространство всех кососимметрических \(k\)-форм будем обозначать \(A_k(V)\). По определению: \(A_0(V) = \R\), а если \(\omega \in A_k(V)\), то \(k\) называется степенью \(\omega\).
+\end{definition}
+
+\begin{problem}
+    Доказать, что следующие утверждения эквивалентны
+    \begin{enumerate}
+        \item \(\omega\) --- кососимметрическая \(k\)-форма.
+        \item \(\omega(v_1, \dots w, \dots w, \dots v_k) = 0\)
+        \item \(\omega(v_1, \dots v_k) = 0\) для любых линейно зависимых \(v_1, \dots v_k\)
+    \end{enumerate}
+\end{problem}
+
+\begin{example}
+    \(A_1(V) = V^*\)
+\end{example}
+
+\begin{example}
+    \(\Omega(v_1, \dots v_m) = \det A\) --- \(m\)-форма
+\end{example}
+
+\begin{example}
+    Пусть \(A^T = -A\), тогда \(\omega(\xi, \eta) = (\xi, A\eta)\) --- \(2\)-форма в \(\R^n\)
+\end{example}
+
+\begin{definition}
+    Пусть \(e^1, \dots e^m\) --- базис сопряженного пространста. Тогда \(\forall I = \left( \begin{array}{cccc}
+    1 & 2 & \dots & k \\
+    i_1 & i_2 & \dots & i_k\\
+    \end{array} \right)\) --- перестановки, положим \(e^I(v_1, \dots v_k) = \det \left( \begin{array}{ccc}
+        e^{i_1}(v_1) & \dots & e^{i_1}(v_k) \\
+        \vdots & \ddots & \vdots \\
+        e^{i_k}(v_1) & \dots & e^{i_k}(v_k) \\
+    \end{array} \right)\). Тогда \(e^I \in A_k(V)\)
+\end{definition}
+
+Положим \(\mathbb{I}_k = \left\{ I = \left( \begin{array}{cccc}
+1 & 2 & \dots & k \\
+i_1 & i_2 & \dots & i_k\\
+\end{array} \right): i \le i_1 < \dots < i_k \le m \right\}\).
+
+\begin{theorem}
+    Пусть \((e^1, \dots e^m)\) --- базис в \(V^*\), двойственный к \(e_1, \dots e_m\). Тогда \(E_k = \{e^I, I \in I_k\}\) образуют базис в \(A_k(V)\).
+\end{theorem}
+\begin{proof}
+    Отметим, что любую перестановку \(J = \left( \begin{array}{cccc}
+1 & 2 & \dots & k \\
+j_1 & j_2 & \dots & j_k\\
+\end{array} \right)\) можно упорядочить по возрастанию ровно одним способом и получить перестановку \(I = \left( \begin{array}{cccc}
+1 & 2 & \dots & k \\
+i_1 & i_2 & \dots & i_k\\
+\end{array} \right), i_1 < \dots < i_k \Ra i \in \mathbb{I}\). Тогда \(e^I = \pm e^J \Lra \epsilon(J) = \pm\epsilon(I)\). Для \(f \in A_k(V)\) имеем \(f = \sum_{J \in S_k}f(e_{j_1}, \dots e_{j_k})e^J\). По замечению выше, заключаем, что \(A_k(V)\) есть линейная оболочка \(E_k\). Докажем линейную независимость этой системы. Пусть \(\sum_{I \in \mathbb{I}_k}c_Ie^I = 0\). Применим эту форму к набору \(e_J = (e_{j_1}, \dots e_{j_k}), J \in \mathbb{I}_k\). Имеем:
+\[e^I(e_J) = \left\{\begin{array}{l}
+    0, I \ne J \\
+    1, I = J \\
+\end{array}\right.\]
+Тогда \(c_J = 0\). Это доказывает линейную независимость \(E_k\).
+\end{proof}
+
+\begin{corollary}
+    \(\dim A_k(V) = C_m^k\).
+\end{corollary}
+
+\begin{corollary}
+    При \(k > m\), имеем \(A_k(V) = \{0\}\).
+\end{corollary}
+
+\hypertarget{lecture12}{}
+
+\begin{definition}
+    Пусть \(k, l \in \N\). Рассмотрим \(S_{k, l} = \{\sigma \in S_{k + l}: \sigma(1) < \dots < \sigma(k), \sigma(k + 1) < \dots < \sigma(k + l)\} \subset S_{k + l}\). Элемент \(\sigma \in S_{k, l}\) называется \((k, l)\)-перетасовкой.
+\end{definition}
+
+\begin{definition}
+    Пусть \(\omega \in A_k(V), \tau \in A_l(V)\), тогда внешним произведением \(\omega, \tau\) называется функция, определяемая \(\omega \wedge \tau(v_1, \dots v_{k + l}) = \sum_{\sigma \in S_{k, l}}\epsilon(\sigma)\omega(v_{\sigma(1)}, \dots v_{\sigma(k)})\cdot \omega(v_{\sigma(k + 1)}, \dots v_{\sigma(k + l)})\)
+\end{definition}
+
+\begin{note}
+    Введем обозначение \(h = \omega \otimes \tau, h(v_1, \dots v_{k + l}) = \omega(v_1, \dots v_k)\tau(v_{k. + 1}, \dots v_{k + l}), \sigma h = h(v_{\sigma(1)}, \dots v_{\sigma(k)})\). Тогда \(\omega \wedge \tau = \sum_{\sigma \in S_{k, l}}\epsilon(\sigma) \cdot \sigma(\omega \otimes \tau)\).
+\end{note}
+
+\begin{note}
+    Покажем, что \(\omega \wedge \tau \in A_{k + l}(V)\).
+\end{note}
+\begin{proof}
+    Полилинейность очевидна. Покажем кососимметричность. Для этого достаточно установить, что \(\omega \wedge \tau(v_1, \dots v_{k + l}) = 0\) если в наборе \(v_1, \dots v_{k + l}\) выполнено \(v_r = v_{r + 1}\). Пусть \(A_1 = \{\sigma \in S_{k, l}: i = \sigma^{-1}(r), j = \sigma^{-1}(r + 1) \le k\} \Ra h_i = 0\), т.к. \(\omega(v_1, \dots v_k) = 0\). Аналогично, \(A_2 = \{\sigma \in S_{k, l}: i = \sigma^{-1}(r), j = \sigma^{-1}(r + 1) > k\} \Ra h_i = 0\), т.к. \(\tau(v_{k + 1}, \dots v_{k + l}) = 0\).
+
+    Теперь рассмотрим \(A_3 = \{\sigma \in S_{k, l}: i = \sigma^{-1}(r) \le k, j = \sigma^{-1}(r + 1) \ge k + 1\}, A_4 = \{\sigma \in S_{k, l}: i = \sigma^{-1}(r) \ge k + 1, j = \sigma^{-1}(r + 1) \le k\}\). Рассмотрим \(t_r = (r\;r + 1)\) --- транспозиция. Имеем \(t_r(A_4) = A_3, t_r(A_3) = A_4\). Поэтому
+    \[\epsilon(\sigma)(\sigma h)(v_1, \dots v_{k + l}) + \epsilon(t_r \sigma)(t_r\sigma h)(v_1, \dots v_{k + l}) =\]
+    \[= \epsilon(\sigma)(\sigma h)((\sigma h)(v_1, \dots v_{k + l}) - (\sigma h)(v_1, \dots v_{k + l}))= 0\]
+\end{proof}
+
+\begin{example}
+    Пусть \(\alpha, \beta \in V^*\) рассмотрим \(\alpha \wedge \beta(u, w) = \alpha(v) \beta(w) - \alpha(w)\beta(v)\).
+\end{example}
+
+\begin{lemma}
+    Внешнее произведение удовлетворяет следующим свойствам
+    \begin{enumerate}
+        \item \(w_1 \wedge (w_2 \wedge w_3) = (w_1 \wedge w_2) \wedge w_3\)
+        \item \(w_1 \wedge (w_2 + w_3) = w_1 \wedge w_2 + w_1 \wedge w_3\).
+        \item \(\omega \wedge \tau = (-1)^{\deg \omega \deg \tau}\tau \wedge \omega\).
+    \end{enumerate}
+\end{lemma}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item Пусть \(k_i = \deg \omega_i, k = k_1 + k_2 + k_3, S_{k_1, k_2, k_3} = \left\{\sigma \in S: \begin{array}{l}
+            \sigma(1) < \dots < \sigma(k_1) \\
+            \sigma(k_1 + 1) < \dots < \sigma(k_1 + k_2) \\
+            \sigma(k_1 + k_2 + 1) < \dots < \sigma(k_1 + k_2 + k_3) \\
+        \end{array}\right\}\). Положим \(\omega = \sum_{\sigma \in S_{k_1, k_2, k_3}} \epsilon(\sigma)\sigma(\omega_1 \otimes \omega_2 \otimes \omega_3)\). Т.к. \(\otimes\) ассоциативно, то \(\omega_1 \wedge (\omega_2 \wedge \omega_3) = \omega = (\omega_1 \wedge \omega_2) \wedge \omega_3\).
+        \item Непосредственно следует из определения
+        \item Рассмотрим биекцию \(S_{k,l} \ra S_{l, k}, \sigma \mapsto \tilde{\sigma}, \tilde{\sigma}(i) = \left\{\begin{array}{l}
+            \sigma(k + i), i = 1, \dots l \\
+            \sigma(i - l), i = l + 1, \dots k + l \\
+        \end{array}\right.\). В таком случае, \(\epsilon(\tilde{\sigma}) = (-1)^{kl}\epsilon{\sigma}\). Тогда:
+        \[\omega \wedge \tau(v_1, \dots v_{k + l}) = \sum_{\sigma \in S_{k, l}}\epsilon(\sigma)\omega(v_{\sigma(1)}, \dots v_{\sigma{k}})\tau(v_{\sigma(k + 1)}, \dots v_{\sigma{k + l}}) =\]
+        \[(-1)^{kl}\sum_{\tilde{\sigma} \in S_{k, l}}\epsilon(\tilde{\sigma})\omega(v_{\tilde{\sigma}(l + 1)}, \dots v_{\tilde{\sigma}{k + l}})\tau(v_{\tilde{\sigma}(1)}, \dots v_{\tilde{\sigma}{l}})= (-1)^{kl}\tau \wedge \omega\]
+    \end{enumerate}
+\end{proof}
+
+\begin{definition}
+    Пусть \(\Phi: V \ra W\) --- линейное отображение. Для \(\omega \in A_k(W)\) можно рассмотреь \(\Phi^*\omega \in A_k(V)\) по правилу
+    \[\Phi^*\omega(v_1, \dots v_k) = \omega(\Phi v_1, \dots \Phi v_k)\]
+    Данная операция называется pullback.
+\end{definition}
+
+\begin{proposition}\indent
+    \begin{enumerate}
+        \item Отображение \(\Phi^*: A_k(W) \ra A_k(V)\) линейно и \(\Phi^*(\omega \wedge \tau) = \Phi^*\omega \wedge \Phi^*\tau\).
+        \item Для \(\Psi: W \ra Z\) --- линейного отображения, верно, что \((\Psi\Phi)^* = \Phi^*\Psi^*\)
+    \end{enumerate}
+\end{proposition}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item Очевидно
+        \item 
+        \[(\Psi\Phi)^*\omega(v_1, \dots v_k) = \omega(\Psi\Phi v_1, \dots \Psi\Phi v_k) = \omega(\Psi(\Phi v_1), \dots \Psi(\Phi v_k)) =\]
+        \[= \Psi^*\omega(\Phi v_1, \dots \Phi v_k) = \Phi^*\Psi^*\omega(v_1, \dots v_k)\]
+    \end{enumerate}
+\end{proof}
+
+\begin{example}[Правило детерминанта]
+    Пусть \(\alpha^1, \dots \alpha^k \in V^*\), тогда
+    \[\alpha^1 \wedge \dots \wedge \alpha^k(v_1, \dots v_k) = \sum_{\sigma \in S_k} \epsilon(\sigma)\alpha^1(v_{\sigma(1)})\dots \alpha^k(v_{\sigma(k)}) = \det(\alpha^i(v_j))\]
+\end{example}
+
+\subsection{Дифференциальные формы на открытых подмножествах \(\R^m\)}
+
+Будем отождествлять \(T_p\R^m = \R^m\). Более формально будет записать \((p, \R^m)\), т.е. для каждой точки у нас будет свое касательное пространство
+
+\begin{definition}
+    Пусть \(U \subset \R^m\) --- открыто, \(k \in \N\). Дифференциальной \(k\)-формой на \(U\) называется функция \(U \ni p \mapsto w_p \in A_k(\R^n)\).
+\end{definition}
+
+Дифференциалы координатных функций \(dx_1, \dots dx_n\) образуют базис в \((\R^m)^*\) (двойственнен к стандартному), тогда \(\{dx_{i_1} \wedge \dots dx_{i_k} : 1 \le i_1 \le \dots \le i_k \le m\}\) образуют базис в \(A_k(\R^m)\). Поэтому имеет место представление
+\[\omega_p = \sum_{i_1 < \dots < i_k}f_{i_1, \dots i_k}dx_{i_1} \wedge \dots \wedge dx_{i_1} = \sum_{I \in \mathbb{I}_k} f_Idx^I\]
+
+Функции \(f_I: U \ra \R\) называется координатным представлением формы \(\omega\). Пусть \(r \in \N_0 \cup \{\infty\}\). Говорят, что дифференциальная форма \(\omega\) класса \(C^r(U)\), если все координатные функции \(\in C^r(U)\).
+
+В дальнейшем (если не указано иное) будем предполагать, что все рассматриваемые нами формы \(\in C^\infty\), множество \(k\)-форм класса \(C^\infty\) обозначается \(\Omega^k(U)\). Напомним, что \(A_0(\R^m) = \R\), поэтому \(\Omega^0(U) = C^\infty(U)\)
+
+\begin{enumerate}
+    \item Пусть \(\omega, \tau \in \Omega^k(U), f \in C^\infty(U)\), тогда \(f\omega \in \Omega^k(U), p\mapsto f(p)\omega_p, \omega + \tau \in \Omega^k(U), p \mapsto \omega_p + \tau_p\).
+    \item Пусть \(\omega \in \Omega^k(U), \tau \in \Omega^l(U)\), положим \(\omega \wedge \tau \in \Omega^{k + l}(U), p \mapsto \omega_p \wedge \tau_p\).
+\end{enumerate}
+
+Таким образом, \(\Omega^k(U)\) является линейным пространством
+
+\begin{example}
+    Пусть \(\omega = \sum_{I \in \mathbb{I}_k}f_Idx^I, \tau = \sum_{I \in \mathbb{I}_k}g_Idx^I\). Тогда:
+    \[\omega \wedge \tau = \sum_{I, J}f_Ig_Jdx^I \wedge dx^J\]
+\end{example}
+
+Пусть \(f: U \ra V\), \(U\) открыто в \(\R^m\), \(V\) открыто в \(\R^n\), \(f \in C^\infty\). Тогда для \(p \in U: df_p: \R^m \ra \R^n\) --- линейное отображение, поэтмоу если \(\omega_p \in A_k(\R^n)\), то \((df_p)^*: A_k(\R^n) \ra A_k(\R^m)\) и \((df_p)^*\omega_p = \omega_{f(p)}(df_p(v_1), \dots df_p(v_k))\).
+
+\begin{definition}
+    Отображение \(p \mapsto (df_p^*\omega)_p\) определяем дифференциальную форму на \(U\), которая обозначается \(f^*\omega\) и называется переносом формы \(\omega\).
+\end{definition}
+
+В частности, при \(k = 0\), т.е. для \(g \in C^\infty(V)\), имеем следующее:
+\[f^*g = g \circ f\]
+
+\begin{proposition}
+    \begin{enumerate}
+        \item Перенос линеен и \(f^*(\omega \wedge \tau) = f^*\omega \wedge f^*\tau\).
+        \item \(f: \underbrace{U}_{\subset \R^m} \ra \underbrace{V}_{\subset \R^n}, g: V \ra \underbrace{W}_{\subset \R^k}\) --- класса \(C^\infty \Ra (g \circ f)^* = f^* \circ g^*\).
+    \end{enumerate}
+\end{proposition}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item Очевидно
+        \item Композиция \(df_p^*: A_k(\R^b) \ra A_k(\R^m), dg_q^*: A_k(\R^k) \ra A_k(\R^n)\). Так как \(dg_q \circ df_p = d(g \circ f)_p\), то:
+        \[f^*(g^*\omega) = (g \circ f)^*\omega \forall \omega in \Omega^k(W)\]
+    \end{enumerate}
+\end{proof}
+
+Получим координатную запись \(f^*\).
+
+\begin{lemma}(Перенос как замена переменных)
+    Пусть \(f: \underbrace{U}_{\subset \R^m} \ra \underbrace{V}_{\subset \R^n}\) класса \(C^\infty, f = (f_1, \dots f_n)\). Если \(\omega \in \Omega^k(V), \omega = \sum_{(i_1, \dots i_k) \in \mathbb{I}_k}a_Idx_{i_1} \wedge \dots \wedge dx_{i_k}\), то \(f^*\omega = \sum_{I \in \mathbb{I}_k}a_I \circ f df_{i_1} \wedge \dots \wedge df_{i_k}\)
+\end{lemma}
+\begin{proof}
+    По определению, \(f^*a_I = a_I \circ f\). \(f(dx_i)(v) = dx_i(df(v)) = d(x_i \circ f)(v) = df_i(v)\). Поэтому, \(f^*\omega = \sum_{I \in \mathbb{I}_k}f^*a_I(f^*dx_{i_1})\wedge \dots \wedge (f^*dx_{i_k}) = \sum_{I \in \mathbb{I}_k}a_I \circ f df_{i_1} \wedge \dots \wedge df_{i_k}\).
+\end{proof}
+
+\begin{corollary}
+    \(f^*: \Omega^k(V) \ra \Omega^k(U)\) --- то есть сохраняет гладкость.
+\end{corollary}
+\begin{proof}
+    \(df_i \in \Omega^1(U), a_I \circ f \in C^\infty(U) \Ra f^*\omega \in \Omega^k(U)\)
+\end{proof}
+
+\begin{example}
+    Пусть \(U \subset \R^m\) --- открыто и задана \(m\)-форма, \(\omega = f(x)dx_1 \wedge \dots \wedge dx_m\) и пусть \(g: W \ra U\) --- диффеоморфизм, \(x = g(t)\), тогда
+    \[dg_1 \wedge \dots \wedge dg_m = \sum_{\sigma \in S_m}\frac{\partial g_1}{\partial t_{\sigma(1)}}\dots \frac{\partial g_m}{\partial t_{\sigma(m)}}dt_{\sigma(1)} \wedge \dots \wedge dt_{\sigma(m)} = \]
+    \[ = \sum_{\sigma \in S_m} \epsilon(\sigma)\frac{\partial g_1}{\partial t_{\sigma(1)}}\dots \frac{\partial g_m}{\partial t_{\sigma(m)}}dt_{1} \wedge \dots \wedge dt_{m} = J_g dt_{1} \wedge \dots \wedge dt_{m}\]
+    В итоге:
+    \[g^*\omega = f \circ g dg_1 \wedge \dots \wedge dg_m = f \circ g \cdot J_g dt_{1} \wedge \dots \wedge dt_{m}\]
+\end{example}
+
+\begin{definition}
+    Пусть \(U \subset \R^m\) открыто и \(\omega = \sum_{I \in \mathbb{I}_k}f_Idx^I \in \Omega^k(U)\). Внешним дифференциалом \(\omega\) называется:
+    \[d\omega = \sum_{I \in \mathbb{I}_k}df_I \wedge dx^I \in \Omega^{k + 1}(U)\]
+\end{definition}
+
+\begin{example}
+    Пусть \(\omega = Pdx + Qdy\) в \(\R^2\). Тогда:
+    \[d\omega = dP \wedge dx + dQ \wedge dy = \left( \frac{\partial P}{\partial x}dx + \frac{\partial P}{\partial y}dy \right)\wedge dx + \left( \frac{\partial Q}{\partial x}dx + \frac{\partial Q}{\partial y}dy \right)\wedge dy =\]
+    \[= \frac{\partial P}{\partial x} dx \wedge dy + \frac{\partial Q}{\partial y}dy \wedge dx = \left( \frac{\partial P}{\partial x} - \frac{\partial Q}{\partial y} \right)dx \wedge dy\]
+\end{example}
+
+\begin{problem}
+    Покажите, что \(d\omega_p(v_1, \dots v_{k + 1}) = \sum_{j = 1}^{k + 1}(-1)^{j - 1}\left.\frac{d}{dt}\right|_{t = 0}\omega_p + tv_j(v_1, \dots v_{j - 1}, v_{j + 1}, \dots v_{k + 1})\)
+\end{problem}
+
+\hypertarget{lecture13}{}
+
+Пололжим \(\Omega(U) = \bigcup_{k = 0}^n \Omega^k(U)\). Тогда внешний дифференциал порождает ''послойное'' отображение \(d: \Omega(U) \ra \Omega(U)\).
+
+\begin{lemma}
+    Для всех форм \(\omega, \nu \in \Omega^k(U), \tau \in \Omega^l(U), c \in \R\) выполнено:
+    \begin{enumerate}
+        \item \textbf{Линейность:} \(d(\omega + \nu) = d\omega + d\nu, d(c\omega) = cd\omega\)
+        \item \textbf{Правило Лейбница:} \(d(\omega \wedge \tau) = d\omega \wedge \tau + (-1)^k\omega \wedge d\tau\)
+        \item \(d(d\omega) = 0\).
+    \end{enumerate}
+    Кроме того, пусть есть \(D: \Omega(U) \ra \Omega(U)\) --- линейный оператор, удовлетворяющий предыдущим свойствам и \(f \in \Omega^0(U) = C^\infty(U)\) верно: \(Df = df\). Тогда \(D = d\)
+\end{lemma}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item \textbf{Линейность:} верна по опрелелению
+        \item \textbf{Правило Лейбница:} по линейности, достаточно доказать только для мономов вида \(\omega = fdx^I, \tau = gx^J, I \in \mathbb{I}_k, J \in \mathbb{I}_l,\;f, g \in C^\infty(U)\). По определению внешнего произведения:
+        \[d(\omega \wedge \tau) = d(fgd^I \wedge d^J) = (dfg + fdg) \wedge dx^I \wedge dx^J =\]
+        \[= (df \wedge dx^I) \wedge (gdx^J) + (-1)^k(fdx^I) \wedge (dg \wedge dx^J) = d\omega \wedge \tau + (-1)^k\omega \wedge d\tau\]
+        \item Для \(f \in C^\infty(U)\) имеем:
+        \[d(df) = d\left( \sum_{i = 1}^\infty \sum_{i = 1}^m \frac{\partial f_i}{\partial x_i}dx_i \right) = \sum_{i, j = 1}^m \frac{\partial^2 f}{\partial x_j \partial x_i} dx_i \wedge dx_j\]
+        Также из определения \(d dx^I = 0 \forall I\), тогда:
+        \[d(d(fdx^I)) = d(df \wedge dx^I) = \underbrace{d(df)}_{0} \wedge dx^I - df \wedge \underbrace{d(dx^I)}_{0} = 0\]
+        Таким образом, для \(0\)-форм и для мономов утверждение верно. Для всех остальных функций утерждение следует из линейности
+    \end{enumerate}
+
+    Пусть теперь \(D: \Omega(U) \ra \Omega(U)\) удовлетворяет условиям 1-3. Достаточно показать равенство \(D = d\) на мономах. Заметим, что \(D dx^i = DDx^i = 0 \Ra\) по свойству 2, \(Ddx^I = 0 \forall I \in \mathbb{I}_k\). Следовательно,
+    \[D(fdx^I) = df \wedge dx^I + fDdx^I = df \wedge dx^I = d(fdx^I)\]
+\end{proof}
+
+\begin{theorem}
+    Пусть \(f: U \ra V\) --- гладкое отображение, \(U\) --- открытое в \(\R^n\), \(V\) --- открытое в \(\R^m\). Тогда: \(d(f^*\omega) = f^*d\omega\) для всех \(\omega \in \Omega^k(V)\).
+\end{theorem}
+\begin{proof}
+    Для \(g \in C^\infty(U)\) имеем: 
+    \[d(f^*g) = d(g \circ f) = dg \circ df = f^*(dg)\]
+    При этом для \(I \in \mathbb{I}_k\) по правилу Лейбница:
+    \[d(f^*dy^I) = d(df_{i_1} \wedge \dots \wedge df_{i_k})\]
+    Следовательно,
+    \[d(f^*gdy^I) = d(f^*g \wedge dy^I) = d(f^*g \wedge f^*dy^I) = d(f^*g) \wedge f^*dy^I + f^*g \wedge d(f^*dy^I) = \]
+    \[ = f^*(dg) \wedge f^*(dy^I) = f^*(dg \wedge dy^I)\]
+    Равенство доказано для мономов вида \(\omega = gdy^I\)
+\end{proof}
+
+\section{Дифференциальные формы на многообразиях}
+Напомним, что под гладкостью мы понимаем принадлежность класcу \(C^\infty\)
+
+\begin{definition}
+    Пусть \(M\) --- гладоке \(m\)-мерное многообразие в \(\R^n\), \(k \in \N_0\). Дифференциальной формой \(\omega\) на \(M\) называется функция \(M \ni p \mapsto \omega_p \in A_k(T_pM)\).
+\end{definition}
+
+\begin{definition}
+    Пусть \(f: M \ra N\) --- гладкое отображение многообразий \(M, N\), \(\omega\) --- \(k\)-форма на \(N\). Тогда \(f^*\omega\) называется такая \(k\)-форма на \(N\), что
+    \[(f^*\omega)_p(v_1, \dots v_k) = \omega_{f(p)}(df_p(v_1), \dots df_p(v_k))\]
+    То есть \(f^*\omega_p = df^*_p\omega_{f(p)}\).
+\end{definition}
+
+Поскольку операция переноса поточечная, для нее выполняется линейность, сохранение внешнего произведения и следующего свойства:
+
+Если \(g: N \ra P\) --- гладкое, то \((g \circ f)^* = f^* \circ g^*\)
+
+\begin{example}
+    Пусть \(i_M: M \ra \R^n\), такое, что \(i_M(x) = x\). Если на \(U\) --- открытом в \(\R^n, U \supset M\) задана \(k\)-форма \(\nu\), то ее можно перенести с \(U\) на \(M\): \(i^*_M\nu\) --- \(k\)-форма на \(M\). Такая форма называется сужением формы \(\nu\) на \(M\) и обозначается \(\nu|_M = i_M^*\nu\)
+\end{example}
+
+Определить гладкость формы в точке можно как минимум двумя способами:
+
+\begin{definition}
+    Форма \(\omega\) называется гладкой в \(p \in M\), если существует параметризация \(\phi: V \ra U\) окрестности \(p\) в \(M\), что \(\phi^*\omega\) гладкая в \(V\).
+\end{definition}
+
+\begin{definition}
+    Форма \(\omega\) называется гладкой в \(p \in M\), если существует \(W \ni p\) --- открытое в \(\R^n\) и форма \(\tilde{\omega} \in \Omega(W)\), что \(\omega = \tilde{\omega}|_M\) на \(W \cap M\)
+\end{definition}
+
+\begin{lemma}
+    Два предыдущих определения эквивалентны.
+\end{lemma}
+\begin{proof}
+    Пусть выбрана параметризация \(\phi: V \ra W \cap M\), где \(W\) открыто в \(\R^n\), такая, что \(\phi^*\omega \in \Omega(V)\). \(\phi^{-1}\) определена на \(W\), т.е. существует такая глудкая функция \(F: W \ra V\), такая, что \(F|_{W \cap M} = \phi^{-1}\). Положим \(\tilde{\omega} = F^*(\phi^*\omega)\). Тогда \(\tilde{\omega} \in \Omega(W)\) и \(F \circ i_M = \phi^{-1}\) на \(W \cap M\), то \(i^*_M \circ F^* \circ \phi^*\) --- тождественное, а значит \(i_M^* \tilde{\omega} = \omega\) на \(W \cap M\). 
+
+    Докажем в другую сторону. Пусть \(\tilde{\omega}|_M = \omega\) на \(W \cap M\). Уменьшая \(W\) если надо, можно считать, что существует параметризация \(\phi: V \ra W \cap M\). Тогда \(i_M \circ \phi: V \ra W\) и \(\phi^*\omega = (i_{M}\circ \phi)^*\omega \in \Omega(V)\).
+\end{proof}
+
+\begin{note}
+    Из доказательства эквивалентности определений вытекает, что квантор существования можно заменить на квантор всеобщности.
+\end{note}
+
+\begin{definition}
+    Форма называется гладкой на \(M\), если она является гдадкой в каждой точке.
+\end{definition}
+
+Положим \(\Omega(M) = \bigcup_{k = 0}^n \Omega^k(M)\)
+
+\begin{lemma}
+    Пусть \(f: M \ra N\) --- гладкое отобраэение многообразий. Тогда \(f^*: \Omega^k(M) \ra \Omega^k(M)\).
+\end{lemma}
+\begin{proof}
+    Пусть \(\omega \in \Omega^k(N)\). Для \(p \in M\) и \(q = f(p) \in N\) выберем параметризации \(\phi: U_0 \ra U, \psi: V_0 \ra V\) --- \(p \in U \subset M, q \in V \subset N\). Можно выбрать окрестности так, что \(f(U) \subset V\). Тогда \(g = \psi^{-1} \circ g \circ \phi\) --- координатное представление и \(\psi \circ g = f \circ \phi\). Следовательно, \(g^*(\psi^*\omega) = \phi^*(f^*\omega)\). Поскольку \(g \in C^\infty(U_0)\) и форма \(\psi^*\omega\) гладкая, то в левой части стоит гладкая форма. Но тогда и форма, стоящая в правой части, является гладкой.
+\end{proof}
+
+\begin{definition}
+    Пусть \(\omega \in \Omega(M), \phi\) --- параметризация окрестности \(U\) в \(M\). Определим \(d\omega = (\phi^{-1})^*d(\phi^*\omega)\) на \(U\). 
+\end{definition}
+Существование \(d\) на всем \(M\) следует из того, что локальное определение не зависит от параметризации. Пусть \(\psi: W \ra \R^n\) --- другая параметризация \(M\), такая, что \(O = \phi(V) \cap \psi(W)\) непусто. Тогда \(g: \phi^{-1}(O) \cap \psi^{-1}(O), g = \psi^{-1} \circ \phi\) --- диффеоморфизм и \(\phi = \psi \circ g\). Следовательно,
+\[d(\phi^*\omega) = d(g^*\psi^*\omega^*) = \underbrace{g^*d}_{\text{на \(\phi^{-1}(O)\)}}(\psi^*\omega) = \phi^*\circ (\psi^{-1})^*d(\psi^*\omega)\]
+Тогда:
+\[(\phi^{-1})^*d(\phi^*\omega) = \underbrace{(\psi^{-1})^*d(\psi^*\omega)}_{\text{на \(O\)}}\]
+
+Кроме того, если \(f \in \Omega^0(M) = C^\infty(M)\), то внешний дифференциал на многообразии \(df = (\phi^{-1})^*d(f \circ \phi) = d(f \circ \phi)(d\phi^{-1})\) --- дифференциал функции \(f\).
+
+\begin{note}
+    Возможность продолжения \(d\) на \(M\) также следует из предыдущего утверждения о единственности дифференциала формы
+\end{note}
+
+\begin{theorem}
+    Пусть \(f: M \ra N\) --- гладкое отображение, тогда: \(d(f^*\omega) = f^*d\omega\) для всех \(\omega \in \Omega(N)\)
+\end{theorem}
+\begin{proof}
+    Рассмотрим следующую картинку:
+    \begin{center}
+        \includegraphics[scale=0.3]{images/IMG_4511.jpeg}
+    \end{center}
+    Т.к. \(\psi \circ g = f \circ \phi\), то по определению \(d\) свойствам переноса:
+    \[\phi^*d(f^*\omega) = d(\phi^*f^*\omega) = d((f \circ \phi)^*\omega) = d((\psi \circ g)^*\omega) =\]
+    \[= d(g^*(\psi^*\omega)) = g^*(d(\psi^*\omega)) = g^*\psi^* d\omega = \phi^*f^*d\omega\]
+    Тогда \(d(f^*\omega) = f^*d\omega\).
+\end{proof}
+\begin{corollary}
+    Пусть в \(\R^n\) окрестность \(W \supset M\) и \(\tilde{\omega} \in \Omega^k(M)\), т.ч. \(i_M^*\tilde{\omega} = \omega\). Тогда \(d\omega = i_M^* d\tilde{\omega}\).
+\end{corollary}
+
+\section{Разбиение единицы}
+Вспомним функцию:
+\[f(t) = \left\{\begin{array}{l}
+    e^{-\frac{1}{t}}, t > 0 \\
+    0, t \le 0
+\end{array}\right.\]
+Рассмотрим
+\[h(t) = \frac{f(R - t)}{f(R - t) + f(t - r)}\]
+Рассмотрим \(\beta: \R^n \ra \R, x_0 \in \R^n\):
+\[\beta(x) = h(|x - x_0|^2) \in C^\infty(\R^n)\]
+
+\(\beta\) --- функция ''шапочка''.
+
+\begin{definition}
+    Пусть \(f: X \ra \R\). Тогда носителем \(f = \supp f = \overline{\{x: f(x) \ne 0\}}\).
+\end{definition}
+
+\begin{note}
+    \(\supp \beta = \overline{B}_R(x_0)\).
+\end{note}
+
+\begin{problem}[Лемма об исчерпывании компактами]
+    Для любого открытого множества \(U\) существует \(\{C_i\}_{i = 0}^\infty\), где \(C_i\) --- компакты, что \(C_i \subset C_{i + 1}\), \(\bigcup_{i = 1}^\infty C_i = U\)
+\end{problem}
+
+\begin{lemma}
+    Пусть \(\{U_\alpha\}_{\alpha \in I}\) --- семейство открытых множеств в \(\R^n\), \(U = \bigcup_{\alpha \in I} U_\alpha\). Тогда существует \(\{B_i\}_{i = 1}^\infty\), таких, что:
+    \begin{enumerate}
+        \item \(\bigcup_{i = 1}^\infty B_i = U\)
+        \item \(\forall i \exists \alpha: (\overline{B_i} \subset U_\alpha)\)
+        \item \(\forall p \in \R^n \exists U_p \subset U\) --- открытое, \(\exists N_p: \overline{B_i} \cap U_p = \emptyset \forall i > N_p\).
+    \end{enumerate}
+\end{lemma}
+\begin{proof}
+    Возьмем \(C_i\) из леммы об исчерпывании компактами. Положим \(K_i = C_i \setminus int\;C_{i - 1}, C_0 = \emptyset\). Тогда \(K_i\) --- компакт. \(\forall x \in K_i\) выберем шар \(B_x\), такой, что:
+    \begin{enumerate}
+        \item \(B_x \ni x\)
+        \item \(\exists \alpha: \overline{B_x} \subset U_\alpha\)
+        \item \(B_x \subset int\;C_{i + 1} \setminus C_{i - 2}\).
+    \end{enumerate}
+    \(x \in C_{i + 1}, x \notin int\;C_{i - 1} \Ra x \notin C_{i - 2}\). Т.к. \(K_i\) --- компакт, то существует конечное подпокрытие, т.е. \(K_i \subset B_{x_1} \cup \dots \cup B_{x_{N_i}}\). Рассмотрим \(\{B_{i, r}: i \in \N, 1 \le r \le N\} = \{B_i\}_{i = 1}^\infty\)
+\end{proof}
+
+\hypertarget{lecture14}{}
+
+Пусть в условиях предыдущей леммы \(R_i = \) радиус \(B_i\). Рассмотрим функцию ''шапочка'' \(\beta_i\) по числам \(r = \frac{R_i}{2}, R = R_i\). Тогда:
+\begin{enumerate}
+    \item \(\beta_i \in C^\infty(U), \beta_i \ge 0\)
+    \item \(\forall p \in U \exists N_p \exists U_p\) --- окрестность \(p\) в \(U\), что \(\forall i > N_p (U_p \cap \supp(\beta_i) = \emptyset)\)
+    \item \(\forall i \exists \alpha: \supp(\beta_i) \subset U_\alpha\)
+    \item \(\sum_{i = 1}^\infty \beta_i\) --- гладкая функция, т.к. в каждой точке данный ряд превращается в конечную сумму.
+\end{enumerate}
+
+Т.к. \(\{B_i\}_{i = 1}^\infty\) образуют покрытие \(U\), то \(\sum_{i = 1}^\infty \beta_i > 0\). Положим:
+\[f_i = \frac{\beta_i}{\sum_{j = 1}^\infty \beta_j}, i \in \N \Ra \sum_{i = 1}^\infty f_i = 1\]
+
+\begin{theorem}
+    Пусть \(M\) --- гладкое многообразие в \(\R^n\), \(\{U_\alpha\}_{\alpha \in I}\) --- открытое покрытие \(M\). Тогда существует \(\rho_i \in C^\infty(M), i \in \N\), такое, что 
+    \begin{enumerate}
+        \item \(\rho_i \ge 0 \forall i\)
+        \item \(\forall C \subset M\) --- компакта \(\exists N \forall i > N (\supp(\rho_i) \cap C = \emptyset)\)
+        \item \(\sum_{i = 1}^\infty \rho_i = 1\) на \(M\)
+        \item \(\forall i \ge 1 \exists \alpha \in I: (\supp(\rho_i) \subset U_\alpha)\)
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    Пусть \(p \in M\). Тогда \(\exists \alpha: p \in U_{\alpha}\). Выберем \(O_p \subset \R^n\) --- открытое множество, содержащее \(p\) так, что \(\overline{O_p \cap M} \in U_\alpha\). Определим \(O = \bigcup_{p \in M}O_p\) и рассмотрим \(f_i \in C^\infty(O)\) (как мы определяли выше). Положим \(\rho_i = f_i|_M\). Из условия \(\overline{O_p \cap M} \subset U_\alpha\) следует, что \(\supp \rho_i \subset U_\alpha\). Пусть \(C \subset M\) --- компакт. Тогда \(C\) покрывается конечным числом \(U_{p_i}\), таких, что \(U_{p_i} \cap \supp(\rho_i) = \emptyset \forall i > N_{p_i}\). Положим \(N = \max_i N_{p_i}\) --- оно существует, т.к. существует лишь конечное число \(N_{p_i}\).
+\end{proof}
+
+\begin{corollary}
+    Пусть \(K \subset M\) --- компакт, \(\{U_j\}_{j = 1}^N\) --- конечное подпокрытие \(K\) в \(M\). Тогда существует \(\phi_j \in C^\infty(M), j = 1, \dots N\), такие, что:
+    \begin{enumerate}
+        \item \(\phi_j \ge 0\)
+        \item \(\forall j (\supp \phi_j \subset U_j)\)
+        \item \(\sum_{j = 1}^N \phi_j = 1\) на \(K\).
+    \end{enumerate}
+\end{corollary}
+\begin{proof}
+    Применим теорему к набору \(\{U_j\}_{j = 1}^N\). Получим набор функций \(\{\rho_i\}_{i = 1}^\infty\). По свойству 2, только конечное множество носителей \(\rho_i\) не пересекается с \(K\). Рассмотрим \(A_1 = \{i \in \N: \supp \rho_i \subset U_1\}\). Положим \(\phi_1 = \sum_{i \in A_1}\rho_i\) --- гладкое как конечная сумма гладких функций. Заметим, что \(\supp \phi_1 \subset \bigcup_{i \in A_1} \supp \rho_i \subset U_1\). Положим \(A_2 = \{i \in \N: \supp \rho_i \subset U_2\} \setminus A_1\). Тогда \(\phi_2 = sum_{i \in A_2} \rho_i\) и так далее по индукции. Тогда \(\sum \phi_i = \sum_{i = 1}^\infty \rho_i = 1\) на \(K\)
+\end{proof}
+
+\begin{problem}
+    Пусть форма \(\omega\) --- гладкая \(k\)-форма на \(M\). Покажите, что существует \(W \supset M\) --- открытое в \(\R^n\) и \(\tilde{\omega} \in \Omega^k(W)\), т.ч. \(\tilde{\omega}|_M = \omega\)
+\end{problem}
+
+\section{Интегрирование дифференциальных форм на многообразиях}
+
+\subsection{Регулярные области}
+Рассмотрим полупространство \(\mathbb{H}^m = \{(x_1, \dots x_m): x_1 < 0\}\). Множество \(\mathbb{H}^n\) открыто в \(\R^n\), причем \(\partial \mathbb{H}^m = \{(x_1, \dots x_m): x_1 = 0\}\)
+
+\begin{definition}
+    Пусть \(M\) --- гладкое \(m\)-мерное многообразие, \(N \subset M\) открыто. Множество \(N\) называется регулярной областью в \(M\), если \(\forall p \in \partial M \exists \phi: V \ra U_{\ni p}^{\subset M}\) --- параметризация в \(M\), такая, что \(\phi(V \cap \mathbb{H}^m) = U \cap N\).
+\end{definition}
+
+\begin{note}
+    По критерию непрерывности, \(\phi\) переводит внутренние (внешние) точки \(V \cap \mathbb{H}^m\) во внутренние (внешние) точки \(U \cap M\). Следовательно, \(\phi(V \cap \partial \mathbb{H}^m) = U \cap \partial N\)
+\end{note}
+
+\begin{lemma}
+    Пусть \(M\) --- гладкое \(m\)-мерное многообразие, \(N\) --- регулярная область в \(M\). Тогда \(\partial N\) --- гладкое \(m - 1\) мерным многообразием.
+\end{lemma}
+\begin{proof}
+    Рассмотрим отображение \(L: \R^{m - 1} \ra \partial \mathbb{H}^m\) по правилу: \(L(x') = (0, x')\). Рассмотрим \(V_0 \subset \R^{m - 1}\), такое, что \(\{0\} \times V_0 = V \cap \partial \mathbb{H}^m\). Положим \(U_0 = U \cap \partial N\). Тогда \(\phi_0: V_0 \ra U_0, \phi_0 = \phi \circ L\). Проверим, что \(\phi_0\) --- параметризация. Действительно:
+    \begin{enumerate}
+        \item \(\phi_0\) гдадкая как композиция гладких функций
+        \item \(D\phi_0(x')\) получается из \(D\phi(0, x')\) выкидыванием первого столбца.
+        \item \(\phi_0^{-1}\) непрерывно, как сужение \(\phi^{-1}|_{U_0}\)
+    \end{enumerate}
+\end{proof}
+
+Многообразие \(\partial N\) называется краем \(N\)
+
+\begin{theorem}
+    Пусть \(M\) --- гладкое \(m\)-мерное многообразие и \(f: M \ra \R\) --- гладкая функция на \(M\), такая, что \(f^{-1}(0) \ne \emptyset\) и \(\forall p \in f^{-1}(0): df_p \ne 0\) (т.е \(0\) --- регулярное значение \(f\)). Тогда \(B = f^{-1}(-\infty, 0) = \{p \in M: f(p) < 0\}\) является регулярной областью в \(M\) с краем \(\partial B = f^{-1}(0)\)
+\end{theorem}
+\begin{proof}
+    \(B\) открыто в \(M\) по критерию непрерывности. Пусть \(p \in \partial B\). Тогда \(p \in f^{-1}(0)\). Выберем произвольную параметризацию \(\phi: V \ra U_{\ni p}^{\subset M}\) и рассмотрим \(g = f \circ \phi\). Если \(\phi(a) = p\), то \(dg_a = df_p \circ d\phi_a \ne 0\). Заменяя \(g\) на композицию с перестановкой, можно считать, что \(\frac{\partial g}{\partial x_1}(a) \ne 0\). Рассмотрим на \(V\) функцию \(F(x) = (g(x), x_2, \dots x_m)\). Тогда:
+    \[DF = \left( \begin{array}{cccc}
+        \frac{\partial g}{\partial x_1}(a) & 
+        \dots & \dots & \frac{\partial g}{\partial x_m}(a) \\
+        0 & & & \\
+        \vdots & & E_{m - 1} & \\
+        0 & & & \\
+    \end{array} \right)\]
+    А значит, \(\det DF(a) \ne 0\). Тогда по теореме об обратной функции \(\exists W, V_0\) --- открытые в \(\R^m, a \in V_0 \subset V: F: V_0 \ra W\) --- диффеоморфизм. Положим \(U_0 = \phi(V_0), \psi = \phi \circ F^{-1}\) --- параметризация. Тогда на \(W\) имеем:
+    \[f \circ \psi(x) = f \circ \phi \circ F^{-1}(x) = g(F^{-1}(x)) = x_1\]
+    Следовательно, \(\psi(W \cap \mathbb{H}^m) = \psi\left( \{x \in W: x_1 < 0\} \right) = B \cap U_0\). Кроме того, если \(p \in f^{-1}(0)\), то \(x_1 = 0\), откуда \(p \in \partial B\).
+\end{proof}
+
+\begin{corollary}
+    \(B^m = \{x \in \R^m: |x| < 1\}\) --- регулярная область с краем \(S^{m - 1} = \{x \in \R^m: |x| = 1\}\)
+\end{corollary}
+\begin{proof}
+    Рассмотрим \(f(x) = |x|^2 - 1\) --- гладкая и \(rk\;df_p = 1 \forall p \in S^{m - 1} = f^{-1}(0)\). Тогда по теореме \(B^m\) --- регулярная область с краем \(S^{m - 1}\).
+\end{proof}
+
+\subsection{Ориентируемые многообразия}
+\begin{definition}
+    Пусть \(M\) --- гладкое многообразие. Семейство параметризаций \(\{\phi_\alpha: V_\alpha \ra U_\alpha, \alpha \in I\}\), образы которых покрывают \(M\), называется атласом.
+\end{definition}
+
+\begin{definition}
+    Атлас на \(M\) называется ориентирующим, если якобианы всех функций перехода положительны.
+\end{definition}
+
+\begin{definition}
+    Гладкое многообразие, на котором задан ориентирующий атлас называется ориентированным
+\end{definition}
+
+\begin{definition}
+    Если на гладком многообразии существует ориентирующий атлас, то оно называется ориентируемым
+\end{definition}
+
+\begin{definition}
+    Атласы \(\mathcal{A_1}, \mathcal{A_2}\) эквивалентны, если \(\mathcal{A_1} \cup \mathcal{A_2}\) --- ориентирующий атлас
+\end{definition}
+
+\begin{definition}
+    Ориентация многообразия --- класс эквивалентности ориентирующих атласов
+\end{definition}
+
+\begin{note}
+    Любое непустое открытое множество \(\R^n\) ориентируемо.
+\end{note}
+
+\begin{problem}
+    \(M \subset \R^3\) --- гладкое двумерное многообразие ориентируемо тогда и только тогда, когда на нем существует непрерывное поле (вектор-функция) единичных нормалей
+\end{problem}
+
+\begin{note}
+    Существуют неориентируемые многообразия, например --- лист Мёбиуса
+\end{note}
+
+\begin{note}
+    Пусть на \(M\) при помощи ориентирующего атласа \(\mathcal{A}\) задана фиксированная ориентация и пусть \(\phi\) --- какая-то параметризация окрестности \(M\). Будем говорить, что \(\phi\) не соответствует ориентации, если \(\mathcal{A} \cup \{\phi\}\) --- не ориентирующий. Рассмотрим \(\phi \circ A\), где \(A(x_1, \dots x_n) = (x_1, \dots, x_{m - 1}, -x_m)\). Тогда \(\phi \circ A\) соответствует ориентации.
+\end{note}
+
+\begin{theorem}
+    Пусть \(M\) гладкое \(m\)-мерное ориентируемое многообразие (\(m > 1\)) и \(N\) --- регулярная область в \(M\). Тогда \(\partial N\) --- гладкое \(m - 1\)-мерное ориентируемое многообразие.
+\end{theorem}
+\begin{proof}
+    По определению регулярной области, \(\partial N\) покрывается образами параметризаций \(\phi\) с условием \(\phi(V \cap \mathbb{H}) = U \cap N\). Из предыдущего замечания следует, что каждую из таких параметризаций можно считать соответствующей ориентации. Пусть \(\phi, \psi\) --- такие параметризации на \(M\) в окрестности точки \(p \in \partial N\). Покажем, что если функция перехода между \(\phi \ra psi\) имеет положительный Якобиан, то таким же свойством обладает функция перехода между параметризациями \(\phi_0, \psi_0\). Как мы определим \(psi_0, \phi_0\)? Пусть \(\Phi = \psi^{-1} \circ \phi, \Phi = (\Phi_1, \dots \Phi_m), \Phi_0 = \psi^{-1}_0 \circ \phi_0\). Тогда \(\Phi_0 = (\Phi_2 \circ L, \dots \Phi_m \circ L)\). Если \(\phi(0, a) = p\), то \(\Phi(0, a) = (0, \Phi_0(a))\). Это верно и для достаточно близких к \(a\) точек. Следовательно, \(\frac{\partial \Phi_1}{\partial x_i}(0, a) = 0, i = 2 \dots m\). Тогда:
+    \[D\Phi(a, 0) = \left( \begin{array}{cccc}
+        \frac{\partial \Phi_1}{\partial x_1} & 0 & \dots & 0 \\
+        * & & & \\
+        \vdots & & D\Phi_0(a) & \\
+        * & & & \\
+    \end{array} \right)\]
+    Следовательно, \(\det D\Phi(a) = \frac{\partial \Phi_1}{\partial x_1}(0, a)\det D\Phi_0(a)\). Т.к. \(\Phi\) отображает \(\mathbb{H}^m\) в себя (т.е. \(\Phi_1 < 0\)), то \(\frac{\partial \Phi_1}{\partial x_1} = \lim_{t \ra -0} \frac{\Phi(t, a)}{t} \ge 0\), \(\ne 0\), т.к. \(J_\Phi \ne 0\). Заключаем, что \(\det D\Phi(a)\) и \(\det D\Phi_0(a)\).
+\end{proof}
+
+\begin{note}
+    Таким образом, заданная ориентация \(M\) индуцирует ориентации на \(N\) и на крае \(\partial N\). Сначала сужаем ориентации с \(M\) на \(N\) (как на открытое множество), а потом по предыдущей теореме сузить на край. Тогда говорят, что ориентации \(N\) и \(\partial N\) согласованны.
+\end{note}
+
+\begin{lemma}
+    Пусть гладкое \(m\)-мерное ориентируемое \(M\) в \(\R^{m + 1}\) задано уравнением, т.е. \(M = f^{-1}(0)\), где \(f: U \subset \R^{n + 1} \ra \R\) --- гладкая, с \(rk\;df_p = 1 \forall p \in M \cap U\). Тогда \(M\) ориентируемо.
+\end{lemma}
+\begin{proof}
+    По теореме, \(M = \partial B\), где \(B = f^{-1}(-\infty, 0)\) --- открытое множество в \(\R^{m + 1}\). Оно ориентируемо, и тогда по предыдущей теореме \(M\) --- тоже.
+\end{proof}
+
+\hypertarget{lecture16}{}
+
+\subsection{Теорема Стокса}
+
+\begin{theorem}[Стокса]
+    Пусть \(M\) --- гладкое \(m\)-мерное многообразие, \(N\) --- регулярная область в \(M\). Тогда для любой \(\omega \in \Omega_c^{m - 1}(M)\) выполнено:
+    \[\int_Nd\omega = \int_{\partial N}i^*\omega\]
+    Если ориентации \(N, \partial N\) согласованы.
+\end{theorem}
+
+\begin{lemma}
+    Теорема Стокса верна для \(M = \R^m, N = \mathbb{H}^m\).
+\end{lemma}
+\begin{proof}
+    Пусть \(\omega = \sum_{i = 1}^mf_i(x)dx_1\wedge\dots \wedge \widehat{dx_i} \wedge\dots \wedge dx_m\). Тогда:
+    \[d\omega = \sum_{i, j = 1}^m \frac{\partial f_i}{\partial x_j}dx_j\wedge dx_1\wedge\dots \wedge \widehat{dx_i} \wedge\dots \wedge dx_m = \sum_{i = 1}^m (-1)^{i - 1}\frac{\partial f_i}{\partial x_j} dx_1 \wedge\dots \wedge dx_m\]
+    Поэтому
+    \[\int_{\mathbb{H}^m}d\omega = \sum_{i = 1}^m (-1)^{i - 1} \int_{\mathbb{H}^n} \frac{\partial f_i}{\partial x_i} dx_1 \wedge\dots \wedge dx_m\]
+    При \(i > 1\) по теореме Фубини:
+    \[\int_{\mathbb{H}^n}d\omega = \sum_{i = 1}^m (-1)^{i - 1}\int_{(-\infty, 0) \times \R^{m - 2}}\left( \int_{-\infty}^{+\infty} \frac{\partial f_i}{\partial x_i}dx_i \right)dx_1\wedge\dots\wedge \widehat{dx_i} \wedge\dots\wedge dx_m\]
+    Тогда по формуле Ньютона-Лейбница:
+    \[ \int_{-\infty}^{+\infty} \frac{\partial f_i}{\partial x_i}dx_i = \left.f(\dots, x_i, \dots)\right|_{-\infty}^{+\infty}= 0\]
+    Это верно, потому что функция \(f\) имеет компактный носитель \(\Ra\) вне некоторого отрезка \(f(\dots, x_i, \dots)\) обнуляется. Следовательно, из суммы остается только слагаемое при \(i = 1\).
+    \[\int_{\mathbb{H}^n}d\omega = \int_{\R^{m - 1}}\left( \int_{-\infty}^0 \frac{\partial f_1}{\partial x_1}dx_1\right)dx_2\wedge\dots \wedge dx_m = \int_{\R^{m - 1}}f_1(0, x_2, \dots x_m)dx_1\wedge \dots \wedge dx_m\]
+    С другой стороны, вложение \(i_0: \R^{m - 1} \ra \R^m\) имеет вид \(i_0(x') = (0, x') \Ra i_0^*(\omega) = f_1(0, x_2, \dots x_m)dx_1\wedge\dots\wedge dx_m\). Значит,
+    \[\int_{\R^{m - 1}}i_0^*\omega = \int_{\R^{m - 1}}f_1(0, x_2, \dots x_m)dx_1 \wedge \dots \wedge dx_m\]
+    Что совпадает с \(\int_{\partial \mathbb{H}^m} i_0^*\omega\), т.к. ориентации для \(\partial \mathbb{H}^m\) для стандартной ориентации \(\mathbb{H}^m\) соответствует \((x_2, \dots x_m)\)
+\end{proof}
+
+\begin{note}
+    \[\int_{\R^m}d\omega = 0\]
+\end{note}
+
+\begin{proof}[Доказательство теоремы Стокса]
+    Для любой точки \(p \in \supp(\omega)\) существует параметризация \(\phi: V \ra U_p\) с условием:
+    \begin{enumerate}
+        \item Если \(p \in \supp(\omega) \cap \partial N\), то \(\phi(V \cap \mathbb{H}^m) = U_p \cap N\)
+        \item Если \(p \in \supp(\omega) \setminus \partial N\), то \(U_p \cap \partial N = \emptyset\)
+    \end{enumerate}
+    Можно считать, что окрестности \(U_p\) связны. Из покрытия \(U_p\) компакта \(\supp(\omega)\) выделим конечное подпокрытие. Получим набор параметризаций \(\phi_i: V_i \ra U_i, i = 1, \dots n\), соответствующих ориентации \(M\) и покрывающих \(\supp(\omega)\). Пусть \(\{\rho_i\}_{i = 1}^n\) --- гладкое разбиение, подчиненное покрытию \(\{U_i\}_{i = 1}^n\). Поскольку \(\omega = \sum_{i = 1}^n \rho_i \omega\), \(d\omega = \sum_{i = 1}^n d(\rho_i\omega)\), то в силу линейности интеграла формулу можно доказывать для случая, когда \(\supp(\omega)\) покрывается образом одной параметризации. \(\phi: V \ra U\). Рассмотрим несколько случаев:
+    \begin{enumerate}
+        \item \(U \cap \partial N \ne \emptyset\). Рассмотрим сужение \(\phi: V_0 \ra U_0\), \(i_0: \underbrace{\R^{m - 1}}_{\partial \mathbb{H}^m} \ra \R^m\), \(i: \partial N \ra M\), тогда \(i \circ \phi_0 = \phi \circ i_0\). Следовательно, 
+        \[\int_Nd \omega = \int_{V \cap \mathbb{H}^m}\phi^*(d \omega) = \int_{\mathbb{H}^m}\phi^*(d\omega) = \int_{\mathbb{H}^m}d(\phi^*\omega)\]
+        \[\int_{\partial N}i^*\omega = \int_{V_0}\phi_0^*(i^*\omega) = \int_{\R^{m - 1}}\phi_0^*(i^*\omega) = \int_{\R^{m - 1}}i_0^*(\phi^*\omega) = \int_{\partial \mathbb{H}^m}i_0^*(\phi^*\omega)\]
+        Два полученных интеграла равны по предыдущей Лемме
+        \item Пусть \(U \subset int\;N\). Имеем:
+        \[\int_N d\omega = \int_V \phi^*(d\omega) = \int_{\R^m} d(\phi^*\omega) = 0 = \int_{\partial N}i^*\omega\]
+        Последнее равенство верно, т.к. \(i^*\omega = 0\) на \(\partial N\).
+        \item \(U \subset ext\;N\). Сужение \(\omega\) на \(N\) и \(i^*\omega\) нулевые, т.е. формула верна и в этом случае.
+    \end{enumerate}
+\end{proof}
+
+\begin{corollary}
+    Пусть \(M\) --- гладкое \(m\)-мерное ориентируемое многообразие, \(\omega \in \Omega_c^{m - 1}(M)\). Тогда \(\int_M d\omega = 0\).
+\end{corollary}
+
+Пусть \(p \in \partial N\), тогда рассмотрим \(v \in T_pM\)
+\begin{enumerate}
+    \item \(v \in T_p\partial N\)
+    \item \(\phi(V \cap \mathbb{H}^m) = U \cap N\), \(d\phi(w) = v, w = (w_1, \dots w_m), w_1 > 0\), тогда \(v\) называется внешним
+    \item Если в предыдущем пункте \(w_1 < 0\), то \(v\) называется внутренним
+\end{enumerate}
+
+\begin{proposition}
+    Пусть \(N\) --- регулярная область в ориентируемом многообразии \(M\). Тогда ориентации \(\partial N\) и \(N\) согласованы тогда и только тогда, когда \((\partial O)_{p \in \partial N} = [(v_1, \dots v_m)] \Ra O_p = [(n, v_1, \dots v_m)]\).
+\end{proposition}
+
+\begin{corollary}[Формула Грина]
+    Пусть \(G\) --- ограниченная регулярная область в \(\R^2\), причем ориентация края согласована со стандартной (индуцированной из \(\R^2\)) ориентацией \(G\), \(\omega = Pdx + Qdy \in \Omega^1(\R^2)\), то:
+    \[\int_{\partial G}Pdx + Qdy = \iint\left( \frac{\partial Q}{\partial x} - \frac{\partial P}{\partial y} \right)dxdy\]
+    Согласованность ориентации \(G\) и \(\partial G\) неформально означает, что ''при обходе по краю, область будет слева''
+\end{corollary}
+
+\begin{corollary}[Формула Гаусса-Остроградского]
+    Пусть \(G\) --- ограниченная регулярная область в \(\R^3\), причем ориентация края согласована со стандартной (индуцированной из \(\R^3\)) ориентацией \(G\), \(\omega = Pdy \wedge dz + Qdz \wedge dx + R dx \wedge dz \in \Omega^2(\R^2)\), то:
+    \[\int_{\partial G}Pdy \wedge dz + Qdz \wedge dx + R dx \wedge dz = \iiint\left( \frac{\partial P}{\partial x} + \frac{\partial Q}{\partial y} + \frac{\partial R}{\partial z} \right)dxdy\]
+    Согласованность ориентации \(G\) и \(\partial G\) означает, что \(\partial G\) ориентирован внешней нормалью
+\end{corollary}
+
+\begin{corollary}[Классическая формула Стокса]
+    Пусть \(M\) --- гладкое 2-мерное многообразие в \(\R^3\), покрываемое образом параметризации \(r: V \ra \R^3\). Пусть \(S\) --- ограниченная регулярная область в \(M\) и \(\omega = Pdx + Qdy + Rdz \in \Omega^1(\R^3)\). Тогда:
+    \[\int_{\partial S} Pdx + Qdy + Rdz = \left( \frac{\partial R}{\partial y} - \frac{\partial Q}{\partial z} \right)dy \wedge dz + \left( \frac{\partial P}{\partial z} - \frac{\partial R}{\partial x} \right)dz \wedge dx + \left( \frac{\partial Q}{\partial x} - \frac{\partial P}{\partial y} \right)dx \wedge dy\]
+    Согласованность ориентаций \(G\) и \(\partial G\) означает, что: если \(N(p) = \frac{r_u' \times r_v'}{|r_u' \times r_v'|}\), \(n(p)\) --- внешний, то вектор \(\tau(p)\) выбирается так, что \((n, \tau, N)\) --- положительно ориентированная тройка.
+\end{corollary}
+
+\begin{note}
+    Мнемоническое правило: записывать следующий определитель:
+    \[\left| \begin{array}{ccc}
+        e_1 & e_2 & e_3 \\
+        \frac{\partial}{\partial x} & \frac{\partial}{\partial y} & \frac{\partial}{\partial z} \\
+        P & Q & R
+    \end{array} \right|\]
+\end{note}
+
+\subsection{Замкнутые точные дифференциальные формы}
+Пусть \(M\) --- гладкое многообразие \(\omega \in \Omega^k(M)\).
+
+\begin{definition}
+    \(\omega\) называется замкнутой, если \(d\omega = 0\)
+\end{definition}
+
+\begin{definition}
+    \(\omega\) называется точной, если \(\exists \alpha \in \Omega^{k - 1}(M): d\alpha = 0\)
+\end{definition}
+
+\begin{note}
+    Из условия \(d^2 = 0\) следует, что всякая точная форма замкнута.
+\end{note}
+
+\begin{theorem}[Лемма Пуанкаре]
+    Если \(\omega \in \Omega^k(\R^n)\), \(k \ge 1\) и \(\omega\) замкнута, то она точна.
+\end{theorem}
+\begin{proof}
+    \((t, x_2, \dots x_n)\) --- координаты в \(\R^n\). Тогда всякая \(k\)-форма в \(\R^n\) есть сумма мономов вида \(f(t, x) = dt \wedge dx^I\) и \(g(t, x)dx^J\), где \(I \in \mathbb{I}_{k - 1}, J \in \mathbb{I}_k\). Определим на \(\Omega(\R^n)\) линейный оператор \(\Phi\) по правилу 
+    \[\Phi(f(t, x)dx \wedge dx^I) = \left( \int_0^t f(s, x)ds \right) dx^I\]
+    \[\Phi(g(t, x)dx^I) = 0\]
+    Покажем, что значение \(\Phi\) на \(\omega\) удовлетворяет условию
+    \[d\Phi(\omega) + \Phi(d\omega) = \omega - \pi^*(i^*\omega)\]
+    Где \(\pi: \R^n \ra \R^{n - 1}, \pi(t, x) = x, i: \R^{n - 1} \ra \R^n, i(x) = (0, x)\).
+    \begin{enumerate}
+        \item \(\omega = g(t, x)dx^J \Ra \Phi(\omega) = 0 \Ra d\Phi(\omega) = 0\).
+        \[d\omega = \frac{\partial g}{\partial t}dt \wedge dx^J + \omega_0\]
+        Тогда
+        \[\Phi(d\omega) = \Phi\left( \frac{\partial g}{\partial t}dt \wedge dx^J \right) = \left( \int_0^t \frac{\partial g}{\partial s} ds\right)dx^J = g(t, x)dx^J - g(0, x)dx^J\]
+        Т.к. \(i \circ \pi(t, x) = (0, x)\), то \((i \circ \pi)^*\omega = g(0, x)dx^J\), тогда равенство выполняется.
+        \item \(\omega = f(t, x)dt\wedge dx^I \Ra \Phi(\omega) = \left( \int_0^t f(s, x)ds \right) dx^I\).
+        \[d\Phi(\omega) = f(t, x)dt \wedge dx^I + \sum_{ i = 2}^n \left( \int \frac{\partial f}{\partial x_i}(s, x)ds \right)dx_i \wedge dx^I\]
+        \[d\omega = \sum_{i = 2}^n \frac{\partial f}{\partial x_i}(t, x) dx_i \wedge dt \wedge dx^I\]
+        \[\Phi(d\omega) = \sum_{i = 2}^n \left( \int_0^t \frac{\partial f}{\partial x_i}(s, x)ds \right)dx_i \wedge dx^I\]
+        Но тогда:
+        \[d \Phi(\omega) + \Phi(d\omega) = 0\]
+    \end{enumerate}
+    Полученное равенство позволяет доказать утверждение индукцией по \(n\)
+    \begin{enumerate}
+        \item[] \textbf{База:} \(n = k \Ra \omega \in \Omega^k(\R^k)\), \(\omega\) замкнута. \(i^*\omega = 0\). Следовательно, \(\omega = d\Phi(\omega)\)
+        \item[] \textbf{Переход:} \(n \ra n + 1\). Пусть \(\omega \in \Omega^k(\R^{n + 1})\) и \(\omega\) замкнута. Заметим, что \(i^*\omega \in \Omega^k(R^{n}), d(i^*\omega) = i^*d\omega = 0\). Следовательно, \(\exists \alpha: d\alpha = i^*\omega\). Имеем:
+        \[d\Phi(\omega) = \omega - \pi^*(d\alpha) \Ra \omega = d(\Phi(\omega) + \pi^*\alpha)\]
+    \end{enumerate}
+\end{proof}
+

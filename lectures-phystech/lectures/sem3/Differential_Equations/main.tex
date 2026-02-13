@@ -1,0 +1,1931 @@
+
+\hypertarget{lecture1}{}
+
+\section{Введение}
+\subsection{Определения}
+\begin{definition}
+    Пусть даны \(n, m, k \in \N, \Omega \subset \R \times \underbrace{\R^n \times \R^n}_{k + 1}, F: \Omega \ra \R\). \(F(t, x, \stackrel{.}{x}, \stackrel{..}{x}, \dots x^{(k)}) = 0\) называется Обыкновенным Дифференциальным Уравнением.
+\end{definition}
+
+\begin{definition}
+    \(x: I \ra \R^n\) --- называется решением, если
+    \begin{enumerate}
+        \item \(I \subset \R^n\)
+        \item \(x \in C^k(I, \R^n)\)
+        \item \(F(t, x, \stackrel{.}{x}, \stackrel{..}{x}, \dots x^{(k)}) \equiv 0, t \in I \Lra = 0 \forall t \in I 
+        \)
+    \end{enumerate}
+\end{definition}
+
+\begin{definition}
+    Пусть \(\Gamma \subset \R \times \underbrace{\R^n \times \R^n}_{k}\)
+    \(x^{(k)} = f(t, x, \stackrel{.}{x}, \stackrel{..}{x} \dots x^{(k - 1)})\) называется Нормальным Обыкновенным Дифференциальным Уравнением.
+\end{definition}
+
+\subsection{Примеры}
+\begin{example}
+    \(t^2 + x^2 + \stackrel{.}{x}^2 = 0\) --- нет решений
+\end{example}
+
+\begin{example}
+    \(\stackrel{.}{x} = x \Ra x = ce^t, t \in I\).
+\end{example}
+
+\begin{definition}[Задача Коши]
+    Пусть даны \(x_0, \stackrel{.}{x_0}, \stackrel{..}{x_0}, \dots x_0^{(k)} \in \R^n, t_0 \in \R\).
+    \begin{equation}
+        \begin{cases}
+            F(t, x, \stackrel{.}{x}, \stackrel{..}{x}, \dots x^{(k)}) = 0\\
+            x(t_0) = x_0,  \stackrel{.}{x}(t_0) = \stackrel{.}{x_0}, \dots x^{(k)}(t_0) = x_0^{(k)}    
+        \end{cases}
+    \end{equation}
+    Называется Задаей Коши.
+\end{definition}
+
+\begin{note}
+    \(x(\cdot)\) --- решение задачи Коши, если \(x(\cdot)\) --- решение (1.1) и \(x(t_0) = x_0,  \stackrel{.}{x_0}(t_0) = \stackrel{.}{x_0}, \dots x_0^{(k)}(t_0) = x_0^{(k)}\)
+\end{note}
+
+\begin{theorem}
+    Пусть \(n \in \N, k = 1, \Gamma = \subset \R \times \R^n, (t_0, x_0) \in \Gamma \Ra \)
+    \begin{equation}
+        \begin{cases}
+            \stackrel{.}{x} = f(t, x) \\
+            x(t_0) = x_0    
+        \end{cases}
+    \end{equation}
+    Рассмотрим \(B((t_0, x_0), r) = \{(t, x) : |t - t_0|^2 + |x - x_0|^2 \le r^2\} \subset \Gamma\). Пололжим \(M = \sup_{(t, x) \in B}(f(t, x)), d = \frac{r}{\sqrt{1 + M^2}}\)
+
+    \(\Gamma\) --- открыто, \(f\) --- непрерывно \(\Ra \exists \) решение \(x: (t_0 - d, t_0 + d) \ra \R^n\)
+\end{theorem}
+
+\begin{example}[Условие непрерывности критично]
+    Рассмотрим \(f: \R \ra \R: f(x) = \left\{\begin{array}{l}
+        1, x \le 0 \\
+        -1, x > 0
+    \end{array}\right.\) и задачу Коши:
+    \[\left\{\begin{array}{l}
+        \stackrel{.}{x} = f(x) \\
+        x(0) = 0
+    \end{array}\right.\]
+    Тогда не существует решений.
+\end{example}
+\begin{proof}
+    Пусть существует решение \(x(\cdot)\). Тогда \(\stackrel{.}{x}(0) = f(x(0)) = f(0) = 1 \Ra \exists \epsilon > 0: \stackrel{.}{x}(t) > 0 \forall t \in [0, \epsilon) \Ra \stackrel{.}{x}(0) = 1, x(0) = 0 \Ra x(t) > 0 \forall t \in (0, \epsilon) \Ra \stackrel{.}{x}(t) = f(x(t)) < 0 \forall t \in (0, \epsilon)\).
+\end{proof}
+
+\begin{theorem}
+    Пусть \(\Gamma\) --- открыто, \(f\) --- непрерывна, \(\frac{\delta f_i}{\delta x_j} \exists\) и непрерывна \(\Ra \exists \) решение \(x\) задачи Коши (1.2) и \(\forall\) решения \(\tilde{x}: I \ra \R^n\) задачи Коши (1.2) \(x(t) = \tilde{x}(t), t \in I \cap (t_0 - d, t_0 + d)\).
+    % \[f(t, x) = \left(\begin{array}{c}
+    %     f_1(t, x) \\
+    %     f_2(t, x) \\
+    %     \vdots \\
+    %     f_n(t, x) \\
+    % \end{array}\right), f_i(t, x) = f_i(t, \underbrace{x_1, x_2, \dots x_n}_x)\]
+\end{theorem}
+
+\begin{example}[Существенность непрерывность производной (гладкости функции)]
+    \[\left\{\begin{array}{l}
+        \stackrel{.}{x} = \sqrt[3]{x} \\
+        x(0) = 0
+    \end{array}\right.\]
+    \begin{enumerate}
+        \item \(x \equiv 0\) --- решение
+        \item \(x(t) \equiv at^b\)
+        \item \(abt^{b - 1} \equiv a^{\frac{1}{3}}b^{\frac{1}{3}}\).
+    \end{enumerate}
+    \[\left\{\begin{array}{l}
+        b - 1 = \frac{b}{3} \\
+        ab = a^{\frac{1}{3}}
+    \end{array}\right. \Ra \left\{\begin{array}{l}
+        b = \frac{3}{2} \\
+        a^{\frac{2}{3}} = \frac{3}{2}
+    \end{array}\right. \Ra \left\{\begin{array}{l}
+        b = \frac{3}{2} \\
+        a = \left(\frac{2}{3}\right)^{\frac{3}{2}}
+    \end{array}\right.\]
+    \[\Ra x(t) = \left(\frac{2}{3}\right)^{\frac{3}{2}}t^{\frac{3}{2}}, t > 0\text{ --- решение} \stackrel{.}{x} = \sqrt[3]{x}\]
+    Теперь рассмотрим \(\tau \in \R\). По нему можно построить \(a(t - \tau)^b\), удовлетворяющая решению.
+\end{example}
+
+\section{Решения различных дифференциальных уравнений}
+\subsection{Уравнения с разделяющимися переменными}
+\begin{definition}
+    Пусть дана \(h \in \mathcal{G} \ra \R, g: I \ra \R, \mathcal{G}, I \subset \R\) --- интервалы. 
+\end{definition}
+
+\begin{example}
+    \[(3) \stackrel{.}{x} = h(x) \cdot g(t)\]
+    \[\frac{dx}{dt} = h(x) \cdot g(t)\]
+    \[\frac{dx}{h(x)} = g(t)dt\]
+    \[\int \frac{dx}{h(x)} = \int g(t)dt\]
+    \[H(x) = G(x) + c\]
+    И далее алгебраически находим \(x\).
+\end{example}
+\begin{proof}[Почему так можно делать]
+    Пусть \(h(x) \ne 0 \forall x \in \mathcal{G}, H(x)\) --- первообразная \(x = \frac{1}{h(x)}, G(x)\) --- первообразная \(g(x), x\) --- непрерывная дифференцируемая функция \((t, x(t)) \in I \times \mathcal{G}\). Заметим, что \(x\) --- решение \(\Lra \stackrel{.}{x}(t) \equiv h(x(t)) g(t) \Lra \frac{\stackrel{.}{x}(t)}{h(x(t))} \equiv g(t) \Lra \exists c \in \R: H(x(t)) \equiv G(t) + c\).
+
+\end{proof}
+
+Пусть \(x_0 \in \mathcal{G}, t_0 \in I\) даны, \(h(x_0) = 0, h(x) \ne 0\) при \(x \ne x_0, g(t_0) \ne 0, H(x) = \int_{x_0}^x \frac{d\xi}{h(\xi)}\) сходится при всех \(x \in \mathcal{G}\). Тогда 
+\begin{enumerate}
+    \item \(x(t) \equiv x_0, t \in I\) является решением \((3)\).
+    
+    \item \(\tilde{x}(t): H(x(t)) = G(t)\) является решением \((3)\) (\(G(t) = \int_{t_0}^t g(s)ds\)).
+    
+    \item \(x(t) = \left\{\begin{array}{l}
+        x_0, t \le t_0 \\
+        \tilde(x)(t), t > t_0
+    \end{array}\right.\)
+\end{enumerate}
+\hypertarget{lecture2}{}
+
+\subsection{Однородные уравнения}
+\begin{problem}
+    Пусть \(f \in C(I, \R), I \subset \R\) --- интервал. Решить уравнение:
+    \[x' = f\left(\frac{x}{t}\right)\]
+\end{problem}
+\begin{proof}[Решение]
+    Введем \(y\): \[x(t) = ty(t)\]
+    \[x' = (ty(t))' = f(y(t)) \Ra y't + y = f(y)\]
+    \[x' = (ty(t))' = f(y(t)) \Ra y't = f(y) - y\]
+\end{proof}
+
+\subsection{\(x' = f\left(\frac{a_1t + b_1x + c_1}{a_2t + b_2x + c_2}\right)\)}
+\subsubsection{Прямые пересекаются}
+\begin{problem}
+    Пусть прямые \(a_1t + b_1x + c_1, a_2t + b_2x + c_2\) пересекаются в точке \((t_0, x_0)\). Решить уравнение:
+    \[x' = f\left(\frac{a_1t + b_1x + c_1}{a_2t + b_2x + c_2}\right)\]
+\end{problem}
+\begin{proof}[Решение]
+    Сделаем замену \(x(t) = y(t - t_0) + x_0 \Lra x(t + t_0) - x_0 = y(t)\)
+    \[y'(t) = \frac{d}{dt}x(t + t_0) = f\left(\frac{a_1(t + t_0) + b_1x(t + t_0) + c_1}{a_2(t + t_0) + b_2x(t + t_0) + c_2}\right) = f\left(\frac{a_1t + b_1(x(t_0 + t) - x_0)}{a_2t + b_2(x(t + t_0) - x_0)}\right)=\]
+    \[ = f\left(\frac{a_1t + b_1y(t)}{a_2t + b_1y(t)}\right) = \tilde{f}\left(\frac{y}{t}\right)\]
+\end{proof}
+
+\subsubsection{Прямые не пересекаются}
+\begin{problem}
+    Пусть прямые \(a_1t + b_1x + c_1, a_2t + b_2x + c_2\) не пересекаются. Решить уравнение:
+    \[x' = f\left(\frac{a_1t + b_1x + c_1}{a_2t + b_2x + c_2}\right)\]
+\end{problem}
+\begin{proof}[Решение]
+    Тогда \(\exists k \ne 0: a_2 = ka_1, b2 = kb_1\). Сделаем замену \(y = a_1t + b_1x\)
+
+    \[y' = a_1 + b_1f\left(\frac{a_1t + b_1x + c_1}{ka_2t + kb_2x + c_2}\right) = a_1 + b_1f\left(\frac{y + c_1}{ky + c_2}\right)\]
+    \[y' = a_1 + b_1f\left(\frac{y + c_1}{ky + c_2}\right)\]
+\end{proof}
+
+\subsection{Линейные уравнения}
+Пусть даны \(I \subset \R\) --- интервал, \(a, b \in C(I, \R)\).
+\begin{definition}
+    \(x' = a(t)x + b(t)\) --- линейное неоднородное уравнение I-ого порядка
+\end{definition}
+\begin{definition}
+    \(x' = a(t)x\) --- линейное однородное уравнение I-ого порядка. 
+\end{definition}
+
+\begin{problem}
+    Найти решение однородного уравнения первого порядка.
+\end{problem}
+\begin{proof}[Решение]
+    \[x(t) = C \cdot \exp\left(\int_{t_0}^t a(s)ds\right), t, t_0 \in I, c \in \R\]
+\end{proof}
+
+\subsection{Метод вариации постоянной}
+\begin{problem}
+    Найти решение неоднородного уравнения первого порядка.
+\end{problem}
+\begin{proof}[Решение]
+    Решение будет выглядеть аналогично одноромному уравнению, только \(C\) мы заменим на \(C(t)\)
+    \[x(t) = C(t) \cdot \exp\left(\int_{t_0}^t a(s)ds\right)\]
+    \[x'(t) = C'(t) \cdot \exp\left(\int_{t_0}^t a(s)ds\right) + C(t) \cdot \exp\left(\int_{t_0}^t a(s)ds\right)a(t) = C(t) \cdot \exp\left(\int_{t_0}^t a(s)ds\right)a(t) + b(t)\]
+    \[C'(t) \cdot \exp\left(\int_{t_0}^t a(s)ds\right) = b(t)\]
+    \[C'(t) = b(t)\exp\left(-\int_{t_0}^t a(s)ds\right)\]
+\end{proof}
+
+\subsection{Уравнение Бернулли}
+\begin{problem}
+    Пусть даны \(I \subset \R\) --- интервал, \(a, b \in C(I, \R), \alpha \ne 0, 1\). Решить уравнение
+    \[x' = a(t)x + b(t)x^\alpha\]
+\end{problem}
+\begin{proof}[Решение]
+    Решение \(x(t) \equiv 0\) очевидно подходит. Будем искать решение в виде \(x(t) = y(t)^{\frac{1}{1 - \alpha}}\).
+    \[\frac{1}{1 - \alpha}y^{\frac{\alpha}{1 - \alpha}}y' = ay^{\frac{1}{1 - \alpha}} + by^{\frac{\alpha}{1 - \alpha}}\]
+    \[y' = (1 - \alpha)(ay + b)\]
+\end{proof}
+
+\subsection{Уравнение Риккати}
+\begin{problem}
+    Пусть даны \(I \subset \R\) --- интервал, \(a, b, c \in C(I, \R), x_0 \in C^1(I, \R)\). Решить уравнение:
+    \[x' = a(t)x^2 + b(t)x + c(t)\]
+\end{problem}
+\begin{proof}
+    Пусть \(x_0(\cdot)\) --- решение. Будем искать решения в виде \(x(t) = x_0(t) + y(t)\). 
+    \[x_0' + y' = ax_0^2 + 2ax_0y + ay^2 + bx_0 + by + c\]
+    \[y' = (2ax_0 + b)y + ay^2\]
+\end{proof}
+
+\subsection{Уравнения в дифференциалах}
+Пусть даны \(\Omega \subset \R^2, M, N: \Omega \ra \R\).
+
+\begin{definition}
+    Уравнение
+    \begin{equation}
+        M(t, x)dt + N(t, x)dx = 0
+    \end{equation}
+    Называется уравнением в дифференциалах
+\end{definition}
+
+\begin{definition}
+    Решением (2.1) называются функции \(x(t)\) и \(t(x)\), являющиеся решением однородного дифференциального уравнения: \(M(t, x) + N(t, x)x' = 0\) и \(M(t, x)t' + N(t, x) = 0\)
+\end{definition}
+
+\subsubsection{Уравнения в полных дифференциалах}
+\begin{definition}
+    Если \(\Omega\) открыто и \(M, N \in C^1(\Omega, \R)\). Тогда (2.1) называется уравнением в полных дифференциалах, если \(\exists g \in C^2(\Omega, \R): \frac{dg}{dt}(t, x) = M(t, x), \frac{dg}{dx}(t, x) = N(t, x)\).
+\end{definition}
+
+Если (2.1) является УВПД, то \((1) \sim g(t, x) = c, c \in \R\):
+\[g(t, x(t)) \equiv c, g(t(x), x) \equiv c\]
+
+\(x_0\) является решением \((1) \Lra M(t, x(t)) + N(t, x(t))x'(t) \equiv 0\)
+\[\Lra \frac{dg}{dt}(t, x(t)) + \frac{dg}{dx}(t, x(t))x' \equiv 0\]
+\[\Lra \frac{d}{dt}g(t, x(t)) \equiv 0 \Lra \exists c \in \R: g(t, x(t)) \equiv c\]
+
+\begin{enumerate}
+    \item Если (2.1) --- УВПД и \(\Omega = I \times J\) (\(I, J \subset \R\) --- интервалы), то
+    \[g(t, x) = \int_{t_0}^t M(s, x)ds + \gamma(x)\]
+    \[\frac{d}{dx}\left(\int_{t_0}^t M(s, x)sx + \gamma(x)\right) = N(t, x)\]
+\end{enumerate}
+
+\begin{theorem}
+    Если \(\Omega\) --- выпуклое и \(\frac{dM}{dx}(t, x) \equiv \frac{dM}{dt}(t, x)\), то (2.1) является уравнением в полных дифференциалах.
+\end{theorem}
+
+\subsubsection{Интегрирующий множитель}
+Пусть \(\Omega\) --- открыто, \(M, N \in C^1(\Omega, \R)\)
+\begin{definition}
+    \(\mu(t, x) \in C^1(\Omega, \R), \mu(t, x) \ne 0 \forall (t, x) \in \Omega\) называется интегрирующим множителем для (2.1), если 
+    \[\mu(t, x)M(t, x)dt + \mu(t, x)N(t, x)dx = 0\]
+    Является УВПД
+\end{definition}
+
+\begin{proposition}
+    Пусть \(\frac{\frac{dM}{dx} + \frac{dM}{dt}}{N}\) зависит только от \(t\), \(N(t, x) \ne 0 \forall (t, x) \in \Omega\). Тогда существует интегрирующий множитель \(\mu\), зависящий только от \(t\).
+    \[\frac{d}{dx}(\mu M) = \mu \frac{dM}{dx}\]
+    \[\frac{d}{dt}(\mu N) = \mu' N + \mu \frac{dN}{dt}\]
+    \[\mu'N + \mu \frac{dN}{dt} = \mu \frac{dM}{dx}\]
+    \[\mu' = \mu\left(\frac{\frac{dM}{dx} - \frac{dN}{dx}}{N}\right)\]
+\end{proposition}
+
+\hypertarget{lecture3}{}
+
+\section{Принцип сжимающих отображений}
+\subsection{Напоминание с Матана}
+\begin{definition}
+    Пусть \(X \ne \emptyset, \rho: X \times X \rightarrow \R_+\). Тогда \((X, \rho)\) называется метрическим пространством, а \(\rho\) --- метрикой, если выполнены следующие условия:
+    \begin{enumerate}
+        \item \(\rho(x_1, x_2) = 0 \Ra x_1 = x_2\)
+        \item \(\rho(x_1, x_2) = \rho(x_2, x_1)\)
+        \item \(\rho(x_1, x_2) \le \rho(x_1, x_3) + \rho(x_3, x_2)\)
+    \end{enumerate}
+\end{definition}
+
+\begin{definition}
+	Последовательность \(\{x_n\} \subset X\) называется сходящейся, если \(\exists x \in X: \rho(x_n, x) \ra 0\).
+\end{definition}
+
+\begin{definition}
+	Последовательность \(\{x_n\}\) называется фундаментальной, если \(\forall \epsilon > 0 \exists N: \forall n, m > N (\rho(x_n, x_m) < \epsilon)\)
+\end{definition}
+
+\begin{note}
+	Последовательность сходится \(\begin{array}{c}
+		\Ra \\
+		\cancel{\La}
+	\end{array}\) она фундаментальна (есть примеры метрических пространств, в которых нет следствия влево, например в \((0, 1)\), последовательность \(\frac{1}{n}\) фундаментальна, но не сходится).
+\end{note}
+\begin{note}
+	В \(\R^n\) определения фундаментальности и сходимости равносильны
+\end{note}
+
+\begin{definition}
+	Метрическое пространство. \((x, \rho)\) называется полным, если любая фундаментальная последовательность сходится.
+\end{definition}
+
+\begin{example}
+	\((\R^n, \rho(x, y) = |x - y|)\)
+\end{example}
+
+\begin{example}
+	Пусть \(K \subset \R \times \R^n\) --- непустой компакт, \(I \subset \R, I \ne \emptyset\). Положим \(X = \{x \in C(I, \R^n): (t, x(t)) \in K \forall t \in I\}, \rho(x, y) = \sup_{t \in I}|x(t) - y(t)|\). Тогда \((X, \rho)\) --- полное метрическое пространство
+\end{example}
+\begin{proof}
+	Нетрудно проверить, что \(\rho\) --- метрика. Рассмотрим \(\{x_n\} \subset X\) --- фундаментальную последовательноость, \(\forall t \in I |x_i(t) - x_j(t)| \le \rho(x_i, x_j) \Ra \{x_i(t)\} \subset \R^n\) --- фундаментальна. Тогда \(\exists x(t) \in R^n: x_i(t) \ra x(t)\). \(\{x_j\} \subset X\) --- фундаментальна \(\Ra \forall \epsilon > 0 \exists N: \rho(x_i, x_j) < \epsilon \forall i, j > N\). Тогда \(\forall \epsilon > 0, i \ge N, t \in I |x(t) - x_i(t)| \le |x(t) - x_j(t)| + |x_j(t) - x_i(t)| < |x(t) - x_j(t)| + \epsilon \ra_{j \ra \infty} \epsilon \Ra x_j \rightrightarrows x \Ra x \in C(I, \R^n)\). \(\forall t \in I (t, x_j(t)) \ra_{j \ra \infty} (t, x(t)) \Ra (t, x(t)) \in K\), т.к. \(K\) --- замкнуто. Но тогда \(x \in X\). Таким образом, получили, что любая фундаментальная последовательность сходится.
+\end{proof}
+
+\begin{definition}
+	Пусть \((X, \rho), (Y, \tilde{\rho})\) --- метрические пространства, \(\Phi: X \ra Y\). Тогда \(\Phi\) называется непрерывной, если \(\forall \{x_j\} \subset X, \forall x \in X: (x_j \ra x \Ra \Phi(x_j) \ra \Phi(x))\).
+\end{definition}
+
+\begin{definition}
+	\(\Phi\) называется липшицевым, если \(\exists L \ge 0: \tilde{\rho(\Phi(x_1), \Phi(x_2))} \le L \rho(x_1, x_2)\).
+\end{definition}
+
+\begin{proposition}
+	\(\Phi\) липшицево \(\Ra \Phi\) непрерывно.
+\end{proposition}
+\begin{proof}
+	Рассмотрим \(x_j \ra x \Ra \rho(x_j, x) \ra 0 \Ra \tilde{\rho(\Phi(x_j), \Phi(x)) \le L\rho(x, x_j) \ra 0}\).
+\end{proof}
+
+\begin{example}[Обратное неверно]
+	Рассмотрим \(X = [0, 1], \Phi(x) = \sqrt{x}\). Тогда \(|\sqrt{x} - \sqrt{0}| = \frac{1}{\sqrt{x}}\cdot |x - 0|\), но \(\frac{1}{\sqrt{x}} \ra +\infty \Ra \sqrt{x}\) --- не липшицево.
+\end{example}
+
+\begin{definition}
+	Пусть \(A: \R^n \ra \R^k\) --- линейный оператор. Будем через \(A\) обозначать его матрицу. Тогда норма линейного оператора \(\|A\| = \sqrt{\sum_{i = 1}^k |A_i|^2}\)
+\end{definition}
+
+\begin{proposition}
+	Пусть \(A: \R^n \ra \R^k\) --- линейный оператор. Тогда \(\forall x \in \R^n |Ax| \le \|A\||x|\).
+\end{proposition}
+\begin{proof}
+	\[|Ax| = \sqrt{(Ax, Ax)} = \sqrt{\sum_{j = 1}^k (a_j, x)^2} \le \sqrt{\sum_{j = 1}^k |a_j|^2|x|^2} = \|A\||x|\]
+\end{proof}
+
+% Пусть \(x_i, y_i\) --- числа, причем все \(x_i\) попарно различны. Многочлен
+% \[P(x) = y_1\frac{(x - x_2)(x - x_3)\dots (x - x_k)}{(x_1 - x_2)(x_1 - x_3)\dots (x_1 - x_k)} + \dots + y_i\frac{(x - x_2)(x - x_3)\dots\cancel{(x - x_i)}\dots (x - x_k)}{(x_1 - x_2)(x_1 - x_3)\dots\cancel{(x_i - x_i)}\dots (x_1 - x_k)} + \dots\]
+% Называется интерполяционным многочленом Лагранжа. Проверь, что \(P(x_i) = y_i\)
+
+\begin{corollary}
+	Пусть \(A: \R^n \ra \R^k\) --- линейный оператор. Тогда \(A\) --- липшицево.
+\end{corollary}
+\begin{proof}
+	\[|Ax_1 - Ax_2| = A(x_1 - x_2) \le \|A\||x_1 - x_2|\]
+\end{proof}
+
+\begin{proposition}
+	Пусть \(\Omega \subset \R \times \R^n\) --- открыто, \(K \subset \Omega, K\) --- непустой компакт, \(f: \Omega \ra \R^n\) --- непрерывна, \(\forall (t, x) \in \Omega: \frac{\partial{f_i}}{\partial{x_j}}(t, x)\) существует и непрерывна и \(\forall t \in \R: K_t = \{x \in \R^n: (t, x) \in K\}\) выпукло. Тогда \(\exists L > 0\):
+	\[|f(t, x_1) - f(t, x_2)| \le L|x_1 - x_2| \forall t \in \R \forall x_1, x_2 \in K_t\]
+\end{proposition}
+\begin{proof}
+	Положим \(\forall t \in \R, x_1, x_2 \in K_t\), \(\gamma(s) = f(t, x_1 + s(x_2 - x_1)), s \in [0, 1]\).
+	\[|f(t, x_1) - f(t, x_2)| = |\gamma(0) - \gamma(1)| = \left|\int_0^1 \gamma'(s)ds\right| \le \left|\int_0^1 \frac{\partial{f}}{\partial{x}}(t, x_1 + s(x_2 - x_1))(x_2 - x_1)ds\right| \le\]
+	\[\le \int_0^1 \left\|\frac{\partial{f}}{\partial{x}}(t, x_1 + s(x_2 - x_1))\right\||x_2 - x_1|ds\]
+\end{proof}
+
+\subsection{Принцип сжимающих отображений}
+\begin{definition}
+	\(\Phi: X \ra X\) называется сжимающих, если \(\exists \beta \in [0, 1): \rho(\Phi(x_1), \Phi(x_2)) \le \beta\rho(x_1, x_2) \forall x_1, x_2 \in X\)
+\end{definition}
+
+\begin{proposition}
+	Если \(\Phi\) --- сжимающее отображение, то \(\exists ! \xi \in X: \xi = \Phi(\xi)\)
+\end{proposition}
+\begin{proof}
+	См. Теорему Банаха в третьей лекции Матана
+\end{proof}
+
+\begin{corollary}
+	Пусть \((X, \rho)\) --- полное метрическое пространство, \(\Phi: X \ra X, \exists N: \Phi^N\) --- сжимающее. Тогда \(\exists ! \xi \in X: \xi = \Phi(\xi)\)
+\end{corollary}
+\begin{proof}
+	\begin{enumerate}
+		\item[] \textbf{Существование:} \(\Phi\) --- сжимающее отображение, тогда \(\exists! \xi \in X: \xi = \Phi^N(\xi)\). \(\Phi(\xi) = \Phi(\Phi^N(\xi)) = \Phi^N(\Phi(\xi)) \Ra \Phi(\xi) = \xi\)
+		\item[] \textbf{Единственность:}. \(\tilde{\xi} \in X: \tilde{\xi} = \Phi(\tilde{\xi}) \Ra \tilde{\xi} = \Phi^N(\tilde{\xi}) \Ra \xi = \tilde{\xi}\).
+	\end{enumerate}
+\end{proof}
+
+\hypertarget{lecture4}{}
+
+\section{Существование решений задачи Коши}
+\begin{problem}[Коши]
+    Пусть \(\Gamma \subset \R \times \R^n\) --- открыто, \((t_0, x_0) \in \Gamma, f: \Gamma \ra \R^n\).
+    Найти все \(x\), удовлетворяющие системе:
+    \begin{equation}
+        \begin{cases}
+            x' = f(x, t) \\
+            x(t_0) = x_0
+        \end{cases}
+    \end{equation}
+\end{problem}
+
+\begin{theorem}[О существовании и единственности решения задачи Коши]
+    В задаче Коши (4.1), Положим \(r > 0: B = B((t_0, x_0), r) \subset \Gamma, M = \sup_{(t, x) \in B}|f(t, x)|, d = \frac{r}{\sqrt{1 + M^2}}\). Тогда, если \(f\) --- непрерывна, а \(\frac{\partial f_i}{\partial x_j}\) существуют и непрерывны, то 
+    \begin{enumerate}
+        \item \(\exists\) решение \(x: (t_0 - d, t_0 + d) \ra \R^n\) задачи Коши (4.1).
+        \item \(\forall\) решения \(y: I \ra \R^n\) задачи Коши (4.1), верно: \(y(t) = x(t) \forall t \in I \cap (t_0 - d, t_0 + d)\).
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    Положим \(T \subset (t_0 - d, t_0 + d), t_0 \in T, R = \sqrt{r^2 - d^2}, L = \max_{(t, x) \in B}\left\|\frac{\partial f_i}{\partial x_j}\right\|, X = C(T, B(x_0, R))\). Тогда:
+    \begin{enumerate}
+        \item \(x \in X \Ra (t, x(t)) \in B \forall t \in T\).
+        \[\forall t \in T: |t - t_0|^2 + |x(t) - x_0|^2 \le d^2 + r^2 - d^2 = r^2\]
+        \item Рассмотрим \(\Phi: X \ra X, \Phi(x)(t) = x_0 + \int_{t_0}^t f(s, x(s))ds, x \in X, t \in T\).
+        \[\forall x \in X, t \in T: |\Phi(x)(t) - x_0| = \left| \int_{t_0}^t f(s, x(s))ds \right| \le \left| \int_{t_0}^{t} |f(s, x(s))|ds \right| \le \left| \int_{t_0}^r M ds \right| \le \]
+        \[Md = M \frac{r}{\sqrt{1 + M^2}} = R\]
+        \[M^2r^2 = R^2(1 + M^2)\]
+        \[M^2r^2 = (r^2 - d^2)(1 + M^2)\]
+        \[0 = r^2 - d^2 - d^2M^2\]
+        \[d^2(1 + M^2) = r^2\]
+        \item \(x \in X \La x \in C(T, R^n)\).
+        \[x = \Phi(x) \Ra x(t) \equiv x_0 + \int_{t_0}^t f(s, x(s))ds \Lra \left\{\begin{array}{l}
+            x \in C(T, \R^n) \\
+            x'(t) \equiv f(t, x(t)) \\
+            x(t_0) = x_0
+        \end{array}\right. \Lra \left\{\begin{array}{l}
+            x \in C(T, \R^n) \\
+            \text{\(x\) --- решение (4.1)}
+        \end{array}\right.\]
+        Заметим, что достаточно доказать, что \(x \in X\), то есть, что \(|x(t) - x_0| \le R \forall t \in T\).
+        Пусть \(\exists t \in T: t > t_0: |x(t) - x_0| > R\). Тогда \(\exists \tau > t_0: |x(\tau) - x_0| > R\) и \(|x(t) - x_0| < R, t \in [t_0, R)\).
+        \[|x(\tau) - x_0| = \left| \int_{t_0}^\tau f(s, x(s))sx \right| \le M\int_{t_0}^\tau ds \le Md = R\]
+        \item Докажем, по индукции, что \(|\Phi^N(x_1)(t) - \Phi^N(x_2)(t)| \le \frac{L^N}{N!}|t - t_0|^N \rho(x_1, x_2) \forall x_1, x_2 \in X, \forall t \in T, \forall N\).
+        \begin{enumerate}
+            \item[] \textbf{База:} \(N = 1\).
+            \[|\Phi(x_1)(t) - \Phi(x_2)(t)| = \left| \int_{t_0}^t \left( f(s, x_1(s)) - f(s, x_2(s)) \right)ds \right| \le \left| \int_{t_0}^t \left| f(s, x_1(s)) - f(s, x_2(s)) \right|ds \right|\]
+            \[\le \left| \int_{t_0}^t L|x_1(s) - x_2(s)|ds \right| \le L|t - t_0|\rho(x_1, x_2)\]
+            \item[] \textbf{Переход:}
+            \[|\Phi^N(x_1)(t) - \Phi^N(x_2)(t)| = \left| \int_{t_0}^t \left( f(s, \Phi^{N - 1}(s)) - f(s, \Phi^{N - 1}(x_2)(s)) \right)ds \right| \le \]
+            \[\le L\left| \int_{t_0}^t |\Phi(x_1)^{N - 1}(s) - \Phi(x_2)^{N - 1}(s)| \right| \le L\left| \frac{L^{N - 1}}{(N - 1)!}|s - t_0|^N\rho(x_1, x_2)ds \right| = \]
+            \[= \frac{L^N}{(N - 1)!}\rho(x_1, x_2)\left| \int_{t_0}^t |s - t_0|^{N - 1}ds \right| = \frac{L^N}{N!}|t - t_0|^N\rho(x_1, x_2)\]
+        \end{enumerate}
+
+        \item Тогда \(\Phi: \exists N: \Phi^N: X \ra X\) является сжимающим отображением, т.к. \(\frac{L^N}{N!}|t - t_0|^N \le \frac{L^N}{N!}d^N < 1\) при достаточно больших \(N\). Тогда \(\exists! x \in X: x = \Phi(x) \Ra \exists!\) на \(T\) решение \(x\) задачи Коши (4.1). Возьмем любое решение \(y: I \ra \R^n\). Положим \(T = I \cap (t_0 - d, t_0 + d)\). Тогда на \(T\) верно, что \(x(t) = y(t)\)
+    \end{enumerate}
+\end{proof}
+
+\subsection{В общем случае}
+\(\Gamma \subset \R^n\) --- открытое, \(g: \Gamma \ra \R^n, x_0, x_0^1, \dots, x_0^{n - 1} \in \R\)
+\begin{equation}
+    \begin{cases}
+        x^{(n)} = g(t, x', x'', \dots, x^{(n - 1)}) \\
+        x(t_0) = x_0, x'(t_0) = x_0^1, \dots, x^{(n - 1)}(t_0) = x_0^{(n - 1)}
+    \end{cases}
+\end{equation}
+Сделаем замену \(y_1 = x, y_2 = x', \dots y_n = x^{(n - 1)}\). Тогда мы получим систему:
+\begin{equation}
+    \begin{cases}
+        y_1' = y_2 \\
+        y_2' = y_3 \\
+        \vdots \\
+        y'_n = g(t, y_1, y_2, \dots y_n)
+    \end{cases}
+\end{equation}
+
+Покажем, что полученная система в действительности эквивалентна задаче Коши (4.2). Заметим, что 
+\[\left\{\begin{array}{l}
+    y_1(t_0) = x_0 \\
+    y_2(t_0) = x_0^1 \\
+    \vdots \\
+    y_n(t_0) = x_0^{n - 1}
+\end{array}\right.\]
+Тогда:
+\[x\text{ --- решение (4.2) }\Ra \left( \begin{array}{c}
+    x(\cdot) \\
+    x'(\cdot) \\
+    x''(\cdot) \\
+    \vdots \\
+    x^{(n - 1)}(\cdot) \\
+\end{array} \right)\text{ --- решение (4.3)}\]
+\[y_1\text{ --- решение (4.2) }\La \left( \begin{array}{c}
+    y_1(\cdot) \\
+    y_2(\cdot) \\
+    y_3(\cdot) \\
+    \vdots \\
+    y_n(\cdot) \\
+\end{array} \right)\text{ --- решение (4.3)}\]
+\begin{corollary}
+    Если \(g\) --- непрервна, и \(\frac{\partial g}{\partial x_k}\) существуют и непрерывны, то 
+    \begin{enumerate}
+        \item \(\exists d > 0: \exists\) решение \(x: (t_0 - d, t_0 + d) \ra \R\) задачи Коши (4.2)
+        \item \(\forall\) решения \(\tilde{x}: I \ra \R^n\) задачи Коши (4.3), \(x(t) \equiv \tilde{x}(t), t \in I \cap (t_0 - d, t_0 + d)\).
+    \end{enumerate}
+\end{corollary}
+\begin{proof}
+    \[f(t, y) = \left( \begin{array}{c}
+        y_2 \\
+        y_3 \\
+        \vdots \\
+        g(t, y_1, y_2, \dots y_n)
+    \end{array} \right), (t, y) \in \Gamma\]
+    Положим \(y_0 = \left( \begin{array}{c}
+        x_0 \\
+        x_0^1 \\
+        \vdots \\
+        x_0^{n - 1}
+    \end{array} \right)\). Но тогда по теореме о существовании и единственности решений, \(\exists d, x\), удовлетворяющие условию.
+\end{proof}
+
+\hypertarget{lecture5}{}
+
+\section{Уравнения, не разрешенные относительно производной}
+
+\begin{theorem}[О неявной функции]
+    Даны \(\Omega \subset \R^n \times \R^m, F: \Omega \ra \R^n, (v_0, \sigma_0) \in \Omega, F(v, \sigma) = 0, v\) --- неизвестная, \(\sigma\) --- параметр. Пусть также \(F(x_0, \sigma_0) = 0\). Тогда, если \(F\) непрерывно дифференцируема и \(\det\frac{\partial F}{\partial V}(v_0, \sigma_0) \ne 0\), то \(\exists \) окрестность \(V\) точки \(v_0\), окрестность \(\Sigma\) точки \(\sigma_0\), непрерывно дифференцируемая функция \(g: \Sigma \ra \R^n\), такая, что \(F(g(\sigma), \sigma) 
+    \equiv 0\), \(\forall \sigma \in \Sigma \forall v \in V: F(v, \sigma) = 0 \Ra v = g(\sigma)\).
+\end{theorem}
+
+\begin{definition}
+    Пусть даны \(\Omega \subset \R^3\) --- открыто, \(F: \Omega \ra \R\) --- непрерывно дифференцируема. Уравнение
+    \[F(t, x', x'') = 0\]
+    Называется уравнением, не разрешенным относительно производной.
+\end{definition}
+
+\begin{definition}[Задача Коши]
+    Система
+    \begin{equation}
+        \begin{cases}
+            F(t, x', x'') = 0 \\
+            x(t_0) = x_0
+        \end{cases}
+    \end{equation}
+    С дополнительными условиями \((t_0, x_0, v_0) \in \R^3\) называется задачей коши для данного вида уравнений.
+\end{definition}
+
+\begin{example}
+    \[\left\{\begin{array}{l}
+        x'^2 + x^2 = 0 \\
+        x(0) = 1
+    \end{array}\right.\]
+    Не имеет решений.
+\end{example}
+
+\begin{example}
+    \[\left\{\begin{array}{l}
+        x'^2 - x^2 = 0 \\
+        x(0) = 1
+    \end{array}\right.\]
+    Имеет решение \(x(t) = e^{\pm t}\)
+\end{example}
+
+\begin{theorem}
+    Пусть \(F(t_0, x_0, v_0) = 0\) и \(\frac{\partial F}{\partial v}(t_0, x_0, v_0) \ne 0 \Ra \exists\) интервал \(I \subset \R, x: I \ra \R\), такие, что 
+    \begin{enumerate}
+        \item \(x\) является решением задачи коши, \(x'(t_0) = v_0\)
+        \item \(\forall\) решения \(y: J \ra \R\) задачи коши, \(y'(t_0) = v_0\), \(x(t) \equiv y(t), t \in I \cap J\).
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    Рассмотрим уравнение \(F(t, x, v) = 0\) с неизвестным \(v\) и параметром \(\sigma = (t, x)\). По теореме о неявной функции следует, что существуют окрестность \(\Sigma\) точки \((t_0, x_0)\), окрестность \(V\) точки \(v_0\), непрерывно дифференцируемая \(g: \Sigma \ra \R\), такие, что:
+    \begin{enumerate}
+        \item \(F(t, x, g(t, x)) \equiv 0\)
+        \item \(\forall v \in V \forall (t, x) \in \Sigma: F(t, x, v) = 0 \Ra v = g(t, x)\).
+    \end{enumerate}
+    Решим следующую задачу коши для нормального уравнения:
+    \begin{equation}
+        \begin{cases}
+            x' = g(t, x) \\
+            x(t_0) = x_0
+        \end{cases}
+    \end{equation}
+
+    По теореме о решениях задачи коши для нормального уравнения, \(\exists I \subset \R\) --- интервал, \(x: I \ra \R\), такая, что:
+    \begin{enumerate}
+        \item \(x\) --- решение задачи Коши (5.2)
+        \item \(\forall y: J \ra \R\) --- решения задачи Коши (5.2) \(x(t) \equiv y(t), t \in I \cap J\).
+    \end{enumerate}
+    Тогда \(x\) является решением (5.2), т.к. \(F(t, x(t), x'(t)) \equiv F(t, x(t), g(t, x(t))) \equiv 0\). Но \(x(t_0) = x_0\), поэтому \(x'(t_0) = g(t_0, x(t_0) = g(t_0, x_0)) = v_0\).
+
+    Рассмотрим \(y: J \ra \R\) --- произвольное другое решение (5.1). Пусть \(\exists t \in I \cap J, t > t_0: x(t) \ne y(t)\). Положим \(\tau = \inf\{t \in I \cap J, t > t_0, x(t) \ne y(t)\}\). Имеем:
+    \begin{enumerate}
+        \item \(x(\tau) = y(\tau)\) (в силу непрерывности и определения \(\tau\))
+        \item \(\exists \epsilon > 0: [\tau, \tau + \epsilon \subset I \cap J]\) и \((t, y(t), y'(t)) \in \Sigma \times V\).
+    \end{enumerate}
+    Тогда \(y'(t) = g(t, y(y)), t \in [\tau, \tau + \epsilon) \Ra y\) является решением задачи Коши (5.2) при \(t \in [t_0, \tau + \epsilon) \Ra x(t) = y(t), t \in [t_0, \tau + \epsilon)\), получили противоречие с тем, что \(\tau = \inf\{t \in I \cap J, t > t_0, x(t) \ne y(t)\}\), противоречие.
+\end{proof}
+
+Рассмотрим уравнение:
+\begin{equation}
+    F(t, x, x') = 0
+\end{equation}
+
+\begin{definition}
+    Функция \(x: I \ra \R\) называется особым решением уравнения (5.3), если \(x\) является решением и \(\forall y\) --- решения (5.3) верно, что \(\forall t_0 \in I: y(t_0) = x(t_0) \Ra y'(t_0) = x'(t_0)\).
+\end{definition}
+
+\begin{definition}
+    Множество точек \(D = \left\{(t, x, v): F(t, x, v) = 0, \frac{\partial F}{\partial v}(t, x, v) = 0\right\}\) называется дискриминантной кривой.
+\end{definition}
+
+\begin{note}
+    По предыдущей теореме, если \(x\) является особым решением, то \((t, x(t), x'(t)) \in D \forall t\).
+\end{note}
+
+\begin{example}
+    \[x'^2 - 4x^3(1 - x) = 0\]
+    Тогда:
+    \[x(t) = \left[\begin{array}{l}
+        0 \\
+        1 \text{ --- особое решение}\\
+        \frac{1}{(t - c)^2 + 1}
+    \end{array}\right.\]
+    Причем дискриминантная кривая имеет вид: \(D = \{(t, x, v): x = 0 \vee x = 1\}\). Таким образом, не все решения являются особыми, не все точки из дискриминантной кривой являются точками особого решения.
+\end{example}
+
+\begin{lemma}[О дифференцируемом неравенстве]
+    Пусть \(I\) --- интервал или отрезок, \(t_0 \in I, k > 0, m \in \R, r_0 \ge 0, z \in C^1: \forall t \in I: |z'(t)| \le k|z(t)| + m, |z(t_0)| \le r_0\). Тогда 
+    \[\forall t \in I: |z(t)| \le r_0e^{k|t - t_0|} + \frac{m}{k}\left( e^{k|t - t_0|} - 1\right)\]
+\end{lemma}
+\begin{proof}
+    Будем рассматривать только такие \(t\), что \(|z(t)| \ne 0\). Рассмотрим 
+    \[\frac{d}{dt}|z(t)|^2 = \frac{d}{dt}(z(t), z(t)) = \frac{d}{dt}\left( z_1^2(t) + z_2^2(t) + \dots + z_n^2(t) \right)\]
+    \[= 2\left( z_1z_1' + z_2z_2' + \dots + z_nz_n' \right) = 2(z(t), z'(t))\]
+    \[\frac{d}{dt}|z(t)|^2 = 2|z(t)|\frac{d}{dt}|z(t)|\]
+    \[|z(t)|\frac{d}{dt}|z(t)| = (z(t), z'(t)) \le |z(t)||z'(t)|\]
+    \[\frac{d}{dt}|z(t)| \le |z'(t)|\]
+    Пусть \(\exists \tilde{t} > t_0: |z(\tilde{t})| > r_0e^{k|\tilde{t} - t_0|} + \frac{m}{k}\left( e^{k|\tilde{t} - t_0|} - 1 \right)\). Положим \(\tau = \max\{s \in [t_0, \tilde{t}]: |z(s)| = |z(t_0)|\}\). \(|z(t)| > 0\) при \(t \in (\tau, \tilde{t}]\). Имеем: \(\frac{d}{dt}|z(t)| \le |z'(t)| \le k|z(t)| + m\) при \(t \in (\tau, \tilde{t}]\).
+    \[\frac{d}{dt}|z(t)|e^{-kt} - ke^{-kt}|z(t)| \le me^{-kt}\]
+    \[\frac{d}{dt}\left( |z(t)|e^{-kt} \right) \le me^{-kt}\]
+    \[|z(t)e^{-kt}| - |z(\tau)|e^{-k\tau} \le -\frac{m}{k}e^{-kt} + \frac{m}{k}e^{-k\tau}\]
+    \[|z(t)| \le |z(\tau)|e^{k(t - \tau)} + \frac{m}{k}\left( e^{k(t - \tau)} - 1 \right) \le r_0e^{k(\tilde{t} - t_0)} + \frac{m}{k}e^{k(\tilde{t} - t_0)}\]
+\end{proof}
+
+\hypertarget{lecture6}{}
+
+\section{Теоремы о продолжении решений}
+
+\begin{theorem}
+    Пусть даны \(\Gamma \subset \R \times \R^n\) --- открыто, \(f: \Gamma \ra \R^n, (t_0, x_0) \in \Gamma\). Рассмотрим задачу Коши:
+    \begin{equation}
+        \begin{cases}
+            x' = f(t, x) \\
+            x(t_0) = x_0
+        \end{cases}
+    \end{equation}
+    Тогда, если выполнены условия теоремы о единственности, \(D \subset \Gamma\) --- открытое и ограниченное, такое, что \(\overline{D} \subset \Gamma, (t_0, x_0) \in D\), то \(\exists a, b \in \R, x: (a, b) \ra \R^n\), такие, что
+    \begin{enumerate}
+        \item \(x(\cdot)\) --- решение задачи Коши (6.1)
+        \item \((t, x(t)) \in D \forall t, \exists x(a + 0), x(b - 0): (a, x(a + 0)), (b, x(b - 0)) \in \delta D\).
+        \item \(y: J \ra \R^n\) --- решение задачи Коши (6.1), тогда \(x(t) = y(t) \forall t \in J \cap (a, b)\).
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    Положим \(M = \max{(t, x) \in \overline{D}}|f(t, x)|\). Положим \(r_0 = dist((t_0, x_0), \delta D), d_0 = \frac{r_0}{\sqrt{1 + M^2}}\). Тогда по теореме о существовании решения, \(\exists \xi_0: (t_0 - d_0, t_0 + d_0) \ra \R^n\) задачи Коши (6.1). 
+    Рассмотрим следующую последовательность функций и точек \(\xi_n, t_n, r_n, d_n\): \(\xi_0: (t_0 - d_0, t_0 + d_0) \ra \R^n\) --- решение задачи Коши (6.1), \(t_0, r_0, d_0\) --- даны, а последовательность задается следующим образом:
+    \[t_n = t_{n - 1} + \frac{1}{2}d_{n - 1}\]
+    \[r_n = dist((t_n, \xi_{n - 1}), \delta D)\]:
+    \[d_n = \frac{r_n}{\sqrt{1 + M^2}}\]
+    \[\xi_n: (t_n - d_n, t_n + d_n) \ra \R^n = \text{решение задачи Коши:}\] 
+    \begin{equation}
+        \begin{cases}
+            x' = f(t, x) \\ 
+            x(t_n) = \xi_{n - 1}(t_n)
+        \end{cases}
+    \end{equation}
+
+    Заметим, что \(\{t_j\}\) возрастает и ограничена, тогда \(\exists \lim_{j \ra \infty} t_j = b\). Также, по теореме о существовании и единственности решения, \(\xi_n(t) = \xi_{n + 1}(t) \forall t \in (t_n - d_n, t_n + d_n) \cap (t_{n + 1} - d_{n + 1}, t_{n + 1} + d_{n + 1})\).
+    % \[\begin{array}{c|cccc}
+    %     k & 0 & \dots & n & \dots \\
+    %     \hline
+    %     \xi_k & \xi_0 & \dots &  & \dots\\
+    %     t_k & t_0 & \dots &  & \dots\\
+    %     r_k & r_0 & \dots &  & \dots\\
+    %     d_k & d_0 & \dots &  & \dots\\
+        
+    % \end{array}\]
+
+    % \begin{enumerate}
+    %     \item[] \textbf{База:}
+    %     \item[] \textbf{Переход:}
+    % \end{enumerate}
+    Тогда положим:
+    \[x(t) = \left\{\begin{array}{l}
+        \xi_0(t), t \in (t_0 - d_0, t_1) \\
+        \xi_1(t), t \in (t_1 - d_1, t_2) \\
+        \vdots \\
+        \xi_n(t), t \in (t_n - d_n, t_{n + 1}) \\
+        \vdots \\
+    \end{array}\right.\]
+    Тогда \(x\) определена на \((t_0 - d_0, b)\) и гладкая, т.к. составлена из гладких функций \(\xi_n\), у которых \(\xi_n, \xi_{n + 1}\) совпадают (и, как следствие, \(x\) --- гладкая на \(t_{n} - d_n, t_{n + 1} + d_{n + 1}\)). Так как любые два таких соседних интервала пересекаются, то \(x\) --- гладкая. При этом, \(x\) --- решение (6.1), т.к. \(x(t_0) = \xi(t_0) = x_0\). Тогда \(|x'(t)| = |f(t, x(t))| \le M \forall t \in (t_0 - d_0, b) \Ra |x(t_1) - x(t_2)| \le M|t_1 - t_2| \forall t_1, t_2 \in (t_0 - d_0, b) \Ra \exists x(b - 0)\).
+
+    Теперь докажем, что \((b, x(b - 0)) \in \delta D\). Заметим, что:
+    \[t_n = t_0 + \frac{d_0}{2} + \frac{d_1}{2} + \dots  + \frac{d_{n - 1}}{2} \ra b \Ra d_n \ra 0 \Ra dist((t_n, x(b - 0)), \delta D) \ra 0 \Ra (b, x(b - 0)) \in \delta D\]
+
+    Число \(a\) будет строиться аналогично.
+
+    Докажем теперь, что если \(y: J \ra \R^n\) --- решение (6.1), то \(y(t) = x(t), t \in J \cap (a, b)\). Пусть \(\exists t \in (a, b) \cap J, t > t_0: x(t) \ne y(t)\). Положим \(\tau = \inf\{t \in I \cap J, t > t_0, x(t) \ne y(t)\}\). Но тогда \(x, y\) удовлетворяют решению условиям теоремы о существовании и единственности решения задачи Коши:
+    \begin{equation*}
+        \begin{cases}
+            z' = f(t, z) \\
+            z(\tau) = x(\tau)
+        \end{cases}
+    \end{equation*}
+    Но тогда \(\tau \ne \inf\{t \in I \cap J, t > t_0, x(t) \ne y(t)\}\). Для случая \(\exists t < t_0: x(t) \ne y(t)\) заменяем \(\inf\) на \(\sup\).
+\end{proof}
+
+\begin{example}
+    \(\sin\left( \frac{1}{t} \right), t > 0\) не может быть решением дифференциального уравнение для \(\Gamma = \R^2\), т.к. если положить \(D = (-2, +\infty) \times (-2, 2)\), то по теореме о продолжении решения, \(\exists a: (a, x(a + 0)) \in \delta D\), а это неправда.
+\end{example}
+
+\begin{theorem}
+    Пусть даны \(\Gamma \subset \R \times \R^n\) --- открыто, \(f: \Gamma \ra \R^n, (t_0, x_0) \in \Gamma\). Рассмотрим задачу Коши:
+    \begin{equation}
+        \begin{cases}
+            x' = f(t, x) \\
+            x(t_0) = x_0
+        \end{cases}
+    \end{equation}
+    Тогда, если \(\exists \alpha, \beta \in C(I, \R_+): |f(t, x)| \le \alpha(t)|x| + \beta(t) \forall (t, x) \in \Gamma\), то \(\exists x: I \ra \R^n\), такая, что:
+    \begin{enumerate}
+        \item \(x(\cdot)\) --- решение задачи коши (6.3)
+        \item \(\forall y: J \ra \R^n\) --- решения задачи коши (6.3), верно: \(J \subset I, y(t) = x(t) \forall t \in J\).
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    Пусть \(a_j, b_j \in \R, a_j < b_j \forall j, a_j\) --- убывают, \(b_j\) --- возрастают \(a_j < t_0 < b_j\), \(I = \bigcup_{j = 1}^\infty [a_j, b_j]\). Положим \(k_j = \max_{t \in [a_j, b_j] |\alpha(t)| + 1}, m_j = \max_{t \in [a_j, b_j]} \beta(t)\). Положим также
+    \[R_j = 1 + \max_{t \in [a_j, b_j]}\left( |x_0|e^{k_j|t - t_0|} + \frac{m_j}{k_j}\left( e^{x_j|t - t_0|} - 1 \right) \right) > |x_0|\]
+    \[D_j = (a_j, b_j) \times B_{\R^n}(0, R_j) \Ra (t_0, x_0 \in D_j)\]
+    Но тогда существует решение \(\xi_i: I_j \ra \R^n\) задачи Коши (6.3). Тогда \(|\xi'_i(t)| = |f(t, \xi(t))| \le k_j|\xi_j(t)| + m_j \forall t \in I_j\) тогда по лемме о дифференцируемом неравенстве, \(|\xi_j(t)| \le R_j \forall t \in I_j\). Из теоремы о продолжении решения, получаем, что \(I_j = (a_j, b_j)\). Тогда \(\forall t \in I \exists j: t \in (a_j, b_j)\), при этом \(x(t) = \xi_j(t)\) при \(t \in (a_j, b_j)\). Тогда по построению, \(x\) является искомой
+\end{proof}
+
+\begin{exercise}
+    Доказать единственность, пользуясь стандартным приемом с \(\tau = \inf\{t \in I \cap J, t > t_0, x(t) \ne y(t)\}\).
+\end{exercise}
+
+\begin{example}[Не всегда можно продолжить решение на всю вещественную ось]
+    Рассмотрим уравнение:
+    \begin{equation*}
+        \begin{cases}
+            x' = 1 + x^2 \\
+            x(0) = 0
+        \end{cases}
+    \end{equation*}
+    Решая уравнение, получаем: \(x = \tg t \Ra t \in \left( -\frac{\pi}{2}, \frac{\pi}{2} \right)\).
+\end{example}
+
+\hypertarget{lecture7}{}
+
+\section{Системы линейных однородных дифференциальных уравнений}
+Пусть даны \(I \subset \R\) --- интервал, \(n \in \N, a_{jk}, b_j \in C(I, \mathbb{K})\), где \(\mathbb{K} = \R\) или \(\Cm\). Рассмотрим систему:
+\begin{equation}
+    \begin{cases}
+        x_1' = a_{11}(t)x_1 + \dots + a_{1n}(t)x_n + b_1(t) \\
+        x_2' = a_{21}(t)x_2 + \dots + a_{2n}(t)x_n + b_2(t) \\
+        \vdots \\
+        x_n' = a_{n1}(t)x_n + \dots + a_{nn}(t)x_n + b_n(t) \\
+    \end{cases}
+    \sim x' = A(t)x + b(t)
+\end{equation}
+Где
+\[t \in I, A(t) = \left( \begin{array}{ccc}
+    a_{11}(t) & \dots & a_{1n}(t) \\
+    a_{21}(t) & \dots & a_{2n}(t) \\
+    \vdots & \ddots & \vdots \\
+    a_{n1}(t) & \dots & a_{nn}(t) \\
+\end{array} \right), b(t) = \left( \begin{array}{c}
+    b_1(t) \\
+    b_2(t) \\
+    \vdots \\
+    b_n(t) \\
+\end{array} \right)\]
+
+\begin{corollary}[Из предыдущей теоремы]
+    \(\forall t_0 \in I \forall x_0 \in \R^n\) задача Коши (7.1) имеет единственное решение на \(I\)
+\end{corollary}
+\begin{proof}
+    \[f(t, x) = A(t)x + b(t), t \in I, x \in \R^n\]
+    \[|f(t, x)| = |A(t)x + b(t)| \le \underbrace{\|A(t)\|}_{\alpha(t)}|x| + \underbrace{|b(t)|}_{\beta(t)}\]
+\end{proof}
+
+Пусть теперь \(L \in C^1(I, \R^n) \ra C(I, \R^n)\) и уравнение имеет вид \(Lx(t) = x'(t) - A(t)x(t)\). Тогда (7.1) можно переписать в виде \(Lx = b\) и 
+\[\text{множество решений (7.1)} = \{x: Lx = b\} = \{x: Lx = 0\} + \tilde{x}\]
+Где \(\tilde{x}\) --- любое (одно), такое, что \(L\tilde{x} = b\). Поэтому нам надо решить уравнение
+
+\begin{equation}
+    x' = A(t)x
+\end{equation}
+
+Уравнение выше является системой линейных однородных дифференциальных уравнений.
+
+\begin{definition}
+    Пусть \(x^1, x^2 \dots x^k \in C^1(I, \R^n)\). Тогда они называются линейно независимыми, если \(\forall \lambda_1, \lambda_2, \dots \lambda_k\) верно:
+    \[\sum_{j = 1}^k \lambda_k x^k(t) \equiv 0 \Lra \forall i \lambda_i = 0\]
+\end{definition}
+
+\begin{definition}
+    Пусть \(x^1, x^2 \dots x^k \in C^1(I, \R^n)\). Тогда они называются линейно зависимыми, если \(\exists \lambda_1, \lambda_2, \dots \lambda_k\) такие, что:
+    \[\sum_{j = 1}^k \lambda_k x^k(t) \equiv 0, \exists i: \lambda_i = 0\]
+\end{definition}
+
+\begin{corollary}
+    \(x^1, x^2 \dots x^k\) линейно зависимы, тогда \(\forall t \in I x^1(t), x^2(t) \dots x^k(t)\) линейно зависимы
+\end{corollary}
+
+\begin{example}[Обратное неверно]
+    Рассмотрим:
+    \[x^1(t) = \left( \begin{array}{c}
+        1 \\
+        1
+    \end{array} \right), x^2(t) = \left( \begin{array}{c}
+        t \\
+        t
+    \end{array} \right)\]
+\end{example}
+
+\begin{definition}
+    Пусть \(x^1, x^2 \dots x^k \in C^1(I, \R^n)\). Тогда \(\omega(x^1, x^2 \dots x^k)(t) = \det(x^1(t), x^2(t) \dots x^k(t)), t \in I\) --- определитель Вронского
+\end{definition}
+
+\begin{corollary}
+    \(x^1, x^2 \dots x^k\) линейно зависимы, тогда \(\omega(x^1, x^2 \dots x^k)(t) = 0\)
+\end{corollary}
+
+\begin{proposition}
+    \(x^1, x^2 \dots x^k\) --- решение (7.2) и \(\exists t_0 \in I: x^1(t_0), x^2(t_0) \dots x^k(t_0)\) линейно зависимы, то \(x^1, x^2 \dots x^k\) линейно зависимы и \(\omega(t) = 0\)
+\end{proposition}
+\begin{proof}
+    \[\exists (\lambda_1, \lambda_2 \dots \lambda_n) \in \R^n \setminus \{0\}: \sum_{j = 1}^n \lambda_jx^j(t_0) = 0\]
+    Положим \(x(t) = \sum_{j = 1}^n \lambda_jx^j(t), t \in I\). Тогда \(x(t_0) = 0, x\) --- решение (7.2), из чего следует, что
+    \[\sum_{j = 1}^n \lambda_jx^j(t_0) 
+    \equiv 0 \Ra x^1, x^2, \dots x^k \text{ ЛЗ}, \omega(t) = 0\]
+\end{proof}
+
+\begin{definition}
+    Фундаментальная система решений --- набор из \(n\) независимых решений.
+\end{definition}
+
+\begin{proposition}
+    ФСР существует
+\end{proposition}
+
+\begin{proposition}
+    \(x^1, x^2, \dots x^k\) --- ФСР \(\Ra\) множество решений (7.2) \(=\)
+    \[= \left\{ \sum_{j = 1}^n c_jx^j: (c_1, c_2, \dots c_n) \in \R^n \right\}\].
+\end{proposition}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item[\(\supset\)] очевидно
+        \item[\(\subset\)] \(\forall\) решения \(\tilde{x}\) системы (7.2), \(\forall t_0 \in I\)
+        \(x^1(t_0), x^2(t_0), \dots x^k(t_0)\) --- ЛНЗ \(\Ra \exists ! (c_1, \dots c_k) \in \mathbb{K}^n\), \(\tilde{x}(t_0) = \sum_{j = 1}^nc_jx^j(t_0)\).
+        \(\tilde{x}, \sum_{c_jx^j}\) являются решением задачи Коши \(x' = A(t)x, x(t_0) = \tilde{x}(t_0)\Ra \tilde{x} = \sum_{c_jx^j}\) 
+    \end{enumerate}
+\end{proof}
+
+\begin{note}
+    Пусть \(x^1, x^2, \dots x^n\) --- ФСР уравнения (7.2), \(X(t) = (x^1(t), x^2(t), \dots x^n(t)), t \in I\). Тогда:
+    \begin{enumerate}
+        \item \(X'(t) = A(t)X(t), t \in I\)
+        \item Общий вид решения (7.2) представим как \(Xc, c \in \R^n\)
+        \item \(\omega(t) = \det X(t), t \in I\)
+    \end{enumerate}
+\end{note}
+
+\begin{lemma}
+    Пусть 
+    \[\omega_j(t) = \det\left( \begin{array}{cccc}
+        x_1^1(t) & x_1^2(t) & \dots & x_1^n(t) \\
+        x_2^1(t) & x_2^2(t) & \dots & x_2^n(t) \\
+        \vdots & \vdots & \ddots & \vdots \\
+        (x_j^1)'(t) & (x_j^2)'(t) & \dots & (x_j^n)'(t) \\
+        \vdots & \vdots & \ddots & \vdots \\
+        x_n^1(t) & x_n^2(t) & \dots & x_n^n(t) \\
+    \end{array} \right)\]
+    Тогда \(\omega(t) = \sum_{i = 1}^n \omega_i(t)\)
+\end{lemma}
+\begin{proof}
+    \[\omega(t) = \sum_{\pi \in S_n} \sigma(\pi) x_1^{\pi(1)}(t)x_2^{\pi(2)}(t)\dots x_n^{\pi(n)}(t)\]
+    \[\omega'(t) = \sum_{\pi \in S_n} \sigma(\pi) \left( \left( x_1^{\pi(1)} \right)'(t)x_2^{\pi(2)}(t)\dots x_n^{\pi(n)}(t) + x_1^{\pi(1)}(t)\left( x_2^{\pi(2)} \right)'(t)\dots x_n^{\pi(n)}(t) + \dots \right) = \sum_{i = 1}^n \omega_i(t)\]
+\end{proof}
+
+\begin{theorem}[Формула Лиувилля-Остроградского]
+    Пусть \(x^1, x^2, \dots x^n\) --- решение (7.2). Тогда: \(\forall t_0, t \in I: \omega(t) = \omega(t_0)\exp\left( \int_{t_0}^t tr\;A(s) ds \right)\)
+\end{theorem}
+\begin{proof}
+    \[\omega_j(t) = \det\left( \begin{array}{cccc}
+        x_1^1(t) & x_1^2(t) & \dots & x_1^n(t) \\
+        x_2^1(t) & x_2^2(t) & \dots & x_2^n(t) \\
+        \vdots & \vdots & \ddots & \vdots \\
+        (x_j^1)'(t) & (x_j^2)'(t) & \dots & (x_j^n)'(t) \\
+        \vdots & \vdots & \ddots & \vdots \\
+        x_n^1(t) & x_n^2(t) & \dots & x_n^n(t) \\
+    \end{array} \right) = (*)\]
+    При этом, \((x^1)' = A(t)x^1(t) \Ra (x_j^1)'(t) = \sum_{k = 1}^n a_{jk}x_k^1(t)\).
+    \[(*) = \det\left( \begin{array}{cccc}
+        x_1^1(t) & x_1^2(t) & \dots & x_1^n(t) \\
+        x_2^1(t) & x_2^2(t) & \dots & x_2^n(t) \\
+        \vdots & \vdots & \ddots & \vdots \\
+        \sum_{k = 1}^n a_{jk}x_k^1(t) & \sum_{k = 1}^n a_{jk}x_k^2(t) & \dots & \sum_{k = 1}^n a_{jk}x_k^n(t) \\
+        \vdots & \vdots & \ddots & \vdots \\
+        x_n^1(t) & x_n^2(t) & \dots & x_n^n(t) \\
+    \end{array} \right) = \]
+    \[ = \det\left( \begin{array}{cccc}
+        x_1^1(t) & x_1^2(t) & \dots & x_1^n(t) \\
+        x_2^1(t) & x_2^2(t) & \dots & x_2^n(t) \\
+        \vdots & \vdots & \ddots & \vdots \\
+        a_{jj}(t)x_j^1(t) & a_{jj}(t)x_j^2(t) & \dots & a_{jj}(t)x_j^n(t) \\
+        \vdots & \vdots & \ddots & \vdots \\
+        x_n^1(t) & x_n^2(t) & \dots & x_n^n(t) \\
+    \end{array} \right) \equiv a_{jj}(t)\omega(t)\]
+    \[\omega'(t) = \sum_{j = 1}^n \omega_j(t) = \sum_{j = 1}^n a_{jj}\omega(t) \equiv (tr\;A(t))\omega(t)\]
+    Но тогда:
+    \[\omega(t) = \omega(t_0)\exp\left( \int_{t_0}^t tr\;A(s) ds \right)\]
+\end{proof}
+
+\subsection*{Метод вариации произвольной постоянной}
+Пусть \(X(t)\) --- ФСР. Мы хотим найти решения (7.1) в виде \(X(t)c(t), t \in I\). Чему равно \(c(t)\)?
+\[X'(t)c(t) + X(t)c'(t) = A(t)X(t)c(t) + b(t)\]
+\[A(t)X(t)c(t) + X(t)c'(t) = A(t)X(t)c(t) + b(t)\]
+\[X(t)c'(t) = b(t)\]
+\[c'(t) = b(t)X^{-1}(t)\]
+\[c(t) = \int_{t_0}^{t}X^{-1}(s)b(s)ds\]
+
+То есть частное решение (7.1) имеет вид 
+\[\tilde{x} \equiv \int_{t_0}^t X(t)X^{-1}(s)b(s)ds\]
+Общий вид решения (7.1):
+\[x(t) = X(t)c + \int_{t_0}^tX(t)X^{-1}(s)b(s)ds\]
+
+\hypertarget{lecture8}{}
+
+\section{Линейные уравнения старших порядков}
+\begin{definition}
+    Пусть \(b, a_1, \dots a_n \in C(I, \R), a_0(t) \ne 0 \forall t \in I\). Тогда:
+    \begin{equation}
+        a_0(t)x^{(n)} + a_1(t)x^{(n - 1)} + \dots + a_{n - 1}x' + a_n(t)x = b(t)
+    \end{equation}
+    Называется линейным неоднородным уравнением. При \(b(t) = 0\) уравнение становится линейным однородным уравнением:
+    \begin{equation}
+        a_0(t)x^{(n)} + a_1(t)x^{(n - 1)} + \dots + a_{n - 1}x' + a_n(t)x = 0
+    \end{equation}
+\end{definition}
+
+Рассмотрим \(L: C^n(I, \mathbb{K}) \ra C(I, \R)\):
+\[(Lx)(t) = a_0(t)x^{(n)} + a_1(t)x^{(n - 1)} + \dots + a_{n - 1}x' + a_n(t)x\]
+
+\subsection{Линейное однородное уравнение}
+Данное уравнение равносильно тому, что \(Lx = 0\). Рассмотрим для него замену \(y_1 = x, y_2 = x', \dots y_n = x^{(n - 1)}\). Тогда:
+\begin{equation}
+    \begin{cases}
+        y_1' = y_2 \\
+        y_2' = y_3 \\
+        \vdots \\
+        y_{n - 1}' = y_n \\
+        y_n' = -\frac{a_1(t)}{a_0(t)}y_n - \dots - \frac{a_n(t)}{a_0(t)}y_1
+    \end{cases}
+\end{equation}
+
+Имеем, что \(y\) является решением (8.3) \(\Lra\) \(x\) является решением (8.1). При этом, \(\forall t_0 \in I \forall x_0^0, \dots x_0^{n - 1} \in \mathbb{K} \exists!\) решение \(x: I \ra \mathbb{K}\) задачи Коши \(Lx = 0, x(t_0) = x_0^0, x'(t_0) = x_0^1, \dots x^{(n - 1)}(t_0) = x_0^{n - 1}\).
+
+\begin{lemma}
+    Пусть \(x_1(\cdot), \dots x_m(\cdot)\) --- решения \(Lx = 0\), \(y^1(\cdot), \dots y^m(\cdot)\) --- соответствующие решения (8.3). Тогда \(x^1(\cdot), \dots x^m(\cdot)\) линейно независимы \(\Lra y^1(\cdot), \dots y^m(\cdot)\) линейно независимы.
+\end{lemma}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item[\(\Ra\)]
+        \[\exists c_1, \dots c_m: c_1y^1 + \dots + c_my^m = 0 \Ra c_1x^1 + \dots + c_mx^m = 0 \Ra c_1, \dots c_m = 0\] 
+        Тогда \(y^i\) линейно независимы.
+        \item[\(\La\)]
+        \[\exists c_1, \dots c_m: c_1x_1 + \dots + c_mx_m = 0 \Ra c_1x^{(j)}_1 + \dots + c_mx^{(j)}_m = 0 \forall 0 \le j \le n \Ra\]
+        \[\Ra c_1y^1 + \dots + c_my^m = 0 \Ra c_1, \dots c_m = 0\]
+        Тогда \(x_i\) линейно независимы.
+    \end{enumerate}
+\end{proof}
+
+\begin{definition}
+    \(x_1, \dots x_n \in C^n(I, \mathbb{K})\) называется фундаментальной системой решений уравнение (8.2), если \(x_1, \dots x_n\) являются его решениями и они линейно независимы
+\end{definition}
+
+\begin{corollary}[Из леммы]
+    ФСР существует
+\end{corollary}
+
+\begin{theorem}
+    Пусть \(x_1(\cdot), \dots x_n(\cdot)\) --- ФСР (8.2). Тогда общий вид решения имеет вид
+    \[x(\cdot) = \sum_{i = 1}^n c_jx_j(\cdot), c_j \in \mathbb{K}\]
+\end{theorem}
+\begin{proof}
+    \(x(\cdot)\) --- решение (8.2), \(y = \left( \begin{array}{c}
+        x(\cdot) \\
+        \vdots \\
+        x^{(n - 1)}(\cdot)
+    \end{array} \right)\).
+    \[\exists c_1, \dots c_n \in \mathbb{K}: y = c_1y^1 + \dots + c_ny^y \Ra x = c_1x_1 + c_2x_2 + \dots + c_nx_n\]
+\end{proof}
+
+\begin{definition}
+    Определителем Вронского набора \(x_1, \dots x_n \in C^{n - 1}(I, \mathbb{K})\) называется
+    \[\omega(x_1, \dots x_n)(t) = \left| \begin{array}{ccc}
+        x_1(t) & \dots & x_n(t) \\
+        x_1'(t) & \dots & x_n'(t) \\
+        \vdots & \ddots & \vdots \\
+        x_1^{(n)}(t) & \dots & x_n^{(n)}(t) \\
+    \end{array} \right|, t \in I\]
+\end{definition}
+
+\begin{proposition}
+    \(x_1(\cdot), \dots x_n(\cdot)\) линейно независимы \(\Ra \omega(t) = 0\)
+\end{proposition}
+\begin{proof}
+    \[\exists (c_1, \dots c_n) \ne 0: \sum_{j = 1}^n c_jx_j = 0 \Ra \sum_{j = 1}^n c_jx_j^{(s)} = 0 \Ra \omega(t) = 0\]
+\end{proof}
+
+\begin{note}
+    Обратное неверно
+\end{note}
+\begin{proof}
+    Положим \(n = 2, x_1(t) = t^2, x_2(t) = t|t|, t \in \R\):
+    \[\omega(t) = \left| \begin{array}{cc}
+        t^2 & t|t| \\
+        2t & 2|t|
+    \end{array} \right| = 0\]
+    При этом, \(c_1t^2 + c_2t|t| = 0 \Ra \left\{\begin{array}{l}
+        c_1 + c_2 = 0 \\
+        c_1 - c_2 = 0
+    \end{array}\right. \Ra c_1, c_2 = 0\)
+\end{proof}
+
+\begin{theorem}[Формула Лиувилля-Остроградского]
+    Пусть \(x_1(\cdot), \dots x_n(\cdot)\) --- ФСР (8.2). Тогда
+    \[\omega(t) \equiv \omega(t_0)\exp\left(-\int_{t_0}^t \frac{a_1(s)}{a_0(s)}ds \right), t_0, t \in I\]
+\end{theorem}
+\begin{proof}
+    Известно, что \(x_1, \dots x_n \in C^{n - 1}(I, \mathbb{K})\).
+    \[\omega(x_1, \dots x_n)(t) = \left| \begin{array}{ccc}
+        x_1(t) & \dots & x_n(t) \\
+        x_1'(t) & \dots & x_n'(t) \\
+        \vdots & \ddots & \vdots \\
+        x_1^{(n)}(t) & \dots & x_n^{(n)}(t) \\
+    \end{array} \right|, t \in I\]
+    Мы знаем, что:
+    \[\omega(t) \equiv \omega(t_0)\exp\left( \int_{t_0}^t tr\;A(s)ds \right), t_0, t \in I\]
+    Где:
+    \[A = \left( \begin{array}{c}
+            \tilde{a_1}(t) \\
+            \tilde{a_2}(t) \\
+            \vdots \\
+            \tilde{a_n}(t) \\
+        \end{array}\right) = \left(\begin{array}{cccccc}
+        0 & 1 & 0 & 0 & \dots & 0 \\
+        0 & 0 & 1 & 0 & \dots & 0 \\
+        \vdots & \vdots & \vdots & \vdots & \ddots & \vdots\\
+        0 & 0 & 0 & 0 & \dots & -\frac{a_1(t)}{a_0(t)}
+    \end{array} \right) \Ra \begin{array}{c}
+        y_1' = \langle \tilde{a_1}, y \rangle \\
+        y_2' = \langle \tilde{a_2}, y \rangle \\
+        \vdots \\
+        y_n' = \langle \tilde{a_n}, y \rangle \\
+    \end{array} \]
+    Заметим, что \(tr\;A = -\frac{a_1(t)}{a_0(t)}\), откуда имеем желаемое.
+\end{proof}
+
+\begin{proposition}
+    Пусть \(x_1(\cdot), \dots x_n(\cdot)\) --- решения (8.2). Тогда \(\exists t_0 \in I: \omega(t_0) = 0 \Ra x_1(\cdot), \dots x_n(\cdot)\) линейно зависимы
+\end{proposition}
+\begin{proof}
+    Пусть \(y^1(\cdot), \dots y^n(\cdot)\) --- решение (8.3). Тогда:
+    \[\omega(y^1, \dots y^n) = \omega(x_1, \dots x_n)(t) = 0\]
+    \[\Ra y^1(t_0), \dots y^n(t_0) \text{ линено зависимы } \Ra y^1(\cdot), \dots y^n(\cdot) \text{ линейно зависимы }\]
+    \[\Ra x_1(\cdot), \dots x_n(\cdot) \text{ линейно зависимы }\]
+\end{proof}
+
+\subsection{Линейные однородные уравнения с постоянными коэффициентами}
+
+\begin{definition}
+    Если \(a_0, \dots a_n \in \Cm, a_0 \ne 0\), то уравнение
+    \begin{equation}
+        a_0x^{(n)} + a_1x^{(n - 1)} + \dots + a_{n - 1}x' + a_nx = 0
+    \end{equation}
+    Называется линейным однородным уравнением с постоянными коэффициентами.
+\end{definition}
+
+\begin{definition}
+    Многочлен:
+    \[M(\lambda) = a_0\lambda^n + a_1\lambda^{n - 1} + \dots + a_n\]
+    Называется характеристическим многочленом (8.4)
+\end{definition}
+
+\begin{definition}
+    \begin{equation}
+        M(\lambda) = 0
+    \end{equation}
+    Называется характеристическим уравнением (8.4)
+\end{definition}
+
+\begin{lemma}
+    Пусть \(\gamma \in \Cm, k\) --- кратность корня \(\lambda = \gamma\). Тогда:
+    \[L\left( t^se^{\gamma t} \right) = \left\{\begin{array}{l}
+        0, s \le k - 1 \\
+        p(t)e^{\gamma t}, s \ge k \\
+    \end{array}\right., \deg p = s - k\]
+\end{lemma}
+\begin{proof}
+    \[\frac{\partial^j}{\partial t^j}\left( t^s e^{\lambda t} \right) = \frac{\partial^j}{\partial t^j}\left( \frac{\partial^s}{\partial \lambda^s}e^{\lambda t} \right) = \frac{\partial^s}{\partial \lambda^s}\left( \frac{\partial^j}{\partial t^j}e^{\lambda t} \right) = \frac{\partial^s}{\partial \lambda^s}\left( \lambda^j e^{\lambda t} \right)\]
+    \[L\left( t^s e^{\lambda t} \right) \equiv \sum_{j = 0}^n a_{n - j}\frac{\partial^j}{\partial t^j}\left( t^s e^{\lambda t} \right) \equiv \sum_{j = 0}^n a_{n - j}\frac{\partial^s}{\partial \lambda^s}\left( \lambda^i e^{\lambda t} \right) \equiv \frac{\partial^s}{\partial \lambda^s}\left( M(\lambda)e^{\lambda t} \right) \equiv \]
+    \[\equiv e^{\lambda t}\left( t^sM(\lambda) + C_s^1t^{s - 1}M'(\lambda) + \dots + M^{(s)}(\lambda) \right)\]
+    Получили, что:
+    \[L\left( t^se^{\gamma t} \right) = \left\{\begin{array}{l}
+        0, s \le k - 1 \\
+        p(t)e^{\gamma t}, s \ge k \\
+    \end{array}\right., \deg p = s - k\]
+\end{proof}
+
+\begin{theorem}
+    Пусть \(\lambda_1, \dots \lambda_m\) --- корни \(M\), \(k_1, \dots k_m\) --- их кратности, 
+    \[x_{js} = t^se^{\lambda t}, j = 1, \dots m, s = 0, \dots k_j - 1\]
+    Тогда \(x_{is}\) образуют ФСР
+\end{theorem}
+\begin{proof}
+    Заметим, что \(x_{js}\) --- решение, причем их ровно \(n\). Докажем их линейную независимость. Предположим противное.
+    \[\exists (c_{js}) \ne 0: \sum_{j, s} c_{js}t^se^{\lambda_j t} \equiv 0\]
+    \[p_1(t)e^{\lambda_1 t} + \dots p_m(t)e^{\lambda_m t} \equiv 0, p_m(t) \ne 0\]
+    \[p_1(t) + p_2e^{(\lambda_2 - \lambda_1)t} + \dots + p_m(t)e^{(\lambda_m - \lambda_1)t} \equiv 0, p_m(t) \ne 0\]
+    Дифференцируя данное равенство достаточное количество раз и при условии, что \(\lambda_1 \ne \lambda_i\), получаем:
+    \[\tilde{p_2}e^{(\lambda_2 - \lambda_1)t} + \dots + \tilde{p_m}(t)e^{(\lambda_m - \lambda_1)t} \equiv 0, p_m(t) \ne 0\]
+    Причем \(\deg p_i = \deg \tilde{p_i}\). 
+    Действуя аналогично, получаем, что \(p_m(t) = 0\), что приводит нас к противоречию
+\end{proof}
+
+Пусть \(a_0, \dots a_m \in \R, a_0 \ne 0\). Пусть \(\lambda_1, \dots \lambda_r \in \Cm\):
+\[\begin{array}{c}
+    \lambda_{r + 1} = \overline{\lambda_1}, \dots, \lambda_{2r} = \overline{\lambda_r} \\
+    \lambda_{2r + 1} + \dots + \lambda_m \in \R
+\end{array}\]
+Тогда:
+\[\frac{1}{2}\left( x_{js}(t) + x_{j + r, s} \right) = \frac{t^se^{\lambda_j t} + t^s e^{\overline{\lambda_j}t}}{2} = t^s \cos (\beta_j t)e^{\alpha_j}, \lambda_j = \alpha_j + i\beta_j\]
+
+\[\frac{1}{2i}\left( x_{js}(t) - x_{j + r, s} \right) = \frac{t^se^{\lambda_j t} - t^s e^{\overline{\lambda_j}t}}{2} = t^s \sin (\beta_j t)e^{\alpha_j}, \lambda_j = \alpha_j + i\beta_j\]
+
+
+\hypertarget{lecture9}{}
+
+\subsection{Линейные неоднородные уравнения}
+Данное уравнение равносильно тому, что \(Lx = b\). В таком случае нетрудно показать, что общее решение \(Lx = b\) получается из суммы частного решения и всех решений \(Lx = 0\).
+
+\subsection{Метод вариации произвольных постоянных}
+Пусть \(x_1(\cdot), \dots x_n(\cdot)\) --- ФСР (8.2). Положим:
+\[X(t) = \left( \begin{array}{cccc}
+    x_1(t) & x_2(t) & \dots & x_n(t) \\
+    x'_1(t) & x'_2(t) & \dots & x'_n(t) \\
+    \vdots & \vdots & \ddots & \vdots \\
+    x^{(n)}_1(t) & x^{(n)}_2(t) & \dots & x^{(n)}_n(t) \\
+\end{array} \right), t \in I\]
+
+Рассмотрим задачу коши:
+\begin{equation}
+    y' = A(t)y + \tilde{b}(t)
+\end{equation}
+\[A(t) = \left( \begin{array}{ccccc}
+    0 & 1 & 0 & \dots & 0 \\
+    0 & 0 & 1 & \dots & 0 \\
+    \vdots & \vdots & \vdots & \ddots & \vdots \\
+    0 & 0 & 0 & \dots & 1 \\
+    -\frac{a_1(t)}{a_0(t)} & -\frac{a_2(t)}{a_0(t)} & -\frac{a_3(t)}{a_0(t)} & \dots & -\frac{a_n(t)}{a_0(t)}
+\end{array} \right), \tilde{b}(t) = \left( \begin{array}{c}
+    0 \\
+    \vdots \\
+    0 \\
+    \frac{b(t)}{a_0(t)}
+\end{array} \right)\]
+
+Заметим, что тогда \(x\) --- решение (8.1) \(\Ra y = \left( \begin{array}{c}
+    x(t) \\
+    x'(t) \\
+    \vdots \\
+    x^{(n - 1)}(t) \\
+\end{array} \right)\) --- решение (8.6). В обратную сторону, если \(y(t) = \left( \begin{array}{c}
+    y_1(t) \\
+    \vdots \\
+    y_n(t) \\
+\end{array} \right) \Ra x(t) = y_1(t)\) --- решение (8.1). 
+
+Известно, что если \(c(\cdot) = (c_1(\cdot), \dots c_n(\cdot))\), такое, что \((*) = X(t)c'(t) = \tilde(b)(t)\), то \(y(t) = X(t)c(t)\) является решением (8.6). Тогда \(y_1\) является решением (8.1).
+\[(*) \sim \left\{\begin{array}{l}
+    x_1(t)c'_1(t) + x_2(t)c'_2(t) + \dots + x_n(t)c'_n(t) = 0 \\
+    x'_1(t)c'_1(t) + x'_2(t)c'_2(t) + \dots + x'_n(t)c'_n(t) = 0 \\
+    \vdots \\
+    x^{(n - 2)}_1(t)c'_1(t) + x^{(n - 2)}_2(t)c'_2(t) + \dots + x^{(n - 2)}_n(t)c'_n(t) = 0 \\
+    x^{(n - 1)}_1(t)c'_1(t) + x^{(n - 1)}_2(t)c'_2(t) + \dots + x^{(n - 1)}_n(t)c'_n(t) = -\frac{b(t)}{a_0(t)} \\
+\end{array}\right.\]
+И \(y_1(t) = c_1(t)x(t) + \dots + c_n(t)x_n(t)\).
+
+
+\subsection{Решения уравнений специального вида}
+\begin{theorem}
+    Пусть \(a_0 \ne 0, \dots a_n \in \Cm, b(t) = p(t)e^{\gamma t}, \gamma \in \Cm, p(t)\) --- многочлен с комплексными коэффициентами, \(\deg p = m\). Тогда существует частное решение (8.1) в виде:
+    \[x(t) = t^kq(t)e^{\gamma t}, t \in \R\]
+    Где \(k\) --- кратность \(\gamma\) как корня характеристического уравнения, \(q(t)\) --- многочлен, \(\deg q = m\)
+\end{theorem}
+\begin{proof}
+    Ведем индукцию по \(m\)
+    \begin{enumerate}
+        \item[] \textbf{База:} \(m = 0\). Тогда положим \(y(t) = q_0t^ke^{\gamma t}\). Тогда по лемме:
+        \[Ly(t) = q_0e^{\gamma t}d_0 = p_0e^{\gamma t} = p(t)e{^\gamma t}\]
+        \item[] \textbf{Переход:} Положим \(\tilde{y}(t) = q_0t^{k + m}e^{\gamma t}\). Тогда по лемме:
+        \[L\tilde{y}(t) \equiv (q_0d_0t^m + r(t))e^{\gamma t}\]
+        Существует многочлен \(\tilde{q}(t): \deg \tilde{q} \le m - 1\) и 
+        \[L(\tilde{q}(t)t^ke^{\gamma t}) \equiv (\underbrace{p(t) - r(t) - p_0t^m}_{\deg \le m - 1})e^{\gamma t}\]
+        \[L(\tilde{y}(t) + \tilde{q}(t)t^ke^{\gamma t}) \equiv (q_0d_0t^m + r(t) + p(t) - r(t) - p_0t^m) =_{q_0 = \frac{p_0}{d_0}} p(t)e^{\gamma t}\]
+        Тогда:
+        \[\tilde{y}(t) + \tilde{q}(t)t^ke^{\gamma t} \equiv t^k(\underbrace{q_0t^m + \tilde{q}(t)}_{\deg = m})e^{\gamma t}\]
+    \end{enumerate}
+\end{proof}
+
+Пусть теперь \(a_0 \ne 0, \dots a_n \in \R, b(t) = (P_1(t)\cos(\beta t) + P_2(t)\sin(\beta t))e^{\alpha t} , \alpha, \beta \in \R, p(t)\) --- многочлен, \(m = \max\{\deg P_1, \deg P_2\}\).
+Сведем все к комплексному случаю. Рассмотрим
+\[\tilde{b}(t) = e^{(\alpha + i\beta)t}(P_1(t) - P_2(t)) = e^{\alpha t}((P_1(t)\cos (\beta t) + P_2 \sin (\beta t)) + i(P_1(t)\sin (\beta t) - P_2 \cos (\beta t)))\]
+Пусть \(x(t) = t^k(Q_1(t) + iQ_2(t))e^{(\alpha + i\beta)t}\) --- решение (8.1) при данном виде \(b\), \(k\) --- кратность корня характеристического многочлена, \(m = \max\{\deg Q_1, \deg Q_2\}\). \(Lx = \tilde{x} \Ra L(\Re x) = \Re \tilde{x}\). Но тогда \(L(t^ke^{\alpha t}(Q_1(t)\cos(\beta t) - Q_2(t)\sin(\beta t))) = b(t)\).
+
+\begin{corollary}
+    Существует многочлены \(Q_1, Q_2: \max\{\deg Q_1, \deg Q_2\} = m\) такие, что \(x(t) = t^k(Q_1(t)\cos(\beta t) + Q_2\sin(\beta t))e^{\alpha t}\) является решением линейного уравнения при данном \(b\)
+\end{corollary}
+
+\subsection{Уравнение Эйлера}
+Пусть \(a_0, \dots a_n \in \mathbb{K}, n \in \N, b \in C((0, +\infty), \mathbb{K})\). Рассмотрим следующее уравнение:
+\[a_0t^nx^{(n)} + a_1t^{n - 1}x^{(n - 1)} + \dots + a_{n - 1}tx' + a_nx = b(t)\]
+
+Рассмотрим следующую замену: \(t = e^s \Ra y(s) = x(e^s)\). Тогда при подстановке получится линейное уравнение с постоянными коэффициентами.
+
+
+\begin{example}
+    \(a_0t^2x''(t) + a_1tx'(t) + a_2x = b(t), y(s) = x(e^s)\)
+    \[\begin{array}{l}
+        y' = x'(e^s)e^s \\
+        y'' = x''(e^s)e^2s + x'(e^s)e^s \Ra x''(e^s) = e^{-2s}(y''(s) - x'(e^s)e^s) = e^{-2s}(y''(s) - y'(s)) \\
+    \end{array}\]
+    Подставляя, получаем:
+    \[a_0e^{2s} e^{-2s}(y'' - y') + a_1e^se^{-s}y' + a_2y = b(e^s)\]
+    \[a_0y'' + (a_1 - a_0)y' + a_2y = b(e^s), s \in \R\]
+\end{example}
+
+\hypertarget{lecture10}{}
+
+\subsection{Системы линейных однородных дифференциальных уравнений с постоянными коэффициентами}
+Рассмотрим уравнение:
+\begin{equation}
+    x' = Ax
+\end{equation}
+Где \(A \in \Cm^{n \times n}\).
+
+\begin{reminder}
+    \(\forall A \in \Cm^{n \times m} \exists C \in \Cm^{n \times n}: \det C \ne 0\) и \(B = C^{-1}AC\) является жордановой матрицей, т.е. \(\exists s \in \N, n_j \in N, \lambda_j \in \Cm\), такие что:
+    \[B = \left( \begin{array}{cccc}
+        K_1 & 0 & \dots & 0 \\
+        0 & K_2 & \dots & 0 \\
+        \vdots & \vdots & \ddots & \vdots \\
+        0 & 0 & \dots & K_s \\
+    \end{array} \right), K_j =\left( \begin{array}{ccccc}
+        \lambda_j & 1 & 0 & \dots & 0 \\
+        0 & \lambda_j & 1 & \dots & 0 \\
+        \vdots & \vdots & \vdots & \ddots & \vdots \\
+        0 & 0 & 0 & \dots & 1 \\
+        0 & 0 & 0 & \dots & \lambda_j \\
+    \end{array} \right) \in \Cm^{n \times n}\]
+\end{reminder}
+
+\begin{note}
+    \[\det(E - \lambda B) = \det(C^{-1}C - \lambda C^{-1}AC) = \det C^{-1} \det(E - \lambda A) \det C = \det(E - \lambda A)\]
+\end{note}
+
+\begin{theorem}
+    Каждое решение (8.7) представимо в виде
+    \begin{equation}
+        x(t) = P_1(t)e^{\lambda_1t} + \dots + P_m(t)e^{\lambda_mt}
+    \end{equation}
+    Где \(\lambda_1, \dots \lambda_m\) --- попарно различные собственные числа \(A\), где \(P_j(t) = (P_{j1}(t), P_{j2}(t), \dots P_{jn}(t))\) причем \(\deg P_{jk} \le \) размера соответствующей Жордановой клетки.
+\end{theorem}
+\begin{proof}
+    Рассмотрим замену: \(x(t) = Cy(t), t \in \R\). Тогда (8.7) равносильно:
+    \[Cy' = ACy \Lra y' = By \Lra \]
+    \[\Lra \left\{\begin{array}{l}
+        \left\{
+            \begin{array}{l}
+                y_1' = \lambda_1y_1 + y_2 \\
+                y_2' = \lambda_1y_2 + y_3 \\
+                \vdots \\
+                y_{n_1}' = \lambda_1y_{n_1} \\
+            \end{array}
+        \right.\\
+        y'_{n_1 + 1} = \lambda_2y_{n_1 + 1} + y_{n_1 + 2} \\
+        \vdots \\
+        y'_{n_s} = \lambda_s y_s
+    \end{array}\right.\]
+
+    Сделаем еще одну замену: \(y_j(t) = e^{\lambda_1 t}z_j(t), j = 1, \dots n_1\). Тогда \(y_j' = \lambda_1e^{\lambda_1 t}z_1 + e^{\lambda_1 t}z_1'\). Тогда система превращается в следующую:
+    \begin{equation*}
+        \begin{cases*}
+            z_1' = z_2 \\
+            z_2' = z_3 \\
+            \vdots \\
+            z_{n_1}' = 0
+        \end{cases*}
+    \end{equation*}
+
+    Тогда получаем:
+
+    \begin{equation*}
+        \begin{cases*}
+            z_{n_1} = C_{n_1} \\
+            z_{n_1 - 1} = C_{n_1}x + C_{n_1} - 1 \\
+            \vdots \\
+            z_1' = C_{n_1}\frac{t^{n_1 - 1}}{(n_1 - 1)!} +  C_{n_1 - 1}\frac{t^{n_1 - 2}}{(n_1 - 2)!} + \dots + C_1\\
+        \end{cases*}
+    \end{equation*}
+
+    И, наконец, получаем:
+
+    \begin{equation*}
+        \begin{cases*}
+            y_1 = e^{\lambda_1t}\left( C_{n_1}\frac{t^{n_1 - 1}}{(n_1 - 1)!} +  C_{n_1 - 1}\frac{t^{n_1 - 2}}{(n_1 - 2)!} + \dots + C_1 \right) \\
+            \vdots \\
+            y_{n_1} = C_{n_1}e^{\lambda_1 t}
+        \end{cases*}
+    \end{equation*}
+    Откуда получаем желаемое.
+\end{proof}
+
+Пусть теперь \(A \in \R^{n \times n}\). Пусть \(x(\cdot)\) --- решение (8.7). Тогда найдем решение в виде \(x(t) = u(t) + iv(t), u(t), v(t) \in \R^n, t \in \R\). Тогда \(u(t), v(t)\) являются решением (8.7).
+
+\[x'(t) = A(t)x(t) \Lra u'(t) + iv'(t) = A(u(t) + iv(t)) \Ra u'(t) = Au(t), v'(t) = Av(t)\]
+
+Перенумеруем собственные числа следующим образом:
+\[\left\{\begin{array}{l}
+    \lambda_j = \alpha_j + i\beta_j\\
+    \lambda_{j + r} = \alpha_j - i\beta_j \\
+    \lambda_{2r + 1}, \dots \lambda_m \in \R \\
+\end{array}\right., \beta_j \ne 0\]
+Пусть \(x(t), t \in \R\) --- решение (8.7) в виде (8.8), \(P_j(t) = U_j(t) + iV_j(t)\).
+\[\Re x(t) = \Re \left( \sum_{j = 1}^n (U_j(t) + iV_j(t))(\cos(\beta_jt) + i\sin(\beta_jt))e^{\alpha_jt} \right. +\]
+\[\left.+ \sum_{j = 1}^r(U_{j + r}(t) + iV_{j + r}(t))(\cos (\beta_jt) - i\sin(\beta_jt))e^{\alpha_jt} + \sum_{j = 2r + 1}^m e^{\lambda_jt}(U_j(t) + iV_j(t))\right) = \]
+\[= \sum_{j = 1}^re^{\alpha_jt}\left( \tilde{U}_j(t) \cos(\beta_jt) + \tilde{V}_j(t)\sin(\beta_jt) \right) + \sum_{j = 2r + 1}^ne^{\lambda_jt}\tilde{U}_j(t)\]
+
+\begin{corollary}
+    Каждое решение (8.7) представимо в виде:
+    \[x(t) = \sum_{j = 1}^re^{\alpha_jt}\left( \tilde{U}_j(t)s\cos(\beta_jt) + \tilde{V}\sin(\beta_jt) +  \right) + \sum_{j = 2r + 1}^m e^{\lambda_jt}\tilde{U}_j(t)\]
+    Причем 
+    \[\tilde{U}(t) = (U_{j1}(t), \dots U_{jn}(t))^T\]
+    \[\tilde{V}(t) = (V_{j1}(t), \dots V_{jn}(t))^T\]
+    И \(\deg U_{jk}, \deg V_{jk} \le\) размер наибольшей соответствующей Жордановой клетки.
+\end{corollary}
+
+\subsection{Системы линейных неоднородных дифференциальных уравнений с постоянными коэффициентами}
+Рассмотрим уравнение:
+\begin{equation}
+    x' = Ax + b(t), b \in C(\R, \Cm^n)
+\end{equation}
+Пусть \(b(t) \equiv e^{\mu t}P(t), t \in \R\).
+\begin{proposition}[(б/д)]
+    \(\exists\) решение (8.9), имеющее вид \(x(t) = e^{\mu t}Q(t), t \in \R\), где \(\deg Q \le \deg P + l\), где \(l\) --- размер Жордановой клетки, соответствующей собственному числу \(\mu\) (если \(\mu\) --- не собственное число, подагаем \(l = 0\)).
+\end{proposition}
+
+Если \(b(t) = \sum_{i = 1}^d e^{\mu_it}P_i(t)\) --- сумма квазиполиномов, то можно рассмотреть несколько систем \(x' = Ax + b_j(t)\), где \(b_j = e^{\mu_jt}P_j(t)\). Тогда по утверждению выше, для каждой из них \(\exists\) решение \(x_j(t) = Q_j(t)e^{\mu_j t}, t \in \R\). Тогда \(x(t) = \sum_{i = 1}^d x_i(t)\) --- решение (8.9)
+
+\hypertarget{lecture11}{}
+
+\section{Матричная экспонента}
+Пусть \(n \in \N, A \in \Cm^{n \times n}, B \in \Cm^{n \times n}\)
+\begin{lemma}
+    Ряд \(\sum_{j = 0}^\infty \frac{t^j}{j!}A^j\) сходится равномерно и абсолютно на любом ограниченном \(I \subset \R\).
+\end{lemma}
+\begin{proof}
+    \[\left\|\frac{t^j}{j!}A^j\right\| \le \frac{|t|^j}{j!}\|A\|^j, t \in (-r, r)\]
+    \[\sum_{j = 0}^\infty \frac{|t|^j}{j!}\|A\|^j = e^{|t|\cdot\|A\|} < e^{r\cdot\|A\|} < \infty\]
+\end{proof}
+
+\begin{definition}
+    Пусть \(A \in \Cm^{n \times n}\). Положим:
+    \[e^A = \sum_{j = 0}^\infty \frac{A^j}{j!}\]
+\end{definition}
+
+\begin{proposition}
+    \(AB = BA \Ra e^Ae^B = e^{A + B}\)
+\end{proposition}
+\begin{proof}
+    \[e^Ae^B = \sum_{j = 0}^\infty \frac{A^j}{j!}\left( \sum_{k = 0}^\infty \frac{B^k}{k!} \right) = \sum_{j, k = 0}^\infty \gamma_{j, k}A^jB^k\]
+    \[e^{A + B} = \sum_{j = 0}^\infty \frac{(A + B)^j}{j!} = E + A + B + \frac{A^2 + AB + BA + B^2}{2!} + \dots = (*)\]
+    Т.к. \(AB = BA\), заключаем:
+    \[(*) = \sum_{j, k = 0}^\infty \theta_{j, k}A^jB^k\]
+    Далее заметим, что \(\gamma_{j, k}, \theta_{j, k}\) не зависят от \(n\). Также, при \(n = 1\) выполняется \(\theta_{j, k} = \gamma_{j, k}\) по свойству численной экспоненты. Т.к. от \(n\) эти коэффициенты не зависят, получили желаемое.
+\end{proof}
+
+\begin{example}[Условие коммутирования существенно]
+    Покажем, что условие коммутирования матриц существенно в предыдущем утверждении
+    \[A = \left( \begin{array}{cc}
+        0 & 1 \\
+        0 & 0 \\
+    \end{array} \right), B = \left( \begin{array}{cc}
+        0 & 1 \\
+        0 & 0 \\
+    \end{array} \right)\]
+    Тогда:
+    \[AB = \left( \begin{array}{cc}
+        1 & 0 \\
+        0 & 0 \\
+    \end{array} \right), B = \left( \begin{array}{cc}
+        0 & 0 \\
+        0 & 0 \\
+    \end{array} \right)\]
+    Получаем:
+    \[e^Ae^B = (E + A)(E + B) = E + A + B + AB\]
+    \[e^Be^A = (E + A)(E + B) = E + A + B + BA\]
+    В таком случае, либо \(e^Ae^B \ne e^{A + B}\), либо \(e^Be^A \ne e^{A + B}\).
+\end{example}
+
+\begin{proposition}
+    \(\frac{d}{dt}e^{tA} = Ae^{tA}\)
+\end{proposition}
+\begin{proof}
+    Рассмотрим \(\frac{d}{dt} \frac{t^jA^j}{j!}\).
+    \[\frac{d}{dt} \frac{t^jA^j}{j!} = \left\{\begin{array}{l}
+        \frac{t^{j - 1}}{(j - 1)!}A^j, j \ge 1 \\
+        0, j = 0
+    \end{array}\right.\]
+    Заметим, что:
+    \[\left\|\frac{t^{j - 1}}{(j - 1)!}A^j\right\| \le \frac{|t|^{j - 1}}{(j - 1)!}\|A\|^j\]
+    Получаем:
+    \[\sum_{j = 0}^\infty \frac{|t|^{j - 1}}{(j - 1)!}\|A\|^j = \|A\|e^{t\cdot\|A\|} < \|A\|e^{r\cdot\|A\|} < \infty\]
+    Получили, что ряд из частных производных сходится абсолютно и равномерно при \(t \in (-r, r)\). Тогда по теореме о дифференцировании рядов, получаем
+    \[\frac{d}{dt}e^{tA} = \frac{d}{dt}\left( \sum_{j = 0}^\infty \frac{t^{j}}{j!}A^j \right) = \sum_{j = 0}^\infty \frac{d}{dt}\left( \frac{t^{j}}{j!}A^j \right) = \sum_{j = 0}^\infty \frac{t^{j - 1}}{(j - 1)!}A^j = Ae^{tA}\]
+\end{proof}
+
+\begin{corollary}
+    \(X(t) = e^{tA}\) является решением Задачи коши: \(X' = AX, X(0) = E\). В частности, \(X(t)\) является ФСР системы \(x' = Ax\)
+\end{corollary}
+
+\begin{proposition}
+    \(\det(e^{tA}) = e^{t \cdot tr\;A}\).
+\end{proposition}
+\begin{proof}
+    Следует из свойств определителя Вронского
+\end{proof}
+
+\subsection{Вычисление матричной экспоненты}
+Пусть
+\[K = \left( \begin{array}{ccccc}
+    \lambda & 1 & 0 & \dots & 0 \\
+    0 & \lambda & 1 & \dots & 0 \\
+    \vdots & \vdots & \vdots & \ddots & \vdots \\
+    0 & 0 & 0 & \dots & 1 \\
+    0 & 0 & 0 & \dots & \lambda \\
+\end{array} \right), F = \left( \begin{array}{ccccc}
+    0 & 1 & 0 & \dots & 0 \\
+    0 & 0 & 1 & \dots & 0 \\
+    \vdots & \vdots & \vdots & \ddots & \vdots \\
+    0 & 0 & 0 & \dots & 1 \\
+    0 & 0 & 0 & \dots & 0 \\
+\end{array} \right) \Ra K = \lambda E + F\]
+Найдем \(e^{tK}\).
+\[e^{t\lambda E} = e^{\lambda t}E\]
+\[e^{tF} = \left( \begin{array}{cccccc}
+    1 & t & \frac{t^2}{2} & \dots & \frac{t^{n - 2}}{(n - 2)!} & \frac{t^{n - 1}}{(n - 1)!} \\
+    0 & 1 & t & \dots & \frac{t^{n - 3}}{(n - 3)!} & \frac{t^{n - 2}}{(n - 2)!} \\
+    
+    \vdots & \vdots & \vdots & \ddots & \vdots &\vdots \\
+    0 & 0 & 0 & \dots & t & \frac{t^2}{2} \\
+    0 & 0 & 0 & \dots & 1 & t \\
+    0 & 0 & 0 & \dots & 0 & 1 \\
+\end{array} \right)\]
+
+Тогда 
+\[e^{tK} = e^{t\lambda E} e^{tF} = e^{\lambda t}\left( \begin{array}{cccccc}
+    1 & t & \frac{t^2}{2} & \dots & \frac{t^{n - 2}}{(n - 2)!} & \frac{t^{n - 1}}{(n - 1)!} \\
+    0 & 1 & t & \dots & \frac{t^{n - 3}}{(n - 3)!} & \frac{t^{n - 2}}{(n - 2)!} \\
+    
+    \vdots & \vdots & \vdots & \ddots & \vdots &\vdots \\
+    0 & 0 & 0 & \dots & t & \frac{t^2}{2} \\
+    0 & 0 & 0 & \dots & 1 & t \\
+    0 & 0 & 0 & \dots & 0 & 1 \\
+\end{array} \right)\]
+
+Также, если \(B = \left( \begin{array}{cccc}
+    K_1 & 0 & \dots & 0 \\
+    0 & K_2 & \dots & 0 \\
+    \vdots & \vdots & \ddots & \vdots \\
+    0 & 0 & \dots & K_s \\
+\end{array} \right)\), то:
+\[e^{tB} = \left( \begin{array}{cccc}
+    e^{tK_1} & 0 & \dots & 0 \\
+    0 & e^{tK_2} & \dots & 0 \\
+    \vdots & \vdots & \ddots & \vdots \\
+    0 & 0 & \dots & e^{tK_s} \\
+\end{array} \right)\]
+
+\begin{proposition}
+    Пусть \(A = C^{-1}BC, B\) --- ЖНФ матрицы \(A\), \(\det C \ne 0\). Тогда \(e^{tA} = C^{-1}e^{tB}C\).
+\end{proposition}
+\begin{proof}
+    \[e^{tA} = \sum_{j = 0}^\infty \frac{(C^{-1}BC)^j}{j!} = \sum_{j = 0}^\infty \frac{C^{-1}B^jC}{j!} = C^{-1}\left( \sum_{j = 0}^\infty \frac{B^j}{j!} \right)C\]
+\end{proof}
+
+\section{Теорема Штурма}
+Рассмотрим уравнение:
+\begin{equation}
+    x'' + a(t)x' + b(t)x = 0, a, b \in C^1(I, \R)
+\end{equation}
+
+При помощи замены \(x(t) = u(t)y(t)\) данное уравнение можно свести к следующему:
+\begin{equation}
+    y'' + q(t)y = 0
+\end{equation}
+
+Действительно, заметим, что \(x' = u'y + y'u, x'' = u''y + 2u'y' + uy''\). Тогда уравнение (10.1) преобразится следующим образом:
+\[y''u + 2y'u' + yu'' + au'y + auy' + buy = 0\]
+
+Подберем такое \(u\), что \(2u' + au = 0\), имеем:
+\[u = \exp\left( -\int_{t_0}^t a(s)ds \right)\]
+Тогда:
+\[y''u + 2y'u' + yu'' + au'y + auy' + buy = 0\]
+\[y''u + yu'' + au'y + buy = 0\]
+\[y'' + \underbrace{\frac{u'' + au' + bu}{u}}_{q(t)}y = 0\]
+
+\begin{note}
+    \(x(t) = 0 \Ra y(t) = 0\)
+\end{note}
+\begin{proposition}
+    Пусть \(y\) --- нетривиальное решение (10.2), \(\hat{t} \in I, y(\hat{t}) = 0 \Ra y'(\hat{t}) \ne 0\)
+\end{proposition}
+\begin{proposition}
+    Рассмотрим соответствующую задачу Коши и начальные условия \(y(\hat{t}) = 0, y'(\hat{t}) = 0\). Тогда в некоторой окрестности, решение единственно и тривиально.
+\end{proposition}
+
+\begin{proposition}
+    Пусть \(y(t)\) --- нетривиальное решение (10.2). Тогда \(y^{-1}(0) = \{t \in I: y(t) = 0\}\) не имеет предельных точек.
+\end{proposition}
+\begin{proof}
+    Рассмотрим \(\hat{t}: y(\hat(t)) = 0 \Ra y'(\hat{t}) \ne 0\). Тогда \(\exists \epsilon > 0: \forall \delta \in (-\epsilon, \epsilon)\)
+    \[|y(\hat{t} + \delta)| = |y'(\hat{t})\delta + o(\delta)| \ge |y'(\hat{t})|\cdot|\delta| - |o(\delta)| \ge |y'(\hat{t})|\cdot|\delta| - \frac{|y'(\hat{t})|}{2}|\delta| > 0\]
+    Получили желаемое
+\end{proof}
+
+Пусть \(Q \in C(I, \R)\). Рассмотрим уравнение:
+\begin{equation}
+    z'' + Q(t)z = 0
+\end{equation}
+
+\begin{theorem}[Штурма]
+    Пусть \(q(t) \le Q(t) \forall t \in I, t_1, t_2 \in I, t_1 < t_2\) (\(q, Q\) берутся из уравнений (10.2), (10.3)). Пусть \(y\) --- решение (10.2), такое, что \(y(t_1) = y(t_2) = 0, y(t) \ne 0 \forall t \in (t_1, t_2)\). Тогда если \(z\) --- нетривиальное решение (10.3), то:
+    \[\left[\begin{array}{l}
+        \exists t \in (t_1, t_2): z(t) = 0 \\
+        z(t_1) = z(t_2) = 0
+    \end{array}\right.\]
+\end{theorem}
+\begin{proof}
+    Рассмотрим случай \(y(t) > 0 \forall t \in I\) (другой случай доказывается аналогично). Тогда: \(y'(t_1) \ge 0, y'(t_2) \le 0 \Ra y'(t_1) > 0, y'(t_2) < 0\) (не могут равняться нулю по утверждению выше).
+    Рассмотрим:
+    \[(10.2)z - (10.3)y\]
+    \[y''z - yz'' = (Q - q)yz\]
+    \[\frac{d}{dt}(y'z - yz') = (Q - q)yz\]
+    \[y'(t_2)z(t_2) - y(t_2)z'(t_2) - y'(t_1)z(t_1) + y(t_1)z'(t_1) = \int_{t_1}^{t_2}(Q(s) - q(s))y(s)z(s)ds\]
+    \[y'(t_2)z(t_2) - y'(t_1)z(t_1) = \int_{t_1}^{t_2}(Q(s) - q(s))y(s)z(s)ds\]
+    Предположим, что \(z(t)\) постоянного знака на \(I\) (в противном случае получаем, что \(z(t) = 0\) для какого-то \(t \in (t_1, t_2)\)). Рассмотрим только случай \(z > 0\) (другой случай будет доказываться аналогично). Тогда существует несколько возможных случаев:
+    \[\left[\begin{array}{l}
+        z(t) > 0 \forall t \in [t_1, t_2] \\
+        z(t) > 0 \forall t \in (t_1, t_2], z(t_1) = 0 \\
+        z(t) > 0 \forall t \in [t_1, t_2), z(t_2) > 0 \\
+        z(t_1) = z(t_2) = 0 \\
+    \end{array}\right.\]
+    Покажем, что первые три случая невозможны заметим, что 
+    \[\int_{t_1}^{t_2}(Q(s) - q(s))y(s)z(s)ds \ge 0\]
+    Но в первых трех случаях получаем, что \(y'(t_2)z(t_2) - y'(t_1)z(t_1) < 0\). Но тогда \(z(t_1) = z(t_2) = 0\).
+\end{proof}
+
+\begin{corollary}
+    Пусть \(q(t) \le 0 \forall t \in I\), \(y\) --- нетривиальное решение (10.2). Тогда \(|y^{-1}(0)| \le 1\)
+\end{corollary}
+
+\begin{corollary}
+    Пусть \(y_1, y_2\) --- линейно независимые решения (10.2), \(y_1(t_1) = y_1(t_2) = 0, y_1(t) \ne 0 \forall t \in (t_1, t_2)\). Тогда существует единственное \(t \in (t_1, t_2): y_2(t) = 0\).
+\end{corollary}
+
+\hypertarget{lecture12}{}
+
+\section{Преобразование Лапласа и Операционный метод}
+\subsection{Преобразование Лапласа}
+\begin{definition}
+    \(f: \R \ra \Cm\) называется оригиналом, если 
+    \begin{enumerate}
+        \item \(f(t) = 0 \forall t < 0\)
+        \item \(\forall a, b \in \R, a < b: f\) имеет конечное число точек разрыва на \([a, b]\), причем все точки разрыва --- I рода.
+        \item \(\exists M \ge 0, \alpha \in \R: |f(t)| \le Me^{\alpha t}, \forall t \in \R\)
+    \end{enumerate}
+\end{definition}
+
+Положим:
+\[F(p) = \int_0^{+\infty} e^{-pt}f(t)dt\]
+
+\begin{lemma}
+    \(F(p)\) сходится при \(p \in \Cm\), таких, что \(\Re p > \alpha\)
+\end{lemma}
+\begin{proof}
+    \[|e^{-pt}f(t)| = |e^{-pt}||f(t)| \le e^{-t\Re p}Me^{\alpha t} = Me^{\alpha - \Re p}\]
+    Но тогда \(\alpha - \Re p < 0\).
+\end{proof}
+
+% \textit{Я, конечно, гений \LaTeX, но даже я не знаю, как написать значок из лекции. Поэтому пока что преобразование Лапласа будет обозначаться \(\risingdotseq \)}
+\begin{definition}
+    \(f(t) \risingdotseq  F(p), p > \Re \alpha\) --- Преобразование Лапласа
+\end{definition}
+
+\begin{note}
+    Пусть \(f_1, f_2\) --- оригиналы и \(|f_1(t)| \le M_1e^{\alpha_1 t}, |f_2(t)| \le M_2e^{\alpha_2 t}, \forall t \in \R\). Пусть также  \(c_1, c_2 \in \Cm, f_i \risingdotseq  F_i(p)\). Тогда:
+    \[c_1f_1(t) + c_2f_2(t) = c_1F_1(p) + c_2F_2(p)\]
+\end{note}
+
+\begin{note}
+    Пусть \(f, f'\) --- оригиналы, \(|f(t)|, |f'(t)| \le Me^{\alpha t} \forall t \in \R\). Тогда:
+    \[f(t) \risingdotseq  F(p) \Ra f'(t) \risingdotseq  \]
+    \[f'(t) \risingdotseq  \int_0^{+\infty}\underbrace{e^{-pt}}_{u}\underbrace{f'(t)dt}_{dv} = \left.e^{-pt}f(t)\right|_0^{+\infty} + \int_0^{+\infty}pe^{-pt}f(t)dt = -f(0+) + pF(p)\]
+
+    Тогда общем случае:
+    \[f^{(n)}(t) \risingdotseq  p^nF(p) - f^{(n - 1)}(0 + ) - pf^{(n - 2)}(0 + ) - \dots p^{n - 1}f(0 +)\]
+\end{note}
+
+\begin{proposition}[б/д]
+    Оригинал \(f(t)\) определен однозначно образом \(F(p)\) при \(t > 0\), в которых \(f\) дифференцируема
+\end{proposition}
+
+\begin{note}
+    Если \(f(t) = t^ke^{\lambda t}, t > 0\), то
+    \[f(t) \risingdotseq  \int_0^{+\infty} e^{-pt}t^ke^{\lambda t}dt = \int_0^{+\infty} e^{-(p - \lambda)t}t^k dt = t^k\underbrace{\left.\frac{e^{-(p - \lambda)t}}{\lambda - p}\right|_0^{+\infty}}_{= 0} + \frac{k}{p - \lambda} \int_0^{+\infty} e^{-(p - \lambda)t}t^{k - 1}dt = \]
+    \[= \frac{k!}{(p - \lambda)^k}\int_0^{+\infty}e^{-(p - \lambda)t}dt = \frac{k!}{(p - \lambda)^k} \cdot \left.\frac{e^{-(p - \lambda)t}}{\lambda - p}\right|_0^{+\infty} = \frac{k!}{(p - \lambda)^{k + 1}}\]
+\end{note}
+
+\begin{proposition}
+    \(\cos(\beta t) \risingdotseq  \frac{p}{p^2 + \beta^2}, \sin(\beta t) \risingdotseq  \frac{\beta}{p^2 + \beta^2}, \Re p > 0\)
+\end{proposition}
+\begin{proof}
+    \[\cos(\beta t) = \frac{1}{2}\left( e^{i\beta t} + e^{-i\beta t} \right) \risingdotseq  \frac{1}{2}\left( \frac{1}{p - i\beta} + \frac{1}{p + i\beta} \right) = \frac{p}{p^2 + \beta^2}\]
+    \[\sin(\beta t) = \frac{1}{2i}\left( e^{i\beta t} - e^{-i\beta t} \right) \risingdotseq  \frac{1}{2i}\left( \frac{1}{p - i\beta} - \frac{1}{p + i\beta} \right) = \frac{\beta}{p^2 + \beta^2}\]
+\end{proof}
+
+\subsection{Операционный метод}
+Рассмотрим уравнение:
+\begin{equation}
+    \begin{cases}
+        a_0x^{(n)} + a_1x^{(n - 1)} + \dots + a_{n - 1}x' + a_nx = f(t) \\
+        x(0 +) = x_0 \\
+        x'(0 +) = x_1 \\
+        \vdots \\
+        x^{(n - 1)}(0 +) = x_{n - 1} \\
+    \end{cases}, x_1, \dots x_n \in \Cm
+\end{equation}
+Где \(a_0, \dots a_n \in \Cm, f\) --- оригинал, \(f(t) \risingdotseq  F(p), p > \Re \alpha\), где \(\alpha\) соответствует оригиналу \(f\).
+
+Пусть \(x(t) \risingdotseq  X(p)\). Тогда:
+\begin{equation*}
+    \begin{cases}
+        x'(t) \risingdotseq  -x(0 +) + pX(p) \\
+        \vdots \\
+        x^{(n)}(t) \risingdotseq  p^nX(p) - p^{n - 1}x(0 +)  - p^{n - 2}x'(0 +) - \dots - x^{(n - 1)}(0 +)\\
+    \end{cases}
+\end{equation*}
+
+Тогда, если применить преобразование Лапласа к обеим частям (11.1), получим:
+\begin{equation*}
+    a_0(p^nX(p) - p^{n - 1}x(0 +)  - p^{n - 2}x'(0 +) - \dots - x^{(n - 1)}(0 +)) + \dots + a_nX(p) = F(p)
+\end{equation*}
+
+\begin{equation*}
+    \underbrace{(a_0p^n + a_1p^{n - 1} + \dots + a_n)}_{L(p)}X(p) - M(p) = F(p)
+\end{equation*}
+
+Тогда \(X(p) = \frac{F(p) + M(p)}{L(p)}, \Re p > \alpha, \Re p > \Re \lambda_j\), где \(\lambda_j\) --- корни \(L\). Тогда необходимо сделать обратное преобразование Лапласа и по \(X(p)\) получить \(x(t)\), которое будет являться решением (11.1)
+
+\hypertarget{lecture13}{}
+
+\section{Зависимоть решения задачи Коши от параметра}
+
+Рассмотрим задачу Коши: пусть даны \(\Gamma \subset \R \times \R^n\) --- открытое и \(f: \Gamma \ra \R^n\) --- непрерывна, \(\frac{\partial f_i}{\partial x_j}\) существуют и непрерывны, \((t_0, x_0) \in \Gamma\)
+\begin{equation}
+    \begin{cases}
+        x' = f(t, x) \\
+        x(t_0) = x_0
+    \end{cases}
+\end{equation}
+
+Пусть \(\tilde{x}: I \ra \R^n\) --- решение (12.1) и \(t_1, t_2 \in \R, t_0 \subset [t_1, t_2] \subset I\). Рассмотрим \(d > 0\) и положим 
+\[V = \{(t, x): t \in [t_1, t_2], x \in \R^n, |x - \tilde{x}(t)| \le d\} \subset \Gamma\]
+
+\begin{lemma}
+    \(\forall \epsilon > 0 \exists \delta > 0:\) если \(g: \Gamma \ra \R^n\) непрерывна, а \(\frac{\partial g_i}{\partial x_j}\) существуют и непрерывны, \(|g(t, x) - f(t, x)| \le \delta \forall (t, x) \in V, y_0 \in \R^n: |y_0 - x_0| < \delta\), то непродолжаемое решение \(y\) задачи Коши 
+    \begin{equation}
+        \begin{cases}
+            y' = g(t, y) \\
+            y(t_0) = y_0
+        \end{cases}
+    \end{equation}
+    Существует, определена на \([t_1, t_2]\) и
+    \[|\tilde{x}(t) - y(t)| < \epsilon \forall t \in [t_1, t_2]\]
+\end{lemma}
+\begin{proof}
+    \(\forall \epsilon > 0\) возьмем \(\delta > 0\) так, что
+
+    \(V\) --- компакт \(\Ra \exists l: \left|\frac{\partial f_i}{\partial x_j}(t, x)\right| \le l \forall (t, x) \in V\).
+    \[\Ra \left\|\frac{\partial f_i}{\partial x_j}(t, x)\right\| \le ln^2 =: L \forall (t, x) \in V\]
+    \[\Ra |f(t, x) - f(t, y)| \le L|x - y| \forall (t, x), (t, y) \in V\]
+    Возьмем \(g, y_0\) из условия леммы. По теореме о единственности решения, \(\exists !\) решение \(y\) задачи Коши (12.2). Пусть \(T\) --- отрезок, содержащий \(t_0, y(t) \in V \forall t \in T\).
+    \[|\tilde{x}'(t) - y'(t)| = |f(t, \tilde{x}(t)) - g(t, y)| \le |f(t, \tilde{x}(t)) - f(t, y(t))| + |f(t, y(t)) - g(t, y(t))| \le\]
+    \[L|\tilde{x}(t) - y(t)| + \delta \forall t \in T\]
+    Положим \(z(t) = \tilde{x}(t) - y(t)\). Тогда \(|z'(t)| \le L(z(t)) + \delta \Ra\) по лемме о дифференцируемом неравенстве:
+    \[|z(t)| \le \delta e^{L|t - t_0|} + \frac{\delta}{L}\left( e^{L|t - t_0|} - 1\right) < \min\{\epsilon, d\} \forall t \in T\]
+    Тогда \(y\) определена на \([t_1, t_2]\).
+\end{proof}
+
+Теперь рассмотрим задачу Коши: пусть \(\Sigma \subset \R \times \R^n \times \R^m\) --- открыто, \(f: \Sigma \ra \R^n\) непрерывна, \(\frac{\partial f_i}{\partial x_j}\) существуют и непрерывны, \(M \subset \R^m\) --- открыто, \(a: M \ra \R^n\) --- непрерывна, \((t_0, a(\mu), \mu) \in \Sigma \forall \mu \in M\).
+\begin{equation}
+    \begin{cases}
+        x' = f(t, x, \mu) \\
+        x(t_0) = a(\mu)
+    \end{cases}
+\end{equation}
+
+Пусть \(\phi(\cdot, \mu)\) --- непродолжаемое решение задачи Коши (12.3) \(\forall \mu \in M\). Положим \(\Omega = \{(t, \mu): \phi(t, \mu)\text{ определено}\}\).
+
+\begin{theorem}
+    \(\Omega\) открыто, \(\phi\) непрерывно
+\end{theorem}
+\begin{proof}
+    \(\forall (\tilde{t}, \tilde{\mu}) \in \Omega: \tilde{x} = \phi(t, \tilde{\mu})\). \(\tilde{x}\) определена на \([t_0, \tilde{t}] \Ra \exists t_2 > \tilde{t}: \tilde{x}\)определена на \([t_0, t_2]\). Тогда существует \(d > 0\), такое, что для \(V = \{(t, x) \in [t_0, t_2] \times \R^n: |\tilde{x}(t) - x| < d\}\) будет верно: \(V \times \{\tilde{\mu}\} \subset \Sigma\) (предоставляется читателю в качестве нетрудного упражнения).
+    
+    \(\forall \epsilon > 0 \exists \delta > 0:\) выполняется утверждение Леммы при \(f(t, x) = f(t, x, \tilde{\mu}), x_0 = a(\tilde{\mu})\). Тогда \(\exists O(\tilde{\mu}) \subset M: |f(t, x, \mu) - f(t, x, \tilde{\mu})| < \delta \forall (t, x) \in V\), \(|a(\tilde{\mu}) - a(\mu)| < \delta \forall \mu \in O(\tilde{\mu})\). Первое неравенство является утверждением о равномерной непрерывности непрерывной функции на компакте (теорема Кантора), второе --- непрерывность функции \(a\) в точке \(\tilde{\mu}\). Тогда из Леммы следует, что \(\phi(\cdot, \mu)\) определена на \([t_1, t_2]\) и \(|\phi(t, \tilde{\mu}) - \phi(t, \mu)| < \epsilon \forall t \in [t_1, t_2] \forall \mu \in O(\tilde{\mu})\). Но тогда \(\Omega\) открыто. 
+    \[|\phi(t, \mu) - \phi(\tilde{t}, \tilde{\mu})| \le |\phi(t, \mu) - \phi(t, \tilde{\mu})| + |\phi(t, \tilde{\mu}) - \phi(\tilde{t}, \tilde{\mu})| < \epsilon + \epsilon, \forall t \in (\tilde{t} - \tau, \tilde{t} + \tau)\]
+    Это верно при достаточно малых \(\tau\), т.к. \(\phi\) непрерывна.
+\end{proof}
+
+Теперь будем рассматривать одномерный параметр. Пусть \(\Sigma \subset \R \times \R^n \times \R\) --- открыто, \(f: \Sigma \ra \R^n\) непрерывна, \(\frac{\partial f_i}{\partial x_j}\) существуют и непрерывны, \(M \subset \R\) --- открыто, \(a: M \ra \R^n\) --- непрерывно дифференцируема, \((t_0, a(\mu), \mu) \in \Sigma \forall \mu \in M\).
+\begin{equation}
+    \begin{cases}
+        x' = f(t, x, \mu) \\
+        x(t_0) = a(\mu)
+    \end{cases}
+\end{equation}
+
+\begin{theorem}
+    \(\phi\) непрерывно дифференцируемо, смешаные производные \(\frac{\partial^2 \phi}{\partial t \partial \mu} \exists\) существуют и непрерывны и \(\frac{\partial \phi}{\partial \mu}(\cdot, \tilde{\mu})\) является решением уравнения в вариациях:
+    \begin{equation}
+        \begin{cases}
+            v' = \frac{\partial f}{\partial x}(t, \phi(t, \tilde{\mu}), \tilde{\mu})v + \frac{\partial f}{\partial \mu}(t, \phi(t, \tilde{\mu}), \tilde{\mu})
+            v(t_0) = a'(\tilde{\mu})
+        \end{cases}
+    \end{equation} 
+\end{theorem}
+\begin{proof}
+    \[\frac{\partial \phi}{\partial t}(t, \mu) = f(t, \phi(t, \mu), \mu), (t, \mu) \in \Omega\]
+    \[\frac{\partial}{\partial t}\left( \underbrace{\frac{\partial \phi}{\partial \mu}(t, \tilde{\mu})}_{v(t)} \right) = \underbrace{\frac{\partial f}{\partial x}(t, \phi(t, \tilde{\mu}), \tilde{\mu})}_{A(t)}\cdot \underbrace{\frac{\partial \phi}{\partial \mu}(t, \tilde{\mu})}_{v(t)} + \underbrace{\frac{\partial f}{\partial \mu}(t, \phi(t, \tilde{\mu}, \tilde{\mu}))}_{b(t)}\]
+    \[v'(t) = A(t)v(t) + b(t)\]
+
+    Также: \(\phi(t_0, \mu) = a(\mu)\). Тогда: 
+    \[\frac{\partial \phi}{\partial \mu}(t_0, \tilde{\mu}) = a'(\tilde{\mu})\]
+    \[v(t_0) = a'(\tilde{\mu})\]
+\end{proof}
+
+\hypertarget{lecture14}{}
+
+\section{Автономные системы}
+
+\begin{definition}
+    Пусть \(\Sigma \subset \R^n\) открыто, \(f: \Sigma \ra \R^n, f \in C^1\). Уравнение
+    \begin{equation}
+        x' = f(x)
+    \end{equation}
+    называется автономной системой, \(\Sigma\) называется фазовым пространством.
+\end{definition}
+
+Пусть \(x: I \ra \R^n\) --- непродолжимое решение, т.к. \(\forall \tilde{x}: \tilde{I} \ra \R^n\) --- решения верно, что если \(\tilde{x}(t) = x(t) \forall t \in I \cap \tilde{I}\), то \(\tilde{I} \subset I\).
+
+\begin{definition}
+    Траектория --- множество \(\{x(t), t \in I\} \subset \R^n\)
+\end{definition}
+
+\begin{definition}
+    Интегральная кривая --- множество \(\{(t, x(t)), t \in I\} \subset \R \times \R^n\)
+\end{definition}
+
+\begin{example}
+    \(n = 1\)
+    \begin{center}
+        \includegraphics[scale=0.6]{images/IMG_4630 Medium.jpeg}
+    \end{center}
+\end{example}
+
+\begin{example}
+    \(n = 2\). Рассмотрим \(f(x) = Ax, A = \left( \begin{array}{cc}
+        0 & -1 \\
+        1 & 0 \\
+    \end{array} \right)\) соответсвенно система будет следующая:
+    \begin{equation*}
+        \begin{cases*}
+            x_1' = -x_2 \\
+            x_2' = x_1'
+        \end{cases*}
+    \end{equation*}
+
+    Тогда
+
+    \[\left( \begin{array}{c}
+        x_1(t) \\
+        x_2(t)
+    \end{array} \right) = r\left( \begin{array}{c}
+        \cos(t + \gamma) \\
+        \sin(t + \gamma)
+    \end{array} \right)\]
+
+    Тогда интегральная кривая (слева) и траектория (справа) будут выглядеть так:
+
+    \begin{center}
+        \includegraphics[scale=0.6]{images/IMG_4632 Medium.jpeg}
+    \end{center}
+\end{example}
+
+\begin{definition}
+    Пусть \(\tilde{x} \in \Sigma: f(\tilde{x}) = 0\). Тогда \(x(t) = \tilde{x}\) является решением (13.1). В таком случае точка \(\tilde{x}\) называется положением равновесия системы (13.1).
+\end{definition}
+
+\subsection{Свойства автономных систем}
+Некоторые очевидные свойства мы не будем указывать, например, следствия из теоремы о единственности решений.
+\begin{note}
+    \(x: I \ra \R^n\) --- непродолжаемое решение \(\Ra x_c(t) = x(t + c), t \in I - c\) является непродолжаемым решением \(\forall c \in \R\) 
+\end{note}
+\begin{proof}
+    \[\frac{\partial}{\partial t}(x_c(t)) = \frac{d}{dt}(x(t + c)) = x'(t + c) = f(x(t + c)) = f(x_c(t)), t \in I - c\]
+\end{proof}
+
+\begin{proposition}
+    Две любых траектории либо совпадают, либо не пересекаются.
+\end{proposition}
+\begin{proof}
+    Пусть \(x: I \ra \R^n, y: J \ra \R^n\) --- непролжолжаемые решения (13.1). Пусть \(\exists s \in I, \tau \in J: x(s) = y(\tau)\). Положим \(z(t) = y(t + \tau - s)\), где \(t \in J - (\tau - s)\). Из предыдущего утверждения, \(z\) --- непродолжаемое решение (13.1). Но \(z(s) = y(s + \tau - s) = y(tau) = x(s)\). Но тогда по теореме о существовании и единственности решений, получаем, что \(z(t) = x(t)\) и \(I = J - (\tau - s)\). Тогда траектория \(x, y, z\) совпадают.
+\end{proof}
+
+\begin{example}
+    Рассмотрим \(x' = f(t) \Ra x = t^2 + C\). Но тогда траектория решения при данном \(C\), равна \([C, +\infty)\).
+\end{example}
+
+\begin{proposition}
+    Пусть \(x: I \ra \R^n\) --- непродолжаемое решение, \(x(t_1) = x(t_2), t_1 < t_2\) и \(x(t) \ne const\). Тогда \(I = \R\) и \(x(t)\) --- периодичная функция.
+\end{proposition}
+\begin{proof}
+    Положим \(y(t) = x(t + t_2 - t_1), t \in I - (t_2 - t_1)\). Это непродолжаемое решение (13.1). Также, \(y(t_1) = x(t_1 + t_2 - t_1) = x(t_1)\). Поэтому, по теореме о существовании и единственности решения, \(y(t) = x(t) \forall t \in I = I - (\underbrace{t_2 - t_1}_{\ne 0}) \Ra I = \R\). Кроме того, получили \(x(t + (t_2 - t_1)) = x(t)\), то есть период этой функции (необязательно минимальный) равен \(t_2 - t_1\).
+\end{proof}
+
+\begin{corollary}
+    Траектория является точкой, или замкнутой кривой без самопересечений, или незамкнутой кривой без самопересечений.
+\end{corollary}
+\begin{note}
+    Наличие самопересечений означает, что \(\exists t_1 \ne t_2 \in \R: x(t_1) = x(t_2)\), но \(t_2 - t_1\) не является периодом
+\end{note}
+
+Рассмотрим теперь систему:
+\begin{equation}
+    \begin{cases}
+        x' = f(x) \\
+        x(0) = \xi
+    \end{cases}
+\end{equation}
+
+Положим за \(\phi(\cdot, \xi)\) непродолжаемое решение задачи Коши (13.2), \(\xi \in \Sigma\).
+
+\begin{proposition}
+    \(\phi\) определена на открытом множестве в \(\R \times \R^n\) и непрерывно дифференцируема.
+\end{proposition}
+\begin{proof}
+    Следует из аналогичной теоремы для Задачи Коши, зависимой от параметра.
+\end{proof}
+
+\begin{proposition}[Групповое свойство автономных систем]
+    \(\phi(t, \phi(s, \xi)) = \phi(t + s, \xi)\).
+\end{proposition}
+\begin{proof}
+    Докажем утверждение в случае, когда \(\phi\) определена на \(\R \times \Sigma\) (иначе будет очень много технических выкладок). Положим \(x(t) = \phi(t, \phi(s, \xi)), y(t) = \phi(t + s, \xi), t \in \R\). Заметим, что функции \(x, y\) являются решением автономной системы (13.1). \(x(0) = \phi(0, \phi(s, \xi)) = \phi(s, \xi)\). Также, \(y(0) = \phi(s, \xi)\). Таким образом, \(x, y\) --- непролжолжаемыми решениями задачи Коши \(x' = f(x), x(0) = \phi(s, \xi) \Ra\) они совпадают.
+\end{proof}
+
+\begin{note}
+    Почему данное свойство называется групповым? Рассмотрим множество отображений \(\{\phi(t, \cdot): \Sigma \ra \Sigma, t \in \R\}\) с введенной на нем операцией композиции \(\circ\). Тогда это будет группа. Действительно:
+    \begin{enumerate}
+        \setcounter{enumi}{-1}
+        \item Корректность следует из группового свойства
+        \item Ассоциативность следует из свойств композиции.
+        \item Единица --- это \(\phi(0)\)
+        \item \((\phi(t, \cdot))^{-1} = \phi(-t, \cdot)\).
+    \end{enumerate}
+    Более того, данная группа будет абелевой (по групповому свойству).
+\end{note}
+
+\begin{definition}
+    Пусть \(x: (a, +\infty) \ra \R^n\) --- решение, \(X\) --- его траектория. \(z \in \R^n\) называется \(\omega\)-предельной, если \(\exists \{t_j\} \subset (a, +\infty)\), такая, что \(\lim_{j \ra \infty} t_j = \infty\) и \(\lim_{j \ra \infty} x(t_j) \ra z\). Положим \(\Omega(X)\) --- множество всех \(\Omega\)-предельных точек \(X\).
+\end{definition}
+
+\begin{theorem}
+    Пусть \(X\) ограничено и \(\exists \epsilon > 0\) такое, что \(\epsilon\)-окрестность \(X \subset \Sigma\). Тогда \(\Omega(X) \ne 0\), ограничено, замкнуто, связно и состоит из тракеторий.
+\end{theorem}
+
+\begin{theorem}[Бендиксона]
+    Пусть \(n = 2\), \(\Omega(X)\) ограничено, \(\Sigma = \R^2\), \(f(x) \ne 0 \forall x \in \Omega(X)\). Тогда \(\Omega(X)\) --- замкнутая траектория.
+\end{theorem}
+
+\begin{example}
+    Возьмем \(\left( \begin{array}{c}
+        x_1' \\
+        x_2'
+    \end{array} \right) = |x|^2 \left( \begin{array}{c}
+        -x_1 \\
+        x_2
+    \end{array} \right)\).
+    Тогда траектории будут выглядеть так:
+    \begin{center}
+        \includegraphics[scale=0.6]{images/IMG_4630 Medium.jpeg}
+    \end{center}
+    И \(\Omega(X)\) --- единичная окружность
+\end{example}
+

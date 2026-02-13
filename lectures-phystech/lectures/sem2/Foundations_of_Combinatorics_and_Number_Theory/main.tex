@@ -1,0 +1,1234 @@
+
+
+\hypertarget{lecture1}{}
+
+\section{Квадратичные вычеты и невычеты}
+
+\begin{definition}
+    Пусть \(a, m \in \N, (a, m) = 1\). Тогда 
+    \begin{enumerate}
+        \item[] Если \(\exists x: x^2 \equiv_m a\), то \(a\) называется квадратичным вычетом
+        \item[] Если \(\nexists x: x^2 \equiv_m a\), то \(a\) называется квадратичным невычетом
+    \end{enumerate}
+\end{definition}
+
+Будем рассматривать случай, когда \(m\) --- простое нечетное число
+
+\begin{theorem}[Лагранжа]
+    Пусть \(f(x) = a_nx^n + \dots + a_1x + a_0\). Тогда число решений \(f(x) \equiv_p 0\) не превосходит \(n\).
+\end{theorem}
+\begin{proof}
+    От противного: пусть найдутся \(x_1, \dots x_{n+1}\), т.ч. они являются решениями. Заметим, что \(f\) можно представить следующим образом:
+    \[
+    \begin{array}{rl}
+        f(x) & = b_n(x - x_1)\dots(x-x_{n}) \\
+        & + b_{n-1}(x - x_1)\dots(x-x_{n-1}) \\
+        & \;\;\;\vdots \\
+        & + b_1(x - x_1) \\
+        & + b_0 \\
+
+    \end{array}
+    \]
+    Но тогда, подставляя \(x_1 \dots x_{n-1}\) получаем, что все \(b_i = 0 \forall i \le n - 1\). Но тогда \(f(x_{n+1}) \ne 0\). Противоречие.
+\end{proof}
+
+\begin{note}
+    Если \(m\) --- простое нечетное число, то решений 
+    \[x^2 \equiv a^2\]
+    Ровно 2 (\(x = \pm a\))
+\end{note}
+
+\begin{note}
+    Множество всех квадратичных вычетов:
+    \[\left\{1^2, 2^2, \dots \frac{p-1}{2}^2\right\}\]
+    Итого, квадратичных вычетов \(\frac{p-1}{2}\), ровно как и невычетов.
+\end{note}
+
+\begin{definition}
+    Символ Лежандра \(\left(\frac{a}{p}\right)\) --- читается ''\(a\) по \(p\)''
+    \[
+    \left(\frac{a}{p}\right) = \left\{\begin{array}{l}
+        0, a = 0 \\
+        1, a\text{ --- вычет} \\
+        -1, a\text{ --- невычет} \\
+    \end{array}\right.
+    \]
+\end{definition}
+
+\textbf{Анекдот}: посчитать сумму 
+\[\frac{4}{p + 1}\sum_{a = 1}^p\left(\frac{a}{p}\right)\]
+\begin{solution}[1]
+    Если вы знаете, что \(\left(\frac{a}{p}\right)\) --- символ Лежандра, то сумма будет равна 0
+\end{solution}
+\begin{solution}[2]
+    Иначе, вы посчитаете арифметическую прогрессию и получите свою оценку на экзамене
+\end{solution}
+
+Рассмотрим уравнение
+\[a^{p-1} \equiv_p 1\]
+\[\left(a^{\frac{p-1}{2}} - 1\right)\left(a^{\frac{p-1}{2}} + 1\right)  \equiv_p 0\]
+Причем, первая скобка имеет не более \(\frac{p-1}{2}\) решений, поэтому, т.к. любой квадратичный вычет ее зануляет, ее решения --- только квадратичные вычеты. Таким обрахзом:
+\[\left(\frac{a}{p}\right) \equiv_p = a^{\frac{p-1}{2}}\]
+Поэтому можно сказать, что 
+\[\left(\frac{a}{p}\right)\left(\frac{b}{p}\right) = \left(\frac{ab}{p}\right)\]
+\begin{note}
+    \[\left(\frac{-1}{p}\right) = (-1)^\frac{p-1}{2}\]
+\end{note}
+
+\begin{proposition}
+    Зафиксируем некоторое число \(a\). Пусть \(x\) пробегает числа \(1, 2, \dots \frac{p-1}{2} = p_1\). Рассмотрим числа \(ax = \epsilon_x\cdot r_x\), где \(\epsilon_x \in \{-1, 1\}, r_x \in \{1, 2, \dots, p_1\}\). Тогда \(x \ne y \Ra r_x \ne r_y\).
+\end{proposition}
+\begin{proof}
+    Предположим противное. Тогда \(r_x = r_y, x \ne y\). Но тогда \(\epsilon_x \ne \epsilon_y\), т.к. в противном случае \(ax = ay\), чего быть не может. Но тогда \(r_x \equiv_p -r_y \Ra r_x + r_y \equiv_p 0\), но такого тоже быть не может, т.к. \(r_x, r_y \le \frac{p-1}{2}\).
+\end{proof}
+\begin{proposition}
+    \(\epsilon_x = (-1)^{\left[\frac{2ax}{p}\right] }\)
+\end{proposition}
+\begin{proof}
+    Если \((ax \mod p) \in \{1, 2, \dots p_1\}\), то \((-1)^{\left[\frac{2ax}{p}\right] } = 1\), иначе \((-1)^{\left[\frac{2ax}{p}\right] } = -1\).
+\end{proof}
+\begin{proposition}
+    \[a^{\frac{p-1}{2}} = \Pi_{x = 1}^{p_1}\epsilon_x\]
+\end{proposition}
+\begin{proof}
+    \[a^{\frac{p-1}{2}}\Pi_{x = 1}^{p_1} x = \Pi_{x = 1}^{p_1}\epsilon_x r_x\]
+    Причем \(\Pi x = \Pi r_x\), т.к. все \(x\) различны, все \(r_x\) различны и берутся из одного множества. Сократив множители, получим желаемое.
+\end{proof}
+\begin{proposition}
+    \[\left(\frac{a}{p}\right) = a^{\frac{p-1}{2}} = (-1)^{\sum_{x = 1}^{p_1}\left[\frac{2ax}{p}\right] }\]
+\end{proposition}
+\begin{proof}
+    Соединяем предыдущие два утверждения и получаем желаемое.
+\end{proof}
+\begin{proposition}[Уточнение]
+    Пусть \(a\) --- нечетное. Тогда 
+    \[\left(\frac{a}{p}\right) = (-1)^{\sum_{x = 1}^{p_1}\left[\frac{ax}{p}\right]}\]
+\end{proposition}
+\begin{proof}
+    Рассмотрим 
+    \[\left(\frac{2a}{p}\right) = \left(\frac{2a + 2p}{p}\right) = \left(\frac{4\left(\frac{a + p}{2}\right)}{p}\right) = \left(\frac{\frac{a + p}{2}}{p}\right) = (-1)^{\sum_{x = 1}^{p_1}\left[\frac{2\frac{1}{2}(a + p)x}{p}\right] } = (-1)^{\sum_{x = 1}^{p_1}\left[\frac{ax}{p}\right] + \sum_{x = 1}^{p_1}x} = \]
+    \[ = (-1)^{\sum_{x = 1}^{p_1}\left[\frac{ax}{p}\right] + \frac{p_1(p_1 + 1)}{2}} = (-1)^{\sum_{x = 1}^{p_1}\left[\frac{ax}{p}\right] + \frac{p^2 - 1}{8}}\]
+    Из этого можно показать, что \(\left(\frac{2}{p}\right) = (-1)^{\frac{p^2 - 1}{8}}\).
+    Тогда 
+    \[\left(\frac{2a}{p}\right) = \left(\frac{2}{p}\right)\left(\frac{a}{p}\right) = (-1)^\frac{p^2 - 1}{8}\left(\frac{a}{p}\right) = (-1)^{\sum_{x = 1}^{p_1}\left[\frac{ax}{p}\right] + \frac{p^2 - 1}{8}}\]
+    Итого получили, что 
+    \[\left(\frac{a}{p}\right) = (-1)^{\sum_{x = 1}^{p_1}\left[\frac{ax}{p}\right]}\]
+\end{proof}
+
+\begin{theorem}[Квадратичный Закон Взаимности]
+    Пусть \(p, q\) --- различные нечентые простые.  Тогда
+    \[\left(\frac{p}{q}\right)\left(\frac{q}{p}\right) = (-1)^{p_1q_1}\]
+\end{theorem}
+\begin{proof}
+    \[\left(\frac{p}{q}\right)\left(\frac{q}{p}\right) = (-1)^{\sum_{x = 1}^{q_1}\left[\frac{px}{q}\right] + \sum_{y = 1}^{p_1}\left[\frac{qy}{p}\right]} \]
+    Введем множество \(S = \{1, \dots q_1\} \times \{1, \dots p_1\}\). Очевидно, что \(|S| = p_1q_1\). Введем \(S_1 = \{(x, y) \in S | qy < px\}, S_2 = \{(x, y) \in S | qy > px\}\). Тогда \(|S| = |S_1| + |S_2|\), т.к. \(px = qy\) невозможно.
+
+    Причем, \(qy < px \Lra y < \frac{px}{q}, qy > px \Lra \frac{qy}{p} > x\). Заметим, что \(|S_1| = \sum_{x = 1}^{q_1}\left[\frac{px}{q}\right]\), т.к. количество \(y\) для фиксированного \(x\) ровно \(\left[\frac{px}{q}\right]\). Но тогда получаем, что \(|S| = |S_1| + |S_2|\), что и требовалось.
+\end{proof}
+\hypertarget{lecture2}{}
+
+\section{Матрицы Адамара}
+\begin{definition}
+    Матрицей Адамара называется матрица \(A\), если и только если 
+    \[[A]_{ij} \in \{1, -1\}\]
+    И ее строчки попарно отрогональны (то есть скалярное произведение любых двух строк равно 0)
+\end{definition}
+
+\begin{example}
+    \begin{enumerate}
+        \item \(n = 1\) --- очев
+        \item \(n = 2\):
+        \[\left(\begin{array}{ccc}
+            1 & 1 \\
+            1 & -1 \\
+        \end{array}\right)\]
+        \item \(n = 2\):
+        \[\left(\begin{array}{ccc}
+            1 & 1 \\
+            1 & -1 \\
+        \end{array}\right)\]
+    \end{enumerate}
+\end{example}
+\begin{note}
+    \(n \ge 2 \Ra n = 2k\)
+\end{note}
+\begin{proof}
+    Очевидно, т.к. если мы перемножим любые две строчки, то тогда в скалярном произведении придется сложить нечетное количество \(\pm 1\), тогда эта сумма точно не будет равна 0.
+\end{proof}
+\begin{proposition}
+    Если у матрицы попарно ортогональны сторчки, то и столбцы --- тоже
+\end{proposition}
+\begin{definition}
+    Нормальная форма матрицы Адамара: когда \(A_1 = A^1 = (1, 1, \dots 1)\)
+    \[\left(\begin{array}{cccc}
+        1 & 1 & \dots &  1 \\
+        1 & \pm 1 & \dots & \pm 1 \\
+        \vdots & \vdots & \ddots & \vdots\\
+        1 & \pm 1 & \dots & \pm 1 \\
+    \end{array}\right)\]
+\end{definition}
+\begin{note}
+    Любую матрицу адамара можно привести к нормальному виду путем домножения строк и столбцов на \(-1\).
+\end{note}
+\begin{theorem}
+    \(n > 2 \Ra n = 4k\)
+\end{theorem}
+\begin{proof}
+    Приведем матрицу Адамара к нормальному виду. Теперь переставим столбцы, чтобы вторая строчка была вида
+    \[(\underbrace{1, 1 \dots 1,}_{\frac{n}{2}}, \underbrace{-1, -1, \dots -1}_{\frac{n}{2}} )\]
+    А третья строка была вида
+    \[(\underbrace{1, 1 \dots 1}_{x}  \underbrace{1, -1, -1, \dots -1}_{\frac{n}{2} - x}, \underbrace{1, 1 \dots 1}_{\frac{n}{2} - x},  \underbrace{-1, -1, \dots -1}_{x} )\]
+    Тогда скалярное произведение второй и третьей будет равно 
+    \[x - \left(\frac{n}{2} - x\right) - \left(\frac{n}{2} - x\right) + x = 4x - n = 0\]
+    Тогда \(x \vdots 4\)
+\end{proof}
+\begin{theorem}(Гипотеза Адамара)
+    Если \(n = 4k\), то матрица Адамара существует.
+\end{theorem}
+\begin{proof}
+    Не доказана
+\end{proof}
+\begin{definition}
+    Кронекеровское произведение матриц \(A * B = C \Ra\)
+    \[C = \left(\begin{array}{ccc}
+        a_{11}B & \dots & a_{1n}B \\ 
+        \vdots & \ddots & \vdots \\ 
+        a_{n1}B & \dots & a_{nn}B \\ 
+    \end{array}\right) \in M_{mn \times mn}\]
+\end{definition}
+\begin{proposition}
+    Кронекеровское произведение двух матриц Адамара есть матрица Адамара
+\end{proposition}
+\begin{proof}
+    Скалярное произведение двух строк равняется 
+    \[\sum_{k = 1}^n\left(\sum_{s = 1}^m a_{ik}a_{jk}b_{i's}b_{j's}\right) = \sum_{k = 1}^na_{ik}a_{jk}\left(\sum_{s = 1}^mb_{i's}b_{j's}\right) = (B_{i'}, B_{j'})\left(\sum_{k = 1}^na_{ik}a_{jk}\right) = (B_{i'}, B_{j'})(A_i, A_j) = 0\]
+\end{proof}
+\begin{theorem}[Пэли]
+    Пусть \(p = 4k + 3\) --- простое число. Тогда \(\exists \) матрица Адамара порядка \(p + 1\).
+\end{theorem}
+\begin{proof}
+    Рассмотрим матрицу порядка \(p\), такую, что \(A_{ab} = \left(\frac{a - b}{p}\right)\) (символ Лежандра). Тогда произведение любых двух строк \(i, j\) равно 
+    \[\sum_{b = 1}^p \left(\frac{i - b}{p}\right)\left(\frac{j - b}{p}\right)\]
+    \(c = i - b\).
+    \[\sum_{c = 1}^p \left(\frac{c}{p}\right)\left(\frac{c - i + j}{p}\right)\]
+    Причем, \(c = p \Ra \left(\frac{c}{p}\right) = 0\)
+    \[\sum_{c = 1}^{p - 1} \left(\frac{c}{p}\right)\left(\frac{c - i + j}{p}\right) = \sum_{c = 1}^{p - 1} \left(\frac{c}{p}\right)\left(\frac{c(1 + c^{-1}(i - j))}{p}\right) = \sum_{c = 1}^{p - 1}\left(\frac{1 + c^{-1}(i - j)}{p}\right)\]
+    При этом, \(i - j, c^{-1} \not\equiv_p 0 \Ra \) выражение \(1 + c^{-1}(i - j)\) пробегает все остатки \(\mod p\), кроме \(1\). Но тогда итоговая сумма равна \(0 - \left(\frac{1}{p}\right) = -1\). Тогда рассмотрим такую матрицу:
+    \[C = \left(\begin{array}{c|ccc}
+        1 & 1 & \dots & 1 \\
+        \hline
+        1 &  &  &  \\
+        \vdots &  & A &  \\
+        1 &  &  &  \\
+    \end{array}\right)\]
+    Где все нули в \(A\) заменены на \(-1\) (получится матрица \(A'\), причем замены произойдут только на главной диагонали). Докажем, что она подходит. Заметим, что в матрице \(A'\) поровну \(1\) и \(-1\). Тогда скалярное произведение с первой строчкой точно будет \(0\).
+    Возьмем строчки \(i, j\) в матрице \(A'\). В их скалярном произведении добавилась \((-1)\left(\frac{i - j}{p}\right) + (-1)\left(\frac{j - i}{p}\right) = 0\). Теперь посчитаем скалярное произведение любых двух строк, к нему просот добавится 1 за счет первого столбца. Тогда это будет матрицей Адамара.
+\end{proof}
+\begin{theorem}[Пэли]
+    Пусть \(p = 4k + 1\) --- простое число. Тогда \(\exists \) матрица Адамара порядка \(2(p + 1)\).
+\end{theorem}
+\begin{theorem}[б/д]
+    \(\forall \epsilon > 0 \exists n_0: \forall n > n_0\) на отрезке \([n, (1 + (1 + \epsilon)n)]\) есть порядок матрицы Адамара
+\end{theorem}
+\begin{theorem}[переформулировка, тоже б/д]
+    \(\exists f: f(n) = o(n)\), такая, что на отрезке \([n, n + f(n)]\) есть порядок матрицы Адамара
+\end{theorem}
+
+\subsection{Коды, исправляющие ошибки}
+Представим ситуацию: разговариваем с бабушкой. Еще мы с ней общаемся азбукой морзе (отправляем ей 0 или 1) и передаем ей сообщения длины \(n\). Известно, что бабушка неправильно услышит не более чем \(k\) циферок. Как тогда с ней общаться?
+\begin{definition}
+    Расстояние Хэмминга между словами --- количество несовпадающих координат
+\end{definition}
+Тогда нам, по сути, надо расположить непересекающиеся ''шары'' радиуса \(k\), состоящие из слов. В таком случае мы сможем определить, какое слово мы передали, т.к. оно будет лежать не более, чем в одном шаре.
+\begin{definition}
+    \((n, M, d)\)-код --- такой словарь, в котором \(M\) слов, каждое из которых имеет длину \(n\) и минимальное расстояние между любями двумя словами равно \(d\).
+\end{definition}
+\begin{theorem}[Граница Плоткина]
+    Пусть дан \((n, M, d)\)-код, где \(2d > n\). Тогда \(M  \le \frac{2d}{2d - n}\).
+\end{theorem}
+\begin{proof}[Доказательство неулучшаемости оценки]
+    Рассмотрим матрицу Адамара:
+    \[\left(\begin{array}{cccc}
+        1 & 1 & \dots &  1 \\
+        1 & \pm 1 & \dots & \pm 1 \\
+        \vdots & \vdots & \ddots & \vdots\\
+        1 & \pm 1 & \dots & \pm 1 \\
+    \end{array}\right)\]
+    И зачеркнем в ней первый столбец. Будем рассматривать строки как слова. Тогда расстояние Хэмминга между ними равно \(\frac{n}{2}\) (т.к. скалярное произведение любых двух равно 0). Тогда получили \(\left(n-1, n, \frac{n}{2}\right)\)-код. Но тогда плоткин дает результат \(\frac{2\frac{n}{2}}{2\frac{n}{2} - (n - 1)} = n\), т.е. мы нашли пример, который точно подходит под оценку.
+\end{proof}
+\begin{proof}
+    Рассмотрим \((n, M, d)\)-код, \(a_{ij} \in \{0, 1\}\)
+    \[\sum_{k = 1}^n\sum_{i < j} |a_{ik} - a_{jk}| = \sum_{i < j}\underbrace{\sum_{k = 1}^n|a_{ik} - a_{jk}|}_{\begin{array}{c}
+        \text{Хеммингово расстояние} \\
+        \text{между \(i\)-ой и \(j\)-ой строками}
+    \end{array}}  \ge \sum_{i < j}d = \frac{M(M - 1)}{2}d\]
+    Однако заметим, что если в слове \(x\) единиц, то в нем \(M - x\) нулей, и тогда пар \(\{0, 1\}\) в нем будет ровно \(x(M - x) \le \frac{M^2}{4}\). Тогда общая сумма будет \(\le \frac{nM^2}{4}\), т.к. \(\frac{nM^2}{4}\) --- верхняя оценка на количество пар. Но тогда:
+    \[\frac{M(M  - 1)}{2}d \le \frac{nM^2}{4}\]
+    \[(M  - 1)d \le \frac{nM}{2}\]
+    \[2(M - 1)d \le nM\]
+    \[M(2d - n) \le 2d\]
+    \[M \le \frac{2d}{2d - n}\]
+\end{proof}
+\hypertarget{lecture3}{}
+
+\begin{theorem}
+  Пусть \(\mathcal{R}_n = \{1, 2, \dots n\}\). Пусть  \(\{M_1, M_2, \dots M_n\} \subseteq \mathcal{R}\). Тогда \(\exists\) раскраска множества \(\mathcal{R}_n\) в красный и синий цвета, при которой \(\forall i\) в \(M_i\) разность между количеством чисел элементов по модулю \(\le 6\sqrt{n}\)
+\end{theorem}
+\begin{proof}
+  Доказательство нас будет ожидать в 4 семестре и будет использовать энтропию. Не бойтесь никакой физики там не будет.
+\end{proof}
+\begin{theorem}
+  Пусть \(\chi\) --- раскраска \(\mathcal{R}_n\) в красный и синий цвета. Введем \(\chi: 2^{\mathcal{R}_n} \ra \Z: \chi(A) = \#(\text{красных элементов } A) - \#(\text{синих элементов } A)\). Пусть существует матрица Адамара порядка \(n\). Тогда \(\exists M_1, M_2, \dots M_n: \forall \chi: \exists i |\chi(M_i)| \ge \frac{\sqrt{n}}{2}\)
+\end{theorem}
+\begin{proof}
+  Рассмотрим матрицу Адамара нормального вида 
+  \[H = \left(\begin{array}{cccc}
+    1 & 1 & \dots &  1 \\
+    1 & \pm 1 & \dots & \pm 1 \\
+    \vdots & \vdots & \ddots & \vdots\\
+    1 & \pm 1 & \dots & \pm 1 \\
+\end{array}\right)\]
+Возьмем каждую строку \(H\). Это элементы \(\{+1, -1\}^n\). Пусть \(J: [J]_{ik} = 1\). Докажем, что \(\forall v \in \{+1, -1\}^n\) у вектора \(\left(\frac{H + J}{2}\right)v\) существует координата, модуль которой \(\ge \frac{\sqrt{n}}{2}\). Заметим, что 
+\[(Hv, Hv) = (vh_1 + vh_2 + vh_3 + \dots, vh_1 + vh_2 + vh_3 + \dots)\]
+\[(v_1h_1 + v_2h_2 + v_3h_3 + \dots, v_1h_1 + v_2h_2 + v_3h_3 + \dots) = v_1^2(h_1, h_1) + v_2^2(h_2, h_2) + \dots v_n^2(h_n, h_n) = \]
+\[ = \underbrace{(h_1, h_1)}_{n}  + \underbrace{(h_2, h_2)}_{n}  + \dots  + \underbrace{(h_n, h_n)}_{n} = n^2\]
+Пусть \(Hv = (L_1, L_2, \dots L_n)\). Тогда \((Hv, Hv) = L_1^2 + L_2^2 + \dots + L_n^2 = n^2 \Ra \exists i : |L_i| \ge \sqrt{n}\). Пусть теперь \((H + J)v = (L_1 + \lambda, L_2 + \lambda, dots L_n + \lambda)\). 
+\[((H + J)v, (H + J)v) = \underbrace{L_1^2 + L_2^2 + \dots + L_n^2}_{n^2} + 2\lambda(L_1 + L_2 + \dots + L_n) + \lambda^2n\]
+Причем, \(\sum_{i = 1}^nL_i = \sum_{j = 1}v_j\underbrace{\left(\sum_{i = 1}^nh_{ij}\right)}_{= 0 \text{при} i \ne 1} = v_1n\). Но тогда:
+\[((H + J)v, (H + J)v) = n^2 + 2\lambda n + \lambda^2n\]
+Эта парабола принмиает минимум в \(\lambda \pm 1, \lambda\) --- четное \(\Ra\) реальный минимум в \(\lambda = 0, 2\) или \(0, -2\). Значит в \(0\) точно принимается минимум \(\Ra \min \ge n^2\). Поэтому у этого вектора есть координата \(\ge \sqrt{n}\). Но тогда у \(\left(\frac{H + J}{2}\right)v \ge \frac{\sqrt{n}}{2}\). Но заметим, что \(\left(\frac{H + J}{2}\right)v\) элементы \(\in \{0, 1\}\). Но тогда координаты \(\left(\frac{H + J}{2}\right)v\) --- значения \(\chi(H_i)\), где \(H_i\) --- это множество, состоящее из элементов, которые удовлетворяют маске \(i\)-ой строки \(H\). Но тогда мы получили желаемое
+\end{proof}
+\begin{corollary}
+  При \(n \ra +\infty\;\;\exists M_1, M_2, \dots M_n \forall \chi \exists i |\chi(M_i)| \ge \frac{\sqrt{n}}{2}(1 - o(1))\)
+\end{corollary}
+\begin{proof}[Доказательство неулучшаемости оценки]
+
+\end{proof}
+\hypertarget{lecture4}{}
+
+\section{Распределение простых чисел}
+\begin{definition}
+    \(\pi(x) = \left|\{p \le x | p\text{ --- простое}\}\right|\)
+\end{definition}
+\begin{definition}
+    \(\theta(x) = \sum_{p \le x} \ln p\)
+\end{definition}
+\begin{definition}
+    \(\psi(x) = \sum_{(p, \alpha), p^\alpha \le x} \ln p = \sum_{p \le x} \ln p [\log_p x] = \sum_{p \le x}\left[\frac{\ln x}{\ln p}\right] \le \sum_{p \le x} \ln p\)
+\end{definition}
+
+Также введем:
+\[\lambda_1 = \limsup_{x \ra \infty} \frac{\theta(x)}{x}, \lambda_2 = \limsup_{x \ra \infty} \frac{\psi(x)}{x}, \lambda_3 = \limsup_{x \ra \infty} \frac{\pi(x)}{x / \ln x}\]
+\[\mu_1 = \liminf_{x \ra \infty} \frac{\theta(x)}{x}, \mu_2 = \liminf_{x \ra \infty} \frac{\psi(x)}{x}, \mu_3 = \liminf_{x \ra \infty} \frac{\pi(x)}{x / \ln x}\]
+
+\begin{lemma}
+    \(\lambda_1 = \lambda_2 = \lambda_3, \mu_1 = \mu_2 = \mu_3\)
+\end{lemma}
+\begin{proof}
+    \[\frac{\theta(x)}{x} = \frac{\sum_{p \le x}\ln p}{x} \le \frac{\psi(x)}{x} \le \frac{\sum_{p \le x} \ln x}{x} = \frac{\ln x}{x}\sum_{p \le x} 1 = \frac{\ln x}{x}\pi(x) = \frac{\pi(x)}{x/\ln x}\]
+    \[\lambda_1 \le \lambda_2 \le \lambda_3\]
+    При \(\beta \in [0, 1)\):
+    \[\theta(x) = \sum_{p \le x} \ln p \ge \sum_{x^\beta < p \le x} \ln p \ge \sum_{x^\beta < p \le x} \ln x^\beta = \beta \ln x \sum_{x^\beta < p \le x} 1 = \beta\ln x\left(\pi(x) - \pi\left(x^\beta\right)\right)\]
+    Заметим, что \(x > \pi(x)\):
+    \[\beta\ln x\left(\pi(x) - \pi\left(x^\beta\right)\right) \ge \beta\ln x\left(\pi(x) - x^\beta\right)\]
+    \[\frac{\theta(x)}{x} \ge \frac{\beta\pi(x)}{x / \ln x} - \frac{\beta x^\beta \ln x}{x}\]
+    \[\limsup_{x \ra \infty} \frac{\theta(x)}{x} \ge \limsup_{x \ra \infty} \left(\frac{\beta\pi(x)}{x / \ln x} - \frac{\beta x^\beta \ln x}{x}\right) = \limsup_{x \ra \infty} \frac{\beta \pi(x)}{x/\ln x} \;\;\forall \beta \in [0, 1)\]
+    Теперь, если взять супремум по \(\beta\), получится 
+    \[\limsup_{x \ra \infty} \frac{\theta(x)}{x} \ge \limsup_{x \ra \infty} \frac{\pi(x)}{x/\ln x} \Ra \lambda_1 \ge \lambda_3\]
+    Итого, \(\lambda_1 \le \lambda_2 \le \lambda_3 \le \lambda_1 \Ra\) они все равны
+\end{proof}
+
+\begin{theorem}
+    \[\pi(x) \sim \frac{x}{\ln x}\]
+\end{theorem}
+\begin{theorem}[Чебышев]
+    \(\forall \epsilon > 0 \exists x_0 \forall x > x_0:\)
+    \[(1 - \epsilon)\frac{x}{\ln x}\cdot \ln 2 \le \pi(x) \le (1 + \epsilon) \frac{x}{\ln x} \cdot 4\ln 2\]
+\end{theorem}
+\begin{proof}
+    Рассмотрим \(C_{2n}^n\). Заметим, что \(C_{2n}^n < 2^{2n}\). \(\ln C_{2n}^n < 2n \ln 2\)
+    \[C_{2n}^n = \frac{(2n)!}{n!n!} \ge \prod_{n < p \le 2n} p \Ra \ln C_{2n}^n \ge \sum_{n < p \le 2n} \ln p = \theta(2n) - \theta(n)\]
+    Рассмотрим \(n = 1, 2, \dots 2^k\).
+    \[2n \ln 2 > \ln C_{2n}^n \ge \theta(2n) - \theta(n)\]
+    \[2n \ln 2 > \theta(2n) - \theta(n)\]
+    \[2(1 + 2 + \dots + 2^k)\ln 2 > \theta\left(2^{k + 1}\right)\]
+    \[2^{k + 1}\ln 2 > \theta\left(2^{k + 1}\right)\]
+    Расмотрим \(2^k \le x \le 2^{k + 1}\)
+    \[\theta(x) \le \theta(2^{k + 1}) < 2^{k + 2}\ln 2 < 4x\ln 2 \Ra \frac{\theta(x)}{x} < 4\ln 2\]
+    Получили правое неравенство. Теперь получим левое:
+    \[C_{2n}^0 + C_{2n}^1 + \dots + C_{2n}^{2n} = 2^{2n} \Ra C_{2n}^n > \frac{2^{2n}}{2n + 1}\]
+    \[\ln C_{2n}^n > 2n \ln 2 - \ln(2n + 1)\]
+    \[C_{2n}^n = \frac{(2n)!}{n!n!} = \frac{\prod_{p \le 2n}p^{\left[\frac{2n}{p}\right] + \left[\frac{2n}{p^2}\right] + \dots}}{\left(\prod_{p \le 2n}p^{\left[\frac{n}{p}\right] + \left[\frac{n}{p^2}\right] + \dots}\right)^2} =\]
+    \[= \prod_{p \le 2n}p^{\left(\left[\frac{2n}{p}\right] - \left[\frac{n}{p}\right]\right) + \left(\left[\frac{2n}{p^2}\right] - \left[\frac{n}{p^2}\right]\right) + \dots} \le \prod_{p \le 2n} P^{[\log_p(2n)]} = e^{\psi(2n)} \Ra \ln C_{2n} \le \psi(2n)\]
+    \[\psi(2n) \ge 2n\ln 2 - \ln(2n + 1) > (x - 2) - \ln(x + 1)\]
+    Если  \(x \in [2n, 2n + 2)\), то \(\psi(x) \ge \psi(2n) \ge (x - 2)\ln2 - \ln(x + 1)\). Итого:
+    \[\frac{\psi(x)}{x} \ge \frac{x - 2}{x}\ln 2 - \frac{\ln (x + 1)}{x} \Ra \mu_2 \ge \ln 2, \mu_3 \ge \ln 2\]
+    И тогда:
+    \[\lim_{x \ra \infty} \frac{\pi(x)}{x/\ln x} \ge \ln 2\]
+    Но тогда, с какого-то момента:
+    \[(1 - \epsilon x)\frac{x}{\ln x} \ln 2 \le \pi(x)\]
+\end{proof}
+
+\textbf{Анекдот:} Райгор учился на кафедре мехмата в девяностые годы и интересовался теорией чисел. Один раз он сидел со своим руководителем на кафедре, и вдруг туда заходит калоритный иностранец с сильным акцентом. Зашел и говорит: ''А не расскажите лы вы мнэ, сколко нулэй на концэ числа \(100!\)''. Они с научруком ему объяснини, что надо посчитать степень вхождения 5 и 2, в общем он понял и ушел. Приходит через неделю и говорит: ''Я понял, как пощитать колычество нулэй на концэ числа \(100!\), а тэпэрь скажытэ мнэ, как пащитать калычество нулэй на концэ числа \(1000!\)''
+
+\begin{proposition}[Постулат Бертрана]
+    \(\forall x \ge 2 \exists p \in [x, 2x] = [x, x + x]\)
+\end{proposition}
+Но это сложно, мы займемся другим вопросом: При каких \(f(x)\) можно рассчитывать на существование \(p \in [x, x + f(x)]\) хотя бы при \(x \ge x_0\).
+
+\begin{proposition}[Асимптотический Закон Распределения Простых Чисел]
+    \(f(x) = o(x)\)
+\end{proposition}
+\begin{proposition}[Гипотеза]
+    \(f(x) = O(\ln^2x)\)
+\end{proposition}
+
+\section{Первообразный Корень}
+\begin{definition}
+    Пусть \((a, m) = 1\). Показатель числа \(a \mod m\) --- это минимальное \(\delta\), такое, что \(a^\delta \equiv_m 1\).
+\end{definition}
+
+\begin{proposition}
+    \(\delta | \phi(m)\)
+\end{proposition}
+\begin{definition}
+    Пусть \((a, m) = 1\). Если показатель \(a \mod m = \phi(m)\), то \(a\) называется первообразным корнем и обозначается \(g\).
+\end{definition}
+\begin{note}
+    Если по \(\mod m \exists\) первообразный корень, то \(1, g, g^2 \dots g^{\phi(m) - 1}\) --- все взаимно простые с \(m\) остатки.
+\end{note}
+
+\begin{definition}
+    \(ind_g a\) --- такое число, что \(g^{ind_ga} = a\)
+\end{definition}
+\hypertarget{lecture5}{}
+
+\begin{theorem}
+    Первообразный корень существует по модулю \(m \Lra m \in \{2, 4, p^\alpha, 2p^\alpha\}\), где \(p\) --- нечетное простое
+\end{theorem}
+
+При этом, на данный момент человечество не умеет быстро решать задачу дискретного логарифмирования: по заданному \(a\) найти \(b\), такое, что \(g^b \equiv a\) (то есть быстрее, чем экспоненциально).
+
+\subsection{Алгортим шифрования}
+У нас есть Алиса, Боб и Ева. Алиса и боб хотят установить некоторый секрет, про который будут знать только они, а все остальные --- нет, используя канал связи, который прослушивает Ева. Для этого алиса и боб выбирают \(p, g\) --- простое число и его первообразный корень и эта информация открыта для всех. После этого, каждый из них придумывает числа \(a, b\) посылают друг другу \(g^a, g^b\) соответственно. Каждый из них, получив \(g^b, g^a\) возводит его в свою степень, оба получают \(g^{ab}, g^{ab}\).
+
+\[\begin{array}{ccc}
+    \text{Алиса} & \text{Открытый канал} & \text{Боб} \\
+    \hline
+    a & p, g & b \\
+    \downarrow & \downarrow & \downarrow\\
+    a, g^a & g^a, p, g, g^b & b, g^b \\
+    \downarrow & \downarrow & \downarrow\\
+    a, g^a, (g^b)^a & g^a, p, g, g^b & b, g^b, (g^a)^b \\
+    \downarrow &  & \downarrow\\
+    g^{ab} & & g^{ab} \\
+
+\end{array}\]
+
+\href{https://ru.wikipedia.org/wiki/Протокол_Диффи_—_Хеллмана}{Подробнее про этот протокол}
+
+\subsection{Существование первообразного корня}
+\begin{proposition}
+    Не существует первообразного корня \(\mod 2^\alpha, \alpha \ge 3\)
+\end{proposition}
+\begin{proof}
+    Предположим противное. Тогда \((a, 2^\alpha) = 1 \Lra a \equiv_2 1, \phi(2^\alpha) = 2^{\alpha - 1}, a = 2t + 1\). Тогда 
+    \[a^2 = 4t^2 + 4t + 1 = 4t(t + 1) + 1 = 8t_1 + 1\]
+    \[a^4 = 64t^2 + 16t + 1 = 16t_2 + 1\]
+    \[\vdots\]
+    \[a^{2k} = 2^{k + 2}t_k + 1, a^{2^{\alpha - 2}} = 2^{\alpha}t_{\alpha - 2} + 1 \equiv_{2^\alpha} 1\]
+\end{proof}
+
+\begin{proposition}
+    Существует первообразный корень \(mod p\)
+\end{proposition}
+\begin{proof}
+    Пусть \(\delta_i\) --- показатель числа \(i \mod p, \tau = \text{НОК}(\delta_1, \delta_2, \dots \delta_{p - 1})\). Заметим, что сравнению \(x^\tau \equiv_p 1\) удовлетворяют все \(x \in \{1, 2, 3, \dots p - 1\}\). Тогда \(\tau \ge p - 1\). Пусть \(\tau = q_1^{\alpha_1}q_2^{\alpha_2}\dots q_k^{\alpha_k}\). Тогда \(\forall i \in \{1, \dots k\} \exists \delta \in \{\delta_1, \dots \delta_k\}: \delta = a_i \cdot q_i^{\alpha_i}\) (т.к. иначе НОК бы делился на меньшую степень \(q_i\)). Возьмем за \(x_i\), показателем котрого является \(\delta\) для данного \(i\). Тогда \(x_i^{a_i}\) имеет показаель \(q_i^{\alpha_i}\). Теперь рассмотрим \(g = x_1^{a_1}x_2^{a_2}\dots x_k^{a_k}\).
+\end{proof}
+\begin{exercise}
+    Довести доказательство
+\end{exercise}
+
+\begin{lemma}
+    Пусть  \(g\) --- первообразный корень \(mod p \Ra \exists t: (g + pt)^{p - 1} = 1 + pu\), где \((u, p) = 1\)
+\end{lemma}
+\begin{proof}
+    \[(g + pt)^{p - 1} = g^{p - 1} + (p - 1)g^{p - 2}pt + p^2(\dots) = 1 + pv + p\left((p - 1)g^{p - 2}t + p(\dots)\right) =\]
+    \[1 + p\left(v + (p - 1)g^{p - 2}t + p(\dots)\right)\]
+    Итого, такое \(t\) можно подобрать, т.к.  \(v, p-1, g^{p - 2}\) --- константы
+\end{proof}
+\begin{proof}
+    Существует первообразный корень \(mod p^\alpha\)
+\end{proof}
+\begin{proof}
+    \(m = p^\alpha, \alpha \ge 2. \phi(p^\alpha) = p^\alpha - p^{\alpha - 1} = p^{\alpha - 1}(p - 1)\). Пусть \(\delta\) --- порядок \((g + pt)\), тогда \((g + pt)^\delta \equiv_{p^\alpha} = 1 \Ra (g + pt)^\delta \equiv_{p} = 1\). При этом, \(g + pt\) --- первообразный корень  \(\mod p \Ra (p - 1) | \delta\). С другой стороны, \(\delta | \phi(p - 1) \Ra \delta = p^k(p - 1)\). Рассмотрим числа вида \((g + pt)^{p^k(p - 1)}\).
+    \[(g + pt)^{p(p - 1)} = (1 + pk)^p = 1 + p^2u + p^3v = 1 + p^2(u + pv) = 1 + p^2u_1, (u_1, p) = 1\]
+    \[(g + pt)^{p^2(p - 1)} = (1 + p^2u_1)^p = 1 + p^3u_2, (u_2, p) = 1\]
+    \[\vdots\]
+    \[(g + pt)^{p^{\alpha - 2}(p - 1)} = 1 + p^{\alpha - 1}u_{alpha - 2}, (u_{alpha - 2}, p) = 1\]
+    Таким образом, получили, что \(g + pt\) --- первообразный корень \(\mod p\)
+\end{proof}
+\begin{proposition}
+    Существует первообразный корень \(mod 2p^\alpha\)
+\end{proposition}
+\begin{proof}
+    Заметим, что \(\phi(2p^{\alpha}) = \phi(p^\alpha)\). Но тогда одно из чисел \(g, g + p^\alpha\) является первообразным корнем, в зависимости от честности числа \(g\)
+\end{proof}
+
+\begin{theorem}[Шевалле]
+    Пусть \(F(x_1, \dots x_n)\) --- многочлен, такой, что \(\deg F < n\). Тогда количество решений \(F(x_1, \dots x_n) \equiv_p 0\) делится на \(p\).
+\end{theorem}
+\begin{proof}
+    \[N = \sum_{x_1 = 1}^p\sum_{x_2 = 1}^p\dots \sum_{x_n = 1}^p \left(1 - F^{p - 1}(x_1, x_2, \dots x_n)\right)\]
+    \[N \equiv_p 0 \Lra \sum_{x_1 = 1}^p\sum_{x_2 = 1}^p\dots \sum_{x_n = 1}^p F^{p - 1}(x_1, x_2, \dots x_n) \equiv_p 0\]
+    Докажем, что \(\sum_{x_1 = 1}^p\sum_{x_2 = 1}^p\dots \sum_{x_n = 1}^p x_1^{\alpha_1}x_2^{\alpha_2}\dots x_n^{\alpha_n} \equiv_p 0, 0 \le \alpha_i, \sum \alpha_i \le (n - 1)(p - 1)\)
+    \[\sum_{x_1 = 1}^p\sum_{x_2 = 1}^p\dots \sum_{x_n = 1}^p x_1^{\alpha_1}x_2^{\alpha_2}\dots x_n^{\alpha_n} \equiv_p \left(\sum_{x_1 = 1}^p x_1^{\alpha_1}\right)\left(\sum_{x_2 = 1}^p x_2^{\alpha_2}\right)\dots \left(\sum_{x_n = 1}^p x_n^{\alpha_n}\right)\]
+    \begin{enumerate}
+        \item \(\exists i: \alpha_i = 0 \Ra \sum_{x_i = 1}^p x_i^{\alpha_i} \equiv_p 0\)
+        \item \(p = 2\). Тогда \(\alpha_1 + \alpha_2 + \dots + \alpha_n \le 1 \Ra\) аналогично случаю 1.
+        \item Пусть \(p \ge 3, \forall i\;\;\alpha_i \ge 1 \Ra \exists i: 1 \le \alpha_i \le p - 2\)
+        \[S = \sum_{x_i = 1}^p x_i^{\alpha_i}, g^{\alpha_i}S \equiv_p \sum_{x_i = 1}^p (gx_i)^{\alpha_i} \equiv_p S \Ra S \equiv 0\]
+    \end{enumerate}
+\end{proof}
+\hypertarget{lecture6}{}
+
+\section{Тесты на простоту чисел}
+Хотелось бы чтобы тест на простоту работал за \(O(poly(\log n))\). Они делятся на вероятностные и детерминированные. Вероятностные тесты определяют простоту с некоторой вероятностью, при этом, если они ломаются, то искомое число ''почти простое''. Детерминированные тесты, в основном, придуманы для простых чисел особого вида, например, для чисел Мерсенна: \(2^p - 1, p\) --- простое. Существует один алгоритм \href{https://ru.wikipedia.org/wiki/Тест_Агравала_—_Каяла_—_Саксены}{Агравала — Каяла — Саксены}, но константа там настолько большая, что данный тест непригоден для использования.
+
+\subsection{Тест Ферма на Простоту}
+Пусть требуется проверить, является ли число \(N\) простым.
+\begin{enumerate}
+    \item Проверяем, что \(N\) не делится на первые простые числа
+    \item Выбираем произвольное \(a\). Если \((a, N) \ne 1 \Ra N\) точно не простое.
+    \item Считаем \(a^{N - 1}\). Если \(\equiv_N 1\), то переходим к пункту 2, иначе \(N\) --- не простое
+\end{enumerate}
+\begin{definition}
+    Пусть \(B_F \{a \in \Z^*_N| a^{N - 1} \equiv_N 1\}\). Тогда \(B_F \ne \Z_N^* \Ra |B_F| \le \frac{1}{2}|\Z_N^*|\)
+\end{definition}
+\begin{proof}[Первое доказательство]
+    \(B_F\) --- подгруппа в \(Z_n^*\). Тогда по теореме Лагранжа, \(|\Z_N^*|\vdots|B_F| \Ra |B_F|\le\frac{1}{2}|\Z_N^*|\)
+\end{proof}
+\begin{proof}[Второе доказательство]
+    Домножим \(B_F\) на остаток \(a\), не лежащий в \(B_F\). Получится число не из \(B_F\). Но Тогда \(|B_F|\le\frac{1}{2}|\Z_N^*|\)
+\end{proof}
+\begin{definition}
+    \(N\) называется числом Кармайкла, если \(B_F = \Z_N^*\)
+\end{definition}
+\begin{proposition}
+    Если \(N\) --- не простое и не Число Кармайкла, то после \(k\) независимых проверок теста Ферма, \(P(N\text{ --- псевдопростое}) = \frac{1}{2^k}\)
+\end{proposition}
+\begin{proof}
+    
+\end{proof}
+\begin{theorem}
+    \(N\) --- число Кармайкла тогда и только тогда, когда 
+    \begin{enumerate}
+        \item \(N\) свободно от квадратов
+        \item \(N = p_1p_2\dots p_s \Ra p_i - 1\;|\;N - 1\)
+    \end{enumerate}
+\end{theorem}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item[\(\La\)] Хотим проверить, что \(a^{N - 1} \equiv_N 1\), если \((a, N) = 1\) Заметим, что \(a^{p_i - 1} \equiv_{p_i} 1 \Ra a^{N - 1} \equiv_{p_i} 1\). Но тогда по КТО, \(a^{N - 1} \equiv_N 1\).
+        \item[\(\Ra\)]
+        Докажем от противного. Пусть \(n = p^ks, k \ge 2\). Тогда \(a^{N - 1} \equiv_N 1 \Ra a^{N - 1} \equiv_{p^k} 1 \Ra a^{N - 1} \equiv_{p^2} 1\). Пусть \(g\) --- первообразный корень \(\mod p^2 \Ra ord(g) = p(p - 1)\). Найдем \(a: \left\{\begin{array}{l}
+            a \equiv_{p^k} g \\
+            a \equiv_s 1
+        \end{array}\right.\). Такое существует по КТО. Тогда \(a^{N - 1} \equiv_{p^2} g^{N - 1} \equiv_{p^2} 1 \Ra N \vdots p\), но проиворечие с тем, что \(N - 1 \vdots p\), а \((N, N - 1) = 1\).
+        
+        Пусть \(N = p_1p_2\dots p_s, g_i\) --- первообразный корень \(\mod p_i\). Найдем \(a\), такой, что \(\left\{\begin{array}{l}
+            a \equiv_{p_i} g_i \\
+            a \equiv_{p_j} 1
+        \end{array}\right.\). \(a^{N - 1} \equiv_N 1 \Ra g_i^{N - 1} \equiv_{p_i} 1 \Ra N - 1 \vdots p_1 - 1\).
+    \end{enumerate}
+\end{proof}
+
+\subsubsection{Свойства чисел Кармайкла}
+\begin{enumerate}
+    \item Числа Кармайкла нечетны
+    \item Числа Кармайкла представимы в виде \(p_1\dots p_s, s \ge 3, p_i\) --- простое
+    \item Если для некотрого \(k\), верно, что \(6k + 1, 12k + 1, 18k + 1\) --- простые, то \((6k + 1)(12k + 1)(18k + 1)\) --- число Кармайкла, например \(7\cdot13\cdot19\) --- число Кармайкла
+\end{enumerate}
+
+\subsection{Символ Якоби}
+Как улучшить Тест Ферма? Большие простые числа нечетные, поэтому можно проверять \(a^{\frac{N - 1}{2}} \equiv_N \pm1\). Заметим, что для \(p\) --- простого верно \(a^{\frac{p - 1}{2}} \equiv_p 1 \Lra a\) --- вычет \(\mod p\)
+
+\begin{definition}
+    Пусть \(N\) --- нечетное число. Символ Якоби:
+    \[\left(\frac{a}{N}\right) = \left(\frac{a}{p_1}\right)\left(\frac{a}{p_2}\right)\dots\left(\frac{a}{p_s}\right)\]
+    Где \(\left(\frac{a}{p_i}\right)\) --- символы Лежандра
+\end{definition}
+
+\subsubsection{Свойства Символа Якоби}
+\begin{enumerate}
+    \item \(\left(\frac{a}{N}\right) \equiv_N a^{\frac{N - 1}{2}}\)
+    \item \(\left(\frac{-1}{N}\right) = (-1)^{\frac{N - 1}{2}}\)
+    \item \(\left(\frac{2}{N}\right) = (-1)^{\frac{N^2 - 1}{8}}\)
+    \item \(\left(\frac{ab}{N}\right) = \left(\frac{a}{N}\right)\left(\frac{b}{N}\right)\)
+    \item \(\left(\frac{M}{N}\right)\left(\frac{N}{M}\right) = (-1)^{\frac{N - 1}{2}\frac{M - 1}{2}}\), если \((M, N) = 1\)
+\end{enumerate}
+
+\subsection{Тест Соловея - Штрассена}
+Алгортим такой же, как и в тесте Ферма, только здесь мы проверяем равенство \(\left(\frac{a}{N}\right) \equiv_N a^{\frac{N - 1}{2}}\) для каждого \(a\).
+\begin{theorem}
+    Обозначим за \(B_{SS} = \{a \in \Z_N^* | a^{\frac{N - 1}{2}} \equiv_N \left(\frac{a}{N}\right)\}\). Тогда
+    \begin{enumerate}
+        \item \(B_{SS} = \Z_N^* \Lra N\) --- простое
+        \item \(N\) --- составное \(\Lra |B_{SS}| \le \frac{1}{2}|\Z_N^*|\)
+        \item \(B_{SS} \subset B_F\)
+    \end{enumerate}
+\end{theorem}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item \begin{enumerate}
+            \item[\(\La\)] по свойству символа Лежандра 
+            \item[\(\Ra\)] \(B_{SS} = \Z_N^* \Ra B_F = \Z_N^*\). Пусть \(N\) --- не простое, тогда \(N\) --- число Кармайкла, \(N = p_1p_2\dots p_s\). Пусть \(b\) --- квадратичный невычет \(\mod p_1\). Возьмем \(\left\{\begin{array}{l}
+                a \equiv_{p_1} b \\
+                a \equiv_{p_i} 1
+            \end{array}\right.\)
+            \[a^{\frac{N - 1}{2}} \equiv_N \left(\frac{a}{N}\right) \equiv_N -1\]
+            Противоречие, т.к. \(1 \equiv_{p_2} -1\)
+        \end{enumerate}
+        \item \(B_{SS}\) --- подгруппа в \(\Z_N^* \Ra |\Z_N^*|\vdots|B_{SS}|\) по теореме Лагранжа
+    \end{enumerate}
+\end{proof}
+\hypertarget{lecture7}{}
+
+\section{Диофантовы приближения, теорема Дирихле}
+
+Рассмотрим число $\pi = 3.1415926...$.
+
+$$\left|\pi - \frac{314}{100}\right| = 0.0015926... \ \ \left|\pi - \frac{22}{7}\right| = 0.0012... $$
+
+\begin{theorem}{(Дирихле)}
+  Пусть $\alpha \not \in Q$. Тогда $\exists$ \underline{бесконечно много} дробей $\frac{p}{q}$, что $$\left|\alpha - \frac{p}{q}\right| \le \frac{1}{q^2}$$
+\end{theorem}
+
+\begin{proof}
+  $Q \in \N$. Рассмотрим деление отрезка $[0, 1]$ на отрезки длины $\frac{1}{Q}$.
+  
+  Рассмотрим $\{\alpha x \}$, где $x = 0, 1,\dots, Q$. $\exists x_1, x_2: \ x_1 > x_2$ и $\left|\{\alpha x_1 - \alpha x_2 \}\right| \le \frac{1}{Q}$
+
+  $$\left|\alpha x_1 - [\alpha x_1] - \alpha x_2 + [\alpha x_2]\right| \le \frac{1}{Q}$$
+
+  $$\left|\alpha \underbrace{(x_1 - x_2)}_{q} - \underbrace{([\alpha x_1] - [\alpha x_2])}_{p}\right| \le \frac{1}{Q}$$
+Если $q \le Q$
+  $$\left|\alpha - \frac{p}{q}\right| \leq \frac{1}{qQ} \le \frac{1}{q^2}$$ 
+\end{proof}
+
+\begin{note}
+Покажем, как получать новые дроби:
+
+Пусть $\alpha$ = $\left|\alpha - \frac{p}{q}\right|, \alpha \le \frac{1}{q^2}, a > 0$
+
+Возьмем $Q_1 \in \N : \frac{1}{Q_1} \le a$. По $Q_1$ найдем соответствующие ей $\frac{p_1}{q_1}$.
+
+\textbf{Почему полученные $p_1, q_1$ не совпадают с $p, q$?}
+
+Как мы доказали, верно следующее:
+
+$$\left|\alpha - \frac{p_1}{q_1}\right| \le \frac{1}{\underbrace{q_1 Q_1}_{< \alpha}} \le \frac{1}{q_1^2}.$$
+
+$$\left|\alpha - \frac{p_1}{q_1}\right| \le \frac{1}{q_1 Q_1} \le \frac{\alpha}{q_1} \leq \left|\alpha - \frac{p}{q}\right| \then \frac{p_1}{q_1} \ne \frac{p}{q}$$
+\end{note}
+
+\subsection{Теорема Минковского. Еще одно доказательство теоремы Дирихле}
+\begin{theorem}{(Минковского)}
+  Пусть $\Omega \subset \R^2: \Omega$ выпукло, симметрично относительно $0, S(\Omega) > 4$. Тогда $(\Omega \cap \Z^2)\setminus{0} \ne \varnothing$ 
+  
+\end{theorem}
+
+\begin{proof}
+  Рассмотрим $N_p$ - все координаты в $\Z^2 \cap \Omega$, имеющие вид $(\frac{a}{p}, \frac{b}{p})$, $a,b,p \in \N$.
+
+
+$$\frac{N_p}{p^2} \to S(\Omega) > 4, \text{при $p \to \infty$}$$
+
+\textit{Этот факт оставляется без доказательства. Обещали не спрашивать его на экзамене}.
+
+$\exists P: \forall p \ge O \ \frac{N_p}{p^2} > 4$
+
+$$N_p > (2p)^2 \then \exists a = \left(\frac{a_1}{p}, \frac{a_2}{p}\right), b = \left(\frac{b_1}{p}, \frac{b_2}{p}\right) : a \ne b, a_1 \equiv b_1 (2p), a_2 \equiv b_2 (2p)$$
+
+Рассмотрим $\frac{a - b}{2} = \left(\frac{a_1 - b_1}{2p}, \frac{a_2 - b_2}{2p}\right) \in Z^2$
+
+\begin{enumerate}
+  \item $-b \in \Omega$, так как $\Omega$ - центрально смметричная.
+  \item $\frac{a - b}{2} \in \Omega$, так как $\Omega$ выпукло.
+\end{enumerate}
+\end{proof}
+
+\begin{note}
+  Есть еще усиление теоремы Минковского - в случае замкнутого множества оценка становится нестрогой $(\ge 4)$.
+\end{note}
+
+\textbf{Приведем еще одно доказательство теоремы Дирихле}
+
+\begin{proof}
+  $\Omega = \{(x, y): \left| y - \alpha x \right| \le \frac{1}{Q}, \left| x\right| \le Q\}$. Если нарисовать на плоскости фигуру, то получится параллелограмм. По формуле площади:
+
+  $$S(\Omega) = 4 \then \text{по теореме} \exists (q, p) \in \Omega, q > 0$$
+
+  $$\left|p - \alpha q\right| \le  \frac{1}{Q} \then \left| \alpha - \frac{p}{q}\right| \le \frac{1}{qQ} \le \frac{1}{q^2}$$
+\end{proof}
+
+\section{Цепные дроби}
+
+\subsection{Конечная цепная дробь}
+
+$$a_0 + \frac{1}{a_1 + \frac{1}{a_2 + \frac{1}{a_3 + ...}}}$$
+
+$a_0 \in \Z, a_i \in \N \ \forall i \ge 1$.
+
+Раскрыв скобки, получим $\alpha := [a_0; a_1, a_2, a_3, \dots, a_n] \in Q$
+
+\textbf{Определим теперь цепную дробь индуктивно:}
+
+\begin{enumerate}
+  \item $[a_0] = \frac{a_0}{1}$
+  \item $[a_0; a_1, \dots, a_n] = a_0 + \frac{1}{[a_1; a_2, \dots, a_n]} = a_0 + \frac{1}{\frac{p}{q}} = a_0 + \frac{q}{p} = \frac{a_0 p + q}{p}$
+\end{enumerate}
+
+\begin{definition}
+  Подходящая дробь к $\alpha$ - дробь $\frac{p_k}{q_k} = [a_0; a_1, a_2, ..., a_k]$.
+\end{definition}
+
+\begin{theorem}
+  $$p_{k + 2} = a_{k + 2} p_{k + 1} + p_k$$
+  $$q_{k + 2} = a_{k + 2} q_{k 1} + q_k$$
+\end{theorem}
+
+\begin{proof}
+  Успеем проверить только переход :(
+
+ $$ \frac{p_0}{q_0} = [a_0] = \frac{a_0}{1}$$
+$$\frac{p_1}{q_1} = [a_0; a_1] = a_0 + \frac{1}{a_1} = \frac{a_0 a_1 + 1}{a_1}$$
+$$\frac{p_2}{q_2} = [a_0; a_1, a_2] = a_0 + \frac{1}{a_1 + \frac{1}{a_2}} = a_0 + \frac{a_2}{a_1 a_2 + 1} = \frac{a_0 a_1 a_2 + a_0 + a_2}{a_1 a_2 + 1}$$
+
+Теперь проверяем утверждение:
+
+$$p_2 =^{?} a_2 p_1 + p_0 = a_2 a_0 a_1 + a_2 + a_0$$
+$$q_2 = a_2 q_1 + q_0 = a_2 a_1 + 1$$
+
+\textit{Пытаемся успеть сделать переход:}
+$[a_0; a_1, ..., a_m] = a_0 + \frac{1}{[a_1; a_2, ..., a_m]}$
+
+
+Не успели...
+\end{proof}
+
+
+\hypertarget{lecture8}{}
+
+\textit{Проделаем переход индукции с прошлой лекции, напомним, что хотим доказать:}
+
+\begin{theorem}
+    $$p_{k + 2} = a_{k + 2} p_{k + 1} + p_k$$
+    $$q_{k + 2} = a_{k + 2} q_{k 1} + q_k$$
+\end{theorem}
+
+\begin{proof}
+    Пусть $[a_0; a_1,\dots, a_n] = \frac{p_n}{q_n}, [a_1; a_2, \dots, a_k] = \frac{p'_k}{q'_k}$
+
+    $$a_0 + \frac{1}{[a_1; a_2, \dots, a_n]} = a_0 + \frac{1}{\frac{p'_n}{q'_n}} = a_o + \frac{q'_n}{p'_n} = \frac{a_0 p'_n + q'_n}{p'_n}$$
+
+    $$p_n = a_0 p'_n + q'_n = a_0 (a_n p'_{n - 1} + p'_{n - 2}) + a_n q'_{n - 1 } + q'_{n - 2} = a_n \underbrace{(a_0 p'_{n - 1} + q'_{n    - 1}) }_{p_{n-1}}+ \underbrace{a_0 p'_{n - 2} + q'_{n - 2}}_{p_{n-2}}$$
+\end{proof}
+
+\begin{note}
+$p_{n + 2} \cdot q_{n + 1} - p_{n + 1} q_{n + 2} = p_n q_{n + 1} - q_{n}p_{n + 1}$
+
+Так как $p_0 q_1 - q_0 p_1 = a_o a_1 - (a_1 a_0 + 1) = -1$, $p_n q_{n + 1} - q_n p_{n + 1} = (-1)^{n + 1}$ и $\frac{p_n}{q_n}$ нельзя сократить.
+\end{note}
+
+\begin{note} $p_{n + 2}q_n - q_{n + 2}p_n = a_{n + 2} (-1)^n$
+
+Из прошлого замечания получаем еще одно тождество:
+$$p_{n + 2}q_n - q_{n + 2}p_n = a_{n + 2}\underbrace{(p_{n + 1}q_n - q_{n + 1}p_n)}_{(-1)^n}$$
+\end{note}
+
+\begin{proposition}
+    Из первого замечания можно понять очень выжный факт:
+    \begin{enumerate}
+        \item Дроби с нечетным $n$ убывают
+        \item Дроби с четным $n$ возрастают
+        \item Но все они отличаются друг от друга на небольшое число - $\frac{(-1)^n}{q_n q_{n + 1}}$
+    \end{enumerate}
+\end{proposition}
+
+\subsection{Бесконечная цепная дробь}
+
+Формально почти все операции над цепными дробями остаются без изменений, но значение дроби определяется как предел подходящего ряда:
+$$[a_0;a_1, \dots, a_n,\dots] = \lim_{n \to \infty}\frac{p_n}{q_n}$$
+\begin{theorem}{(Докажут на семинаре)}
+
+    Предел всегда существует.
+\end{theorem}
+
+\begin{example} $[1; 1, 1, \dots, 1] = ?$
+
+    Пусть $[1; 1, 1, \dots, 1] = \alpha$. $1 + \frac{1}{\alpha} = \alpha \then \alpha = \frac{1 + \sqrt{5}}{2}$
+\end{example}
+
+\begin{theorem}
+    Если цепная дробь периодична, то ее значение будет являться квадратичной иррациональностью (решением квадратного уравнения c иррациональными коэффицеинтами)
+\end{theorem}
+
+\begin{proof}
+    $\alpha = [a_0;a_1, \dots, a_k, \overline{b_1, b_2, \dots, b_m}].$
+
+
+    Аналогично с примером обозначаем дробь $[b_1; b_2, \dots, b_m]$ за $\beta$. Тогда:
+    $$b_m + \frac{1}{\beta} = \frac{\beta b_m + 1}{\beta}$$
+    $$\frac{\beta}{\beta b_m + 1} + b_{m - 1} = \frac{\beta + \beta b_{m - 1} b_m + b_{m - 1}}{\beta b_m + 1}$$
+
+    Понятно, что если выражать дальше $\beta$, то в числителе и знаменателе будет получаться линейная функция от $\beta$. $\beta = \frac{c_1 \beta + c_2}{c_3 \beta + c_4} \then \beta$ - квадратичная иррациональность.
+\end{proof}
+
+\begin{theorem} {(б/д)}
+    Верно и обратное.
+\end{theorem}
+
+\begin{theorem}
+    \(\forall \psi: \psi(q) \ra +\infty \ \exists \alpha > 0:\) неравенство \(\left|\alpha - \frac{p}{q}\right| \le \frac{1}{\psi(q)}\) имеет бесконечно много решений в дробях \(\frac{p}{q}\).
+\end{theorem}
+\begin{proof}
+   Пусть построили дробь \(\alpha = [a_0; a_1, \dots ]\) . Найдем теперь $a_{n + 1}$ из соображений:
+   
+   $\alpha - \frac{p}{q} \le \frac{1}{q_n q_{n + 1}} <  \frac{1}{\frac{1}{q_n} \psi(q_n) q_n} < \frac{1}{\psi(q_n)}$, тесли выбрать $a_{n + 1}$ $q_{n + 1} = a_{n + 1}q_n + q_{n - 1} > \psi(q_n) \cdot \frac{1}{q_n}$ 
+\end{proof}
+
+\begin{definition}
+  $\alpha \in A \Longleftrightarrow \alpha$ является корнем какого-то многочлена с целыми коэффициентами.
+
+  \textit{Говорят, $A$ - множество трансцедентных чисел}
+\end{definition}
+
+\begin{note}
+  Так как $\R$ - континум, а $A$ - не больше множества всех многочленов, которых счетно, то есть числа не в $A$.
+\end{note}
+
+\begin{theorem}{(Лиувилля)} Пусть $\alpha \in A, deg \alpha = d$, тогда $\exists c(\alpha): \forall \frac{p}{q} \left|\alpha - \frac{p}{q}\right| \ge \frac{c(\alpha)}{q^d} $
+  
+\end{theorem}
+
+\begin{definition}
+  $\alpha \in A$ называется алгебраическим числом степени $d$, если min степень многочлена, корнем которого является $\alpha$, равна $d$.
+\end{definition}
+
+$\alpha \in A, deg \alpha = d$. $f(x) = a_d x^d + \dots + a_1x + a_0$
+
+\begin{enumerate}
+  \item $\left|\alpha - \frac{p}{q}\right| \ge 1 \then \left|\alpha - \frac{p}{q}\right|  \ge \frac{1}{q^d} \then c_1(\alpha) = 1$
+  \item $\left| \alpha - \frac{p}{q}\right|$
+\end{enumerate}
+$\frac{p}{q} \ne 0, f(\frac{p}{q}) = \frac{a_d p^d + \dots + a_0 q^d}{q^d}$. $\left|f(\frac{p}{q})\right|\ge \frac{1}{q^d}$
+
+Положим $c(\alpha) = min\{c_1(\alpha), c_2(\alpha)\}$
+
+$$\left|f\left(\frac{p}{q}\right)\right| = \left|\alpha - \frac{p}{q}\right| \cdot \left|\alpha_1 - \frac{p}{q}\right| \cdot \dots \cdot \left|\alpha_{d-1} - \frac{p}{q}\right| \cdot a_d$$ 
+
+$\left|\alpha_i - \frac{p}{q}\right| = \left| \alpha_i - \alpha + \alpha - \frac{p}{q}\right| \le \left|\alpha_i - \alpha \right| + \left|\alpha - \frac{p}{q}\right| \le \underbrace{\left|\alpha_i - \alpha \right|}_{\overline{c_i}(\alpha)}$
+
+$$\left|\alpha - \frac{p}{q}\right| \ge \frac{1}{q^d} \cdot \frac{1}{a_d \prod_{i = 1}^{d - 1} \overline{c_i}(\alpha)}$$
+\hypertarget{lecture9}{}
+
+\begin{theorem}[Roth]
+    Пусть \(\alpha \notin \Q, \alpha \in \mathbb{A}\). Тогда \(\forall \epsilon > 0 \exists c(\alpha):\)
+    \[\forall p, q\;\;\left|\alpha - \frac{p}{q}\right| \ge \frac{c(\alpha)}{q^{2 + \epsilon}}\]
+\end{theorem}
+
+\begin{theorem}
+    Пусть \(\alpha \notin \Q \Ra \exists\) бесконечно много различных \(\frac{p}{q}\), таких, что \(\left|\alpha - \frac{p}{q}\right| \le \frac{1}{\sqrt{5}q^2}\)
+\end{theorem}
+
+\begin{theorem}
+    \(\forall \epsilon > 0 \exists\) лишь конечное число различных \(\frac{p}{q}: \left|\frac{1 + \sqrt{5}}{2} - \frac{p}{q}\right| < \frac{1}{(\sqrt{5} + \epsilon)q^2}\)
+\end{theorem}
+
+\begin{theorem}
+    Если выкинуть числа, которые ведут себя так же, как и \(\frac{1 + \sqrt{5}}{2}\), то любое из оставшихся чисел удовлетворяют \(\left|\alpha - \frac{p}{q}\right| \le \frac{1}{\sqrt{8}q^2}\) для бесконечно многих 
+\end{theorem}
+
+\begin{proposition}[Гипотеза Заремба, Коробова, Бахвалова]
+    \(\forall p\) --- простое \(\exists a \in \{1, 2 \dots p - 1\}\), такое, что все ненулевые частные в разложении \(\frac{a}{p}\) в цепную дробь не превосходят 5.
+\end{proposition}
+
+\subsection{Трансцендентность и иррациональность числа \(e\)}
+\begin{theorem}
+    \(e \notin \Q\).
+\end{theorem}
+\begin{proof}
+    Предположим противное, тогда \(e = \frac{m}{n} \Ra e\cdot n! \in \Z\)
+    \[e = \sum_{k = 0}^\infty \frac{1}{k!}\]
+    \[en! = \sum_{k = 0}^\infty \frac{n!}{k!} = A + \frac{1}{n + 1} + \frac{1}{(n + 1)(n + 2)} + \dots = A + \frac{1}{n + 1}\underbrace{\left(1 + \frac{1}{n + 2} + \dots \right)}_{B}\]
+    \[B < 1 + \frac{1}{n + 2} + \frac{1}{(n + 2)^2} + \dots \le \frac{1}{1 - \frac{1}{n + 2}} = \frac{n + 2}{n + 1}\]
+    \[0 < B \frac{1}{n + 1} < \frac{n + 2}{n + 1}^2 < 1, n \ge 1\]
+    Получили противоречие
+\end{proof}
+
+\begin{proposition}[Тождество Эрмита]
+    Пусть \(f(x)\) --- многочлен степени \(d\).
+    Рассмотрим
+    \[\int_0^x f(t)e^{-t}dt = F(0) - e^{-x}F(x), F(x) = f(x) + f'(x) + \dots + f^{(d)}(x)\]
+\end{proposition}
+\begin{proof}
+    \[\int_0^x f(t)e^{-t}dt = -f(t)e^{-t}|_0^x + \int_0^x f'(t)e^{-t}dt = f(0) - f(x)e^{-x} + \int_0^x f'(t)e^{-t}dt = \dots = \]
+    \[= f(0) + f'(0) + \dots + f^{(d)}(0) - e^x(f(x) + f'(x) + \dots + f^{(d)}(x))\]
+\end{proof}
+
+\begin{proposition}
+    Пусть \(g(x)\) --- многочлен с целыми коэффициентами. Тогда все коэффициенты \(k\)-ой производной этого многочлена делятся на \(k!\)
+\end{proposition}
+\begin{proof}
+    Рассмотрим произвольный моном \(a_nx^n\). Если \(n \le k - 1\), то после дифференцирования, \(a_n \ra 0\). Иначе, \(a_n \ra a_nn(n - 1)\dots(n - k + 1)x^{n - k} \Ra\) т.к. произведение \(k\) последовательных чисел делится на \(k!\), то \(a_nn(n - 1)\dots(n - k + 1) \vdots k!\)
+\end{proof}
+
+\begin{theorem}
+    \(e \notin \mathbb{A}\)
+\end{theorem}
+\begin{proof}
+    Предположим противное, тогда \(e\) является корнем \(a_mx^m + a_{m - 1}x^{m - 1} + \dots + a_0\), причем \(a_0 \ne 0\).
+    Рассмотрим 
+    \[\sum_{x = 0}^m a_x(F(0)e^x - F(x)) = \sum_{x = 0}^m\left(a_xe^x\int_0^x f(t)e^{-t}dt\right)\]
+    \[\sum_{x = 0}^ma_xF(0)e^x = F(0)\sum_{x = 0}a_xe^x = 0\]
+    \[\Ra -\sum_{x = 0}^m a_xF(x) = \sum_{x = 0}^m\left(a_xe^x\int_0^xf(t)e^{-t}dt\right)\]
+    Рассмотрим многочлен \(f(x) = \frac{1}{(n - 1)!}x^{n - 1}((x - 1)(x - 2)\dots(x - m))^n\). \(\deg f = nm + n - 1\). Посмотрим на \(a_0F(0) = a_0\left(f(0) + f'(0) + \dots + f^{(d)}(0)\right) = a_0\left(f^{n-1}(0) + \dots + f^{(d)}(0)\right)\), т.к. \(f^{(i)}(0) = 0\) при \(i \le n - 2\). При этом, \(f^{(n - 1)}(0) = ((-1)(-2)\dots(-m))^n = a_0((-1)^{mn} (m!)^n)\) (остальные слагаемые будут содержать \(x\) в ненулевой степени). Но тогда \(a_0F(0) = a_0((-1)^{mn} (m!)^n) + nA, A \in \Z\), т.к. коэффициенты оставшихся производных делятся на \(n\).
+    Теперь рассотрим \(-(a_1F(1) + a_2F(2) + \dots + a_mF(m)) = Bn\) по аналогичным рассуждениям. \(\Ra -\sum_{x = 0}^m a_xF(x) = a_0((-1)^{mn} (m!)^n) + Cn\). Существует бесконечно много \(n\), таких, что \(a_0((-1)^{mn} (m!)^n)\) не делится на \(n\). Выберем такое \(n\) и получим, что \(-\sum_{x = 0}^m a_xF(x) \in \Z \setminus \{0\}\). 
+    \[\left|\sum_{x = 0}^m a_xe^x\int_0^xf(t)e^{-t}dt\right| \le \sum_{x = 0}^m |a_x|e^x\int_0^x|f(t)|e^{-t}dt = (*)\]
+    \[t \in \{0, \dots m\} \Ra |f(t)| \le \frac{1}{(n - 1)!}m^{mn + n - 1}\]
+    \[(*) \le \frac{1}{(n - 1)!}m^{nm + n - 1}\sum_{x = 0}^m|a_x|e^x\int_0^xe^{-t}dt \le \frac{1}{(n - 1)!}m^{nm + n - 1}\sum_{x = 0}^m|a_x|e^x = \]
+    \[ = \frac{1}{(n - 1)!}\frac{\left(m^{m + 1}\right)^n \cdot c(e)}{m} \ra 0, n \ra \infty\]
+\end{proof}
+
+\hypertarget{lecture10}{}
+
+\subsection{7-ая проблема Гильберта}
+\begin{problem}[7-ая проблема Гильберта]
+    Верно ли, что \(\alpha, \beta \in \mathbb{A} \Ra \alpha^\beta \in \mathbb{A}\)?
+\end{problem}
+
+\begin{theorem}
+    Если \(\alpha \notin \{0, 1\}, \alpha \in \mathbb{A}, \beta \in A \setminus \Q \Ra \alpha^\beta \notin \mathbb{A}\)
+\end{theorem}
+Доказана А.О. Гельфандом.
+
+\begin{proposition}
+    \(e^\pi \notin \mathbb{A}\)
+\end{proposition}
+\begin{proof}
+    Предположим противное. Известно, что \((e^\pi)^i = e^{i\pi} = -1 \Ra -1\) должно быть Трансцендентным
+\end{proof}
+
+\section{Геометрия чисел}
+\begin{theorem}[Минковского]
+    Пусть \(\Omega \subset \R^n\), \(\Omega\) --- выпукло, симметрично относительно \(O\), и \(V(\Omega) > 2^n\) (или \(\ge 2^n\) для случая замкнутого \(\Omega\)). Тогда \(\Omega \cap \Z^n \setminus \{0\} \ne \emptyset\)
+\end{theorem}
+\begin{proof}
+    Рассмотрим \(N_p = \left|\frac{1}{p}\Z^n\cap \Omega\right|\). Интуитивно понятно (дается без доказательства), что 
+    \[\frac{N_p}{p^n} \ra V(\Omega)\]
+    Т.к. \(\frac{N_p}{p^n}\) --- количество ''кубиков'' размера \(\frac{1}{p}\) внутри \(\Omega\)
+
+    \[\Ra \exists p_0 \forall p > p_0 \frac{N_p}{p} > 2^n \Ra N_p > (2p)^n\]
+
+    Тогда рассомотрим \(a = \left(\frac{a_1}{p}, \frac{a_2}{p}, \dots \frac{a_n}{p}\right), b = \left(\frac{b_1}{p}, \frac{b_2}{p}, \dots \frac{b_n}{p}\right) \in \Omega\), такие, что \(\forall i\;\;a_i \equiv_{2p} b_i \Ra \frac{a - b}{2} \in \Z^n \setminus \{0\}\)
+\end{proof}
+
+Рассмотрим \(\R^n\) и базис в нем \(a_1, a_2, \dots a_n\). 
+\begin{definition}
+    Решетка --- это множество точек \(\Lambda = \{b_1a_1 + \dots + b_na_n | b_i \in \Z\}\)
+\end{definition}
+\begin{example}
+    В \(\R^2\) и базиса \((0, 1), (1, 0)\) решекой является \(\Z^2\)
+\end{example}
+
+\begin{theorem}
+    \(\Lambda \subset \R^n\) является решеткой \(\Lra \Lambda\) образует группу по сложению, \(\Lambda\) дискретно и ''заполняет все пространство''. То есть, если 
+    \begin{enumerate}
+        \item \textbf{Дискретность:} Каждая точка \(\Lambda\) изолированная
+        \item \textbf{''Заполнение всего \(\R^n\)'':}  \(\exists r > 0 \forall x \in \Lambda \stackrel{\circ}{B}(x) \cap \Lambda \ne \emptyset\)
+    \end{enumerate}
+\end{theorem}
+
+\begin{definition}
+    Определителем \(\Lambda\) (детерминантом \(\Lambda\)) называется величина \(\det \Lambda\), равная модулю определителя матрицы, составленной из векторов произвольного базиса \(\Lambda\).
+\end{definition}
+
+\begin{theorem}[Минковского]
+    Пусть \(\Omega \subset \R^n\) --- выпуклое и симметричное относительно \(O\) множество. Пусть \(\Lambda\) --- решетка, и \(V(\Omega) > 2^n\det \Lambda\). Тогда \((\Omega \cap \Lambda) \setminus \{0\} \ne \emptyset\)
+\end{theorem}
+\begin{proof}
+    Доказательство аналогично доказательству обычной теоремы Минковского.
+\end{proof}
+
+\begin{definition}
+    Критический определитель \(\Omega\) --- \(\Delta(\Omega) = \inf\{x | \exists \Lambda \subset \R^n: \det \Lambda = x, (\Omega \cap \Lambda) \setminus \{0\} \ne \emptyset\}\)
+\end{definition}
+
+\begin{proposition}
+    Из теоремы минковского следует, что \(\forall\Omega\) --- выпуклого и симметрично относительно \(O\)
+    \[\frac{V(\Omega)}{\Delta(\Omega)}\le 2^n\]
+\end{proposition}
+\begin{proof}
+    Предположим, что \(\frac{V(\Omega)}{\Delta(\Omega)} > 2^n\). Тогда \(V(\Omega) > 2^n \Delta(\Omega) \Ra \exists \Lambda: V(\Omega) > 2^n \det \Lambda, (\Omega \cap \Lambda) \setminus \{0\} \ne \emptyset\)
+\end{proof}
+
+Возникает логичный вопрос: \(\frac{V(\Omega)}{\Delta(\Omega)} \ge ?\)
+
+
+\begin{theorem}[1945г. Минковского-Главка]
+    \(\frac{V(\Omega)}{\Delta(\Omega)} \ge 1\)
+\end{theorem}
+\begin{theorem}[1950е годы. Роджерс, Шмидт]
+    \(\frac{V(\Omega)}{\Delta(\Omega)} \ge cn\)
+\end{theorem}
+
+\begin{definition}
+    Октаэдр --- это множество точек \(O^n = \{(x_1, x_2, \dots x_n) | |x_1| + |x_2| + \dots + |x_n| \le 1\}\).
+\end{definition}
+
+\begin{proposition}
+    \(V(O^n) = \frac{2^n}{n!}\)
+\end{proposition}
+% ! TEX root = ../../../main.tex
+
+\begin{theorem}[Минковский-Главка]
+    \(\forall \epsilon > 0 \exists n \ge N \exists \Lambda: (\Omega \cap \Lambda) \setminus \{0\} = \emptyset, \frac{V(\Omega)}{\det \Lambda} \ge 1 - \epsilon\)
+\end{theorem}
+\begin{proof}[Доказательство для Октадра]
+    Помним, что у нас была теорема о том, что \(\exists f: f = O(x^{0,525\dots}) \forall x \exists p \in [x, x + f(x)]\). Из этого следует, что \(\forall \epsilon > 0 \exists x_0: \forall x \ge x_0 \exists p \in [x, (1 + \epsilon)x]\).
+    Зафиксируем \(\epsilon > 0\) и выберем \(N, p > N\) (такое \(N\) существует по утверждению выше) так, что \((1 - \epsilon)\frac{n!}{2^n} \le p \le \left(1 - \frac{\epsilon}{2}\right)\frac{n!}{2^n}\). Рассмотрим 
+    \[\frac{V(O^n)}{\det \Lambda_{\vec{a}}} = \frac{\frac{2^n}{n!}}{\frac{1}{p}} = \frac{2^n}{n!}p \ge (1 - \epsilon) \frac{2^n}{n!} \frac{n!}{2^n} \ge 1 - \epsilon\]
+\end{proof}
+
+\begin{definition}
+    Положим \(\vec{a} = \left(\frac{a_1}{p}, \frac{a_2}{p} \dots \frac{a_n}{p}\right), 1 \le a_i \le p\). Тогда решетка \(\langle\Z^n, \vec{a}\rangle_\Z = \{\vec{a}l + \vec{b}: l \in \Z, \vec{b} \in \Z^n\}\) называется рациональной центрировкой.
+\end{definition}
+\begin{note}
+    Заметим, что \(\Lambda_{\vec{a}} \subset \frac{1}{p}\Z^n, \det \frac{1}{p}\Z^n = \frac{1}{p^n}\)
+\end{note}
+\begin{proposition}
+    \(\det \Lambda_{\vec{a}} = \frac{1}{p}\)
+\end{proposition}
+
+\begin{lemma}
+    \[\left|\Lambda_{\vec{a}} \cap O^n \setminus \underbrace{\{0, \pm \vec{e_1}, \dots , \pm \vec{e_n}\}}_{\epsilon}\right| = \sum_{l = 1}^{p - 1}\sum_{\vec{x} \in \left(\frac{1}{p}\Z^n \cap O^n \setminus \epsilon\right)} \delta(\vec{a}l - \vec{x})\]
+    Где \(\delta(\vec{y}) = \left\{\begin{array}{l}
+        1, y \in \Z^n \\
+        0, \text{ иначе}
+    \end{array}\right.\)
+\end{lemma}
+
+Докажем аналогичное утверждение для Октадра
+\begin{theorem}
+    \(\forall \epsilon > 0 \exists N \forall n > N \exists \vec{a} (\Omega \cap \Lambda_{\vec{a}}) \setminus \{0, \pm \vec{e_1}, \pm \vec{e_2} \dots , \pm \vec{e_n}\} = \emptyset\)
+\end{theorem}
+\begin{proof}
+    Рассомотрим 
+    \[\frac{1}{p^n}\sum_{a_1 = 1}^p\sum_{a_2 = 1}^p\dots \sum_{a_n = 1}^p |\Lambda_{\vec{a}} \cap O^n \setminus \epsilon| = \frac{1}{p^n}\sum_{a_1 = 1}^p\sum_{a_2 = 1}^p\dots \sum_{a_n = 1}^p\sum_{\vec{x}} \delta(\vec{a}l - \vec{x}) = \]
+    \[ = \frac{1}{p^n}\sum_{l = 1}^{p - 1}\sum_{\vec{x}}\left(\sum_{a_1 = 1}^p\sum_{a_2 = 1}^p\dots \sum_{a_n = 1}^p \delta(\vec{a}l - \vec{x})\right) = (*)\]
+    Зафиксируем \(l \in \{1, \dots p - 1\}, \vec{x} \in \frac{1}{p}\Z^n \cap O^n \setminus \epsilon, \vec{x} = \left(\frac{x_1}{p}, \dots \frac{x_n}{p}\right) \Ra \vec{a}l - \vec{x} = \left(\frac{a_1l - x_1}{p}, \dots \frac{a_nl - x_n}{p}\right)\). Обозначим за \(N_p\) количество точек, попавших внутрь Октадра. 
+    Покроем наш октаэдр другим октаэдром побольше, так, чтобы каждый прямоугольничек, пересекающийся с нашим октаэдром, покрылся. Тогда наш октаэдр надо растянуть в \(\le 1 + \frac{n}{p}\) раз. Рассмотрим \(\frac{N_p}{p^n} \le \frac{2^n}{n!} \left(1 + \frac{n}{p}\right)^n\). 
+    \[N_p \le \frac{2^n}{n!}p^n\left(1 + \frac{n}{p}\right)^n\]
+    Заметим, что
+    \[(*) = \frac{1}{p^n}\sum_{l = 1}^{p - 1}\sum_{\vec{x}}1 \le \frac{1}{p^n}\sum_{l = 1}^{p - 1}\frac{2^n}{n!}p^n\left(1 + \frac{n}{p}\right)^n < p \frac{2^n}{n!} \left(1 + \frac{n}{p}\right)^n \le \left(1 - \frac{\epsilon}{2}\right)\frac{n!}{2^n} \frac{2^n}{n!}\left(1 + \frac{n}{\left(1 - \epsilon\right)\frac{n!}{2}}\right)^n\]
+    При некотором \(n \ge N_2\):
+    \[\le \left(1 - \frac{\epsilon}{2}\right)\left(1 + \frac{\epsilon}{2}\right) = 1 - \frac{\epsilon^2}{4} \le 1\]
+\end{proof}
+\hypertarget{lecture12}{}
+
+\section{Равномерное распределение последовательностей}
+В дальнейшем будем считать, что \(\{x_n\}_{n = 1}^\infty\) --- последовательность дробных долей чисел \(x_n\).
+\begin{definition}
+    Будем говорить, что последовательность \(\{x_n\}_{n = 1}^\infty\) равномерно распределенной на \([0, 1)\), если
+    \[\forall \gamma \in (0, 1) \lim_{N \ra \infty} \frac{|\{n \le N | x_n \in [0, \gamma]\}|}{N} = \gamma\]
+\end{definition}
+
+\begin{example}[Равномерно распределенная последовательность]
+    Рассмотрим \(\{\sqrt{n}\}^\infty_{n = 1}\). Заметим, что если \(\{\sqrt{n}\} \in [0, \gamma] \Ra k^2 \le n \le (n + \gamma)^2\). Приф фиксированном \(k\), таких \(n\) не больше, чем \(2k\gamma + 2\) и не меньше, чем \(2k\gamma - 1\). При фиксированном \(N\), \(k\) можно варьировать от \(1\) до \([\sqrt{N}]\)
+    \[|\{n \le N : \sqrt{n} \in [0, \gamma]\}| = \sum_{k = 1}^{[\sqrt{N}]} (2k\gamma \pm 2) = 2\gamma\frac{[\sqrt{N}]([\sqrt{N}] + 1)}{2} \pm 2 [\sqrt{N}]\]
+    Но тогда \(\lim_{N \ra \infty} \frac{|\{n \le N : \sqrt{n} \in [0, \gamma]\}|}{N} = \gamma\).
+\end{example}
+
+\begin{note}
+    Аналогично можно доказать, что \(\{n^\alpha\}^\infty_{n = 1}\) равномерно распределенна.
+\end{note}
+
+\begin{example}[Неравномерно распределенная последовательность]
+    \(\{\alpha n\}_{n = 1}^\infty, \alpha \in \Q\) очевидно неравномерно распределена
+\end{example}
+
+Какие экспоненциальные последовательности равномерно распределены?
+\begin{enumerate}
+    \item \(a \in (0, 1) \Ra \{a^n\}_{n = 1}^\infty\) нераверномерно распределена
+    \item \(a > 1 \Ra \) есть примеры когда нет, но кроме этого ничего не известно. Например, решения нет в следующем случае: рассмотрим \(x^2 + px + q\), который имеет один корень на \(\lambda_1 \in (0, 1)\), а другой на \(\lambda_2 \in (1, +\infty)\). Тогда последовательность \(\{\lambda_1^n + \lambda_2^n\}\)
+\end{enumerate}
+
+\begin{theorem}
+    Последовательность \(\{x_n\}_{n = 1}^\infty\) равномерно распределена \(\Lra\) \(\forall\) непрерывной функции \(f: [0, 1] \ra [0, 1]\) верно:
+    \[\frac{1}{N}\sum_{n = 1}^N f(x_n) \ra \int_0^1 f(x)dx\]
+\end{theorem}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item[\(\Ra\)] От противного. Пусть существует функция \(f\), которая не удовлетворяет условию выше. Мы знаем, что если взять функцию \(g(x) = I_{x \in [a, b)}\) (\(0 < a, b < 1\)), то \(\frac{1}{N}\sum_{n = 1}^N g(x_n) \ra \int_0^1 g(x)dx\). Зафиксируем \(\epsilon > 0\). Подберем 2 комбинации индикаторов \(g_1(x), g_2(x)\) так, что \(g_1(x) \le f(x) \le g_2(x), \int_0^1 (g_2(x) - g_1(x))dx < \epsilon\). По критерию интегрируемости Римана, \(\frac{1}{N}\sum_{n = 1}f(x_n) \ra \int_0^1 f(x)dx\)
+    \end{enumerate}
+\end{proof}
+
+\begin{theorem}[О приближении непрерывной функции тригонометрическими многочленами]
+    Пусть \(f: \Cm \ra \Cm\) непрерывна и периодична. Тогда \(\forall \epsilon > 0 \exists\) тригонометрический многочлен \(\psi\), такой, что \(\sup_{x \in [0, 1]} |f(x) - \psi(x)| < \epsilon\).
+\end{theorem}
+
+\begin{theorem}[Критерий Вейля]
+    Последовательность \(\{x_n\}_{n = 1}^\infty\) равномерно распределена \(\Lra \forall m \ne 0 \lim_{N \ra \infty}\frac{1}{N}\sum_{n = 1}^N e^{2\pi i m x_n} = 0\) 
+\end{theorem}
+\begin{proof}
+    \begin{enumerate}
+        \item[\(\Ra\)] \(\int_0^1 e^{2\pi i m x}dx = 0\)/
+        \item[\(\La\)] Возьмем произвольную \(f: \Cm \ra \Cm\) --- непрерывную и периодичную. Зафиксируем \(\epsilon > 0\) и подберем \(\psi: \sup_{x \in [0, 1]} |f(x) - \psi(x)| \le \frac{\epsilon}{3}\)
+        \[\left|\frac{1}{N}\sum_{n = 1}^N f(x_n) - \int_0^1 f(x)dx\right| =\]
+        \[ = \left|\frac{1}{N}\sum_{n = 1}^N f(x_n) - \frac{1}{N}\sum_{n = 1}^N \psi(x_n) + \frac{1}{N}\sum_{n = 1}^N \psi(x_n) - \int_0^1 \psi(x)dx + \int_0^1 \psi(x)dx -\int_0^1 f(x)dx\right|= \]
+        \[= \left|\left(\frac{1}{N}\sum_{n = 1}^N (f(x_n) - \psi(x_n))\right) + \left(\frac{1}{N}\sum_{n = 1}^N \psi(x_n) - \int_0^1 \psi(x)dx\right) + \left(\int_0^1 (\psi(x) - f(x))dx\right)\right| \le\]
+        \[\le \underbrace{\left|\frac{1}{N}\sum_{n = 1}^N (f(x_n) - \psi(x_n))\right|}_{\le \frac{\epsilon}{3}} + \underbrace{\left|\frac{1}{N}\sum_{n = 1}^N \psi(x_n) - \int_0^1 \psi(x)dx\right|}_{\le \frac{\epsilon}{3}} + \underbrace{\left|\int_0^1 (\psi(x) - f(x))dx\right|}_{\le \frac{\epsilon}{3}} \le \epsilon\]
+        Это верно для достаточно больших \(N\)
+    \end{enumerate}
+\end{proof}
+
+\begin{proposition}
+    \(\{\alpha n\}_{n = 1}^\infty, \alpha \notin \Q\) --- равномерно распределена
+\end{proposition}
+\begin{proof}
+    \[\forall m \ne 0 \frac{1}{N}\sum_{n = 1}^N e^{2\pi i m \alpha n} = \frac{1}{N} \sum_{n = 1}^N\left(e^{2 \pi i \alpha m}\right)^n = \frac{e^{2\pi i \alpha m N} - 1}{N(e^{2 \pi i \alpha m} - 1)}e^{2 \pi i \alpha m}\]
+    При этом 
+    \[\left|\frac{1}{N}\sum_{n = 1}^N e^{2\pi i \alpha n}\right| \le \left|\frac{e^{2\pi i \alpha m N} - 1}{N(e^{2 \pi i \alpha m} - 1)}e^{2 \pi i \alpha m}\right| \le \frac{2e^{2 \pi i \alpha m}}{N|e^{2\pi i\alpha m} - 1|} \ra 0\]
+    \(\alpha \notin \Q \Ra e^{2\pi i \alpha m} \ne 1\).
+\end{proof}
+
+\begin{theorem}
+    Последовательность \(\{x_n\}_{n = 1}^\infty\) равномерно распределена \(\Lra\) \(\forall f: \Cm \ra \Cm\), таких, что \(f\) периодична с периодом \(1\), 
+    \[\int_0^1\]
+\end{theorem}
+\begin{proof}
+    Доказательство предоставляется читатеялю в качестве нетрудного упражнения
+\end{proof}
+\hypertarget{lecture14}{}
+
+\section{Вероятноестное детерминирования}
+
+\textit{С прошлой лекции мы знаем про тесты Ферма и Соловея - Штрассена, сейчас рассмотрим что-то новое}
+
+\subsection{Тест Миллера-Рабина}
+
+$$ m - 1 = 2^s \cdot l$$
+
+Пусть $B_{MR} = \{a \in \Z^{*}_{m}\}$, если для $a$ выполнено одно из следующих условий:
+\begin{enumerate}
+    \item $a^l \equiv_m \pm 1$
+    \item $a^{2l} \equiv_m -1$
+    \item $a^{4l} \equiv_m -1$
+    \item   $a^{\frac{m - 1}{2}} = a^{2^{s-1} l} \equiv_m -1 mod m$
+\end{enumerate}
+
+\begin{proof}
+    Пусть $m$ - простое. Несложно заметить факт, что для простых чисел существует некоторое дерево ветвлений: $a^{p - 1} = 1$, для половины простых $a^{\frac{p-1}{2}} = 1$, для другой половины $a^{\frac{p-1}{2} = -1}$. Первая половина делится на еще 2 группы простых (для которых $a^{\frac{p-1}{4}} = 1$ и $a^{\frac{p-1}{4}} = -1$). 
+
+    В обратную сторону воспользуемся утвеждением ниже (б/д).
+\end{proof}
+
+\begin{proposition}{(б/д)}
+    $B_{MR}(m) \subset B_SS(m)$
+\end{proposition}
+
+\begin{proposition}
+    $\left|B_{MR}(m)\right| \le \left|\Z_m^*(m)\right|$
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}
+        \item $m \vdots p, q, r$ - различные простые.
+        \item $m = p^\alpha q^\beta \then m - $ не число Кармайкла$\then \left| B_F(m)\right| \le \frac{1}{2}\left|\Z_m^*\right|$
+        \item $m = p ^ \alpha$
+    \end{enumerate} 
+
+    \textbf{Первый случай:}
+    
+    Пусть $M_i$ - множество остатков $a$ из первого доказательства, то есть $M_0' = \{a \in \Z_m^* | a^l \equiv_m 1\}, M_j = \{a \in \Z_m^* | a^{2^j \cdot l} \equiv_m -1\}$. Выбирая минимальные $j$, добьемся того, что $B_{MR}(m) = M'0 \sqcup M_0 \sqcup M_1 \sqcup \dots \sqcup M_{s-1}$.
+
+    \begin{proposition}
+        $d \in \Z, d > 1$, если $\left|\{a \in \Z_d^* | a^k = -1\}\right| \ne 0 \then \left|\{a \in \Z_d^* | a^k = 1\}\right|$
+    \end{proposition}
+
+    \textit{Доказательство простое, достаточно просто взять $a^2$}
+
+    Определим $M_j = \left|\{a \in \Z_m^* | a^{2^j l} \equiv_m -1\}\right|$, что по КТО равносильно системе:
+    \begin{enumerate}
+        \item $a^{2^j l} \equiv_{p^\alpha} -1$
+        \item $a^{2^j l} \equiv_{p^\beta} -1$
+         \item $a^{2^j l} \equiv_{p^\gamma} -1$
+    \end{enumerate}
+    
+    \begin{proposition}
+        $|N_j|$ = $6 |M_j|$ 
+    \end{proposition}
+
+    \begin{proposition}
+        $N_j \cup M_{j + k} = \varnothing \then N_j \cup N_{j + k} = \varnothing$
+    \end{proposition}
+
+    \begin{proof}
+        $a \in N_j \then a^{2^{j}l} \equiv_{m} 1 $
+    \end{proof}
+
+    Из описанного следует, что $|M'_0| \sqcup M_0 \sqcup M_1 \sqcup \dots \sqcup M_{s - 1}| \le \frac{1}{3} |N_0 \sqcup N_1 \sqcup \dots \sqcup N_{s - 1}|$
+\end{proof}
+
+\subsection{Числа Мерсенна}
+\begin{definition}
+    Простые числа \(2^p - 1\) называются числами Мерсенна
+\end{definition}
+
+\begin{definition}
+    Простые числа \(2^{2^n} - 1\) называются числами Ферма
+\end{definition}
+
+\begin{note}
+    \(\forall n > 5\) числа Ферма составные
+\end{note}
+
+\begin{note}
+    \(2^n - 1\) --- простое число \(\Ra n\) --- простое
+\end{note}
+\begin{proof}
+    Пусть нет, тогда \(n = mk \Ra 2^{mk} - 1 = (2^m)^k - 1 \equiv_{2^m} 0\)
+\end{proof}
+
+\begin{definition}
+    \(s_0 = 4, s_{k + 1} = s_k^2 - 2\).
+\end{definition}
+
+\begin{lemma}
+    \(s_k = (2 + \sqrt{3})^{2^k} + (2 - \sqrt{3})^{2^k}\)
+\end{lemma}
+\begin{proof}
+    По индукции
+\end{proof}
+
+\begin{definition}
+    \(\Z_m[\sqrt{k}] = \Z_m[x]/_{(x^2 - k)}\), т.е. это все остатки при делении на многочлен \(x^2 - k\)
+\end{definition}
+
+\begin{theorem}[Люка-Лемера]
+    Тогда \(M_p\) --- простое \(\Lra M_p | s_{p - 2}\)
+\end{theorem}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item[\(\La\)] Пусть \(q\) --- наименьший делитель \(M_p\)
+        \[(2 + \sqrt{3})^{2^{p - 2}} + (2 - \sqrt{3})^{2^{p - 2}} \equiv_q 0\]
+        \[(2 + \sqrt{3})^{2^{p - 2}} \equiv_q - (2 - \sqrt{3})^{2^{p - 2}}\]
+        \[(2 + \sqrt{3})^{2^{p - 1}} \equiv_q -1\]
+        \[(2 + \sqrt{3})^{2^p} \equiv_q 1\]
+        \[ord(2 + \sqrt{3}) | {2^p} \Ra ord(2 + \sqrt{3}) = 2^k, k > p - 1 \Ra ord(2 + \sqrt{3}) = 2^p\]
+        \[M_p = 2^p - 1 < ord(2 + \sqrt{3}) = 2^p < || =  q^2 \le M_p\]
+
+        КОРОЧЕ СОРЯН Я НЕ УСПЕЛ
+    \end{enumerate}    
+    \href{https://ru.wikipedia.org/wiki/Тест_Люка_—_Лемера#Достаточность}{ВОТ ВАМ ВИКИПЕДИЯ}
+\end{proof}

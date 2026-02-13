@@ -1,0 +1,338 @@
+
+\hypertarget{lecture1}{}
+
+\section{Введение}
+\subsection{Предисловие}
+Ну чето рассказали там про принцип устойчивости частот, про то, что ля-ля-ля тополя
+
+\subsection{Напоминание с ОВиТМа}
+
+\begin{definition}
+    \(\mathcal{F}\) --- алгебра над \(\Omega\), если 
+    \begin{enumerate}
+        \item \(\Omega \in \mathcal{F}\)
+        \item \(A, B \in \mathcal{F} \Ra A \cap B \in \mathcal{F}\)
+        \item \(A \in \mathcal{F} \Ra \overline{A} \in \mathcal{F}\)
+    \end{enumerate}
+\end{definition}
+
+\begin{note}
+    Элементы \(\Omega\) называются элементарными событиями.
+\end{note}
+
+\begin{note}
+    Элементы \(\mathcal{F}\) называются событиями.
+\end{note}
+
+\begin{definition}
+    \(\mathcal{F}\) --- \(\sigma\)-алгебра над \(\Omega\), если 
+    \begin{enumerate}
+        \item \(\mathcal{F}\) --- алгебра
+        \item \(A_1, \dots \in \mathcal{F} \Ra \bigcup_{i = 1}^\infty A_i \in \mathcal{F}\)
+    \end{enumerate}
+\end{definition}
+
+\begin{definition}
+    Функция \(P: \mathcal{F} \ra [0, 1]\) называется вероятностной мерой, если \(P(\Omega) = 1, P\) --- \(\sigma\)-аддитивна.
+\end{definition}
+
+\begin{note}
+    \begin{enumerate}
+        \item \(P(\emptyset) = 0\)
+        \item \(A \subset B \Ra P(A) \le P(B)\) --- \textbf{монотонность меры}
+        \item \(P\) конечно аддитивна
+        \item Для \(P\) верна формула включений-исключений.
+        \item \(P\left( \bigcup_{i = 1}^\infty A_i \right) = \le \sum_{i = 1}^\infty P(A_i)\)
+    \end{enumerate}
+\end{note}
+
+\begin{theorem}[О непрерывности вероятностной меры]
+    Пусть \((\Omega, \mathcal{F})\) таково, что \(\mathcal{F}\) --- алгебра над \(\Omega\), \(P\) --- мера и \(P(\Omega) = 1\). Тогда следующие условия эквивалентны:
+    \begin{enumerate}
+        \item \(P\) --- \(\sigma\)-аддитивна на \(\mathcal{F}\)
+        \item \(P\) непрерывна в нуле, т.е. \(\bigcap A_i = \emptyset \Ra P(A_i) \ra P(A)\)
+        \item \(P\) непрерывна сверху, т.е. \(\bigcap A_i = A \Ra P(A_i) \ra P(A)\)
+        \item \(P\) непрерывна снизу, т.е. \(\bigcup A_i = A \Ra P(A_i) \ra P(A)\)
+    \end{enumerate}
+\end{theorem}
+
+\begin{definition}
+    Вероятностное пространство --- это измеримое пространство \((\Omega, \mathcal{F}, P)\), т.е. \(\Omega\) --- множество, \(\mathcal{F}\) --- некая \(\sigma\)-алгебра над \(\Omega\), \(P\) --- вероятностная мера на \((\Omega, \mathcal{F})\).
+\end{definition}
+
+\begin{definition}
+    Система \(\mathcal{M}\) подмножеств \(\Omega\) называется \(\pi\)-системой, если \(\mathcal{M}\) замкнуто относительно счетного пересечения
+\end{definition}
+
+\begin{definition}
+    Система \(\mathcal{M}\) подмножеств \(\Omega\) называется \(\lambda\)-системой, если
+    \begin{enumerate}
+        \item \(\Omega \in \mathcal{M}\)
+        \item \(A, B \in \mathcal{M}, A \subset B \Ra B \setminus A \in \mathcal{M}\)
+        \item \(A_i \in \mathcal{M} \Ra \bigcup A_i \in \mathcal{M}\)
+    \end{enumerate}
+\end{definition}
+
+\begin{theorem}[Первая теорема о \(\lambda\)-системах]
+    Система \(\mathcal{F}\) является \(\sigma\)-алгеброй над \(\Omega\) тогда и только тогда, когда она является \(\lambda\)-системой и \(\pi\)-системой.
+\end{theorem}
+
+\begin{proposition}
+    Для любой системы \(\mathcal{M}\) подмножеств \(\Omega\) существует минимальная по включению, содержащаяся в \(\mathcal{M}\)
+\end{proposition}
+
+\begin{note}
+    \(\sigma(\mathcal{M}), \alpha(\mathcal{M}), \pi(\mathcal{M}), \lambda(\mathcal{M})\) --- порожденные (минимальные) \(\sigma\)-алгебра, алгебра, \(\pi\)-система, \(\lambda\)-система соответственно.
+\end{note}
+
+\begin{theorem}[Вторая теорема о \(\lambda\)-системах]
+    Если \(\mathcal{M}\) --- \(\pi\)-система на \(\Omega\), то \(\sigma(\mathcal{M}) = \lambda(\mathcal{M})\)
+\end{theorem}
+\begin{proof}
+    См. доказательство из курса ОВиТМа
+\end{proof}
+
+\begin{example}[Борелевская \(\sigma\)-алгебра]
+    \(\mathcal{B}(\R)\) --- \(\sigma\)-алгебра, порожденная всеми открытыми множествами (или, что равносильно, всеми полуинтервалами)
+\end{example}
+
+\begin{example}[Борелевская \(\sigma\)-алгебра в \(\R^n\)]
+    \(\mathcal{B}(\R^n)\) --- \(\sigma\)-алгебра, порожденная всеми открытыми множествами (или, что равносильно, всеми кубами, где куб --- декартово произведение борелевских множеств).
+\end{example}
+
+\begin{example}
+    \(\mathcal{B}(\R^\infty)\) --- \(\sigma\)-алгебра, порожденная всеми цилиндрами. Цилиндр --- множество \({x \in \R^\infty : (x_1, \dots x_n) \in B}, B \in \mathcal{B}(\R^n)\)
+\end{example}
+
+
+\begin{example}[Борелевская \(\sigma\)-алгебра в общем случае]
+    Пусть \((S, \rho)\) --- метрическое пространство, тогда \(\mathcal{B}(S)\) --- \(\sigma\)-алгебра, порожденная всеми открытыми множествами.
+\end{example}
+
+\section{Вероятностная мера на прямой}
+Пусть \(P\) --- вероятностная мера на \(\R, \mathcal{B}(\R)\)
+\begin{definition}
+    Функцией распределения называется функция \(F(x) = P((-\infty, x]), x \in \R\).
+\end{definition}
+
+\begin{lemma}[О свойствах функции распределения]
+    \indent
+    \begin{enumerate}
+        \item \(F\) не убывает
+        \item \(\lim_{x \ra -\infty} F(x) = 0\), \(\lim_{x \ra +\infty} F(x) = 1\)
+        \item \(F\) непрерывна справа
+    \end{enumerate}
+\end{lemma}
+\begin{proof}
+    \indent
+    \begin{enumerate}
+        \item \(x \le y \Ra (-\infty, x] \subset (-\infty, y] \Ra F(x) \le F(y)\)
+        \item \(x_n \ra -\infty \Ra (-\infty, x_n] \ra \emptyset \Ra \lim_{n \ra \infty} F(x_n) = 0 = \lim_{x \ra +\infty} F(x)\), \(x_n \ra +\infty \Ra (-\infty, x_n] \ra \R \Ra \lim_{n \ra \infty} F(x_n) = 1 = \lim_{x \ra +\infty} F(x)\)
+        \item Если \(x_n \searrow x\), то \((-\infty, x_n] \searrow (-\infty, x]\) и \(F(x_n) \ra F(x)\)
+    \end{enumerate}
+\end{proof}
+
+\begin{theorem}[О взаимно-однозначном соответствии функции распределения и вероятностной меры]
+    Пусть \(F\) удовлетворяет условиям 1-3 из предыдущей теоремы. Тогда существует единственная вероятностная мера \(P\) на \((\R, \mathcal{B}(\R))\), т.ч. \(F\) --- её функция распределения.
+\end{theorem}
+
+\subsection{Классификация вероятностных мер}
+
+Далее мы будем отождествлять понятия распределения и вероятностной меры.
+
+\subsubsection{Дискретные распределения}
+
+\begin{definition}
+    Вероятностная мера \(P\) на \((R, \mathcal{B}(R))\) называется дискретной, если \(\exists X\) --- не более. чем счетое множество на \(\R\), такое, что \(P(\R \setminus X)\) и \(\forall x \in X P(\{x\}) > 0\).
+\end{definition}
+
+\paragraph{Примеры}
+\begin{enumerate}
+    \item Распределение Бернулли: \(P \sim Bern(p)\), если \(X = \{0, 1\}, P(\{1\}) = p, P(\{0\}) = 1 - p\)
+    \item Равномерное распределение: \(X = {1, 2, \dots n}\), \(P(\{i\}) = \frac{1}{n}\)
+    \item Биномиальное распределение: \(P \sim Bin(n, p)\), если \(X = \N, P(\{k\}) = C_n^kp^k(1 - p)^{n - k}, P(\{0\})\), моделирует количество успехов среди \(n\) испытаний.
+    \item Пуассоновское распределение: \(P \sim Pois(n, p)\), если \(X = \N, P(\{k\}) = \frac{\lambda^k}{k!}e^{-\lambda}, P(\{0\})\), моделирует редкие события
+    \item Геометрическое распределение: \(P \sim Geom(p)\), если \(X = \N, P(\{k\}) = p(1 - p)^{k-1}, P(\{0\})\), моделирует первый момент удачи в бесконечной схеме испытаний Бернулли
+\end{enumerate}
+
+\subsubsection{Абсолютно непрерывные распределения}
+
+\begin{definition}
+    \(F(x)\) называется абсолютно непрерывной, если \(\exists p(t) \ge 0: \forall x \in \R F(x) = \int_{-\infty}^x p(t)dt\). В таком случае мы говорим, что \(p(t)\) является плотностью функции \(F\) или соответствующего распределения (вероятностной меры).
+\end{definition}
+
+\begin{note}
+    В таком случае \(F'(x) = p(x)\) почти всюду по мере Лебега.
+\end{note}
+
+\paragraph{Примеры}
+\begin{enumerate}
+    \item Равномерное распределение на отрезке \([a, b]\) --- \(U(a, b)\): 
+    \[p(x) = \left\{\begin{array}{l}
+        \frac{1}{b - a}, a \le x \le b \\
+        0, \text{иначе}
+    \end{array}\right., F(x) = \left\{\begin{array}{l}
+        0, x < a \\
+        \frac{x - a}{b - a}, a \le x \le b \\
+        1, x > b
+    \end{array}\right.\]
+    Моделирует случайную точку из отрезка \([a, b]\)
+    \item Нормальное распределение --- \(N(a, \sigma^2)\):
+    \[p(x) = \frac{1}{\sqrt{2\pi \sigma^2s}}e^{-\frac{(x - a)^2}{2\sigma^2}}\]
+    Моделирует измерение с ошибкой
+
+    \item Экспоненциальное распределение --- \(N(a, \sigma^2)\):
+    \[p(x) = \lambda e^{\lambda x} I\{x > 0\}\]
+    \[F(x) = \left\{\begin{array}{l}
+        0, x < 0 \\
+        1 - e^{-\lambda x}, x \ge 0
+    \end{array}\right.\]
+    Моделирует время ожидание
+
+    \item Гамма-распределение: \(\Gamma(\lambda, \alpha), \lambda, \alpha > 0\).
+    \[p(x) = \frac{x^{\alpha - 1}\lambda^\alpha}{\Gamma(\alpha)}e^{-\lambda x}I\{x > 0\}\]
+    Где:
+    \[\Gamma(\alpha) = \int_0^{+\infty} x^{\alpha - 1}e^{-x}dx\]
+    Нам в дальнейшем потребуются различные свойства \(\Gamma\)-функции: \(\Gamma(n) = (n - 1)!, \Gamma(\alpha + 1) = \alpha\Gamma(\alpha)\)
+
+    \item Распределение Коши \(K(\sigma), \sigma > 0\)
+    \[p(x) = \frac{\sigma}{\pi(x^2 + \sigma^2)}\]
+    \[F(x) = \frac{1}{2} + \frac{1}{\pi}\arctan \frac{x}{\sigma}\]
+    Модель
+\end{enumerate}
+
+\hypertarget{lecture2}{}
+
+\subsubsection{Сингулярные распределения}
+
+\begin{definition}
+    Точка \(x\) называется точкой роста фукнции распределения \(F(x)\), если \(\forall \epsilon > 0: F(x + \epsilon) - F(x - \epsilon) > 0\)
+\end{definition}
+
+\begin{definition}
+    Функция распределения \(F(x)\) наызвается сингулярной, если она непрерывна, и множество точек ее роста имеет \(\mu = 0\).
+\end{definition}
+
+\paragraph{Примеры}
+\begin{enumerate}
+    \item Канторова лестница --- ее точками роста ялвяется канторово множество.
+\end{enumerate}
+
+\begin{theorem}[Лебега о разложении]
+    Если \(F(x)\) --- функция распределения на прямой, тогда \(\exists !\) разложение вида: \(F(x) = \alpha_1F_1(x) + \alpha_2F_2(x) + \alpha_3F_3(x)\), где \(\alpha_i \ge 0, \alpha_1 + \alpha_2 + \alpha_3 = 1\) и \(F_1\) --- дискретная, \(F_2\) --- абсолютно непрерывная, \(F_3\) --- сингулярная.
+\end{theorem}
+
+\section{Вероятностные меры в \(\R^n\)}
+Пусть \(P\) --- вероятностная мера на \((\R^n, \mathcal{B}(\R^n))\). 
+\begin{definition}
+    Функцией распределения \(P\) называется \(F(x_1, \dots x_n) = P((-\infty, x_1] \times \dots \times (-\infty, x_n])\)
+\end{definition}
+
+\begin{note}[Обозначения]
+    \begin{enumerate}
+        \item \(\vec{x} = (x_1, \dots x_n)\)
+        \item \(\vec{x} \ge \vec{y} \Lra x_i \ge y_i\)
+        \item \((-\infty, \vec{x}] = (-\infty, x_1] \times \dots \times (-\infty, x_n]\)
+        \item \(\vec{x}_n \downarrow \vec{x}\) если \(\vec{x} = \lim_{n \ra \infty}\vec{x}_n\) и \(\vec{x}_n \ge \vec{x}_{n + 1}\).
+    \end{enumerate}
+\end{note}
+
+\begin{definition}
+    Для \(i = 1, \dots n, a_i < b_i\) введем:
+    \[\Delta_{a_i, b_i}^iF(x_1, \dots x_n) = F(x_1, x_{i - 1}, b_i, x_{i + 1}, \dots x_n) - F(x_1, x_{i - 1}, a_i, x_{i + 1}, \dots x_n)\]
+\end{definition}
+
+\begin{lemma}[Свойства многомерных функций распределения]
+    \begin{enumerate}
+        \item Если \(\vec{x}_n \downarrow \vec{x}\), то \(F(\vec{x}_n) \ra F(\vec{x})\)
+        \item \(\lim_{\begin{array}{c}
+            x_1 \ra \infty \\
+            \vdots \\
+            x_n \ra \infty
+        \end{array}} F(x_1, \dots x_n) = 1\)
+        \item \(\forall i = 1, \dots n: \lim_{x_i \ra -\infty} F(x_1, \dots x_n) = 0\).
+        \item Для любых \(a_i < b_i, i = 1, \dots n\):
+        \[\Delta_{a_1, b_1}^1 \circ \Delta_{a_2, b_2}^2 \circ \dots \circ \Delta_{a_n, b_n}^n F(x_1, \dots x_n) \ge 0\]
+    \end{enumerate}
+\end{lemma}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item Если \(\vec{x}_n \downarrow \vec{x}\), то \((-\infty, \vec{x}_n] \downarrow (-\infty, \vec{x}] \Ra\) в силу непрерывности вероятностной меры, получаем \(F(\vec{x}_n) \ra F(\vec{x})\)
+        \item Если \(\vec{x}_n \uparrow (+\infty, \dots +\infty)\), то \((-\infty, \vec{x}_n] \uparrow \R^n \Ra\) в силу непрерывности вероятностной меры, получаем \(F(\vec{x}_n) \ra P(\R^n) = 1\)
+        \item Если \(x_i \downarrow -\infty\), то \((-\infty, \vec{x}_n] \downarrow \emptyset \Ra\) в силу непрерывности вероятностной меры, получаем \(F(\vec{x}_n) \ra P(\emptyset) = 0\)
+        \item Для \(n = 2\):
+        \[\Delta^1_{a_1, b_1} \circ \Delta^2_{a_2, b_2} F(x_1, x_2) = F(b_1, b_2) - F(b_1, a_2) - F(a_1, b_2) + F(a_1, a_2) = P((a_1, b_1] \times (a_2, b_2]) \ge 0\]
+        В общем случае:
+        \[\Delta_{a_i, b_i}^i P(A_1 \times \dots \times A_{i - 1} \times (-\infty, x_i) \times A_{i + 1} \times \dots \times A_n) = \]
+        \[= P(A_1 \times \dots \times A_{i - 1} \times (a_i, b_i] \times A_{i + 1} \times \dots \times A_n)\]
+        Получаем, что 
+        \[\Delta_{a_1, b_1}^1 \circ \Delta_{a_2, b_2}^2 \circ \dots \circ \Delta_{a_n, b_n}^n F(x_1, \dots x_n) = P((a_1, b_1] \times \dots \times (a_n, b_n]) \ge 0\]
+    \end{enumerate}
+\end{proof}
+
+\begin{theorem}[О взаимно однозначном соответствии]
+    Если \(F\) удовлетворяет свойствами 1-3 из леммы, то \(\exists !\) вероятностная мера \(P\) на \((\R^n, \mathcal{B}(\R^n))\), такая, что \(F\) --- ее функция распределения
+\end{theorem}
+\begin{proof}
+    См. ОВиТМ
+\end{proof}
+
+\begin{note}
+    Свойство 3 нельзя заменить на неубывание по каждой из переменнх.
+\end{note}
+\begin{proof}
+    Рассмотрим \(F(x, y) = \left\{\begin{array}{l}
+        1, x + y \ge 0 \\
+        0, x + y < 0
+    \end{array}\right.\).
+    Заметим, что \(F\) удовлетворяет свойствам 1, 2 и не убывает по обеим переменным. При этом, если мы возьем:
+    \[\Delta^x_{-1, 1} \circ \Delta^y_{-1, 1} F(x, y) = F(1, 1) - F(-1, 1) - F(1, -1) + F(-1, -1) = 1 - 2 + 0 < 0\]
+    Получаем, что \(F\) --- не двумерная функция распределения.
+\end{proof}
+
+\subsection{Примеры}
+\begin{enumerate}
+    \item Пусть \(F_1, F_2, \dots F_n\) --- одномерные функции распределения. Рассмотрим \(F(x_1, \dots x_n) = F_1(x_1)\dots F_n(x_n)\) --- многомерная функция распределения. Свойства 1, 2 очевидны, проверим 3:
+    \[\Delta_{a_1, b_1}^1 \circ \Delta_{a_2, b_2}^2 \circ \dots \circ \Delta_{a_n, b_n}^n F(x_1, \dots x_n) = \prod_{k = 1}^n (F_k(b_k) - F_k(a_k)) \ge 0\]
+
+    \item Пусть \(p(t_1, \dots t_n) \ge 0\), т.ч.
+    \[\int_{\R^n} p(t_1, \dots t_n) dt_1dt_2\dots dt_n = 1\]
+    Тогда:
+    \[(*)\;\;F(x_1, \dots x_n) = \int_{-\infty}^{x_1}\int_{-\infty}^{x_2}\dots \int_{-\infty}^{x_n} p(t_1, \dots t_n)dt_1dt_2\dots dt_n\]
+    Свойства 1, 2 очевидны, проверим 3:
+    \[\Delta_{a_1, b_1}^1 \circ \Delta_{a_2, b_2}^2 \circ \dots \circ \Delta_{a_n, b_n}^n F(x_1, \dots x_n) = \int_{a_1}^{b_1}\int_{a_2}^{b_2}\dots \int_{a_n}^{b_n} p(t_1, \dots t_n)dt_1dt_2\dots dt_n\]
+\end{enumerate}
+
+\begin{definition}
+    Если имеет место представление \((*)\), то \(p(t_1, \dots t_n)\) называется плотностью функции распределения \(F\).
+\end{definition}
+
+\section{Вероятностные меры в \(\R^\infty\)}
+
+\begin{definition}
+    Пусть \(P\) --- вероятностная мера на \((\R^{\infty}, \mathcal{B}(\R^\infty))\). Рассмотрим для \(n \in \N\) вероятностную меру \(P_n\) на \((\R^n, \mathcal{B}(\R^n))\), т.ч.
+    \[P_n(B) = P(Cyl(n, B)), B \in \mathcal{B}(\R^n)\]
+    Тогда можно заметить, что \(P_{n + 1}(B \times \R) = P_n(B)\).
+\end{definition}
+
+\begin{definition}
+    Свойство выше называется согласованностью для последовательности вероятностных мер \(\{P_n\}\)
+\end{definition}
+
+\begin{theorem}[Колмогорова, о мерах в \(\R^\infty\)]
+    Пусть \(\{P_n, n \in \N\}\) --- последовательность согласованных вероятностных мер, \(P_n\) --- мера на \(\R^n\). Тогда \(\exists !\) вероятностная мера \(P\) на \((\R^\infty, \mathcal{B}(R^\infty))\), такая, что \(\forall n \in \N: \forall B_n \in \mathcal{B}(\R^n)\):
+    \[(*)\;\;\;P_n(B_n) = P(Cyl(n, B_n))\]
+\end{theorem}
+\begin{proof}
+    Зададим меру \(P\) на цилиндрах по правилу \((*)\). Цилиндры образуют алгебру \(\mathcal{A}\). Проверим корректность задания \(P\). Если \(Cyl(n, B_n) = Cyl(n + k, B_{n + k})\), то \(B_{n + k} = B_n \times \R^k\). Тогда в силу согласованности:
+    \[P_n(B_n) = P_{n + k}(B_{n + k})\]
+    Проверим, что \(P\) --- конечно аддитивна на \(\mathcal{A}\). Если \(\tilde{B_1}, \dots \tilde{B_N} \in \mathcal{A}\) --- непересекаются, то будем считать, что \(\exists n: \tilde{B_i} = Cyl(n, B_i), i = 1, \dots N, B_i \in \mathcal{B}(\R^n)\). Тогда:
+    \[P\left( \bigsqcup_{i = 1}^N \tilde{B_i} \right) = P\left( Cyl\left( n, \bigsqcup_{i = 1}^N \tilde{B_i} \right) \right) = P_n\left( \bigsqcup_{i = 1}^N B_i \right) = \sum_{i = 1}^N P_n(B_i) = \sum_{i = 1}^N P(\tilde{B_i})\]
+
+    Проверим, что \(P\) непрерывна в нуле (на \(\mathcal{A}\)). Пусть \(\tilde{B_n} \downarrow \emptyset, \tilde{B_n} \in \mathcal{A}\). Без ограничения общности, считаем, что \(\tilde{B_n} = Cyl(n, B_n)\). 
+
+    От противного. Пусть \(\lim_{n \ra \infty} P(\tilde{B_n}) = \delta > 0\). Тогда для \(\forall n \in \N\) выберем компактные \(A_n \subset \R^n\), такие, что \(A_n \subset B_n\) и \(P(B_n \setminus A_n) \le \frac{\delta}{2^{n + 1}}\). Обозначим \(\tilde{A_n} = Cyl(n, A_n)\). Тогда: \(P(\tilde{B_n} \setminus \tilde{A_n}) = P_n(B_n \setminus A_n) \le \frac{\delta}{2^{n + 1}}\). Введем \(\tilde{C_n} = \bigcap_{i = 1}^n \tilde{A_i}\). Тогда \(\tilde{C_n} \downarrow \emptyset, \tilde{C_n} = Cyl(n, C_n)\), где \(C_n = A_n \cap (A_{n - 1} \times \R) \cap (A_{n - 2} \times \R^2) \cap \dots \cap (A_{1} \times \R^{n - 1})\) --- тоже компакт в \(\R^n\). Далее:
+    \[P(\tilde{B_n} \setminus \tilde{C_n}) \le \sum_{i = 1}^n P(\tilde{B_n} \setminus \tilde{A_i}) \le |B_i \subset B_n, i \ge n| \le \sum_{i = 1}^n P(\tilde{B_i} \setminus \tilde{A_i}) \le \frac{\delta}{2} \Ra \lim_{n \ra \infty} P(\tilde{C_n}) \ge \frac{delta}{2} > 0\]
+    Возьмем в каждом \(\tilde{C_n}\) по точке \((x_1^{(n)}, x_2^{(n)}, \dots) \in \tilde{C_n}\). Тогда \((x_1^{(n)}, \dots x_n^{(n)}) \in C_n\). Рассмотирм последовательность \(x_1^{(n)}\). Эти все точки лежат в \(C_1\). Выберем подпоследовательность \(x_1^{(n_k)} \ra x_1^0 \in C_1\)
+\end{proof}
+
