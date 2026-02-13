@@ -1,27 +1,19 @@
 #!/usr/bin/env python3
 r"""
-Compiles a lecture from folder lectures/semN/SubjectName into a PDF,
-or commits changes in both lectures-phystech and curly-waddle repositories.
+Compiles a lecture from folder lectures-phystech/lectures/semN/SubjectName into a PDF.
+This script is intended to be placed in the **root directory of the project**
+(where 'lectures-phystech' and 'website' folders live).
 
-This script is intended to be placed in the **root directory of the lectures-phystech project**
-(i.e. where the 'preamble' folder lives).
-
-Usage:
-  # Compile a lecture
-  ./compile_lecture.py compile lectures/sem1/MathLog
-
-  # Commit all changes in both repositories
-  ./compile_lecture.py commit -m "Commit message" [--cw-dir PATH]
+Usage: ./compile_lecture.py sem1/MathLog
 
 The script copies:
-  - the common preamble folder,
-  - the global images folder (if present),
-  - setting.tex and main.tex from lectures/semN/SubjectName,
+  - the common preamble folder (lectures-phystech/preamble),
+  - the global images folder (lectures-phystech/images) if present,
+  - setting.tex and main.tex from lectures-phystech/lectures/semN/SubjectName,
   - preamble/main.tex → document.tex (verbatim, no rewriting).
 
 It then runs pdflatex twice and places the resulting PDF into
-../curly-waddle/pdf/semN/SubjectName.pdf (or a custom location
-given with --result-dir).
+website/pdf/semN/SubjectName.pdf.
 """
 
 from __future__ import annotations
@@ -170,17 +162,19 @@ def safe_copy_file(src: Path, dst: Path) -> None:
 def get_project_root() -> Path:
     """
     Return the directory containing this script, and verify that it contains
-    the required subdirectories 'preamble' and 'lectures'.
+    the required subdirectories 'lectures-phystech' (with preamble and lectures inside).
     """
     script_dir = Path(__file__).parent.resolve()
-    if not (script_dir / "preamble").is_dir():
-        raise RuntimeError(f"Preamble folder not found in {script_dir}")
-    if not (script_dir / "lectures").is_dir():
-        raise RuntimeError(f"Lectures folder not found in {script_dir}")
+    lectures_phystech = script_dir / "lectures-phystech"
+    if not lectures_phystech.is_dir():
+        raise RuntimeError(f"lectures-phystech folder not found in {script_dir}")
+    if not (lectures_phystech / "preamble").is_dir():
+        raise RuntimeError(f"preamble folder not found in {lectures_phystech}")
+    if not (lectures_phystech / "lectures").is_dir():
+        raise RuntimeError(f"lectures folder not found in {lectures_phystech}")
     return script_dir
 
 
-# ---------- Compilation logic ----------
 def prepare_compilation_directory(
     temp_dir: Path, project_root: Path, src_dir: Path
 ) -> None:
@@ -188,22 +182,24 @@ def prepare_compilation_directory(
     Populate a temporary directory with all files needed for compilation.
 
     Copies:
-      - Entire preamble folder from project root
-      - images folder from project root (if it exists)
+      - Entire preamble folder from lectures-phystech/preamble
+      - images folder from lectures-phystech/images (if it exists)
       - setting.tex and main.tex from the lecture source directory
       - preamble/main.tex → document.tex (verbatim copy, no modifications)
 
     The template already contains \input{setting} and \input{main} which work
     because setting.tex and main.tex are in the same directory.
     """
+    lectures_phystech = project_root / "lectures-phystech"
+
     # 1. Copy preamble
-    preamble_src = project_root / "preamble"
+    preamble_src = lectures_phystech / "preamble"
     if not preamble_src.is_dir():
         raise NotADirectoryError(f"Preamble folder not found: {preamble_src}")
     safe_copy_tree(preamble_src, temp_dir / "preamble")
 
     # 2. Copy images folder if it exists (optional)
-    images_src = project_root / "images"
+    images_src = lectures_phystech / "images"
     if images_src.is_dir():
         safe_copy_tree(images_src, temp_dir / "images")
     else:
@@ -284,8 +280,35 @@ def compile_pdf(temp_dir: Path, pdflatex_cmd: str, runs: int = 2) -> Path:
     return pdf_path
 
 
-def run_compile(args: argparse.Namespace) -> None:
-    """Handle the 'compile' subcommand."""
+def main() -> None:
+    parser = argparse.ArgumentParser(
+        description=Color.bold("Compile a lecture into PDF."),
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
+    parser.add_argument(
+        "source_dir",
+        help="Path to the lecture folder relative to lectures-phystech/lectures/, "
+             "e.g. 'sem1/MathLog' or 'sem2/Calculus'.",
+    )
+    parser.add_argument(
+        "--pdflatex",
+        default="pdflatex",
+        help="Path to the pdflatex executable (default: search in PATH)",
+    )
+    parser.add_argument(
+        "--runs",
+        type=int,
+        default=2,
+        help="Number of pdflatex runs (default: 2)",
+    )
+    parser.add_argument(
+        "--keep-temp",
+        action="store_true",
+        help="Do not delete the temporary directory (useful for debugging)",
+    )
+
+    args = parser.parse_args()
+
     # Determine project root (directory where this script resides)
     try:
         project_root = get_project_root()
@@ -294,15 +317,21 @@ def run_compile(args: argparse.Namespace) -> None:
     print(Color.blue(f"Project root: {project_root}"))
 
     # Construct full source path relative to current working directory
-    src_dir = (Path.cwd() / args.source_dir).resolve()
+    # The source_dir is given as e.g. "sem1/MathLog" or "lectures/sem1/MathLog" etc.
+    # We'll interpret it as relative to lectures-phystech/lectures/
+    lectures_base = project_root / "lectures-phystech" / "lectures"
+    src_dir = (lectures_base / args.source_dir).resolve()
     if not src_dir.is_dir():
-        sys.exit(Color.red(f"Error: {src_dir} is not a directory or does not exist."))
+        # Try also as absolute or relative to cwd (backward compatibility)
+        src_dir = (Path.cwd() / args.source_dir).resolve()
+        if not src_dir.is_dir():
+            sys.exit(Color.red(f"Error: {src_dir} is not a directory or does not exist."))
 
-    # Verify that the source directory is inside the project root
+    # Verify that the source directory is inside lectures-phystech/lectures
     try:
-        src_dir.relative_to(project_root)
+        src_dir.relative_to(lectures_base)
     except ValueError:
-        sys.exit(Color.red(f"Error: {src_dir} is not inside the project root {project_root}."))
+        sys.exit(Color.red(f"Error: {src_dir} is not inside {lectures_base}."))
 
     # Check required files
     setting_path = src_dir / "setting.tex"
@@ -313,15 +342,12 @@ def run_compile(args: argparse.Namespace) -> None:
         sys.exit(Color.red(f"Error: {main_path} is missing."))
 
     # Extract semester and subject name from the source path
+    # Path is like lectures-phystech/lectures/semN/SubjectName
     sem_dir = src_dir.parent.name
     subject_name = src_dir.name
 
-    # Prepare output directory
-    result_root = Path(args.result_dir)
-    # If result_dir is relative, interpret it relative to project root
-    if not result_root.is_absolute():
-        result_root = (project_root / result_root).resolve()
-    target_dir = result_root / sem_dir
+    # Prepare output directory: website/pdf/semN
+    target_dir = project_root / "website" / "pdf" / sem_dir
     try:
         target_dir.mkdir(parents=True, exist_ok=True)
     except Exception as e:
@@ -357,158 +383,6 @@ def run_compile(args: argparse.Namespace) -> None:
         sys.exit(130)
     except Exception as e:
         print(Color.red(f"Unexpected error: {e}"), file=sys.stderr)
-        sys.exit(1)
-
-
-# ---------- Commit logic ----------
-def run_commit(args: argparse.Namespace) -> None:
-    """Handle the 'commit' subcommand."""
-    project_root = get_project_root()  # lectures-phystech
-    print(Color.blue(f"Lectures repo: {project_root}"))
-
-    # Determine curly-waddle repo path
-    if args.cw_dir:
-        cw_dir = Path(args.cw_dir).expanduser().resolve()
-    else:
-        # Default: ../curly-waddle relative to project root
-        cw_dir = (project_root.parent / "curly-waddle").resolve()
-    print(Color.blue(f"Curly-waddle repo: {cw_dir}"))
-
-    # Verify both are directories
-    if not project_root.is_dir():
-        sys.exit(Color.red(f"Error: Lectures repo directory not found: {project_root}"))
-    if not cw_dir.is_dir():
-        sys.exit(Color.red(f"Error: Curly-waddle directory not found: {cw_dir}"))
-
-    # Check that they are git repositories (optional but helpful)
-    def is_git_repo(path: Path) -> bool:
-        return (path / ".git").exists() or (path / ".git").is_dir()
-
-    if not is_git_repo(project_root):
-        print(Color.yellow(f"Warning: {project_root} does not appear to be a git repository."))
-    if not is_git_repo(cw_dir):
-        print(Color.yellow(f"Warning: {cw_dir} does not appear to be a git repository."))
-
-    message = args.message
-    if not message:
-        sys.exit(Color.red("Error: Commit message (-m) is required."))
-
-    # Helper to run git commands
-    def git_commit(repo_path: Path, msg: str) -> bool:
-        """Returns True if a commit was made, False if nothing to commit."""
-        try:
-            # First add all changes
-            subprocess.run(
-                ["git", "-C", str(repo_path), "add", "-A"],
-                check=True,
-                capture_output=True,
-                text=True,
-            )
-            # Then commit
-            result = subprocess.run(
-                ["git", "-C", str(repo_path), "commit", "-m", msg],
-                capture_output=True,
-                text=True,
-            )
-            if result.returncode == 0:
-                print(Color.green(f"Committed in {repo_path.name}"))
-                return True
-            elif "nothing to commit" in result.stderr or "nothing to commit" in result.stdout:
-                print(Color.yellow(f"No changes to commit in {repo_path.name}"))
-                return False
-            else:
-                # Some other error
-                print(Color.red(f"Git error in {repo_path.name}:"), file=sys.stderr)
-                print(result.stderr, file=sys.stderr)
-                return False
-        except subprocess.CalledProcessError as e:
-            print(Color.red(f"Git command failed in {repo_path.name}: {e}"), file=sys.stderr)
-            print(e.stderr, file=sys.stderr)
-            return False
-        except Exception as e:
-            print(Color.red(f"Unexpected error in {repo_path.name}: {e}"), file=sys.stderr)
-            return False
-
-    committed_any = False
-    if git_commit(project_root, message):
-        committed_any = True
-    if git_commit(cw_dir, message):
-        committed_any = True
-
-    if not committed_any:
-        sys.exit(Color.yellow("No commits were made."))
-    else:
-        print(Color.green("Commit operation completed."))
-
-
-# ---------- Main parser ----------
-def main() -> None:
-    parser = argparse.ArgumentParser(
-        description=Color.bold("Compile a lecture or commit changes in both repositories."),
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-    )
-    subparsers = parser.add_subparsers(dest="command", required=True, help="Subcommand")
-
-    # Parser for 'compile'
-    compile_parser = subparsers.add_parser(
-        "compile",
-        help="Compile a lecture into PDF",
-        description="Compile a lecture: copy preamble, images, and lecture TeX files, then run pdflatex.",
-    )
-    compile_parser.add_argument(
-        "source_dir",
-        help="Path to the lecture folder (relative to current directory or absolute). "
-             "Example: 'lectures/sem1/MathLog' or simply 'MathLog' if already inside lectures/sem1/",
-    )
-    compile_parser.add_argument(
-        "--result-dir",
-        dest="result_dir",
-        default="../curly-waddle/pdf",
-        help="Root folder where the result will be stored (default: ../curly-waddle/pdf). "
-             "Inside it, semN/SubjectName.pdf is created.",
-    )
-    compile_parser.add_argument(
-        "--pdflatex",
-        default="pdflatex",
-        help="Path to the pdflatex executable (default: search in PATH)",
-    )
-    compile_parser.add_argument(
-        "--runs",
-        type=int,
-        default=2,
-        help="Number of pdflatex runs (default: 2)",
-    )
-    compile_parser.add_argument(
-        "--keep-temp",
-        action="store_true",
-        help="Do not delete the temporary directory (useful for debugging)",
-    )
-
-    # Parser for 'commit'
-    commit_parser = subparsers.add_parser(
-        "commit",
-        help="Commit all changes in both lectures-phystech and curly-waddle repositories",
-        description="Run 'git add -A' and 'git commit' in both repositories with the same message.",
-    )
-    commit_parser.add_argument(
-        "-m", "--message",
-        required=True,
-        help="Commit message",
-    )
-    commit_parser.add_argument(
-        "--cw-dir",
-        help="Path to the curly-waddle repository (default: ../curly-waddle relative to lectures-phystech)",
-    )
-
-    args = parser.parse_args()
-
-    if args.command == "compile":
-        run_compile(args)
-    elif args.command == "commit":
-        run_commit(args)
-    else:
-        # This should not happen because required=True
-        parser.print_help()
         sys.exit(1)
 
 
