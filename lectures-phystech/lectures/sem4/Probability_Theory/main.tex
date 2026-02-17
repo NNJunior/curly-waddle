@@ -333,6 +333,156 @@
 
     От противного. Пусть \(\lim_{n \ra \infty} P(\tilde{B_n}) = \delta > 0\). Тогда для \(\forall n \in \N\) выберем компактные \(A_n \subset \R^n\), такие, что \(A_n \subset B_n\) и \(P(B_n \setminus A_n) \le \frac{\delta}{2^{n + 1}}\). Обозначим \(\tilde{A_n} = Cyl(n, A_n)\). Тогда: \(P(\tilde{B_n} \setminus \tilde{A_n}) = P_n(B_n \setminus A_n) \le \frac{\delta}{2^{n + 1}}\). Введем \(\tilde{C_n} = \bigcap_{i = 1}^n \tilde{A_i}\). Тогда \(\tilde{C_n} \downarrow \emptyset, \tilde{C_n} = Cyl(n, C_n)\), где \(C_n = A_n \cap (A_{n - 1} \times \R) \cap (A_{n - 2} \times \R^2) \cap \dots \cap (A_{1} \times \R^{n - 1})\) --- тоже компакт в \(\R^n\). Далее:
     \[P(\tilde{B_n} \setminus \tilde{C_n}) \le \sum_{i = 1}^n P(\tilde{B_n} \setminus \tilde{A_i}) \le |B_i \subset B_n, i \ge n| \le \sum_{i = 1}^n P(\tilde{B_i} \setminus \tilde{A_i}) \le \frac{\delta}{2} \Ra \lim_{n \ra \infty} P(\tilde{C_n}) \ge \frac{delta}{2} > 0\]
-    Возьмем в каждом \(\tilde{C_n}\) по точке \((x_1^{(n)}, x_2^{(n)}, \dots) \in \tilde{C_n}\). Тогда \((x_1^{(n)}, \dots x_n^{(n)}) \in C_n\). Рассмотирм последовательность \(x_1^{(n)}\). Эти все точки лежат в \(C_1\). Выберем подпоследовательность \(x_1^{(n_k)} \ra x_1^0 \in C_1\)
+    Возьмем в каждом \(\tilde{C_n}\) по точке \((x_1^{(n)}, x_2^{(n)}, \dots) \in \tilde{C_n}\). Тогда \((x_1^{(n)}, \dots x_n^{(n)}) \in C_n\). Рассмотирм последовательность \(x_1^{(n)}\). Эти все точки лежат в \(C_1\). Выберем подпоследовательность \(n_{k_i}\)  \(x_1^{(n_{k_i})} \ra x_1^0 \in C_1\). Для \(k \in \N\) построим последовательности \((x_1^{(n_{k_i})}, x_2^{(n_{k_i})}, \dots x_k^{(n_{k_i})})\), которая сходится к \(x^{(0)}_k, \dots x^{(0)}_k\) в \(С_k\). Возьмем диагональ, т.е положим \(m_k = n_{k_k}\). Тогда \(\forall s \in \N: (x_1^{(m_k)}, \dots x_s^{(m_k)}) \ra (x_1^{(0)}, \dots x_s^{(0)})= x^{(0)}\). Получаем, что \(P\) счетно-аддитивна на \(\mathcal{A}\). В таком случае по теореме о продолжении меры, \(P\) единственным образом продолжается до вероятностной меры на \(\sigma(\mathcal{A}) = \mathcal{B}(\R^\infty)\)
 \end{proof}
 
+\hypertarget{lecture3}{}
+
+\section{Случайные величины и векторы}
+Пусть \((\Omega, \mathcal{F}, P)\) --- вероятностное пространство, \((E, \mathcal{E})\) --- измеримое пространство
+
+\begin{definition}
+    Отображение \(X: \Omega \ra E\) называется случайным элементом, если \(X\) --- измеримо, т.е. \(\forall B \in \mathcal{E}: X^{-1}(B) = {\omega: X(\omega) \in B} \in \mathcal{F}\)
+\end{definition}
+
+\begin{definition}
+    Если \((E, \mathcal{E}) = (\R, \mathcal{B}(\R))\), то \(X\) называется случайной величиной.
+\end{definition}
+
+\begin{definition}
+    Если \((E, \mathcal{E}) = (\R^n, \mathcal{B}(\R^n))\), то \(X\) называется случайным вектором.
+\end{definition}
+
+\begin{reminder}[Критерий измеримости отображения]
+    Если \(\mathcal{M} \subset \mathcal{E}\) и \(\sigma(\mathcal{M}) = \mathcal{E}\), то \(X\) --- случайный элемент \(\Lra \forall B \in \mathcal{M} X^{-1}(B) \in \mathcal{F}\)
+\end{reminder}
+
+\begin{corollary}[Эквивалентные определения случайных величин и векторов]
+    \begin{enumerate}
+        \item \(\xi: \Omega \Ra \R\) --- случайная величина \(\Lra \{\xi \le x\} \in \mathcal{F} \Lra \{\xi < x\} \in \mathcal{F}\)
+        \item \(\xi = (\xi_1, \dots, \xi_n)\) --- случайный вектор \(\Lra \forall i: \xi_i\) измеримо
+    \end{enumerate}
+\end{corollary}
+\begin{proof}
+    \begin{enumerate}
+        \item Очевидно следует из критерия, т.к. лучи (замкнутые или открытые) порождают \(\mathcal{B}(\R)\).
+        \item В одну сторону. возьмем \(B_i \in \mathcal{B}(\R)\). Т.к. \(\underbrace{\R \times \dots \times \R \times}_{i - 1}B_i \times \dots \times \R= B \in \mathcal{B}(\R^n)\), то \(\{\xi_i \in B_i\} = \{\xi \in B\} \in \mathcal{F}\). В другую: \(\{\xi \in B_1 \times \dots \times B_n\} = \bigcap_{i = 1}^n\{\xi_i \in B_i\}\). Далее, по критерию измеримости, следствие верно (т.к. полуалгебра кубов порождает \(\mathcal{B}(\R^n)\)).
+    \end{enumerate}
+\end{proof}
+
+\subsection{Действия со случайными величинами}
+\begin{enumerate}
+    \item Если \(f: \R^n \ra \R^l\) --- борелевская, \(\xi\) --- случайная, то \(f(\xi)\) --- случайная.
+    \item Арифметические операции
+    \item Пусть \(\xi_n\) --- последовательность случайных величин, тогда \(\sup_n \xi_n, \inf_n \xi_n, \limsup \xi_n, \liminf \xi_n\) --- тоже случайные величины
+\end{enumerate}
+
+\subsection{Характеристики случайных величин и векторов}
+\begin{definition}
+    Распределением случайной величины \(\xi\) на \((\Omega, \mathcal{F}, P)\) называется вероятностная мера \(P_\xi\) на \((\R, \mathcal{B}(\R))\), определяемая по правилу \(\forall B \in \mathcal{B}(\R): P_\xi(B) = P(\xi \in B)\)
+\end{definition}
+
+\begin{definition}
+    Распределением случайного вектора \(\xi\) на \((\Omega, \mathcal{F}, P)\) называется вероятностная мера \(P_\xi\) на \((\R^n, \mathcal{B}(\R^n))\), определяемая по правилу \(\forall B \in \mathcal{B}(\R^n): P_\xi(B) = P(\xi \in B)\)
+\end{definition}
+
+\begin{exercise}
+    \(P_\xi\) действительно является вероятностной мерой.
+\end{exercise}
+
+\begin{definition}
+    Функция распределения случайной величины \(\xi\) --- это функция \(F_\xi(x) = P_\xi((-\infty, x]) = P(\xi \le x)\).
+\end{definition}
+
+\begin{definition}
+    Функция распределения случайного вектора \(\vec{\xi}\) --- это функция \(F_{\vec{\xi}} = P_{\vec{\xi}}((-\infty, \vec{x}]) = P(\vec{\xi} \le \vec{x}) = P(\xi_1 \le x_1, \xi_2 \le x_2, \dots \xi_n \le x_n)\).
+\end{definition}
+
+\begin{note}
+    Обозначение \(\{\xi \le x, \eta \le y\}\) обозначает \(\{\xi \le x\} \cap \{\eta \le y\}\).
+\end{note}
+
+\begin{note}
+    Случайные величины и векторы наследуют классификацию распределений.
+\end{note}
+
+\begin{definition}
+    \(\sigma\)-алгебра, порожденная случайной величиной \(\xi\) называется \(\mathcal{F}_\xi = \{\{\xi \in B\}: B \in \mathcal{B}(\R)\}\).
+\end{definition}
+
+\begin{definition}
+    \(\sigma\)-алгебра, порожденная случайным вектором \(\xi\) называется \(\mathcal{F}_\xi = \{\{\xi \in B\}: B \in \mathcal{B}(\R^n)\}\).
+\end{definition}
+
+\begin{exercise}
+    Проверить, что \(\mathcal{F}_\xi\) действительно является \(\sigma\)-алгебой.
+\end{exercise}
+
+\begin{definition}
+    Пусть \(\xi\) --- случайный вектор на \((\Omega, \mathcal{F}, P)\). Пусть \(\mathcal{C} \subset \mathcal{F}\) --- некая \(\sigma\)-алгебра. Тогда \(\xi\) является \(\mathcal{C}\)-измеримой, если \(\mathcal{F}_\xi \subset \mathcal{C}\).
+\end{definition}
+
+Возникает вопрос: а что, если \(\mathcal{C} = \mathcal{F}_\eta\)?
+\begin{lemma}
+    Случайная величина \(\xi\) является \(\mathcal{F}_\eta\)-измеримой \(\Lra \exists\) борелевская функция \(f\), такая, что \(\xi = f(\eta)\).
+\end{lemma}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item [\(\La\)] Пусть \(B \in \mathcal{B}(\R)\). Тогда \(\{\xi \in B\} = \{f(\eta) \in B\} = \{\eta \in \underbrace{f^{-1}(B)}_{\in \mathcal{B}(\R)}\} \in \mathcal{F}_\eta\).
+        \item [\(\Ra\)] Пусть \(\xi = I_A, A \in \mathcal{F}_\eta\). Тогда \(\exists B \in \mathcal{B}(\R^n)\), т.ч. \(A = \{\eta \in B\}\). Тогда \(\xi = f(\eta), f(x) = I_B\). Следовательно, все простые \(\mathcal{F}_\eta\)-измеримые случайные величины тоже являются борелевскими функциями от \(\eta\). Если \(\xi\) --- произвольная случайная величина, то рассмотрим последовательность последовательность величин \(\{\xi_n\}\), такую, что \(\forall \omega \in \Omega: \xi_n(\omega) \ra \xi(\omega)\), где \(\xi_m\) --- простые случайные величины и \(\forall m \in \N: \xi_m = g_m(\xi)\), где \(g\) --- борелевская. Далее, \(\mathcal{F}_{\xi_m} \subset \mathcal{F}_{\xi} \subset \mathcal{F}_{\eta} \Ra \exists \) борелевская функция \(f_m\), т.ч. \(\xi_m = f_m(\eta)\). Введем \(B = \{x \in \R^n: \exists \lim_{m \ra \infty} f_m(x)\}\). Положим \(f(x) = \left\{\begin{array}{l}
+            \lim_{m \ra \infty} f_m(x), x \in B \\
+            0, x \notin B.
+        \end{array}\right.\). Заметим, что \(B \in \mathcal{B}(\R^n) \Ra f\) --- тоже борелевская функция. По построению \(\forall \omega \in \Omega: \xi(\omega) = \lim_{m \ra \infty}\xi_m(\omega) = \lim_{m \ra \infty}f_m(\eta(\omega)) = f(\eta)\).
+    \end{enumerate}
+\end{proof}
+
+\section{Математическое ожидание}
+Пусть \(\xi\) --- случайная величина на \((\Omega, \mathcal{F}, P)\)
+\begin{definition}
+    Математическое ожидание случайной величины \(\xi\) называется интеграл Лебега:
+    \[\E\xi = \int_{\Omega} \xi(\omega) P(d\omega) \int_{\Omega} \xi dP\]
+\end{definition}
+
+\begin{reminder}
+    Напомним, как мы строили интеграл Лебега:
+    \begin{enumerate}
+        \item Для простой функции как сумму
+        \item Для неотрицательной функции как предел
+        \item Для функции разных знаков, разбиваем \(\xi = \xi^+ - \xi^-\)
+    \end{enumerate}
+    Далее говорим следующее:
+    \begin{enumerate}
+        \item Если \(\E \xi^{\pm}\) конечно, то \(\E\xi = \E\xi^+ - \E\xi^-\).
+        \item Если одно из \(\E\xi^{\pm}\) равно \(+\infty\), то \(\E\xi = \pm\infty\) (ставим соответствующий знак).
+        \item Если \(\E\xi^+ = \E\xi^- = +\infty\), то говорим, что \(\E\xi\) не определено.
+    \end{enumerate}
+\end{reminder}
+
+\subsection{Свойства матожидания}
+Из свойств интеграла:
+\begin{enumerate}
+    \item Линейность: \(\E(\alpha\xi + \beta\eta) = \alpha\E\xi + \beta\E\eta\)
+    \item Сохраняет отношение порядка: \(\xi \le \eta \Ra \E\xi \le \E\eta\).
+    \item \(|\E\xi| \le \E|\xi|\)
+\end{enumerate}
+
+\begin{definition}
+    Событие \(A \in \mathcal{F}\) происходит почти наверное, если \(P(A) = 1\). Мы будем писать это как ''\(A\) п.н.''.
+\end{definition}
+
+И еще свойства математического ожидания:
+\begin{enumerate}
+    \setcounter{enumi}{3}
+    \item Если \(\xi \ge 0, \E\xi = 0\), то \(\xi = 0\) п.н.
+    \item Если \(\xi = \eta\) п.н., то \(\E\xi = \E\eta\).
+    \item Если \(\forall A \in \mathcal{F}: \E(\xi \cdot I_A) \le \E(\eta \cdot I_A) \Ra \xi \le \eta\) п.н.
+\end{enumerate}
+
+\begin{theorem}[Замена переменных в интеграле Лебега]
+    Пусть \(\xi\) --- случайный вектор из \(\R^n\) на \((\Omega, \mathcal{F}, P)\). Пусть \(f: \R^n \ra \R\) --- борелевская функция. Тогда \(\E f(\xi) = \int_{\R^n} f(x) P_\xi(dx)\).
+\end{theorem}
+\begin{proof}
+    Пусть сначала \(f(x) = I_B(x), B \in \mathcal{B}(\R^n)\). Тогда
+    \[\E f(\xi) = E \cdot I\{\xi \in B\} = P(\xi \in B) = P_\xi(B) = \int_B P\xi(dx) = \int_{\R^n} I_B(x) P_\xi(dx) = \int_{\R^n} f(x) P_\xi(dx)\]
+    Заключаем, что теорема верна для простых функцйи в силу линейности матожидания и интеграла Лебега. Далее осуществляем приближение простыми функциями в общем случае.
+\end{proof}
