@@ -250,4 +250,128 @@
         |J| = n^m
     \end{array}\right\} = \int_{|y| \ge n\delta}\phi dy = \int_{\R^m}\phi I_{\{|y| \ge n\delta\}} dy \ra 0\]
 \end{example}
+\hypertarget{lecture3}{}
+\begin{theorem}
+    Пусть \(\{K_n\}_{n = 1}^\infty\) --- аппроксимация единицы и \(f\) --- ограниченная измеримая функиция на \(\R^n\). Тогда справедливы утверждения:
+    \begin{enumerate}
+        \item Если \(f\) непрерывна в \(x \in \R^m\), то \(K_n * f(x) \ra f(x)\).
+        \item Если \(f\) непрервна в каждой точке компакта \(K \subset \R^m\), то \(K_n * f \rightrightarrows f\) на \(K\)
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    Из пункта 2 определения \(K_n\) следует, что \(f(x) = \int_{\R^m} f(x)K_n(t)dt\), поэтому \(K_n * f(x) - f(x) = \int_{\R^m} (f(x - t) - f(x))K_ndt\). Зафиксируем \(\epsilon > 0\). Пользуясь равномерной непрерывностью \(f\) на \(K\), найдем такое \(\delta > 0\), что \(\forall x \in K \forall t \in \R^m \left(|t| < \delta \Ra |f(x - t) - f(x)| \le \frac{\epsilon}{2}\right)\). Разобьем последний интеграл следующим образом:
+    \[K_n * f(x) - f(x) = \left( \int_{|t| < \delta} + \int_{|t| > \delta} \right)(f(x - t) - f(x))K_n(t)dt = I_1 + I_2\]
+    Имеем:
+    \[|I_1| \le \int_{|t| < \delta} |f(x - t) - f(x)||K_n(t)|dt \le \frac{\epsilon}{2}\int_{\R^m}K_n(t)dt = \frac{\epsilon}{2}\]
+    \[|I_2| \le \int_{|t| \ge \delta} (f(x - t) + |f(x)|)K_n(t)dt \le 2C \int_{|t| \ge \delta} K_n(t)dt\]
+    Из пункт 3 опрелеления \(K_n\), найдем \(N = N(\delta)\) такое, что \(\forall n \ge N \left( 2C \int_{|t| \ge \delta} K_n(t)dt \le < \frac{\epsilon}{2} \right)\), тогда при таких \(n\) выполнено \(|K_n * f(x) - f(x)| < \epsilon\), т.е. \(K_n * f \rightrightarrows f\) на \(K\).
 
+    Пункт 1 следует из пункта 2, где в качестве компакта рассматривается точка.
+\end{proof}
+
+\begin{problem}
+    Если \(f \in L_p(\R^m)\), то \(K_n * f(x) \ra f\) в \(L_p\).
+\end{problem}
+
+В периодическом случае свертка определяется аналогично.
+\begin{definition}
+    Пусть \(f, g\) --- \(2\pi\)-периодичны и измеримы на \(\R\). Тогда:
+    \[f * g = \int_{-\pi}^{\pi}f(x - t)g(t)dt\]
+\end{definition}
+
+\begin{note}
+    Все утверждения для свертки верны и в периодическом случае, если заменить \(\R\) на \([-\pi, \pi]\) и воспользоваться следующим утверждением:
+\end{note}
+
+\begin{proposition}
+    Если \(f\) интегрируема на \([-\pi, \pi]\), то интеграл \(\int_a^{a + 2\pi} f(t)dt\) не зависит от \(a\).
+\end{proposition}
+\begin{proof}
+    Пусть \(b \in \R\). Тогда \(\forall a \in \R \exists k \in \Z: a + 2\pi k \in [b, b + 2\pi)\), тогда:
+    \[\int_a^{a + 2\pi} = \int_{a + 2\pi(k - 1)}^{a + 2\pi k} = \int_{a + 2\pi(k - 1)}^{b} + \int_{b}^{a + 2\pi k} = \int_{b}^{a + 2\pi k} + \int_{a + 2\pi k}^{b + 2\pi} = \int_b^{b + 2 \pi}\]
+\end{proof}
+
+\begin{definition}
+    Пусть \(p \ge 1\), тогда определим \(L_p(T) = \{f: \R \ra \Cm \text{ --- \(2\pi\)-периодичная измеримая, т.ч. }f \in L_p(-\pi, \pi)\}\). Норма определяется аналогично:
+    \[\|f\|_p =\left( \int_{\pi}^{\pi} |f|^p \right)^{\frac{1}{p}}\]
+\end{definition}
+
+\begin{definition}
+    \(C(T) = \{f: \R \ra \Cm \text{ --- \(2\pi\)-периодическая непрерывная функци }\}\) с \(\|f\| = \sup_{[-\pi, \pi]} |f|\).
+\end{definition}
+
+\section{Тригонометриеский ряд Фурье}
+\begin{definition}
+    Ряд:
+    \begin{equation}
+        \frac{a_0}{2} + \sum_{k = 1}^\infty a_k\cos kx + b_k\sin kx
+    \end{equation}
+    Называется тригонометрическим рядом с коэффициентами \(a_k, b_k \in \Cm\).
+\end{definition}
+
+По формулам Эйлера: \(\cos kx = \frac{e^{ikx} + e^{-ikx}}{2}, \sin kx = -i\left( \frac{e^{ikx} - e^{-ikx}}{2} \right)\), поэтому частичные суммы можно переписать в виде:
+\[S_n(x) = \frac{a_0}{2} + \sum_{k = 1}^n a_k\cos kx + b_k\sin kx = \sum_{k = -n}^n c_ke^{ikx}\]
+Где \(c_{\pm k} = \frac{a_k \mp ib_k}{2}, \frac{a_0}{2} = c_0\). 
+
+\begin{definition}
+        Ряд:
+    \begin{equation}
+        \sum_{k = -\infty}^{\infty} c_ke^{ikx}
+    \end{equation}
+    Называется тригонометрическим рядом в комплексной форме, и его сумма считается как 
+    \[\sum_{k = -\infty}^{\infty} c_ke^{ikx} = \lim_{n \ra \infty} \sum_{-n}^n c_ke^{ikx}\]
+\end{definition}
+
+\begin{lemma}
+    Пусть \(f \in L_1(-\pi, \pi)\) и тригонометрический ряд в форме (2.1) или (2.2) сходится почти всюду к \(f\) и существует \(g \in L_1(-\pi, \pi)\), такая, что \(|S_n(x)| \le g \forall n\) для почти всех \(x\). Тогда:
+    \[a_k = \frac{1}{\pi}\int_{-\pi}^\pi f(t)\cos kt, b_k = \frac{1}{\pi}\int_{-\pi}^\pi f(t)\sin kt, c_k = \frac{1}{2\pi}\int_{-\pi}^\pi f(t)e^{-ikx}\]
+\end{lemma}
+\begin{proof}
+    Зафиксируем \(k \in \Z\). По условию, \(S_n(x) e^{-ikx} \ra f(x)e^{-ikx}\) почти всюду. При этом, \(|S_n(x) e^{-ikx}| \le g\). Поэтому, по теореме Лебега о мажорируемой сходимости, имеем: 
+    \[\lim_{n \ra \infty} \int_{-\pi}^{\pi}S_n(x)e^{-ikx}dx = \int_{-\pi}^{\pi}f(x)e^{-ikx}dx\]
+    Так как \(\int_{-\pi}^{\pi}e^{imx}e^{-ikx}dx = \left\{\begin{array}{l}
+        0, k \ne m \\
+        2\pi, k = m
+    \end{array}\right.\), то 
+    \[\int_{-\pi}^{\pi}S_ne^{-ikx}dx = 2\pi c_k, n \ge |k|\]
+    Следовательно, \(\int_{-\pi}^{\pi} f(x)e^{-ikx}dx = 2\pi c_k\)
+\end{proof}
+
+\begin{definition}
+    Пусть \(f \in L_1(T)\). Числа
+    \[a_k(f) = \frac{1}{\pi}\int_{-\pi}^\pi f(t)\cos kt, b_k(f) = \frac{1}{\pi}\int_{-\pi}^\pi f(t)\sin kt, c_k(f) = \frac{1}{2\pi}\int_{-\pi}^\pi f(t)e^{-ikx}\]
+    Называются коэффициентами Фурье функции \(f\), а ряд
+    \[S(f, x) = \frac{a_0(f)}{2} + \sum_{k = 1}^\infty a_k(f)\cos kx + b_k(f)\sin kx = \sum_{k = -\infty}^{\infty} c_k(f)e^{ikx}\]
+    Называется тригонометрическим рядом Фурье функции \(f\)
+\end{definition}
+
+\begin{note}
+    По лемме Римана об осцилляции, \(a_k(f), b_k(f) \ra 0\) при \(k \ra \infty\) и \(c_k(f) \ra 0\) при \(|k| \ra 0\).
+\end{note}
+
+\subsection{Поточечная сходимость рядов Фурье}
+\begin{definition}
+    \(D_n(t) = \frac{1}{2}\sum_{k = -n}^n e^{ikt} = \frac{1}{2} + \sum_{k = 1}^n \cos kt\) называется \(n\)-ым ядром Дирихле.
+\end{definition}
+
+\begin{note}
+    Функция \(D_n\) непрерывна, \(2\pi\)-периодическая, \(\int_{-\pi}^{\pi} D_n(t)dt = \pi\).
+\end{note}
+
+Имеем:
+\[S_n(f, x) = \sum_{k = -n}^n\left( \frac{1}{2\pi}\int_{-\pi}^{\pi}f(s)e^{-iks}ds \right)e^{ikx} = \frac{1}{2\pi}\int_{-\pi}^\pi f(s)\sum_{k = -n}^n e^{ik(x - s)}ds = \frac{1}{\pi}\int_{-\pi}^{\pi} f(s)D_n(x - s)ds = \]
+\[\frac{1}{\pi}D_n * f(x) = \frac{1}{\pi}f * D_n(x)\]
+
+\[D_n(t) = \frac{1}{2}e^{-nit}\left( 1 + e^{it} + \dots + e^{2nit} \right) = \frac{1}{2}e^{-nit} \frac{e^{2(n + 1)it} - 1}{e^{it} - 1} = \frac{e^{\left( n + \frac{1}{2} \right)it} - e^{-\left( n + \frac{1}{2} \right)it}}{2 \left( e^{\frac{it}{2}} - e^{-\frac{it}{2}} \right)} = \frac{\sin\left( n + \frac{1}{2} \right)t}{2 \sin \frac{t}{2}}\]
+
+\begin{lemma}
+    Пусть \(f \in L_1(T)\) и \(0 < \delta < \pi\). Тогда \(\forall x \in \R\) выполнено:
+    \[S_n(f, x) = \frac{1}{\pi}\int_{-\delta}^{\delta}\frac{f(x - t)}{t}\sin\left( n + \frac{1}{2} \right)t dt + \epsilon_n(x), \lim_{n \ra \infty} \epsilon_n(x) = 0\]
+\end{lemma}
+\begin{proof}
+    Имеем:
+    \[S_n(f, x) = \frac{1}{\pi}\int_{-\pi}^{\pi}f(x - t)\frac{\sin\left( n + \frac{1}{2} \right)t}{2\sin\frac{t}{2}}dt = \]
+    \[ = \frac{1}{\pi}\int_{|t| < \delta} \frac{f(x - t)}{t}\sin\left( n + \frac{1}{2} \right)tdt + \frac{1}{\pi}\int_{\delta \le |t| \le \pi} \frac{f(x - t)}{t}\sin\left( n + \frac{1}{2} \right)t + \]
+    \[+ \frac{1}{\pi}\int_{-\pi}^\pi f(x - t)\left( \frac{1}{2\sin \frac{t}{2}} - \frac{1}{t} \right)\sin\left( n + \frac{1}{2} \right)t\]
+    \(h(t) = f(x - t)\) интегрируема на \((-\pi, \pi)\). Положим \(g(t) = \frac{1}{2\sin \frac{t}{2}} - \frac{1}{t}\). По непрерывности, доопределим \(g(0) = 0\) --- то есть \(g\) непрерывна на \([-\pi, \pi] \Ra\) ограничена.  Аналогично, \(\frac{f(x - t)}{t}\) интегрируема на \(\pi \ge |t| \ge \delta\). Но тогда по лемма Римана об осцилляции, получаем желаемое.
+\end{proof}
