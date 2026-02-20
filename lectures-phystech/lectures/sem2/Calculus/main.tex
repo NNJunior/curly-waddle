@@ -1,5 +1,5 @@
 
-\hypertarget{lecture1}{}
+\lecture{1}
 
 % \section{Преобразование Абеля}
 Пусть $a_n, b_n$ --- последовательности комплексных чисел $m \in \N$ и $A_k = \sum_{i = 1}^{k} a_i$. Тогда $a_k = A_k - A_{k-1}$ (если считать, что $A_0 = 0$) и $\sum_{k = m}^{n}a_kb_k = \sum_{k = m}^{n}(A_k - A_{k-1})b_k = \sum_{k = m}^{n}A_kb_k - \sum_{k = m}^{n}A_{k-1}b_k$.
@@ -93,7 +93,7 @@ $\int_{a}^{b}f(x)dx = \lim_{x \ra b - 0} \int_{a}^{x}f(t)dt$, т.е. новая 
     $$\exists \int_{0}^{1}\frac{dx}{x^\alpha} \Lra \alpha < 1$$
     Причем сходится к \(\frac{1}{1 - \alpha}\)
 \end{example}
-\hypertarget{lecture2}{}
+\lecture{2}
 
 \begin{proposition}[Интегрирование по частям]
     Пусть  \(f, g\) --- дифференцируемы на \([a, b]\) и \(f', g'\) локально интегрируемы на \([a, b]\). Тогда 
@@ -229,7 +229,7 @@ $\int_{a}^{b}f(x)dx = \lim_{x \ra b - 0} \int_{a}^{x}f(t)dt$, т.е. новая 
     \[\tg^2\sqrt{x} \sim x, x \ra +0\]
     \[\int_{\ra 0}^1 \frac{dx}{x} \text{ расходится}\]
 \end{example}
-\hypertarget{lecture3}{}
+\lecture{3}
 
 \subsection{Несобственные интегралы от знакопеременных функций}
 Изучм вопросы сходимости несобственных интегралов от функций ни в какой функции точки \(b\).
@@ -367,7 +367,7 @@ $\int_{a}^{b}f(x)dx = \lim_{x \ra b - 0} \int_{a}^{x}f(t)dt$, т.е. новая 
     Пусть \(f\) равномерно непрерывна на \([1, +\infty)\) и \(\int_a^b f(x)dx\) --- сходится. Показать, что \(\lim_{x\ra+\infty}f(x) = 0\)
 \end{problem}
 
-\hypertarget{lecture4}{}
+\lecture{4}
 
 \section{Числовые Ряды}
 \begin{definition}
@@ -490,7 +490,7 @@ $\int_{a}^{b}f(x)dx = \lim_{x \ra b - 0} \int_{a}^{x}f(t)dt$, т.е. новая 
 \begin{corollary}
     Пусть \(a_n, b_n \ge 0 \forall n \in \N\), \(\exists \lim_{n\ra\infty}\frac{a_n}{b_n} \in (0, +\infty)\). Тогда \(\sum_{i = 1}^\infty a_n, \sum_{i = 1}^\infty b_n\) сходятся или расходятся одновременно
 \end{corollary}
-\hypertarget{lecture5}{}
+\lecture{5}
 
 \begin{theorem}[Интегральный признак]
     Пусть \(f\) нестрого убывает и неотрицательна на \([1, +\infty)\). Тогда последовательность \(u_n = f(1) + \dots + f(n) - \int_{1}^{n+1}f(t)dt\) сходится, в частности, \(\sum_{i = 1}^\infty a_n, \int_{1}^{+\infty}f(t)dt\) сходятся или расходятся одновременно
@@ -602,7 +602,7 @@ $\int_{a}^{b}f(x)dx = \lim_{x \ra b - 0} \int_{a}^{x}f(t)dt$, т.е. новая 
     \[S_{2n} \le S_{2N} \le S_{2N + 1} \le S_{2m + 1}, N = \max\{n, m\}\]
     Причем \(\{S_{2n}\}, \{S_{2n+1}\}\) --- ограничены \(\Ra S_{2n} \ra S', S_{2n+1} \ra S'', S_{2n + 1} - S_{2n} = \alpha_n \ra 0 \Ra S' = S''\). Кроме того, \(|S_n - S| \le |S_n - S_{n + 1}| = |a_{n + 1}|\)
 \end{proof}
-\hypertarget{lecture6}{}
+\lecture{6}
 
 \begin{example}[Применение признака Лейбница]
     \(\sum_{n = 1}^\infty \frac{(-1)^n}{n^\alpha}\) сходится при \(\Lra \alpha > 0\), причем сходится условно при \(\alpha \in (0, 1]\).
@@ -709,7 +709,7 @@ $\int_{a}^{b}f(x)dx = \lim_{x \ra b - 0} \int_{a}^{x}f(t)dt$, т.е. новая 
     Иными словами, будем брать \(b_i\), если сумма на данный момент меньше, чем нам надо и \(c_i\) иначе.
     Заметим, что, так как \(\sum_{i = 1}^\infty b_i, \sum_{i = 1}^\infty c_i\) расходятся, то неверно, что с какого-то момента \(d_i = b_i\) или \(d_i = c_i\). Также заметим, что если \(n, m > 0\), то \(|b_{n_i}| + |c_{m_i}| \ge \left|L - S_i\right|\), т.к. если \( S_i \le L\), то рассмотрим максимальный \(j:\), такой, что \(S_j > L, S_{j + 1} \le L\). Но тогда \(S_j \le S_i \le L \Ra |c_{m_j}| \ge \left|L - S_i\right|\), но \(m_i = m_j\), т.к. \(j\) --- максимальный, получили, что \(|c_{m_i}| \ge \left|L - S_i\right|\). В другом случае аналогично получаем, что \(|b_{n_i}| \ge \left|L - S_i\right|\). Но тогда \(|b_{n_i}| + |c_{m_i}| \ge \left|L - S_i\right|\) и т.к. \(|b_{n_i}| + |c_{m_i}| \ra 0\), то и \(\left|L - S_i\right| \ra 0 \Ra S_i \ra L\).
 \end{proof}
-\hypertarget{lecture7}{}
+\lecture{7}
 
 \begin{theorem}[Римана]
     Если действительный ряд \(\sum_{n = 1}^\infty a_n\) сходится условно, то для любого \(L \in \R\) существует такая перестановка \(\sum_{n = 1}^\infty a_{\phi(n)}\), что\(\sum_{n = 1}^\infty a_{\phi(n)} = L\)
@@ -786,7 +786,7 @@ $\int_{a}^{b}f(x)dx = \lim_{x \ra b - 0} \int_{a}^{x}f(t)dt$, т.е. новая 
         Тоже сходится
     \end{enumerate}
 \end{proof}
-\hypertarget{lecture8}{}
+\lecture{8}
 
 Рассмотрим \(f(t) = \ln t\).
 \[\int_1^{n + 1} \ln tdt = t\ln t|_{1}^{n + 1} - \int_1^{n + 1}dt = (n + 1)\ln(n + 1) - n\]
@@ -1017,7 +1017,7 @@ $\int_{a}^{b}f(x)dx = \lim_{x \ra b - 0} \int_{a}^{x}f(t)dt$, т.е. новая 
 \begin{example}
     \(f_n(x) = \sqrt{x^2 + \frac{1}{n}} \Ra \forall x \in \R f_n(x) \ra f(x) = |x|\). Предельная функция не дифференцируема в \(0\).
 \end{example}
-\hypertarget{lecture10}{}
+\lecture{10}
 
 \begin{theorem}[Признак Вейерштрасса]
     Пусть задан функциональный ряд \(\sum_{n = 1}^\infty u_n\) на \(E\), и числовая последовательность \(\{a_n\}\), причем
@@ -1114,7 +1114,7 @@ $\int_{a}^{b}f(x)dx = \lim_{x \ra b - 0} \int_{a}^{x}f(t)dt$, т.е. новая 
 \begin{note}
     \(g_n(x) = |f_n(x) - f(x)|\)
 \end{note}
-\hypertarget{lecture11}{}
+\lecture{11}
 
 \begin{example}[Непрерывная нигде не дифференцируемая функция \(f: \R \ra \R\)]
     \[\phi(x) = |x|, x \in [-1, 1], \phi(x) = \phi(x \pm 2)\]
@@ -1193,7 +1193,7 @@ $\int_{a}^{b}f(x)dx = \lim_{x \ra b - 0} \int_{a}^{x}f(t)dt$, т.е. новая 
 \begin{problem}
     Пусть даны ряды \(\sum_{n = 1}^\infty a_n, \sum_{n = 1}^\infty b_n\). Пусть \(\sum_{n = 1}^\infty c_n\) --- произведение по Коши \(a_n, b_n\). Доказать, что \(AB = C\), где \(A = \sum_{n = 1}^\infty a_n, B = \sum_{n = 1}^\infty b_n, C = \sum_{n = 1}^\infty c_n\)
 \end{problem}
-\hypertarget{lecture12}{}
+\lecture{12}
 
 \subsection{Операции с числовыми рядами}
 \[f(x) = \sum_{n = 0}^\infty a_n(x - x_0)^n, \text{ радиус сходимости: }R_1\]
@@ -1275,7 +1275,7 @@ $\int_{a}^{b}f(x)dx = \lim_{x \ra b - 0} \int_{a}^{x}f(t)dt$, т.е. новая 
     \[|R_n(x)| \le M^{n + 1}|x - x_0|^{n + 1} < (M\delta)^{n + 1} \ra 0\]
     Тогда \(f(x) = \sum_{k = 0}^\infty \frac{f^{(k)}(x_0)}{k!}(x - x_0)^k\)
 \end{proof}
-\hypertarget{lecture13}{}
+\lecture{13}
 
 \begin{corollary}
     Если \(f\) бесконечно дифферецируема на интервале, содержащем точку \(x_0\) и \((x_0 - r, x_0 + r)\) и  \(\exists M > 0 \forall x \in (x_0 - r, x_0 + r) \forall k |f^{(k)}(x)| \le M\), то \(\forall x \in (x_0 - r, x_0 + r)\;\;f(x) = \sum_{n = 0}^\infty \frac{f^{(k)}(x)}{k!}(x - x_0)^k\)
@@ -1397,7 +1397,7 @@ $\int_{a}^{b}f(x)dx = \lim_{x \ra b - 0} \int_{a}^{x}f(t)dt$, т.е. новая 
 \begin{definition}
     Пусть \((X, \rho)\) --- метрическое пространство. Множество \(E\) называется ограниченным, если \(\exists a \in X, r \in \R: E \subset B_r(a)\)
 \end{definition}
-\hypertarget{lecture14}{}
+\lecture{14}
 
 \begin{definition}
     Пусть \(\{x_n\} \subset X, a \in X\). Говорят, что \(x_n\) сходится к \(a\), если \(\rho(x_n, a) \ra 0\). Пишут \(\lim_{n \ra \infty}x_n = a\) или \(x_n \ra a\).
@@ -1564,7 +1564,7 @@ $\int_{a}^{b}f(x)dx = \lim_{x \ra b - 0} \int_{a}^{x}f(t)dt$, т.е. новая 
         \item \(C = (0, 1]\) --- не замкнуто и не открыто
     \end{enumerate}
 \end{example}
-\hypertarget{lecture15}{}
+\lecture{15}
 
 \subsection{Компакты}
 
@@ -1645,7 +1645,7 @@ $\int_{a}^{b}f(x)dx = \lim_{x \ra b - 0} \int_{a}^{x}f(t)dt$, т.е. новая 
         \item[\(\La\)] \(K\) ограничено \(\Ra \exists x \in \R^n, r > 0: K \subset B_r(x)\). Рассмотрим \(B = [x_1 - r_1, x_1 + r_1] \times[x_2 - r_2, x_2 + r_2]\times\dots\times[x_n - r_n, x_n + r_n]\). \(B\) --- компакт, \(K \subset B\) --- замкнуто, тогда \(K\) --- компакт.
     \end{enumerate}
 \end{proof}
-\hypertarget{lecture16}{}
+\lecture{16}
 
 \begin{corollary}[Больцано-Вейерштрасса]
     Любая ограниченная последовательность в \(\R^n\) имеет сходящуюся подпоследовательность
@@ -1791,7 +1791,7 @@ $\int_{a}^{b}f(x)dx = \lim_{x \ra b - 0} \int_{a}^{x}f(t)dt$, т.е. новая 
     Пусть \(Z = X \times Y \Ra \rho_Z((x, a), (y, b)) = \sqrt{\rho_X(x, y)^2 + \rho_Y(a, b)^2}\) --- метрика на \(Z\)
 \end{note}
 
-\hypertarget{lecture17}{}
+\lecture{17}
 
 \begin{definition}
     Пусть \(X, Y\) --- метрические пространства, \(x_0, y_0\) --- предельные точки \(X, Y\) соответственно и задана функция \(f: (X \setminus \{x_0\})\times(Y \setminus \{y_0\}) \ra \R\). Пусть \(\forall x \in X \setminus \{x_0\} \exists \) конечный \(\lim_{y \ra y_0} f(x, y)\). Предел \(\lim_{x \ra x_0}\phi(x)\) называется повторным пределом функции \(f\) и обозначается \(\lim_{x \ra x_0}\lim_{y \ra y_0} f(x, y)\). Аналогично определяется \(\lim_{y \ra y_0}\lim_{x \ra x_0}\).
@@ -1934,7 +1934,7 @@ $\int_{a}^{b}f(x)dx = \lim_{x \ra b - 0} \int_{a}^{x}f(t)dt$, т.е. новая 
     Тогда \(\forall x, y \in \R^n |\|x\| - \|y\|| \le \|x - y\| \le \beta\|x - y\|_2 \Ra f = \|\cdot\|\) --- непрерывна на \(\R^n\) (относительно \(\|\cdot\|_2\)). Положим \(S = \{x | \|x\|_2 = 1\}\) --- компакт в \(\R^n\). По предыдущему следствию, \(\exists \alpha = \inf_{x \in S}f(x) > 0\). Тогда \(\forall x \ne 0 \left\|\frac{x}{\|x\|_2}\right\| \ge \alpha\) или \(\|x\| \ge \alpha \|x\|_2\) (верно и для \(x = 0\)). Итого, получили \(\alpha\|x\|_2 \le \|x\| \le \beta\|x\|_2\)
 \end{proof}
 
-\hypertarget{lecture18}{}
+\lecture{18}
 
 \begin{problem}
     Доказать, что все нормы над конечномерным пространством над \(\R\) эквивалентны
@@ -2027,7 +2027,7 @@ $\int_{a}^{b}f(x)dx = \lim_{x \ra b - 0} \int_{a}^{x}f(t)dt$, т.е. новая 
     Продположим, что линейно связное пространство \(X\) несвязно. Тогда \(\exists U, V \subset X, X = U \cup V, U \cap V = \emptyset, x \in U, y \in V \Ra \exists [0, 1] \ra X: \gamma(0) = x, \gamma(1) = y\). Рассмотрим \(\gamma^{-1}(U) \cap \gamma^{-1}(V) = [0, 1]\), противоречие, т.к. \([0, 1]\) --- связное множество
 \end{proof}
 
-\hypertarget{lecture19}{}
+\lecture{19}
 
 \section{Линейные отображения евклидовых пространств}
 Пусть \(x, y \in \R^n\). Обозначим \((x, y) = \sum_{i = 1}^n x_iy_i\), \(|x| = \sqrt{(x, x)}\)
@@ -2135,7 +2135,7 @@ $\int_{a}^{b}f(x)dx = \lim_{x \ra b - 0} \int_{a}^{x}f(t)dt$, т.е. новая 
 \begin{corollary}
     Дифференциал функции определен однозначно.
 \end{corollary}
-\hypertarget{lecture20}{}
+\lecture{20}
 
 \begin{corollary}[Необходимое условие дифференцируемости]
     Если \(f\) дифференцируема в точке \(a\), то \(f\) непрерывна в точке \(a\) и имеет частные производные \(\frac{\delta f}{\delta x_k}(a)\) по всем переменным. Кроме того
@@ -2220,7 +2220,7 @@ $\int_{a}^{b}f(x)dx = \lim_{x \ra b - 0} \int_{a}^{x}f(t)dt$, т.е. новая 
         \dots & \dots & \dots \\
     \end{array}\right)\]
 \end{note}
-\hypertarget{lecture21}{}
+\lecture{21}
 
 % \begin{example}[Случай функции \(\R \ra \R^m, m \ge 1\)]
 %     Пусть \(\gamma: (\alpha, \beta) \ra \R^m\), \(a \in (\alpha, \beta)\).
@@ -2295,7 +2295,7 @@ $\int_{a}^{b}f(x)dx = \lim_{x \ra b - 0} \int_{a}^{x}f(t)dt$, т.е. новая 
     Применим к функции \(\phi(x) = f(x, y_0 + t) - f(x, y_0)\). По теореме Лагранжа о среднем значении на отрезке с \(x_0 + t, x_0\) верно \(\phi'(x) = \frac{\delta f}{\delta x}(x, y_0 + t) - \frac{\delta f}{\delta x}(x, y_0)\). \(\exists \theta_1 = \theta_2(t) \in (0, 1)\;\; \phi(x_0 + t) - \phi(x_0) = \phi'(x_0 + \theta_1t)t\). Т.к. \(\Delta(t) = \phi(x_0 + t) - \phi(x_0)\), то \(\Delta(t)  \frac{\delta f}{\delta x}(x_0 + \theta_1 t, y_0 + t) - \frac{\delta f}{\delta x}(x_0 + \theta_1t, y_0)\). Применим к функции \(\psi(y) = \frac{\delta f}{\delta x}(x_0 + \theta_1 t, y)\) теорему Лагранжа о среднем на отрезке с концами \(y_0 + t, y_0\). 
     \(\phi(y) = \frac{\delta^2 f}{\delta y \delta x}(x_0 + \theta_1 t, y)\). \(\exists \theta_2 = \theta_2(t) \in (0, 1) \psi(y_0 + t) - \psi(y_0) = \psi'(y_0 + \theta_2t)t\). Т.к. \(\Delta(t) = (\psi(y_0 + t) - \psi(y_0))t\), то \(\frac{\Delta(t)}{t^2} = \frac{\delta^2 f}{\delta y \delta x}(x_0 + \theta_1 t, y_0 + \theta_2t)\). \(\Ra \exists \lim_{t \ra 0} \frac{\Delta(t)}{t^2} = \frac{\delta^2 f}{\delta y\delta x}(x_0, y_0)\)
 \end{proof}
-\hypertarget{lecture23}{}
+\lecture{23}
 
 \begin{proposition}
     Если \(B, B_1, \dots B_k\) --- брусы и \(B \in \bigcup B_i \Ra |B| \le \sum|B_i|\)
@@ -2411,7 +2411,7 @@ $\int_{a}^{b}f(x)dx = \lim_{x \ra b - 0} \int_{a}^{x}f(t)dt$, т.е. новая 
     \item \(E \in \mathcal{M}(\R^n) \Ra \mu(x + E) = \mu(E)\)
 \end{enumerate}
 
-\hypertarget{lecture24}{}
+\lecture{24}
 
 \subsection{Измеримые множества}
 
@@ -2510,7 +2510,7 @@ $\int_{a}^{b}f(x)dx = \lim_{x \ra b - 0} \int_{a}^{x}f(t)dt$, т.е. новая 
     В случае неограниченности \(E\), представим \(\R^n = \bigsqcup_{k = 1}^\infty A_k, A_k = \{x \in \R^n | k - 1 \le |x| < k\}\). Тогда \(E = \bigcup_{k = 1}^\infty E_k\), где \(E_k = E \cap A_k\). --- ограничены. По доказанному \(\forall k \exists G_k \supset E_k\) --- открытое, так, что \(\mu(G_k \setminus E_k) < \frac{\epsilon}{2^{k}}\). Положим \(G = \bigcup_{k = 1}^\infty G_k\) --- открытое, содержащее \(E\). \(G \setminus E \subset \bigcup_{k = 1}^\infty (G_k \setminus E_k)\). Тогда \(\mu(G \setminus E) \le \sum_{k = 1}^\infty \mu(G_k \setminus E_k) < \sum{k = 1}^\infty \frac{\epsilon}{2^k} = \epsilon\)
 \end{proof}
 
-\hypertarget{lecture25}{}
+\lecture{25}
 
 \begin{corollary}
     \(E\) измеримо в \(\R^n \Ra \forall \epsilon > 0 \exists F \subset E\) --- замкнутое в \(\R^n\), такое, что \(\mu(E \setminus F) < \epsilon\)
@@ -2632,7 +2632,7 @@ $\int_{a}^{b}f(x)dx = \lim_{x \ra b - 0} \int_{a}^{x}f(t)dt$, т.е. новая 
         a, x \in B
     \end{array}\right.\)
 \end{note}
-\hypertarget{lecture26}{}
+\lecture{26}
 
 \begin{theorem}
     Если \(f, g: E \ra \overline{\R}\) измеримы и \(\lambda \in \R\), то \(f + g, \lambda g, fg\) измеримы
@@ -2747,7 +2747,7 @@ $\int_{a}^{b}f(x)dx = \lim_{x \ra b - 0} \int_{a}^{x}f(t)dt$, т.е. новая 
 \begin{corollary}
     Пусть \(f: E \ra \overline{\R}\). Тогда \(f\) измерима \(\Lra \exists \{\phi_kz\}\) --- простые функций \(\phi_k \ra f\)
 \end{corollary}
-\hypertarget{lecture27}{}
+\lecture{27}
 
 \section{Интеграл Лебега}
 \subsection{Интеграл Лебега для неотрицательных простых функций}
@@ -2880,7 +2880,7 @@ $\int_{a}^{b}f(x)dx = \lim_{x \ra b - 0} \int_{a}^{x}f(t)dt$, т.е. новая 
     \[\int_E f d \mu \ge \int_{E_t}f d \mu = \int_{E_t} t d \mu = t \mu(E_t)\]
 \end{proof}
 
-\hypertarget{lecture28}{}
+\lecture{28}
 
 \subsection{Интеграл Лебега от произвольной функции}
 

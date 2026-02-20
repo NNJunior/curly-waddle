@@ -1,5 +1,5 @@
 
-\hypertarget{lecture1}{}
+\lecture{1}
 
 \section{Ну-с, начнем}
 \subsection{Определения}
@@ -121,7 +121,7 @@
     \[S_1 = \sum_{r = 3}^{[n^{0.6}]}e^{-\frac{r(r-1)}{2n} + O\left(\frac{r^3}{n^3}\right)} \sim \sum_{r = 3}^{[n^{0.6}]}e^{-\frac{r(r-1)}{2n}} \sim \sum_{r = 3}^{[n^{0.6}]}e^{-\frac{r^2}{2n}} \sim \sum_{r = 0}^{\infty}e^{-\frac{r^2}{2n}} \sim_{\text{сх.}} \int_0^\infty e^{-\frac{r^2}{2n}}dr = \]
     \[ = \int_0^\infty e^{-\frac{x^2}{2}}\sqrt{n}dx = \sqrt{n}\int_{0}^{+\infty} e^{-\frac{x^2}{2}}dx = \sqrt{n}\frac{\int_{-\infty}^{+\infty} e^{-\frac{x^2}{2}}dx}{2} = \sqrt{n}\frac{\sqrt{2\pi}}{2}\]
 \end{proof}
-\hypertarget{lecture2}{}
+\lecture{2}
 
 \section{Число независимости и кликовое число графа}
 \begin{definition}
@@ -193,7 +193,7 @@
     \end{enumerate}
 \end{note}
 
-\hypertarget{lecture3}{}
+\lecture{3}
 
 \subsection{Хроматическое число графа}
 \begin{definition}
@@ -311,7 +311,7 @@
     Таким образом, графы \(G(n, 3, 1)\) предъявляют пример, в котором оценка \(\chi(G) \ge \lceil\frac{|V|}{\alpha(G)}\rceil\) лучше, чем \(\chi(G) \ge \omega(G)\).
 \end{corollary}
 
-\hypertarget{lecture4}{}
+\lecture{4}
 \section{Гамильтоновость графа}
 \begin{definition}
     Граф \(G - \)гамильтонов, если \(\exists\) простой цикл, проходящий по всем вершинам графа.
@@ -422,7 +422,7 @@
 
 Заметим, что жадный алгоритм полиномиальный (работает за \(O(n^2)\)), причем он ошибается всего в 2 раза. Возникает вопрос: можно ли придумать полиномиальный алгоритм лучше, который может ошибаться в меньшее количество раз. Ответ: никто не знает. Кокнуло?
 
-\hypertarget{lecture5}{}
+\lecture{5}
 
 \section{Случайные графы}
 \begin{theorem}[Кучера]
@@ -456,7 +456,7 @@
     Но тогда \(\forall n > \max\{n_1, n_2, n_3\} g(G') > l, \chi(G') > k\)
 \end{proof}
 
-\hypertarget{lecture6}{}
+\lecture{6}
 
 \begin{theorem}[Эрдеш, Реньи, 1959]
     Пусть \(p = p(n) = \frac{c \ln n}{n}, c > 0\). Тогда если \(c > 1\), то а.п.н. \(G(n, p)\) связен, а если \(c < 1\), то а.п.н. \(G(n, p)\) несвязен.
@@ -501,7 +501,7 @@
     Если \(c = 3, n \ge 100\), то \(P(G(n, p)\text{ связен}) \ge 1 - \frac{1}{n}\)
 \end{corollary}
 
-\hypertarget{lecture7}{}
+\lecture{7}
 
 \[\sum_{k=1}^\frac{n}{2} \underbrace{C_n^k (1-p)^{k(n-k)}}_{a_k(n)} = \underbrace{\sum_{k=1}^{[\frac{n}{\sqrt{\ln{n}}}]}}_{S_1} \dots + \underbrace{\sum_{k = [\frac{n}{\sqrt{\ln{n}}}] + 1}^{\frac{n}{2}}}_{S_2}\]
 
@@ -555,7 +555,7 @@
     Если \(p = \frac{c}{n}, c < 1\), то а.п.н. все компоненты --- либо деревья, либо унициклические графы \(\Ra\) а.п.н. \(\chi(G) = 3\)
 \end{problem}
 
-\hypertarget{lecture8}{}
+\lecture{8}
 
 \begin{note}
     Выведем интуицию, связывающую Хёффдинга из интегральной теоремы Муавра--Лапласа. Пусть \(\xi \sim Bin(n, p)\).
@@ -634,7 +634,7 @@
         \item Если \(p = \frac{c}{n}, c < 1\), то а.п.н. \(\chi(G) = 3\).
     \end{enumerate}
 \end{theorem}
-\hypertarget{lecture9}{}
+\lecture{9}
 
 \begin{lemma}
     Пусть \(p = n^{-\alpha}, \alpha \in \left( \frac{5}{6}, 1 \right)\). Тогда
@@ -707,7 +707,7 @@
     \item а.п.н. \(\chi(G) \le \frac{n}{2\log_2 n} + \phi(n)\), \(\phi(n) = ?\). Рассмотрим \(m = \left[ \frac{n}{\ln^2n} \right]\) --- количество вершин в \(G\) и положим \(X_k(G)\) --- число независимых множеств на \(k\) вершинах. Рассмотрим \(f_k(n) = \E X_k = C_n^k 2^{-C_k^2}, k = k(n) = [2\log_2n] \Ra f_k(n) \ra 0\).
 \end{enumerate}
 
-\hypertarget{lecture10}{}
+\lecture{10}
 
 \begin{proposition}
         \(\exists k_1 = k_1(n)\), такая, что:
@@ -769,7 +769,7 @@
         \[(*) = 2^ne^{-n^{2 + o(1)}} \ra 0\]
     \end{proof}
     Теперь возьмем любой граф, обладающий свойством из леммы. Тогда мы можем удалять из графа независимые подграфы размера \(k_1(m)\), пока количество вершин \(\ge m\) и красить каждый из них в новый цвет. Тогда, после того, как осталось \(< m\) вершин, мы задействуем \(\left[ \frac{n - m}{k_1(m)} \right]\) цветов. Оставшиеся вершины покрасим в новые цвета каждую. Тогда \(\chi(G) \le \left[ \frac{n - m}{k_1(m)} \right] = \frac{n}{2\log_2n} + \phi(n)\), что и требовалось доказать.
-\hypertarget{lecture11}{}
+\lecture{11}
 
 \section{Гиперграфы}
 
@@ -823,7 +823,7 @@
     При определенных условиях ''делимости'' и при \(n \ge n_0\) верно: \(h(n, r, s) = \frac{C_n^{s + 1}}{C_r^{s + 1}}\).
 \end{theorem}
 
-\hypertarget{lecture12}{}
+\lecture{12}
 
 \subsection{Изучение \(f(n, k, t)\)}
 \begin{theorem}[б/д, 1961, Эрдёш-Ко-Радо]
@@ -944,7 +944,7 @@
     Получаем, что \(\lambda_i = 0 \forall i\), т.е. линейную независимость \(\tilde{f_i}\).
 \end{proof}
 
-\hypertarget{lecture13}{}
+\lecture{13}
 
 \begin{note}
     \(m(n, r, s) \ge f(n, r, s + 1) \ge C_{n - s - 1}^{r - s - 1}\).
@@ -988,7 +988,7 @@
 Таким образом, полученная нами оценка тоже асимптотически неулучшаема.
 
 
-\hypertarget{lecture14}{}
+\lecture{14}
 
 \section{Кнезеровские графы}
 
@@ -1093,7 +1093,7 @@
     \end{enumerate}
 \end{proof}
 
-\hypertarget{lecture15}{}
+\lecture{15}
 
 \section{Хроматическое число пространства}
 \begin{definition}

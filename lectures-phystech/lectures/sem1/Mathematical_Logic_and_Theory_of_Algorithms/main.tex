@@ -1,5 +1,5 @@
 
-\hypertarget{lecture1}{}
+\lecture{1}
 
 \section{Вступление}
 \subsection{Литература}
@@ -99,7 +99,7 @@ $$(_1\ (_2\ )_1\ )_2 \text{--- тоже правильная}$$
     \end{enumerate}
 \end{proof}
 Получается, что все три определения эквивалентны.
-\hypertarget{lecture2}{}
+\lecture{2}
 
 \section{Пропозициональные формулы}
 Есть знаки логических $\wedge, \vee, \rightarrow, \neg$, действий и скобки.
@@ -288,7 +288,7 @@ $$((p\wedge q)\vee(r\rightarrow \neg s))$$
 
 \subsubsection{Карта Карно}
 \href{https://ru.wikipedia.org/wiki/Карта_Карно}{тык}
-\hypertarget{lecture3}{}
+\lecture{3}
 
 \subsection{Многочлены Жегалкина}
 
@@ -395,7 +395,7 @@ $$((p\wedge q)\vee(r\rightarrow \neg s))$$
 \begin{proof}
     $$\underbrace{f(\underbrace{g_1(\underbrace{x_1, x_2, \dots x_n}_{\nearrow, \nearrow, \nearrow\dots \nearrow})}_{\nearrow}, \underbrace{g_2(\underbrace{x_1, x_2, \dots x_n}_{\nearrow, \nearrow, \nearrow\dots \nearrow})}_{\nearrow}, \dots \underbrace{g_n(\underbrace{x_1, x_2, \dots x_n}_{\nearrow, \nearrow, \nearrow\dots \nearrow})}_{\nearrow})}_{\nearrow}$$
 \end{proof}
-\hypertarget{lecture4}{}
+\lecture{4}
 
 
 \subsubsection{Самодвойственные функции}
@@ -487,7 +487,7 @@ $$((p\wedge q)\vee(r\rightarrow \neg s))$$
         Все три операции вместе с $0, 1, \neg$ позволяют составить полную систему связок.
     \end{enumerate}
 \end{proof}
-\hypertarget{lecture5}{}
+\lecture{5}
 
 \subsection{Типы пропозициональных формул}
 \begin{definition}
@@ -605,7 +605,7 @@ $$\varphi_1 \wedge \varphi_2 \wedge \dots \wedge \varphi_n$$
 \begin{proof}
     Доказательство будет дальше
 \end{proof}
-\hypertarget{lecture6}{}
+\lecture{6}
 
 % \begin{theorem}[О полноте]
 %     $\vdash \phi \Rightarrow \phi$ --- выводима
@@ -740,7 +740,7 @@ $$\frac{\Gamma \vdash B}{\Gamma\vdash A\vee B}$$
 
 \subsubsection{Правило контрпозиции}
 $$\frac{\Gamma, A \vdash B}{\Gamma, \neg B \vdash \neg A}$$
-\hypertarget{lecture7}{}
+\lecture{7}
 
 \section{Теорема о полноте}
 
@@ -850,7 +850,7 @@ $$\frac{\Gamma, A \vdash B}{\Gamma, \neg B \vdash \neg A}$$
         \item[] \textbf{Полнота} $\phi$ --- тавтология $\Rightarrow \{\neg \phi\}$ несовместна $\Rightarrow \{\neg \phi\}$ --- противоречиво, тогда, т.к. $\frac{\neg \phi \vdash B\ \ \ \neg \phi \vdash B}{\vdash \neg(\neg\phi)} \Rightarrow \vdash\phi$
     \end{enumerate}    
 \end{proof}
-\hypertarget{lecture8}{}
+\lecture{8}
 
 $$\text{Формулы }\left\{\begin{array}{l}
     \text{выполнимые}  \\
@@ -932,7 +932,7 @@ $$\frac{x \vee y \;\;\;\;\neg x \vee \neg y}{y \vee \neg y}$$
         \item[] \textbf{Переход:} Пусть все формулы из $C_{i-1}$ выполнены на значениях $a_1, a_2 \dots a_{i-1}$. Рассмотрим формулы из $C_i$, которые не будут выполнены на этом наборе. Предположим, что среди них есть и формула с $p_i$ и формула с $\neg p_i$: $p_i \vee D_0, \neg p_i \vee D_1$. Тогда $D_0(p_1, p_2, \dots p_i) = 0 = D_1(p_1, p_2, \dots p_i)$. Но $D_0 \vee D_1$ получается как резольвента этих двух формул, тогда она выполнима, т.к. лежит в $C_{i-1}$, противоречие. Тогда все формулы либо с $p_i$, либо с $\neg p_i$, тогда положим $p_i$ так, чтобы этот множитель выполнялся.
     \end{enumerate}
 \end{proof}
-\hypertarget{lecture9}{}
+\lecture{9}
 
 \subsubsection{Использование резолюций для проверки тавтологий}
 $\phi$ --- тавтология $\Leftrightarrow \neg \phi$ --- противоречие $\Leftrightarrow \neg \phi$ --- не выполнима.
@@ -1005,7 +1005,7 @@ $M$ --- непустое множество --- носитель интерпр�
         \item Обсудим потом
     \end{enumerate}
 \end{proof}
-\hypertarget{lecture10}{}
+\lecture{10}
 
 \begin{center}
     \textit{... см. предыдущую лекцию}
@@ -1107,7 +1107,7 @@ $M$ --- непустое множество --- носитель интерпр�
     \item $\neg \forall x \phi \leftrightarrow \exists x \neg \phi$
     \item $\exists x (\phi \rightarrow \psi) \leftrightarrow (\forall x \phi \rightarrow \exists x \psi)$
 \end{enumerate}
-\hypertarget{lecture11}{}
+\lecture{11}
 
 \subsection{Предварённая нормальная форма}
 \begin{definition}
@@ -1166,7 +1166,7 @@ $$\underbrace{\forall\exists\exists\dots}_{\text{кванторы}}\underbrace{(
         \item $x = 0 \Leftrightarrow \neg \forall y (y\cdot x = y)$
         \item $x \vdots y \Leftrightarrow \exists z (x = y\cdot z)$
         \item $p$ --- простое $\Leftrightarrow (p \ne 1 \wedge \forall q(p \vdots q \rightarrow (q = 1 \vee q = p)))$
-        \item $d = \text{НОД}(x, y) \Leftrightarrow (x \vdots d \wedge y \vdots d \forall k ((x \vdots k \wedge y \vdots k) \rightarrow d \vdots k)$
+        \item $d = \gcd(x, y) \Leftrightarrow (x \vdots d \wedge y \vdots d \forall k ((x \vdots k \wedge y \vdots k) \rightarrow d \vdots k)$
         \item $c = \text{НОК}(x, y) \Leftrightarrow (c \vdots x \wedge c \vdots y \forall k ((k \vdots x \wedge k \vdots y) \rightarrow k \vdots c)$
     \end{enumerate}
 \end{example}
@@ -1181,7 +1181,7 @@ $$\underbrace{\forall\exists\exists\dots}_{\text{кванторы}}\underbrace{(
         \item $z = x \cup y \Leftrightarrow (x \subset z \wedge y \subset z \wedge \forall t((x \subset t \wedge y \subset t)) \rightarrow z \subset t)$
     \end{enumerate}
 \end{example}
-\hypertarget{lecture13}{}
+\lecture{13}
 
 \subsection{Элиминация кванторов}
 Рассмотрим следующее множество:
@@ -1289,7 +1289,7 @@ $$\langle \N, S, 0, =\rangle$$
 \begin{theorem}
     Если в игре Эренфойхта победит Новатор, то интерпретации не являются эквивалентными, и являются таковыми иначе.
 \end{theorem}
-\hypertarget{lecture14}{}
+\lecture{14}
 
 \section{Исчисление предикатов}
 Хотим расширить исчисление высказываний на формулы первого порядка, то есть, чтобы множество выводимых формул было равно множеству общезначных формул.
@@ -1459,7 +1459,7 @@ $$\{\text{выводимые формулы}\} = \{\text{общезначные 
         \vdash \{\neg \forall x \phi\} \rightarrow \neg A 
     \end{array}\right. \Rightarrow \vdash \neg\neg \forall x \phi \Rightarrow \vdash \forall x \phi \Rightarrow \phi$. 
 \end{proof}
-\hypertarget{lecture15}{}
+\lecture{15}
 
 \subsection{Теорема Геделя о Полноте}
 

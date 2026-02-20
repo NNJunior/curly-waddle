@@ -1,5 +1,5 @@
 
-\hypertarget{lecture1}{}
+\lecture{1}
 
 \section{Методы вычисления кратного интеграла}
 \subsection{Сведение кратного интеграла к повторному}
@@ -131,7 +131,7 @@
 По теореме Фубини, \(F(y) = \int_0^{+\infty} \sin x e^{-xy}dx \stackrel{\text{после нетрудных преобразований}}{=}\frac{y}{y^2 + 1}, y \in (0, 1)\)
 \[\iint_E f(x, y)dxdy = \int_{(0, 1)}\left(\int_{(0, +\infty)} f(x, y)dx\right)dy = \int_0^1 \frac{y}{y^2 + 1}dy = \frac{1}{2} \ln(y^2 + 1)|_0^1 = \frac{1}{2}\ln 2\]
 
-\hypertarget{lecture2}{}
+\lecture{2}
 
 \begin{note}
     Если \(g: E \ra \overline{\R}\) измерима, то \(\tilde{g}: E \times \R \ra \overline{\R}: \tilde{g}(x, t) = g(x)\) также измерима.
@@ -241,7 +241,7 @@
     Предположим, что \(\exists Q\) --- двоичный куб, такой, что \(\overline{Q} \subset U\), для которого \(\mu(g(Q)) > \int_Q |J_g|d\mu + \epsilon \mu(Q)\). Деля каждое ребро пополам, получаем разбиение \(Q\) на \(2^n\) двоичных кубов \(\{Q_i\}\). Предположим, что для каждого из \(Q_i\) выполнена лемма. Тогда пользуясь конечной аддитивностью меры и интеграла, для \(Q\) выполнена лемма. Тогда Б.О.О, \(\mu(g(Q_1)) > \int_{Q_1} |J_g|d\mu + \epsilon \mu(Q_1)\). Положим \(C_1 = \overline{Q}, C_2 = \overline{Q_1}, \dots\). По индукции строим последовательность замкнутых вложенных кубов, \(l(C_k) \ra 0\), такую, что \(\forall k \mu(g(C_k)) > \int_{C_k}|J_g(x)|d \mu(x) + \epsilon(\mu(C_k))\). Т.к. \(J_g\) --- непрерывна, то \(\frac{1}{\mu(C_k)}\int_{C_k} |J_g|d\mu \ra_{k \ra \infty} |J_g(x)| \Ra \limsup_{k \ra \infty} \frac{\mu(g(C_k))}{\mu(C_k)} \ge |J_g(x_0)| + \epsilon\).
 \end{proof}
 
-\hypertarget{lecture3}{}
+\lecture{3}
 
 \begin{lemma}
     Если \(E \subset U\) измеримо, то \(g(E)\) измеримо и \(\mu(g(E)) \le \int_E |J_g(x)| d\mu\)
@@ -360,7 +360,7 @@
     Из курса линейной алгебры известно, что элементы \(Df^{-1}(y)\) есть рациональные функции от \(\frac{\partial f_i}{\partial x_j}(f^{-1}(y))\) со знаменателем \(J_f(f^{-1}(y))\). В силу класса \(C^1\) функции \(f\) и непрерывности \(f^{-1}\), заключаем, что \(f^{-1} \in C^1(V)\).
 \end{proof}
 
-\hypertarget{lecture4}{}
+\lecture{4}
 
 \begin{note}
     Если в условиях Теоремы об обратной функции, \(f \in C^r\), где \(r \in \N \cup \{\infty\}\), то \(f^{-1} \in C^r\).
@@ -497,7 +497,7 @@
     Докажите, что теоремы о неявной функции и обратной функции эквивалентны.
 \end{problem}
 
-\hypertarget{lecture5}{}
+\lecture{5}
 
 \section{Гладкие многообразия и гладкие отображения}
 
@@ -644,7 +644,7 @@
     Пусть \(\phi: V \ra \R^n \psi: W \ra \R^n\) --- локальная параметризация, \(O = \phi(V) \cap \psi(W) \ne \emptyset\). Тогда \(g: \psi^{-1}(O) \ra \phi^{-1}(O), g = \phi^{-1}\circ\psi\) является диффеоморфизмом.
 \end{corollary}
 
-\hypertarget{lecture6}{}
+\lecture{6}
 
 Гладкость можно определить в координатах
 \begin{lemma}
@@ -738,7 +738,7 @@
     \(M = \{(x, y) : y = |x|\}\). Покажем, что \(M\) --- не одномерное многообразие. Докажем от противного. Пусть \(M\) --- одномерное многообразие, тогда найдется гладкая кривая \(\gamma = (\gamma_1, \gamma_2)\), такая, что \(\gamma(0) = 0, \gamma'(0) \ne 0\). Имеем: \(\gamma_1^2(t) = \gamma_2^2(t)\). Дифференцируя  это равнество, получаем \(2\gamma_1(t)\gamma'_1(t) = 2\gamma_2(t)\gamma_2'(t)\). \(\gamma_2(t) \ge 0 \Ra \) если \(\gamma_2(t) = 0 \Ra \gamma_2'(t) = 0 \Ra \gamma_1'(t) = 0\), противоречие, т.к. \( \gamma'(t) = 0\), противоречие.
 \end{example}
 
-\hypertarget{lecture7}{}
+\lecture{7}
 
 \subsection{Дифференциал гладкого отображения}
 \begin{definition}
@@ -891,7 +891,7 @@
     То есть \(\nabla f(p) \in (T_pM)^{\perp}\). Т.к. \(\nabla g_1(p), dots \nabla g_m(p)\) образуют базис в \((T_pM)^{\perp}\), поэтому такие \(\lambda_1, \lambda_2, \dots \lambda_m\) найдутся
 \end{proof}
 
-\hypertarget{lecture8}{}
+\lecture{8}
 
 \begin{note}
     Из Теоремы Лагранжа следует метод множителей Лагранжа: если \(p\) --- точка условного экстремума \(f\) на \(M\), то \(p\) --- стационарная точка функции Лагранжа:
@@ -978,7 +978,7 @@
     Где \(g_\phi = G_\phi, G_\phi = D\phi(a)^TD\phi(a)\) --- матрица Грама.
 \end{proof}
 
-\hypertarget{lecture9}{}
+\lecture{9}
 
 \begin{theorem}
     Существует единственная мера \(\nu\) на \(\mathcal{A_M}\), такая, что \(\forall\) параметризации \(\phi: V \ra U\) окрестности \(U\) в \(M\) и любого измеримого \(A \subset U\) выполнено:
@@ -1116,7 +1116,7 @@
     Множество \(M \subset \R^n\) называется кусочно-гладким \(m\)-мерным многообразием, если \(M = N \cup \bigcup_{i = 1}^\infty P_i\), где \(N, P_i\) --- гладкие многообразия, \(\dim N = m, \dim P_i < m\)
 \end{definition}
 
-\hypertarget{lecture10}{}
+\lecture{10}
 
 \begin{theorem}[Формула коплощади]
     Пусть \(f: \R \ra \R (n > 1)\) интегрируемо по Лебегу, тогда для почти всех \(r \in \R_+\) функция \(f\) интегрируема по сфере \(S_r(0) = \{x \in \R^n : |x| = r\}\) и справедлива формула:
@@ -1297,7 +1297,7 @@
     При \(n = 2\) для точности формы достаточно проверять равенство нулю интеграла по любому прямоугольнику со сторонами, параллельным осям.
 \end{corollary}
 
-\hypertarget{lecture11}{}
+\lecture{11}
 
 \begin{note}
     Пусть \(F_1, F_2\) --- первообразные 1-формы \(\omega\) в области \(U\), \(x_0, x \in U\). Тогда 
@@ -1467,7 +1467,7 @@ i_1 & i_2 & \dots & i_k\\
     При \(k > m\), имеем \(A_k(V) = \{0\}\).
 \end{corollary}
 
-\hypertarget{lecture12}{}
+\lecture{12}
 
 \begin{definition}
     Пусть \(k, l \in \N\). Рассмотрим \(S_{k, l} = \{\sigma \in S_{k + l}: \sigma(1) < \dots < \sigma(k), \sigma(k + 1) < \dots < \sigma(k + l)\} \subset S_{k + l}\). Элемент \(\sigma \in S_{k, l}\) называется \((k, l)\)-перетасовкой.
@@ -1636,7 +1636,7 @@ i_1 & i_2 & \dots & i_k\\
     Покажите, что \(d\omega_p(v_1, \dots v_{k + 1}) = \sum_{j = 1}^{k + 1}(-1)^{j - 1}\left.\frac{d}{dt}\right|_{t = 0}\omega_p + tv_j(v_1, \dots v_{j - 1}, v_{j + 1}, \dots v_{k + 1})\)
 \end{problem}
 
-\hypertarget{lecture13}{}
+\lecture{13}
 
 Пололжим \(\Omega(U) = \bigcup_{k = 0}^n \Omega^k(U)\). Тогда внешний дифференциал порождает ''послойное'' отображение \(d: \Omega(U) \ra \Omega(U)\).
 
@@ -1811,7 +1811,7 @@ i_1 & i_2 & \dots & i_k\\
     \(x \in C_{i + 1}, x \notin int\;C_{i - 1} \Ra x \notin C_{i - 2}\). Т.к. \(K_i\) --- компакт, то существует конечное подпокрытие, т.е. \(K_i \subset B_{x_1} \cup \dots \cup B_{x_{N_i}}\). Рассмотрим \(\{B_{i, r}: i \in \N, 1 \le r \le N\} = \{B_i\}_{i = 1}^\infty\)
 \end{proof}
 
-\hypertarget{lecture14}{}
+\lecture{14}
 
 Пусть в условиях предыдущей леммы \(R_i = \) радиус \(B_i\). Рассмотрим функцию ''шапочка'' \(\beta_i\) по числам \(r = \frac{R_i}{2}, R = R_i\). Тогда:
 \begin{enumerate}
@@ -1970,7 +1970,7 @@ i_1 & i_2 & \dots & i_k\\
     По теореме, \(M = \partial B\), где \(B = f^{-1}(-\infty, 0)\) --- открытое множество в \(\R^{m + 1}\). Оно ориентируемо, и тогда по предыдущей теореме \(M\) --- тоже.
 \end{proof}
 
-\hypertarget{lecture16}{}
+\lecture{16}
 
 \subsection{Теорема Стокса}
 

@@ -1,6 +1,6 @@
 
 
-\hypertarget{lecture1}{}
+\lecture{1}
 
 \section{Квадратичные вычеты и невычеты}
 
@@ -125,7 +125,7 @@
 
     Причем, \(qy < px \Lra y < \frac{px}{q}, qy > px \Lra \frac{qy}{p} > x\). Заметим, что \(|S_1| = \sum_{x = 1}^{q_1}\left[\frac{px}{q}\right]\), т.к. количество \(y\) для фиксированного \(x\) ровно \(\left[\frac{px}{q}\right]\). Но тогда получаем, что \(|S| = |S_1| + |S_2|\), что и требовалось.
 \end{proof}
-\hypertarget{lecture2}{}
+\lecture{2}
 
 \section{Матрицы Адамара}
 \begin{definition}
@@ -269,7 +269,7 @@
     \[M(2d - n) \le 2d\]
     \[M \le \frac{2d}{2d - n}\]
 \end{proof}
-\hypertarget{lecture3}{}
+\lecture{3}
 
 \begin{theorem}
   Пусть \(\mathcal{R}_n = \{1, 2, \dots n\}\). Пусть  \(\{M_1, M_2, \dots M_n\} \subseteq \mathcal{R}\). Тогда \(\exists\) раскраска множества \(\mathcal{R}_n\) в красный и синий цвета, при которой \(\forall i\) в \(M_i\) разность между количеством чисел элементов по модулю \(\le 6\sqrt{n}\)
@@ -304,7 +304,7 @@
 \begin{proof}[Доказательство неулучшаемости оценки]
 
 \end{proof}
-\hypertarget{lecture4}{}
+\lecture{4}
 
 \section{Распределение простых чисел}
 \begin{definition}
@@ -401,7 +401,7 @@
 \begin{definition}
     \(ind_g a\) --- такое число, что \(g^{ind_ga} = a\)
 \end{definition}
-\hypertarget{lecture5}{}
+\lecture{5}
 
 \begin{theorem}
     Первообразный корень существует по модулю \(m \Lra m \in \{2, 4, p^\alpha, 2p^\alpha\}\), где \(p\) --- нечетное простое
@@ -490,7 +490,7 @@
         \[S = \sum_{x_i = 1}^p x_i^{\alpha_i}, g^{\alpha_i}S \equiv_p \sum_{x_i = 1}^p (gx_i)^{\alpha_i} \equiv_p S \Ra S \equiv 0\]
     \end{enumerate}
 \end{proof}
-\hypertarget{lecture6}{}
+\lecture{6}
 
 \section{Тесты на простоту чисел}
 Хотелось бы чтобы тест на простоту работал за \(O(poly(\log n))\). Они делятся на вероятностные и детерминированные. Вероятностные тесты определяют простоту с некоторой вероятностью, при этом, если они ломаются, то искомое число ''почти простое''. Детерминированные тесты, в основном, придуманы для простых чисел особого вида, например, для чисел Мерсенна: \(2^p - 1, p\) --- простое. Существует один алгоритм \href{https://ru.wikipedia.org/wiki/Тест_Агравала_—_Каяла_—_Саксены}{Агравала — Каяла — Саксены}, но константа там настолько большая, что данный тест непригоден для использования.
@@ -592,7 +592,7 @@
         \item \(B_{SS}\) --- подгруппа в \(\Z_N^* \Ra |\Z_N^*|\vdots|B_{SS}|\) по теореме Лагранжа
     \end{enumerate}
 \end{proof}
-\hypertarget{lecture7}{}
+\lecture{7}
 
 \section{Диофантовы приближения, теорема Дирихле}
 
@@ -718,7 +718,7 @@ $[a_0; a_1, ..., a_m] = a_0 + \frac{1}{[a_1; a_2, ..., a_m]}$
 \end{proof}
 
 
-\hypertarget{lecture8}{}
+\lecture{8}
 
 \textit{Проделаем переход индукции с прошлой лекции, напомним, что хотим доказать:}
 
@@ -831,7 +831,7 @@ $$\left|f\left(\frac{p}{q}\right)\right| = \left|\alpha - \frac{p}{q}\right| \cd
 $\left|\alpha_i - \frac{p}{q}\right| = \left| \alpha_i - \alpha + \alpha - \frac{p}{q}\right| \le \left|\alpha_i - \alpha \right| + \left|\alpha - \frac{p}{q}\right| \le \underbrace{\left|\alpha_i - \alpha \right|}_{\overline{c_i}(\alpha)}$
 
 $$\left|\alpha - \frac{p}{q}\right| \ge \frac{1}{q^d} \cdot \frac{1}{a_d \prod_{i = 1}^{d - 1} \overline{c_i}(\alpha)}$$
-\hypertarget{lecture9}{}
+\lecture{9}
 
 \begin{theorem}[Roth]
     Пусть \(\alpha \notin \Q, \alpha \in \mathbb{A}\). Тогда \(\forall \epsilon > 0 \exists c(\alpha):\)
@@ -901,7 +901,7 @@ $$\left|\alpha - \frac{p}{q}\right| \ge \frac{1}{q^d} \cdot \frac{1}{a_d \prod_{
     \[ = \frac{1}{(n - 1)!}\frac{\left(m^{m + 1}\right)^n \cdot c(e)}{m} \ra 0, n \ra \infty\]
 \end{proof}
 
-\hypertarget{lecture10}{}
+\lecture{10}
 
 \subsection{7-ая проблема Гильберта}
 \begin{problem}[7-ая проблема Гильберта]
@@ -1035,7 +1035,7 @@ $$\left|\alpha - \frac{p}{q}\right| \ge \frac{1}{q^d} \cdot \frac{1}{a_d \prod_{
     При некотором \(n \ge N_2\):
     \[\le \left(1 - \frac{\epsilon}{2}\right)\left(1 + \frac{\epsilon}{2}\right) = 1 - \frac{\epsilon^2}{4} \le 1\]
 \end{proof}
-\hypertarget{lecture12}{}
+\lecture{12}
 
 \section{Равномерное распределение последовательностей}
 В дальнейшем будем считать, что \(\{x_n\}_{n = 1}^\infty\) --- последовательность дробных долей чисел \(x_n\).
@@ -1110,7 +1110,7 @@ $$\left|\alpha - \frac{p}{q}\right| \ge \frac{1}{q^d} \cdot \frac{1}{a_d \prod_{
 \begin{proof}
     Доказательство предоставляется читатеялю в качестве нетрудного упражнения
 \end{proof}
-\hypertarget{lecture14}{}
+\lecture{14}
 
 \section{Вероятноестное детерминирования}
 

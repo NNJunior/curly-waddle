@@ -1,5 +1,5 @@
 
-\hypertarget{lecture1}{}
+\lecture{1}
 
 Короче, как-то будем сдавать какой-то экзамен. Очень сложно, ничего не понятно
 
@@ -189,7 +189,7 @@
 \begin{theorem}[О структуре ВУМ]
     \(S\) --- ВУМ, тогда \(\exists L\) --- тоже ВУМ, конечное множество \(K\), такие, что \(S \cong \omega \cdot L + K\)
 \end{theorem}
-\hypertarget{lecture2}{}
+\lecture{2}
 
 \begin{theorem}[О трансфинитной рекурсии]
     Пусть задано рекурсивное правило:
@@ -412,7 +412,7 @@
 \begin{theorem}[Об ординарной системе счисления]
     Пусть \(\gamma < \alpha^\beta\). Тогда \(\exists!\) представление \(\gamma = \alpha^{\beta_1}\cdot\alpha_1 + \alpha^{\beta_2}\cdot\alpha_2 + \dots + \alpha^{\beta_n}\cdot\alpha_n\), где \(\beta > \beta_1 > \beta_2 > \dots > \beta_n, \alpha_i < \alpha\)
 \end{theorem}
-\hypertarget{lecture3}{}
+\lecture{3}
 
 \section{Лемма Цорна, Теорема Цермело}
 
@@ -585,7 +585,7 @@
 \begin{proof}
     Рассмотрим функцию, которая меняет местами две координаты в базисе Гамиля при числах \(a, b\). Заметим, что \(f(0) = 0\). При этом \(f(a) = b, f(b) = a\). Но тогда \(\alpha = \frac{a}{b} = \frac{b}{a}\), противоречие, т.к. \(b \ne a\).
 \end{proof}
-\hypertarget{lecture5}{}
+\lecture{5}
 
 \section{Теория вычислимости}
 \subsection{Алгоритм}
@@ -704,7 +704,7 @@ for i in 0, 1, 2...
     \item[\(\Ra\)] пробегаемся по \(\Sigma^*\), и, если элемент \(\in S\), то выводим его. Аналогично для \(\overline{S}\)
     \item[\(\La\)] По очереди перечисляем элементы \(S, \overline{S}\). Рано или поздно мы встретим \(x \Ra\) выведем, где мы его встретили, в \(S\) или \(\overline{S}\).
 \end{proof}
-\hypertarget{lecture6}{}
+\lecture{6}
 
 \subsection{Свойства, эквивалентные перечислимости}
 Далее будем считать, что наш алфавит --- \(\{0, 1\}\).
@@ -801,7 +801,7 @@ for i in 0, 1, 2...
         \item \(\forall f: \{0, 1\}^* \ra \{0, 1\}^*\), где \(f\) --- вычислима, верно \(\exists p \forall x\;U(p, x) = f(x)\)
     \end{enumerate}
 \end{definition}
-\hypertarget{lecture7}{}
+\lecture{7}
 
 \begin{theorem}
     Универсальная Машина Тьюринга существует.
@@ -953,7 +953,7 @@ for i in 0, 1, 2...
     \end{array}\right.\]
     Заметим, что \(NED_{U'} = \{n | \exists x U'(n, x) \text{ определено}\} = \N \setminus \{0\}\) --- разрешимо
 \end{proof}
-\hypertarget{lecture8}{}
+\lecture{8}
 
 \begin{definition}
     \(U: \N\times\N \ra \N\) --- главная универсальная вычислимая функция, если 
@@ -1012,7 +1012,7 @@ for i in 0, 1, 2...
 \end{corollary}
 
 Доделаю потом
-\hypertarget{lecture9}{}
+\lecture{9}
 
 \section{Связь этого бреда с языками первого порядка}
 \subsection{Арифметическая иерархия}
@@ -1086,7 +1086,7 @@ for i in 0, 1, 2...
         \item \(x \vdots y \Lra \exists z\;x = y \cdot z\)
         
         \item \(p\text{ --- простое }\Lra(p > 1 \wedge (\forall q (p \vdots q \ra (q = p \vee q = 1))))\)
-        \item \(d = \text{НОД}(x, y) \Lra (x \vdots d \wedge y \vdots d \wedge \forall t((x\vdots t \wedge y \vdots t) \ra d \vdots t))\)
+        \item \(d = \gcd(x, y) \Lra (x \vdots d \wedge y \vdots d \wedge \forall t((x\vdots t \wedge y \vdots t) \ra d \vdots t))\)
         \item \(S\text{ --- степень }2 \Lra \forall d(s \vdots d \ra d = 1 \vee d \vdots 2)\)
         \item \(S\text{ --- степень }4 \Lra \exists q:(q \text{ степень }2 \wedge s = q^2)\)
         \item \(S\text{ --- степень }6 \Lra \exists k \exists (s_0, \dots s_k)(s_0 = 1 \wedge s_k = s \wedge \forall i \in [0, k - 1] s_{i + 1} = 6 \cdot s_i)\), но это не формула первого порядка, проблема
@@ -1153,7 +1153,7 @@ for i in 0, 1, 2...
 \end{proof}
 
 
-\hypertarget{lecture10}{}
+\lecture{10}
 
 \subsection{Важная Теорема}
 
@@ -1254,7 +1254,7 @@ for i in 0, 1, 2...
     Тогда по индукции доказали, что \(\forall x \phi(x)\)
 \end{proof}
 
-\hypertarget{lecture11}{}
+\lecture{11}
 
 \begin{corollary}
     \(x + 0 = 0 + x\)
@@ -1358,7 +1358,7 @@ for i in 0, 1, 2...
     Среди утвеждений вида \(K(x) > t\) есть истинные, но не доказуемые
 \end{note}
 
-\hypertarget{lecture12}{}
+\lecture{12}
 
 \section{\(\lambda\)-исчисление}
 Исторически это один из первых подходов к теории вычислимости. Раньше все рассматриваемые нами объекты являлись множествами (натуральные числа, машины Тьюринга и т.д.). Сейчас все рассматриваемые нами объекты мы будем определять через функции.
@@ -1472,7 +1472,7 @@ for i in 0, 1, 2...
     \[= (\lambda xy.y)XY = ((\lambda xy.y)X)Y = (\lambda y.y)Y = Y\]
 \end{proof}
 
-\hypertarget{lecture13}{}
+\lecture{13}
 
 \subsection{Нумералы Черча}
 \begin{definition}
@@ -1632,7 +1632,7 @@ for i in 0, 1, 2...
 \subsection{Комбинатор Клопа}
 \[\mathcal{L} = \lambda abcdefghijklmnopqstuvwxyzr.r(thisisafixedpointcombinator)\]
 Тогда \(Y = \underbrace{\mathcal{L}\mathcal{L}\dots\mathcal{L}}_{26}\)
-\hypertarget{lecture14}{}
+\lecture{14}
 
 \section{\(P\) vs \(NP\)}
 

@@ -1,5 +1,5 @@
 
-\hypertarget{lecture1}{}
+\lecture{1}
 
 
 \section{Пространство Лебега}
@@ -121,7 +121,7 @@
     По предыдущей лемме, любую функцию можно приблизить финитной простой функцией. Всякая простая функция есть линейная комбинация индикаторов. Из этого заключаем, что достаточно доказать теорему для случая \(f = I_A\), где \(A\) --- ограниченное измеримое множество. По свойству регулярности меры Лебега, \(\exists G, H\) --- открытые, такие, что \(G \supset A, H \supset A^c\) и \(\mu(G \setminus A) < \frac{\epsilon}{2}, \mu(H \setminus A^c) < \frac{\epsilon}{2}\). Положим \(k = H^c\) --- замкнутое и ограниченное (т.к. лежит в \(A\)), т.е. компакт, лежащий в \(A\). \(\mu(G \setminus A) \le \mu(G \setminus A) + \mu(H \setminus A^c) < \epsilon\). По теореме о гладком разбиении единицы, \(\exists g \in C^\infty(\R^m)\) с носителем в \(G\), такая, что \(0 \le g \le 1\) и \(g|_K = 1\). Поэтому \(\|I_A - g|_E\|_p^p = \int_E |I_A - g|^p \le \int_{(G \cap E) \setminus K} |I_A - g|^p \le \mu(G \setminus K) < \epsilon\)
 \end{proof}
 
-\hypertarget{lecture2}{}
+\lecture{2}
 
 \begin{theorem}[Кантора]
     Пусть \(f: U \ra \Cm\), где \(U \subset \R^n\) --- открыто. Тогда, если \(K\) --- компакт и \(f\) непрерывна на нем, то \(f\) равномерно непрерывна на нем, т.е.
@@ -250,7 +250,7 @@
         |J| = n^m
     \end{array}\right\} = \int_{|y| \ge n\delta}\phi dy = \int_{\R^m}\phi I_{\{|y| \ge n\delta\}} dy \ra 0\]
 \end{example}
-\hypertarget{lecture3}{}
+\lecture{3}
 \begin{theorem}
     Пусть \(\{K_n\}_{n = 1}^\infty\) --- аппроксимация единицы и \(f\) --- ограниченная измеримая функиция на \(\R^n\). Тогда справедливы утверждения:
     \begin{enumerate}

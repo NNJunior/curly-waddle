@@ -193,8 +193,11 @@
 \newcommand{\foo}[1]{\framebox{#1}}
 \renewcommand{\limsup}{\overline{\lim}}
 \renewcommand{\liminf}{\underline{\lim}}
+\newcommand{\lecture}[1]{\hypertarget{lecture_#1}{}}
 \DeclareMathOperator{\ord}{ord}
 \DeclareMathOperator{\supp}{supp}
+\let\gcd\relax
+\DeclareMathOperator{\gcd}{\text{НОД}}
 
 \let\Variance\relax
 \DeclareMathOperator{\Variance}{Var}

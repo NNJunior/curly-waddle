@@ -1,5 +1,5 @@
 
-\hypertarget{lecture1}{}
+\lecture{1}
 
 \section{Класс \(\mathbf{P}\)}
 
@@ -101,7 +101,7 @@
     Если \(f \ll g \Ra \mathbf{DTIME(f(n))} \subsetneq \mathbf{DTIME(g(n))}\)
 \end{theorem}
 
-\hypertarget{lecture2}{}
+\lecture{2}
 
 \section{Класс \(\mathbf{NP}\)}
 
@@ -316,7 +316,7 @@
     Принадлежность \(\mathbf{NP}\) уже доказали, докажем принадлежность \(\mathbf{NPC}\). Пусть \(A \in \mathbf{NP}\). По определению: \(x \in A \Lra \exists s: V(x, s) = 1\). Положим \(M\) --- машину Тьюринга, вычисляющую \(V\), \(t(n)\) --- время работы \(V\) для \(|x| = n\). Тогда положим \(f(x) = (M, x, 1^{t(|x|)})\) и получим, что \(A \le_p \mathsf{TMSAT}\).
 \end{proof}
 
-\hypertarget{lecture3}{}
+\lecture{3}
 
 \begin{definition}
     \(\mathsf{3SAT} = \{\phi | \phi \text{ --- выполнимая 3-КНФ}\}\).

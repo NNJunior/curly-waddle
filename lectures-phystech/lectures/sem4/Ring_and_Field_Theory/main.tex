@@ -1,5 +1,5 @@
 
-\hypertarget{lecture1}{}
+\lecture{1}
 
 \section{Вступление}
 
@@ -135,7 +135,7 @@
     Но \(2 \not\sim 2i, 2 \not\sim -2i\), т.к. \(\Z[2i]^* = \{\pm 1\}\).
 \end{example}
 
-\hypertarget{lecture2}{}
+\lecture{2}
 
 \subsection{Как доказывать факториальность колец?}
 Для натуральных чисел мы проверяли условие \textbf{Леммы Евклида}: \(ab \vdots p \Ra a\vdots p\) или \(b \vdots p\). Это приводит нас к следующему определению:
@@ -153,6 +153,14 @@
 \end{proposition}
 \begin{proof}
     Пусть \(p\) --- простой. Пусть \(p = ab\). Тогда \(ab \vdots p \Ra a \vdots p\) или \(b \vdots p\). Б.О.О, \(a \vdots p\). Тогда \(p \vdots a \Ra b \in K^* \Ra p\) неразложим.
+\end{proof}
+
+\begin{proposition}
+    В факториальном кольце любой неразложимый элемент прост.
+\end{proposition}
+\begin{proof}
+    Пусть \(z\) --- неразложим, и \(ab \vdots z \Lra ab = cz\). Тогда, если \(a = up_1\dots p_s, b = wq_1\dots q_l\), то: \(up_1\dots p_swq_1\dots q_l = \underbrace{\dots}_cz\)
+    Из факториальности, имеем, что либо \(z \sim q_i\), либо \(z \sim p_i\), в обоих случаях утверждение доказано
 \end{proof}
 
 \begin{theorem}
@@ -226,7 +234,7 @@
 \subsection{Алгоритм Евклида}
 
 \begin{definition}
-    Пусть \(a, b \in K \setminus \{0\}\). \(d\) называется наибольшим общим делителем \(a, b\) (или \(\text{НОД}(a, b)\)), если \(d\) --- общий делитель с наибольшей нормой.
+    Пусть \(a, b \in K \setminus \{0\}\). \(d\) называется наибольшим общим делителем \(a, b\) (или \(\gcd(a, b)\)), если \(d\) --- общий делитель с наибольшей нормой.
 \end{definition}
 
 \begin{definition}
@@ -234,14 +242,14 @@
 \end{definition}
 
 \begin{note}
-    \(\text{НОД}(r_{i - 1}, r_i) = \text{НОД}(r_i, r_{i + 1})\)
+    \(\gcd(r_{i - 1}, r_i) = \gcd(r_i, r_{i + 1})\)
 \end{note}
 \begin{proof}
     Следует из разложения \(r_{i - 1} = qr_i + r_{i + 1}\)
 \end{proof}
 
 \begin{lemma}
-    Пусть \(a, b \in K \setminus \{0\}\), \(d = \text{НОД}(a, b)\). Тогда \(\exists x, y \in K: ax + by = d\)
+    Пусть \(a, b \in K \setminus \{0\}\), \(d = \gcd(a, b)\). Тогда \(\exists x, y \in K: ax + by = d\)
 \end{lemma}
 \begin{proof}
     Заметим, что на каждом шаге алгоритма Евклида, каждый \(r_i\) является линейной комбинацией \(a, b\) (нетрудно доказать по индукции). Но тогда возьмем предпоследнее \(r_i\) в алгоритме Евклида (последний равен 0). Он и будет НОДом.
@@ -253,10 +261,10 @@
 \begin{proof}
     \begin{enumerate}
         \item \textbf{Существование разложения.} Пусть \(x\) --- элемент с наименьшей нормой, для которого не существует разложения. Если \(x = ab \Lra a \in K^*\) или \(b \in K^* \Ra x\) --- неразложим. Но тогда его разложение \(x = x\). Если существует разложение, где \(a \notin K^*, b \notin K^*\), то \(N(ab) > N(a), N(b)\) (иначе б.о.о \(N(ab) = N(a)\) и тогда \(b \in K^*\)). Но тогда \(a, b\) разложимы и \(a = up_1\dots p_s, b = wq_1\dots q_l\) и \(x = (uw)p_1\dots p_s q_1\dots q_l\).
-        \item \textbf{Единственность разложения.} Докажем, что любой неразложимый элемент является простым. Пусть \(p\) неразложим и \(ab \vdots p\). Рассмотрим \(\text{НОД}(a, p) = \left[\begin{array}{l}
+        \item \textbf{Единственность разложения.} Докажем, что любой неразложимый элемент является простым. Пусть \(p\) неразложим и \(ab \vdots p\). Рассмотрим \(\gcd(a, p) = \left[\begin{array}{l}
             1 \\
             p \Ra a \vdots p
-        \end{array}\right.\). Для случая \(\text{НОД}(a, p) = 1\) имеем: \(ax + py = 1\). Тогда: \(\underbrace{ab}_{\vdots p}x + pby = b\), левая часть делится на \(p\), поэтому правая --- тоже.
+        \end{array}\right.\). Для случая \(\gcd(a, p) = 1\) имеем: \(ax + py = 1\). Тогда: \(\underbrace{ab}_{\vdots p}x + pby = b\), левая часть делится на \(p\), поэтому правая --- тоже.
     \end{enumerate}
 \end{proof}
 
@@ -270,3 +278,157 @@
         \item Пусть даны \(a, b \in K \setminus \{0\}\). При этом, \(\tilde{N}(b) = N(bc)\) для некоторого \(c\). Разделим \(a\) на \(bc\) в норме \(N\): \(a = (bc)q + r\). Тогда \(a = b(cq) + r\) и \(\tilde{N}(r) \le N(r) < N(bc) = N(b)\) или \(r = 0\), что и требовалось.
     \end{enumerate}
 \end{proof}
+
+\lecture{3}
+
+\subsection{Областности целостности с мультипликативной нормой}
+
+Далее, пусть \(D\) --- область целостности, такая, что \(\Z supset D\) с ''нормой'' \(N: D \ra \Z_{\ge 0}\), которая удовлетворяет следующим свойствам:
+\begin{enumerate}
+    \item \(N(xy) = N(x)N(y)\)
+    \item \(N(x) = 1 \Lra x \in D^*\)
+    \item \(N(x) \vdots x\)
+    \item \(N(p) = p^2\)
+\end{enumerate}
+
+\begin{proposition}
+    \begin{enumerate}
+        \item \(N(z) = p \Ra z\) --- неразложим (\(p\) --- простое)
+        \item Нет \(z\) с \(N(z) = p \Ra p\) неразложим.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}
+        \item \(z = ab \Ra p = N(z) = N(a)N(b) \Ra \left[\begin{array}{l}
+            N(a) = 1 \\
+            N(b) = 1
+        \end{array}\right. \Ra\) один из \(a, b\) лежит в \(D^*\)
+        \item \(p = ab \Ra N(p) = N(a)N(b) = p^2\). Т.к. \(N(z) \ne p \forall z\), заключаем, что  \(\left[\begin{array}{l}
+            N(a) = 1 \\
+            N(b) = 1
+        \end{array}\right. \Ra\) один из \(a, b\) лежит в \(D^*\)
+    \end{enumerate}
+\end{proof}
+
+\begin{proposition}
+    \(D\) --- факториально \(\Ra\) если \(z\) неразложим, то или \(N(z) = p\) --- простое, или \(z \sim p\), где \(p\) простое и неразложимо.
+\end{proposition}
+\begin{proof}
+    \(z\) неразложим \(\Ra z\) простое. По условию, \(N(z) = p_1\dots p_s \vdots z \Ra \exists j: p_j \vdots z \Ra N(P_j) \vdots N(z) \Ra \left[\begin{array}{l}
+        N(z) = 1 \\
+        N(z) = p_j \\
+        N(z) = p_j^2 \\ 
+    \end{array}\right.\).
+    Первый случай невозможен, т.к. тогда \(z \in D^*\), что противоречит с определением неразложимости. Если выполнен второй случай, то требуемое доказано. Если выполнено третье, то \(N(z) = p_j^2 = N(p_j), p_j \vdots z \Ra p_j = az \Ra N(a) = 1 \Ra a \in D^*\). Таким образом, оставшиеся два случая дают желаемое.
+\end{proof}
+
+\begin{theorem}[Рождественская Теорема Ферма]
+    Пусть \(p\) --- простое число. В \(\Z[i]\) выполнено следующее:
+    \begin{enumerate}
+        \item \(p = 4k + 3 \Ra\) оно неразложимо
+        \item \(p = 4k + 1 \Ra\) оно разложимо
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    \begin{enumerate}
+        \item Верно, т.к. \(a^2 + b^2 \not\equiv_4 3\).
+        \item Заметим, что \(1\) --- вычет \(\mod p\), т.к. \(\left( \frac{-1}{p} \right) = (-1)^{\frac{p - 1}{2}} = 1\). Тогда \(\exists x: x^2 + 1 \vdots p\). Тогда \((x - i)(x + i) \vdots p\). Если \(p\) неразложим \(\Ra p\) прост \(\Ra\) одно из \(x + i, x - i\) делится на \(p \Ra 1\vdots p\) --- противореичие.
+    \end{enumerate}
+\end{proof}
+
+\begin{proposition}
+    Пусть \(p\) --- простое число. В \(\Z[\omega]\) выполнено следующее:
+    \begin{enumerate}
+        \item \(p = 3k + 2 \Ra\) оно неразложимо
+        \item \(p = 3k + 1 \Ra\) оно разложимо
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}
+        \item Верно, т.к. \(a^2 - ab + b^2 \equiv_3 (a + b)^2 \not\equiv_3 2\).
+        \item Заметим, что \(3\) --- вычет \(\mod p\), т.к. \(\left( \frac{-3}{p} \right) = \left( \frac{-1}{p} \right)\left( \frac{p}{3} \right)\left( \frac{-1}{p} \right) = \left( \frac{1}{3} \right) = 1\). Тогда \(\exists x: x^2 + 3 \vdots p\). Тогда \((x - (2\omega + 1))(x + (2\omega + 1)) \vdots p\).
+    \end{enumerate}
+\end{proof}
+
+\begin{exercise}
+    Закончите доказательство утверждения выше.
+\end{exercise}
+
+\section{Идеалы}
+Пусть \(K\) --- коммутативное кольцо.
+\begin{definition}
+    \(I \subset K\) называется идеалом, если:
+    \begin{enumerate}
+        \item \((I, +) \le (K, +)\) --- абелева группа
+        \item \(\forall a \in I: \forall x \in K: ax \in I\).
+    \end{enumerate}
+\end{definition}
+
+\subsection{Примеры}
+\begin{enumerate}
+    \item \(\{0\}, K\) --- тривиальные идеалы
+    \item \(\{ax | x \in K\} = (a)\) --- идеал порожденный \(a\). Такой идеал называется главным идеалом.
+    \item \(\{a_1x_1 + \dots + a_nx_n | x_i \in K\} = (a_1, \dots a_n)\) --- идеал порожденный \(a_1, \dots a_k\). Такой идеал называется конечно-порожденным идеалом.
+\end{enumerate}
+
+\begin{proposition}
+    \(I \subset K\) --- идеал \(\Lra \forall a, b \in I: a + b \in I\) и \(\forall a \in I: \forall x \in K: ax \in I\)
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}
+        \item[\(\Ra\)] очевидно как свойство абелевой группы
+        \item[\(\La\)] следует из критерия подгруппы
+    \end{enumerate}
+\end{proof}
+
+\subsection{Идеалы и делимость}
+\begin{proposition}
+    \begin{enumerate}
+        \item \(a \vdots b \Lra (a) \subset (b)\)
+        \item \(a \sim b \Lra (a) = (b)\)
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}
+        \item \(x \in (a) \Ra x \vdots a \Ra x \vdots b \Ra x \in (b)\). В другую сторону: \((a) \subset (b) \Ra a \in (b) \Ra a \vdots b\).
+        \item Следует из свойств \(a, b: a \sim b \Lra a \vdots b, b \vdots a\).
+    \end{enumerate}
+\end{proof}
+
+\begin{note}
+    В \(\Z\) верно следующее: пусть \(d = \gcd(a, b)\)
+    \begin{enumerate}
+        \item \((a, b) = (d)\)
+        \item \((\gcd(a, b)) = (a) \cup (b) = (a, b)\)
+        \item \((\text{НОК}(a, b)) = (a) \cap (b)\)
+    \end{enumerate}
+\end{note}
+
+\begin{definition}
+    Пусть \(K\) --- область целостности. \(K\) называется кольцом главных идеалов (КГИ), если все идеалы в нем главные.
+\end{definition}
+
+\begin{theorem}
+    Евклидово кольцо является КГИ
+\end{theorem}
+\begin{proof}
+    Пусть \(I \subset K\) --- идеал, где \(K\) --- евклидово кольцо. Рассмотрим \(x \in I\) с наименьшей нормой в нем. Пусть \(a \in I\). Тогда \(a = qx + r\). Если \(r = 0\), то \(a \in (x)\). Иначе, \(N(r) < N(a), r = a - qx \in I \Ra x\) был не с минималной нормой, противоречие, значит, \(I = (x)\).
+\end{proof}
+
+\begin{example}
+    \(\Z\left[ \frac{-1 + \sqrt{d}}{2} \right], d = 7, 11\)
+\end{example}
+
+\begin{theorem}
+    КГИ является факториальным
+\end{theorem}
+\begin{proof}
+    \begin{enumerate}
+        \item \textbf{Любой неразложимый прост.} Пусть \(p\) неразложим и \(ab \vdots p\). Рассмотрим \(\{x \in K: ax \vdots p\} = I\). \(x, y \in I \Ra ax \vdots p, ay \vdots p \Ra a(x + y) \vdots p \Ra x + y \in I \Ra I\). Также, \(x \in I, z \in K \Ra ax \vdots p \Ra axz \vdots p \Ra xz \in I\). Таким образом, \(I\) --- идеал. Из КГИ знаем, что \(I = (d)\). Заметим, что \(p \in I, b \in I\). Тогда \(p \vdots d \Ra\) либо \(d \sim 1 \Ra a \vdots p\), либо \(d \sim p \Ra I = (p) \Ra b \vdots p\).
+        \item \textbf{Существование разложения.} Пусть \(x \in K\) не имеет разложения. Построим последовательность \(x = x_0\), далее продлим ее следующим образом: если \(x_i\) не имеет разложения, то \(x_i = ab, a, b \notin K^*\), гле либо \(a\), либо \(b\) не имеет разложения. Положим данный элемент за \(x_{i + 1}\), оставшийся за \(a_{i + 1}\). Рассмотрим последовательность идеалов \((x_0) \subsetneq (x_1) \dots \) и идеал \(I = \bigcup_{i = 0}^\infty (x_i)\). Из КГИ имеем, что \(I = (d) \Ra d \in x_N\) для некоторого \(N \Ra I = x_N\). Имеем, что \(x_{N + 1} \in x_N\), получили противоречие.
+    \end{enumerate}
+\end{proof}
+
+\begin{example}[Факториальных КГИ, но не евклидовых]
+    \(\Z\left[ \frac{-1 + \sqrt{d}}{2} \right], d = 19, 43, 67, 163\).
+\end{example}
