@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Крестики-нолики — игра</title>
+  <title>Крестики-нолики — умный робот</title>
   <style>
     /* === Базовые стили (как в основном сайте) === */
     :root {
@@ -86,6 +86,37 @@
       margin-top: 2rem;
     }
 
+    .mode-selector {
+      margin-bottom: 1.5rem;
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .mode-btn {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 40px;
+      padding: 0.5rem 1.5rem;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.1s ease;
+      color: var(--text);
+    }
+
+    .mode-btn.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    .mode-btn:hover {
+      background: var(--primary-light);
+      color: white;
+      border-color: var(--primary-light);
+    }
+
     .status {
       font-size: 1.2rem;
       margin-bottom: 1.5rem;
@@ -164,17 +195,22 @@
     <!-- Навигация — все ссылки ведут на единственную страницу конспектов (index.html) -->
     <div class="nav-bar">
       <a href="index.html">🏠 Главная</a>
-      <a href="index.html#sem/1">Семестр 1</a>
-      <a href="index.html#sem/2">Семестр 2</a>
-      <a href="index.html#sem/3">Семестр 3</a>
-      <a href="index.html#sem/4">Семестр 4</a>
+      <a href="index.html#sem1">Семестр 1</a>
+      <a href="index.html#sem2">Семестр 2</a>
+      <a href="index.html#sem3">Семестр 3</a>
+      <a href="index.html#sem4">Семестр 4</a>
       <a href="#" class="active">🎮 Игра</a>
     </div>
 
     <h1>❌ Крестики-нолики ⭕</h1>
-    <p style="color: var(--text-light); text-align: center;">Игра для двух игроков</p>
+    <p style="color: var(--text-light); text-align: center;">Играй с другом или против умного робота</p>
 
     <div class="game-container">
+      <div class="mode-selector">
+        <button class="mode-btn active" id="mode2p">👥 Два игрока</button>
+        <button class="mode-btn" id="modeVsAI">🤖 Против робота</button>
+      </div>
+
       <div class="status" id="status">Ход: X</div>
 
       <div class="board" id="board"></div>
@@ -188,21 +224,27 @@
   </div>
 
   <script>
-    // === Логика игры (крестики-нолики) ===
+    // === Состояние игры ===
     let board = ['', '', '', '', '', '', '', '', ''];
     let currentPlayer = 'X';
     let gameActive = true;
+    let vsAI = false; // false = два игрока, true = против компьютера
 
+    // DOM элементы
     const statusEl = document.getElementById('status');
     const boardEl = document.getElementById('board');
     const resetBtn = document.getElementById('resetBtn');
+    const mode2pBtn = document.getElementById('mode2p');
+    const modeVsAIBtn = document.getElementById('modeVsAI');
 
+    // Победные комбинации
     const winPatterns = [
       [0,1,2], [3,4,5], [6,7,8],
       [0,3,6], [1,4,7], [2,5,8],
       [0,4,8], [2,4,6]
     ];
 
+    // === Отрисовка поля ===
     function renderBoard() {
       boardEl.innerHTML = '';
       board.forEach((value, index) => {
@@ -216,31 +258,108 @@
       });
     }
 
+    // === Обработчик клика по клетке ===
     function handleCellClick(e) {
       const index = e.target.dataset.index;
       if (!gameActive || board[index] !== '') return;
 
-      board[index] = currentPlayer;
-      e.target.textContent = currentPlayer;
-      e.target.classList.add('taken');
+      // Делаем ход игрока
+      makeMove(index, currentPlayer);
+    }
 
+    // === Выполнение хода ===
+    function makeMove(index, player) {
+      if (!gameActive || board[index] !== '') return false;
+
+      board[index] = player;
+      const cell = boardEl.children[index];
+      cell.textContent = player;
+      cell.classList.add('taken');
+
+      // Проверка победы
       const winner = checkWinner();
       if (winner) {
         statusEl.textContent = `🏆 Игрок ${winner} победил!`;
         gameActive = false;
-        return;
+        return true;
       }
 
+      // Проверка ничьей
       if (!board.includes('')) {
         statusEl.textContent = `🤝 Ничья!`;
         gameActive = false;
+        return true;
+      }
+
+      // Смена игрока
+      currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+      statusEl.textContent = `Ход: ${currentPlayer}`;
+
+      // Если режим против ИИ и сейчас ход 'O' (робот)
+      if (vsAI && currentPlayer === 'O' && gameActive) {
+        setTimeout(aiMove, 300); // небольшая задержка для реализма
+      }
+
+      return true;
+    }
+
+    // === Умный ход компьютера ===
+    function aiMove() {
+      if (!gameActive || currentPlayer !== 'O') return;
+
+      // 1. Проверить, может ли ИИ выиграть следующим ходом
+      for (let i = 0; i < 9; i++) {
+        if (board[i] === '') {
+          board[i] = 'O';
+          if (checkWinner() === 'O') {
+            board[i] = ''; // откатываем, потому что makeMove сделает ход заново
+            makeMove(i, 'O');
+            return;
+          }
+          board[i] = '';
+        }
+      }
+
+      // 2. Проверить, может ли игрок выиграть следующим ходом, и заблокировать
+      for (let i = 0; i < 9; i++) {
+        if (board[i] === '') {
+          board[i] = 'X';
+          if (checkWinner() === 'X') {
+            board[i] = '';
+            makeMove(i, 'O');
+            return;
+          }
+          board[i] = '';
+        }
+      }
+
+      // 3. Занять центр, если свободен
+      if (board[4] === '') {
+        makeMove(4, 'O');
         return;
       }
 
-      currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
-      statusEl.textContent = `Ход: ${currentPlayer}`;
+      // 4. Занять угол (0,2,6,8) случайно
+      const corners = [0, 2, 6, 8];
+      const availableCorners = corners.filter(i => board[i] === '');
+      if (availableCorners.length > 0) {
+        const randomCorner = availableCorners[Math.floor(Math.random() * availableCorners.length)];
+        makeMove(randomCorner, 'O');
+        return;
+      }
+
+      // 5. Любой случайный ход из оставшихся
+      const emptyIndices = board.reduce((acc, cell, idx) => {
+        if (cell === '') acc.push(idx);
+        return acc;
+      }, []);
+      if (emptyIndices.length > 0) {
+        const randomIndex = emptyIndices[Math.floor(Math.random() * emptyIndices.length)];
+        makeMove(randomIndex, 'O');
+      }
     }
 
+    // === Проверка победителя ===
     function checkWinner() {
       for (let pattern of winPatterns) {
         const [a,b,c] = pattern;
@@ -251,6 +370,7 @@
       return null;
     }
 
+    // === Сброс игры ===
     function resetGame() {
       board = ['', '', '', '', '', '', '', '', ''];
       currentPlayer = 'X';
@@ -259,8 +379,23 @@
       renderBoard();
     }
 
+    // === Переключение режимов ===
+    function setMode(mode) {
+      vsAI = (mode === 'ai');
+      mode2pBtn.classList.toggle('active', !vsAI);
+      modeVsAIBtn.classList.toggle('active', vsAI);
+      resetGame();
+    }
+
+    // === Инициализация и обработчики ===
     renderBoard();
     resetBtn.addEventListener('click', resetGame);
+
+    mode2pBtn.addEventListener('click', () => setMode('2p'));
+    modeVsAIBtn.addEventListener('click', () => setMode('ai'));
+
+    // При загрузке устанавливаем режим двух игроков по умолчанию
+    setMode('2p');
   </script>
 </body>
 </html>
