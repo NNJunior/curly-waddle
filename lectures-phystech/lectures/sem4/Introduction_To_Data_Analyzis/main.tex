@@ -38,4 +38,33 @@
 \end{proposition}
 \begin{proof}
     \[F(\theta) = \|Y - X\theta\|^2 = (Y - X\theta)^T(Y - X\theta) = Y^TY - 2Y^TX\theta + \theta^TX^TX\theta\]
+    Посчитаем градиент данной функции по \(\theta\):
+    \[\nabla F(\theta) = -2X^TY + 2X^TX\theta = 0\]
+    Домножим на \((X^TX)^{-1}\) слева:
+    \[\hat{\theta} = \underbrace{(X^TX)^{-1}X^T}_{\text{псевдообратная матрица}}Y\]
+    Т.к. функция \(\|Y - X\theta\|^2\) квадратична, точка с нулевым градиентом является точкой минимума.
 \end{proof}
+
+\subsection{Градиентный спуск (GD)}
+Пусть у нас есть задача \(f(x) \ra \min_x\).
+\begin{note}
+    \(\nabla f\) --- направление наибольшего роста \(f(x)\) в точке \(x\).
+\end{note}
+
+\textbf{Идея:} будем идти в противоположную сторону.
+
+Пусть \(x_0\) --- начальное приближение. Будем действовать по следующему алгоритму: будем постепенно делать шаги, каждый новый шаг определяется формулой \(x_{t + 1} = x_t - \eta \nabla f\), где \(\eta\) --- шаг метода.
+
+\begin{example}
+    Рассмотрим \(f(x) = x^2 \Ra \nabla f = 2x\). GD даст нам \(x_t = x_t - 2\eta x_t\). Заметим, что при \(\eta = 1\) мы получим \(x_{t + 1} = - x_t\).
+\end{example}
+
+\begin{example}
+    Рассмотрим \(f(x) = x^4 \Ra \nabla f = 4x^3\). GD даст нам \(x_t = x_t - 2\eta x_t\). Заметим, что при \(\eta = 1\) мы получим \(x_{t + 1} = - 4x_t\).
+\end{example}
+
+Применим GD к задаче линейной регрессии: \(F(\theta) = \|Y - X\theta\|^2 \ra \min_\theta\)
+\[\nabla F(\theta) = -2X^TY + 2X^TX\theta = 2X^T(X\theta - Y)\]
+Шаг GD (занесем константу 2 в \(\eta\)):
+\[\theta_{t + 1} = \theta_t - \eta X^T(X\theta_t - Y) = \theta_t - \eta\sum_{i = 1}^n x_i(x_i^T\theta_t - Y_i)\]
+

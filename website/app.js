@@ -116,8 +116,10 @@ function renderSubject(semesterIndex, subjectIndex) {
   html += '<div class="lecture-list">';
 
   subject.lectures.forEach((lecture, idx) => {
-    const lectureNumber = idx + 1;
-    const pdfLink = `pdf/sem${semesterIndex+1}/${subject.pdfName}#nameddest=lecture${lectureNumber}`;
+    let pdfLink = `pdf/sem${semesterIndex+1}/${subject.pdfName}`;
+    if (lecture.suffix) {
+      pdfLink += `#nameddest=lecture_${lecture.suffix}`;
+    }
     const missingClass = lecture.missing ? 'meta' : '';
     const missingText = lecture.missing ? '<div class="meta">✏️ Конспект отсутствует</div>' : '';
 
