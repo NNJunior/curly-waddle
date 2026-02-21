@@ -1,0 +1,41 @@
+
+\lecture{2}
+
+\section{Лекция 2}
+
+\subsection{Линейная Регрессия}
+
+\begin{definition}
+    \(\mathcal{M} = \{y: \R^d \ra \R | y(x) = x^T\theta, \theta \in \R^d\}\) --- множество рассматриваемых нами моделей.
+\end{definition}
+
+Наша цель --- получить наилучшую модель, то есть оценить \(\theta\). 
+
+Пусть \(\hat{\theta}\) --- оценка \(\theta\). Тогда \(\hat{y}(x) = x^T\hat{\theta}\) --- предсказание для \(x\).
+
+Пусть \(x_1, \dots x_n\) --- объекты, \(Y_1, \dots Y_n\) --- таргеты. Пусть \(\hat{Y}_i = \hat{y}(x_i)\)
+
+Введем функционал ошибки:
+\[\mathcal{L}(y, z) = (y - z)^2\]
+
+И тогда получаем, что
+\[F(\theta) = \sum_{i = 1}^n \mathcal{L}(Y_i, \hat{Y_i}) = \sum_{i = 1}^n (Y_i - \hat{Y_i})^2 = \sum_{i = 1}^n \left( Y_i - x_i^T\hat{\theta} \right) = \|Y - X\hat{\theta}\|^2\]
+
+Где 
+\[Y = \left( \begin{array}{c}
+    Y_1 \\
+    \vdots \\
+    Y_n \\
+\end{array} \right), X = \left( \begin{array}{ccc}
+    x_{11} & \dots & x_{1d} \\
+    \vdots & \ddots & \vdots \\
+    x_{n1} & \dots & x_{nd} \\
+\end{array} \right)\]
+
+Мы хотим минимизировать \(F(\theta)\)
+\begin{proposition}
+    Если \(XX^T\) не вырождена, то \(\hat{\theta} = \)
+\end{proposition}
+\begin{proof}
+    \[F(\theta) = \|Y - X\theta\|^2 = (Y - X\theta)^T(Y - X\theta) = Y^TY - 2Y^TX\theta + \theta^TX^TX\theta\]
+\end{proof}

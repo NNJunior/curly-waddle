@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Крестики-нолики — игра</title>
+  <style>
+    /* === Базовые стили (как в основном сайте) === */
+    :root {
+      --bg: #faf9f8;
+      --surface: #ffffff;
+      --primary: #2b3a67;
+      --primary-light: #3f5582;
+      --secondary: #496a81;
+      --text: #1e1e1e;
+      --text-light: #5a5a5a;
+      --border: #e4e4e4;
+      --shadow: 0 4px 12px rgba(0,0,0,0.12);
+      --radius: 16px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 2rem 1rem;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: var(--surface);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 2.5rem 2rem;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      font-weight: 500;
+      color: var(--primary);
+      margin-bottom: 0.25rem;
+    }
+
+    /* === Навигация (все ссылки ведут на index.html) === */
+    .nav-bar {
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .nav-bar a {
+      font-weight: 500;
+      color: var(--primary);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.1s ease;
+      background: var(--bg);
+      padding: 0.3rem 0.8rem;
+      border-radius: 30px;
+    }
+
+    .nav-bar a:hover {
+      background: var(--primary);
+      color: white;
+    }
+
+    .nav-bar a.active {
+      background: var(--primary);
+      color: white;
+    }
+
+    /* === Игровая область === */
+    .game-container {
+      text-align: center;
+      margin-top: 2rem;
+    }
+
+    .status {
+      font-size: 1.2rem;
+      margin-bottom: 1.5rem;
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    .board {
+      display: grid;
+      grid-template-columns: repeat(3, 100px);
+      grid-template-rows: repeat(3, 100px);
+      gap: 10px;
+      justify-content: center;
+      margin: 2rem auto;
+    }
+
+    .cell {
+      background: var(--bg);
+      border: 2px solid var(--border);
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--primary);
+      cursor: pointer;
+      transition: background 0.1s ease, transform 0.1s ease, box-shadow 0.2s;
+    }
+
+    .cell:hover {
+      background: var(--surface);
+      box-shadow: var(--shadow);
+      transform: scale(1.02);
+    }
+
+    .cell.taken {
+      cursor: not-allowed;
+    }
+
+    .cell.taken:hover {
+      transform: none;
+      box-shadow: none;
+      background: var(--bg);
+    }
+
+    .reset-btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.6rem 2rem;
+      font-size: 1.1rem;
+      border-radius: 40px;
+      cursor: pointer;
+      transition: background 0.15s ease, box-shadow 0.2s;
+      margin-top: 1rem;
+    }
+
+    .reset-btn:hover {
+      background: var(--primary-light);
+      box-shadow: var(--shadow);
+    }
+
+    footer {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.9rem;
+      color: var(--text-light);
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Навигация — все ссылки ведут на единственную страницу конспектов (index.html) -->
+    <div class="nav-bar">
+      <a href="index.html">🏠 Главная</a>
+      <a href="index.html#sem/1">Семестр 1</a>
+      <a href="index.html#sem/2">Семестр 2</a>
+      <a href="index.html#sem/3">Семестр 3</a>
+      <a href="index.html#sem/4">Семестр 4</a>
+      <a href="#" class="active">🎮 Игра</a>
+    </div>
+
+    <h1>❌ Крестики-нолики ⭕</h1>
+    <p style="color: var(--text-light); text-align: center;">Игра для двух игроков</p>
+
+    <div class="game-container">
+      <div class="status" id="status">Ход: X</div>
+
+      <div class="board" id="board"></div>
+
+      <button class="reset-btn" id="resetBtn">🔄 Новая игра</button>
+    </div>
+
+    <footer>
+      <a href="index.html" style="color: var(--primary); text-decoration: none;">← Вернуться к конспектам</a>
+    </footer>
+  </div>
+
+  <script>
+    // === Логика игры (крестики-нолики) ===
+    let board = ['', '', '', '', '', '', '', '', ''];
+    let currentPlayer = 'X';
+    let gameActive = true;
+
+    const statusEl = document.getElementById('status');
+    const boardEl = document.getElementById('board');
+    const resetBtn = document.getElementById('resetBtn');
+
+    const winPatterns = [
+      [0,1,2], [3,4,5], [6,7,8],
+      [0,3,6], [1,4,7], [2,5,8],
+      [0,4,8], [2,4,6]
+    ];
+
+    function renderBoard() {
+      boardEl.innerHTML = '';
+      board.forEach((value, index) => {
+        const cell = document.createElement('div');
+        cell.classList.add('cell');
+        if (value !== '') cell.classList.add('taken');
+        cell.dataset.index = index;
+        cell.textContent = value;
+        cell.addEventListener('click', handleCellClick);
+        boardEl.appendChild(cell);
+      });
+    }
+
+    function handleCellClick(e) {
+      const index = e.target.dataset.index;
+      if (!gameActive || board[index] !== '') return;
+
+      board[index] = currentPlayer;
+      e.target.textContent = currentPlayer;
+      e.target.classList.add('taken');
+
+      const winner = checkWinner();
+      if (winner) {
+        statusEl.textContent = `🏆 Игрок ${winner} победил!`;
+        gameActive = false;
+        return;
+      }
+
+      if (!board.includes('')) {
+        statusEl.textContent = `🤝 Ничья!`;
+        gameActive = false;
+        return;
+      }
+
+      currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+      statusEl.textContent = `Ход: ${currentPlayer}`;
+    }
+
+    function checkWinner() {
+      for (let pattern of winPatterns) {
+        const [a,b,c] = pattern;
+        if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+          return board[a];
+        }
+      }
+      return null;
+    }
+
+    function resetGame() {
+      board = ['', '', '', '', '', '', '', '', ''];
+      currentPlayer = 'X';
+      gameActive = true;
+      statusEl.textContent = 'Ход: X';
+      renderBoard();
+    }
+
+    renderBoard();
+    resetBtn.addEventListener('click', resetGame);
+  </script>
+</body>
+</html>

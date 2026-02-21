@@ -3,44 +3,49 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Все семестры — конспекты лекций</title>
+  <title>Конспекты — динамический сайт</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    /* Дополнительные стили для SPA */
+    .breadcrumbs {
+      margin: 1rem 0;
+      color: var(--text-light);
+    }
+    .breadcrumbs a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+    .breadcrumbs a:hover {
+      text-decoration: underline;
+    }
+    .loading {
+      text-align: center;
+      padding: 3rem;
+      color: var(--text-light);
+    }
+    .back-link {
+      display: inline-block;
+      margin-top: 2rem;
+    }
+  </style>
 </head>
 <body>
   <div class="container">
-    <div class="nav-bar">
-      <a href="index.html">🏠 Главная</a>
-      <a href="sems/sem1/index.html">Семестр 1</a>
-      <a href="sems/sem2/index.html">Семестр 2</a>
-      <a href="sems/sem3/index.html">Семестр 3</a>
-      <a href="sems/sem4/index.html">Семестр 4</a>
+    <div class="nav-bar" id="nav-bar">
+      <!-- будет заполнено JS -->
     </div>
 
-    <h1>📚 Все семестры</h1>
-    <p style="margin-bottom: 2rem; color: #496a81;">Все семестры, которые конспектировались</p>
+    <div id="breadcrumbs" class="breadcrumbs"></div>
 
-    <div class="semester-grid">
-      <a href="sems/sem1/index.html" class="card">
-        <h3>Семестр 1</h3>
-        <div class="date">01.09.24 – 13.12.24</div>
-        <div class="description">Все предметы первого семестра</div>
-      </a>
-      <a href="sems/sem2/index.html" class="card">
-        <h3>Семестр 2</h3>
-        <div class="date">03.02.25 – 16.05.25</div>
-        <div class="description">Все предметы второго семестра</div>
-      </a>
-      <a href="sems/sem3/index.html" class="card">
-        <h3>Семестр 3</h3>
-        <div class="date">02.09.25 – 16.12.25</div>
-        <div class="description">Все предметы третьего семестра</div>
-      </a>
-      <a href="sems/sem4/index.html" class="card">
-        <h3>Семестр 4</h3>
-        <div class="date">02.02.26 – ??.05.26</div>
-        <div class="description">Все предметы четвертого семестра</div>
-      </a>
+    <div id="content" class="content">
+      <div class="loading">Загрузка данных...</div>
     </div>
+
+    <footer>
+      <p>⚡ Динамический сайт на основе JSON • Без перезагрузки</p>
+    </footer>
   </div>
+
+  <script src="app.js"></script>
 </body>
 </html>
