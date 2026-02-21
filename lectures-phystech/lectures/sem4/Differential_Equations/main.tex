@@ -150,3 +150,93 @@
     Т.е. одна траектория получилась не замкнутой. Но тогда между ними не может существовать гомеоморфизма. Таким образом, условие, что 0 --- не центр существенно.
 \end{example}
 
+\lecture{2}
+
+\section{Устойчивость решений дифференциальных уравнений}
+Пусть \(\Omega \subset \R^n\) открыто, \(f: \Omega \to \R^n, f \in C^1\). Будем рассматривать уравнение:
+
+\begin{equation}
+    x' = f(x)
+\end{equation}
+
+Пусть \(\phi(\cdot, \xi)\) --- непрерывное решение задачи Коши
+\begin{equation*}
+    \begin{cases}
+        \dot{x} = f(x) \\
+        x(0) = \xi
+    \end{cases}
+\end{equation*}
+
+\begin{definition}
+    Решение \(\phi(\cdot, \hat{\xi})\) называется устойчивым по Ляпунову, если 
+    \begin{enumerate}
+        \item \(\exists r > 0: \forall \xi \in O(\hat{\xi}, r) \ \phi(\cdot, \xi) \) определена на \([0, +\infty)\)
+        \item \(\forall \epsilon > 0 \exists \delta > 0: \xi \in O(\hat{\xi}, \delta) \Ra \phi(t, \xi) \in O(\phi(t, \hat{\xi}), \epsilon) \forall t \in [0, +\infty)\)
+    \end{enumerate}
+\end{definition}
+
+\begin{definition}
+    Решение \(\phi(\cdot, \hat{\xi})\) называется асимптотически устойчивым, если оно устойчиво по Ляпунову и \(\exists d > 0: \forall \xi \in O(\hat{\xi}, d): |\phi(t, \xi) - \phi(t, \hat{\xi})| \ra 0\) при \(t \ra 0\)
+\end{definition}
+
+\subsection{Примеры}
+
+\begin{enumerate}
+    \item \textbf{Логистическое уравнение.} 
+    \[x' = rx\left( 1 - \frac{x}{k} \right), \phi(t, \xi) = \frac{k\xi e^{rt}}{k - \xi + \xi e^{rt}}\]
+
+    \begin{center}
+        тут должна быть картинка
+    \end{center}
+
+    Тогда: при \(\hat{\xi} = k, \phi(\cdot, \hat{\xi})\) --- асимптотически устойчиво, а при \(\hat{\xi} = 0\) оно не устойчиво по Ляпунову.
+
+    \item 
+    \[x' = Ax, A \in \R^{2 \times 2}\]
+    Тогда в зависимости от картинки решение будет иметь разный характер устойчивости:
+    \begin{itemize}
+        \item Седло \(\Ra\) не устойчиво по Ляпунову
+        \item Центр \(\Ra\) устойчиво по Ляпунову, но не асимптотически
+        \item Устойчивый узел \(\Ra\) устойчиво асимптотически
+    \end{itemize}
+\end{enumerate}
+
+\begin{theorem}
+    Пусть \(A \in \R^{n \times n}, \lambda_1 \dots \lambda_m\) --- собственные числа матрицы \(A\). Тогда:
+    \begin{enumerate}
+        \item Если \(\Re \lambda_j < 0 \forall j\) то \(0\) асимптотически устойчив
+        \item Если
+        \begin{itemize}
+            \item \(\Re \lambda_j \le 0 \forall j \Ra 0\)
+            \item \(\exists j: \Re \lambda_j = 0\)
+            \item \(\Re \lambda_j = 0 \Ra\) все соответствующие жордановы клетки имеют размер 1.
+        \end{itemize}
+        то \(0\) устойчив по Ляпунову и не устойчив асимптотически.
+        \item Во всех остальных случаях \(0\) не устойчив по Ляпунову.
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    Нам известно, что:
+    \begin{equation}
+        x(t) = P_1(t)e^{\lambda_1t} + \dots + P_m(t)e^{\lambda_mt}
+    \end{equation}
+    Причем \(\deg P_j <\) размер наибольшей Жордановой клетки, соответствующей числу \(\lambda_j\). Пусть \(\lambda_j = \alpha_j + i\beta_j\)
+    \begin{enumerate}
+        \item Пусть \(X(t)\) --- ФМР, \(X(0) = I\). Пусть \(x(t)\) --- один из столбцов ФМР. Тогда:
+        \[x(t) = \sum_{j = 1}^m P_j(t)e^{\lambda_jt}(\cos(\beta_jt) + i\sin(\beta_j t)) \ra 0, t \ra +\infty\]
+        Тогда
+        \begin{equation}
+            X(t) \ra 0, t \ra +\infty \Ra \|X(t)\| \ra 0, t \ra +\infty
+        \end{equation}
+        Получаем, что \(\exists \gamma > 0: \|X(t)\| \le \gamma \forall t \ge 0\).
+        \[\phi(t, \xi) = X(t)\xi, t \ge 0, \xi \in \R^n\]
+        \(\forall \epsilon > 0 \) положим \(\delta = \frac{2\epsilon}{\gamma}\). Тогда при \(\xi \in O(0, \delta)\), то \(|\phi(t, \xi)| = |X(t)\xi| \le \|X(t)\| \cdot |\xi| \le \gamma \delta < \epsilon\). Таким образом, данное решение асимптотически устойчиво.
+
+        \item Из размера жордановых клеток и условия, что \(\Re lambda_j \le 0\) получаем, что каждый элемент матрицы \(X(t)\) ограничен \(\Ra \exists \gamma > 0: \|X(t)\| \le \gamma\). Тогда аналогично получаем, что \(0\) устойчиво по Ляпунову.
+        
+        Докажем, что нет асимптотической устойчивости. Пусть \(\alpha_1 = \Re \lambda_1 = 0, h_1 \in C^n\) --- собственный вектор. Тогда \(x(t) = e^{\lambda_1t}h_1 = (\cos(\beta_1 t) + i\sin(\beta_1 t))h_1\) --- решение. Тогда решением также являются функции: \(x_k(t) = \frac{1}{k} \Re x(t), k \in \N\). Тогда \(\forall d > 0 \exists k: x_k(0) = \frac{1}{k}\Re(x(0)) \in O(0, d)\). Но \(x_k(t) \not\ra 0\), т.к.:
+        \[x_k(t) = \frac{1}{k}(\Re h_1 \cos(\beta_1 t) + \Im h_1 - \sin(\beta_1 t))\]
+        
+        \item Нетрудно проверить, что тогда \(\exists j: P_j(t)e^{\lambda_j t}\) не ограничено. Тогда: \(x(t) = P_j(t)e^{\lambda_j t}\) --- решение. Но тогда \(x_k(t) = \frac{1}{k} \Re x(t), y_k(t) = \frac{1}{k} \Im x(t)\) --- тоже решения. Но в таком случае, либо \(x_k\), либо \(y_k\) не ограничены. Б.О.О., \(x_k\) не ограничено. Положим \(\epsilon = 1\). \(\forall \delta > 0 \exists k: |x_k(0)| < \delta\), но \(|x_k(t)|\) не ограничена при \(t \in [0, +\infty) \Ra 0\) не является устойчивым по Ляпунову.
+    \end{enumerate}
+\end{proof}
