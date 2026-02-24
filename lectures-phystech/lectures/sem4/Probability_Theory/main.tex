@@ -333,7 +333,7 @@
 
     От противного. Пусть \(\lim_{n \ra \infty} P(\tilde{B_n}) = \delta > 0\). Тогда для \(\forall n \in \N\) выберем компактные \(A_n \subset \R^n\), такие, что \(A_n \subset B_n\) и \(P(B_n \setminus A_n) \le \frac{\delta}{2^{n + 1}}\). Обозначим \(\tilde{A_n} = Cyl(n, A_n)\). Тогда: \(P(\tilde{B_n} \setminus \tilde{A_n}) = P_n(B_n \setminus A_n) \le \frac{\delta}{2^{n + 1}}\). Введем \(\tilde{C_n} = \bigcap_{i = 1}^n \tilde{A_i}\). Тогда \(\tilde{C_n} \downarrow \emptyset, \tilde{C_n} = Cyl(n, C_n)\), где \(C_n = A_n \cap (A_{n - 1} \times \R) \cap (A_{n - 2} \times \R^2) \cap \dots \cap (A_{1} \times \R^{n - 1})\) --- тоже компакт в \(\R^n\). Далее:
     \[P(\tilde{B_n} \setminus \tilde{C_n}) \le \sum_{i = 1}^n P(\tilde{B_n} \setminus \tilde{A_i}) \le |B_i \subset B_n, i \ge n| \le \sum_{i = 1}^n P(\tilde{B_i} \setminus \tilde{A_i}) \le \frac{\delta}{2} \Ra \lim_{n \ra \infty} P(\tilde{C_n}) \ge \frac{delta}{2} > 0\]
-    Возьмем в каждом \(\tilde{C_n}\) по точке \((x_1^{(n)}, x_2^{(n)}, \dots) \in \tilde{C_n}\). Тогда \((x_1^{(n)}, \dots x_n^{(n)}) \in C_n\). Рассмотирм последовательность \(x_1^{(n)}\). Эти все точки лежат в \(C_1\). Выберем подпоследовательность \(n_{k_i}\)  \(x_1^{(n_{k_i})} \ra x_1^0 \in C_1\). Для \(k \in \N\) построим последовательности \((x_1^{(n_{k_i})}, x_2^{(n_{k_i})}, \dots x_k^{(n_{k_i})})\), которая сходится к \(x^{(0)}_k, \dots x^{(0)}_k\) в \(С_k\). Возьмем диагональ, т.е положим \(m_k = n_{k_k}\). Тогда \(\forall s \in \N: (x_1^{(m_k)}, \dots x_s^{(m_k)}) \ra (x_1^{(0)}, \dots x_s^{(0)})= x^{(0)}\). Получаем, что \(P\) счетно-аддитивна на \(\mathcal{A}\). В таком случае по теореме о продолжении меры, \(P\) единственным образом продолжается до вероятностной меры на \(\sigma(\mathcal{A}) = \mathcal{B}(\R^\infty)\)
+    Возьмем в каждом \(\tilde{C_n}\) по точке \((x_1^{(n)}, x_2^{(n)}, \dots) \in \tilde{C_n}\). Тогда \((x_1^{(n)}, \dots x_n^{(n)}) \in C_n\). Рассмотрим последовательность \(x_1^{(n)}\). Эти все точки лежат в \(C_1\). Выберем подпоследовательность \(n_{k_i}\)  \(x_1^{(n_{k_i})} \ra x_1^0 \in C_1\). Для \(k \in \N\) построим последовательности \((x_1^{(n_{k_i})}, x_2^{(n_{k_i})}, \dots x_k^{(n_{k_i})})\), которая сходится к \(x^{(0)}_k, \dots x^{(0)}_k\) в \(С_k\). Возьмем диагональ, т.е положим \(m_k = n_{k_k}\). Тогда \(\forall s \in \N: (x_1^{(m_k)}, \dots x_s^{(m_k)}) \ra (x_1^{(0)}, \dots x_s^{(0)})= x^{(0)}\). Получаем, что \(P\) счетно-аддитивна на \(\mathcal{A}\). В таком случае по теореме о продолжении меры, \(P\) единственным образом продолжается до вероятностной меры на \(\sigma(\mathcal{A}) = \mathcal{B}(\R^\infty)\)
 \end{proof}
 
 \lecture{3}
@@ -440,7 +440,7 @@
 Пусть \(\xi\) --- случайная величина на \((\Omega, \mathcal{F}, P)\)
 \begin{definition}
     Математическое ожидание случайной величины \(\xi\) называется интеграл Лебега:
-    \[\E\xi = \int_{\Omega} \xi(\omega) P(d\omega) \int_{\Omega} \xi dP\]
+    \[\E\xi = \int_{\Omega} \xi(\omega) P(d\omega) = \int_{\Omega} \xi dP\]
 \end{definition}
 
 \begin{reminder}
@@ -486,3 +486,176 @@
     \[\E f(\xi) = E \cdot I\{\xi \in B\} = P(\xi \in B) = P_\xi(B) = \int_B P\xi(dx) = \int_{\R^n} I_B(x) P_\xi(dx) = \int_{\R^n} f(x) P_\xi(dx)\]
     Заключаем, что теорема верна для простых функцйи в силу линейности матожидания и интеграла Лебега. Далее осуществляем приближение простыми функциями в общем случае.
 \end{proof}
+
+\lecture{4}
+
+\begin{note}
+    Матожидание функций от случайной величины или случайного вектора зависит только от распределения.
+\end{note}
+
+\begin{definition}
+    Случайные величины (векторы) \(\xi, \eta\) наызваются одинаково распределенными, если их распределения равны, т.е. \(P_\xi = P\eta\). В таком случае пишут \(\xi \stackrel{d}{=} \eta\).
+\end{definition}
+
+\begin{corollary}
+    Если \(\xi \stackrel{d}{=} \eta\), то \(\forall f: \E f(\xi) = \E f(\eta)\)
+\end{corollary}
+
+\begin{corollary}
+    Если \(\xi\) --- случайная величина, то \(\E \xi = \int_{\R} x P_\xi(dx)\).
+\end{corollary}
+\begin{proof}
+    Подставляем \(f(x) = x\)
+\end{proof}
+
+\subsection{Обобщенная плотность}
+
+Но как посчитать последний интеграл? Здесь нам поможет обобщенная плотность. Пусть \(P\) --- вероятностная мера на \((\Omega, \mathcal{F}), \mu\) --- \(\sigma\)-конечная мера на \((\Omega, \mathcal{F})\).
+
+\begin{definition}
+    Мера \(P\) имеет обобщенную плотность по мере \(p(x)\) по мере \(\mu\), если
+    \[\forall B \in \mathcal{F}: P(B) = \int_B p(x)\mu(dx)\]
+\end{definition}
+
+Смысл данного определения состоит в том, что если \(P\) --- абсолютно непрерывна относительно \(\mu\), то \(p = \frac{dP}{d\mu}\) --- производная Радона-Никодима.
+
+\subsection{Примеры}
+
+\begin{enumerate}
+    \item \(\mu\) --- мера Лебега на \(\R \Ra\) для абсолютно-непрерывного распределения обобщенная плотность совпадает с обычной плотностью
+    \item \(\mu\) --- считающая мера на \(\Z\) (дискретное распределение на \(\Z\)). Тогда обобщенная плотность вычилсяется по формуле \(p(x) = P(\{x\})\)
+\end{enumerate}
+
+\begin{theorem}[О вычислении через обобщенную плотность]
+    Пусть \(P\) --- вероятностная мера на \((\R^n, \mathcal{\R^n})\), имеющая плотность \(p(x)\) по мере \(\mu\). Тогда \(\forall\) борелевской функции \(f: \R^n \ra \R\) выполнено:
+    \[\int_{\R^n} f(x)P(dx) = \int_{\R^n} f(x)p(x)dx\]
+\end{theorem}
+\begin{proof}
+    Пусть \(f(x) = I_B(x), B \in \mathcal{B}(\R^n)\). Тогда:
+    \[\int_{\R^n} f(x) P(dx) = \int_B P(dx) = P(B) = \int_B p(x)\mu(dx) = \int_{\R^n} f(x)p(x)\mu(dx)\]
+    Т.к. обе части требуемого линейны по \(f\), получаем, что равенство верно для простых функций. Для произвольной \(f\) осуществляем приближение простыми по стандартной схеме.
+\end{proof}
+
+\begin{corollary}
+    Пусть \(\xi\) -- абсолютно непрерывный случайный вектор. с плотностью \(p(x)\). Тогда \(\forall f\) --- борелевской:
+    \[\E f(\xi) = \int_{\R^n} f(x)p(x)dx\]
+\end{corollary}
+
+\begin{corollary}
+    Пусть \(\xi\) --- дискретная случайная величина, сосредоточенная на некотором множестве \(\mathcal{X}\). Тогда \(\forall f\) --- борелевской:
+    \[\E f(\xi) = \sum_{x \in \mathcal{X}} (f(x)P(\xi = x))\]
+\end{corollary}
+\begin{proof}
+    \[\E f(\xi) = \int_\R f(x) P_\xi(dx) = \sum_{x \in \mathcal{X}} f(x)\underbrace{P(\xi = x)}_{\text{обобщ. плотность}} \underbrace{\mu(\{x\})}_{\text{считающая}} = \sum_{x \in \mathcal{X}} f(x) P(\xi = x)\]
+\end{proof}
+
+\begin{example}
+    Пусть \(\xi\) имеет следующую функцию распределения:
+    \[F(x) = \left\{\begin{array}{l}
+        0, x < 0 \\
+        1 - e^{-x}, x \in [0, 1) \\
+        0, \text{иначе}
+    \end{array}\right.\]
+    Требуется найти \(\E \xi\)
+\end{example}
+\begin{solution}
+    \[\E \xi = 1 \cdot P\left(\xi = \frac{1}{e}\right) + \int_0^1 x F'(x) dx = \frac{1}{e} + \int_0^1 xe^{-x}dx = \frac{1}{e} + (-xe^{-x} - e^{-x})|_0^1 = 1 - \frac{2}{e} + \frac{1}{e} = 1 - \frac{1}{e}\]
+\end{solution}
+
+\section{Независимость}
+\subsection{Независимость событий}
+Пусть \((\Omega, \mathcal{F}, P)\) --- вероятностное пространство.
+\begin{definition}
+    События \(A, B\) независимы в \((\Omega, \mathcal{F}, P)\), если \(P(A \cap B) = P(A)P(B)\).
+\end{definition}
+
+\begin{definition}
+    События \(A_1, \dots A_n\) называются попарно независимыми, если \(\forall i \ne j: A_i, A_j\) независимы.
+\end{definition}
+
+\begin{definition}
+    События \(A_1, \dots A_n\) называются независимыми в совокупности, если \(\forall k \le n \forall i_1 < \dots < i_k: P(A_{i_1} \cap \dots \cap A_{i_k}) = P(A_{i_1})\dots P(A_{i_k})\).
+\end{definition}
+
+Далее, под независимостью будем подразумевать независимость в совокупности.
+
+\begin{definition}
+    Системы событий \(\mathcal{M}_1, \dots \mathcal{M}_n\) независимы в совокупности, если \(\forall A_i \in \mathcal{M}_i\) события \(\{A_i\}\) независимы в совокупности.
+\end{definition}
+
+\begin{theorem}[критерий независимости \(\sigma\)-алгебр]
+    Пусть \(\mathcal{M}_1, \dots \mathcal{M}_n\) --- \(\pi\)- системы событий на \((\Omega, \mathcal{F}, P)\). Тогда \(\mathcal{M}_1, \dots \mathcal{M}_n\) независимы \(\Lra \sigma(\mathcal{M}_1), \dots \sigma(\mathcal{M}_2)\)
+\end{theorem}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item[\(\La\)] очевидно из определения
+        \item[\(\Ra\)] Докажем для \(n = 2\) (для других аналогично).
+        Рассмотрим
+        \[\mathcal{L}_1 = \{A \in \mathcal{F}: A\text{ независимо с }\mathcal{M}_2\}\]
+        По условию, \(\mathcal{M}_1 \subset \mathcal{L}_1\). Проверим, что \(\mathcal{L}_1\) --- \(\lambda\)-система.
+        \begin{enumerate}
+            \item \(\Omega \in \mathcal{L}_1\), т.к. оно независимо со всеми событиями.
+            \item Пусть \(A, B \in \mathcal{L}_1, A \subset B\) докажем, что \(B \setminus A \in \mathcal{L}_1\). Пусть \(C \in \mathcal{M}_2\). Тогда:
+            \[P((B \setminus A) \cap C) = P((B \cap C) \setminus (A \cap C)) = P(B \cap C) - P(A \cap C) = (*)\]
+            Из того, что \(B, A \in \mathcal{L}_1\) получаем, что они независимы с \(C\). Тогда:
+            \[(*) = P(B)P(C) - P(A)P(C) = (P(B) - P(A))P(C) = P(B \setminus A)P(C)\]
+            \item Пусть \(\{A_n, n \in \N\}\) таковы, что \(A_n \uparrow A\) и \(\forall n: A_n \in \mathcal{L}_1\) докажем, что \(A \in \mathcal{L}_1\). Пусть \(C \in \mathcal{M}_2\). Тогда \(A_n \cap C \uparrow A \cap C\). В силу непрерывности вероятностной меры:
+            \[P(A \cap C) = \lim_{n \ra \infty} P(A_n \cap C) = \lim_{n \ra \infty} P(A_n)P(C) = P(C)\lim_{n \ra \infty} P(A_n) = P(C)P(A)\]
+            Получили, что \(A\) независимо с \(\mathcal{M}_2 \Ra A \in \mathcal{L}_1\).
+        \end{enumerate}
+
+        То есть \(\mathcal{L}_1\) --- это \(\lambda\)-система, \(\mathcal{M}_1 \subset \mathcal{L}_1\). По второй теореме о \(\pi\)-\(\lambda\)-системах:
+        \[\sigma(\mathcal{M}_1) \subset \mathcal{L}_1 \Ra \sigma(\mathcal{M}_1)\text{ независимо с }\mathcal{M}_2\]
+
+        Теперь рассмотрим \(\mathcal{L}_2 = \{A \in \mathcal{F}: A\text{ независимо с }\sigma(\mathcal{M}_1)\}\). По доказанному \(\mathcal{M}_2 \subset \mathcal{L_2s}\). Далее точно так же проверяем, что \(\mathcal{L}_2\) --- \(\lambda\)-система.
+    \end{enumerate}
+\end{proof}
+
+\begin{definition}
+    Пусть \(\{\mathcal{M}_\alpha, \alpha \in \mathcal{A}\}\) --- системы событий на \((\Omega, \mathcal{F}, P)\). Этот набор называется независимым, если любой конечный поднабор \(M_{\alpha_1}, \dots M_{\alpha_k}, \alpha_i \ne \alpha_j\) независим.
+\end{definition}
+
+\subsection{Независимость случайных величин и случайных векторов}
+\begin{definition}
+    Случайные векторы \(\xi_1, \dots \xi_n\) называются независимыми в совокупности, если порожденные ими \(\sigma\)-алгебры являются независимыми.
+\end{definition}
+
+\begin{proposition}
+    Случайные векторы \(\xi_1, \dots \xi_n, \xi_i \in \R^{k_i}\) независимы в совокупности \(\Lra \forall B_1, \dots B_n, B_i \in \mathcal{B}(\R^{k_i})\) выполнено
+    \[P(\xi_1 \in B_1, \dots \xi_n \in B_n) = \prod_{i = 1}^n P(\xi_i \in B_i)\]
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}
+        \item[\(\Ra\)] очевидно
+        \item[\(\La\)] Надо проверить, что \(\forall B_1, \dots B_n\) события \(\{\xi_i \in B_i\}\) независимы в совокупности. Если фиксирован набор \(i_1, \dots i_k\), положим \(B_j = \R^{k_j}\) для \(j \ne i_s\). Тогда получаем:
+        \[P(\xi_1 \in B_1, \dots \xi_n \in B_n) = \prod_{i = 1}^n P(\xi_i \in B_i) = \prod_{s = 1}^k P(\xi_{i_s} \in B_{i_s})\]
+    \end{enumerate}
+\end{proof}
+
+\begin{definition}
+    Пусть \(\xi_1, \dots \xi_n\) --- случайные величины. Совместным распределением \(\xi_1, \dots \xi_n\) называется распределение вектора \((\xi_1, \dots \xi_n)\). Соответствующие функции распределения и плотности тоже называются совместными
+\end{definition}
+
+\begin{proposition}
+    Если случайные величины \(\xi_1, \dots \xi_n\) независимы, то их совместное распределение есть прямое произведение распределений \(\xi_1, \dots \xi_n\), т.е:
+    \[P_{(\xi_1, \dots \xi_n)} = P_{\xi_1} \times \dots \times P_{\xi_n}\]
+\end{proposition}
+\begin{proof}
+    Для \(\forall B_1, \dots B_n \in \mathcal{B}(\R)\) имеем:
+    \[P_{(\xi_1, \dots \xi_n)}(B_1 \times \dots \times B_n) = P((\xi_1, \dots \xi_n) \in B_1 \times \dots \times B_n) = \]
+    \[P(\xi_1 \in B_1, \dots \xi_n \in B_n) = P(\xi_1 \in B_1)\dots P(\xi_n \in B_n) = P_{\xi_1} \times \dots \times P_{\xi_n}\]
+\end{proof}
+
+\begin{theorem}[Критерий независимости для функции распределения]
+    Пусть \(\xi_1, \dots \xi_n\) --- случайные величины на \((\Omega, \mathcal{F}, P)\). Они независимы в совокупности \(\Lra \forall x_1, \dots x_n \in \R\) выполнено:
+    \[P(\xi_1 \le x_1, \dots \xi_n \le x_n) = \prod_{i = 1}^n \underbrace{P(\xi_i \le x_i)}_{F_{\xi_i}(x_i)}\]
+\end{theorem}
+\begin{proof}
+    \begin{enumerate}
+        \item[\(\Ra\)] следует из определения
+        \item[\(\La\)] Рассмотрим
+        \[G(x_1, \dots x_n) = \prod_{i = 1}^n F_{\xi_i}(x_i) = P(\xi_1 \le x_1, \dots \xi_n \le x_n)\]
+        Это многомерная функция распределения. Заметим, что ей соответствует 
+    \end{enumerate}
+\end{proof}
+
