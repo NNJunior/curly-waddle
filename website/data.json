@@ -321,7 +321,8 @@
           "lectures": [
             { "name": "Лекция 1", "date": "05.02.26", "desc": "100500 определений", "suffix": "1" },
             { "name": "Лекция 2", "date": "12.02.26", "desc": "Класс NP и его свойства", "suffix": "2" },
-            { "name": "Лекция 3", "date": "19.02.26", "desc": "Теорема Кука-Левина. Утверждения SAT &le; 3SAT, 3SAT &le; NAE-3SAT, NAE-3SAT &le; 3COL, NAE-3SAT &le; EXACTSETCOVER", "suffix": "3" }
+            { "name": "Лекция 3", "date": "19.02.26", "desc": "Теорема Кука-Левина. Утверждения SAT &le; 3SAT, 3SAT &le; NAE-3SAT, NAE-3SAT &le; 3COL, NAE-3SAT &le; EXACTSETCOVER", "suffix": "3" },
+            { "name": "Лекция 4", "date": "26.02.26", "desc": "Задача о рюкзке. Задачи поиска, подсчета и аппроксимации", "suffix": "4" }
           ]
         },
         {
