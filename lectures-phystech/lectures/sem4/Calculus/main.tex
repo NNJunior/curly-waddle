@@ -166,7 +166,7 @@
     Пусть \(I\) --- промежуток в \(\R\), \(f \in L_1(I)\). Тогда 
     \[\int_I f(x)e^{i\lambda x}dx \ra 0, \lambda \ra \pm\infty\]
     В частности, 
-    \[\int_I f(x)\cos xdx \ra 0, \int_I f(x)\cos xdx \ra 0, \lambda \ra \pm\infty\]
+    \[\int_I f(x)\cos\lambda xdx \ra 0, \int_I f(x)\sin \lambda xdx \ra 0, \lambda \ra \pm\infty\]
 \end{theorem}
 \begin{proof}
     Рассмотрим случай \(I = \R\). Сделаем в интеграле замену \(x = t - \frac{\pi}{\lambda}\), тогда:
@@ -375,3 +375,96 @@
     \[+ \frac{1}{\pi}\int_{-\pi}^\pi f(x - t)\left( \frac{1}{2\sin \frac{t}{2}} - \frac{1}{t} \right)\sin\left( n + \frac{1}{2} \right)t\]
     \(h(t) = f(x - t)\) интегрируема на \((-\pi, \pi)\). Положим \(g(t) = \frac{1}{2\sin \frac{t}{2}} - \frac{1}{t}\). По непрерывности, доопределим \(g(0) = 0\) --- то есть \(g\) непрерывна на \([-\pi, \pi] \Ra\) ограничена.  Аналогично, \(\frac{f(x - t)}{t}\) интегрируема на \(\pi \ge |t| \ge \delta\). Но тогда по лемма Римана об осцилляции, получаем желаемое.
 \end{proof}
+
+\lecture{4}
+
+\begin{theorem}
+    Пусть \(f \in L_1(T), x \in \R\). Тогда:
+    \begin{equation}
+        \lim_{n \ra \infty} S_n(f, x) = S \Lra \exists \delta \in (0, \pi]: \lim_{n \ra \infty} \int_0^\delta \frac{f(x + t) - f(x - t) - 2s}{t}\sin\left( n + \frac{1}{2} \right)t dt = 0
+    \end{equation}
+\end{theorem}
+\begin{proof}
+    Функция \(t \mapsto \frac{\sin\left( n + \frac{1}{2} \right)t}{t}\) --- четная, поэтому:
+    \[S_n(f, x) = \frac{1}{\pi}\int_0^\pi \frac{f(x + t) + f(x - t)}{t}\sin\left( n + \frac{1}{2} \right)tdt + o(1)\]
+    Заметим, что для \(h \equiv 1, c_0(h) = 1, c_n(h) = 0 \Ra S_n(h, x) = 1\). Поэтому:
+    \[1 = \frac{2}{\pi} \int_0^\delta \frac{\sin\left( n + \frac{1}{2} \right)t}{t}dt + o(1)\]
+    \[S_n(f, x) - S = \frac{1}{\pi}\int_0^\delta \frac{f(x + t) + f(x - t) - 2S}{t}\sin\left( n + \frac{1}{2} \right)tdt + o(1)\]
+\end{proof}
+
+Среди признаков сходимости рядов выделим 2: признак Дини и признак Дирихле.
+
+\begin{proposition}[Признак Дини]
+    Пусть \(f \in L_1(T), x \in \R\). Если для некоторого \(S \in \Cm \exists \delta > 0\), такое, что выполнено
+    \[\int_0^\delta \frac{|f(x + t) + f(x - t) - 2S|}{t}dt < \infty\]
+    Тогда ряд Фурье \(S(f, x)\) сходится в \(x\) к \(S\).
+\end{proposition}
+\begin{proof}
+    По условию подынтегральная функция лежит в \(L_1(0, \delta)\). Следовательно, по лемме Римана об осцилляции выполнено (2.3). Далее утверждение следует из предыдущей теоремы.
+\end{proof}
+
+\begin{corollary}
+    Пусть \(f \in L_1(T), x \in \R\). Если существуют \(f(x \pm 0) \in \R\) и \(\alpha_I = \lim_{t \ra \pm 0} \frac{f(x + t) + f(x \pm 0)}{t} \in \R\), то ряд Фурье \(S(f, x) = \frac{f(x + 0) + f(x - 0)}{2}\).
+\end{corollary}
+\begin{proof}
+    Положим \(S = \frac{f(x + 0) + f(x - 0)}{2}\). Рассмотрим \(\psi_x(t) = \frac{f(x + t) - f(x - t) - 2S}{t}, t > 0\). Тогда:
+    \[\psi_x(t) = \frac{f(x + t) - f(x + 0)}{t} + \frac{f(x - t) - f(x - 0)}{t} \ra_{t \ra +0} \alpha_+ - \alpha_-\]
+    Данная функция ограничена на \((0, \delta)\)
+\end{proof}
+
+\begin{corollary}
+    Пусть \(f\) --- \(2\pi\)-периодическая функция, такая, что \(\forall x \in \R \exists f_{\pm}'(x) \in \R\) (в частности, \(f\) непрерывна). Тогда \(S(f, x) = f(x)\).
+\end{corollary}
+
+\begin{lemma}[Абеля]
+    Пусть \(f \in L_1([a, b]), g\) монотонна на \([a, b]\). Если
+    \[\left| \int_a^x f(t)dt \right| \le M\]
+    Тогда: 
+    \[\left| \int_a^b f(x)g(x) dx \le 2M(|g(b)| + |g(a)|)\right|\]
+\end{lemma}
+\begin{proof}
+    См 2 семестр
+\end{proof}
+
+\begin{proposition}[Принцип Дирихле]
+    Пусть \(f \in L_1(T), x \in \R\). Если \(f\) монотонна на \([x - \delta, x + \delta]\) при некотором \(\delta > 0\), то \(S(f, x) = \frac{f(x + 0) + f(x - 0)}{2}\)
+\end{proposition}
+\begin{proof}
+    Пусть \(f\) нестрого возрастает на \([x - \delta, x + \delta]\). Рассмотрим:
+    \[\int_0^\sigma \frac{f(x + t) - f(x + 0)}{t}\sin\left( n + \frac{1}{2} \right)tdt, \sigma \in (0, \delta)\]
+    Также, пусть \(I(n) = \int_0^n \frac{\sin t}{t}dt \ra_{n \ra \infty} \int_0^{+\infty} \frac{\sin t}{t}dt \Ra \exists M: |I(n)| \le M\) на \([0, +\infty)\). Следовательно:
+    \[\left| \int_0^x \frac{\sin \left( n + \frac{1}{2} \right)t}{t}dt \right| = \left| \int_0^{x\left( n + \frac{1}{2} \right)} \frac{\sin u}{u}du \right| \le M\]
+    Т.к. монотонная функция имеет множество точек разрыва меры 0, и разрывы могут быть только первого рода, то зааменим \(f(x)\) на \(f(x + 0)\), т.к. интеграл от этого не изменится. По неравенству Абеля:
+    \[\left| \int_0^\sigma \frac{f(x + t)- f(x + 0)}{t}\sin\left( n + \frac{1}{2} \right)t dt\right| \le 2M |f(x + \sigma) - f(x + 0)|\]
+    Заметим, что по теореме Римана об осцилляции,
+    \[\int_\sigma^\delta \frac{f(x + t) - f(x + 0)}{t}\sin\left( n + \frac{1}{2} \right)tdt \ra 0, n \ra \infty\]
+    Получаем, что 
+    \[\int_0^\delta \frac{f(x + t) - f(x + 0)}{t}\sin\left( n + \frac{1}{2} \right)tdt \ra 0\]
+    Аналогично доказывается, что 
+    \[\int_0^\delta \frac{f(x - t) - f(x - 0)}{t}\sin\left( n + \frac{1}{2} \right)tdt \ra 0\]
+    Из чего по теореме следует утверждение.
+\end{proof}
+
+\begin{lemma}
+    Пусть \(f \in L_1(T), 0 < \delta \le \pi\). Тогда:
+    \[S_n(f, x) = \frac{1}{\pi}\int_{-\delta}^{\delta} \frac{f(x - t)}{t}\sin\left( n + \frac{1}{2} \right)tdt + \epsilon_n(x), \epsilon_n(x) \rightrightarrows 0\text{ на K --- компакте}, K \subset \R\]
+\end{lemma}
+
+\begin{lemma}
+    Пусть \(f, g \in L_1(T)\), причем \(g\) ограничена. Тогда
+    \[\phi_n(x) = \int_{-\pi}^{\pi} f(x - t)g(t)e^{int}dt \rightrightarrows 0\text{ на любом компакте \(K \subset \R\)}\]
+\end{lemma}
+\begin{proof}
+    \(\phi_n(x) \ra 0 \forall x\) по лемме Римана об осцилляции. Предположим противное, т.е.
+    \[\exists \epsilon > 0: \exists \{n_k\} \exists \{x_k\} \subset K \left( \phi_{n_k}(x_k) \right) \ge \epsilon\]
+    У последовательности \(x_k\) имеется сходящаяся подпоследовательность, поэтому считаем, что \(x_k \ra x_0\).
+    \[\epsilon \le |\phi_{n_k}(x_k)| \le |\phi_{n_k}(x_k) - \phi_{n_k}(x_0)| + \underbrace{|\phi_{n_k}(x_0)|}_{\ra 0}\]
+    Рассмотрим первый модуль:
+    \[|\phi_{n_k}(x_k) - \phi_{n_k}(x_0)| = \left| \int_{-\pi}^\pi (f(x_k - t) - f(x_0 - t))g(t)e^{in_kt}dt \right| \le \int_{-\pi}^\pi |f(x_k - t) - f(\underbrace{x_0 - t}_{y})|\underbrace{|g(t)|}_{\le C}dt \le \]
+    \[\le C\int_{-\pi}^\pi |f(x_k - x_0 + y) - f(y)|dy \ra_{k \ra \infty} 0\]
+    Получили противоречие с тем, что правая часть \(\ge \epsilon\).
+\end{proof}
+
+\begin{note}
+    По ходу доказательства мы доказали, что семейство \(\{\phi_{n_k}\}\) --- компактное множество в пространстве непрерывных функций.
+\end{note}
