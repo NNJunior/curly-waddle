@@ -240,3 +240,149 @@
         \item Нетрудно проверить, что тогда \(\exists j: P_j(t)e^{\lambda_j t}\) не ограничено. Тогда: \(x(t) = P_j(t)e^{\lambda_j t}\) --- решение. Но тогда \(x_k(t) = \frac{1}{k} \Re x(t), y_k(t) = \frac{1}{k} \Im x(t)\) --- тоже решения. Но в таком случае, либо \(x_k\), либо \(y_k\) не ограничены. Б.О.О., \(x_k\) не ограничено. Положим \(\epsilon = 1\). \(\forall \delta > 0 \exists k: |x_k(0)| < \delta\), но \(|x_k(t)|\) не ограничена при \(t \in [0, +\infty) \Ra 0\) не является устойчивым по Ляпунову.
     \end{enumerate}
 \end{proof}
+
+\lecture{3}
+
+\subsection{Теоремы Ляпунова об устойчивости}
+
+Пусть \(\Omega \subset \R^n\) --- открытое, \(f: \Omega \to \R^n\), \(f \in C^1\), \(\widehat{x} \in \Omega\), \(f(\widehat{x}) = 0\).
+
+\begin{equation}
+    x' = f(x)
+\end{equation}
+
+\begin{equation}
+    \begin{cases}
+        x' = f(x) \\
+        x(0) = \xi
+    \end{cases}
+\end{equation}
+
+Пусть \(\phi(\cdot, \xi)\) --- непрерывное решение задачи Коши (2.5), \(\widetilde{\Omega} \subset \Omega\) --- открытое, \(v: \widetilde{\Omega} \to \R\), \(v \in C^1\).
+
+\begin{definition}
+    \(\displaystyle \frac{dv}{dt}(x) = \langle v'(x), f(x) \rangle\), \(x \in \widetilde{\Omega}\) --- производная в силу системы (2.4).
+
+    Если \(x(\cdot)\) --- решение (2.4) и \(x(t) \in \widetilde{\Omega} \; \forall t\), то
+    \[
+    \frac{d}{dt}\bigl(v(x(t))\bigr) \equiv \langle v'(x(t)), \dot{x}(t) \rangle \equiv \langle v'(x(t)), f(x(t)) \rangle \equiv \frac{dv}{dt}(x(t)).
+    \]
+\end{definition}
+
+\begin{theorem}[Ляпунова об устойчивости]
+    Пусть \(\exists\) окрестность \(\widetilde{\Omega} \subset \Omega\) точки \(\widehat{x}\), \(\exists v \in C^1(\widetilde{\Omega}, \R)\) такие, что:
+    \begin{enumerate}
+        \item \(v(\widehat{x}) = 0\), \(v(x) > 0 \; \forall x \ne \widehat{x}\);
+        \item \(\displaystyle \frac{dv}{dt}(x) \le 0 \; \forall x \in \widetilde{\Omega}\).
+    \end{enumerate}
+    Тогда \(\widehat{x}\) устойчиво по Ляпунову.
+\end{theorem}
+
+\begin{proof}
+    Зафиксируем \(\epsilon > 0\). Б.О.О. \(B(\widehat{x}, \epsilon) \subset \widetilde{\Omega}\). Положим \(m = \min_{x \in S(\widehat{x}, \epsilon)} v(x) > 0\). Так как \(v(\widehat{x}) = 0\) и \(v\) непрерывна, то \(\exists \delta > 0\): \(v(x) < m \; \forall x \in B(\widehat{x}, \delta)\). Для любого \(\xi \in B(\widehat{x}, \delta)\) покажем, что \(\phi(t, \xi) \in B(\widehat{x}, \epsilon)\) для всех \(t \ge 0\).
+
+    Предположим противное: пусть \(\exists T > 0\) такое, что \(\phi(T, \xi) \notin B(\widehat{x}, \epsilon)\). В силу непрерывности решения и того, что \(\phi(0, \xi) = \xi \in B(\widehat{x}, \delta) \subset B(\widehat{x}, \epsilon)\), найдётся первый момент времени \(t_0 \in (0, T]\), когда траектория выходит на границу шара, т.е.
+    \[
+    |\phi(t_0, \xi) - \widehat{x}| = \epsilon, \quad \text{и} \quad |\phi(t, \xi) - \widehat{x}| < \epsilon \; \forall t \in [0, t_0).
+    \]
+    Тогда \(\phi(t_0, \xi) \in S(\widehat{x}, \epsilon)\). По определению \(m\) имеем \(v(\phi(t_0, \xi)) \ge m\).
+
+    С другой стороны, из условия 2 теоремы \(\bigl( \frac{dv}{dt} \le 0 \bigr)\) следует, что функция \(v(\phi(t, \xi))\) не возрастает на \([0, t_0]\). Действительно,
+    \[
+    \frac{d}{dt} v(\phi(t, \xi)) = \frac{dv}{dt}(\phi(t, \xi)) \le 0.
+    \]
+    Поэтому
+    \[
+    v(\phi(t_0, \xi)) \le v(\phi(0, \xi)) = v(\xi) < m,
+    \]
+    так как \(\xi \in B(\widehat{x}, \delta)\). Получили противоречие: \(v(\phi(t_0, \xi)) \ge m\) и \(v(\phi(t_0, \xi)) < m\) одновременно.
+
+    Следовательно, наше предположение неверно, и \(\phi(t, \xi) \in B(\widehat{x}, \epsilon)\) для всех \(t \ge 0\). В частности, отсюда вытекает, что решение \(\phi(\cdot, \xi)\) определено на \([0, +\infty)\) (оно не может покинуть компакт \(B(\widehat{x}, \epsilon) \subset \widetilde{\Omega}\), где выполнены условия теоремы существования и единственности). Таким образом, мы нашли \(\delta > 0\) (то самое, из непрерывности \(v\)) такое, что для любого \(\xi \in B(\widehat{x}, \delta)\) выполнено \(\phi(t, \xi) \in B(\widehat{x}, \epsilon) \subset O(\phi(t, \widehat{x}), \epsilon)\) для всех \(t \ge 0\) (напомним, что \(\phi(t, \widehat{x}) = \widehat{x}\) в силу \(f(\widehat{x}) = 0\)).
+
+    Это в точности означает устойчивость по Ляпунову положения равновесия \(\widehat{x}\).
+\end{proof}
+
+\begin{example}
+    Рассмотрим одномерное автономное уравнение
+    \[
+    \dot{x} = f(x), \quad f \in C^1(\Omega), \quad \tilde{x} \in \Omega, \quad f(\tilde{x}) = 0.
+    \]
+    Пусть существует окрестность \(U \subset \Omega\) точки \(\tilde{x}\) такая, что для всех \(x \in U \setminus \{\tilde{x}\}\) выполнено
+    \[
+    (x - \tilde{x}) f(x) < 0.
+    \]
+    Определим функцию \(v(x) = (x - \tilde{x})^2\). Очевидно,
+    \[
+    v(\tilde{x}) = 0, \quad v(x) > 0 \quad \forall x \neq \tilde{x}.
+    \]
+    Её производная в силу системы равна
+    \[
+    \frac{dv}{dt}(x) = 2(x - \tilde{x}) f(x) < 0 \quad \forall x \in U \setminus \{\tilde{x}\}.
+    \]
+    Таким образом, \(v\) удовлетворяет условиям теоремы Ляпунова об асимптотической устойчивости, и \(\tilde{x}\) является асимптотически устойчивым положением равновесия.
+\end{example}
+
+\begin{theorem}[Ляпунова об асимптотической устойчивости]
+    Пусть \(\exists\) окрестность \(\widetilde{\Omega} \subset \Omega\) точки \(\tilde{x}\), \(\exists v \in C^1(\widetilde{\Omega}, \R)\) такие, что:
+    \begin{enumerate}
+        \item \(v(\tilde{x}) = 0\), \(v(x) > 0 \; \forall x \ne \tilde{x}\);
+        \item \(\displaystyle \frac{dv}{dt}(x) < 0 \; \forall x \in \widetilde{\Omega} \setminus \{\tilde{x}\}\).
+    \end{enumerate}
+    Тогда \(\tilde{x}\) асимптотически устойчиво.
+\end{theorem}
+
+\begin{proof}
+    По теореме Ляпунова об устойчивости, \(\tilde{x}\) устойчиво \(\Rightarrow \exists \epsilon > 0, \exists \delta > 0: B(\tilde{x}, \epsilon) \subset \widetilde{\Omega}\) и \(\forall \xi \in B(\tilde{x}, \delta)\) \(\forall t \ge 0\) \(\phi(t, \xi) \in B(\tilde{x}, \epsilon)\). 
+    
+    Рассмотрим \(\xi \in B(\tilde{x}, \delta)\) и докажем, что \(\phi(t, \xi) \to \tilde{x}\) при \(t \to +\infty\). Предположим противное: пусть \(\exists \eta > 0\) и последовательность \(\{t_j\} \to +\infty\) такие, что \(|\phi(t_j, \xi) - \tilde{x}| \ge \eta\) для всех \(j\). Б.О.О. можно считать \(\eta < \epsilon\). 
+    
+    Множество \(K = \{x \in \overline{B(\tilde{x}, \epsilon)} : \eta \le |x - \tilde{x}| \le \epsilon\}\) компактно и не содержит \(\tilde{x}\). Функция \(v\) непрерывна и положительна на \(K\), поэтому достигает минимума:
+    \[
+    \mu = \min_{x \in K} v(x) > 0.
+    \]
+    В частности, \(v(\phi(t_j, \xi)) \ge \mu\) для всех \(j\).
+    
+    Так как \(\frac{dv}{dt}(x) < 0\) для всех \(x \in \widetilde{\Omega} \setminus \{\tilde{x}\}\), функция \(v(\phi(t, \xi))\) строго убывает по \(t\). Поскольку она ограничена снизу нулём, существует предел
+    \[
+    l = \lim_{t \to +\infty} v(\phi(t, \xi)) \ge \mu > 0.
+    \]
+    
+    Рассмотрим множество \(\Omega_l = \{x \in \overline{B(\tilde{x}, \epsilon)} : v(x) \ge l\}\). Оно замкнуто, не содержит \(\tilde{x}\) (ибо \(v(\tilde{x}) = 0\)), и компактно. На этом множестве \(\frac{dv}{dt}\) непрерывна и отрицательна, следовательно, достигает максимума (т.е. существует отрицательная верхняя грань):
+    \[
+    -\alpha = \max_{x \in \Omega_l} \frac{dv}{dt}(x) < 0, \quad \alpha > 0.
+    \]
+    Но тогда для всех \(t\), поскольку \(\phi(t, \xi) \in \Omega_l\) (ибо \(v(\phi(t, \xi)) \ge l\)), имеем
+    \[
+    \frac{d}{dt} v(\phi(t, \xi)) = \frac{dv}{dt}(\phi(t, \xi)) \le -\alpha.
+    \]
+    Интегрируя от \(0\) до \(t\), получаем
+    \[
+    v(\phi(t, \xi)) \le v(\xi) - \alpha t.
+    \]
+    При достаточно больших \(t\) правая часть становится отрицательной, что противоречит неотрицательности \(v\). 
+    
+    Полученное противоречие означает, что наше предположение неверно, и \(\phi(t, \xi) \to \tilde{x}\) при \(t \to +\infty\). Таким образом, \(\tilde{x}\) асимптотически устойчиво.
+\end{proof}
+
+\begin{example}
+    Рассмотрим систему:
+    \[
+    \begin{cases}
+        x_1' = x_2 - x_1, \\
+        x_2' = -x_1^3.
+    \end{cases}
+    \]
+    Единственное положение равновесия — \(\tilde{x} = (0, 0)\). Определим функцию
+    \[
+    v(x) = (x_2 - x_1)^2 + x_2^2.
+    \]
+    Очевидно, \(v(0,0)=0\) и \(v(x)>0\) при \(x \neq 0\). Вычислим производную в силу системы:
+    \[
+    \frac{dv}{dt}(x) = 2(x_1-x_2)(x_2-x_1) + 2(2x_2-x_1)(-x_1^3) = -2(x_1-x_2)^2 - 4x_1^3x_2 + 2x_1^4.
+    \]
+    Квадратичная часть \(-2(x_1-x_2)^2\) неположительна и обращается в нуль лишь при \(x_1=x_2\). На этой прямой (подставим \(x_2=x_1\)):
+    \[
+    \frac{dv}{dt}(x_1,x_1) = -2x_1^4 < 0 \quad (x_1 \neq 0).
+    \]
+    Таким образом, в достаточно малой окрестности нуля \(\frac{dv}{dt}(x) < 0\) для всех \(x \neq 0\). По теореме Ляпунова об асимптотической устойчивости \(\tilde{x}\) асимптотически устойчиво.
+\end{example}
