@@ -1,13 +1,11 @@
 
-\lecture{2}
+\lecture{3}
 
 \section{Задача линейной регрессии}
 
 \subsection{Прямой подход}
-
-\begin{definition}
-    \(\mathcal{M} = \{y: \R^d \ra \R | y(x) = x^T\theta, \theta \in \R^d\}\) --- множество рассматриваемых нами моделей.
-\end{definition}
+Будем рассматривать следующие модели:
+\[\mathcal{M} = \{y: \R^d \ra \R | y(x) = x^T\theta, \theta \in \R^d\}\]
 
 Наша цель --- получить наилучшую модель, то есть оценить \(\theta\). 
 
@@ -54,11 +52,11 @@
 \textbf{Идея:} будем идти в противоположную сторону. Пусть \(x_0\) --- начальное приближение. Будем действовать по следующему алгоритму: будем постепенно делать шаги, каждый новый шаг определяется формулой \(x_{t + 1} = x_t - \eta \nabla f\), где \(\eta\) --- шаг метода.
 
 \begin{example}
-    Рассмотрим \(f(x) = x^2 \Ra \nabla f = 2x\). GD даст нам \(x_t = x_t - 2\eta x_t\). При \(\eta = 1\) мы получим \(x_{t + 1} = - x_t\).
+    Рассмотрим \(f(x) = x^2 \Ra \nabla f = 2x\). GD даст нам \(x_{t + 1} = x_t - 2\eta x_t\). При \(\eta = 1\) мы получим \(x_{t + 1} = - x_t\).
 \end{example}
 
 \begin{example}
-    Рассмотрим \(f(x) = x^4 \Ra \nabla f = 4x^3\). GD даст нам \(x_t = x_t - 2\eta x_t\). При \(\eta = 1\) мы получим \(x_{t + 1} = - 4x_t\), т.е. наша последовательность не сходится.
+    Рассмотрим \(f(x) = x^4 \Ra \nabla f = 4x^3\). GD даст нам \(x_{t + 1} = x_t - 2\eta x_t\). При \(\eta = 1\) мы получим \(x_{t + 1} = - 4x_t\), т.е. наша последовательность не сходится.
 \end{example}
 
 Применим GD к задаче линейной регрессии: \(F(\theta) = \|Y - X\theta\|^2 \ra \min_\theta\)
@@ -88,3 +86,117 @@
     \item Сгенерировать набор \(I\)
     \item Вычислить \(\theta_{t + 1} = \dots\)
 \end{enumerate}
+
+\lecture{4}
+
+\section{Линейные модели классификации}
+\subsection{Случай двух классов}
+Пусть \(x_1, \dots x_n \in \R^d\) --- признаки, \(y_1, \dots y_n \in \{0, 1\}\) --- признаки. Мы предполагаем, что:
+\[y_i = y_*(x_i, \epsilon_i)\]
+Где \(\epsilon_i\) --- неизвестные случайные величины.
+
+\begin{example}
+    \(y_i = I\{x_i^T\theta_* + \epsilon_i > 0\}\), где \(\theta_*\) --- неизвестна.
+\end{example}
+
+Мы будем предсказывать \(P(y_i = 1) = \mu(x_i)\).
+
+\begin{note}
+    Заметим, что \(y_i \sim Bern(\mu(x_i))\).
+\end{note}
+
+Таким образом, мы свели задачу к задаче нахождения \(\mu: \R^d \ra [0, 1]\).
+
+\subsection{Логистическая регрессия}
+Мы будем предполагать, что \(\mu_\theta(x) = \sigma(\theta^Tx)\), где \(\sigma(x) = \frac{1}{1 + e^{-x}}\) --- догистическая сигмоида. 
+
+\begin{figure}[h]                  % Окружение figure для плавающего рисунка
+\centering                         % Выравнивание по центру
+\begin{tikzpicture}                 % Начало рисунка в TikZ
+    \begin{axis}[                   % Окружение axis для координатной плоскости
+        xlabel={$x$},                % Подпись оси X
+        ylabel={$f(x)$},             % Подпись оси Y
+        title={График сигмоиды},     % Заголовок графика
+        xmin=-7, xmax=7,             % Диапазон значений X
+        ymin=0, ymax=1.1,            % Диапазон значений Y (немного выше 1)
+        grid=major,                   % Включить основную сетку
+        legend pos=north west,        % Расположение легенды (северо-запад)
+        legend style={font=\footnotesize, row sep=-2pt},
+        domain=-7:7,                  % Область определения функции
+        samples=100,                   % Количество точек выборки (чем больше, тем глаже)
+        width=13cm,                    % Ширина графика
+        height=9cm,                    % Высота графика
+        axis lines=middle,             % Оси проходят через начало координат (0,0)
+        enlargelimits=true,            % Добавить небольшой отступ от кривой до рамки
+    ]
+    % Построение самой сигмоиды
+    \addplot[blue, thick] {1/(1+exp(-x))};
+    \addlegendentry{$f(x)=\frac{1}{1+e^{-x}}$} % Легенда для графика
+
+    % Можно добавить дополнительные линии (например, асимптоты)
+    \addplot[dashed, red] coordinates {(-7,1) (7,1)}; % Горизонтальная асимптота y=1
+    \addlegendentry{$y=1$ (асимптота)}
+    \addplot[dashed, red] coordinates {(-7,0) (7,0)}; % Горизонтальная асимптота y=0
+    \addlegendentry{$y=0$ (асимптота)}
+
+    \end{axis}
+\end{tikzpicture}
+\caption{Логистическая сигмоида} % Подпись под рисунком
+\label{fig:sigmoid}
+\end{figure}
+
+\begin{note}[Свойства \(\sigma(z)\)]
+    \begin{enumerate}
+        \item \(\sigma(-z) = 1 - \sigma(z)\)
+        \item \(\sigma'(z) = \sigma(z)(1 - \sigma(z))\)
+        \item \(\sigma^{-1}(s) = \ln \frac{s}{1 - s}\) --- логит-функция
+    \end{enumerate}
+\end{note}
+
+Таким образом, если \(s = P(y_i = 1)\), то \(\frac{s}{1 - s}\) --- шанс, тогда \(\ln \frac{s}{1 - s}\) --- логит-функция от шанса. Тогда наше предположение эквивалентно тому, что логит от шанса --- линейная функция по \(x\).
+
+Соответственно, рассмотим множество моделей:
+\[\mathcal{M} = \{\mu: \R^d \ra [0, 1]\;\;|\;\;\mu(x) = \sigma(\theta^Tx), \theta \in \R^d\}\]
+
+\subsection{Обучение логистической регресии}
+
+Более подробно о кросс-энтропии и ее применении в теории кодирования --- в \href{URL}{презентации}
+
+\begin{definition}
+    \[H(P, Q) = -\sum_{j = 1}^k p_j\log_2 q_j\]
+\end{definition}
+
+Для каждого объекта \(i\) рассмотрим кросс-энтропию \(H(P_i, Q_i)\), где \(Q_i = (1 - \sigma(\theta^T x_i), \sigma(\theta^T x_i))\) --- вероятность класса 0 и 1 соответственно. Это наше предполагаемое распределение для \(y_i\). \(P_i = (1 - y_i, y_i)\) --- наблюдаемое распределение \(y_i\). Будем минимизировать сумму кросс-энтропий по всем объектам, т.е.
+\[F(\theta) = \sum_{i = 1}^n H(P_i, Q_i) = -\sum_{i = 1}^n (1 - y_i)\log_2(1 - \sigma(\theta^Tx_i)) + y_i\log_2\sigma(\theta^Tx_i) \ra \min_{\theta \in \R^d}\]
+
+Для минимизации, посчитаем градиент:
+\[\nabla F(\theta) = -\sum_{i = 1}^n \left((1 - y_i)\frac{-\sigma(1 - \sigma)}{1 - \sigma}x_i + y_i\frac{\sigma(1 - \sigma)}{\sigma}x_i\right)\]
+
+\[\nabla F(\theta) = -\sum_{i = 1}^n \left((1 - y_i)\frac{-\sigma(1 - \sigma)}{1 - \sigma}x_i + y_i\frac{\sigma(1 - \sigma)}{\sigma}x_i\right) = -\sum_{i = 1}^n (y_i - \sigma(\theta^T x_i))x_i = X^T(S(\theta) - Y)\]
+Где \(S(\theta) = \left(\begin{array}{c}
+    \sigma(\theta^T x_1) \\
+    \vdots \\
+    \sigma(\theta^T x_n) \\
+\end{array}\right)\)
+
+Таким образом, формула для градиентного спуска будет иметь следующий вид:
+
+\noindent\textbf{Градиентный спуск (GD):}
+\[\theta_{t + 1} = \theta_t - \eta X^T(S(\theta) - Y)\]
+
+\noindent\textbf{Стохастический градиентный спуск (SGD):}
+\[\theta_{t + 1} = \theta_t - \eta \frac{n}{k} X_I^T(S(\theta)_I - Y_I)\]
+Где \(I = \{i_1, \dots i_k\} \sim U\{1, \dots n\}\) --- батчи отвечают равномерному распределению.
+
+\subsection{Многоклассовый случай}
+\begin{note}
+    \[\sigma(z) = \frac{1}{1 + e^{-z}} = \frac{e^{z/2}}{e^{-z/2} + e^{z/2}} = \frac{e^{z_1}}{e^{z_1} + e^{z_2}}\]
+\end{note}
+
+Таким образом, сигмоиду можно обобщить для \(k\) классов, положив:
+\[\sigma(z_1, \dots z_k) = \left( \frac{e^{z_1}}{\sum_{i = 1}^n e^{z_i}}, \dots \frac{e^{z_k}}{\sum_{i = 1}^n e^{z_i}} \right)\]
+В качестве \(z_1, \dots z_k\) мы будем подставлять \(z_i = x_i^T \theta_i\), как и в двуклассовом случае. Таким образом, наше предположение имеет вид:
+\[P(y_i = j) = \frac{e^{z_j}}{\sum_{i = 1}^n e^{z_i}}\]
+
+% \subsection{Почему именно сигмоида и логит?}
+% Пусть нам даны 2 события: \(A, B: P(A) = 0.2, P(B) = 0.1\). Тогда \(P(\overline{A}) = 0.8, P(\overline{B}) = 0.9\). Однако заметим, что \(\frac{P(A)}{P(\overline{A})} \in [0, +\infty]\). Теперь заметим, что если мы применим \(\log \)
