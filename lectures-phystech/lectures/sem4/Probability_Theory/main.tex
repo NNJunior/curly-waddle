@@ -181,7 +181,7 @@
     \[p(x) = \frac{1}{\sqrt{2\pi \sigma^2s}}e^{-\frac{(x - a)^2}{2\sigma^2}}\]
     Моделирует измерение с ошибкой
 
-    \item Экспоненциальное распределение --- \(N(a, \sigma^2)\):
+    \item Экспоненциальное распределение --- \(Exp(\lambda)\):
     \[p(x) = \lambda e^{\lambda x} I\{x > 0\}\]
     \[F(x) = \left\{\begin{array}{l}
         0, x < 0 \\
@@ -653,9 +653,171 @@
 \begin{proof}
     \begin{enumerate}
         \item[\(\Ra\)] следует из определения
-        \item[\(\La\)] Рассмотрим
+        \item[\(\La\)] Пусть \(F_1, \dots F_n\) --- функции распределения случайных величин \(\xi_1, \dots \xi_n\). Рассмотрим
         \[G(x_1, \dots x_n) = \prod_{i = 1}^n F_{\xi_i}(x_i) = P(\xi_1 \le x_1, \dots \xi_n \le x_n)\]
-        Это многомерная функция распределения. Заметим, что ей соответствует 
+        Получили, что \(G\) --- многомерная функция распределения. Тогда легко видеть, что \(G\) --- функция распределения меры \(P_{\xi_1}\times \dots \times P_{\xi_n}\). Действительно:
+        \[P_{\xi_1}\times \dots \times P_{\xi_n}((-\infty, x_1] \times \dots \times (-\infty, x_n]) = P(\xi_1 \le x_1, \dots \xi_n \le x_n) = G(x_1, \dots x_n)\]
+        С другой стороны, по условию, \(G\) --- совместная функция распределения \(\xi_1, \dots \xi_n \Ra P_{\xi_1}\times \dots \times P_{\xi_n}\) --- распрелделение \(\vec{\xi} = (\xi_1, \dots \xi_n)\). Поэтому:
+        \[\forall B_1, \dots B_n: P(\xi_1 \in B_1, \dots \xi_n \in B_n) = P_{\xi_1}\times \dots \times P_{\xi_n}(B_1 \times \dots \times B_n) = \prod_{i = 1}^n P(\xi_i \in B_i)\]
     \end{enumerate}
 \end{proof}
 
+\lecture{5}
+
+\begin{theorem}[Общий случай]
+    Пусть \(\vec{\xi}_1, \dots \vec{\xi}_n\) --- случайные векторы на \((\Omega, \mathcal{F}, P)\), \(\vec{\xi_i} \in \R^{k_i}\). Они независимы в совокупности \(\Lra \forall \vec{x_1}, \dots \vec{x_n}\) выполнено:
+    \[P(\vec{\xi}_1 \le \vec{x_1}, \dots \vec{\xi}_n \le \vec{x_n}) = \prod_{i = 1}^n \underbrace{P(\vec{\xi}_i \le \vec{x_i})}_{F_{\vec{\xi}_i}(\vec{x_i})}\]
+\end{theorem}
+\begin{proof}
+    Аналогично случаю для случайных величин
+\end{proof}
+
+\begin{lemma}[Функции от независимых тоже независимы]
+    Пусть \(\vec{\xi_1}, \dots \vec{\xi_n}\) --- случайные векторы, \(\vec{\xi_i} \in \R^{k_i}\). Пусть \(f_i: \R^{k_i} \ra \R^{m_i}\) --- борелевские функции. Тогда \(\{f_i(\vec{\xi_i})\}\)
+\end{lemma}
+\begin{proof}
+    Обозначим \(\eta_i = f_i(\xi_i)\). Тогда \(\mathcal{\eta_i} \subset \mathcal{F}_{\xi_i}\). Следовательно, \(\mathcal{F}_{\eta_1}, \dots \mathcal{F}_{\eta_n}\) независимы как подсистемы в независимых системах
+\end{proof}
+
+\begin{proposition}
+    Пусть \(\xi_1, \dots \xi_{k_1}, \xi_{k_1 + 1}, \dots \xi_{k_2}, \dots \xi_{k_{n - 1}}, \dots \xi_{k_n}\) и \(f_1, \dots f_r\) --- борелевские функции, причем \(f_i: \R^{k_i - k_{i - 1}} \ra \R\). Тогда \(\{f_i(\xi_i)\}\) --- независимы.
+\end{proposition}
+\begin{proof}
+    Заметим, что блоки, как случайные векторы, тоже независимы, т.к.:
+    \[P(\xi_1 \le x_1, \dots \xi_{k_n} \le x_{k_n}) = \prod-{i = 1}^{k_n}P(\xi_i \le x_i) = \prod_{i = 1}^n P(\xi_{k_{i - 1} + 1} \le x_{k_{i - 1} + 1}, \dots \xi_{k_i} \le x_{k_i})\]
+    Осталось воспользоваться предыдущей леммой.
+\end{proof}
+
+\begin{theorem}
+    Если \(\xi, \eta\) --- независимые случайные величины и \(\E\xi, \E\eta\) конечно, то \(\E\xi\eta\) существует и \(\E\xi\eta = \E\xi \cdot \E\eta\)
+\end{theorem}
+\begin{proof}
+    По формуле замены переменных в интеграле Лебега:
+    \[\E\xi\eta = \iint_{\R^2}xy P_{\xi, \eta}(dx, dy)\]
+    Из независимости случайных величин, имеем:
+    \[P_{\xi, \eta} = P_\xi \times P_\eta\]
+    Заметим, что по теореме Тонелли:
+    \[\E|\xi|\cdot \E|\eta| = \int_\R \E|\xi||y|P_\eta(dy) = \int_\R\left( \int_\R|x|P_\xi(dx) \right)|y|P_\eta(dy) = \]
+    \[= \iint_{\R^2} |xy| P_{\xi, \eta}(dx, dy) < +\infty\]
+    Таким образом, по теореме Фубини:
+    \[\iint_{\R^2} xy  P_\xi(dx) \times P_\eta(dy) = \int_\R \int_\R x P_\xi(dx) y P\eta(dy) = \E\xi \cdot \E\eta\]
+\end{proof}
+
+\section{Совместная плотность}
+Пусть случайные величины \(\xi_1, \dots \xi_n\) имеют совместную плотность \(p(x_1, \dots x_n)\).
+
+\begin{proposition}
+    Каждая величина \(\xi_i\) имеет плотность, причем:
+    \[p_i(x_i) = {\int\dots \int}_{\R^{n - 1}}p(x_1, \dots x_n)dx_1\dots dx_{i-1}dx_{i+1}\dots dx_n\]
+\end{proposition}
+\begin{proof}
+    \[P(\xi_i \le x_i) = P((\xi_1, \dots \xi_n) \in \R \times \dots \times (-\infty, x_i] \times \dots \times \R) = \]
+    \[= \int\dots\int p(y_1, \dots y_n)dy_1\dots dy_n\]
+    По теореме Фубини, данный интеграл равен:
+    \[\int_{-\infty}^{x_i}\left( \int\dots\int_{\R^{n - 1}}p(y_1, \dots y_n)dy_1\dots dy_{i-1}dy_{i+1}\dots dy_n \right)dy_i\]
+    Получаем желаемое
+\end{proof}
+
+\begin{lemma}[Критерий независимости плотностей]
+    Пусть \(\xi_1, \dots \xi_n\) --- случайные величины с плотностями \(p_1(x), \dots p_n(x)\). Тогда:
+    \begin{enumerate}
+        \item Если у них есть совместная плотность, \(p(x_1, \dots x_n)\) и 
+        \[p(x_1, \dots x_n) = \prod_{i = 1}^n p_i(x_i)\]
+        То \(\{\xi_i\}\) --- независимы в совокупности
+        \item Если \(\xi_1, \dots \xi_n\) независимы в совокупности, то \(p_1(x_1)\dots p_n(x_n)\) будет их совместной плотностью.
+    \end{enumerate}
+\end{lemma}
+\begin{proof}
+    \begin{enumerate}
+        \item Рассмотрим совместную функцию распределения:
+        \[P(\xi_1 \le x_1, \dots \xi_n \le x_n) = \int_{-\infty}^{x_1}\dots \int_{-\infty}^{x_n} p(y_1, \dots y_n)dy_1\dots dy_n = \]
+        \[= \int_{-\infty}^{x_1}\dots \int_{-\infty}^{x_n} p_1(y_1) \dots p_n(y_n)dy_1\dots dy_n = (*)\]
+        По Теореме Фубини:
+        \[(*) = \prod_{i = 1}^n \int_{-\infty}^{x_i}p_i(y_i) = \prod_{i = 1}^n P(\xi_i \le x_i)\]
+        По критерию независимости \(\{\xi_i\}\) независимы
+        \item В обратную сторону:
+        \[P(\xi_1 \le x_1, \dots \xi_n \le x_n) = \prod_{i = 1}^n P(\xi_i \le x_i) = \prod_{i = 1}^n \int_{-\infty}^{x_i}p_i(y_i)dy_i = (*)\]
+        По теореме Фубини:
+        \[(*) = \int_{-\infty}^{x_1}\dots \int_{-\infty}^{x_n}p_1(y_1)\dots p_n(y_n)dy_1\dots dy_n\]
+        Что и требовалось
+    \end{enumerate}
+\end{proof}
+
+\begin{lemma}[О свертке распределений]
+    Пусть \(\xi, \eta\) --- независимые случайные величины с функциями распределения \(F_\xi, F_\eta\). Тогда:
+    \[F_{\xi + \eta}(x) = \int_\R F_\xi(x - y)dF_\eta(y) = \int_\R F_\eta(x - y)dF_\xi(y)\]
+\end{lemma}
+\begin{proof}
+    \[F_{\xi + \eta} = P(\xi + \eta \le x) = \iint_{\R^2}I\{y + z \le x\}P_{\xi, \eta}(dy, dz) = \]
+    \[ = \iint_{\R^2} I\{y + z \le x\}P_\xi(dy)P_\eta(dz) = (*)\]
+    По теореме Фубини:
+    \[(*) = \int_\R\left( \int_\R I\{y + z \le x\}P_\xi(dy) \right) P_\eta(dz) = \int_\R P(\xi \le x - z)P_\eta(dz) = \]
+    \[ = \int_\R F_\xi(x - z)dF_\eta(z)\]
+\end{proof}
+
+\begin{corollary}[Формула свертки]
+    Пусть \(\xi, \eta\) --- независимые случайные величины с плотностями \(p_\xi(x), p_\eta(y)\). Тогда \(\xi + \eta\) тоже имеет плотность, причем:
+    \[p_{\xi + \eta} = \int_\R p_\xi(x - y)p_\eta(y)dy\]
+\end{corollary}
+\begin{proof}
+    По лемме о свертке:
+    \[F_{\xi + \eta}(x) = \int_\R F_\xi(x - z)dF_\eta(z) = \int_\R\left( \int_{-\infty}^{x - z}p_\xi(y)dy \right)p_\eta(z)dz = \]
+    \[= \int_\R\left( \int_{-\infty}^{x}p_\xi(t - z)dt \right)p_\eta(z)dz\]
+    По теореме Фубини:
+    \[= \int_\R\left( \underbrace{\int_{-\infty}^{x}p_\xi(t - z)p_\eta(z) dt}_{\text{плотность }\xi + \eta}\right)dz\]
+\end{proof}
+
+\begin{example}
+    Пусть \(\xi_1, \xi_2\) --- независимые случайные величины, \(\xi_i \sim \Gamma(\alpha, \lambda_i), i = 1,2\). Найти плотность \(\xi_1 + \xi_2\)
+\end{example}
+\begin{solution}
+    \[p_{\xi_1 + \xi_2}(x) = \int_\R p_{\xi_1}(x - y)p_{\xi_2}(y)dy = \int_\R\frac{(x - y)^{\lambda_1 - 1}}{\Gamma(\lambda_1)\Gamma(\lambda_2)}\alpha^{\lambda_1 + \lambda_2}y^{\lambda_2 - 1}e^{-\alpha(x - y) - \alpha y}I\{y > 0, x - y > 0\}= \]
+    \[ = \frac{e^{-\alpha x}}{\Gamma(\lambda_1)\Gamma(\lambda_2)}\alpha^{\lambda_1 + \lambda_2}\int_0^x(x - y)^{\lambda_1 - 1}y^{\lambda_2 - 1}dy = \left\{z = \frac{y}{x}\right\} = \frac{e^{-\alpha x}}{\Gamma(\lambda_1)\Gamma(\lambda_2)}\alpha^{\lambda_1 + \lambda_2}\int_0^1 (x - xz)^{\lambda_1 - 1}(zx)^{\lambda_2 - 1}xdz = \]
+    \[ = \frac{x^{\lambda_1 + \lambda_2 - 1}}{\Gamma(\lambda_1)\Gamma(\lambda_2)}\alpha^{\lambda_1 + \lambda_2}\alpha^{\lambda_1 + \lambda_2}e^{-\alpha x} \underbrace{\int_0^1 (1 - z)^{\lambda_1 - 1}z^{\lambda_2 - 1}dz}_{B(\lambda_1, \lambda_2) = \frac{\Gamma(\lambda_1)\Gamma(\lambda_2)}{\Gamma(\lambda_1 + \lambda_2)}}\]
+    Получили, что \(\xi_1 + \xi_2 \sim \Gamma(\alpha, \lambda_1 + \lambda_2)\)
+\end{solution}
+
+\subsection{Дисперсия и ковариация}
+\begin{definition}
+    Пусть \(\xi\) --- случайные величины с конечным \(\E\xi\). Тогда дисперсией случайной величины \(\xi\) называется:
+    \[\Variance \xi = \E(\xi - \E\xi)^2\]
+\end{definition}
+
+\begin{definition}
+    Ковариацией случаных величин \(\xi, \eta\) называется
+    \[cov(\xi, \eta) = \E(\xi - \E\xi)(\eta - \E\eta)\]
+\end{definition}
+
+\begin{definition}
+    Коэффициентом корреляции случайнх величин \(\xi, \eta\) называется
+    \[\rho(\xi, \eta) = \frac{cov(\xi, \eta)}{\sqrt{\Variance \xi \cdot \Variance \eta}}\]
+\end{definition}
+
+\begin{lemma}[Свойства \(\Variance\) и \(cov\)]
+    \begin{enumerate}
+        \item Ковариация билинейна
+        \item \(\Variance \xi = cov(\xi, \xi)\)
+        \item \(cov(\xi, \eta) = \E\xi\eta - \E\xi\cdot \E\eta\), \(\Variance \xi = \E\xi^2 - (\E\xi)^2\)
+        \item \(\Variance \xi \ge 0\), причем равенство выполняется тогда и только тогда, когда \(P(\xi = \E\xi) = 1\).
+        \item \(c \in \R \Ra \Variance(\xi + c) = \Variance \xi, \Variance(c\xi) = c^2\Variance \xi\).
+        \item Неравенство Коши-Буняковского:
+        \[|E\xi\eta| \le \sqrt{\E\xi^2 \E\eta^2}\]
+        Причем равенство выполняется тогда и только тогда, когда \(\xi, \eta\) линейно независимы почти наверное.
+        \item \(|\rho(\xi, \eta)| \le 1\), причем равенство выполняется тогда и только тогда, когда \(\xi - \E\xi, \eta - \E\eta\) линейно независимы почти наверное.
+    \end{enumerate}
+\end{lemma}
+
+\begin{definition}
+    Случайные величины называются некоррелированными, если \(cov(\xi, \eta) = 0\).
+\end{definition}
+
+\begin{corollary}
+    Если \(\xi, \eta\) независимы, то они некоррелированы
+\end{corollary}
+
+\begin{corollary}
+    Если \(\xi_1, \dots \xi_n\) --- попарно некоррелированы (или независимые) случайные величины с конечными дисперсиями, то \(\Variance(\xi_1 + \dots + \xi_n) = \sum_{i = 1}^n \Variance \xi_i\)
+\end{corollary}
+\begin{proof}
+    \[\Variance(\xi_1 + \dots + \xi_n) = cov\left( \sum_{i = 1}^n \xi_i, \sum_{i = 1}^n \xi_i \right) = \sum_{i, j \le n} cov(\xi_i, \xi_j) = \sum_{i = 1}^n cov(\xi_i, \xi_i) = \sum_{i = 1}^n \Variance \xi_i\]
+\end{proof}
