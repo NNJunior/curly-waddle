@@ -616,3 +616,101 @@
 \end{example}
 
 Однако, бывает так, что даже приближение задачи \(\mathbf{NP}\)-трудно.
+
+\lecture{5}
+
+\section{Полиномиальная иерархия}
+
+\begin{definition}
+    \(\mathbf{DP} = \{A \cap B: A \in \mathbf{NP}, B \in \mathbf{coNP}\} = \{A \setminus B: A \in \mathbf{NP}, B \in \mathbf{NP}\}\)
+\end{definition}
+
+\subsection{Примеры}
+
+Вспомним арифметическую иерархию. Мы строили ПНФ для формул, которые являются вычислимыми. Построим полиномиальную иерархию: оставшаяся часть после кванторов должна быть полиномиально вычислима
+Рассмотрим следующие задачи:
+\begin{enumerate}
+    \item \textbf{Задача о минимизации формулы.} \(\mathsf{MINEQFORM} = \{(\phi, k): \exists \psi \sim \phi, |\psi| \le k\}\). В кванторах эту задачу можно записать так: \(\exists \psi \forall x(|\psi| \le k \wedge \psi(x) = \phi(x))\). Заметим, что эта формула в ПНФ, причем начинается с \(\exists\).
+    \item \textbf{Задачи точной оптимизации.} Например: \(\mathsf{CHROMNUM} = \{(G, k): \chi(G) = k\}\). В кванторах эту задачу можно записать так: \(\exists \text{ правильная раскраска в \(k\) цветов} \wedge \forall \text{ раскраска в \(k - 1\) цвет неправильная}\). Её можно привести к ПНФ, причем начинаться она будет с двух кванторов. Порядок кванторов в данном случае не имеет значения
+    \item \textbf{Обобщенная Рамсеевость.} Число Рамсея определяется следующим образом: \(R(s, t) = \min\{N:\) в любом графе на \(N\) вершинах есть \(s\)-клика или \(t\)-независимое множество\(\}\). Обобщенная Рамсеевость, же задает следующий вопрос: пусть даны 3 графа \(G, H_1, H_2\), верно ли что при любой раскраске \(G\) в 2 цвета найдется подграф первого цвета, изоморфный \(H_1\) или подграф второго цвета, изоморфный \(H_2\)? Данная задача приводится к ПНФ следующим образом:
+    \[\forall\text{ раскраски }\exists\text{ подграф, изоморфизм }\dots\]
+    Здесь уже формула начинается с \(\forall\).
+    \item \textbf{Кликовая раскраска.} Существует ли кликовая раскраска графа в \(k\) цветов, т.е. такая, что в любой максимальной клике есть вершины разного цвета. Таким образом, в ПНФ будет 2 квантора:
+    \[\exists\text{ раскраска }\forall\text{ максимальной клики }\underbrace{\exists\text{ 2 вершины }}_{\text{полиномиально вычислимо}}\dots\]
+    \item \textbf{Наследуемая кликовая раскраска.} Аналогично предыдущему, но утверждение должно выполняться для любого подграфа. ПНФ:
+    \[\forall\text{ подграфа }\exists\text{ раскраска }\forall\text{ максимальной клики }\dots\]
+\end{enumerate}
+
+\begin{definition}
+    Пусть \(U = \{1, \dots n\}\) и дана система множеств \(\{S_1, \dots S_m\}, S_i \subset U\). Тогда: \(\dim_{VC}(S_1, \dots S_m) = \max\{|T|: \forall X \subset T: \exists i: S_i \cap T = X\}\). Таким образом: \(\mathsf{VCDIM} = \{(S_1, \dots S_m, d): \dim_{VC}(S_1, \dots S_m) \ge d\}\).
+\end{definition}
+
+\begin{enumerate}
+    \setcounter{enumi}{4}
+    \item \textbf{Размерность Вапника-Червоненкиса.} Задача \(\mathsf{VCDIM}\), но с неявным заданием формулы (чтобы можно было записать экспоненциальное количество множеств) через формулу \(\phi(i, x) = \left\{\begin{array}{l}
+        1, x \in S_i \\
+        0, x \notin S_i
+    \end{array}\right.\).
+\end{enumerate}
+
+\subsection{Формально}
+
+\begin{definition}
+    \(\Sigma_k^p\) --- класс языков \(A\), таких, что \(\exists V\) --- полиномиально вычислимая, такая, что:
+    \[x \in A \Lra \exists y_1\forall y_2 \dots^\forall_\exists y_k V(x, y_1, \dots y_k)\]
+\end{definition}
+
+\begin{definition}
+    \(\Pi_k^p\) --- класс языков \(A\), таких, что \(\exists V\) --- полиномиально вычислимая, такая, что:
+    \[x \in A \Lra \exists y_1\forall y_2 \dots^\forall_\exists y_k V(x, y_1, \dots y_k)\]
+\end{definition}
+
+\begin{note}
+    \begin{enumerate}
+        \item \(P = \Sigma_0^p = \Pi_0^p\)
+        \item \(\Sigma_i^p, \Pi_i^p \subset \Sigma_{i + 1}^p, \Pi_{i + 1}^p\)
+        \item \(\Sigma_1^p = \mathbf{NP}, \Pi_1^p = \mathbf{coNP}\)
+        \item \(\Sigma_1^p, \Pi_1^p \subset \mathbf{DP} \subset \Sigma_2^p, \Pi_2^p\)
+    \end{enumerate}
+\end{note}
+
+\begin{definition}
+    \[\mathbf{PH} = \bigcup_{k = 0}^\infty \Sigma_k^p = \bigcup_{k = 0}^\infty \Pi_k^p\]
+\end{definition}
+
+\subsection{Вопрос о коллапсе иерархии}
+Возникает вопрос: а почему \(\mathbf{PH} \ne \mathbf{P}\)?
+
+\begin{theorem}
+    \(\mathbf{P} = \mathbf{NP} \Ra \mathbf{P} = \mathbf{PH}\)
+\end{theorem}
+\begin{proof}[Идея доказательства]
+    \(\mathbf{P} = \mathbf{NP} \Ra \mathbf{P} = \mathbf{coNP}\). Но тогда мы можем убирать последние кванторы в формуле и, таким образом, \(\Sigma_i^p, \Pi_i^p = \mathbf{P}\).
+\end{proof}
+
+\begin{note}
+    \(A, B \in \Sigma_k^p \Ra A \cup B, A \cap B \in \Sigma_k^p, A \in \Sigma_k^p \Lra \overline{A} \in \Pi_k^p\)
+\end{note}
+\begin{proof}
+    \(A \in \Sigma_k^p \Lra \overline{A} \in \Pi_k^p\) --- очевидно из отрицания к формуле \(A\). Докажем, что \(A \cup B \in \Sigma_k^p\). Это следует из следующего (если \(\phi, \psi\) не зависят от \(y, x\) соответственно):
+    \[\forall x \phi(x) \vee \forall y \psi(y) \lra \forall (x, y) \phi \vee \psi\]
+    Утверждение \(A \cap B \in \Sigma_k^p\) получается и равенства \(A \cap B = \overline{\overline{A} \cup \overline{B}}\).
+\end{proof}
+
+\begin{theorem}[Об условиях коллапса]
+    Следующие условия эквивалентны:
+    \begin{enumerate}
+        \item \(\Sigma_k^p = \Sigma_{k + 1}^p\)
+        \item[1'.] \(\Sigma_k^p = \Sigma_{k + 1}^p\)
+        \item \(\Sigma_k^p = \Pi_k^p, k > 0\)
+        \item \(\mathbf{P} = \Sigma_k^p\)
+    \end{enumerate}
+\end{theorem}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item[\((3) \Ra (1)\)] \(\Sigma_k^p \subset \Sigma_{k + 1}^p \subset \mathbf{PH} = \Sigma_k^p\)
+        \item[\((1) \Ra (2)\)] \(\Pi_k^p \subset \Sigma_{k + 1}^p = \Sigma_k^p \Ra \Pi_k^p = \Sigma_k^p\). Теперь:
+        \[A \in \Sigma_k^p \Ra \overline{A} \in \Pi_k^p \Ra \overline{A} \in \Sigma_k^p \Ra A \in \Pi_k^p \Ra \Sigma_k^p = \Pi_k^p\]
+        \item[\((2) \Ra (1)\)]
+    \end{enumerate}
+\end{proof}
