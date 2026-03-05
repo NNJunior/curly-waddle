@@ -381,7 +381,7 @@
 \begin{theorem}
     Пусть \(f \in L_1(T), x \in \R\). Тогда:
     \begin{equation}
-        \lim_{n \ra \infty} S_n(f, x) = S \Lra \exists \delta \in (0, \pi]: \lim_{n \ra \infty} \int_0^\delta \frac{f(x + t) - f(x - t) - 2s}{t}\sin\left( n + \frac{1}{2} \right)t dt = 0
+        \lim_{n \ra \infty} S_n(f, x) = S \Lra \exists \delta \in (0, \pi]: \lim_{n \ra \infty} \int_0^\delta \frac{f(x + t) + f(x - t) - 2S}{t}\sin\left( n + \frac{1}{2} \right)t dt = 0
     \end{equation}
 \end{theorem}
 \begin{proof}
@@ -426,7 +426,7 @@
     См 2 семестр
 \end{proof}
 
-\begin{proposition}[Принцип Дирихле]
+\begin{proposition}[Признак Дирихле]
     Пусть \(f \in L_1(T), x \in \R\). Если \(f\) монотонна на \([x - \delta, x + \delta]\) при некотором \(\delta > 0\), то \(S(f, x) = \frac{f(x + 0) + f(x - 0)}{2}\)
 \end{proposition}
 \begin{proof}
@@ -468,3 +468,96 @@
 \begin{note}
     По ходу доказательства мы доказали, что семейство \(\{\phi_{n_k}\}\) --- компактное множество в пространстве непрерывных функций.
 \end{note}
+
+\lecture{5}
+
+\begin{theorem}[Риман]
+    Пусть \(f, g \in L_1(T), x \in \R\). Если \(f = g\) на \((x - \delta, x + \delta)\), то \(S_n(f, x) - S_n(g, x) \ra 0, n \ra +\infty\), причем данная сходимость равномерная на любом \([a, b] \subset (x - \delta, x + \delta)\)
+\end{theorem}
+\begin{proof}
+    \[f(x - t) = g(x - t) \forall |t| < \delta\]
+    \[S_n(g, x) = S_n(f, x) + \epsilon_n(x) = o(1)\]
+    Причем \(\epsilon_n(x) \rightrightarrows 0\) на любом \(K \subset (x - \delta, x + \delta)\).
+\end{proof}
+
+\begin{theorem}
+    Пусть \(S(x)\) ограничена и \(K \subset \R\) --- компакт. Тогда \(S_n(f, x) \rightrightarrows_K S(x) \Lra \exists \delta > 0: \lim_{n \ra \infty} \int_0^\delta \frac{f(x + t) + f(x - t) - 2S(x)}{t}dt\) равномерно по \(x \in K\)
+\end{theorem}
+\begin{proof}
+    Аналогично предыдущей теореме.
+\end{proof}
+
+\begin{definition}
+    Говорят, что функция \(f\) удовлетворяет условию Гельдера на \(E \subset \R\) с показателем \(\alpha \in (0, 1]\), если \(\exists C > 0: \forall x, y \in E: |f(x) - f(y)| \le C|x - y|^\alpha\)
+\end{definition}
+
+\begin{example}
+    Рассмотрим \(f = \sqrt{x}, E = (0, +\infty)\). Данная функция удовлетворяет условию Гельдера с \(\alpha = \frac{1}{2}\) (следует из неравенства \(|\sqrt{x} - \sqrt{y}| \le \sqrt{|x - y|}\)).
+\end{example}
+
+\begin{definition}
+    Функция \(f\) называется кусочно-непрерывной на \([a, b]\), если \(\exists I\) --- разбиение \([a, b]\) точками \(a = x_0 < x_1 < \dots < x_n = b\), что \(f\) непрерывна на \((x_i, x_{i + 1})\) и существуют и конечны пределы \(f(x_i \pm 0)\) при \(0 < i < n\) и \(f(a + 0), f(b - 0)\).
+\end{definition}
+
+\begin{example}
+    Если для непрерывной функции \(f\), производная \(f'\) кусочно-непрерывная, то \(f\) удовлетворяет условию Гельдера с \(\alpha = 1\).
+\end{example}
+
+\begin{theorem}[Признак Липшица]
+    Пусть \(f \in L_1(T)\) и удовлетворяет условию Гельдера на \([a, b]\). Тогда \(S_n(f, x) \rightrightarrows f(x)\) на любом \([a', b'] \subset (a, b)\).
+\end{theorem}
+\begin{proof}
+    Существует \(\delta < 0\), такое, что \(|t| < \delta \Ra x - t \in [a, b]\) для \(x \in [a', b'] \subset (a, b)\). Для \(\delta_1 \in (0, \delta)\), имеем \(|f(x \pm t) - f(x)| \le C|t|^\alpha\). Тогда:
+    \[\left| \int_0^{\delta_1} \frac{f(x + t) + f(x - t) - 2f(x)}{t}\sin\left( n + \frac{1}{2} \right)tdt \right| \le\]
+    \[\le \int_0^{\delta_1} \frac{|f(x + t) - f(x)| + |f(x - t) - f(x)|}{t}dt \le\]
+    \[\le 2C\int_0^{\delta_1}t^{\alpha - 1}dt = \frac{2C}{\alpha}\delta_1^\alpha < \frac{\epsilon}{2}\]
+    Также, 
+    \[\int_{\delta_1}^\delta \frac{f(x + t) + f(x - t) - 2f(x)}{t}\sin\left( n + \frac{1}{2} \right)tdt = \]
+    \[=\int_{-\pi}^{\pi} (f(x + t) + f(x - t) - 2f(x))\frac{I_{[\delta_1, \delta]}}{t}\sin\left( n + \frac{1}{2} \right)dt \rightrightarrows 0\]
+    Для доказательства равномерной сходимости достаточно разбить интеграл на три части и воспользовалься предыдущей леммой. Тогда
+    \[\exists N: \forall n \ge N \forall x \in [a', b']: \left| \int_{-}^{\pi} (f(x + t) + f(x - t) - 2f(x))\frac{I_{[\delta_1, \delta]}}{t}\sin\left( n + \frac{1}{2} \right)dt \right| < \frac{\epsilon}{2}\]
+    А значит:
+    \[\left| \int_{0}^{\delta} \frac{f(x + t) + f(x - t) - 2f(x)}{t}\sin\left( n + \frac{1}{2} \right)tdt \right|  < \epsilon\]
+    Что и требовалось
+\end{proof}
+
+\begin{corollary}
+    Пусть \(f \in C(T)\) и \(f'\) кусочно-непрерывна на \([-\pi, \pi] \Ra S_n(f, x) \rightrightarrows f(x)\) на \(\R\).
+\end{corollary}
+
+\subsection{Почленное дифференцирование и интегрирование рядов Фурье}
+
+\begin{theorem}
+    Пусть \(f \in C(T)\) и \(f'\) кусочно непрерывна на \([-\pi, \pi]\). Тогда \(S(f', x) = S'(f, x)\) --- почленно продифференцированный ряд Фурье
+\end{theorem}
+\begin{proof}
+    По формуле интегрирования по частям:
+    \[2\pi c_n(f') = \int_{-\pi}^{\pi} f'(x)e^{-inx}dx = f(x)e^{-inx}|_{-\pi}^\pi + in \int_{-\pi}^\pi f(x)e^{-inx}dx = 2\pi i n c_n(f)\]
+    Итак, \(c_n(f')e^{inx} = (c_n(f)e^{inx})'\), что и требовалось
+\end{proof}
+
+\begin{corollary}[О порядке убывания коэффициентов Фурье]
+    Пусть \(f, f', \dots f^{(m - 1)} \in C(T)\) и \(f^{(m)}, f^{(m + 1)}\) --- кусочно-непрерывны на \([-\pi, \pi]\). Тогда \(c_n(f) = O\left( \frac{1}{|n|^{m + 1}} \right)\) при \(n \ra \infty\)
+\end{corollary}
+\begin{proof}
+    Последовательно применяя предыдущую теорему, имеем: \(c_n(f^{(m)}) = (in)^m c_n(f)\). К точкам разрыва \(f^{(m + 1)}\) добавим еще точки \(-\pi , \pi\) и упорядочим по возрастанию: \(-\pi = x_0 < x_1 < \dots < x_N = \pi\). По формуле интегрирования по частям:
+    \[\int_{x_{j - 1}}^{x_j} f^{(m + 1)}(x)e^{-inx}dx = f^{(m)}(x)e^{-inx}|^{x_j - 0}_{x_{j - 1} + 0} + in\int_{x_{j - 1}}^{x_j}f^{(m)}(x) e^{-inx}dx\]
+    \[c_n(f^{m + 1}) = \lambda_n + inc_n(f^{(m)}), \lambda_n = \frac{1}{2\pi}\sum_{j = 1}^N \left(f^{(m)}(x_j - 0)e^{-inx_j} - f^{(m)}(x_{j - 1} + 0)e^{-inx_{j - 1}}\right)\]
+    Заметим, что \(\lambda_n\) ограничена. Т.к. \(c_n(f^{(m + 1)}) = o(1)\), то \(inc_n(f^{(m)}) = O(1)\).
+\end{proof}
+
+\begin{problem}
+    Если в условии следствия \(c_n(f) = O\left( \frac{1}{|n|^{m + 1 + \epsilon}} \right)\) для некоторого \(\epsilon > 0\), то \(f^{(m)} \in C(T)\).
+\end{problem}
+
+\begin{exercise}
+    По свойствам интеграла с переменным пределом получить, что \(f^{(m)}\) кусочно-непрерывна, если \(f^{(m + 1)}\) кусочно-непрерывна
+\end{exercise}
+
+\begin{lemma}
+    Пусть \(f \in L_1(T), F(x) = \int_{-\pi}^x (f(t) - c_0(f))dt, x \in \R\). Тогда \(F\) непрерывна, \(2\pi\)-периодическая и является суммой своего ряда Фурье:
+    \[F(x) = c_0(F) + \sum_{n \ne 0} \frac{c_n(F)}{in}e^{inx}\]
+\end{lemma}
+\begin{proof}
+    Доказательство на следующей лекции
+\end{proof}
