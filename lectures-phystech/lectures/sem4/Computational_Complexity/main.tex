@@ -701,9 +701,9 @@
     Следующие условия эквивалентны:
     \begin{enumerate}
         \item \(\Sigma_k^p = \Sigma_{k + 1}^p\)
-        \item[1'.] \(\Sigma_k^p = \Sigma_{k + 1}^p\)
+        \item[1'.] \(\Pi_k^p = \Pi_{k + 1}^p\)
         \item \(\Sigma_k^p = \Pi_k^p, k > 0\)
-        \item \(\mathbf{P} = \Sigma_k^p\)
+        \item \(\mathbf{PH} = \Sigma_k^p\)
     \end{enumerate}
 \end{theorem}
 \begin{proof}\indent
@@ -711,6 +711,27 @@
         \item[\((3) \Ra (1)\)] \(\Sigma_k^p \subset \Sigma_{k + 1}^p \subset \mathbf{PH} = \Sigma_k^p\)
         \item[\((1) \Ra (2)\)] \(\Pi_k^p \subset \Sigma_{k + 1}^p = \Sigma_k^p \Ra \Pi_k^p = \Sigma_k^p\). Теперь:
         \[A \in \Sigma_k^p \Ra \overline{A} \in \Pi_k^p \Ra \overline{A} \in \Sigma_k^p \Ra A \in \Pi_k^p \Ra \Sigma_k^p = \Pi_k^p\]
-        \item[\((2) \Ra (1)\)]
+        \item[\((2) \Ra (3)\)] Рассмотрим \(A \in \Sigma_{k + 1}^p\)
+        \[x \in A \Lra \exists y_1 \forall y_2 \dots_\exists^\forall y_{k + 1} V(x, y_1, \dots y_{k + 1})\]
+        Рассмотрим теперь язык 
+        \[Z = \{(x, y_1): \forall y_2 \dots_\exists^\forall y_{k + 1} V(x, y_1, \dots y_{k + 1})\} \in \Pi_k^p \Ra \in \Sigma_k^p\]
+        Но тогда:
+        \[Z = \{(x, y_1): \exists z_1 \dots_\exists^\forall z_k W(x, z_1, \dots z_k)\}\]
+        Из чего заключаем:
+        \[x \in A \Lra \underbrace{\exists y_1\exists z_1}_{\exists (y_1, z_1)}\dots_\exists^\forall z_k W(x, z_1, \dots z_k)\]
+        Получили, что \(A \in \Sigma_k^p\).
+        Тогда \(\Sigma_{k + 1}^p = \Pi_{k + 1}^p = \Sigma_k^p\). Отсюда по индукции получаем, что \(\Sigma_{k + l} = \Pi_{k + l} = \Sigma_k^p \Ra \mathbf{PH} = \Sigma_k\)
     \end{enumerate}
 \end{proof}
+
+\begin{note}
+    \(A \le_p B, B \in \Sigma_k^p \Ra A \in \Sigma_k^p\).
+\end{note}
+
+\begin{note}
+    Можно по аналогии определить \(\Sigma_k^p\)-полные, \(\Pi_k^p\)-полные и \(\mathbf{PH}\)-полные задачи.
+\end{note}
+
+\begin{theorem}
+    \(\forall k \exists \Sigma_k^p\)-полные и \(\Pi_k^p\)-полные задачи. \(\mathbf{PH}\)-полные задачи существуют в том и только том случае, когда иерархия коллапсирует.
+\end{theorem}
