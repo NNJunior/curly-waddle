@@ -432,3 +432,245 @@
 \begin{example}[Факториальных КГИ, но не евклидовых]
     \(\Z\left[ \frac{-1 + \sqrt{d}}{2} \right], d = 19, 43, 67, 163\).
 \end{example}
+
+\lecture{4}
+
+\subsection{Норма Дедекинда-Хассе}
+
+\begin{definition}
+    Пусть \(K\) --- область целостности. \(N: K \setminus \{0\} \ra \Z_{\ge 0}\) называется нормой Дедекинда-Хассе, если \(\forall a, b, \in K \setminus \{0\}, a \not\vdots b \Ra \exists x, y \in K: N(ax + by) < N(b)\).
+\end{definition}
+
+\begin{note}
+    Любое евклидово кольцо является кольцом Дедекинда-Хассе, т.к. достаточно положить \(x = 1\) в определении выше.
+\end{note}
+
+\begin{proposition}
+    \(K\) --- КГИ \(\Lra K\) --- кольцо Дедекинда-Хассе.
+\end{proposition}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item[\(\La\)] Рассмотрим \(I \subset K\) --- идеал. Выберем \(d \in I\) с наименьшей нормой \(N(d)\). Пусть \(a \in I \Ra a \vdots d\) или \(a \not\vdots d\). Во втором случае \(\exists x, y \in K: N(ax + by) < N(d)\), но \(ax + by \in I \Ra\) получили противоречие с минимлаьностью нормы \(d\).
+        \item[\(\Ra\)] Пусть \(K\) --- КГИ \(\Ra\) оно факторально. Положим \(N(a)\) --- количество неразложимых элементов в произведении. Пусть \(a, b \in K \setminus \{0\}, a\not\vdots b\). Рассмотрим \((a, b) = (d)\) --- из КГИ. Тогда \(a \vdots d, b \vdots d\) и тогда \(b \not\sim d\). Получаем, что \(N(b) > N(d)\). Т.к. \(d \in I \Ra d = ax + by\). Но тогда \(\exists x, y: N(ax + by) < N(b)\).
+    \end{enumerate}
+\end{proof}
+
+\subsection{Пифагоровы тройки}
+Попытаемся найти общий вид для всех пифагоровых троек, т.е. троек вида:
+\[x^2 + y^2 = z^2, (x, y) = (y, z) = (z, x) = 1\]
+Заметим, что в таком случае \(z \equiv_2 1\). Разложим \(z^2\) в \(\Z[i]\):
+\[(x + yi)(x - yi) = z^2\]
+\[(x + yi, x - yi) = (x + yi, 2yi) = (x + yi, 2) = \left[\begin{array}{l}
+    2 \Ra x \vdots 2, y \vdots 2 \\
+    1 + i \Ra x + yi \vdots 1 + i, x - yi \vdots 1 - i  \Ra x^2 \vdots (1 + i)(1 - i) = 2\\
+    1
+\end{array}\right.\]
+Видим, что возможен только последний случай. Таким образом, \((x + yi, x - yi) = 1\). Но тогда \(x + yi \sim w^2\). Для случая \(x + yi = w^2 = (c + id)^2\), получаем:
+\[\left\{\begin{array}{l}
+    x = c^2 - d^2 \\
+    y = 2cd
+    z = c^2 + d^2
+\end{array}\right.\]
+Рассмотрение остальных случаев остается читателю в качестве нетрудного упражнения.
+
+\subsection{Гомоморфизмы и факторкольца}
+\begin{definition}
+    Отображение \(\phi: K \ra L\) называется гомоморфизмом, если \(\phi(k_1 + k_2) = \phi(k_1) + \phi(k_2), \phi(k_1k_2) = \phi(k_1)\phi(k_2), \phi(1_K) = 1_L\).
+\end{definition}
+
+\begin{definition}
+    Изоморфизм --- биективный гомоморфизм
+\end{definition}
+
+\begin{definition}
+    \(\ker \phi = \{x: \phi(x) = 0\}\).
+\end{definition}
+
+\begin{definition}
+    \(\Im \phi = \{y: \exists x: \phi(x) = y\}\)
+\end{definition}
+
+\begin{note}
+    \(\ker \phi\) --- идеал.
+\end{note}
+
+\subsection{Факторкольца}
+
+\begin{definition}
+    Пусть \(I \subset K\) --- идеал. На факторгруппе \(K/I\) вводится операция \(\cdot\): \((a + I)(b + I) = ab + I\). Такое кольцо называется факторкольцом.
+\end{definition}
+
+\begin{example}
+    \(\Z/(m) = \Z_m\)
+\end{example}
+
+\begin{example}
+    \(\Z[x]/(m) = \Z_m[x]\)
+\end{example}
+
+\begin{example}
+    \(\Z[x]/(x) = \Z\)
+\end{example}
+\begin{theorem}[Основная теорема о гомоморфизме]
+    Пусть \(\phi\) --- гомоморфизм.
+    \[K/{\ker\phi}\cong\Im \phi\]
+\end{theorem}
+\begin{proof}
+    Рассмотрим отображение \(\psi: K/\ker\phi \to \Im\phi\), заданное формулой \(\psi(a + \ker\phi) = \phi(a)\). 
+    \begin{enumerate}
+        \item \textbf{Корректность:} если \(a + \ker\phi = b + \ker\phi\), то \(a-b \in \ker\phi\), значит \(\phi(a-b)=0\), откуда \(\phi(a)=\phi(b)\).
+        \item \textbf{Гомоморфизм:} 
+        \[
+        \psi((a+\ker\phi)+(b+\ker\phi)) = \psi(a+b+\ker\phi) = \phi(a+b) = \phi(a)+\phi(b) = \psi(a+\ker\phi)+\psi(b+\ker\phi),
+        \]
+        аналогично для умножения и \(\psi(1+\ker\phi)=\phi(1)=1\).
+        \item \textbf{Сюръективность:} любой элемент \(\Im\phi\) имеет вид \(\phi(a)\), тогда \(\psi(a+\ker\phi)=\phi(a)\).
+        \item \textbf{Инъективность:} если \(\psi(a+\ker\phi)=0\), то \(\phi(a)=0\), значит \(a\in\ker\phi\), т.е. \(a+\ker\phi = 0+\ker\phi\).
+    \end{enumerate}
+    Следовательно, \(\psi\) — изоморфизм.
+\end{proof}
+
+\begin{theorem}
+    Пусть \(I \subset J \subset K\), \(I, J\) --- идеалы. Тогда \(\frac{K/I}{J/I} \cong K/J\)
+\end{theorem}
+\begin{proof}
+    Определим отображение \(\phi: K/I \to K/J\) формулой \(\phi(a+I) = a+J\).
+    \begin{enumerate}
+        \item \textbf{Корректность:} если \(a+I = b+I\), то \(a-b \in I \subset J\), значит \(a-b \in J\), откуда \(a+J = b+J\).
+        \item \textbf{Гомоморфизм:} 
+        \[
+        \phi((a+I)+(b+I)) = \phi(a+b+I) = a+b+J = (a+J)+(b+J) = \phi(a+I)+\phi(b+I),
+        \]
+        аналогично для умножения и \(\phi(1+I)=1+J\).
+        \item \textbf{Сюръективность:} для любого \(c+J \in K/J\) имеем \(\phi(c+I)=c+J\).
+        \item \textbf{Ядро:} \(\ker\phi = \{a+I \mid a+J = J\} = \{a+I \mid a \in J\} = J/I\).
+    \end{enumerate}
+    По основной теореме о гомоморфизме \((K/I)/(J/I) \cong K/J\).
+\end{proof}
+
+\begin{proposition}
+    Пусть \(K\) --- область целостности. Тогда в \(K\) нет нетривиальных идеалов \(\Lra\) \(K\) --- поле.
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}
+        \item[\(\Ra\)] \(a \ne 0 \Ra (a) = K \Ra 1 \in a \Ra \exists a^{-1} \Ra K\) --- поле
+        \item[\(\La\)] \(I \subset K\), если \(I \ne \{0\} \Ra a \in I, a \ne 0 \Ra aa^{-1} = 1 \Ra 1 \in I \Ra K = I\).
+    \end{enumerate}
+\end{proof}
+
+\begin{proposition}
+    Пусть \(\phi: K \rightarrow L\) --- гомоморфизм, \(I \subset K\), \(J \subset L\) --- идеалы. Тогда:
+    \begin{enumerate}
+        \item \(\phi^{-1}(J)\) --- идеал в \(K\)
+        \item Если \(\phi\) сюръективно, то \(\phi(I)\) --- идеал в \(L\)
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}
+        \item Обозначим \(I' = \phi^{-1}(J) = \{x \in K \mid \phi(x) \in J\}\).
+        \begin{itemize}
+            \item \(0 \in I'\), так как \(\phi(0)=0 \in J\).
+            \item Если \(x, y \in I'\), то \(\phi(x+y) = \phi(x)+\phi(y) \in J\) (поскольку \(J\) замкнуто относительно сложения), значит \(x+y \in I'\).
+            \item Если \(x \in I'\) и \(r \in K\), то \(\phi(rx) = \phi(r)\phi(x)\). Так как \(\phi(x) \in J\) и \(J\) --- идеал, то \(\phi(r)\phi(x) \in J\), следовательно \(rx \in I'\). Аналогично для умножения справа.
+        \end{itemize}
+        Таким образом, \(I'\) --- идеал.
+
+        \item Пусть \(\phi\) сюръективно. Рассмотрим \(\phi(I) = \{\phi(x) \mid x \in I\}\).
+        \begin{itemize}
+            \item \(0 = \phi(0) \in \phi(I)\).
+            \item Для любых \(a, b \in \phi(I)\) существуют \(x, y \in I\) такие, что \(a = \phi(x), b = \phi(y)\). Тогда \(a+b = \phi(x)+\phi(y) = \phi(x+y) \in \phi(I)\), так как \(x+y \in I\).
+            \item Пусть \(a \in \phi(I)\) и \(s \in L\). Так как \(\phi\) сюръективно, найдется \(r \in K\) такой, что \(\phi(r) = s\). Тогда \(sa = \phi(r)\phi(x) = \phi(rx)\). Поскольку \(rx \in I\) (ибо \(I\) --- идеал), то \(sa \in \phi(I)\). Аналогично для умножения справа.
+        \end{itemize}
+        Следовательно, \(\phi(I)\) --- идеал.
+    \end{enumerate}
+\end{proof}
+
+\begin{example}
+    Рассмотрим \(\phi(a) = a, \phi: \Z \ra \Q\). Тогда \(\phi(\Z)\) не является идеалом, т.к. \(\Q\) не содержит нетривиальных идеалов
+\end{example}
+
+\begin{definition}
+    Идеал \(I \subset K\) называется максимальным, если \(I \ne K\) и не сущесвтует идеала \(J\), такого, что \(I \subsetneq J \subsetneq K\).
+\end{definition}
+
+\begin{proposition}
+    \(I\) --- максимальный идеал \(\Lra K/I\) --- поле
+\end{proposition}
+\begin{proof}
+    Обозначим \(\overline{K} = K/I\).
+
+    \begin{enumerate}
+        \item[\(\Ra\)] Пусть \(I\) максимален. Возьмем произвольный ненулевой элемент \(\overline{a} = a + I \in \overline{K}\), т.е. \(a \notin I\). Рассмотрим идеал \((a) + I = \{ra + i \mid r \in K, i \in I\}\). Он содержит \(I\) и содержит \(a\), поэтому строго больше \(I\). В силу максимальности \(I\) имеем \((a) + I = K\). Следовательно, существуют \(r \in K\) и \(i \in I\) такие, что \(ra + i = 1\). Тогда в факторкольце:
+        \[
+        (r + I)(a + I) = ra + I = 1 - i + I = 1 + I,
+        \]
+        так как \(i \in I\). Таким образом, \(\overline{a}\) обратим. Поскольку \(\overline{a}\) произвольный ненулевой элемент, \(\overline{K}\) является полем.
+
+        \item[\(\La\)] Пусть \(\overline{K}\) --- поле. Предположим, что существует идеал \(J\) такой, что \(I \subsetneq J \subsetneq K\). Выберем \(a \in J \setminus I\). Тогда \(\overline{a} = a + I \neq 0\) в \(\overline{K}\). Так как \(\overline{K}\) --- поле, найдется \(\overline{b} = b + I\) такой, что \(\overline{a}\,\overline{b} = \overline{1}\), т.е. \(ab - 1 \in I\). Поскольку \(I \subset J\), имеем \(ab - 1 \in J\). Но \(a \in J\), поэтому \(ab \in J\). Следовательно, \(1 = ab - (ab - 1) \in J\). Тогда \(J = K\) --- противоречие. Значит, не существует идеала \(J\) с указанными свойствами, и \(I\) максимален.
+    \end{enumerate}
+\end{proof}
+
+\begin{definition}
+    Идеал \(I \subset K\) называется простым, если \(I \ne K\) и \(ab \in I \Ra a \in I\) или \(b \in I\).
+\end{definition}
+
+\begin{proposition}
+    Идеал \(I\) --- простой \(\Lra K/I\) --- область целостности
+\end{proposition}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item[\(\Ra\)] Пусть \(I\) --- простой идеал. Рассмотрим факторкольцо \(K/I\). Оно коммутативно и обладает единицей \(1+I\), так как \(K\) --- кольцо с единицей. Проверим отсутствие делителей нуля. Возьмём \(\overline{a}, \overline{b} \in K/I\) такие, что \(\overline{a}\,\overline{b} = 0\) в \(K/I\), т.е. \((a+I)(b+I) = I\). Это означает \(ab + I = I\), следовательно \(ab \in I\). По определению простого идеала, из \(ab \in I\) следует \(a \in I\) или \(b \in I\). Тогда \(\overline{a} = a+I = I\) или \(\overline{b} = b+I = I\). Таким образом, в \(K/I\) нет ненулевых делителей нуля, и оно является областью целостности.
+
+        \item[\(\La\)] Пусть \(K/I\) --- область целостности. Тогда \(1+I \neq I\), поэтому \(I \neq K\). Возьмём \(a, b \in K\) такие, что \(ab \in I\). В факторкольце имеем \((a+I)(b+I) = ab + I = I\), т.е. произведение равно нулю. Поскольку \(K/I\) --- область целостности, один из сомножителей обязан быть нулевым: либо \(a+I = I\), либо \(b+I = I\). Это означает \(a \in I\) или \(b \in I\). Следовательно, \(I\) --- простой идеал.
+    \end{enumerate}
+\end{proof}
+
+\begin{proposition}
+    Нетривиальный идеал \((x)\) простой \(\Lra x\) --- простой элемент
+\end{proposition}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item[\(\Ra\)] Пусть \((x)\) --- простой идеал. По определению простого идеала он собственный, т.е. \(x \notin K^*\) (иначе \((x) = K\)). Также \(x \neq 0\), иначе \((x) = (0)\), но тогда идеал был бы тривиальным (нулевым), что противоречит условию нетривиальности. Докажем, что \(x\) --- простой элемент. Возьмём \(a, b \in K\) такие, что \(x \mid ab\). Это означает \(ab \in (x)\). Так как \((x)\) простой, то \(a \in (x)\) или \(b \in (x)\). Следовательно, \(x \mid a\) или \(x \mid b\). Таким образом, \(x\) удовлетворяет определению простого элемента.
+
+        \item[\(\La\)] Пусть \(x\) --- простой элемент. Тогда \(x \neq 0\) и \(x \notin K^*\), поэтому \((x)\) --- собственный нетривиальный идеал. Докажем, что \((x)\) простой. Пусть \(ab \in (x)\), т.е. \(x \mid ab\). Поскольку \(x\) простой, из \(x \mid ab\) следует \(x \mid a\) или \(x \mid b\). Значит, \(a \in (x)\) или \(b \in (x)\). Следовательно, \((x)\) --- простой идеал.
+    \end{enumerate}
+\end{proof}
+
+\begin{proposition}
+    Пусть \(K\) --- КГИ. Тогда нетривиальный идеал \(I\) --- простой \(\Lra I\) --- максимальный.
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}
+        \item[\(\Ra\)] Нетривиальный \(I\) простой \(\Ra I = (x), x\) --- простой \(\Ra x\) --- неразложимый. Если \(I \subset J \subset K\) для некоторого \(J = (y)\), то \(x = ay \Ra a \in K^*\) или \(y \in K^*\). В первом случае \(x \sim y \Ra I = J\), во втором \((y) = (1) \Ra J = K\). Получили, что \(I\) --- максимальный.
+
+        \item[\(\La\)] \(I\) --- максимальный \(\Ra K/I\) --- поле \(\Ra K/I\) --- область целостности \(\Ra I\) --- простой.
+    \end{enumerate}
+\end{proof}
+
+\begin{corollary}
+    \(\Z[x]\) --- не КГИ
+\end{corollary}
+\begin{proof}
+    \(\Z[x]/(x) \cong \Z\), но если \((x)\) --- максимальный, то \(\Z\) --- поле, противореичие.
+\end{proof}
+
+\begin{corollary}
+    \(K\) --- КГИ, \(p\) --- неразложимый \(\Ra K/(p)\) --- поле
+\end{corollary}
+
+\begin{proposition}
+    \(p\) прост в \(K \Ra p\) прост \(K[x]\).
+\end{proposition}
+\begin{proof}
+    \(p\) --- прост в \(K \Ra K/(p)\) --- область целостности \(\Ra K[x]/(p) \cong K/(p)[x]\) --- область целостности. Тогда \((p)\) прост в \(K[x] \Ra p\) прост в \(K[x]\)
+\end{proof}
+
+\subsection{Нётеровы кольца}
+\begin{definition}
+    Область целостности \(K\) называется нётеровым кольцом, если выполнено одно из следующих эквивалентных условий:
+    \begin{enumerate}
+        \item \(\forall I_0 \subset I_1 \dots \subset I_n \subset \dots \exists N: \forall k \ge N: I_N = I_k\)
+        \item Любой идеал является конечнопорожденным
+        \item \(\forall (a_0) \subset (a_0, a_1) \subset \dots \subset (a_0, \dots a_n) \subset \dots \exists N: \forall k \ge N: (a_0, \dots a_k) = ((a_0, \dots a_N))\)
+    \end{enumerate}
+\end{definition}
