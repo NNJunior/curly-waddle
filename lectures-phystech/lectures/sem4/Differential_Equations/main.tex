@@ -362,3 +362,122 @@
     \]
     Таким образом, в достаточно малой окрестности нуля \(\frac{dv}{dt}(x) < 0\) для всех \(x \neq 0\). По теореме Ляпунова об асимптотической устойчивости \(\tilde{x}\) асимптотически устойчиво.
 \end{example}
+
+\subsection{Достаточные условия устойчивости}
+
+Продолжим рассматривать систему (2.4) Рассмотрим \(A = \frac{\partial f}{\partial x}(\hat{x})\). По Формуле Тейлора, получаем: \(f(x) = A(x - \hat{x}) + o(x - \hat{x})\). Таким образом, рассмотрим уравнение:
+\begin{equation}
+    y' = Ay
+\end{equation}
+Пусть \(\lambda_j\) --- собственные числа матрицы \(A\).
+
+\begin{theorem}
+    \begin{enumerate}
+        \item \(\forall j \Re \lambda_j < 0 \Ra \hat{x}\) --- асимптотически устойчиво
+        \item \(\exists j: \Re \lambda_j > 0 \Ra \hat{x}\) --- не устойчиво по Ляпунову.
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    \begin{enumerate}
+        \item Достаточно рассмотреть случай \(\hat{x} = 0\). Рассмотрим \(Y(t) = e^{tA}, t \ge 0\) --- ФСР (2.6). Пусть \(y_j(t)\) --- столбцы матрицы \(Y\), тогда \(y_j(t) = P_j(t)e^{\lambda_j t}\) для некоторого многочлена \(P_j(t)\). Т.к. \(\forall j \Re \lambda_j < 0  \Ra \exists \alpha > 0: \forall j \Re \lambda_j < -\alpha < 0\). Но тогда:
+        \[|y_j(t)| = |P_j(t)|e^{(\Re \lambda_j + \alpha)t}e^{-\alpha t} \le ce^{-\alpha t} \forall t \ge 0\]
+        Положим:
+        \[v(x) = \int_0^{+\infty}|e^{\tau A} x|^2 d\tau, x \in \R^n\]
+        Заметим, что \(v \in C^1, v(0) = 0, v(x) > 0 \forall x \ne 0\).
+        Т.к. \(Y\) --- ФСР, то \(\forall x \in \R^n: y(t) = x_1y_1(t) + \dots + x_ny_n(t)\) --- решение (2.6). Кроме того:
+        \[|e^{\tau A} x|^2 = |y(t)|^2 \le c^2e^{-2\alpha t}\]
+        С другой стороны:
+        \[|e^{\tau A} x|^2 = |y(t)|^2 = \sum_{j, s}x_jx_s\langle y_j(t), y_s(t) \rangle\]
+        Получаем, что:
+        \[v(x) = \int_0^{+\infty} |e^{\tau A} x|^2 d\tau = \sum_{j, s}x_jx_s \int_0^{+\infty} \langle y_j(\tau), y_s(\tau) \rangle d\tau = \langle Qx, x \rangle\]
+        Где \(Q\) --- квадратичная форма. В силу системы (2.6), производная \(v(x)\) имеет вид:
+        \[\frac{dv}{dt}(x) = \left.\frac{d}{dt}v(y(t))\right|_{t = 0} = \left.\frac{d}{dt}\int_0^{+\infty} |e^{\tau A} e^{tA}x|^2d\tau\right|_{t = 0} = \]
+        \[ = \left.\frac{d}{dt}\int_0^{+\infty} |e^{(\tau + t) A}x|^2d\tau\right|_{t = 0} = \left.\frac{d}{dt}\int_t^{+\infty} |e^{\tau A}x|^2d\tau\right|_{t = 0} = 0 - |x|^2 = -|x|^2\]
+        В силу системы (2.6), производная \(v(x)\) имеет вид:
+        \[\frac{dv}{dt} = \langle v'(x), f(x) \rangle = \langle v'(x), A(x) + o(x) \rangle = \langle v'(x), Ax \rangle + \langle v'(x), o(x) \rangle = \]
+        \[= -|x|^2 + \langle 2Qx, o(x) \rangle = (*)\]
+        Последний переход сделан из соображения \(v(x) = \langle Q(x + h), x + h \rangle = \langle Qx, x \rangle + 2\langle Qx, h \rangle + \langle Qh, h \rangle \Ra dv_x(h) = 2\langle Qx, h \rangle\). Также, в некоторой проколотой окрестности нуля:
+        \[(*) < -|x|^2 + 2|Qx|\left| \frac{1}{3\|Q\|} \right|\le -|x|^2 + 2\|Q\||x| \frac{1}{3\|Q\|} \le -\frac{1}{3} |x|^2 < 0\]
+        Что завершает доказательство
+    \end{enumerate}
+\end{proof}
+
+\begin{example}
+    Рассмотрим \(x' = x^2\). При \(x > 0\), \(x' > 0 \Ra \hat{x} = 0\) не является устойчивым, при этом \(\frac{\partial f}{\partial x}(\hat{x}) = 0 \Ra \lambda = 0\).
+\end{example}
+
+\begin{example}
+    Рассмотрим \(x' = -x^3\). Решение является асимптотически устойчивым, при этом \(\frac{\partial f}{\partial x}(\hat{x}) = 0 \Ra \lambda = 0\).
+\end{example}
+
+\section{Теоремы о выпрямлении траекторий}
+Пусть \(\Omega \subset \R^n\) --- открытое, \(f: \Omega \to \R^n\), \(f \in C^1\), \(\widehat{x} \in \Omega\). Рассморим уравнение:
+\begin{equation}
+    x' = f(x)
+\end{equation}
+
+\begin{theorem}
+    Пусть \(f(\hat{x}) \ne 0\). Тогда \(\exists X\) --- окрестность точки \(\hat{x}, \exists \epsilon > 0, \psi: \underbrace{(-\epsilon, \epsilon) \times O^{n - 1}(0, \epsilon)}_Y \ra X\) диффеоморфизм, такие, что:
+    \begin{enumerate}
+        \item \(\forall y: I \ra Y\) --- решения системы:
+        \begin{equation}
+            \begin{cases}
+                y_1' = 1 \\
+                y_2' = 0, \dots y_n' = 0
+            \end{cases}
+        \end{equation}
+        Функция \(\psi(y(\cdot))\) --- решение (3.1)
+        \item \(\forall x: I \ra X\) --- решения системы (3.1), \(\psi^{-1}(x(\cdot))\) является решением (3.2)
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    Не ограничивая общности, будем считать \(\hat{x}=0\). Домножением на невырожденную матрицу можно добиться, чтобы \(f(0)=e_{1}=(1,0,\ldots,0)\).  
+
+    Рассмотрим отображение  
+    \[
+    \Psi\colon (t,y_{2},\dots,y_{n})\mapsto x\bigl(t;\,(0,y_{2},\dots,y_{n})\bigr),
+    \]
+    где \(x(\,\cdot\,;\xi)\) – решение задачи Коши \(\dot{x}=f(x)\), \(x(0)=\xi\).  
+    В силу теоремы о гладкой зависимости решения от начальных условий и параметров, \(\Psi\in C^{1}\) в некоторой окрестности нуля.
+
+    Вычислим матрицу Якоби \(\Psi\) в точке \(0\). Имеем  
+    \[
+    \frac{\partial\Psi}{\partial t}(0)=f(0)=e_{1},\qquad 
+    \frac{\partial\Psi}{\partial y_{j}}(0)=e_{j}\;(j\ge 2),
+    \]
+    так как \(\Psi(0,y_{2},\dots,y_{n})=(0,y_{2},\dots,y_{n})\). Следовательно,
+    \[
+    \det d\Psi(0)=1\neq 0.
+    \]
+    По теореме об обратной функции существуют окрестность \(U_{0}\) точки \(0\) в \(\mathbb{R}^{n}\) и окрестность \(V\) точки \(0\) такие, что \(\Psi\colon U_{0}\to V\) – диффеоморфизм.  
+    Выберем \(\varepsilon>0\) настолько малым, чтобы  
+    \[
+    Y:=(-\varepsilon,\varepsilon)\times B^{n-1}(0,\varepsilon)\subset U_{0},
+    \]
+    где \(B^{n-1}(0,\varepsilon)\) – шар в \(\mathbb{R}^{n-1}\). Положим \(X:=V\) и \(\psi:=\Psi|_{Y}\). Тогда \(\psi\colon Y\to X\) – диффеоморфизм.
+
+    Проверим свойства, указанные в формулировке теоремы.
+
+    1. Пусть \(y(\tau)=(\tau,y_{2},\dots,y_{n})\) (с фиксированными \(y_{2},\dots,y_{n}\)) и \(\tau\in(-\varepsilon,\varepsilon)\). Тогда  
+    \[
+    \psi(y(\tau))=x\bigl(\tau;\,(0,y_{2},\dots,y_{n})\bigr)
+    \]
+    по построению является решением системы \(x'=f(x)\) с начальным условием \(\psi(0,y_{2},\dots,y_{n})\).
+
+    2. Пусть \(x\colon I\to X\) – произвольное решение уравнения (3.1). Рассмотрим кривую  
+    \[
+    y(\tau):=\psi^{-1}(x(\tau))\in Y.
+    \]
+    Продифференцируем тождество \(\psi(y(\tau))\equiv x(\tau)\):
+    \[
+    d\psi(y(\tau))\,y'(\tau)=f(x(\tau)).
+    \]
+    Но, поскольку \(\partial\psi/\partial t = f(\psi)\) (так как \(\psi(t,\dots)\) есть решение по переменной \(t\)), для любого вектора \((1,0,\dots,0)\) имеем  
+    \[
+    d\psi(y(\tau))(1,0,\dots,0)=f(\psi(y(\tau)))=f(x(\tau)).
+    \]
+    В силу невырожденности \(d\psi(y(\tau))\) получаем \(y'(\tau)=(1,0,\dots,0)\).  
+    Следовательно, \(y_{1}(\tau)=\tau+\text{const}\), \(y_{j}(\tau)=\text{const}\) при \(j\ge 2\), т.е. \(y(\cdot)\) является решением системы (3.2).
+
+    Теорема доказана.
+\end{proof}
