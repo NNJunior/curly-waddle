@@ -16,7 +16,18 @@
 \usepackage{amsmath,amsfonts,amssymb,amsthm,mathtools} % пакеты AMS
 \usepackage{icomma}            
 \pgfplotsset{compat=1.18}
-\usetikzlibrary{decorations.markings}                       % "Умная" запятая
+% \usetikzlibrary{decorations.markings}                       % "Умная" запятая
+\usetikzlibrary{arrows.meta}
+
+% \pgfplotsset{
+%     compat=1.18,
+%     /pgfplots/quiver/.cd,
+%     u={(\lambda1*x)}, % dx/dt = -x
+%     v={(\lambda2*y)}, % dy/dt = -2y
+%     scale arrows=0.15,
+%     every arrow/.append style={-latex, black},
+% }
+% \pgfplotsset{trig format plots=rad}
 
 %%% Свои символы и команды
 \usepackage{centernot} % центрированное зачеркивание символа
