@@ -24,25 +24,43 @@
 
 Таким образом, в координатах \(h_1, h_2\) и при \(t \ra \infty\), мы можем видеть следующую картинку (стрелки показывают движение решения при \(t \ra \infty\)):
 
-\textbf{Случай \(\lambda_1 < 0, \lambda_2 < 0, |\lambda_1| < |\lambda_2|\).}
+\textbf{Случай \(\lambda_1 < 0, \lambda_2 < 0, |\lambda_1| < |\lambda_2|\)}
+
 В таком случае поведение траектории в окрестности положения равновесия называется \textit{устойчиывм узлом}.
 
-\textbf{Случай \(\lambda_1 > 0, \lambda_2 > 0, \lambda_1 < \lambda_2\).}
+\begin{center}
+    \includegraphics[width=0.5\textwidth]{images/IMG_4865.jpeg}
+\end{center}
+
+\textbf{Случай \(\lambda_1 > 0, \lambda_2 > 0, \lambda_1 < \lambda_2\)}
 В таком случае поведение траектории в окрестности положения равновесия называется \textit{неустойчивым узлом}.
 
-\textbf{Случай \(\lambda_1 < 0 < \lambda_2\).}
+\begin{center}
+    \includegraphics[width=0.5\textwidth]{images/IMG_4866.jpeg}
+\end{center}
+
+\textbf{Случай \(\lambda_1 < 0 < \lambda_2\)}
 В таком случае поведение траектории в окрестности положения равновесия называется \textit{седлом}.
 
-\textbf{Случай \(\lambda_1 = \lambda_2\).}
+\begin{center}
+    \includegraphics[width=0.5\textwidth]{images/IMG_4867.jpeg}
+\end{center}
+
+\textbf{Случай \(\lambda_1 = \lambda_2\)}
 В таком случае поведение траектории в окрестности положения равновесия называется \textit{дикритическим узлом}.
 
 
-\textbf{Случай одного собственного вектора с собственным числом \(\lambda\).}
+\textbf{Случай одного собственного вектора с собственным числом \(\lambda\)}
 Тогда пусть \(h_1\) --- собственный вектор, \(h_2\) --- присоединенный к нему. Тогда:
 \[x(t) = c_1e^{\lambda t}h_1 + c_2e^{\lambda t}(h_1t + h_2) = h_1\underbrace{(c_1e^{\lambda t} + c_2e^{\lambda t}t)}_{\xi_1} + h_2 \underbrace{c_2e^{\lambda t}}_{\xi_2}\]
 
+\begin{center}
+    \includegraphics[width=0.5\textwidth]{images/IMG_4869.jpeg}
+\end{center}
+
 Тогда имеем:
 \[\xi_1 = \frac{c_1}{c_2}\xi_2 + \xi_2 \frac{1}{\lambda}\ln\frac{\xi_2}{c_2}\]
+
 
 \subsection{Комплекснозначные собственные числа у матрицы}
 Пусть \(\lambda = \alpha + i\beta, \beta \ne 0\). Тогда \(h = h_1 \pm ih_2\) --- собственные векторы, где \(h_1, h_2\) --- ЛНЗ. Тогда:
@@ -53,13 +71,20 @@
 \[\xi_1(t) = re^{\alpha t}\cos(\phi + \beta t)\]
 \[\xi_2(t) = re^{\alpha t}\sin(\phi + \beta t)\]
 
-\begin{figure}[h!]
-    \centering
-    \includegraphics{images/image110.jpg}
-    \caption{Различные фазовые портреты при разных собственных числах}
-\end{figure}
+\begin{center}
+    \includegraphics[width=0.5\textwidth]{images/IMG_4872.jpeg}
+\end{center}
 
-\subsection{Нелинейные системы}
+\begin{center}
+    \includegraphics[width=0.5\textwidth]{images/IMG_4874.jpeg}
+\end{center}
+
+\begin{center}
+    \includegraphics[width=0.5\textwidth]{images/IMG_4876.jpeg}
+\end{center}
+
+
+        \subsection{Нелинейные системы}
 Будем рассматривать уравнение
 \begin{equation}
     x' = f(x), f: \Omega \ra \R^2, f \in C^2, \Omega\text{ --- открытое}
