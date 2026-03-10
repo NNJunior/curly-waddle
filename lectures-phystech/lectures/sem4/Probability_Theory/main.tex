@@ -821,3 +821,172 @@
 \begin{proof}
     \[\Variance(\xi_1 + \dots + \xi_n) = cov\left( \sum_{i = 1}^n \xi_i, \sum_{i = 1}^n \xi_i \right) = \sum_{i, j \le n} cov(\xi_i, \xi_j) = \sum_{i = 1}^n cov(\xi_i, \xi_i) = \sum_{i = 1}^n \Variance \xi_i\]
 \end{proof}
+
+\lecture{6}
+
+Тут про матрицу ковариаций
+
+\subsection{Три неравенства}
+
+\begin{theorem}[Неравенство Маркова]
+    Если \(\xi \ge 0\), то \(\forall a > 0\):
+    \[P(\xi \ge a) \le \frac{\E\xi}{a}\]
+\end{theorem}
+\begin{proof}
+    Заметим, что
+    \[I\{\xi \ge a\} \le \frac{\xi}{a}I\{\xi \ge a\} \le \frac{\xi}{a}\]
+    Тогда:
+    \[P(\xi \ge a) \le \E\frac{\xi}{a} = \frac{\E\xi}{a}\]
+\end{proof}
+
+\begin{theorem}[Неравенство Чебышева]
+    Если \(\Variance \xi < +\infty\), то \(\forall \epsilon > 0\):
+    \[P(|\xi - \E\xi| \ge \epsilon) \le \frac{\Variance \xi}{\epsilon^2}\]
+\end{theorem}
+\begin{proof}
+    Рассмотрим \(\eta = (\xi - \E\xi)^2\). По неравенству Маркова, получаем:
+    \[P((\xi - \E\xi)^2 \ge \epsilon^2) = P(|\xi - \E\xi| \ge \epsilon) \le \frac{\Variance \xi}{\epsilon^2} = \]
+\end{proof}
+
+\begin{theorem}[Неравенство Йенсена]
+    Если \(\phi\) --- выпуклая снизу функция, то 
+    \[\E\phi(\xi) \ge \phi(\E\xi)\]
+\end{theorem}
+\begin{proof}
+    Для \(x \in \R \exists \lambda(x): \forall y \in \R \phi(y) \ge \lambda(x)(y - x) + \phi(x)\). Положим \(y = \xi, x = \E\xi\):
+    \[\E\phi(\xi) \ge \E\phi(\E\xi) + \E\lambda(\E\xi)(\xi - \E\xi) = \phi(\E\xi)\]
+\end{proof}
+
+\section{Условное математическое ожидание}
+Пусть \(\xi, \eta\) --- простые случайные величины. Наша цель --- определить \(\E(\xi | \eta = y)\). Для начала определим условное математическое ожидание для простой случайной величины. Обычное математическое ожидание определялось так:
+\[\E\xi = \sum_{i = 1}^n x_i P(\xi = x_i)\]
+Поэтому разумно будет определить
+\[\E(\xi | \eta = y) = \sum_{i = 1}^n x_i P(\xi = x_i | \eta = y)\]
+Теперь рассмотрим случай, когда \(\xi\) --- не простая. Умножим обе части на \(P(\eta = y)\):
+\[\E(\xi | \eta = y)P(\eta = y) = \sum_{i = 1}^n x_i P(\xi = x_i | \eta = y)P(\eta = y) = \sum_{i = 1}^n x_i P(\xi = x_i, \eta = y) = \]
+\[= \sum_{i = 1}^n x_i \E I\{\xi = x_i, \eta = y\} = \E\left( \left( \underbrace{\sum_{i = 1}^n x_i I\{\xi = x_i\}}_{\xi} \right)I\{\eta = y\} \right) = \E(\xi I\{\eta = y\})\]
+
+Таким образом, мы приходим к такому определнию:
+\begin{definition}
+    Пусть \((\Omega, \mathcal{F}, P)\) --- вероятностное пространство, \(\xi\) --- случайная величина на нем, \(\mathcal{C} \subset \mathcal{F}\) --- под-\(\sigma\)-алгебра. Условным матожиданием \(\xi\) относительно \(\sigma\)-алгербы \(\mathcal{C}\) называется случайная величина \(\E(\xi | \mathcal{C})\), обладающая двумя свойствами:
+    \begin{enumerate}
+        \item \textbf{Свойство измеримости:} \(\E(\xi | \mathcal{C})\) является \(\mathcal{C}\)-измеримой
+        \item \textbf{Интегральное свойство:} \(\forall A \in \mathcal{C}\) выполнено:
+        \[\E(\xi \cdot I_A) = \E(\E(\xi | \mathcal{C}) \cdot I_A)\]
+    \end{enumerate}
+\end{definition}
+
+\begin{theorem}[О существовании условного математического ожидания]
+    Если \(\E|\xi| < +\infty\), то \(\forall \mathcal{C} \subset \mathcal{F}\) --- под-\(\sigma\)-алгербы \(\E(\xi | \mathcal{C})\) существует и единственно с точностью до множества вероятности 0.
+\end{theorem}
+\begin{proof}
+    Рассмотрим вероятностное пространство \((\Omega, \mathcal{F}, P)\). Функция \(Q(A) = \E(\xi \cdot I_A), A \in \mathcal{C}\) является зарядом на \((\Omega, \mathcal{C}, P)\), причем абсолютно непрервным относительно \(P\). По теореме Радона-Никодима, \(\exists !\) с точностью до множества вероятности 0 случайная величина \(\eta \in L^1(\Omega, \mathcal{F}, P)\), такая, что \(\forall A \in \mathcal{C}\):
+    \[Q(A) = \int_A\eta dP = \E(\eta \cdot I_A)\]
+\end{proof}
+
+\begin{lemma}
+    Если \(\E|\xi| < +\infty\) и \(\mathcal{C}\) порождена разбиением \(\{D_n | n \in \N\}\), то
+    \[\E(\xi | \mathcal{C})(\omega) = \sum_{n = 1}^\infty \frac{\E(\xi \cdot I_{D_n})}{P(D_n)}I_{D_n}(\omega)\]
+\end{lemma}
+\begin{proof}
+    Проверим, что правая часть удовледвторяет определению. Очевидно, что правая часть \(\mathcal{C}\)-измерима, как линейная комбинация несовместных индикаторов.
+
+    Если \(A \in \mathcal{C}\), то \(A = \bigsqcup_{k = 1}^\infty D_{i_k}\), поэтому достаточно проверить интегральное свойство для \(A\) вида \(D_m, m \in \N\).
+    \[\E\left( \left( \sum_{n = 1}^\infty \frac{\E(\xi I_{D_n})}{P(D_n)} I_{D_n}\right) I_{D_m}\right) = \E\left( \frac{\E(\xi I_{D_m})}{P(D_m)} I_{D_m}\right) = \frac{\E(\xi I_{D_m})}{P(D_m)} P(D_m) = \E(\xi I_{D_m})\]
+\end{proof}
+
+\subsection{Свойства условного матожидания}
+Далее для удобства будем считать, что все матожидания конечны.
+
+\begin{proposition}
+    Если \(\xi\) --- \(\mathcal{C}\)-измерима, то \(\E(\xi|\mathcal{C}) = \xi\).
+\end{proposition}
+\begin{proposition}
+    По определению, \(\xi\) удовледвторяет двум свойствам.
+\end{proposition}
+
+\begin{proposition}[Линейность]
+    \[\forall a, b \in \R: \E(a\xi + b\eta | \mathcal{C}) = a\E(\xi|\mathcal{C}) + b\E(\eta|\mathcal{C})\]
+\end{proposition}
+\begin{proof}
+    Очевидно, что правая часть \(\mathcal{C}\)-измерима как линейная комбинация \(\mathcal{C}\)-измеримых случайных величин. Проверим интегральное свойство: \(\forall A \in \mathcal{C}\):
+    \[\E((a\xi + b\eta) I_A) = a\E(\xi I_A) + b \E(\eta I_A)= (*)\]
+    По интегральному свойству, получаем:
+    \[(*) = a\E(\E(\xi|\mathcal{C})I_A) + b\E(\E(\eta|\mathcal{C})I_A) = \E(a\E(\xi|\mathcal{C}) + b\E(\eta|\mathcal{C}) I_A)\]
+\end{proof}
+
+\begin{proposition}[Формула полной вероятности]
+    \[\E(\E(\xi|\mathcal{C})) = \E\xi\]
+\end{proposition}
+\begin{proof}
+    Возьмем \(A = \Omega \in \mathcal{C}\) и применим интегральное свойство:
+    \[\E\xi = \E(\xi I_A) = \E(\E(\xi|\mathcal{C})I_A) = \E(\E(\xi|\mathcal{C}))\]
+\end{proof}
+
+\begin{proposition}
+    Если \(\xi\) независимо с \(\mathcal{C}\) (то есть \(F_\xi\) независимо с \(\mathcal{C}\)), то \(\E(\xi|\mathcal{C}) = \E\xi\)
+\end{proposition}
+\begin{proof}
+    Заметим, что \(\E\xi\) --- константа, т.е. \(\mathcal{C}\)-измеримая. Проверим интегральное свойство (\(\xi, I_A\) независимы в силу независимости \(\xi, \mathcal{C}\)):
+    \[\E(\xi I_A) = \E\xi \E I_A = \E(\E \xi I_A)\]
+\end{proof}
+
+\begin{proposition}[Сохранение отношение порядка]
+    Если \(\xi \le \eta\) почти наверное, то \(\E(\xi|\mathcal{C}) \le \E(\eta|\mathcal{C})\)
+\end{proposition}
+\begin{proof}
+    Заметим, что \(\forall A \in \mathcal{C}\):
+    \[\E(\xi I_A) \le \E(\eta I_A)\]
+    По интегральному свойству, получаем:
+    \[\E(\E(\xi|\mathcal{C})I_A) \le \E(\E(\eta|\mathcal{C})I_A)\]
+    Но тогда по свойству матожидания в \((\Omega, \mathcal{F}, P)\), получаем, что \(\E(\xi|\mathcal{C}) \le \E(\eta|\mathcal{C})\)
+\end{proof}
+
+\begin{proposition}
+    \(|\E(\xi|\mathcal{C})| \le \E(|\xi||\mathcal{C})\)
+\end{proposition}
+\begin{proof}
+    Следует из сохранения порядка и линейности
+\end{proof}
+
+\begin{proposition}[Телескопическое свойство]
+    Пусть \(\mathcal{C_1} \subset \mathcal{C_2}\). Тогда:
+    \begin{enumerate}
+        \item \(\E(\E(\xi|\mathcal{C_1})|\mathcal{C_2}) = \E(\xi|\mathcal{C_1})\)
+        \item \(\E(\E(\xi|\mathcal{C_2})|\mathcal{C_1}) = \E(\xi|\mathcal{C_1})\)
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}
+        \item \(\E(\xi|\mathcal{C_1})\) является \(\mathcal{C_2}\)-измеримой, далее применяем первое свойство
+        \item \(\E(\xi|\mathcal{C_1})\) является \(\mathcal{C_1}\)-измеримой по определению. Проверим интегральное свойство: \(\forall A \in \mathcal{C_1}\):
+        \[\E(\E(\xi|\mathcal{C_2})I_A) = (*)\]
+        Заметим, что \(A \in \mathcal{C_1} \subset \mathcal{C_2}\), поэтому по интегральному свойству для \(\mathcal{C_2}\):
+        \[(*) = \E(\xi I_A) = (*)\]
+        Далее применяем интегральное свойство для \(\mathcal{C_1}\):
+        \[(*) = \E(\E(\xi|\mathcal{C_1})I_A)\]
+    \end{enumerate}
+\end{proof}
+
+\begin{proposition}[Предельный переход]
+    \begin{enumerate}
+        \item Пусть \(\{\xi_n, n \in \N\}, \xi\) таковы, что \(0 \le \xi_n \uparrow \xi\). Тогда \(\E(\xi_n|\mathcal{C}) \ra \E(\xi|\mathcal{C})\) почти наверное.
+        \item Пусть \(\{\xi_n, n \in \N\}, \xi\) таковы, что \(\forall n \in \N: |\xi_n| \le \delta, \E\delta \le +\infty, \xi_n \ra \xi\) почти навреное. Тогда \(\E(\xi_n|\mathcal{C}) \ra \E(\xi|\mathcal{C})\) почти наверное.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}
+        \item Согласно свойству сохранения порядка, \(\E(\xi_n|\mathcal{C}) \le \E(\xi_{n + 1}|\mathcal{C})\). Но тогда почти наверное \(\exists \lim_{n} \E(\xi_n|\mathcal{C}) = \eta\). Проверим, что \(\eta = \E(\xi|\mathcal{C})\). 
+        
+        Случайная величина \(\eta\) является \(\mathcal{C}\)-измеримой, как предел \(\mathcal{C}\)-измеримых случайных величин. Проверим интегральное свойство:
+        \[\forall A \in \mathcal{C}: 0 \le \xi_n I_A \uparrow \xi I_A, 0 \le \E(\xi_n|\mathcal{C})I_A \uparrow \eta I_A\]
+        По теореме о монотонной сходимости:
+        \[\E(\xi I_A) = \lim_n \E(\xi_n I_A) = (*)\]
+        По интегральному свойству, получаем:
+        \[(*) = \lim_n \E(\E(\xi_n|\mathcal{C})I_A) = \E(\eta I_A)\]
+
+        \item Рассмотрим \(\psi_n = \sup_{k \ge n} |\xi_n - \xi|\). Тогда \(\xi_n \downarrow 0\) почти наверное, \(|\psi_n| \le 2\delta\) почти наверное \(\Ra\) применим пункт 1.
+        \[|\E(\xi_n|\mathcal{C}) - \E(\xi|\mathcal{C})| \le \E(\psi_n|\mathcal{C}) \ra_{n \ra \infty} \E(0|\mathcal{C}) = 0\]
+        Последнее равенсво выполняется почти наверное
+    \end{enumerate}
+\end{proof}
