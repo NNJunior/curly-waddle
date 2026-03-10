@@ -824,7 +824,23 @@
 
 \lecture{6}
 
-Тут про матрицу ковариаций
+\subsection{Матрица ковариаций}
+
+\begin{definition}
+    Пусть $\vec{\xi} = (\xi_1,\dots,\xi_n)$ --- случайный вектор. Матрицей ковариаций (ковариационной матрицей) вектора $\vec{\xi}$ называется матрица $\Sigma = (\sigma_{ij})_{i,j=1}^n$, где $\sigma_{ij} = cov(\xi_i, \xi_j)$.
+\end{definition}
+
+\begin{note}
+    Диагональные элементы $\sigma_{ii}$ равны $\Variance \xi_i$, а недиагональные $\sigma_{ij}$ ($i \neq j$) равны ковариации $cov(\xi_i,\xi_j)$. Матрица ковариаций часто обозначается $\Variance \vec{\xi}$ или $cov(\vec{\xi})$.
+\end{note}
+
+\begin{proposition}
+    Любая матрица ковариаций симметрическая и неотрицательно определена
+\end{proposition}
+\begin{proof}
+    Пусть \(\xi\) --- случайный вектор из \(\R^n\). Симметрия \(\Variance \xi\) следует из симметричности ковариации. Пусть \(x_1, \dots x_n \in \R\). Тогда:
+    \[\sum_{i, j = 1}^n cov(\xi_i, \xi_j)x_ix_j = \sum_{i, j = 1}^n cov(x_i\xi_i, x_j\xi_j) = cov\left( \sum_{i = 1}^n x_i\xi_i, \sum_{j = 1}^n x_j\xi_j \right) = \Variance\left( \sum_{i = 1}^n x_i\xi_i \right) \ge 0\]
+\end{proof}
 
 \subsection{Три неравенства}
 
