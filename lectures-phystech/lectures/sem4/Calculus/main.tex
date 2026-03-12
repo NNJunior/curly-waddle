@@ -554,10 +554,124 @@
     По свойствам интеграла с переменным пределом получить, что \(f^{(m)}\) кусочно-непрерывна, если \(f^{(m + 1)}\) кусочно-непрерывна
 \end{exercise}
 
+\lecture{6}
+
 \begin{lemma}
     Пусть \(f \in L_1(T), F(x) = \int_{-\pi}^x (f(t) - c_0(f))dt, x \in \R\). Тогда \(F\) непрерывна, \(2\pi\)-периодическая и является суммой своего ряда Фурье:
     \[F(x) = c_0(F) + \sum_{n \ne 0} \frac{c_n(F)}{in}e^{inx}\]
 \end{lemma}
 \begin{proof}
-    Доказательство на следующей лекции
+    Положим \(f_0 = f - c_0(f)\). Найдем \(c_n(F)\) при \(n \ne 0\):
+    \[\int_{-\pi}^\pi F(x)e^{-inx}dx = \int_{-\pi}^\pi\left( \int_{-\pi}^x f_0(t)e^{-inx} dt\right)dx\]
+    Применяя теорему Фубини, получаем:
+    \[\int_{-\pi}^\pi\left( \int_{t}^\pi f_0(t)e^{-inx} dx\right)dt = \int_{-\pi}^\pi f_0(t) \frac{e^{-int} - (-1)^n}{in}dt =\]
+    \[= \int_{-\pi}^\pi(f(t) - c_0(f))\frac{e^{-int}}{in}dt = \frac{1}{in}\int_{-\pi}^\pi f(t)e^{-int}dt\]
+    Следовательно, \(c_n(F) = \frac{c_n(f)}{in}, n \ne 0\). Положим \(f = f^+ - f^- \Ra F(x) = \int_{-\pi}^x f^+(t)dt - \int_{-\pi}^x f^-(t)dt - c_0(x + \pi)\), то сходимость ряда Фурье к \(F\) следует из признака Дирихле (как сумма рядов Фурьте для монотонных функиций).
+\end{proof}
+
+\begin{note}
+    Положим \(x = 0\) в формуле из леммы:
+    \[F(0) = c_0(F) + \sum_{n \ne 0} \frac{c_n(F)}{in}\]
+    Следовательно, сходится ряд:
+    \[-\sum_{n \ne 0}\frac{c_n(f)}{in} = -\sum_{n = 1}^\infty \frac{c_n(f) - c_{-n}(f)}{in} = \sum_{n = 1}^\infty \frac{b_n(f)}{n}\]
+\end{note}
+
+\begin{theorem}
+    Если \(f \in L_1(T), -\infty \le a < b \le \infty\), то
+    \[\int_a^b f(x)dx = \sum_{n = -\infty}^\infty c_n(f)\int_a^be^{inx}dx\]
+\end{theorem}
+\begin{proof}
+    \[F(b) - F(a) = \sum_{n \ne 0} \frac{c_n(f)}{in}(e^{inb} - e^{ina}) = \sum_{n \ne 0} c_n(f) \int_a^be^{inx}dx = \int_a^b f(x)dx - c_0(f)(b - a)\]
+\end{proof}
+
+\begin{corollary}[Теорема единственности]
+    Если \(f, g \in L_1(T)\) и \(c_n(f) = c_n(g) \forall n \in \Z\), то \(f = g\) почти всюду.
+\end{corollary}
+\begin{proof}
+    \(\forall x \in [-\pi, \pi] \int_{-\pi}^x f(x) dt = \int_{-\pi}^x g(t) dt\). Из теории меры нам известно, что это гарантирует равенство функций \(f, g\) почти всюду.
+\end{proof}
+
+\subsection{Суммирование рядов Фурье методом средних арифметических}
+
+Ряд Фурье непрерывной функции может расходиться в некоторых точках (и даже на множестве меры \(0\)). Однако он всегда суммируем методом средних арифметических.
+
+\begin{definition}
+    Пусть \(f \in L_1(T)\), тогда определим последовательность:
+    \[\sigma_N(f, x) = \frac{S_1(f, x) + \dots + S_N(f, x)}{N}\]
+    Данная последовательность называется суммой Фейера.
+\end{definition}
+
+\begin{note}
+    \(\sigma_N(f, x) = \sum_{n = -N}^N\left( 1 - \frac{|n|}{N + 1} \right)c_n(f)e^{inx}\)
+\end{note}
+Т.к. \(S_n(f) = \frac{1}{\pi}f * D_n\), то \(\sigma_N(f) = \frac{1}{\pi(N + 1)}\sum_{n = 0}^N f * D_n = \frac{1}{\pi} f * F_N\), где \(F_N = \frac{1}{N + 1}\sum_{n = 0}^N D_n\) --- ядро Фейера. Получим формулу для ядра Фейера без значка суммирования. Имеем:
+\[(N + 1)F_N(t) = \sum_{n = 0}^N \frac{\sin\left( n + \frac{1}{2} \right)t\sin\frac{t}{2}}{2\sin^2\frac{t}{2}} = \sum_{n = 0}^N \frac{\cos nt - \cos(n + 1)t}{4\sin^2\frac{t}{2}} =\frac{1 - \cos(N + 1)t}{4\sin^2\frac{t}{2}} =\]
+\[= \frac{\sin^2\frac{N + 1}{2}t}{2\sin^2\frac{t}{2}}, t \ne 2\pi, m \in \Z\]
+Таким образом, получили:
+\[F_N(t) = \left\{\begin{array}{l}
+    \frac{1}{2(N + 1)} \frac{\sin^2 \frac{N + 1}{2}t}{\sin^2 \frac{t}{2}}, t \ne 2\pi m \\
+    \frac{N + 1}{2}, t = 2\pi m
+\end{array}\right.\]
+
+\begin{note}[Свойства ядра Фейера]
+    \begin{enumerate}
+        \item \(F_N \ge 0\)
+        \item \[\int_{-\pi}^\pi F_N(t)dt = \pi\]
+        \item \[\forall \delta > 0 \int_{\delta < |t| \le \pi} F_N(t)dt \ra 0, N \ra +\infty\]
+    \end{enumerate}
+\end{note}
+\begin{proposition}
+    \begin{enumerate}
+        \setcounter{enumi}{2}
+        \item \(0 \le F_N(t) \le \frac{1}{2(N + 1)} \frac{1}{\sin^2 \frac{\delta}{2}}\)
+    \end{enumerate}
+\end{proposition}
+
+\begin{corollary}
+    \(\left\{ \frac{1}{\pi}F_N \right\}\) --- аппроксимация единицей.
+\end{corollary}
+
+Тогда по теореме 6 параграфа 1, получаем:
+
+\begin{theorem}[Фейер]
+    Пусть \(f_1 \in L_1(T)\), тогда справедливы утверждения:
+    \begin{enumerate}
+        \item Если \(f\) непрерывна в точке \(x\), то \(\sigma_N(f, x) \ra f(x)\).
+        \item Если \(f\) непрерывна на компакте \(K\), то \(\sigma_N(f, x) \rightrightarrows_K f\). В частности, если \(f \in C(T)\), то \(\sigma_N(f, x) \rightrightarrows f\) на \(\R\)
+    \end{enumerate}
+\end{theorem}
+
+\begin{definition}
+    \(T(x) = \alpha_0 + \sum_{k = 1}^n\alpha_k \cos kx + \beta_k \sin kx = \sum_{k = -n}^n \gamma_k e^{ikx}\) называется тригонометрическим многочленом.
+\end{definition}
+
+\begin{corollary}[1-ая теорема Вейерштрасса]
+    Если \(f \in C(T)\), то \(\forall \epsilon > 0 \exists T\) --- тригонометрический многочлен, такой, что \(\|f - T\|_{\infty} < \epsilon\), где \(\|f\|_\infty = \sup_{[-\pi, \pi]} |f|\).
+\end{corollary}
+\begin{proof}
+    По теореме Фейера, \(\|f - \sigma_N(f)\|_{\infty} \ra 0\) при \(N \ra \infty\), поэтому в качестве \(T(x)\) положим \(\sigma_N(f, x)\).
+\end{proof}
+
+\begin{corollary}[2-ая теорема Вейерштрасса]
+    Если \(f \in C[a, b]\), то \(\forall \epsilon > 0 \exists P(x) = \sum_{k = 0}^n \alpha_kx^k\) --- алгебраический многочлен, т.ч. \(\|f - P\|_{C[a, b]} < \epsilon\)
+\end{corollary}
+\begin{proof}
+    Замена \(x = a + \frac{b - a}{\pi}t\) сводит отрезок \([a, b]\) к случаю \([0, \pi], f \in C[0, \pi]\). Рассмотрим \(\tilde{f}(x) = \left\{\begin{array}{l}
+        f(x), x \in [0, \pi] \\
+        f(-x), x \in [-\pi, 0]
+    \end{array}\right.\) с периодом \(2\pi\) на \(\R\). Тогда \(\tilde{f} \in C(T)\) и по предыдущему следствию \(\exists T\) --- тригонометрический многочлен, такой, что \(\|\tilde{f} - T\|_\infty < \frac{\epsilon}{2}\). Функцию \(T\) можно представить рядом Маклорена на \(\R\): \(T(x) = \sum_{k = 0}^\infty \alpha_kx^k\), причем данный ряд сходится равномерно на любом подотрезке \(\R\). Тогда \(\exists P(x) = \sum_{k = 0}^n \alpha_kx^k: \|T - P\|_{C[-\pi, \pi]} < \frac{\epsilon}{2}\). Следовательно, \(\|f - P\|_{C[0, \pi]} \le \|\tilde{f} - P\|_{C[-\pi, \pi]} \le \|\tilde{f} - T\|_[C[-\pi, \pi]] + \|T - P\|_{C[-\pi, \pi]} = \epsilon\)
+\end{proof}
+
+\begin{theorem}
+    \(L_p(E)\) банахово.
+\end{theorem}
+\begin{proof}
+    Пусть \(\{f_n\}\) --- фундаментальная последовательность в \(L_p(E)\). Покажем, что \(\exists f \in L_p(E), \exists \{f_{n_k}\}: f_{n_k} \ra f\) почти всюду на \(E\). Из определения фундаментальной последовательности по индукции строим подпоследовательность \(\{f_{n_k}\}\), т.ч. \(\|f_{n_{k + 1}} - f_{n_k}\| < \frac{1}{2^k}\).
+    Заметим, что \(\{f_{n_k}\}\) сходится \(\Lra\) сходится почти всюду ряд
+    \[(*) = f_{n_1}(x) + \sum_{k = 1}^\infty (f_{n_{k + 1}}(x) - f_{n_k}(x))\]
+    Покажем, что ряд \((*)\) сходится абсолютно почти всюду. Рассмотрим \(F = \sum_{k = 1}^\infty |f_{n_{k + 1}} - f_{n_k}|, F_n = \sum_{k = 1}^n |f_{n_{k + 1}} - f_{n_k}|\). Последовательность \(\{F_n^p\}\) нестрого возрастает, тогда по теореме Леви,
+    \[\lim_{n \ra \infty} \int F_n^p d\mu = \int F^p d\mu\]
+    Интегралы в левой части ограничены:
+    \[\|F_n\|_p \le \sum_{k = 1}^n\|f_{n_{k + 1}} - f_{n_k}\|_p < \sum_{k = 1}^\infty \frac{1}{2^k} = 1 \Ra \|F\|_p \le 1\]
+    Получили, что \(F\) интегрируема, но тогда она конечна почти всюду и ряд \((*)\) сходится тоже почти всюду.
 \end{proof}
