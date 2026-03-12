@@ -656,13 +656,13 @@
 \subsection{Формально}
 
 \begin{definition}
-    \(\Sigma_k^p\) --- класс языков \(A\), таких, что \(\exists V\) --- полиномиально вычислимая, такая, что:
+    \(\mathbf{\Sigma_k^p}\) --- класс языков \(A\), таких, что \(\exists V\) --- полиномиально вычислимая от длины \(x\), такая, что:
     \[x \in A \Lra \exists y_1\forall y_2 \dots^\forall_\exists y_k V(x, y_1, \dots y_k)\]
 \end{definition}
 
 \begin{definition}
-    \(\Pi_k^p\) --- класс языков \(A\), таких, что \(\exists V\) --- полиномиально вычислимая, такая, что:
-    \[x \in A \Lra \exists y_1\forall y_2 \dots^\forall_\exists y_k V(x, y_1, \dots y_k)\]
+    \(\mathbf{\Pi_k^p}\) --- класс языков \(A\), таких, что \(\exists V\) --- полиномиально вычислимая от длины \(x\), такая, что:
+    \[x \in A \Lra \forall y_1\exists y_2 \dots^\forall_\exists y_k V(x, y_1, \dots y_k)\]
 \end{definition}
 
 \begin{note}
@@ -675,7 +675,7 @@
 \end{note}
 
 \begin{definition}
-    \[\mathbf{PH} = \bigcup_{k = 0}^\infty \Sigma_k^p = \bigcup_{k = 0}^\infty \Pi_k^p\]
+    \[\mathbf{PH} = \bigcup_{k = 0}^\infty \mathbf{\Sigma_k^p} = \bigcup_{k = 0}^\infty \mathbf{\Pi_k^p}\]
 \end{definition}
 
 \subsection{Вопрос о коллапсе иерархии}
@@ -689,49 +689,186 @@
 \end{proof}
 
 \begin{note}
-    \(A, B \in \Sigma_k^p \Ra A \cup B, A \cap B \in \Sigma_k^p, A \in \Sigma_k^p \Lra \overline{A} \in \Pi_k^p\)
+    \(A, B \in \mathbf{\Sigma_k^p} \Ra A \cup B, A \cap B \in \mathbf{\Sigma_k^p}, A \in \mathbf{\Sigma_k^p} \Lra \overline{A} \in \mathbf{\Pi_k^p}\)
 \end{note}
 \begin{proof}
-    \(A \in \Sigma_k^p \Lra \overline{A} \in \Pi_k^p\) --- очевидно из отрицания к формуле \(A\). Докажем, что \(A \cup B \in \Sigma_k^p\). Это следует из следующего (если \(\phi, \psi\) не зависят от \(y, x\) соответственно):
+    \(A \in \mathbf{\Sigma_k^p} \Lra \overline{A} \in \mathbf{\Pi_k^p}\) --- очевидно из отрицания к формуле \(A\). Докажем, что \(A \cup B \in \mathbf{\Sigma_k^p}\). Это следует из следующего (если \(\phi, \psi\) не зависят от \(y, x\) соответственно):
     \[\forall x \phi(x) \vee \forall y \psi(y) \lra \forall (x, y) \phi \vee \psi\]
-    Утверждение \(A \cap B \in \Sigma_k^p\) получается и равенства \(A \cap B = \overline{\overline{A} \cup \overline{B}}\).
+    Утверждение \(A \cap B \in \mathbf{\Sigma_k^p}\) получается и равенства \(A \cap B = \overline{\overline{A} \cup \overline{B}}\).
 \end{proof}
 
 \begin{theorem}[Об условиях коллапса]
     Следующие условия эквивалентны:
     \begin{enumerate}
-        \item \(\Sigma_k^p = \Sigma_{k + 1}^p\)
-        \item[1'.] \(\Pi_k^p = \Pi_{k + 1}^p\)
-        \item \(\Sigma_k^p = \Pi_k^p, k > 0\)
-        \item \(\mathbf{PH} = \Sigma_k^p\)
+        \item \(\mathbf{\Sigma_k^p} = \Sigma_{k + 1}^p\)
+        \item[1'.] \(\mathbf{\Pi_k^p} = \Pi_{k + 1}^p\)
+        \item \(\mathbf{\Sigma_k^p} = \mathbf{\Pi_k^p}, k > 0\)
+        \item \(\mathbf{PH} = \mathbf{\Sigma_k^p}\)
     \end{enumerate}
 \end{theorem}
 \begin{proof}\indent
     \begin{enumerate}
-        \item[\((3) \Ra (1)\)] \(\Sigma_k^p \subset \Sigma_{k + 1}^p \subset \mathbf{PH} = \Sigma_k^p\)
-        \item[\((1) \Ra (2)\)] \(\Pi_k^p \subset \Sigma_{k + 1}^p = \Sigma_k^p \Ra \Pi_k^p = \Sigma_k^p\). Теперь:
-        \[A \in \Sigma_k^p \Ra \overline{A} \in \Pi_k^p \Ra \overline{A} \in \Sigma_k^p \Ra A \in \Pi_k^p \Ra \Sigma_k^p = \Pi_k^p\]
+        \item[\((3) \Ra (1)\)] \(\mathbf{\Sigma_k^p} \subset \Sigma_{k + 1}^p \subset \mathbf{PH} = \mathbf{\Sigma_k^p}\)
+        \item[\((1) \Ra (2)\)] \(\mathbf{\Pi_k^p} \subset \Sigma_{k + 1}^p = \mathbf{\Sigma_k^p} \Ra \mathbf{\Pi_k^p} = \mathbf{\Sigma_k^p}\). Теперь:
+        \[A \in \mathbf{\Sigma_k^p} \Ra \overline{A} \in \mathbf{\Pi_k^p} \Ra \overline{A} \in \mathbf{\Sigma_k^p} \Ra A \in \mathbf{\Pi_k^p} \Ra \mathbf{\Sigma_k^p} = \mathbf{\Pi_k^p}\]
         \item[\((2) \Ra (3)\)] Рассмотрим \(A \in \Sigma_{k + 1}^p\)
         \[x \in A \Lra \exists y_1 \forall y_2 \dots_\exists^\forall y_{k + 1} V(x, y_1, \dots y_{k + 1})\]
         Рассмотрим теперь язык 
-        \[Z = \{(x, y_1): \forall y_2 \dots_\exists^\forall y_{k + 1} V(x, y_1, \dots y_{k + 1})\} \in \Pi_k^p \Ra \in \Sigma_k^p\]
+        \[Z = \{(x, y_1): \forall y_2 \dots_\exists^\forall y_{k + 1} V(x, y_1, \dots y_{k + 1})\} \in \mathbf{\Pi_k^p} \Ra \in \mathbf{\Sigma_k^p}\]
         Но тогда:
         \[Z = \{(x, y_1): \exists z_1 \dots_\exists^\forall z_k W(x, z_1, \dots z_k)\}\]
         Из чего заключаем:
         \[x \in A \Lra \underbrace{\exists y_1\exists z_1}_{\exists (y_1, z_1)}\dots_\exists^\forall z_k W(x, z_1, \dots z_k)\]
-        Получили, что \(A \in \Sigma_k^p\).
-        Тогда \(\Sigma_{k + 1}^p = \Pi_{k + 1}^p = \Sigma_k^p\). Отсюда по индукции получаем, что \(\Sigma_{k + l} = \Pi_{k + l} = \Sigma_k^p \Ra \mathbf{PH} = \Sigma_k\)
+        Получили, что \(A \in \mathbf{\Sigma_k^p}\).
+        Тогда \(\Sigma_{k + 1}^p = \Pi_{k + 1}^p = \mathbf{\Sigma_k^p}\). Отсюда по индукции получаем, что \(\Sigma_{k + l} = \Pi_{k + l} = \mathbf{\Sigma_k^p} \Ra \mathbf{PH} = \Sigma_k\)
     \end{enumerate}
 \end{proof}
 
 \begin{note}
-    \(A \le_p B, B \in \Sigma_k^p \Ra A \in \Sigma_k^p\).
+    \(A \le_p B, B \in \mathbf{\Sigma_k^p} \Ra A \in \mathbf{\Sigma_k^p}\).
 \end{note}
+
+\subsection{Полнота в полиномальной иерархии}
+
+Можно по аналогии определить \(\mathbf{\Sigma_k^p}\)-полные, \(\mathbf{\Pi_k^p}\)-полные и \(\mathbf{PH}\)-полные задачи:
+
+\begin{definition}
+    \(A \in \mathbf{\Sigma_k^p}\) называется полной, если \(\forall B \in \mathbf{\Sigma_k^p}: B \le_P A\)
+\end{definition}
+
+\begin{definition}
+    \(A \in \mathbf{\Pi_k^p}\) называется полной, если \(\forall B \in \mathbf{\Pi_k^p}: B \le_P A\)
+\end{definition}
+
+\begin{definition}
+    \(A \in \mathbf{PH}\) называется полной, если \(\forall B \in \mathbf{PH}: B \le_P A\)
+\end{definition}
 
 \begin{note}
-    Можно по аналогии определить \(\Sigma_k^p\)-полные, \(\Pi_k^p\)-полные и \(\mathbf{PH}\)-полные задачи.
+    Из теоремы об условиях коллапса, получаем, что \(\mathbf{PH}\)-полные задачи существуют в том и только том случае, когда иерархия коллапсирует.
 \end{note}
 
-\begin{theorem}
-    \(\forall k \exists \Sigma_k^p\)-полные и \(\Pi_k^p\)-полные задачи. \(\mathbf{PH}\)-полные задачи существуют в том и только том случае, когда иерархия коллапсирует.
-\end{theorem}
+\lecture{6}
+
+
+Обобщим следующие задачи для классов \(\mathbf{P}, \mathbf{NP}\):
+\[\mathsf{SAT} = \{\phi | \exists x: \phi(x) = 1\}\]
+\[\mathsf{TAUT} = \{\phi | \forall x: \phi(x) = 1\}\]
+Таким образом, просто добавим кванторы:
+\[\mathsf{\Sigma_kSAT} = \left\{\phi |  \exists x_1\forall x_2 \dots^\forall_\exists x_k: \phi(x)\right\}\]
+\[\mathsf{\Pi_kSAT} = \left\{\phi |  \exists x_1\forall x_2 \dots^\forall_\exists x_k: \phi(x)\right\}\]
+Можно смотреть на данную задачу, как на ''Игру в формулу'': Алиса и Боб играют по следующим правилам: Алиса выбирает \(x_1\), Боб выбирает \(x_2\) и так далее. Если в итоге получилось, что \(\phi = 1\), то победила Алиса, иначе --- Боб (для задачи \(\mathsf{\Pi_kSAT}\) -- наоборот). Таким образом, задача \(\mathsf{\Sigma_kSAT}\), по сути, утверждает, что у Алисы есть выигрышная стратегия, а \(\mathsf{\Pi_kSAT}\) --- что у Боба.
+
+\begin{lemma}
+    \(\mathsf{\Sigma_kSAT}\) полна в \(\mathbf{\Sigma_k^p} \Lra \mathsf{\Pi_kSAT}\) полна в \(\mathbf{\Pi_k^p}\)
+\end{lemma}
+\begin{proof}
+    Достаточно доказать только в одну сторону (в другую аналогично). Докажем вправо. \(\phi \notin \mathsf{\Sigma_kSAT} \Lra \neg \phi \in \mathsf{\Pi_kSAT}\). Тогда, если \(A \in \mathbf{\Pi_k^p} \Ra \overline{A} \in \mathbf{\Sigma_k^p}\). Из этого следует, что \(\overline{A} \le_p \mathsf{\Sigma_kSAT}\). Но тогда:
+    \[x \in \overline{A} \Lra f(x) \in \mathsf{\Sigma_kSAT}\]
+    \[x \in A \Lra f(x) \notin \mathsf{\Sigma_kSAT}\]
+    \[x \in A \Lra f(x) \in \mathsf{\Pi_kSAT}\]
+    \[A \le_P \mathsf{\Pi_kSAT}\]
+\end{proof}
+
+\begin{lemma}
+    \(\mathsf{\Sigma_kSAT}\) полно в \(\mathbf{\Sigma_k^p}\) при нечетных \(k\). \(\mathsf{\Pi_kSAT}\) полно в \(\mathbf{\Sigma_k^p}\) при четных \(k\).
+\end{lemma}
+\begin{proof}
+    Пусть \(k\) нечетно, \(A \in \mathbf{\Sigma_k^p}\). \(x \in A \Lra \exists y_1 \forall y_2 \dots \exists y_k V(x, y_1, \dots y_k)\). В таком случае сводимость будет точно такая же как и в теореме Кука-Левина, только последние два получившиеся квантора \(\exists x_k \exists (\text{заполнение таблицы})\) мы склеим в один.
+\end{proof}
+
+\begin{note}
+    Для четных \(k\) уже не получится так же доказать, что \(\mathsf{\Sigma_kSAT}\) полно в \(\mathbf{\Sigma_k^p}\) (т.к. последние кванторы не склеятся в один) и придется использовать первую лемму
+\end{note}
+
+Таким образом, мы получаем следствие:
+
+\begin{corollary}
+    \(\mathsf{\Sigma_kSAT}, \mathsf{\Pi_kSAT}\) полны в \(\mathbf{\Sigma_k^p}, \mathbf{\Pi_k^p}\) соответственно.
+\end{corollary}
+
+\begin{corollary}
+    \(\forall k \exists \mathbf{\Sigma_k^p}\)-полные и \(\mathbf{\Pi_k^p}\)-полные задачи.
+\end{corollary}
+
+\subsection{Альтернирующие Машины Тьюринга}
+
+\begin{definition}
+    Альтернирующая машина Тьюринга --- это такая, у которой
+    \begin{enumerate}
+        \item Функция переходов многозначная
+        \item Состояния подразделяются на \(\Sigma\)-состояния и \(\Pi\)-состояния
+    \end{enumerate}
+
+    Вычисление ответа машины происходит следующим образом: заметим, что по завершении работы, получается некоторое дерево вычисления нашей машины. Результат вычислений определяем следующим образом:
+    \begin{enumerate}
+        \item Для листа \(q_{accept}\) означат результат 1, а \(q_{reject}\) --- результат 0
+        \item Для произвольной вершины в случае \(\Sigma\)-состояния результатом будет дизъюнкция ответов всех её сыновей, иначе --- конъюнкция.
+    \end{enumerate}
+\end{definition}
+
+\begin{example}[Вычисление ответа на Альтернирующей Машине Тьюринга]
+
+\begin{figure}[h!]
+    \centering
+    \begin{tikzpicture}[
+        level distance=1.5cm,
+        level 1/.style={sibling distance=4cm},
+        level 2/.style={sibling distance=2cm},
+        every node/.style={draw, circle, minimum size=1.2cm, inner sep=2pt},
+        accept/.style={draw=green!50!black, fill=green!20},
+        reject/.style={draw=red!50!black, fill=red!20}
+    ]
+    
+    \node[accept] (root) {\(q_0, \Sigma\)}
+        child { node[reject] (q1) {\(q_1, \Pi\)}
+            child { node[reject] {\(0\)} }
+            child { node[accept] (q3) {\(q_3, \Sigma\)}
+                child { node[accept] {\(1\)} }
+                child { node[reject] {\(0\)} }
+            }
+        }
+        child { node[accept] (q2) {\(q_2, \Pi\)}
+            child { node[accept] {\(1\)} }
+            child { node[accept] {\(1\)} }
+        };
+    
+    % Пояснения результатов
+    \node[right=0cm of q1, draw=none] {\(\ra 0\)};
+    \node[right=0cm of q2, draw=none] {\(\ra 1\)};
+    \node[right=0cm of q3, draw=none] {\(\ra 1\)};
+    \node[right=0cm of root, draw=none] {\(\ra 1\)};
+    
+    \end{tikzpicture}
+\end{figure}
+\end{example}
+
+\begin{note}
+    НМТ --- частный случай АМТ (достаточно сделать все состояния \(\Sigma\)-состояниями).
+\end{note}
+
+Время работы АМТ, соответственно, определяется как длина самой большой ветви. Число альтернаций --- максимальное количество переключений \(\Sigma \lra \Pi\).
+
+Определим следующие классы языков:
+
+\begin{definition}
+    \(\mathbf{\Sigma_kTIME}(t(n))\) --- класс языков, распознаваемых наа АМТ с начальным состоянием \(\Sigma\), временем работы \(O(t(n))\) и числом альтернаций \(\le k\)
+\end{definition}
+
+\begin{definition}
+    \(\mathbf{\Pi_kTIME}(t(n))\) --- класс языков, распознаваемых наа АМТ с начальным состоянием \(\Pi\), временем работы \(O(t(n))\) и числом альтернаций \(\le k\)
+\end{definition}
+
+\begin{proposition}
+    \[\mathbf{\Sigma_k^p} = \bigcup_{c = 1}^\infty \mathbf{\Sigma_kTIME}(n^c)\]
+    \[\mathbf{\Pi_k^p} = \bigcup_{c = 1}^\infty \mathbf{\Pi_kTIME}(n^c)\]
+\end{proposition}
+\begin{proposition}
+    Докажем для \(\mathbf{\Sigma_k^p}\)
+    \begin{enumerate}
+        \item[\(\subset\)] Рассмотрим следующую АМТ: в \(\Sigma\)-состоянии пишем \(y_1\), переходим в \(\Pi\)-состояние, пишем в нем \(y_2\) и так далее.
+        \item[\(\supset\)] Положим \(y_1\) --- номер ветви вдоль \(\Sigma\)-состояния, \(y_2\) --- номер ветви вдоль \(\Pi\)-состояни и так далее. Машина \(V\) будет просто вычислять результат вдоль ветви \(y_1, \dots y_k\).
+    \end{enumerate}
+\end{proposition}
+
+А что если время работы полиномиально, но число альтернаций не ограничено? Такой класс называется \(\mathbf{AP}\) и он совпадает с классом \(\mathbf{PSPACE}\), т.е. с классом языков, распознаваемых на полиномиальной памяти. 
