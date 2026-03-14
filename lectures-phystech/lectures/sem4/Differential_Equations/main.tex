@@ -507,3 +507,104 @@
 
     Теорема доказана.
 \end{proof}
+
+\lecture{5}
+
+\section{Первые интегралы}
+
+Пусть \(\Omega \subset \R^n\) --- открытое, \(f: \Omega \to \R^n\), \(f \in C^1\). Рассмотрим уравнение:
+\begin{equation}
+    x' = f(x)
+\end{equation}
+
+\begin{definition}
+    \(u: \Pi \ra \R\) называется первым интегралом системы (4.1), если \(\Pi \subset \Omega\) открыто, \(u \in C^1\) и \(u(x(t)) = const\;\forall x: I \ra \R^n\) --- решения системы, такое, что \(x(t) \in \Pi \forall t \in I\)
+\end{definition}
+
+\subsection{Примеры}
+\begin{enumerate}
+    \setcounter{enumi}{1}
+    \item \(x' = x, n = 2, \Omega = \Pi = \R \Ra u = const\)
+    \item \(x' = x, n = 2, \Omega = \Pi = \R_+^2\).
+    \item \[\left\{\begin{array}{l}
+        x_1' = -x_2 \\
+        x_2' = x_1
+    \end{array}\right.\]
+    Решением данной системы будет \(x(t) = r\left( \begin{array}{c}
+        \cos(t + \gamma) \\
+        \sin(t + \gamma) \\
+    \end{array} \right)\). Фазовая картина автономной системы в таком случае --- центр. Тогда первый интеграл: \(u = x_1^2 + x_2^2\).
+    \item \(n = 1, f(x) = 0\). Тогда любая \(u \in C^1(\Omega, \R)\) является первым интегралом
+\end{enumerate}
+
+\begin{definition}
+    Пусть \(n \ge 2, \hat{x} \in \Omega, \Pi\) --- окрестность \( \hat{x}\). Для \(u_1, \dots u_k \in C^1(\Pi, \R), k \le n\) называются независимыми на \(\Pi\), если \(rk\;Du = k\) (\(Du\) --- матрица Якоби).
+\end{definition}
+
+\begin{note}
+    \(u_1, \dots u_k\) --- независмые \(\Ra \) они линейно независимые.
+\end{note}
+
+\begin{example}[Обратное неверно]
+    Рассмотрим \(u_1(x) = x_1 - x_2, u_2(x) = e^{x_1 - x_2}\). Они линейно независимы, но 
+    \[Du = \left( \begin{array}{cc}
+        1 & -1 \\
+        e^{x_1 - x_2} & -e^{x_1 - x_2} \\ 
+    \end{array} \right)\]
+    То есть они не независимые
+\end{example}
+
+\begin{theorem}
+    Пусть \(\hat{x} \in \Omega, f(\hat{x}) \ne 0\). Тогда \(\exists X\) --- окрестность \(\hat{x}\), \(\epsilon > 0\), \(u_2, \dots u_n \in C^1(X, \R)\), такие, что:
+    \begin{enumerate}
+        \item \((u_2(x), \dots u_n(x)) \in O^{n - 1}(0, \epsilon) \forall x \in X\)
+        \item \(u_2, \dots u_n\) --- независимые первые интегралы (4.1)
+        \item \(\forall F \in C^1(O^{n - 1}(0, \epsilon), \R), F(u_2(x), \dots u_n(x)), x \in X\) является первым интегралом (4.1)
+        \item \(\forall u \in C^1(X, \R): u\) является первым интегралом (4.1), \(\exists F \in C^1(O^{n - 1}(0, \epsilon), \R): u(x) = F(u_2(x), \dots u_n(x))\)
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    Из теоремы о выпрямлении траекторий, заключаем, что \(\exists X\) --- окрестность \(\hat{x}, \epsilon > 0, \psi: X \ra (-\epsilon, \epsilon) \times O^{n - 1}(0, \epsilon)\):
+    \begin{enumerate}
+        \item \(\psi\) --- диффеоморфизм
+        \item \(\forall\) решения \(x: I \ra X\) системы (4.1) \(\psi(x(t))\) является решением системы:
+        \begin{equation}
+            y_1' = 1, y_2' = 0, \dots y_n' = 0
+        \end{equation}
+        \item \(\forall\) решения \(y: I \ra (-\epsilon, \epsilon) \times O^{n - 1}(0, \epsilon)\) системы (4.2),\(\psi^{-1}(y(t))\) является решением системы (4.1).
+    \end{enumerate}
+    Пусть \(\psi(x) = (\psi_1(x), \dots \psi_n(x))\) и положим для \(i \ge 2\): \(u_i(x) = \psi_i(x), x \in X\). Тогда:
+    \begin{enumerate}
+        \item \(\forall\) решения \(x: I \ra X\) системы (4.1), \(\psi(x(t)) =  (\psi_1(x(t)), \dots \psi_n(x(t)))\) --- решение системы (4.2). Заметим, что т.к. \(y_i' = 0\) при \(i \ge 2\), то \(\psi_i(x(t)) = const \Ra u_i\) --- первый интеграл (4.1).
+        \item Так как \(\psi\) --- диффеоморфизм, то \(rk\;D\psi = n\). Но тогда: \(rk\;\left( \frac{\partial u_i}{\partial x_j}(x) \right)_{i = 2,\dots n, j = 1,\dots n} = n - 1 \Ra u_i\) независимы
+        \item \(\forall F \in C^1(O^{n - 1}(0, \epsilon), \R)\). Положим \(u(x) = F(u_2(x), \dots u_n(x))\). Тогда:
+        \[\frac{du}{dt}(x) = \langle u'(x), f(x) \rangle = \left\langle \frac{\partial F}{\partial u_2}u_2'(x) + \dots + \frac{\partial F}{\partial u_n}u_n'(x), f(x) \right\rangle =\]
+        \[\frac{\partial F}{\partial u_2}\langle u_2'(x), f(x)\rangle + \dots + \frac{\partial F}{\partial u_n}\langle u_n'(x), f(x)\rangle = (*)\]
+        В силу того, что \(u_i\) являются первыми интегралами, заключаем, что \((*) = 0\), т.к. каждое слагаемое обнулится.
+
+        \item \(\forall u \in C^1(X, \R)\) такого, что \(u\) --- первый интеграл (4.1). Положим \(F(y_2, \dots y_n) = u(\psi^{-1}(y))\), где \(y = (y_1, \dots y_n) \in (-\epsilon, \epsilon) \times O^{n - 1}(0, \epsilon)\). В частности, нужно показать, что правая часть не зависит от \(y_1\). Для любого \((y_2, \dots y_n) \in O^{n - 1}(0, \epsilon)\) положим \(y(t) = (t, y_2, \dots y_n), t \in (-\epsilon, \epsilon)\) --- решение (4.2). Тогда \(\psi^{-1}(y(t))\) --- решение (4.1), то \(u(\psi^{-1}(y(t)))\) не зависит от \(t\). Таким образом, \(F\) определена корректно. Проверим, что \(F\) --- искомая.
+        \[F(u_2(x), \dots u_n(x)) = F(\psi_2(x), \dots \psi_n(x)) = u(\psi^{-1}(\psi_1(x), \dots \psi_n(x))) = u(x)\]
+        В предпоследнем переходе мы имеем право поставить любое число в первую координату, т.к. раньше доказали что \(F\) не зависит от \(y_1\). Последнее равенство верно в силу биективности \(\psi\).
+    \end{enumerate}
+    Получили в точности то, что хотели.
+\end{proof}
+
+\begin{example}
+    Рассмотрим систему:
+    \[\left\{\begin{array}{l}
+        x' = \cos y \\
+        y' = \sin y
+    \end{array}\right.\]
+    Выразим \(dt\) двумя способами:
+    \[\frac{dx}{\cos y} = dt = \frac{dy}{\sin y}\]
+    Получим уравнение:
+    \[dx\sin y - dy\cos y = 0\]
+    Домножим на интегрирующий множитель \(e^x\):
+    \[e^xdx\sin y - e^xdy\cos y = 0\]
+    \[d(e^x\sin y) = 0\]
+    \[e^x\sin y = const\]
+    Таким образом, \(e^x\sin y\) --- первый интеграл. Если \(y = \pi n \Ra const = 0\). Иначе нетрудным рассмотрением знаков, можем понять, что линии уровня выглядят так:
+    \begin{center}
+        \includegraphics[scale=0.1]{images/IMG_5194.jpeg}
+    \end{center}
+\end{example}
