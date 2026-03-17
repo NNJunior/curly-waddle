@@ -921,9 +921,9 @@
 \begin{proposition}
     Если \(\xi\) --- \(\mathcal{C}\)-измерима, то \(\E(\xi|\mathcal{C}) = \xi\).
 \end{proposition}
-\begin{proposition}
+\begin{proof}
     По определению, \(\xi\) удовледвторяет двум свойствам.
-\end{proposition}
+\end{proof}
 
 \begin{proposition}[Линейность]
     \[\forall a, b \in \R: \E(a\xi + b\eta | \mathcal{C}) = a\E(\xi|\mathcal{C}) + b\E(\eta|\mathcal{C})\]
@@ -1010,3 +1010,122 @@
         Последнее равенсво выполняется почти наверное
     \end{enumerate}
 \end{proof}
+
+\lecture{9}
+
+\begin{proposition}
+    Если \(\eta\) --- \(\mathcal{C}\)-измерима, то
+    \[(*) = \E(\xi \cdot \eta | \mathcal{C}) = \eta \E (\xi | \mathcal{C})\]
+\end{proposition}
+\begin{proof}
+    Пусть сначала \(\eta = I_B, B \in \mathcal{C}\). Заметим, что правая часть \(\mathcal{C}\)-измерима как произведение \(\mathcal{C}\)-измеримых случайных величин, поэтому достаточно проверить интегральное свойство. Пусть \(A \in \mathcal{C}\), тогда:
+    \[\E(\xi\eta I_A) = \E(\xi I_AI_B) = \E(\xi I_{\underbrace{A \cap B}_{\in \mathcal{C}}}) =\]
+    По интегральному свойству, получаем:
+    \[= \E(\E(\xi|\mathcal{C})I_{A \cap B}) = \E(\E(\xi|\mathcal{C})I_AI_B) = \E(\E(\xi|\mathcal{C}) \eta I_A)\]
+    В силу линейности \((*)\) по \(\eta\), поулчаем, что \((*)\) верно и для простых \(\eta\). Теперь, если \(\eta\) --- произвольная случайная величина, то возьмем \(\{\eta_n, n \in \N\}\) --- последовательность простых \(\mathcal{C}\)-измеримых случайных величин, таких, что \(|\eta_n| \le |\eta|\) и \(\eta_n \ra \eta\). Тогда \(\forall n \in \N\):
+    \[\E(\xi\eta_n|\mathcal{C}) = \eta_n \E(\xi|\mathcal{C})\]
+    Применяем предельный переход и получаем:
+    \[\E(\xi\eta|\mathcal{C}) = \eta\E(\xi|\mathcal{C})\]
+\end{proof}
+
+\begin{proposition}[Неравенство Йенсена]
+    Пусть \(\phi(x)\) --- выпуклая вниз функция, тогда:
+    \[\E(\phi(\xi)|\mathcal{C}) \ge \phi(\E(\xi|\mathcal{C}))\]
+\end{proposition}
+\begin{proof}
+    В силу выпуклости \(\phi\), \(\forall x \in \R \exists \lambda(x): \forall y \in \R: \phi(y) \ge \phi(x) + \lambda(x)(y - x)\). Подставим \(y = \xi, x = \E(\xi|\mathcal{C})\) и возьмем условное математическое ожидание относительно \(\mathcal{C}\):
+    \[\E(\phi(\xi)|\mathcal{C}) \ge \E(\phi(\E(\xi|\mathcal{C}))|\mathcal{C}) + \E(\lambda(\E(\xi|\mathcal{C}))(\xi - \E(\xi|\mathcal{C})) | \mathcal{C}) = \]
+    \[= \phi(\E(\xi|\mathcal{C})) + \underbrace{\lambda(\E(\xi|\mathcal{C}))\E(\xi - \E(\xi|\mathcal{C}) | \mathcal{C})}_{= 0} = \phi(\E(\xi|\mathcal{C}))\]
+\end{proof}
+
+\begin{definition}
+    Если \(A \in \mathcal{F}\), то условной вероятностью \(A\) относительно \(\mathcal{C}\) называют:
+    \[P(A|\mathcal{C}) = \E(I_A|\mathcal{C})\]
+\end{definition}
+
+\begin{definition}
+    Пусть \(\xi\) --- случайная величина, \(\eta\) --- случайный вектор из \(\R^m\). Условным математическим ожиданием \(\xi\) относительно \(\eta\) будем называть:
+    \[\E(\xi|\eta) = \E(\xi|\mathcal{F}_{\eta})\]
+\end{definition}
+
+\begin{note}
+    Мы знаем, что \(\mathcal{F}_\eta\)-измеримы только функции от \(\eta \Ra \E(\xi|\eta) = f(\eta)\), где \(f\) --- некоторая борелевская функция.
+\end{note}
+
+\begin{definition}
+    \(\E(\xi|\eta = y) = f(y)\) --- такая борелевская функция, что \(\E(\xi|\eta) = f(\eta)\).
+\end{definition}
+
+\begin{definition}
+    \(\E(\xi|\eta = y)\) --- такая борелевская функция, что \(\forall B \in \mathcal{B}(\R^m)\) (если \(\eta \in \R^m\))
+    \[\E(\xi \cdot I\{\eta \in B\}) = \int_B f(y)P_\eta(dy)\]
+\end{definition}
+
+Данные два определения равносильны
+
+\section{Условное распределение}
+\begin{definition}
+    Пусть \(\xi\) --- случайная величина, \(\eta\) --- случайный вектор из \(\R^m\) на \((\Omega, \mathcal{F}, P)\). Условным распределенеим \(\xi\) относительно \(\eta\) называется \(P(B, y), B \in \mathcal{B}(\R^m), y \in \R^m\), такая, что:
+    \begin{enumerate}
+        \item \(\forall B \in \mathcal{B}(\R^m)\) функция \(P(B, \cdot)\) --- борелевская
+        \item \(\forall y \in \R^m \) функция \(P(\cdot, y)\) является вероятностной мерой на \((\R, \mathcal{B}(\R))\).
+        \item \(\forall B \in \mathcal{B}(\R), A \in \mathcal{B}(\R^m)\) выполняется:
+        \[P(\xi \in B, \eta \in A) = \int_AP(B, y)P_\eta(dy)\]
+    \end{enumerate}
+\end{definition}
+
+\begin{note}
+    По сути \(P(B, y) = P(\xi \in B | \eta = y)\). Однако, если определить \(P(B, y) = \E(I\{\xi \in B\} | \eta = y)\) то, будут выполнены только свойства 1, 3. Т.к. \(\E\) определено неоднозначно, то свойство 2 может не выполняться и с этим надо что-то делать
+\end{note}
+
+\begin{note}
+    \(\E(\xi|\eta = y)\) удовлетворяет естественному обобщению свойств 1-10 условного математического ожидания
+\end{note}
+
+\begin{theorem}
+    Условное распределение существует
+\end{theorem}
+\begin{proof}
+    Для каждого \(x \in \R\) рассмотрим \(F(x|y) = \E(I\{\xi \le x\} | \eta = y)\), причем из всех функций (определенных с точностью до множества меры 0) выберем в правой части любую. Пусть \(\Q = \{q_n, n \in \N\}\). Если \(q_i < q_j\) то введем множество: \(A_{ij} = \{y: F(q_i|y) > F(q_j|y)\}\) --- борелевское множество и \(P_\eta(A) = 0\). Для \(q_i \in \Q\) введем \(B_i = \{y: \lim_{n \ra \infty} F\left( q_i + \frac{1}{n}|y\right) \ne F(q_i|y)\}\). В силу того, что \(I\left\{\xi \le q_i + \frac{1}{n}\right\} \ra_{n \ra \infty} I\{\xi \le q_i\} \Ra\) по свойству 8, \(F\left( q_i + \frac{1}{n} | y \right) \ra F(q_i | y)\), \(P_\eta\)-п.н. \(\Ra P_\eta(B_i) = 0\). Наконец, введем \(C = \{y: \lim_{n \ra \infty} F(n|y) \ne 1\text{ или }\lim_{n \ra \infty}F(-n|y) \ne 0\}\). Снова, \(I\{\xi \le n\} \uparrow 1, I\{\xi \le -n\} \downarrow 0 \Ra\) по свойству 8, \(F(n|y) \ra 1, F(-n|y) \ra 0\), \(P_\eta\)-п.н. \(\Ra P_\eta(C) = 0\). Далее, введем
+    \[\tilde{F}(x|y) = \left\{\begin{array}{l}
+        \lim_{q \downarrow x, q \in \Q} F(q|y), y \notin D \\
+        G(x), \text{ иначе}
+    \end{array}\right.\]
+    Где \(D = C \cup \left( \bigcup_{i} B_i \right) \cup \left( \bigcup_{i,j} A_{ij} \right)\), \(G(x)\) --- фиксированная функция распределения на \(\R\).
+
+    Проверим, что для \(\forall y \in \R^m, \tilde{F}(x|y)\) --- это функция распределения на \(\R\). Если \(y \in D\) --- все очевидно. Если \(y \notin D\), то \(F(q|y)\) является неубывающей, непрерывной справа функцией, имеющей нужные пределы на \(\pm\infty\). Тогда \(\tilde{F}(x|y)\) будет совпадать с \(F(x|y)\), если \(x \in \Q\), и будет удовлетворять свойствам функции распределения. 
+
+    Далее, проверим, что \(\forall x \in \R \tilde{F}(x|y) = F(x|y) = \E(I\{\xi \le x\}|\eta = y)\) почти наверное. Если \(x \in \Q\), то \(\tilde{F}(x|y) = F(x|y)\) по построению. Если \(x \notin \Q\), то рассмотрим последовательность \(x_n \downarrow x, x_n \in \Q\). Тогда \(I\{\xi \le x_n\} \ra I\{\xi \le x\} \Ra\) по свойству 8 \(P_\eta\)-п.н:
+    \[\E(I\{\xi \le x\}|\eta = y) = \lim_{n \ra \infty} \E(I\{\xi \le x_n\} | \eta = y) = \lim_{n \ra \infty} F(x_n|y) = \tilde{F}(x|y)\]
+    
+    \(\Ra \tilde{F}(x|y)\) --- это вариант условного математического ожидания \(\E(I\{\xi \le x\}|\eta = y)\). Далее для \(\forall y \in \R^m\) рассмотрим \(Q(\cdot | y)\) --- вероятностная мера на \(\R\), соответствующая \(\tilde{F}(x|y)\). Проверим, что \(\forall B \in \mathcal{B}(\R)\), \(P_\eta\)-п.н. \(Q(B|y) = \E(I\{\xi \in B\}|\eta = y)\). Введем \(\mathcal{L} = \{B \in \mathcal{B}(\R): Q(B|y) \E(I\{\xi \in B\} | \eta = y), P_\eta\text{-п.н.}\}\)
+
+    Докажем, что \(\mathcal{L}\) --- это \(\lambda\)-система.
+    \begin{enumerate}
+        \item \(\R \in \mathcal{L}\), т.к. \(Q(\R|y) = 1 = \E(1|\eta = y)\)
+        \item Если \(A, B \in \mathcal{L}, A \subset B\), то \(B \setminus A \in \mathcal{L}\), т.к. \(Q(B\setminus A|y) = Q(B|y) - Q(A|y) = P_\eta\)-п.н \(= \E(I\{\xi \in B\}|\eta = y) - \E(I\{\xi \in A\}|\eta = y) = \E(I\{\xi \in B\setminus A\}|\eta = y)\).
+        \item Если \(A_n \uparrow A, A_n \in \mathcal{L}\), то \(A \in \mathcal{L}\), т.к. \(Q(A|y) = \lim_{n \ra \infty} Q(A_n|y) = P_\eta\)-п.н \(= \lim_{n \ra \infty} \E(I\{\xi \in A_n\}|\eta = y) = (*)\). По свойству 8, получаем, что \((*) = \E(I\{\xi \in A\}|\eta = y)\).
+    \end{enumerate}
+
+    Итого, \(\mathcal{L}\) --- \(\lambda\)-система, содержащая все полуинтервалы \((-\infty, x] \Ra\) по второй теореме о \(\lambda\)-системах, \(\mathcal{L}\) содержит \(\mathcal{B}(\R)\). Тогда \(Q(B|y)\) удовлетворяет свойствам 1, 3, т.к. это вариант \(\E(I\{\xi \in B\} | \eta = y)\) и свойству 2 по построению.
+\end{proof}
+
+\begin{theorem}[О вычислении условного математического ожидания]
+    Пусть \(\xi\) --- случайная величина, \(\eta\) --- случайный вектор из \(\R^m\), \(P(B, y)\) --- условное распределение \(\xi\) относительно \(\eta\). Тогда для любой борелевской функции \(f: \R \ra \R\) выполнено
+    \[\E(f(\xi)|\eta = y) = \int_\R f(x) P(dx, y)\]
+\end{theorem}
+\begin{proof}
+    Пусть \(f(x) = I_B, B \in \mathcal{B}(\R)\). Тогда
+    \[\E(f(\xi)|\eta = y) = \E(I\{\xi \in B\}|\eta = y) = P(B, y) = \int_\R I_B(x) P(dx, y) = \int_\R f(x) P(dx, y)\]
+    Обе части требуемого линейны по \(f \Ra\) равенство выполнено для простых функций. Для произвольных функций переходим к пределу от простых.
+\end{proof}
+
+\begin{definition}
+    Пусть \(\xi\) --- случайная величина, \(\eta\) --- случайный вектор из \(\R^m\). Функция \(f_{\xi|\eta}(x|y)\) называется условной плотностью \(\xi\) относительно \(\eta\), если она есть плотность условного распределения (по мере \(\mu\)):
+    \[\forall B \in \mathcal{B}(\R): P(\xi \in B|\eta = y) = \int_B f_{\xi|\eta}(x|y)\mu(dx)\]
+\end{definition}
+
+\begin{corollary}
+    При наличии условной плотности:
+    \[\E(g(\xi)|\eta = y) = \int_\R g(x) f_{\xi|\eta}(x|y)\mu(dx)\]
+\end{corollary}

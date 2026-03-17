@@ -200,3 +200,28 @@
 
 % \subsection{Почему именно сигмоида и логит?}
 % Пусть нам даны 2 события: \(A, B: P(A) = 0.2, P(B) = 0.1\). Тогда \(P(\overline{A}) = 0.8, P(\overline{B}) = 0.9\). Однако заметим, что \(\frac{P(A)}{P(\overline{A})} \in [0, +\infty]\). Теперь заметим, что если мы применим \(\log \)
+
+\lecture{6}
+
+\href{URL}{см презентацию}
+
+\section{Пример вычисления градиента фукнции ошибки по всем параметрам нейронной сети}
+
+Пусть \(y(x) = \tanh(W_2\operatorname{ReLU}(W_1x + b_1) + b_2)\), т.е. \(\tanh, \operatorname{ReLU}\) --- функции активации, а \(W_1 \in \R^{M \times H}, W_2 \in \R^{H \times d}, b_1 \in \R^M, b_2 \in \R^H\) --- матрицы весов и смещения. Посчитаем частные производные функции \(L = \|Y - \hat{Y}\|_2^2 = \sum_{i = 1}^n\sum_{m = 1}^M \) --- MSE по всем компонентам нейронной сети. Введем обозначения:
+
+\[L(x) = L(\overbrace{\tanh(\underbrace{W_2\overbrace{\operatorname{ReLU}(\underbrace{W_1x + b_1}_{y_1})}^{y_2} + b_2)}_{y_3}}^{y_4}, \hat{Y})\]
+
+Посчитаем частные производные \(L\) по \(x\): 
+
+\begin{enumerate}
+    \item \[L = \frac{\partial L}{\partial {y_4}_{im}} = 2({y_4}_{im} - y_{im})\]
+    \item \[\frac{\partial L}{\partial {y_3}_{im}} = \frac{\partial L}{\partial {y_4}_{im}} \cdot \frac{\partial {y_4}_{im}}{\partial {y_3}_{im}} = \frac{\partial L}{\partial {y_4}_{im}} \cdot (1 - \tanh^2({x_4}_{im}))\]
+    \item \[\frac{\partial L}{\partial {W_2}_{mh}} = \sum_{i = 1}^m \frac{\partial L}{\partial {y_3}_{im}} \cdot \frac{\partial {y_3}_{im}}{\partial {W_2}_{mh}} = \sum_{i = 1}^m \frac{\partial L}{\partial {y_3}_{im}} \cdot {y_2}_{ih}\]
+    \item \[\frac{\partial L}{\partial {b_2}_m} = \sum_{i = 1}^n \frac{\partial L}{\partial {y_3}_{im}} \cdot 1\]
+    \item \[\frac{\partial L}{\partial {y_2}_{ih}} = \sum_{m = 1}^M \frac{\partial L}{\partial {y_3}_{im}} \cdot \frac{\partial {y_3}_{im}}{\partial {y_2}_{ih}} = \sum_{m = 1}^M \frac{\partial L}{\partial {y_3}_{im}}{W_2}_{mh}\]
+    Таким же образом продолжаем подсчет производных и находим искомую
+\end{enumerate}
+
+\begin{exercise}
+    Досчитать производную
+\end{exercise}
