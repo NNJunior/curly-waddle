@@ -631,7 +631,7 @@
     \(\left\{ \frac{1}{\pi}F_N \right\}\) --- аппроксимация единицей.
 \end{corollary}
 
-Тогда по теореме 6 параграфа 1, получаем:
+Тогда получаем следствие:
 
 \begin{theorem}[Фейер]
     Пусть \(f_1 \in L_1(T)\), тогда справедливы утверждения:
@@ -667,11 +667,117 @@
 \end{theorem}
 \begin{proof}
     Пусть \(\{f_n\}\) --- фундаментальная последовательность в \(L_p(E)\). Покажем, что \(\exists f \in L_p(E), \exists \{f_{n_k}\}: f_{n_k} \ra f\) почти всюду на \(E\). Из определения фундаментальной последовательности по индукции строим подпоследовательность \(\{f_{n_k}\}\), т.ч. \(\|f_{n_{k + 1}} - f_{n_k}\| < \frac{1}{2^k}\).
+    
     Заметим, что \(\{f_{n_k}\}\) сходится \(\Lra\) сходится почти всюду ряд
     \[(*) = f_{n_1}(x) + \sum_{k = 1}^\infty (f_{n_{k + 1}}(x) - f_{n_k}(x))\]
+
     Покажем, что ряд \((*)\) сходится абсолютно почти всюду. Рассмотрим \(F = \sum_{k = 1}^\infty |f_{n_{k + 1}} - f_{n_k}|, F_n = \sum_{k = 1}^n |f_{n_{k + 1}} - f_{n_k}|\). Последовательность \(\{F_n^p\}\) нестрого возрастает, тогда по теореме Леви,
     \[\lim_{n \ra \infty} \int F_n^p d\mu = \int F^p d\mu\]
+    
     Интегралы в левой части ограничены:
     \[\|F_n\|_p \le \sum_{k = 1}^n\|f_{n_{k + 1}} - f_{n_k}\|_p < \sum_{k = 1}^\infty \frac{1}{2^k} = 1 \Ra \|F\|_p \le 1\]
-    Получили, что \(F\) интегрируема, но тогда она конечна почти всюду и ряд \((*)\) сходится тоже почти всюду.
+\lecture{7}
+    Получили, что \(F\) интегрируема, но тогда она конечна почти всюду и ряд \((*)\) сходится абсолютно почти всюду на \(E\), а значит, существует \(f(x) = \lim_{k \ra \infty} f_{n_k}(x)\), кроме того, \(|f| \le |f_{n_1}| + |F| \Ra |f|^p \le \underbrace{2^p(|f_{n_k}|^p + |F|^p)}_{\text{интегрируемая}}\). Следовательно \(|f|^p\) интегрируема и \(f \in L_p(E)\).
+
+    Покажем, что \(f_n \ra f\) в \(L_p(E)\). Из определения фундаментальности: \(\forall \epsilon > 0 \exists N: \forall n, m > N: (\|f_n - f_m\|_p < \epsilon)\). Зафиксируем \(n > N\). Имеем \(|f_n - f_{n_k}|^p \ra |f_n - f|^p\). Заметим, что \(|f_n - f_{n_k}|^p \le 2^p(|f_n|^p + |f_{n_k}|^p) \le 2^p(|f_n|^p + |F|^p)\). Тогда по теореме Лебега о мажорируемой сходимости \(\|f_n - f_{n_k}\|_p \ra \|f_n - f\|_p\). Следовательно, \(\|f_n - f\|_p \le \epsilon\). 
+\end{proof}
+
+\begin{definition}
+    \(L_\infty(E) = \{f: E \ra \Cm \vert \exists \tilde{f}\text{ ограниченная на }E,\;f = \tilde{f}\text{ почти всюду }\} /_\sim\), т.е. фактормножество по отношению \(\sim\). Введем на этом пространстве норму \(\|f\|_\infty = \inf_{\tilde{f} \sim f} \sup_E|\tilde{f}|\).
+\end{definition}
+
+\begin{definition}
+    Пусть \(X\) --- нормированное пространство, \(\{\phi_k\}_{k = 1}^\infty \subset X\). Система \(\{\phi_k\}_{k = 1}^\infty\) называется полной в \(X\), если \(\forall f \in X \forall \epsilon > 0 \exists\alpha_1, \dots \alpha_n: \left\| f - \sum_{k = 1}^n \alpha_k\phi_k \right\| < \epsilon\)
+\end{definition}
+
+\begin{theorem}
+    Тригонометрическая система в вещественной форме \(\left\{ \frac{1}{2}, \cos kx, \sin kx \right\}\) и в комплексной форме \(\left\{ e^{ikx} \right\}_{k \in \Z}\) полны в \(L_p(T), 1 \le p < \infty\)
+\end{theorem}
+\begin{proof}
+    Пусть \(f \in L_P(T), \epsilon > 0\). Тогда \(f \in L(-\pi, \pi)\). По теореме о приближении, \(\exists g \in C_c^\infty(\R)\), такая, что \(\|f - g\|_p < \epsilon\). Можно считать, что носитель \(g\) лежит в \((-\pi, \pi)\) (достаточно вспомнить доказательство теоремы о приближении). Существует \(h \in C(T)\), такая, что \(g = h\) на \([-\pi, \pi]\). По теореме Вейерштрасса, \(\exists T\) --- тригонометрический многочлен, такой, что \(\|h - T\|_\infty < \epsilon\). Тогда \(\|h - T\|_p = \left( \int_{-\pi}^\pi |h - T|^p \right)^{\frac{1}{p}} < \epsilon (2\pi)^{\frac{1}{p}}\). Тогда по неравенству треугольника, имеем \(\|f - T\|_p \le \|f - g\|_p + \|g - T\|_p = \|f - g\|_p + \|h - T\|_p < (1 + (2\pi)^{\frac{1}{p}})\epsilon\).
+\end{proof}
+
+\section{Ортогональные ряды}
+
+\begin{definition}
+    Пусть \(V\) --- линейное пространство над \(\R\) или \(\Cm\), функция \((\cdot, \cdot): V \times V \ra \mathbb{K}\) называется скалярным произведение, если она удовлетворяет следующим свойствам:
+    \begin{enumerate}
+        \item \(\forall x \in V: (x, x) \ge 0\), причем \((x, x) = 0 \Lra x = 0\)
+        \item \(\forall x, x', y \in V \forall \lambda: (\lambda x + x', y) = \lambda(x, y) + (x', y)\)
+        \item \(\forall x, y \in V: \overline{(x, y)} = (y, x)\).
+    \end{enumerate}
+    Пространство \(V\) с введенным на нем скалярным произведением называется евклидовым
+\end{definition}
+
+\begin{note}
+    Всякое евклидовое пространство является нормированным относительно нормы \(\|x\| = \sqrt{(x, x)}\) (евклидова норма). Действительно, неравенство треугольника следует из неравенства КБШ: \(|(x, y)| \le \|x\|\cdot\|y\|\)
+\end{note}
+
+\begin{note}
+    Скалярное произведение непрерывно.
+\end{note}
+\begin{proof}
+    Пусть \(x_n \ra x, y_n \ra y\). Тогда \(|(x_n, y_n) - (x, y)| = |(x_n, y_n - y) + (x_n - x_n, y)| \le\) по КБШ \(\le \|x_n\|\cdot\|y_n - y\| + \|x_n - x\|\cdot\|y\| \ra_{n \ra \infty} 0\).
+\end{proof}
+
+\begin{definition}
+    Векторы \(x, y \in V\) называются ортогональными, если \((x, y) = 0\). В таком случае пишут \(x \perp y\).
+\end{definition}
+
+\begin{lemma}[Теорема Пифагора]
+    Пусть \(x_1, \dots x_n \in V\), такие, что при \(i \ne j: x_i \perp x_j\). Тогда:
+    \[\|x_1 + \dots + x_n\|^2 = \|x_1\|^2 + \dots + \|x_n\|^2\]
+\end{lemma}
+\begin{proof}
+    \[\left\|\sum_{k = 1}^n x_k\right\|^2 = \left( \sum_{k = 1}^n x_k, \sum_{k = 1}^n x_k \right) = \sum_{i, j = 1}^n (x_i, x_j) = \sum_{k = 1}^n \|x_k\|^2\]
+\end{proof}
+
+\begin{definition}
+    Семейство \(\{e_k\}_{k = 1}^\infty\) называется ортогональной системой, если при \(i \ne j\) верно \(e_i \perp e_j\) и \(\forall k: e_k \ne \vec{0}\).
+\end{definition}
+
+\begin{note}
+    Элементы ортогональной системы линейно независимы.
+\end{note}
+\begin{proof}
+    Действительно, пусть \(\lambda_1e_1 + \dots + \lambda_me_m = \vec{0}\). Рассмотрим \((e_i, \lambda_1e_1 + \dots + \lambda_me_m) = \lambda_i\|e_i\|^2 = 0 \Ra \lambda_i = 0\).
+\end{proof}
+
+\begin{definition}
+    Пусть \(\{e_k\}_{k = 1}^\infty\) --- ортогональная система, \(x \in V\). Тогда:
+    \begin{enumerate}
+        \item \(\widehat{x} = \frac{(x, e_k)}{\|e_k\|^2}\) --- \(k\)-ый коэффициент Фурье \(x\) по \(\{e_k\}\).
+        \item \(\sum_{k = 1}^\infty \widehat{x}_ke_k\) --- ряд Фурье \(x\) по \(\{e_k\}\), в таком случае пишут \(x \sim \sum_{k = 1}^\infty \widehat{x}_ke_k\)
+    \end{enumerate}
+\end{definition}
+
+\begin{theorem}[Свойство минимальности]
+    \[\min_{c_1, \dots c_n} = \left\| x - \sum_{k = 1}^n c_ke_k \right\| = \left\| x - \sum_{k = 1}^n \widehat{x}_ke_k \right\|\]
+    Причем равенство возможно только при \(c_k = \widehat{x}_k\). Кроме того, справедливо тождество Бесселя:
+    \[\left\| x - \sum_{k = 1}^n \widehat{x}_ke_k \right\|^2 = \|x\|^2 - \sum_{k = 1}^n |\widehat{x}_k|^2 \|e_k\|^2 \]
+\end{theorem}
+\begin{proof}
+    Положим \(S_n = \sum_{k = 1}^n \widehat{x}_ke_k, L = \langle e_1, \dots e_n \rangle\)
+
+    Покажем, что \(\forall y \in L: x - S_n \perp y\). Рассмотрим \((x - S_n, e_m) = (x, e_m) - (S_n, e_m) = (x, e_m) - \widehat{x}_m\|e_m\|^2 = 0\). Т.к. \(y \in \langle e_1, \dots e_n \rangle\), из линейности скалярного произведения получаем, что \(y \perp x - S_n\).
+
+    Положим \(y = \sum_{k = 1}^n c_ke_k\). Тогда \(S_n - y \in L\), а значит, \(x - S_n \perp S_n - y\). По теореме Пифагора \(\|x - y\|^2 = \|(x - S_n) + (S_n - y)\|^2 = \|x - S_n\|^2 + \|S_n - y\|^2 = \|x - S_n\|^2 + \sum_{k = 1}^n|\widehat{x}_k - c_k|^2\|e_k\|^2 = (*)\). Получаем, что \(\|x - y\| \ge \|x - S_n\|\), причем равенство возможно тогда и только тогда, когда \(c_k = \widehat{x}_k\). Тождество Бесселя получаем из \((*)\) при \(y = 0\)
+\end{proof}
+
+\begin{corollary}[Неравенство Бесселя]
+    Если \(\{e_k\}_{k = 1}^\infty\) --- ортогональная система, \(x \in V\), то 
+    \[\sum_{k = 1}^\infty |\widehat{x}_k|^2\|e_k\|^2 \le \|x\|^2\]
+\end{corollary}
+\begin{proof}
+    Из тождества Бесселя следует, что 
+    \[\|x\|^2 \le \sum_{k = 1}^n |\widehat{x}_k|^2 \|e_k\|^2\]
+    Переходим в данном неравенстве к пределу и получаем желаемое
+\end{proof}
+
+\begin{corollary}
+    Если \(\{e_k\}_{k = 1}^\infty\) --- ортогональная система, \(x \in V\) и \(x = \sum_{k = 1}^\infty c_ke_k\), то \(c_k = \widehat{x}_k\)
+\end{corollary}
+\begin{proof}
+    Предположим, что \(c_m \ne \widehat{x}_m\) для некоторого \(m\), тогда из \((*)\):
+    \[\left\| x - \sum_{k = 1}^n c_ke_k \right\| \ge \sum_{k = 1}^\infty |\widehat{x}_k - c_k|^2\|e_k\|^2 \ge |\widehat{x}_m - c_m|^2\|e_m\|^2\]
 \end{proof}
