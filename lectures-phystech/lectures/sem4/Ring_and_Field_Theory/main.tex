@@ -741,7 +741,7 @@
 \end{proof}
 
 \begin{definition}
-    \(Quot(K)\) --- поле частных над множеством \(M\), с двумя операциями:
+    \(\operatorname{Quot}(K)\) --- поле частных над множеством \(M\), с двумя операциями:
     \begin{enumerate}
         \item \((a, b) + (c, d) = (ad + bc, bd)\)
         \item \((a, b) \cdot (c, d) = (ac, bd)\)
@@ -749,7 +749,7 @@
 \end{definition}
 
 \begin{theorem}
-    \(Quot(K)\) --- поле
+    \(\operatorname{Quot}(K)\) --- поле
 \end{theorem}
 \begin{proof}
     Проверим корректность операций. Пусть \((a,b) \sim (a',b')\) и \((c,d) \sim (c',d')\), т.е. \(ab' = a'b\) и \(cd' = c'd\). Тогда
@@ -771,7 +771,7 @@
     \]
     Оба выражения совпадают после раскрытия скобок и использования коммутативности. Более формально, можно показать, что разность числителей при одинаковом знаменателе \(bdf\) равна нулю с точностью до ассоциированности, но проще сослаться на то, что все вычисления проводятся в кольце \(K\) и результат не зависит от выбора представителей.
 
-    Таким образом, \(Quot(K)\) удовлетворяет всем аксиомам поля.
+    Таким образом, \(\operatorname{Quot}(K)\) удовлетворяет всем аксиомам поля.
 \end{proof}
 
 
@@ -874,3 +874,142 @@
 
     Оба условия выполнены, следовательно, \(K[x]\) факториально.
 \end{proof}
+
+\lecture{6}
+
+\section{Поля}
+
+\begin{definition}
+    \(\mathbb{F}\) называется полем, если \(\mathbb{F}\) --- коммутативное кольцо и \(\mathbb{F}^* = \mathbb{F} \setminus \{0\}\)
+\end{definition}
+
+\begin{definition}
+    \(\operatorname{char} \mathbb{F} = \left\{\begin{array}{l}
+        \min \{n : \underbrace{1 + \dots + 1}_{n} = 0\} \\
+        0,\text{ если таких нет}
+    \end{array}\right.\)
+\end{definition}
+
+\begin{note}
+    \(\operatorname{char} \mathbb{F} = 0\) или \(p\), причем
+    \begin{enumerate}
+        \item  \(\operatorname{char} \mathbb{F} = 0 \Ra \Q \subset \mathbb{F}\)
+        \item \(\operatorname{char} \mathbb{F} = p \Ra \Z_p \subset \mathbb{F}\)
+    \end{enumerate}
+\end{note}
+
+\begin{note}
+    Если \(\phi: K \ra L, \phi ne 0\) --- гомоморфизм, то \(\operatorname{char} K = \operatorname{char} L, \phi\) --- вложение
+\end{note}
+\begin{proof}
+    \(\ker \phi\) --- идеал в \(F \Ra \) т.к. в \(F\) все идеалы тривиальный и \(\phi \ne 0 \Ra \ker \phi = \{0\}\).
+\end{proof}
+
+\subsection{Расширения полей}
+К этому вопросу можно подходить с разных сторон. Глобально мы по полю \(F\) хотим получить новое поле \(K\), такое, то \(F \subset K\). Например, можно рассмотреть 
+
+\begin{definition}
+    Пусть \(F\) --- поле. Тогда \(F(x) = \operatorname{Quot}(F[x]) = \left\{\frac{f(x)}{g(x)}, f, g \in F[x]\right\}\)
+\end{definition}
+
+\begin{note}
+    Пусть \(F\) --- поле, \(f(x)\) --- неприводимый. Тогда имеет смысл рассмотреть \(F[x]/(f(x))\)
+\end{note}
+
+Если \(F \subset K\), то имеет смысл также рассмотреть:
+\[F(\alpha) = \left\{\frac{f(\alpha)}{g(\alpha)}, f, g \in F[x], g(\alpha) \ne 0\right\}\]
+
+Или, для нескольких переменных:
+\[F(\alpha_1, \dots, \alpha_n) = \left\{\frac{f(\alpha_1, \dots, \alpha_n)}{g(\alpha_1, \dots, \alpha_n)}, f, g \in F[x_1, \dots x_n], g(\alpha_1, \dots, \alpha_n) \ne 0\right\}\]
+
+\subsection{Неприводимость многочленов}
+Зафиксируем некоторое поле \(F\)
+\begin{note}
+    \begin{enumerate}
+        \item \(\deg f = 1 \Ra f\) неприводим
+        \item \(\deg f = 2, 3 \Ra f\) неприводим тогда и только тогда, когда у него нет корней.
+    \end{enumerate}
+\end{note}
+
+\begin{proposition}[Признак Эйзенштейна для поля \(\Q\)]
+    Пусть \(f(x) \in \Z[x], f = a_nx^n + \dots + a_1x + a_0, p\) --- простое, такое что \(a_n \not\vdots p, a_{n - 1}, \dots a_0 \vdots p, \) и \(a_0 \not\vdots p^2\). Тогда \(f(x)\) неприводим над \(\Q\).
+\end{proposition}
+
+\begin{proposition}[Признак Эйзенштейна в общем случае]
+    Пусть \(K\) --- область целостности, \(f(x) = a_nx^n + \dots + a_1x + a_0, I\) --- простой идеал, такой, что \(a_n \notin I, a_{n - 1}, \dots a_0 \in I, a_0 \notin I^2 \Ra f(x)\) неприводим над \(\operatorname{Quot}(K)[x]\).
+\end{proposition}
+\begin{proof}
+    Предположим противное. Обозначим через \(\overline{a}\) --- образ \(a\) в \(K/I\). Пусть \(f(x) = g(x)h(x)\). Заметим, что тогда \(\deg \overline{g} = \deg g, \deg \overline{h} = \deg h\). Рассмотрим многочлен \(f\) в \(K/I: \overline{a_n}x^n = \overline{g}(x)\overline{h}(x)= \overline{b_k}x^k\overline{c_{n - k}}x^{n - k}\). Т.к. \(k \ne 0, n \Ra \overline{b_0}, \overline{c_0} = 0 \Ra b_0, c_0 \in I \Ra a_0 = b_0c_0 \in I^2\), получили противоречие. Таким образом, \(f(x)\) неприводим.
+\end{proof}
+
+\begin{example}
+    \(x^n - px - p\) неприводим над \(\Q\)
+\end{example}
+\begin{example}
+    \(x^{p - 1} + \dots + 1\) неприводим над \(\Q\)
+\end{example}
+\begin{proof}
+    \(x^{p - 1} + \dots + 1 = \frac{x^p - 1}{x - 1} = \frac{(t + 1)^p - 1}{t} = t^{p - 1} + C_p^1t^{p - 2} + \dots + C_p^{p - 1}\). Тогда по признаку Эйзенштейна, полученнйы многочлен не раскладывается, но тогда и исходный не раскладывался.
+\end{proof}
+
+\begin{proposition}
+    Если \(f(x) \in \Z[x], f(x) = a_nx^n + \dots + a_1x + a_0, a_n \not\vdots p\) и \(f\) неприводим в \(\Z/p\Z\), то \(f\) неприводим в \(\Q\).
+\end{proposition}
+\begin{proof}
+    Пусть \(f(x) = g(x)h(x), g, h \in \Z[x]\). Тогда \(\overline{f}(x) = \overline{g}(x)\overline{h}(x)\) в \(\Z/(p)[x]\), причем степени многочленов сохранились. Тогда у какого то из многочленов \(\overline{g}, \overline{h}\) степень должна быть равна 0, т.к. \(\overline{f}\) неприводим над \(\Z/(p)\). Тогда и степень одного из \(g, h\) равна 0.
+\end{proof}
+
+\begin{example}
+    Рассмотрим \(x^4 + x + 1\). У него нет корней. Тогда если он приводим, то он раскладывается в произведение многочленов степени 2. Такой в \(\Z_2[x]\) один --- \(x^2 + x + 1\). Но т.к. \(x^4 + x + 1 \ne (x^2 + x + 1)^2\), то он неприводим над \(\Z_2[x]\). Тогда он неприводим над \(\Q\).
+\end{example}
+
+\begin{problem}[Сложная задача]
+    Существует многочлен, который неприводим над \(\Q\), его старший коэффициент равен 1 и он приводим над любым \(\Z/p\Z\), где \(p\) --- простое.
+\end{problem}
+
+\begin{definition}
+    Пусть \(F \subset K\) --- поля. Положим степень расширения \([K:F] = \dim K\), где размерность берется в смысле пространства над \(F\)
+\end{definition}
+
+\begin{example}
+    \item \([F(x):F] = \infty\), т.к. элементы \(1, x, x^2, \dots\) линейно независимы
+\end{example}
+
+\begin{example}
+    \item \([F[x]/(f(x)):F] = \deg f\)
+\end{example}
+\begin{proof}
+    Заметим, что \(\overline{1}, \overline{x}, \dots \overline{x}^{n - 1}\) --- линейно независимы над \(F\). Действительно, если они зависимы, то: \(\lambda_0\overline{1} + \lambda_1\overline{x} + \dots + \lambda_{n - 1}\overline{x}^{n - 1} \Ra g(x) = \lambda_0 + \lambda_1x + \dots + \lambda_{n - 1}x^{n - 1}\) --- такой многочлен, что \(g \vdots f\). При этом, \(\deg g < \deg f \Ra g = 0 \Ra \lambda_i = 0\). Кроме того, любой остаток по модулю многочлена \(f\) является многочленом степени \(\le n - 1 \Ra \overline{1}, \overline{x}, \dots \overline{x}^{n - 1}\) образуют базис (т.к. через них можно выразить любой остаток и они линейно независимы).
+\end{proof}
+
+\begin{definition}
+    Пусть \(F \subset K, \alpha \in K\). Будем называть \(\alpha\) алгебраическим над \(F\), если \([F(\alpha):F] < \infty\) и трансцендентным иначе.
+\end{definition}
+
+\begin{note}
+    Пусть \(\alpha\) --- алгебраическое над \(F \Ra [F(\alpha):F] = N < \infty\). Тогда \(1, \alpha, \dots \alpha^N\) --- линейно зависимы над \(F \Ra \exists a_0, \dots a_n \in F: a_0 + a_1\alpha + \dots + a_N\alpha^N = 0 \Ra \exists f(x) = a_0 + a_1x + \dots + a_Nx^N \in F[x]: f(\alpha) = 0\).
+\end{note}
+
+\begin{theorem}
+    Пусть \(F \subset K, \alpha \in K, \alpha\) --- корень \(0 \ne f(x) \in F[x]\). Тогда:
+    \begin{enumerate}
+        \item Для приведенного (то есть у которого старший коэффициент равен 1) многочлена \(m_{\alpha, F}(x)\) следующие условия эквивалентны:
+        \begin{itemize}
+            \item \(m_{\alpha, F}(x)\) --- неприводим, \(m_{\alpha, F} = 0\)
+            \item \(m_{\alpha, F}(x)\) --- многочлен минимальной степени, такой что \(m_{\alpha, F} = 0\)
+            \item \((m_{\alpha, F}(x)) = \{f(x) \in F[x]: f(\alpha) = 0\}\)
+        \end{itemize}
+        Такой многочлен называется минимальным
+        \item \(F(\alpha) \cong F[\alpha] \cong F[x]/(m_{\alpha, F}(x))\), причем \([F(\alpha):F] = \deg m_{\alpha, F}(x)\)
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    Рассмотрим \(I = \{g(x) \in F[x]: g(\alpha) = 0\}\). \(I\) непусто из условия. Проверим, что \(I\) --- идеал. \(g, h \in I \Ra (g + h)(\alpha) = 0 + 0 = 0\). Кроме того, если \(f \in F[x], g \in I\), то \((fg)(\alpha) = f(\alpha) \cdot 0 = 0\). Таким образом, \(I\) --- идеал. Т.к. \(F[x]\) --- кольцо многочленов над полем, то оно евклидово, следовательно, КГИ. Тогда \(I = (m_{\alpha, F})\). Также, Если \(gh \in I \Ra g(\alpha)h(\alpha) = 0 \Ra g(\alpha) = 0\) или \(h(\alpha) = 0\). Таким образом мы доказали \((3) \Ra (1), (2)\).
+    
+    Следствие \((2) \Ra (1)\) тривиально: если \(m_{\alpha, F}\) приводим, то тогда \(m_{\alpha, F} = gh\), причем Б.О.О \(g(\alpha) = 0\). Но тогда получили противоречие с минимальностью степени \(m_{\alpha, F}\)
+
+    Докажем \((1) \Ra (3)\). Пусть \(g\) неприводим, \(g(\alpha) = 0\). Но тогда \(g \vdots m_{\alpha, F}\) (т.к. мы определили \(m_{\alpha, F}\) как порождающий \(I\)). Но тогда \(g \vdots m_{\alpha, F} \Ra g \sim m_{\alpha, F} \Ra I = (g)\).
+
+    Докажем второй пункт. Рассмотрим \(\phi: F[x] \ra F[\alpha]: \phi(f) = f(\alpha)\). \(\ker \phi = I\), \(\phi\) --- сюрьективно, поэтому \(F[\alpha] \cong F[x]/I = F[x]/(m_{\alpha, F})\). Тогда \(F[\alpha]\) --- поле и тогда \(F[\alpha] \cong F(\alpha)\).
+\end{proof}
+
