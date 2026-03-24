@@ -1065,7 +1065,7 @@
 
 \section{Условное распределение}
 \begin{definition}
-    Пусть \(\xi\) --- случайная величина, \(\eta\) --- случайный вектор из \(\R^m\) на \((\Omega, \mathcal{F}, P)\). Условным распределенеим \(\xi\) относительно \(\eta\) называется \(P(B, y), B \in \mathcal{B}(\R^m), y \in \R^m\), такая, что:
+    Пусть \(\xi\) --- случайная величина, \(\eta\) --- случайный вектор из \(\R^m\) на \((\Omega, \mathcal{F}, P)\). Условным распределенеим \(\xi\) относительно \(\eta\) называется \(P(B, y), B \in \mathcal{B}(\R), y \in \R^m\), такая, что:
     \begin{enumerate}
         \item \(\forall B \in \mathcal{B}(\R^m)\) функция \(P(B, \cdot)\) --- борелевская
         \item \(\forall y \in \R^m \) функция \(P(\cdot, y)\) является вероятностной мерой на \((\R, \mathcal{B}(\R))\).
@@ -1129,3 +1129,166 @@
     При наличии условной плотности:
     \[\E(g(\xi)|\eta = y) = \int_\R g(x) f_{\xi|\eta}(x|y)\mu(dx)\]
 \end{corollary}
+
+\lecture{8}
+
+\begin{theorem}[Достаточное условие существования условной плотности]
+    Пусть случайный вектор \((\xi, \eta)\) имеет совместную плотность \(p_{\xi, \eta}(x, y)\) по мере \(\lambda \times \mu\). Обозначим
+    \[p_{\eta}(y) = \int_\R p_{\xi, \eta}(x, y) \lambda(dx)\]
+    Тогда функция 
+    \[p_{\xi|\eta} = \left\{\begin{array}{l}
+        \frac{p_{\xi, \eta}(x, y)}{p_\eta(y)}, p_\eta(y) > 0 \\
+        g(x), \text{ иначе}
+    \end{array}\right.\]
+    Является условной плотностью \(\xi\) относительно \(\eta\) по мере \(\lambda\) (здесь \(g(x)\) --- произвольная фиксированная плотность по \(\lambda\))
+\end{theorem}
+\begin{proof}
+    Надо проверить, что 
+    \[P(B, y) = \int_B p_{\xi|\eta}(x|y)\lambda(dx)\]
+    Является условным распределением \(\xi\) относительно \(\eta\). Измеримость по \(y\) обеспечивается свойствами интеграла (теорема Фубини). Свойство меры по \(B\) обеспечивается тем фактом, что \(p_{\xi|\eta} \ge 0\) и интегрируется в 1 по \(\R\). Получаем, что это всегда плотность. Проверим последнее свойство:
+    \[P(\xi \in B, \eta \in A) =\]
+    Из совместной плотности получаем:
+    \[ = \iint_{B \times A} p_{\xi, \eta}(x, y)\lambda(dx)\mu(dy) = \]
+    Применяя теорему Фубини, получем:
+    \[\int_A\left( \int_B p_{\xi, \eta}(x, y) \lambda(dx) \right) \mu(dy) = \int_A\left( \int_B p_{\xi|\eta}(x|y) \lambda(dx) \right) p_{\eta}(y)\mu(dy) = \int_A P(B, y)P_{\eta}(dy)\]
+\end{proof}
+
+\begin{note}[Схема подсчета условного матожидания]
+    Пусть мы хотим посчитать \(\E(f(\xi)|\eta)\). Если есть совметная плотность \(p_{\xi, \eta}(x, y)\), то находим условную плотность \(p_{\xi|\eta}(x|y)\). После этого, вычисляем:
+    \[\E(f(\xi)|\eta) = \int_\R f(x) p_{\xi|\eta}(x|y)dx\]
+    После этого находим \(\phi(y)\). Ответом будет \(\phi(\eta) = \E(f(\xi)|\eta) = \E(f(\xi)|\mathcal{F}_\eta)\)
+\end{note}
+
+\begin{problem}
+    Пусть \(X, Y \sim Exp(1)\) --- независимые. Требуется найти \(\E(X^2|X + Y)\)
+\end{problem}
+\begin{solution}
+    Найдем совместную плотность \((X, X + Y)\):
+    \[P((X, X + Y) \in B) = \iint_{(x, y): (x, x + y) \in B} p_X(x)p_Y(y)dxdy = \]
+    \[\left\{\begin{array}{cc}
+        \alpha = x & x = \alpha \\
+        \beta = x + y & y = \beta - \alpha
+    \end{array}, |J| = \left| \begin{array}{cc}
+        1 & 0 \\
+        =1 & 1
+    \end{array} \right| = 1\right\} = \]
+    \[= \iint_{B} \underbrace{e^{-\beta}I\{0 < \alpha < \beta\}}_{p_{X, X + Y}(\alpha, \beta)}d\alpha d\beta\]
+    Получаем, что:
+    \[p_{X + Y}(\beta) = \int_\R e^{-\beta}I\{0 < \alpha < \beta\} d\alpha = e^{-\beta} \int_0^\beta d\alpha = \beta e^{-\beta} I\{\beta > 0\}\]
+    Тогда:
+    \[p_{X|X + Y}(\alpha|\beta) = \frac{1}{\beta}I\{0 < \alpha < \beta\}\]
+    И заключаем:
+    \[\E(X^2 | X + Y = \beta) = \int_0^\beta \frac{\alpha^2}{\beta} d\alpha = \frac{\beta^2}{3}\]
+    Получаем, что \(\E(X^2 | X + Y) = \frac{(X + Y)^2}{3}\)
+\end{solution}
+
+\begin{lemma}
+    Пусть \(X, Y\) --- независимые случайные величины. Тогда 
+    \[\E(f(X, Y)|Y = y) = \E f(X, y)\]
+\end{lemma}
+\begin{proof}
+    Проверим интегральное свойство:
+    \[\E(f(X, Y) \cdot I \{Y \in B\}) = \]
+    Сделаем замену 
+    \[= \iint_{\R^2} f(x, y)I\{y \in B\}P_X(dx) P_Y(dy) = \int_\R \left( \int_\R f(x, y) P_X(dx) \right) P_Y(dy) = \int_B \E f(X, y) P_Y(dy)\]
+\end{proof}
+
+\begin{problem}
+    Пусть \(X, Y\) --- независимые случайные величины, \(X \sim Exp(2), Y \sim U(0, 1)\). Требуется найти \(\E(e^{XY}|Y)\).
+\end{problem}
+\begin{solution}
+    Воспользуемся предыдущей леммой:
+    \[\E(e^{XY} | Y = y) = \E e^{Xy} = \int_0^{+\infty} 2^{xy - 2x} dx = 
+    \frac{2}{2 - y} \Ra \E(e^{XY} | Y) = \frac{2}{2 - Y}\]
+\end{solution}
+
+\section{Сходимости случайных величин}
+Пусть \(\{\xi_n, n \in \N\}\) --- случайные велиичны на \((\Omega, \mathcal{F}, P)\). Последовательность \(\xi_n\) сходится к \(\xi\)
+\begin{definition}
+    \textit{С вероятностью 1 (почти наверное)}, если \(P(\lim_{n \ra \infty} \xi_n = \xi) = 1\)
+    Обозначения: \(\xi_n \xrightarrow{\text{п.н.}} \xi, \xi_n \ra \xi\) п.н., \(\xi_n \ra \xi\) \(p\)-п.н.
+\end{definition}
+
+\begin{definition}
+    \textit{По вероятности}, если \(\forall \epsilon > 0 P(|\xi_n - \xi| > \epsilon) \ra 0, n \ra \infty\)
+    Обозначение: \(\xi_n \xrightarrow{P} \xi\)
+\end{definition}
+
+\begin{definition}
+    \textit{В среднем порядка \(p\)}, если \(\E|\xi_n - \xi|^p \ra 0, n \ra \infty\)
+    Обозначение: \(\xi_n \xrightarrow{L^p} \xi\)
+\end{definition}
+
+\begin{definition}
+    \textit{По распределению}, если \(\forall f: \R \ra \R\) --- ограниченной непрерывной функции \(\E f(\xi_n) \ra \E f(\xi), n \ra \infty\)
+    Обозначение: \(\xi_n \xrightarrow{d} \xi\)
+\end{definition}
+
+\begin{theorem}[Критерий сходимости почти наверное]
+    \(\xi_n \xrightarrow{\text{п.н.}} \xi \Lra \forall \epsilon > 0: P\left( \sup_{k \ge n} |\xi_n - \xi| > \epsilon \right) \ra 0, n \ra \infty\)
+\end{theorem}
+\begin{proof}
+    Было на ОВиТМе
+\end{proof}
+
+\begin{corollary}
+    Если для \(\forall \epsilon > 0\) сходится ряд \(\sum_{n = 1}^\infty P(|\xi_n - \xi| \ge \epsilon)\), то \(\xi_n \xrightarrow{\text{п.н.}} \xi\).
+\end{corollary}
+\begin{proof}
+    \[P\left( \sup_{k \ge n} |\xi_n - \xi| > \epsilon \right) = P\left( \bigcup_{k = n}^\infty \{|\xi_n - \xi| > \epsilon\} \right) \le \sum_{k = n}^\infty P(|\xi_n - \xi| > \epsilon) \ra 0\]
+    Последний предел равен 0, как остаток сходящегося ряда.
+\end{proof}
+
+\begin{corollary}
+    Если \(\xi_n \xrightarrow{P} \xi\), то \(\exists\) подпоследовательность \(\{\xi_{n_k}, k \in \N\}\), такая, что \(\xi_n \xrightarrow{\text{п.н.}} \xi\)
+\end{corollary}
+\begin{proof}
+    Пусть \(n_1 = 1\). Если \(n_1, \dots n_{k - 1}\) выбраны, то возьмем \(n_k\) так, что \(n_k > n_{k - 1}\) и 
+    \[P\left( |\xi_n - \xi| \ge \frac{1}{k} \right) \le \frac{1}{2^k}\]
+    Если \(\epsilon > 0\) дано, то возьмем \(k_0\) такое, что \(\epsilon > \frac{1}{k_0}\) и 
+    \[\sum_{k = k_0}^\infty P(|\xi_n - \xi| \ge \epsilon) \le \sum_{k = k_0}^\infty P\left(|\xi_n - \xi| \ge \frac{1}{k}\right) < +\infty\]
+\end{proof}
+
+\begin{theorem}[О взаимодействии видов сходимости]
+    \begin{enumerate}
+        \item \(\xi_n \xrightarrow{\text{п.н.}} \xi \Ra \xi_n \xrightarrow{P} \xi\)
+        \item \(\xi_n \xrightarrow{L^p} \xi \Ra \xi_n \xrightarrow{P} \xi\)
+        \item \(\xi_n \xrightarrow{P} \xi \Ra \xi_n \xrightarrow{d} \xi\)
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    \begin{enumerate}
+        \item \(P(|\xi_n - \xi| \ge \epsilon) \le P\left(\sup_{k \ge n} |\xi_k - \xi| > \frac{\epsilon}{2}\right) \ra 0, n \ra +\infty\) по критерию сходимости почти наверное.
+        \item \(P(|\xi_n - \xi| \ge \epsilon) = P(|\xi_n - \xi|^p \ge \epsilon^p) = (*)\). По неравенству Маркова, получаем \((*) \le \frac{\E|\xi_n - \xi|^p}{\xi^p} \ra 0, n \ra \infty\).
+        \item Пусть \(f: \R \ra \R\) --- ограниченная непрерывная функция. Пусть \(\forall x \in \R: |f(x)| \le M\). Для любого \(\epsilon > 0\) выберем \(N > 0\) так, что \(P(|\xi| > N) \le \frac{\epsilon}{4M}\). Выберем \(\delta > 0\), так, что \(\forall x, y\) с условием \(|x - y| \le \delta, |x| \le N\) выполнено \(|f(x) - f(y) \le \frac{\epsilon}{2}|\). Далее:
+        \[|\E f(\xi_n) - \E f(\xi)| \le \E |f(\xi_n) - f(\xi)| = \E(|f(\xi_n) - f(\xi)|(I_{A_1} + I_{A_2} + I_{A_3}))\]
+        Где \(A_1 = \{|\xi| > N\}, A_2 = \{|\xi| \le N, |\xi_n - \xi| > \delta\}, A_3 = \{|\xi| \le N, |\xi_n - \xi| < \delta\}\). Тогда:
+        \[\E |f(\xi_n) - f(\xi)| = \E(|f(\xi_n) - f(\xi)|I_{A_1}) \le 2M P(A_1) \le 2M \frac{\epsilon}{4M} = \frac{\epsilon}{2}\]
+        \[\E |f(\xi_n) - f(\xi)| = \E(|f(\xi_n) - f(\xi)|I_{A_2}) \le 2M P(A_2) \le 2M P(|\xi_n - \xi|) \ra 0, n \Ra \infty\]
+        Последнее верно в силу того, что \(\xi_n \xrightarrow{P} \xi\). Наконец:
+        \[\E |f(\xi_n) - f(\xi)| = \E(\underbrace{|f(\xi_n) - f(\xi)|}_{\frac{\epsilon}{2}}\underbrace{I_{A_3}}_{\le 1})\]
+        Получили, что \(\E f(\xi_n) \ra \E f(\xi)\)
+    \end{enumerate}
+\end{proof}
+
+\begin{theorem}[Закон больших чисел в форме Чебышева]
+    Пусть \(\{\xi_n, n \in \N\}\) --- попарно некоррелированные случайные величины, такие, что \(\exists c: \forall n \Variance \xi_n \le c\). Положим \(S_n = \xi_1 + \dots + \xi_n\). Тогда \(\forall \delta > 0\):
+    \[\frac{S_n - \E S_n}{n^{\frac{1}{2} + \delta}} \xrightarrow{P} 0, n \ra \infty\]
+\end{theorem}
+\begin{proof}
+    Для \(\epsilon > 0\):
+    \[P\left( \left| \frac{S_n - \E S_n}{n} \right| \ge \epsilon\right) = (*)\]
+    Применим неравенство Чебышева, получаем:
+    \[(*) \le \frac{\Variance S_n}{\epsilon^2 n^{1 + 2\delta}} =\]
+    Из некоррелированности получаем:
+    \[= \frac{\sum_{k = 1}^n \Variance \xi_k}{\epsilon^2 n^{1 + 2\delta}} \le \frac{n c}{\epsilon^2 n^{1 + 2\delta}} = O\left( \frac{1}{n^{2\delta}} \right) \ra 0, n \ra \infty\]
+\end{proof}
+
+\begin{note}
+    Закон больших чисел обосновывает принцип устойчивости частот: при большом числе испытаний среднее арифметическое наблюдаемых значений (например, частота события) сходится к математическому ожиданию. Это означает, что случайные отклонения в среднем гасятся, и результат становится предсказуемым.
+\end{note}
+
+\begin{theorem}[Усиленный закон больших чисел для некоррелированых случайнх величин]
+    Пусть \(\{\xi_n, n \in \N\}\) --- попарно некоррелированные случайные величины, такие, что \(\exists c: \forall n \Variance \xi_n \le c\). Положим \(S_n = \xi_1 + \dots + \xi_n\). Тогда \(\forall \delta > 0\):
+    \[\frac{S_n - \E S_n}{n} \xrightarrow{\text{п.н.}} 0, n \ra \infty\]
+\end{theorem}
