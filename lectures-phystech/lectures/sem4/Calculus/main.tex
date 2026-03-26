@@ -781,3 +781,137 @@
     Предположим, что \(c_m \ne \widehat{x}_m\) для некоторого \(m\), тогда из \((*)\):
     \[\left\| x - \sum_{k = 1}^n c_ke_k \right\| \ge \sum_{k = 1}^\infty |\widehat{x}_k - c_k|^2\|e_k\|^2 \ge |\widehat{x}_m - c_m|^2\|e_m\|^2\]
 \end{proof}
+
+\lecture{8}
+
+\begin{example}
+    Рассмотрим пространство \(l_2(\N) = \bigg\{x \{x_n\}_{n = 1}^\infty: \sum_{n = 1}^\infty |x_n|^2 < +\infty\bigg\}, (x, y) = \sum_{n = 1}^\infty x_n \overline{y_n}\), скалярное произведение определено, т.к. \(|x_n\overline{y_n}| \le \frac{1}{2\left( |x_n|^2 + |y_n|^2 \right)}\). Если рассмотреть ортогональную систему \(\{e_k\}_{k = 1}^\infty, e_k = (\underbrace{0, 0, \dots 0}_{k}, 1, 0, 0, \dots)\), то \(\hat{x_k} = x_k\). Аналогично можно рассмотреть \(l_2(\Z)\) --- бесконечные в обе стороны числовые последовательности
+\end{example}
+
+\begin{example}
+    Рассмотрим \(L_2(T)\), где \((f, g) = \int_{-\pi}^\pi f\overline{g} dx\), скалярное произведение определено, т.к. \(|f\overline{g}| \le \frac{1}{2}\left( |f|^2 + |g|^2 \right)\). Рассмотрим тригонометрическую систему \(\left\{ \frac{1}{2}, \cos kx, \sin kx \right\}_{k = 1}^\infty\) и \(\{e^{inx}\}_{n = 0}^\infty\). Данные системы ортогональны. Действительно:
+    \[\int_{-\pi}^{\pi} e^{inx}\overline{e^{ikx}} dx = \int_{-\pi}^\pi e^{i(n - k)x} dx = \left\{\begin{array}{l}
+        0, k \ne n \\
+        2\pi, k = n
+    \end{array}\right.\]
+    Аналогично проверяется ортогональность \(\left\{ \frac{1}{2}, \cos kx, \sin kx \right\}_{k = 1}^\infty\), при этом \(\left( \frac{1}{2}, \frac{1}{2} \right) = \frac{\pi}{2}, (\cos kx, \cos kx) = (\sin kx, \sin kx) = \pi\). Получаем, что для \(f \in L_2(T)\) коэффициенты Фурье считаются по формулам:
+    \[a_k = \frac{1}{\pi}\int_{-\pi}^\pi f(x)\cos kx dx, b_k = \frac{1}{\pi}\int_{-\pi}^\pi f(x)\sin kx dx, \]
+    \[c_k = \frac{1}{\pi}\int_{-\pi}^\pi f(x)e^{ikx} dx\]
+    Таким образом, \(f \sim \frac{a_0}{2} + \sum_{k = 1}^\infty a_k\cos kx + b_k\sin kx = \sum_{k = -\infty}^\infty c_ke^{ikx}\)
+\end{example}
+
+\begin{theorem}
+    Пусть \(\{e_k\}_{k = 1}^\infty\) --- ортогональная система и \(x \in V\). Тогда следующие условия эквивалентны:
+    \begin{enumerate}
+        \item \(\forall \epsilon > 0 \exists c_1, \dots c_n: \left\|x - \sum_{k = 1}^n c_ke_k\right\| < \epsilon\)
+        \item \(x = \sum_{k = 1}^\infty \hat{x_k}e_k\)
+        \item \(\|x\|^2 = \sum_{k = 1}^\infty |x_k|^2 \|e_k\|^2\) --- выполнено равенство Парсеваля
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    \begin{enumerate}
+        \item[\((1) \Ra (2)\)] Пусть \(\epsilon > 0\). По свойству минимальности коэффициентов Фурье \(\exists N: \left\| x - \sum_{k = 1}^N \hat{x_k}e_k \right\| < \epsilon\). Снова в силу минимальности \(\forall n \ge N\):
+        \[\left\| x - \sum_{k = 1}^n \hat{x_k}e_k \right\| \le \left\| x - \sum_{k = 1}^N \hat{x_k}e_k \right\| < \epsilon\]
+        Это доказывает \(x = \sum_{k = 1}^\infty \hat{x_k}e_k\)
+        \item[\((2) \Ra (1)\)] очевидно
+        \item[\((2) \Lra (3)\)] Следует из тождетва Бесселя:
+        \[\left\| x - \sum_{k = 1}^n \widehat{x}_ke_k \right\|^2 = \|x\|^2 - \sum_{k = 1}^n |\widehat{x}_k|^2 \|e_k\|^2 \]
+    \end{enumerate}
+\end{proof}
+
+\begin{definition}
+    Ортогональная система \(\{e_k\}_{k = 1}^\infty\) называется базисом, если \(\forall x \in V: x = \sum_{k = 1}^\infty \hat{x_k}e_k\)
+\end{definition}
+
+\begin{corollary}
+    Пусть \(\{e_k\}_{k = 1}^\infty\) --- ортогональная система. Тогда следующие условия эквивалентны:
+    \begin{enumerate}
+        \item \(\{e_k\}_{k = 1}^\infty\) --- полна
+        \item \(\{e_k\}_{k = 1}^\infty\) --- базис
+        \item \item \(\|x\|^2 = \sum_{k = 1}^\infty |x_k|^2 \|e_k\|^2\) --- выполнено равенство Парсеваля
+    \end{enumerate}
+\end{corollary}
+
+\begin{definition}
+    Евклидово пространство, полное относительно нормы, порожденной скалярным произведением, называется гильбертовым
+\end{definition}
+
+\begin{theorem}[Рисс-Фишер]
+    Пусть \(H\) --- гильбертово пространство, \(\{e_k\}_{k = 1}^\infty\) --- ортогональная система. Если. \(\alpha_k\) таковы, что \(\sum_{k = 1}^\infty |\alpha_k|\|e_k\|^2 < \infty\), то существует \(x \in H: x = \sum_{k = 1}^{\infty} \alpha_ke_k\)
+\end{theorem}
+\begin{proof}
+    Положим:
+    \[S_n = \sum_{k = 1}^n \alpha_k e_k, \sigma_n = \sum_{k = 1}^n |\alpha_k|^2 \|e_k\|^2 \Ra \forall n, p \in \N: S_{n + p} - S_n =  \sum_{k = n}^{n + p} \alpha_k e_k\]
+    По теореме Пифагора получаем, что
+    \[\|S_{n + p} - S_n\| = \sum_{k = n}^{n + p} |\alpha_k|^2 \|e_k\|^2 = |\sigma_{n + p} - \sigma_n|\]
+    Получаем, что \(S_n\) --- фундаментальная, но тогда у нее есть предел.
+\end{proof}
+
+\begin{definition}
+    Система \(\{e_k\}_{k = 1}^\infty\) в евклидовом пространстве \(V\) называется замкнутой, если \(\forall k \in \N: (x, e_k) = 0\), то \(x = 0\).
+\end{definition}
+
+\begin{theorem}
+    Всякая полная ортогональная система в евклидовом пространстве замкнута. Если пространство гильбертово, то всякая замкнутая система полна.
+\end{theorem}
+\begin{proof}
+    Пусть \(\{e_k\}_{k = 1}^\infty\) --- ортогональная система и \(x \in H\). Тогда по следствию из теоремы, получаем:
+    \[x = \sum_{k = 1}^\infty \hat{x_k}e_k\]
+    Если \((x, e_k) = 0 \forall k \Ra \hat{x_k} = 0 \forall k \Ra x = 0\). Пусть теперь \(\{e_k\}_{k = 1}^\infty\) --- ортогональная замкнутая система в гильбертовом пространстве. Докажем, что она полна. Заметим, что достаточно проверить, что \(\{e_k\}_{k = 1}^\infty\) --- базис. Пусть \(x \in H\). По неравенству Бесселя:
+    \[\sum_{k = 1}^\infty |\hat{x_k}|^2\|e_k\|^2 < \infty \Ra \exists y \in H: y = \sum_{k = 1}^\infty \hat{x_k}e_k\]
+    По следствию из предыдущей теоремы, получаем \(\hat{x_k} = \hat{y_k} \forall k \Ra \widehat{(y_k - x_k)} = 0 \forall k\), т.е. \(\forall k (y - x, e_k) = 0 \Ra\) из замкнутости \(y - x = \vec{0}\), т.е \(x = \sum_{k = 1}^\infty \hat{x_k}e_k\)
+\end{proof}
+
+\subsection{\(L_2\)-теория рядов Фурье}
+\(L_2\) --- гильбертово пространство, а системы \(\left\{ \frac{1}{2}, \sin kx, \cos kx \right\}_{k = 1}^\infty, \{e^{ikx}\}_{k \in \Z}\) являются ортогональными базисами, причем 
+\[f = \frac{a_0}{2} + \sum_{k = 1}^\infty a_k\cos kx + b_k\sin kx = \sum_{k = -\infty}^\infty c_ke^{ikx}\]
+
+Равенство выполняется в смысле нормы \(L_2\): частичные суммы сходятся по норме. Запишем равенство Парсеваля:
+\[\|f\|_2^2 = |a_0|^2\left( \frac{1}{2}, \frac{1}{2} \right) + \sum_{k = 1}^\infty |a_k|^2 (\cos kx, \cos kx) + |b_k|^2 (\sin kx, \sin kx) = \sum_{k = -\infty}^\infty c_k \left( e^{ikx}, e^{ikx} \right)\]
+\[\frac{1}{\pi}\|f\|^2 = \frac{|a_0|^2}{2} + \sum_{k = 1}^\infty |a_k|^2 + |b_k|^2 = 2\sum_{k = -\infty}^\infty |c_k|^2\]
+
+\begin{corollary}
+    Если \(f, g \in L_2(T), c_k(f) = c_k(g)\), то \(f = g\) почти всюду
+\end{corollary}
+
+\begin{theorem}
+    Пусть \(f \in C(T)\) и \(f'\) кусочно непрерывна. Тогда ряд Фурье \(S(f, x)\) сходится к функции \(f\) равномерно на \(\R\), причем \(\|S_n(f) - f\|_\infty \le \frac{1}{\sqrt{\pi n}}\|f'\|_2\)
+\end{theorem}
+\begin{proof}
+    По следствию из признака Дини, \(f(x) = \sum_{k = -\infty}^\infty c_k(f)e^{ikx}\) и по теореме о дифференцировании рядя Фурье \(c_k(f') = ik c_k(f) \forall k \in \Z\). Тогда \(\forall x \in \R\) имеем:
+    \[|S_n(f, x) - f(x)| = \left| \sum_{|k| \ge n + 1}^\infty c_k(f)e^{ikx} \right| \le \sum_{|k| \ge n + 1}^\infty |c_k(f)| = \sum_{|k| \ge n + 1}^\infty \frac{1}{|k|}|ikc_k(f)| = \sum_{|k| \ge n + 1}^\infty \frac{1}{|k|}|c_k(f')|\]
+    Применяя КБШ, получаем:
+    \[\left( \sum_{|k| \ge n + 1} \frac{1}{k^2} \right)^{\frac{1}{2}}\left( \sum_{|k| \ge n + 1} |c_k(f')|^2 \right)^{\frac{1}{2}}\]
+    По неравеству Бесселя:
+    \[\sum_{|k| \ge n + 1} |c_k(f')| \le \frac{1}{2\pi}\|f'\|_2^2\]
+    Также:
+    \[\sum_{k = n + 1}^\infty \frac{1}{k^2} \le \sum_{k = n + 1}^\infty \int_{k - 1}^k \frac{dx}{x^2} = \int_0^\infty \frac{dx}{x^2} = \frac{1}{n}\]
+    Итак, \(\forall x \in \R\) справедлива оценка:
+    \[|S_n(f, x) - f(x)| \le \left( \frac{2}{n} \right)^{\frac{1}{2}}\left( \frac{1}{2\pi} \right)^{\frac{1}{2}}\|f'\|_2\]
+\end{proof}
+
+\begin{corollary}
+    Пусть \(f, f', \dots f^{(m - 1)} \in C(T)\), а \(f^{(m)}\) кусочно непррывна на \([-\pi, \pi]\). Тогда \(\|S_n(f, x) - f(x)\|_{\infty} \le Cn^{-m + \frac{1}{2}}\|f^{(m)}\|_2\)
+\end{corollary}
+
+\begin{problem}
+    Пусть \(P_n(x) = (x^n(1 - x)^n)^{(n)}, n = 0, 1, \dots\) --- многочлены Лежандра. Докажите, что \(\{P_n\}\) --- ортогональный базис в \(L_2(-1, 1)\).
+\end{problem}
+
+\section{Интегралы с параметром}
+Пусть \(E \subset \R^m\) измерима, \(A\) --- произвольное множество и пусть \(f: E \times A \ra \Cm\), такая, что \(\forall \alpha \in A: f(\cdot, \alpha) \in L_1(E)\). Рассмотрим функцию \(I(\alpha) = \int_E f(x, \alpha) dx, \alpha \in A\)
+
+\begin{theorem}
+    Пусть \(E \subset \R^m\) измерима, \(A\) --- промежуток в \(\R, \alpha_0 \in A, f: E \times A \ra \Cm\) такая, что 
+    \begin{enumerate}
+        \item \(f(\cdot, \alpha)\) измерима на \(E \forall \alpha \in A\)
+        \item \(f(x, \cdot)\) непрерывна в \(\alpha_0\) для почти всех \(x\)
+        \item \(\exists \phi: E \ra \R\) --- интегрируема на \(E\), что для почти всех \(x \in E \forall \alpha \in A \left( |f(x, \alpha)| \le \phi(x) \right)\)
+    \end{enumerate}
+    Тогда \(I\) непрерывна в точке \(\alpha_0\)
+\end{theorem}
+\begin{proof}
+    Из пунктов 1, 3 следует, что функция \(f(\cdot, \alpha)\) интегрируема на \(E\) для любого \(\alpha \Ra I\) определена. Возьмем \(\{\alpha_k\} \subset A, \alpha_k \ra \alpha_0\). Рассмотрим \(f_k = f(\cdot, \alpha_k), k \in \N_0\). По условию \(f_k(x) \ra f_0(x)\) и \(|f_k(x)| \le \phi\) для почти всех \(x\). Тогда по теореме Лебега о мажорируемой сходимости:
+    \[I(\alpha_k) = \int_E f_k(x)dx \ra \int_E f_0(x)dx = I(\alpha_0)\]
+    Тогда по определению предела по Гейне, получаем непрерывность функции \(I\) в точке \(\alpha_0\)
+\end{proof}
