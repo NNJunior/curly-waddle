@@ -1271,6 +1271,10 @@
     \end{enumerate}
 \end{proof}
 
+\section{Законы больших чисел}
+
+\subsection{ЗБЧ в форме Чебышева}
+
 \begin{theorem}[Закон больших чисел в форме Чебышева]
     Пусть \(\{\xi_n, n \in \N\}\) --- попарно некоррелированные случайные величины, такие, что \(\exists c: \forall n \Variance \xi_n \le c\). Положим \(S_n = \xi_1 + \dots + \xi_n\). Тогда \(\forall \delta > 0\):
     \[\frac{S_n - \E S_n}{n^{\frac{1}{2} + \delta}} \xrightarrow{P} 0, n \ra \infty\]
@@ -1289,6 +1293,111 @@
 \end{note}
 
 \begin{theorem}[Усиленный закон больших чисел для некоррелированых случайнх величин]
-    Пусть \(\{\xi_n, n \in \N\}\) --- попарно некоррелированные случайные величины, такие, что \(\exists c: \forall n \Variance \xi_n \le c\). Положим \(S_n = \xi_1 + \dots + \xi_n\). Тогда \(\forall \delta > 0\):
+    Пусть \(\{\xi_n, n \in \N\}\) --- попарно некоррелированные случайные величины, такие, что \(\exists c: \forall n \Variance \xi_n \le c\). Положим \(S_n = \xi_1 + \dots + \xi_n\). Тогда:
     \[\frac{S_n - \E S_n}{n} \xrightarrow{\text{п.н.}} 0, n \ra \infty\]
 \end{theorem}
+
+\lecture{9}
+
+\begin{proof}
+    Без ограничения общности, считаем, что \(\E\xi_n = 0\), иначе рассмотрим \(\xi_n' = \xi_n - \E\xi_n\). Проверим сначала, что \(\frac{S_{n^2}}{n^2} \xrightarrow{\text{п.н.}} 0\). Для \(\epsilon > 0\):
+    \[P\left( \left| \frac{S_{n^2}}{n^2} \right| \ge \epsilon \right) \le \]
+    Применяем неравенство Чебышева и некоррелированность:
+    \[\le \frac{\Variance S_{n^2}}{n^2} = \frac{\sum_{i = 1}^{n^2}}{\Variance \xi_i}{\epsilon^2 n^4} \le \frac{n^2 c}{\epsilon^2 n^4} = O\left( \frac{1}{n^2} \right)\]
+    Тогда 
+    \[\sum_{n} P\left( \left| \frac{S_{n^2}}{n^2} \right| \ge \epsilon \right) < +\infty\]
+    По достаточному условию получаем, что \(\frac{S_{n^2}}{n^2} \xrightarrow{\text{п.н.}} 0\). Обозначим \(m(n) = [\sqrt{n}]\). Тогда в силу доказанного:
+    \[\frac{S_{m(n)^2}}{m(n)^2} \xrightarrow{\text{п.н.}} 0\]
+    Теперь проверим, что \(\frac{S_n - S_{m(n)^2}}{m(n)^2} \xrightarrow{\text{п.н.}} 0\). Для \(\epsilon > 0\):
+    \[P\left( \left| \frac{S_n - S_{m(n)^2}}{m(n)^2} \right| \ge \epsilon \right) \le \]
+    Применяем неравенство Чебышева и некоррелированность:
+    \[\frac{\Variance(S_n - S_{m(n)^2})}{\epsilon^2 m(n)^4} = \frac{\sum_{i = m(n)^2 + 1}^n \Variance \xi_n}{\epsilon^2 m(n)^4} \le \frac{c(n - (\sqrt{n} - 1)^2)}{\epsilon^2 m(n)^4} \le \frac{2c\sqrt{n}}{\epsilon m(n)^4} = O\left( n^{-\frac{3}{2}} \right)\]
+    Тогда 
+    \[\sum_{n} P\left( \left| \frac{S_n - S_{m(n)^2}}{m(n)^2} \right| \ge \epsilon \right) < +\infty \Ra \frac{S_n - S_{m(n)^2}}{m(n)^2} \xrightarrow{\text{п.н.}} 0\]
+
+    Сложим две сходимости \(\frac{S_n - S_{m(n)^2}}{m(n)^2} \xrightarrow{\text{п.н.}} 0\) и \(\frac{S_{m(n)^2}}{m(n)^2} \xrightarrow{\text{п.н.}} 0\). И получим, что \(\frac{S_{n}}{m(n)^2} \xrightarrow{\text{п.н.}} 0\), но \(m(n)^2 \sim n \Ra\) получили желаемое.
+\end{proof}
+
+\begin{corollary}
+    Получили, что если в условиях УЗБЧ: \(\E \xi_n = a \forall n \in \N\), то \(\frac{S_n}{n} \ra a\)
+\end{corollary}
+
+\begin{note}
+    По сути, УЗБЧ теоретически обосновывает принцип устойчивости частот. Пусть \(\xi_n = I\{A\) произошло в \(n\)-ом эксперименте \(\}\). Тогда по УЗБЧ:
+    \[\frac{\xi_1 + \dots + \xi_n}{n} \ra \E\xi_1 = P(A)\]
+\end{note}
+
+\subsection{ЗБЧ в форме Этемади}
+
+\begin{definition}
+    Пусть \(\{A_n, n \in \N\}\) --- последовательность событий. События \(\{A_n, \text{б.ч.}\}\) называется событие, элеменатрные исходы которого встречаются бесконечно много раз в последовательности \(\{A_n\}\). Формально:
+    \[\{A_n, \text{б.ч.}\} = \bigcap_{n = 1}^\infty \bigcup_{m \ge n} A_m\]
+\end{definition}
+
+\begin{lemma}[Борель-Кантелли]
+    \begin{enumerate}
+        \item Если \(\sum_{n = 1}^\infty P(A_n) < +\infty\), то \(P(\{A_n, \text{б.ч.}\}) = 0\).
+        \item Если же \(\sum_{n = 1}^\infty P(A_n) = +\infty\) и \(A_n\) независимы, то \(P(\{A_n, \text{б.ч.}\}) = 1\).
+    \end{enumerate}
+\end{lemma}
+\begin{proof}
+    \begin{enumerate}
+        \item \[P(\{A_n, \text{б.ч.}\}) = P\left( \bigcap_{n = 1}^\infty \bigcup_{m \ge n} A_m \right) = \lim_{n \ra \infty} P\left( \bigcup_{m \ge n} A_n\right) \le \lim_{n \ra \infty} \sum_{m = n}^\infty P(A_n) = 0\]
+        \item \[P(\{A_n, \text{б.ч.}\}) = \lim_{n \ra \infty} P\left( \bigcup_{m \ge n} A_m\right) = \lim_{n \ra \infty} \left( 1 - P\left( \bigcap_{m \ge n} \overline{A_m}\right) \right) = 1 - \lim_{n \ra \infty} P\left( \bigcap_{m \ge n} \overline{A_m}\right) =\]
+        \[= 1 - \lim_{n \ra \infty} \lim_{N \ra \infty} P\left( \bigcap_{m = n}^N \overline{A_m}\right) = 1 - \lim_{n \ra \infty} \lim_{N \ra \infty} \prod_{m = n}^N (1 - P(A_m)) \ge 1 - 1 - \lim_{n \ra \infty} \lim_{N \ra \infty} e^{\sum_{m = n}^N P(A_m)}\]
+
+    \end{enumerate}
+\end{proof}
+
+\begin{definition}
+    Пусть \(\{\xi_n, n \in \N\}\) --- последовательность случайных величин. Сигма алгеброй \(\mathcal{F}_{\ge k}\) называтся 
+    \[\mathcal{F}_{\ge k} = \sigma\left( \bigcup_{n = k}^\infty \mathcal{F}_{\xi_n}\right)\]
+
+    Хвостовой \(\sigma\)-алгеброй последовательности \(\{\xi_n, n \in \N\}\) называется:
+    \[\mathcal{X} = \bigcap_{i = 1}^\infty \mathcal{F}_{\ge k}\]
+\end{definition}
+
+\begin{theorem}[Закон 0 или 1 Колмогорова]
+    Если \(\{\xi_n, n \in \N\}\) --- независимые случаные величины, то для \(\forall A \in \mathcal{X}\) выполнено \(P(A) = 0\) или \(1\)
+\end{theorem}
+\begin{proof}
+    Докажем, что \(A\) независимо с \(A\). Рассмотрим \(\sigma\)-алгебру 
+    \[\mathcal{F}_{\le n} = \mathcal{F}_{(\xi_1, \dots \xi_n)} = \sigma(\xi_1, \dots \xi_n)\]
+    Обозначим \(\mathcal{A} = \bigcup_{n = 1}^\infty \mathcal{F}_{\le n}\). Тогда \(\mathcal{A}\) --- алгебра \(\Ra \pi\)-система, причем \(\sigma(\mathcal{A}) = \mathcal{F}_{ge 1}\). В силу независимости \(\{\xi_n\}\), получаем, что \(\mathcal{F}_{\le n}\) независимо с \(\mathcal{F}_{\ge n + 1}\). Тогда \(\forall n: A \in \mathcal{F}_{\ge n + 1}\), \(\Ra \forall n: A\) независимо с \(\mathcal{F}_{\le n}\). Тогда \(A\) независимо с \(\mathcal{A}\). Но тогда по критерию независимости \(\sigma\)-алгебр получаем, что \(A\) независимо с \(\sigma(\mathcal{A}) = \mathcal{F}_{\ge 1}\). Но \(A \in \mathcal{F}_{\ge 1} \Ra A\) независимо с \(A\).
+\end{proof}
+
+\begin{proposition}[Критерий конечности \(\E\)]
+    Пусть \(\xi\) --- случайные величины. Тогда \(\E\xi\) конечно \(\Lra \sum_{n = 1}^\infty P(|\xi| \ge n) < +\infty\) 
+\end{proposition}
+\begin{proof}
+    \[\sum_{n = 1}^\infty P(|\xi| \ge n) = \sum_{n = 1}^\infty \sum_{k = n}^\infty P(k \le |\xi| < k + 1) = \sum_{k = 1}^\infty \sum_{n = 1}^k P(k \le |\xi| < k + 1) = \]
+    \[\sum_{k = 1}^\infty k P(k \le |\xi| < k + 1) = \sum_{k = 1}^\infty \E(kI\{k \le |\xi| < k + 1\}) \le \sum_{k = 1}^\infty \E(|\xi|I\{k \le |\xi| < k + 1\}) = \E|\xi| \le \]
+    \[\le \sum_{k = 1}^\infty \E((k + 1)I\{k \le |\xi| < k + 1\}) = 1 + \sum_{n = 1}^\infty P(|\xi| \ge n)\]
+\end{proof}
+
+\begin{lemma}[Тёплица]
+    Пусть \(\{a_n, n \in \N\}\) --- неотрицательные числа, такие, что \(C_n = \sum_{j = 1}^n a_j \uparrow +\infty\) и \(C_n > 0 \forall n\). Если \(x_n \ra x\), то \(\frac{1}{C_n}\sum_{j = 1}^n a_jx_j \ra x\), \(n \ra \infty\)
+\end{lemma}
+\begin{proof}
+    Пусть \(\epsilon > 0\). Выберем \(n_0\) так, что \(\forall n > n_0: |x_n - x| \le \frac{\epsilon}{2}\). Выберем \(n_1\) так, что \(\frac{1}{C_n}\sum_{j = 1}^{n_0}a_j|x_j - x| \le \frac{\epsilon}{2}\). Тогда \(\forall n \ge n_1\):
+    \[\left| \frac{1}{C_n}\sum_{j = 1}^n a_jx_j - x \right| = \left| \frac{1}{C_n}\sum_{j = 1}^n a_j(x_j - x) \right| \le \frac{1}{C_n}\sum_{j = 1}^{n}a_j|x_j - x| =\]
+    \[= \underbrace{\frac{1}{C_n}\sum_{j = 1}^{n_0}a_j|x_j - x|}_{\le \frac{\epsilon}{2}} + \underbrace{\frac{1}{C_n}\sum_{j = n_0 + 1}^{n}a_j}_{\le 1}\underbrace{|x_j - x|}_{\le \frac{\epsilon}{2}}\]
+\end{proof}
+
+\begin{theorem}[УЗБЧ в форме Этемади]
+    Пусть \(\{\xi_n, n \in \N\}\) --- независимые одинаково распрееленные случайные величины, причем \(\E\xi_1 = \E\xi_n\) конечно. Положим \(S_n = \xi_1 + \dots + \xi_n\).:
+    \[\frac{S_n}{n} \xrightarrow{\text{п.н.}} \E\xi_1, n \ra \infty\]
+\end{theorem}
+\begin{proof}
+    Без ограничения общности, считаем, что \(\xi_n\) --- неотрицательные случайные величины, иначе рассмотрим \(\xi_n = \xi_n^+ - \xi_n^-\). Тогда \(\{\xi_n^{\pm}, n \in \N\}\) --- тоже независимые одинаково распрееленные случайные величины с конечным \(\E\).
+
+    Рассмотрим \(\tilde{\xi_n} = \xi_nI\{\xi_n < n\}\). Тогда \(\{\tilde{\xi_n}, n \in \N\}\) --- попарно независимые случаные величины. Обозначим \(\tilde{S_n} = \tilde{\xi_1} + \dots + \xi_n^{\pm}\). Заметим, что:
+    \[\sum_{n = 1}^\infty P(\xi_n \ne \tilde{\xi_n}) = \sum_{n = 1}^\infty P(\xi_n \ge n) = \sum_{n = 1}P(\xi_1 \ge n) < \infty\]
+    Последнее получаем в силу \(\E\xi_1 < +\infty\). По лемме Бореля-Кантелли, получаем, что \(P(\{\xi_n \ne \tilde{\xi_n}, \text{б.ч.}\}) = 0\). Тогда \(\frac{S_n}{n}\xrightarrow{\text{п.н.}} \E\xi_1 \Lra \frac{\tilde{S_n}}{n}\xrightarrow{\text{п.н.}} \E\xi_1\)
+
+    TBA
+
+    Таким образом, получили, что
+    \[\frac{\xi_1^{\pm} + \dots + \xi_n^{\pm}}{n} \xrightarrow{\text{п.н.}}\E\xi_1^{\pm}\]
+    Вычтем одну сходимость из другой и получим желаемое.
+\end{proof}

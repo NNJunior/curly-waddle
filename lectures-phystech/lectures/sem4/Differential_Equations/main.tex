@@ -752,3 +752,97 @@
     
     В данном случае любая точка \(\hat{x}\in\gamma\) является характеристической, так как \(\langle a, g'\rangle = (1,-1)\cdot(1,1)=0\). Пример показывает, что на характеристической кривой либо нет решения, либо оно не единственно, то есть условие нехарактеристичности в теореме существенно.
 \end{example}
+
+\lecture{7}
+
+\section{Простая задача вариационного исчисления}
+
+Пусть \(L: \R^3 \ra \R\) --- непрерывна, \(a, b, A, B \in \R, a < b\). Положим \(Y: C^1[a, b] \ra \R\) следующим образом:
+\[Y(y) = \int_a^b L(x, y(x), y'(x))\]
+Где \(y \in \mathcal{M} = \{y \in C^1[a, b]: y(a) = A, y(b) = B\}\)
+
+\noindent\textbf{Простая задача вариационного исчисления}: \(Y(y) \ra \min\) по \(y \in \mathcal{M}\).
+
+\begin{definition}
+    \(\hat{y} \in \mathcal{M}\) называется решением данной задачи, если \(\forall y \in \mathcal{M}: Y(\hat{y}) \le Y(y)\).
+\end{definition}
+
+\begin{definition}
+    В \(C^1[a, b]\) норма определяется следующим образом: \(\|f\|_{C^1} = \|f\|_C + \|f'\|_C\)
+\end{definition}
+
+\begin{definition}
+    \(\hat{y} \in \mathcal{M}\) называется слабым минимумом, если \(\exists \epsilon > 0: \|y - \hat{y}\|_{C^1} < \epsilon (Y(\hat{y}) \le Y(y))\).
+\end{definition}
+
+\begin{definition}
+    \(\hat{y} \in \mathcal{M}\) называется сильным минимумом, если \(\exists \epsilon > 0: \|y - \hat{y}\|_{C} < \epsilon (Y(\hat{y}) \le Y(y))\).
+\end{definition}
+
+\begin{note}
+    \(\hat{y}\) --- сильный минимум \(\Ra \hat{y}\) --- слабый минимум. 
+\end{note}
+\begin{example}[Обратное неверно]
+    Рассмотрим \(L(y') = \left\{\begin{array}{l}
+        1 - (y' - 1)^2, y' > 0 \\
+        0, y' \le 0
+    \end{array}\right., \hat{y} = 0, y_n = \frac{1}{n}\sin n^2 x\) на отрезке \([0, 1]\). Заметим, что \(\hat{y}\) --- слабый минимум. Также, \(\|y_n - \hat{y}\|_C = \frac{1}{n} \ra_{n \ra \infty} 0\). Теперь посчитаем \(Y(y_n)\):
+    \[Y(y_n) = \underbrace{\int_{n\cos n^2x < 1} L(n\cos n^2x)dx}_{\text{ограничено}} + \underbrace{\int_{n\cos n^2x > 1} 2n\cos n^2x}_{\text{ограничено}} - \underbrace{\int_{n\cos n^2x > 1} n^2\cos^2 n^2x dx}_{\ra -\infty}\]
+    Т.е. стремления к нулю нет.
+\end{example}
+
+Будем рассматривать функции \(L \in C^2\). Пусть \(\hat{y} \in \mathcal{M}\) --- слабый минимум.
+
+\begin{definition}
+    Множество допустимых вариаций определяется как \(\dot{C}^1[a, b] = \left\{\begin{array}{l}
+        h \in C^1[a, b] \\
+        h(a) = h(b) = 0
+    \end{array}\right.\)
+\end{definition}
+
+Для \(h \in \dot{C}^1[a, b]\), рассмотрим \(\phi(\alpha) = Y(\hat{y} + \alpha h), \alpha \in \R\). Тогда выполнено следующее:
+\begin{enumerate}
+    \item \(0\) --- локальный минимум. Действительно \(\hat{y}\) --- слабый минимум \(\Ra \exists \epsilon > 0: \forall y \in \mathcal{M}: \|y - \hat{y}\|_{C^1} < \epsilon (Y(\hat{y}) \le Y(y))\). Рассмотрим \(\alpha \in \left( -\frac{\epsilon}{\|h\|_{C^1}}, \frac{\epsilon}{\|h\|_{C^1}} \right) \Ra \|\hat{y} - (\hat{y} + \alpha h)\| = |\alpha|\cdot \|h\|_{C^1} < \epsilon\). Кроме того, \(\hat{y} + \alpha h \in \mathcal{M}\).
+    \item \(\phi\) дифференцируема в \(0\):
+    \[\phi(\alpha) = \int_a^b L(x, \hat{y}(x) + \alpha h(x), \hat{y}'(x) + \alpha h'(x))dx\]
+    Далее применяем теорему о дифференцировании интеграла с параметром. Посчитаем данную производную явно:
+    \[\phi'(0) = \int_a^b\left( L_y(x, \hat{y}(x), \hat{y}'(x))h(x) + L_{y'}(x, \hat{y}(x), \hat{y}'(x))h'(x) \right)dx\]
+
+\end{enumerate}
+
+\begin{definition}
+    Первой вариацией функционала \(Y\) в точке \(\hat{y}\) по направлению \(h\) называется число \(\delta L[\hat{y}, h] = \phi'(0)\)
+\end{definition}
+
+Как следствие предыдущих утверждений, получаем:
+\begin{theorem}
+    Если \(\hat{y} \in \mathcal{M}\) --- слабый минимум, то \(\forall h \in \dot{C}^1[a, b]: \delta L[\hat{y}, h] = 0\)
+\end{theorem}
+
+\begin{lemma}[Лагранж]
+    Пусть \(f \in C[a, b]: \int_a^b f(x)h(x)dx = 0 \forall h \in \dot{C}^1[a, b]\). Тогда \(f = 0\)
+\end{lemma}
+\begin{proof}
+    Предположим противное. Пусть \(\exists x_0 \in [a, b]: f(x_0) \ne 0\). Так как \(f\) непрерывна, можно считать, что \(x_0 \in (a, b)\). Б.О.О считаем, что \(f(x_0) > 0\) Тогда \(\exists \epsilon: (x_0 - \epsilon, x_0 + \epsilon) \subset (a, b)\) и \(\forall x \in (x_0 - \epsilon, x_0 + \epsilon):  f(x) > 0\). Положим \(h(x) = \left\{\begin{array}{l}
+        (x - (x_0 - \epsilon))^2(x - (x_0 + \epsilon))^2, |x - x_0| < \epsilon \\
+        0, \text{ иначе}
+    \end{array}\right.\). Нетрудно проверить, что \(h\) непрерывна дифференцируема. Но тогда:
+    \[\int_a^b f(x)h(x) = \int_{x_0 - \epsilon}^{x_0 + \epsilon} f(x)h(x) > 0\]
+    Получили противоречие с условием леммы.
+\end{proof}
+
+\begin{theorem}
+    Пусть \(\hat{y}\) --- слабый минимум и \(\hat{y} \in C^2[a, b]\). Тогда \(\hat{y}\) является решением уравнения Эйлера:
+    \[L_y(x, \hat{y}(x), \hat{y}'(x)) - \frac{d}{dx}L_{y'}(x, \hat{y}(x), \hat{y}'(x)) = 0\]
+\end{theorem}
+\begin{proof}
+    \(\hat{y}\) --- слабый минимум. Тогда \(\forall h \in \dot{C}^1[a, b]\), \(\delta Y[\hat{y}, h] = 0\). Тогда:
+    \[0 = \int_a^b L_y(x, \hat{y}(x), \hat{y}'(x))h(x)dx + \int_a^b \underbrace{L_{y'}(x, \hat{y}(x), \hat{y}'(x))}_u\underbrace{h'(x) dx}_{dv} = \]
+    \[\int_a^b L_y(x, \hat{y}(x), \hat{y}'(x))h(x)dx + \underbrace{L_{y'}(x, \hat{y}(x), \hat{y}'(x))h(x)\bigg|_a^b}_0 - \int_a^b \frac{d}{dx}L_{y'}(x, \hat{y}(x), \hat{y}'(x))h(x)dx = \]
+    \[\int_a^b \left( L_y(x, \hat{y}(x), \hat{y}'(x)) - \frac{d}{dx}L_{y'}(x, \hat{y}(x), \hat{y}'(x)) \right)h(x) dx\]
+    По лемме Лагранжа получаем, что \(L_y(x, \hat{y}(x), \hat{y}'(x)) - \frac{d}{dx}L_{y'}(x, \hat{y}(x), \hat{y}'(x)) = 0\).
+\end{proof}
+
+\begin{note}
+    Используя лемму Дюбуа-Реймона, можно доказать справедливость теоремы для \(\hat{y} \in C^1[a, b]\).
+\end{note}
