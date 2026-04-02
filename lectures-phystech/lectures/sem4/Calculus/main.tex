@@ -901,7 +901,7 @@
 \section{Интегралы с параметром}
 Пусть \(E \subset \R^m\) измерима, \(A\) --- произвольное множество и пусть \(f: E \times A \ra \Cm\), такая, что \(\forall \alpha \in A: f(\cdot, \alpha) \in L_1(E)\). Рассмотрим функцию \(I(\alpha) = \int_E f(x, \alpha) dx, \alpha \in A\)
 
-\begin{theorem}
+\begin{theorem}[О непрерывности интеграла с переменным пределом]
     Пусть \(E \subset \R^m\) измерима, \(A\) --- промежуток в \(\R, \alpha_0 \in A, f: E \times A \ra \Cm\) такая, что 
     \begin{enumerate}
         \item \(f(\cdot, \alpha)\) измерима на \(E \forall \alpha \in A\)
@@ -914,4 +914,101 @@
     Из пунктов 1, 3 следует, что функция \(f(\cdot, \alpha)\) интегрируема на \(E\) для любого \(\alpha \Ra I\) определена. Возьмем \(\{\alpha_k\} \subset A, \alpha_k \ra \alpha_0\). Рассмотрим \(f_k = f(\cdot, \alpha_k), k \in \N_0\). По условию \(f_k(x) \ra f_0(x)\) и \(|f_k(x)| \le \phi\) для почти всех \(x\). Тогда по теореме Лебега о мажорируемой сходимости:
     \[I(\alpha_k) = \int_E f_k(x)dx \ra \int_E f_0(x)dx = I(\alpha_0)\]
     Тогда по определению предела по Гейне, получаем непрерывность функции \(I\) в точке \(\alpha_0\)
+\end{proof}
+
+\begin{corollary}
+    Пусть \(E \subset \R^m\) --- компакт, \(A \subset \R\) --- промежуток. Если \(f \in C(E \times A)\), то \(I \in C(A)\)
+\end{corollary}
+\begin{proof}
+    Зафиксируем \(\alpha_0 \in A\) и выберем \(\delta > 0\) так, что \(J = A \cap [\alpha_0 - \delta, \alpha_0 + \delta]\) является отрезком. По теореме Вейерштрасса, \(f\) ограничена на \(E \times J\), поэтому \(I\) непрерывна в точке \(\alpha_0\) (в качестве \(\phi\) берем \(\max_{E\times J} |f|\))
+\end{proof}
+
+\begin{example}
+    Положим \(I(\alpha) = \int_0^{+\infty} \alpha e^{-\alpha x}dx\). Заметим, что \(I(0) = 0\), а при \(\alpha > 0: I(\alpha) = e^{-\alpha x}\big|_0^{+\infty} = 1\). Таким образом, условие 3 критично для выполнения утверждения теоремы.
+\end{example}
+
+\begin{theorem}[О дифференцируемости]
+    Пусть \(E \subset \R^m\) --- измеримо, \(A \subset \R\) --- промежуток. Пусть \(f: E \times A \ra \Cm\), такая, что 
+    \begin{enumerate}
+        \item \(f(\cdot, \alpha)\) интегрируема на \(E \forall \alpha \in A\).
+        \item \(f(x, \cdot)\) дифференцируема на \(A\) для почти всех \(x\)
+        \item \(\exists \phi: E \ra \R: \left| \frac{\partial f}{\partial \alpha}(x, \alpha) \right| \le \phi(x)\) для п.в. \(x \in E\) и всех \(\alpha \in A\).
+    \end{enumerate}
+    Тогда функция \(I\) дифференцируема на \(A\) и \(I'(\alpha) = \int_E \frac{\partial f}{\partial \alpha}(x, \alpha) dx\)
+\end{theorem}
+\begin{proof}
+    Зафиксируем \(\alpha_0 \in A\) и выберем последовательность \(\{\alpha_k\} \subset A: \alpha_k \ra \alpha_0\). Определим \(g_k(x) = \frac{f(x, \alpha_k) - f(x, \alpha_0)}{\alpha_k - \alpha_0}\). Тогда \(g_k(x) \ra \frac{\partial f}{\partial \alpha}(x, \alpha_0)\) для почти всех \(x \in E\). По теореме Лагранжа о среднем \(g_k(x) = \frac{\partial f}{\partial \alpha}(x, c_k)\) для некоторого \(c_k\) между \(\alpha_0, \alpha_k\). Поэтому, \(|g_k(x)| \le \phi(x)\) для почти всех \(x\). По теореме Лебега о мажорируемой сходимости, заключаем:
+    \[\frac{I(\alpha_k) - I(\alpha_0)}{\alpha_k - \alpha_0} = \int_E \frac{f(x, \alpha_k) - f(x, \alpha_0)}{\alpha_k - \alpha_0} dx \ra_{k \ra \infty} \int_E \frac{\partial f}{\partial \alpha}(x, \alpha_0) dx\]
+    Но тогда по определению предела по Гейне, получаем:
+    \[I'(\alpha_0) = \lim_{\alpha \ra \alpha_0} \frac{I(\alpha) - I(\alpha_0)}{\alpha - \alpha_0} = \int_E \frac{\partial f}{\partial \alpha}(x, \alpha_0) dx\]
+\end{proof}
+
+\begin{corollary}
+    Пусть \(E \subset \R^m\) --- компакт, \(A \subset \R\) --- промежуток. Если \(f, \frac{\partial f}{\partial \alpha} \in C(E \times A)\), то \(I \in C^1(A), I'(\alpha) = \int_E \frac{\partial f}{\partial \alpha}(x, \alpha_0) dx\)
+\end{corollary}
+
+\begin{example}
+    Рассмотрим \(I(\alpha) = \int_0^{+\infty} \alpha^2e^{-\alpha x} dx\)
+\end{example}
+
+\begin{note}
+    Из доказательства теорем выше, можно видеть, что можно поменять местами кванторы ''для п.в. \(x \in E\), \(\forall \alpha \in A\)'', т.е. они будут верны и для формулировок ''\(\forall \alpha \in A\), для п.в. \(x \in E\)''
+\end{note}
+
+\subsection{Равномерная сходимость несобственного интеграла с переменным пределом}
+\begin{definition}
+    Пусть \(-\infty < a < b \le +\infty\), \(A\) --- множество и задана функция \(f: [a, b) \times A \ra \Cm\), т.ч. \(\forall \alpha \in A: f(\cdot, \alpha) \in L_1([a, b'])\) для всех \(b' \in (a, b)\). Пусть \(\forall \alpha \in A\) существует:
+    \[\int_a^b f(x, \alpha) dx = \lim_{y \ra b-0} \int^y_a f(x, \alpha) dx\]
+    и если предел конечен (лежит в \(\Cm\)), то интеграл \(\int_a^b f(x, \alpha)\) называется сходящимся. Аналогично определяется несобственный интеграл по промежутку \((a, b]\).
+\end{definition}
+
+\begin{definition}
+    Говорят, что \(\int_a^b f(x, \alpha) dx\) сходится равномерно на \(A\) по \(\alpha \in A\), если интеграл сходится \(\forall \alpha \in A\) и \(\forall \epsilon > 0 \exists b' \in [a, b) \forall y \in (b', b) \forall \alpha \in A \left| \int_a^y f(x, \alpha) dx - \int_a^b f(x, \alpha) dx \right| < \epsilon\), что эквивалентно \(\sup_{\alpha \in A} \left| \int_y^b f(x, \alpha) dx \right| \ra_{y \ra b - 0} 0\)
+\end{definition}
+
+\begin{note}
+    Определение равномерной сходимости имеет место, если \(\{f(\cdot, \alpha)\}_{\alpha \in A}\) допускает интегрируемую мажоранту, т.е. \(\phi: [a, b) \to \R\) интегрируема. \(\forall x \in [a, b) \ \forall \alpha \in A: |f(x, \alpha)| \le \phi(x)\) или \(\sup_{\alpha \in A} \left| \int_y^b f(x, \alpha) dx \right| \le \int_y^b \phi(x)dx \to_{y \to b-0} 0\).  
+    Тогда несобственный интеграл \(\int_a^b f(x,\alpha)dx\) сходится равномерно по \(\alpha \in A\).
+\end{note}
+
+\begin{note}
+    Пусть \(\int_a^b f(x, \alpha) dx\) сходится равномерно на \(A\), \(\{y_n\} \subset (a, b), y_n \ra b\) и \(g_n(\alpha) = \int_a^{y_n} f(x, \alpha) dx \rightrightarrows_A I(\alpha) = \int_a^b f(x, \alpha) dx\)
+\end{note}
+\begin{proof}
+    \(\forall \epsilon > 0 \exists N: \forall n \ge N (y_n \in (b', b))\), а значит, \(|g_n(x) - I(\alpha)| < \epsilon\) на \(A\).
+\end{proof}
+
+\begin{theorem}
+    Пусть \(f\) непрерывна на \([a, b) \times A\) и \(\int_a^b f(x, \alpha)dx\) сходится равномерно на \(A\). Тогда функция \(I\) непрерывна на \(A\).
+\end{theorem}
+\begin{proof}
+    Рассмотрим \(\{y_n\} \subset (a, b), y_n \ra b\) и определим \(g_n(\alpha) = \int_a^{y_n} f(x, \alpha) dx\). По замечанию, \(y_n \rightrightarrows I(\alpha)\). По следствию из теоремы, \(g_n\) непрерывна на \(A\). Тогда \(I\) непрерывна на \(A\) как равномерный предел непрерывных функций.
+\end{proof}
+
+\begin{theorem}
+    Пусть \(f\) интегрируема на \([a, y] \times A \forall y \in (a, b), \mu(A) < \infty\) и \(\int_a^b f(x, \alpha) dx\) сходится равномерно на \(A\). Тогда
+    \[\int_A I(\alpha) d\alpha \int_a^b \left( \int_A f(x, \alpha) dx \right) d\alpha\;\;\;(*)\]
+\end{theorem}
+\begin{proof}
+    \[I(\alpha, y) = \int_a^y f(x, \alpha) dx, y \in (a, b)\]
+    По теореме Фубини
+    \[\int_A I(\alpha, y) d\alpha = \iint_{[a, y] \times A} f(x, \alpha )dxdy < \infty\]
+    Следовательно \(I(\cdot, y)\) интегрируема на \(A\). Из условия равномерной сходимости, \(\exists b' \in [a, b) \forall y \in (b', b): |I(\alpha, y) - I(\alpha)| < 1\) на \(A\). Следовательно, \(I(\cdot, y) - I\) интегрируема на \(A\), а значит, и \(I\) интегрируема на \(A\). Далее,
+    \[\left| \int_A I(\alpha, y) d\alpha - \int_A I(\alpha) d\alpha \right| \le \int_A |I(\alpha, y) - I(\alpha)| d\alpha \le \mu(A) \sup_{\alpha \in A} |I(\alpha, y) - I(\alpha)| \ra_{y \ra b - 0} 0\]
+    Снова по теореме Фубини:
+    \[\int_A I(\alpha, y) d\alpha = \int_a^y \left( \int_A f(x, \alpha) d\alpha \right) dx\]
+    В последнем равенстве перейдем к пределу при \(y \ra b - 0\)
+\end{proof}
+
+\begin{corollary}
+    Если \(f \in C([a, b] \times [c, d])\), то \((*)\) выполнеяется при условии равномерной сходимости интеграла с параметром.
+\end{corollary}
+
+\begin{theorem}
+    Пусть \(f, \frac{\partial f}{\partial \alpha}\) непрерывна на \([a, b) \times A, \int_a^b \frac{\partial f}{\partial \alpha} dx\) сходится равномерно на \(A\) и \(\exists \alpha_0 \in A: \int_a^b f(x, \alpha_0)dx\) сходится. Тогда \(I\) непрерывно дифференцируема на \(A\) и \(I'(\alpha) = \int_a^b \frac{\partial f}{\partial \alpha} (x, \alpha) dx\)
+\end{theorem}
+\begin{proof}
+    \(J(\alpha) = \int_a^b \frac{\partial f}{\partial \alpha}(x, \alpha)\) непрерывна. Применим предыдущую теорему к \(J\) на отрезке с концами \([\alpha, \alpha_0]\)
+    \[\int_\alpha^{\alpha_0} J(y) dy = \int_a^b\left( \int_{\alpha_0}^\alpha f(x, \alpha)d\alpha \right) dx = \int_a^b ((f(x, \alpha) - f(x, \alpha_0)))dx = I(\alpha) - I(\alpha_0)\]
+    Следовательно, \(I(\alpha) = \int_{\alpha_0}^{\alpha} J(y)dy + I(\alpha_0)\). Поэтому \(I \in C^1(A)\) и \(I'(\alpha) = J(\alpha)\)
 \end{proof}
