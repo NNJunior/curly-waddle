@@ -1218,3 +1218,126 @@
 \begin{theorem}[О примитивном элементе]
     Пусть \(F\) --- поле, \(\overline{F} \supset F\) --- алгебраическое замыкание. Если \(\operatorname{char} F = 0, K \supset F\) --- конечное, тогда \(\exists \alpha \in K: K = F(\alpha)\)
 \end{theorem}
+
+\lecture{8}
+
+\begin{proof}
+    Докажем, что \([K:F] < \infty \Ra K = F(\alpha_1, \dots \alpha_s)\). Заметим, что \([K:F] < \infty \Ra \exists a_1 \in K \setminus F\), такое, что \(a_1\) --- алгебраическое. Заметим, что \(F \subset F(\alpha_1) \subset K\), причем \(F \ne F(\alpha_1) \Ra [F(\alpha_1):F] > 1\). По индукции строим последовательность \(\alpha_i\) и получаем желаемое. Заметим, что тогда нам достаточно доказать, что \(F(\alpha, \beta) = F(\gamma)\) для некоторого \(\gamma\). Мы будем искать \(\gamma = \alpha + c\beta\). Тогда достаточно проверить, что \(\beta \in F(\gamma)\) (т.к. тогда \(\alpha = \gamma - c\beta \in F(\gamma)\) и \(F(\gamma) \supset F(\alpha, \beta)\), а обратное включение очевидно). Мы знаем, что \(\beta\) является корнем своего минимального многочлена \(m_{\beta, F}(x) \in F[x]\). Кроме того, \(\beta\) является корнем многочлена \(m_{\alpha, F}(\gamma - cx) \in F(\gamma)[x]\). Если мы докажем, что \(\gcd(m_{\beta, F}(x), m_{\alpha, F}(\gamma - cx)) = (x - \beta)\) в \(F(\gamma)[x]\), то мы получим, что \(\beta \in F(\gamma)\). 
+    Пусть \(\overline{F}\) — алгебраическое замыкание \(F\). В \(\overline{F}\) имеем:
+    \[
+    m_{\beta,F}(x) = \prod_{j=1}^{n} (x - \beta_j), \quad \beta_1 = \beta,
+    \]
+    \[
+    m_{\alpha,F}(x) = \prod_{i=1}^{m} (x - \alpha_i), \quad \alpha_1 = \alpha.
+    \]
+    Тогда
+    \[
+    m_{\alpha,F}(\gamma - c x) = \prod_{i=1}^{m} (\gamma - c x - \alpha_i).
+    \]
+    Для того чтобы \(\beta\) был единственным общим корнем, нужно, чтобы при всех \((i,j) \ne (1,1)\) выполнялось \(\gamma - c\beta_j \ne \alpha_i\), т.е.
+    \[
+    \alpha + c\beta - c\beta_j \ne \alpha_i \quad\Longleftrightarrow\quad c(\beta - \beta_j) \ne \alpha_i - \alpha.
+    \]
+    Если \(\beta - \beta_j \ne 0\) (т.е. \(j \ne 1\)) и \(\alpha_i \ne \alpha\) (т.е. \(i \ne 1\)), то это условие нарушается лишь для конечного числа значений \(c\):
+    \[
+    c = \frac{\alpha_i - \alpha}{\beta - \beta_j}, \quad i = 2,\dots,m,\; j = 2,\dots,n.
+    \]
+    Поскольку \(\operatorname{char} F = 0\), поле \(F\) бесконечно, поэтому можно выбрать \(c \in F\), отличное от всех этих значений. При таком выборе \(\beta\) — единственный общий корень \(m_{\beta,F}(x)\) и \(m_{\alpha,F}(\gamma - cx)\) в \(\overline{F}\). Следовательно,
+    \[
+    \gcd_{F(\gamma)[x]}\bigl(m_{\beta,F}(x),\, m_{\alpha,F}(\gamma - cx)\bigr) = x - \beta.
+    \]
+    Отсюда \(\beta \in F(\gamma)\), а тогда и \(\alpha = \gamma - c\beta \in F(\gamma)\). Таким образом, \(F(\alpha,\beta) = F(\gamma)\).
+
+    Применяя этот шаг индукции по числу порождающих, получаем, что любое конечное расширение \(K \supset F\) в характеристике 0 является простым, т.е. \(K = F(\alpha)\) для некоторого \(\alpha \in K\). Теорема доказана.
+\end{proof}
+
+\begin{proposition}
+    Если \(\operatorname{char} F = 0\) и \(f(x) \in F[x]\) неприводим, то у него нет кратных корней
+\end{proposition}
+\begin{proof}
+    Нам известно, что если у \(f(x)\) есть кратные корни, то \(\gcd(f(x), f'(x)) \ne 1\), где \(f'(x)\) --- формальная производная. Тогда \(f\) не является неприводимым.
+\end{proof}
+
+\begin{example}
+    \(\operatorname{char} F = p\). Рассмотрим \(f(x) = x^p - c\), где \(c \in F \setminus F^p\) (т.е. \(c\) не является \(p\)-й степенью элемента из \(F\)). Тогда \(f'(x) = p x^{p-1} = 0\) в \(F[x]\), так как \(p = 0\) в \(F\). Следовательно, \(\gcd(f, f') = f \ne 1\). В расширении \(F(\sqrt[p]{c})\) имеем \(f(x) = (x - \sqrt[p]{c})^p\), то есть все корни совпадают. При этом \(f(x)\) может быть неприводим над \(F\) (например, \(F = \mathbb{F}_p(t)\), \(c = t\)). Таким образом, в положительной характеристике неприводимый многочлен может иметь кратные корни.
+\end{example}
+
+\section{Приложения расширения полей}
+\subsection{Построение циркулем и линейкой}
+Пусть дана комплексная плоскость с отмеченными точками \(0, 1 \in \Cm\). Разрешается проводить три операции:
+\begin{enumerate}
+    \item Проводить прямую через построенные точки
+    \item Проводим окружность с центром в одной точке и радиусом в другой точке
+    \item Брать точки пересечения прямых и окружностей
+\end{enumerate}
+
+\begin{definition}
+    Будем называть точку \(z \in \Cm\) построимой, если ее можно получить конечным количеством таких операций
+\end{definition}
+
+\begin{problem}
+    Если \(z, w\) построимы, то построимы и точки \(z + w, zw, \frac{z}{w}, \sqrt{z}, \lambda z + \mu w, \lambda, \mu \in \Q\)
+\end{problem}
+
+\begin{corollary}
+    \(z\) --- построимо \(\Ra \Q(z)\) --- построимо
+\end{corollary}
+
+\begin{corollary}
+    Пусть \(K \supset \Q, \forall z \in K: z\) --- построимо и \([L:K] = 2 \Ra \forall y \in L: y\) построимо
+\end{corollary}
+
+\begin{lemma}
+    Пусть \(z = x + iy\) строится из точек \(z_j = x_j + iy_j, j = 1, 2, 3, 4\). Тогда \(z, x, y \in K: [K:L] \le 2, L = \Q(x_1, x_2, x_3, x_4, y_1, y_2, y_3, y_4, i)\)
+\end{lemma}
+\begin{exercise}
+    Проверить, что все описанные операции расширают после \(\Cm\) указанным образом
+\end{exercise}
+
+\begin{theorem}
+    \(z\) построимо при помощи циркуля и линейки тогда и только тогда, когда \(z \in K = K_0 \supset K_1 \supset \dots \supset K_n = \Q\), где \([K_i:K_{i + 1}] = 2\)
+\end{theorem}
+
+\begin{proof}
+    \begin{enumerate}
+        \item[\(\La\)] уже доказали
+        \item[\(\Ra\)] Если \(z\) построимо, то \(z = x + iy\) и \(x, y\) тоже построимы. Тогда по лемме получаем, что каждое из чисел \(x_i, y_i\) была получена как расширение поля с размерностью не более чем 2.
+    \end{enumerate}
+\end{proof}
+
+\begin{corollary}
+    Если \(z\) построимо \(\Ra \deg m_{z, \Q} = 2^k\) в \(K \supset \Q(z) \supset \Q\).
+\end{corollary}
+\begin{proof}
+    \([K:\Q] = 2^l \Ra 2^l \vdots \deg m_{z, \Q} = [\Q(z):\Q]\)
+\end{proof}
+
+\begin{corollary}
+    Невозможно построить \(\sqrt[3]{2}\), т.к. \(x^3 - 2\) --- минимальный многочлен степени \(= 3\)
+\end{corollary}
+
+\begin{corollary}
+    Невозможно построить трисекцию угла, т.к. \(x = \cos 20^{\circ}\) --- корень многочлена (проверить, что он неприводимый) \(3x^3 - 4x - \frac{1}{2}\) (из формулы косинуса тройного угла)
+\end{corollary}
+
+\begin{corollary}
+    Правильный \(p\)-угольник для простого \(p: p \ne 2^k + 1\) нельзя построить
+\end{corollary}
+
+\begin{example}
+    Рассмотрим многочлен \(x^4 + x + 1\) --- многочлен степени 4. Однако, его корень не являестя построимым (будет доказано далее)
+\end{example}
+
+\subsection{Разрешимость в радикалах}
+\begin{definition}
+    \(f(x)\) разрешимо в радикалах, если поле \(L\) разложение многочлена \(f(x)\) таково, что \(L \subset K = K_0 \supset K_1 \supset \dots \supset K_n = F\) и \(K_i\) над \(K_{i + 1}\) --- поле разложения \(x^{m_{i + 1}} - a_{i + 1}, a_{i + 1} \in K_{i + 1}\)
+\end{definition}
+
+
+\section{Теория Галуа}
+
+Пусть \(K \supset \Q\)
+
+\begin{definition}
+    Автоморфизм --- изоморфизм \(\phi: K \ra K\), такой, что \(\forall \alpha \in \Q: \phi(\alpha) = \alpha\)
+\end{definition}
