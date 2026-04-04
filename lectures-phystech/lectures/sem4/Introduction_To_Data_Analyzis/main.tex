@@ -201,27 +201,101 @@
 % \subsection{Почему именно сигмоида и логит?}
 % Пусть нам даны 2 события: \(A, B: P(A) = 0.2, P(B) = 0.1\). Тогда \(P(\overline{A}) = 0.8, P(\overline{B}) = 0.9\). Однако заметим, что \(\frac{P(A)}{P(\overline{A})} \in [0, +\infty]\). Теперь заметим, что если мы применим \(\log \)
 
-\lecture{6}
+% \lecture{6}
 
-\href{URL}{см презентацию}
+% \href{URL}{см презентацию}
 
-\section{Пример вычисления градиента фукнции ошибки по всем параметрам нейронной сети}
+% \section{Пример вычисления градиента фукнции ошибки по всем параметрам нейронной сети}
 
-Пусть \(y(x) = \tanh(W_2\operatorname{ReLU}(W_1x + b_1) + b_2)\), т.е. \(\tanh, \operatorname{ReLU}\) --- функции активации, а \(W_1 \in \R^{M \times H}, W_2 \in \R^{H \times d}, b_1 \in \R^M, b_2 \in \R^H\) --- матрицы весов и смещения. Посчитаем частные производные функции \(L = \|Y - \hat{Y}\|_2^2 = \sum_{i = 1}^n\sum_{m = 1}^M \) --- MSE по всем компонентам нейронной сети. Введем обозначения:
+% Пусть \(y(x) = \tanh(W_2\operatorname{ReLU}(W_1x + b_1) + b_2)\), т.е. \(\tanh, \operatorname{ReLU}\) --- функции активации, а \(W_1 \in \R^{M \times H}, W_2 \in \R^{H \times d}, b_1 \in \R^M, b_2 \in \R^H\) --- матрицы весов и смещения. Посчитаем частные производные функции \(L = \|Y - \hat{Y}\|_2^2 = \sum_{i = 1}^n\sum_{m = 1}^M \) --- MSE по всем компонентам нейронной сети. Введем обозначения:
 
-\[L(x) = L(\overbrace{\tanh(\underbrace{W_2\overbrace{\operatorname{ReLU}(\underbrace{W_1x + b_1}_{y_1})}^{y_2} + b_2)}_{y_3}}^{y_4}, \hat{Y})\]
+% \[L(x) = L(\overbrace{\tanh(\underbrace{W_2\overbrace{\operatorname{ReLU}(\underbrace{W_1x + b_1}_{y_1})}^{y_2} + b_2)}_{y_3}}^{y_4}, \hat{Y})\]
 
-Посчитаем частные производные \(L\) по \(x\): 
+% Посчитаем частные производные \(L\) по \(x\): 
 
-\begin{enumerate}
-    \item \[L = \frac{\partial L}{\partial {y_4}_{im}} = 2({y_4}_{im} - y_{im})\]
-    \item \[\frac{\partial L}{\partial {y_3}_{im}} = \frac{\partial L}{\partial {y_4}_{im}} \cdot \frac{\partial {y_4}_{im}}{\partial {y_3}_{im}} = \frac{\partial L}{\partial {y_4}_{im}} \cdot (1 - \tanh^2({x_4}_{im}))\]
-    \item \[\frac{\partial L}{\partial {W_2}_{mh}} = \sum_{i = 1}^m \frac{\partial L}{\partial {y_3}_{im}} \cdot \frac{\partial {y_3}_{im}}{\partial {W_2}_{mh}} = \sum_{i = 1}^m \frac{\partial L}{\partial {y_3}_{im}} \cdot {y_2}_{ih}\]
-    \item \[\frac{\partial L}{\partial {b_2}_m} = \sum_{i = 1}^n \frac{\partial L}{\partial {y_3}_{im}} \cdot 1\]
-    \item \[\frac{\partial L}{\partial {y_2}_{ih}} = \sum_{m = 1}^M \frac{\partial L}{\partial {y_3}_{im}} \cdot \frac{\partial {y_3}_{im}}{\partial {y_2}_{ih}} = \sum_{m = 1}^M \frac{\partial L}{\partial {y_3}_{im}}{W_2}_{mh}\]
-    Таким же образом продолжаем подсчет производных и находим искомую
-\end{enumerate}
+% \begin{enumerate}
+%     \item \[L = \frac{\partial L}{\partial {y_4}_{im}} = 2({y_4}_{im} - y_{im})\]
+%     \item \[\frac{\partial L}{\partial {y_3}_{im}} = \frac{\partial L}{\partial {y_4}_{im}} \cdot \frac{\partial {y_4}_{im}}{\partial {y_3}_{im}} = \frac{\partial L}{\partial {y_4}_{im}} \cdot (1 - \tanh^2({x_4}_{im}))\]
+%     \item \[\frac{\partial L}{\partial {W_2}_{mh}} = \sum_{i = 1}^m \frac{\partial L}{\partial {y_3}_{im}} \cdot \frac{\partial {y_3}_{im}}{\partial {W_2}_{mh}} = \sum_{i = 1}^m \frac{\partial L}{\partial {y_3}_{im}} \cdot {y_2}_{ih}\]
+%     \item \[\frac{\partial L}{\partial {b_2}_m} = \sum_{i = 1}^n \frac{\partial L}{\partial {y_3}_{im}} \cdot 1\]
+%     \item \[\frac{\partial L}{\partial {y_2}_{ih}} = \sum_{m = 1}^M \frac{\partial L}{\partial {y_3}_{im}} \cdot \frac{\partial {y_3}_{im}}{\partial {y_2}_{ih}} = \sum_{m = 1}^M \frac{\partial L}{\partial {y_3}_{im}}{W_2}_{mh}\]
+%     Таким же образом продолжаем подсчет производных и находим искомую
+% \end{enumerate}
 
-\begin{exercise}
-    Досчитать производную
-\end{exercise}
+% \begin{exercise}
+%     Досчитать производную
+% \end{exercise}
+
+\lecture{9}
+
+\section{Связь экспоненциального и пуассоновского распределний}
+Пусть у нас есть поток независимых событий, происходящих с одинаковой частотой. Предположим, что время между двумя последовательными событиями отвечает распределению \(Exp(\lambda)\).
+
+Пусть \(\xi_1, \dots \) --- н.о.р.с.в, отвечающие распределению \(Exp(\lambda)\). Положим \(S_0 = 0, S_n = \sum_{i = 1}^n \xi_i, n \ge 1\). Теперь положим \(X_t = \sup\{n \ge 0 | S_n \le t\}\) --- количество событий, которое произошло за время \([0, t]\). Таким образом, \(X_t - X_s\) --- количество событий, которое произошло за время \((s, t]\)
+
+\begin{lemma}[б/д]
+    \(S_n \sim Pois(nm \lambda)\)
+\end{lemma}
+
+\begin{theorem}
+    \(X_t \sim Pois(\lambda t)\)
+\end{theorem}
+\begin{proof}
+    \(\{X_t = m\} = \{S_m \le t < S_{m + 1}\}\). Заметим, что \(S_{m + 1} = S_m + \xi_{m + 1}\). Получаем, что:
+    \[P(X_t = m) = \int_0^t P(\xi_{m + 1} > t - u)f_{S_m}(u)du = \int_0^t e^{-\lambda (t - u)}\frac{\lambda^mu^{m - 1}}{(m - 1)!}e^{-\lambda u}du = e^{-\lambda t}\frac{(\lambda t)^m}{m!}\]
+\end{proof}
+
+\begin{theorem}
+    \(X_t - X_s \sim Pois(\lambda (t - s))\)
+\end{theorem}
+
+\begin{theorem}
+    Пусть полуинтервалы \((s_1, t_1], \dots (s_n, t_n]\) не пересекаются. Тогда случайные величины \(X_{t_1} - X_{s_1}, \dots X_{t_n} - X_{s_n}\) независимы в совокупности
+\end{theorem}
+\begin{proof}
+    Доказательство теоремы о независимости приращений (продолжение).
+
+Рассмотрим два непересекающихся интервала, например \((0, t_1]\) и \((t_1, t_2]\) с \(0<t_1<t_2\). Покажем, что \(X_{t_1}\) и \(X_{t_2}-X_{t_1}\) независимы и имеют распределения Пуассона с параметрами \(\lambda t_1\) и \(\lambda(t_2-t_1)\) соответственно. Для этого вычислим совместную вероятность:
+
+\[
+P(X_{t_1}=m,\; X_{t_2}-X_{t_1}=n)=P(S_m\le t_1<S_{m+1},\; S_{m+n}\le t_2<S_{m+n+1}),
+\]
+
+где \(S_k=\sum_{i=1}^k\xi_i\), \(\xi_i\sim\text{Exp}(\lambda)\) независимы. Используя независимость \(S_m\) и \(\xi_{m+1},\dots,\xi_{m+n+1}\), а также формулу полной вероятности, получаем:
+
+\[
+P=\int_0^{t_1} f_{S_m}(s)\,P\bigl(\xi_{m+1}>t_1-s,\; \xi_{m+1}+\cdots+\xi_{m+n}\le t_2-s,\; \xi_{m+1}+\cdots+\xi_{m+n+1}>t_2-s\bigr)\,ds.
+\]
+
+Сделаем замену \(u=t_1-s\) (\(ds=-du\)). Так как \(\xi_i\) --- н.о.р.с.в, можно переиндексировать их внутри интеграла:
+
+\[
+P=\int_0^{t_1} f_{S_m}(t_1-u)\,P\bigl(\xi_{1}>u,\; \xi_{1}+\cdots+\xi_{n}\le h+u,\; \xi_{1}+\cdots+\xi_{n+1}>h+u\bigr)\,du,
+\]
+
+где \(h=t_2-t_1\), а \(\xi_i\) – независимые экспоненциальные с параметром \(\lambda\). В силу отсутствия памяти, условное распределение \(\xi_1-u\) при \(\xi_1>u\) снова является \(\text{Exp}(\lambda)\) и не зависит от \(\xi_2,\dots,\xi_{n+1}\). Поэтому внутренняя вероятность равна:
+
+\[
+P(\xi_1>u)\cdot P\bigl(\eta+\xi_2+\cdots+\xi_n\le h,\; \eta+\xi_2+\cdots+\xi_{n+1}>h\bigr)=e^{-\lambda u}\cdot e^{-\lambda h}\frac{(\lambda h)^n}{n!},
+\]
+
+где \(\eta\sim\text{Exp}(\lambda)\) независимо от \(\xi_2,\dots,\xi_{n+1}\). Подставляя это выражение, имеем:
+
+\[
+P=e^{-\lambda h}\frac{(\lambda h)^n}{n!}\int_0^{t_1} f_{S_m}(t_1-u)\,e^{-\lambda u}\,du.
+\]
+
+Поскольку \(f_{S_m}(t_1-u)=\frac{\lambda^m (t_1-u)^{m-1}}{(m-1)!}e^{-\lambda(t_1-u)}\), то
+
+\[
+f_{S_m}(t_1-u)e^{-\lambda u}= \frac{\lambda^m (t_1-u)^{m-1}}{(m-1)!}e^{-\lambda t_1}.
+\]
+
+Интеграл \(\int_0^{t_1} \frac{\lambda^m (t_1-u)^{m-1}}{(m-1)!}e^{-\lambda t_1}\,du = e^{-\lambda t_1}\frac{(\lambda t_1)^m}{m!}=P(X_{t_1}=m)\). Следовательно,
+
+\[
+P(X_{t_1}=m,\; X_{t_2}-X_{t_1}=n)=P(X_{t_1}=m)\cdot e^{-\lambda h}\frac{(\lambda h)^n}{n!}=P(X_{t_1}=m)\,P(X_{t_2}-X_{t_1}=n).
+\]
+
+Таким образом, приращения на непересекающихся интервалах \((0,t_1]\) и \((t_1,t_2]\) независимы. Точно так же можно доказать независимость для \(n\) интервалов (доказательство будет полностью аналогично)
+\end{proof}
