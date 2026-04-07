@@ -1395,9 +1395,97 @@
     \[\sum_{n = 1}^\infty P(\xi_n \ne \tilde{\xi_n}) = \sum_{n = 1}^\infty P(\xi_n \ge n) = \sum_{n = 1}P(\xi_1 \ge n) < \infty\]
     Последнее получаем в силу \(\E\xi_1 < +\infty\). По лемме Бореля-Кантелли, получаем, что \(P(\{\xi_n \ne \tilde{\xi_n}, \text{б.ч.}\}) = 0\). Тогда \(\frac{S_n}{n}\xrightarrow{\text{п.н.}} \E\xi_1 \Lra \frac{\tilde{S_n}}{n}\xrightarrow{\text{п.н.}} \E\xi_1\)
 
-    TBA
+    \lecture{10}
+
+    Проверим, что \(\frac{\tilde{S_n} - \E \tilde{S_n}}{n} \xrightarrow{\text{п.н.}} 0\) по некоторой подпоследовательности.
+    Для \(\alpha > 1\) положим \(k_m = \lfloor \alpha^m \rfloor, m \in \N\). Покажем, что \(\frac{\tilde{S}_{k_m} - \E\tilde{S}_{k_m}}{k_m} \xrightarrow{\text{п.н.}} 0, m \ra \infty\). Для \(\epsilon > 0\):
+    \[\sum_m P\left( \left| \frac{\tilde{S}_{k_m} - \E\tilde{S}_{k_m}}{k_m}  \right| \ge \epsilon\right) \le \sum_{m = 1}^\infty \frac{\Variance \tilde{S}_{k_m}}{\epsilon^2 k_m^2} = \sum_{m = 1}^\infty \frac{1}{\epsilon^2 k_m^2} \sum_{j = 1}^{k_m} \Variance \tilde{\xi_j} \le \]
+    \[\le \sum_{m = 1}^\infty \frac{1}{\epsilon^2 k_m^2} \sum_{j = 1}^{k_m} \E \tilde{\xi_j}^2 = \sum_{j = 1}^\infty \frac{1}{\epsilon^2}\E\tilde{\xi_j}^2 \underbrace{\sum_{m: k_m \ge j} \frac{1}{k_m^2}}_{O\left( \frac{1}{j^2} \right)} \le \frac{c}{\epsilon^2}\sum_{j = 1}^\infty \frac{1}{j^2} \E\tilde{\xi_j}^2 = \frac{c}{\epsilon^2}\sum_{j = 1}^\infty \frac{1}{j^2} \E(\xi_j^2 I\{\xi_j < j\}) =\]
+    Из одинаковой распределенности \(\xi_i\), получаем:
+    \[= \frac{c}{\epsilon^2}\sum_{j = 1}^\infty \frac{1}{j^2} \E(\xi_1^2 I\{\xi_1 < j\}) = \frac{c}{\epsilon^2}\sum_{j = 1}^\infty \frac{1}{j^2} \sum_{i = 1}^j \E(\xi_1^2 I\{i - 1 \le \xi_1 < i\}) =\]
+    \[= \frac{c}{\epsilon^2}\sum_{j = 1}^\infty \frac{1}{j^2} \sum_{i = 1}^j \E(\xi_1^2 I\{i - 1 \le \xi_1 < i\}) \cdot \underbrace{\sum_{j = i}^\infty \frac{1}{j}}_{\le \frac{2}{i}} = \le \frac{2c}{\epsilon} \sum_{i = 1}^\infty \E\left( \underbrace{\frac{\xi_1^2}{i}}_{\le \xi_1}I\{i - 1 \le \xi_1 < i\} \right) \le\]
+    \[\le \frac{2c}{\epsilon} \sum_{i = 1}^\infty \E\left( \underbrace{\frac{\xi_1^2}{i}}_{\le \xi_1}I\{i - 1 \le \xi_1 < i\} \right) \le \frac{2c}{\epsilon^2}\sum_{i = 1}^\infty  \E(\xi_1^2 I\{i - 1 \le \xi_1 < i\}) = \frac{2c}{\epsilon^2}\E\xi_1 < +\infty\]
+
+    Проверим теперь, что \(\frac{\E\tilde{S}_n}{n} \ra \E\xi_1\). Заметим, что \(\E\tilde{\xi}_n = \E(\xi_n I\{\xi_n < n\}) = \E(\xi_1 I\{\xi1 < n\})= (*)\). По теореме Лебега о мажорируемой сходимости, \((*) \ra \E\xi_1\). Тогда по лемма Тёплица получаем, что \(\frac{\E\tilde{S}_n}{n} \ra \E\xi_1\) и тогда \(\frac{\tilde{S}_{k_m}}{k_m} \xrightarrow{\text{п.н.}} \E\xi_1, m \ra \infty\). Далее, если \(k_m \le n \le k_{m + 1}\), то \(\frac{\tilde{S}_{k_m}}{n} \le \frac{\tilde{S}_n}{n} \le \frac{\tilde{S}_{k_{m + 1}}}{n}\).
+    Заметим, что
+    \[\frac{\tilde{S}_{k_{m + 1}}}{n} \le \frac{\tilde{S}_{k_{m + 1}}}{k_m} = \underbrace{\frac{\tilde{S}_{k_{m + 1}}}{k_{m + 1}}}_{\xrightarrow{\text{п.н.}} \E\xi_1} \cdot \underbrace{\frac{k_{m + 1}}{k_{m}}}_{\ra \alpha}\]
+    Аналогично,
+    \[\frac{\tilde{S}_{k_{m}}}{n} \ge \frac{\tilde{S}_{k_{m}}}{k_{m + 1}} = \underbrace{\frac{\tilde{S}_{k_{m}}}{k_m}}_{\xrightarrow{\text{п.н.}} \E\xi_1} \cdot \underbrace{\frac{k_m}{k_{m + 1}}}_{\ra \frac{1}{\alpha}}\]
+
+    Пусть \(n\) произвольно и \(m\) таково, что \(k_m \le n \le k_{m+1}\). Тогда из полученных неравенств имеем:
+    \[\frac{\tilde{S}_{k_m}}{k_{m+1}} \le \frac{\tilde{S}_n}{n} \le \frac{\tilde{S}_{k_{m+1}}}{k_m}.\]
+    В силу сходимости \(\frac{\tilde{S}_{k_m}}{k_m} \xrightarrow{\text{п.н.}} \E\xi_1\) и \(\frac{k_{m+1}}{k_m} \to \alpha\), получаем:
+    \[\frac{\E\xi_1}{\alpha} \le \liminf_{n\to\infty} \frac{\tilde{S}_n}{n} \le \limsup_{n\to\infty} \frac{\tilde{S}_n}{n} \le \alpha \E\xi_1 \quad \text{п.н.}\]
+    Поскольку \(\alpha > 1\) произвольно, устремляя \(\alpha \to 1\), получаем:
+    \[\lim_{n\to\infty} \frac{\tilde{S}_n}{n} = \E\xi_1 \quad \text{п.н.}\]
 
     Таким образом, получили, что
     \[\frac{\xi_1^{\pm} + \dots + \xi_n^{\pm}}{n} \xrightarrow{\text{п.н.}}\E\xi_1^{\pm}\]
     Вычтем одну сходимость из другой и получим желаемое.
 \end{proof}
+
+\begin{corollary}[УЗБЧ в форме Колмогорова]
+    Если \(\{\xi_n, n \in \N\}\) --- н.о.р.с.в и \(\E|\xi_i| < \infty\), то 
+    \[\frac{\xi_1 + \dots + \xi_n}{n} \xrightarrow{\text{п.н.}} \E\xi_1, n \ra \infty\]
+\end{corollary}
+
+\begin{corollary}[Критерий выполнимости УЗБЧ]
+    Если \(\{\xi_n, n \in \N\}\) --- н.о.р.с.в. Тогда \(\frac{\xi_1 + \dots + \xi_n}{n}\) имеет пример п.н. \(\Lra \E\xi_1\) --- конечно.
+\end{corollary}
+\begin{proof}
+    \begin{enumerate}
+        \item[\(\La\)] УЗБЧ в фомре Колмогорова.
+        \item[\(\Ra\)] Пусть \(S_n = \xi_1 + \dots + \xi_n\) и \(\frac{S_n}{n} \xrightarrow{\text{п.н}} \eta\). Рассмотрим 
+        \[\frac{\xi_n}{n} = \frac{S_n}{n} - \frac{S_{n - 1}}{n} = \underbrace{\frac{S_n}{n}}_{\ra \eta} - \underbrace{\frac{S_{n - 1}}{n - 1}}_{\ra \eta}\underbrace{\frac{n - 1}{n}}_{\ra 1} \xrightarrow{\text{п.н}} 0\]
+        Тогда \(0 = P(\{|\xi_n \ge n, \text{б.ч.}|\})\). Тогда по лемме Бореля-Кантелли, сходится ряд \(\sum_{n}P(|\xi_n| \ge n) = \sum_{n}P(|\xi_1| \ge n) < +\infty \Ra \E|\xi_1| < \infty\)
+    \end{enumerate}
+\end{proof}
+
+\section{Слабая сходимость вероятностных мер}
+Пусть \((S, \rho)\) --- метрическое пространство.
+\begin{definition}
+    Последовательность вероятностных мер \(\{P_n, n \in \N\}\) на \((S, \rho)\) слабо сходится к вероятностной мере \(P\), если \(\forall f: S \ra \R\) --- ограниченной непрерывной функции выполнено:
+    \[\int_Sf(x)P_n(dx) \ra_{n \ra \infty} \int_Sf(x)P(dx)\]
+    Обозначают \(P_n \xrightarrow{w} P\)
+\end{definition}
+
+\begin{note}
+    Если \(\{\xi_n, n \in \N\}\) --- случайные величины, то \(\xi_n \xrightarrow{d} \xi \Lra P_{\xi_n} \xrightarrow{w} P_{\xi}\)
+\end{note}
+
+\begin{definition}
+    Последовательность вероятностных мер \(\{P_n, n \in \N\}\) сходится в основном к вероятностной мере \(P\), если \(\forall B \in \mathcal{B}(S)\) с условием \(P(\partial B) = 0\) выполнено \(P_n(B) \ra_{n \ra \infty} P(B)\). Обозначение: \(P_n \Ra P\) (\(\partial B\) --- граница \(B\)).
+\end{definition}
+
+\begin{theorem}[Алексанрова]
+    Следующие условия эквивалентны:
+    \begin{enumerate}
+        \item \(P_n \xrightarrow{w} P\)
+        \item \(\limsup_{n} P_n(F) \le P(F)\) для любого замкнутого \(F \subset S\).
+        \item \(\liminf_{n} P_n(G) \ge P(G)\) для любого открытого \(G \subset S\).
+        \item \(P_n \Ra P\)
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    \begin{enumerate}
+        \item[\((1) \Ra (2)\)] Пусть \(F\) --- замкнуто. Для \(\delta > 0\) введем \(F^{\epsilon} = \{x: \rho(x, F) \le \epsilon\}\) --- \(\epsilon\)-окрестность \(F\). Для \(\epsilon > 0\) рассмотрим: \(f_\epsilon(x) = \left( 1 - \frac{\rho(x, F)}{\epsilon} \right)^+\). Это ограниченная непрерывная функция и \(I_F(x) \le f_\epsilon(x) \le I_{F^\epsilon}(x)\). Тогда
+        \[\limsup_{n}P_n(F) = \limsup_{n}\int_SI_F(x)P_n(dx) \le \limsup_n \int_S f_\epsilon(x)P_n(dx) = \int_S f_\epsilon(x)P(dx) \le \int_S I_{F^\epsilon}(x)P(dx) = P(F^{\epsilon})\]
+        При \(\epsilon \downarrow 0+\), \(F^\epsilon \downarrow F\) в силу замкнутости \(F\). В силе непрерывности вероятностной меры, \(P(F^{\epsilon}) \ra P(F)\).
+        \item[\((2) \Lra (3)\)] Достаточно рассмотреть дополнения
+        \item[\((2), (3) \Ra (4)\)] Пусть \(B \in \mathcal{B}(S)\) такое, что \(P(\partial B) = 0\). Рассмотрим \(F = B \cup \partial B, G = B \setminus \partial B\) --- замыкание и дополнение \(B\) соответственно. Тогда \(\limsup_n P_n(B) \le \limsup_n P_n(F) \le P(F) = P(B)\). Аналогично, \(\liminf_n P_n(B) \ge \liminf_n P_n(G) \ge P(F) = P(B) \Ra \exists \lim_n P_n(B) = P(B)\).
+        \item[\((4) \Ra (1)\)] Пусть \(f: S \ra \R\) --- ограниченная непрерывная функция. Пусть \(M > 0\) таково, что \(\sup_{x}|f(x)| < M\). Введем \(D = \{t \in [-M, M]: P(\{x: f(x) = t\}) > 0\}\). Тогда \(D\) --- это не более чем счетное множество. Рассмотрим любое разбиение \(T = \{-M = t_0 < t_1 \dots < t_{m - 1} < t_m = M\}\), т.ч. все \(t_i \notin D\). Введем \(B_i = f^{-1}(t_{i - 1}, t_i] = \{x: f(x) \in (t_{i - 1}, t_i]\}\). Тогда \(\partial B_i \subset f^{-1}(\{t_{i - 1}\}) \cup f^{-1}(\{t_{i}\}) \Ra P(\partial B_i) = 0\). В силу \(P_n \Ra P\), верно \(P_n(B_i) \ra P(B_i)\). В итоге:
+        \[\limsup_n \left| \int_S f(x)P_n(dx) - \int_S f(x)P(dx) \right| \le\]\[\le \limsup_n \Bigg( \left| \int_S f(x)P_n(dx) - \sum_{i = 1}^n t_{i - 1}P_n(B_i) \right| + \left| \sum_{i = 1}^n t_{i - 1}P_n(B_i) - \sum_{i = 1}^n t_{i - 1}P(B_i) \right| +\]
+        \[+ \left| \sum_{i = 1}^n t_{i - 1}P(B_i) - \int_S f(x)P(dx) \right|\Bigg) \le 2\Delta T\]
+        В силу произвольного выбора разбиения \(T\) получаем, что \(P_n \xrightarrow{w} P\).
+    \end{enumerate}
+\end{proof}
+
+\begin{definition}
+    Пусть \(\{F_n, n \in \N, F\}\) --- функции распределения в \(\R^m\). Последовательность \(\{F_n\}\) сходится к \(F\) в основном, если \(\forall x\) --- точки непрерывности \(F\) выполнено:
+    \[F_n(x) \ra_{n \ra \infty} F(x)\]
+    Обозначение: \(F_n \Ra F\)
+\end{definition}
+
+\begin{theorem}[Эквивалентность сходимостей мер и функций распределения]
+    Пусть \(\{P_n, n \in \N\}, P\) --- вероятностные мера на \(\R^m\), а \(\{F_n, n \in \N\}, F\) --- соответствующие функции распределения. Тогда \(P_n \xrightarrow{w} P \Lra F_n \Ra F\).
+\end{theorem}
