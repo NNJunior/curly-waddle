@@ -1242,3 +1242,18 @@
 \begin{exercise}
     Доказать теорему (было на алгосах).
 \end{exercise}
+
+\begin{corollary}
+    Таким образом, мы доказали, что \(\mathsf{2SAT} \le_l \mathsf{PATH}\). В качестве сертификата достаточно взять доказательство отсутствия одного из путей \(p \ra \neg p\) или \(\neg p \ra p\).
+\end{corollary}
+
+\begin{proposition}
+    \(\overline{\mathsf{PATH}} \le_l \mathsf{2SAT}\).
+\end{proposition}
+\begin{proof}
+    Рассмотрим следующую формулу: \(s \wedge \neg t \wedge \bigwedge_{(v_i, v_j) \in E}(v_i \ra v_j)\) в 2-КНФ. Заметим, что любой выполняющий набор \(\phi\) удовлетворяет условию: \(\exists s \ra v \Ra v = 1\). Тогда выполняющий набор существует \(\Lra t\) недостижимо из \(s\).
+\end{proof}
+
+\begin{corollary}
+    \(\mathsf{2SAT}\) --- \(\mathbf{NL}\)-полная.
+\end{corollary}
