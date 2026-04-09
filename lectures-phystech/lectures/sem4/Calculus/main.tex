@@ -927,6 +927,8 @@
     Положим \(I(\alpha) = \int_0^{+\infty} \alpha e^{-\alpha x}dx\). Заметим, что \(I(0) = 0\), а при \(\alpha > 0: I(\alpha) = e^{-\alpha x}\big|_0^{+\infty} = 1\). Таким образом, условие 3 критично для выполнения утверждения теоремы.
 \end{example}
 
+\lecture{9}
+
 \begin{theorem}[О дифференцируемости]
     Пусть \(E \subset \R^m\) --- измеримо, \(A \subset \R\) --- промежуток. Пусть \(f: E \times A \ra \Cm\), такая, что 
     \begin{enumerate}
@@ -1012,3 +1014,111 @@
     \[\int_\alpha^{\alpha_0} J(y) dy = \int_a^b\left( \int_{\alpha_0}^\alpha f(x, \alpha)d\alpha \right) dx = \int_a^b ((f(x, \alpha) - f(x, \alpha_0)))dx = I(\alpha) - I(\alpha_0)\]
     Следовательно, \(I(\alpha) = \int_{\alpha_0}^{\alpha} J(y)dy + I(\alpha_0)\). Поэтому \(I \in C^1(A)\) и \(I'(\alpha) = J(\alpha)\)
 \end{proof}
+
+\lecture{10}
+
+\begin{theorem}[Критерий Коши]
+    \(\int_a^b f(x, \alpha)dx\) сходится равномерно на \(A\) тогда и только тогда, когда:
+    \[\forall \epsilon > 0 \exists b_{\epsilon} \in [a, b) \forall \xi, \eta \in (b_\epsilon, b) \forall \alpha \in A \left( \left| \int_\xi^\eta f(x, \alpha) dx \right| < \epsilon \right)\quad(*)\]
+\end{theorem}
+\begin{proof}
+    Пусть \(\epsilon > 0\). Из условия равномерной сходимости:
+    \[\exists b_\epsilon \in [a, b)  \forall y \in (b_\epsilon, b) \forall \alpha \in A \left( \left| \int_y^b f(x, \alpha) dx \right| < \frac{\epsilon}{2} \right)\]
+    Тогда для любого \([\xi, \eta] \subset (b_\epsilon, b) \forall \alpha \in A\):
+    \[\left| \int_\xi^\eta f(x, \alpha) dx \right| = \left| \int_\xi^b f(x, \alpha) dx - \int_\eta^b f(x, \alpha) dx \right| \le \left| \int_\xi^b f(x, \alpha) dx \right| + \left|\int_\eta^b f(x, \alpha) dx \right| \le \frac{\epsilon}{2} + \frac{\epsilon}{2} = \epsilon\]
+
+    В другую сторону. Пусть выполнено условие \((*)\). Заметим, что для каждого фиксированного \(\alpha \in A\) условие \((*)\) влечёт сходимость несобственного интеграла \(\int_a^b f(x,\alpha)dx\) по критерию Коши для несобственных интегралов (без параметра). Действительно, для любого \(\epsilon>0\) существует \(b_\epsilon\in[a,b)\) такое, что для любых \(\xi,\eta\in(b_\epsilon,b)\) выполнено \(\left|\int_\xi^\eta f(x,\alpha)dx\right|<\epsilon\). Это означает, что функция \(F_\alpha(y)=\int_a^y f(x,\alpha)dx\) имеет предел при \(y\to b-\). Обозначим этот предел через \(I(\alpha)=\int_a^b f(x,\alpha)dx\).
+
+    Покажем, что сходимость равномерна. Зафиксируем \(\epsilon>0\). По условию \((*)\) найдётся \(b_\epsilon\in[a,b)\) такое, что для всех \(\xi,\eta\in(b_\epsilon,b)\) и всех \(\alpha\in A\) справедливо \(\left|\int_\xi^\eta f(x,\alpha)dx\right|<\epsilon\). Возьмём произвольное \(y\in(b_\epsilon,b)\). Для любого \(\eta\in(b_\epsilon,b)\) имеем \(\left|\int_y^\eta f(x,\alpha)dx\right|<\epsilon\). Устремим \(\eta\to b-\). Поскольку для каждого \(\alpha\) интеграл \(\int_y^\eta f\) сходится к \(\int_y^b f\), и неравенство \(\left|\int_y^\eta f\right|<\epsilon\) сохраняется в пределе (модуль непрерывен), получаем
+    \[
+    \left|\int_y^b f(x,\alpha)dx\right| \le \epsilon \qquad \forall \alpha\in A,\ \forall y\in(b_\epsilon,b).
+    \]
+    Если в условии \((*)\) взять \(\epsilon/2\) вместо \(\epsilon\), то получим оценку \(<\epsilon\). Следовательно,
+    \[
+    \sup_{\alpha\in A}\left|\int_y^b f(x,\alpha)dx\right| \to 0 \quad\text{при}\quad y\to b-,
+    \]
+    что и означает равномерную сходимость интеграла на \(A\).
+\end{proof}
+
+\begin{theorem}[Признак Дирихле]
+    Пусть на \([a, b) \times A\) заданы функции \(f, g\) такие, что
+    \begin{enumerate}
+        \item \(F(x, \alpha) = \int_a^xf(t, \alpha)dt\) ограничен на \([a, b) \times A\).
+        \item \(g(\cdot, \alpha)\) монотонна на \([a, b)\) при любом \(\alpha \in A\).
+        \item \(\sup_{\alpha \in A}|g(x, \alpha)| \ra_{x \ra b - 0} 0\)
+    \end{enumerate}
+    Тогда \(J(\alpha) = \int_a^b f(x, \alpha)g(x, \alpha)dx\) сходится равномерно на \(A\).
+\end{theorem}
+\begin{proof}
+    Зафиксируем \(\epsilon > 0\). Из условия 1 \(\exists C > 0: \forall x \in [a, b) \forall \alpha \in A (|F(x, \alpha)| \le C)\). Из условия 3, \(\exists b_\epsilon \in [a, b) \forall x \in (b_\epsilon, b) \forall \alpha \in A \left( |g(x, \alpha)| \le \frac{\epsilon}{8 C} \right)\). Зафиксиурем \(\alpha \in A\). Пусть теперь \([\xi, \eta] \subset (b_\epsilon, b)\). Имеем \(\left| \int_\xi^x f(t, \alpha) \right| = |F(x, \alpha) - F(\xi, \alpha)|\) и по лемме Абеля:
+    \[\left| \int_\xi^\eta f(x, \alpha)g(x, \alpha)dx \right| \le 4C(|g(\xi, \alpha)| + |g(\eta, \alpha)|) < 4C\left( \frac{\epsilon}{8C} + \frac{\epsilon}{8C} \right) = \epsilon\]
+    И по критерию Коши равномерной сходимости получаем желамое.
+\end{proof}
+
+\begin{example}
+    Рассмотрим интеграл:
+    \[\int_0^{+\infty}\frac{\sin x}{x}dx, \alpha \ge 0\]
+    Рассмотрми семейство \(I(\alpha) = \int_0^{+\infty} \frac{\sin x}{x}e^{-\alpha x}dx\). Заметим, что: \(\left| \int_0^x \sin t dt \right| \le 2, \left| \frac{e^{-\alpha x}}{x} \right| \le \frac{1}{x} \ra_{x \ra +\infty} 0\) и функция \(\frac{e^{-\alpha x}}{x}\) монотонна. Тогда выполнены условия признака Дирихле, т.е. интеграл сходится равномерно (чтобы избежать проблем в точке 0, достаточно рассмотреть интеграл на луче \([1, +\infty)\)). Кроме того, \(f(x, \alpha) = \frac{\sin x}{x}e^{-\alpha x}\) непрерывна на \([0, +\infty)^2\), следовательно, по теореме о непрерывности интеграла с параметром, \(I(\alpha)\) непрерывна на \([0, +\infty)\). Докажем теперь дифференцируемость данной функции в каждой точке \(\alpha\). Заметим, что \(\frac{\partial f}{\partial \alpha} = -e{-\alpha x} \sin x\), следовательно, \(f\) дифференцируема. Возьмем \(0 < c < \alpha < d < +\infty\). На отрезке \([c, d]\) выполнено: \(\left|\frac{\partial f}{\partial \alpha}(x, \alpha)\right| \le e{-cx} \) --- интегрируемая мажоранта. Таким образом, по теореме о дифференцировании интеграла с параметром, \(I'(\alpha) = -\int_0^{+\infty}e^{-\alpha x}\sin x dx\). Заметим, что:
+    \[I'(\alpha) = -\int_0^{+\infty}e^{-\alpha x}\sin xdx = \int_0^{+\infty}e^{-\alpha x}d(\cos x) = e^{-\alpha x}\cos x\big|_{0}^{+\infty} + \alpha \int_0^{+\infty}e^{-\alpha x} \cos xdx =\]
+    \[= -1 + \alpha \int_0^{+\infty}e^{-\alpha x}d(\sin x) = -1 + \alpha \left( \underbrace{e^{-\alpha x}\sin x\big|_0^{+\infty}}_{0} + \alpha \int_0^{+\infty}e^{-\alpha x}\sin x dx \right)\]
+    Получаем \(I'(\alpha) = -1 - \alpha^2I'(\alpha) \Ra I'(\alpha) = \frac{1}{1 + \alpha^2}\) на \(\forall [c, d] \subset (0, +\infty)\Ra \) равенство выполнено на всем луче. Тогда \(I(\alpha) = -\arctg \alpha + C\). Заметим, что \(|I(\alpha)| \le \int_0^{+\infty} e^{-\alpha x}dx = \frac{1}{\alpha} \ra_{\alpha \ra +\infty} 0\), поэтому \(C = \frac{\pi}{2}\). Итак,
+    \[I(\alpha) = \frac{\pi}{2} - \arctg \alpha, \alpha \ge 0.\]
+    В частности,
+    \[\int_0^{+\infty} \frac{\sin x}{x} dx = I(0) = \frac{\pi}{2}\]
+\end{example}
+
+\subsection{Интегралы Эйлера}
+
+\begin{definition}
+    Функция
+    \[\Gamma(x) = \int_0^{+\infty} t^{x - 1}e^{-t}dt\]
+    Называется гамма-функцией Эйлера
+\end{definition}
+
+\begin{note}
+    \(\Gamma\) --- несобственный интеграл с особенностью в \(+\infty\) и \(0\) (при \(t < 1\)). Заметим, что \(f = t^{x - t}e^{-t} \sim t^{x - 1}\) при \(t \ra +0\), и тогда \(\int_0^{\frac{1}{2}} f(t)dt\) сходится \(\Lra x > 0\). Также, \(f = t^{x - t}e^{-t/2}e^{-t/2} = o(e^{-t/2}), t \ra +\infty \Ra \int_0^{\frac{1}{2}} f(t)dt\) сходится \(\forall x > 0\). Таким образом, \(\Gamma(x)\) определена при \(x > 0\).
+\end{note}
+
+\begin{lemma}
+    \(\Gamma(x + 1) = x\Gamma(x)\) при \(x > 0\). Кроме того, \(\Gamma(n + 1) = n!\).
+\end{lemma}
+\begin{proof}
+    Интегрирование по частям дает:
+    \[\Gamma(x + 1) = \int_0^{+\infty}t^xe^{-t}dt = \underbrace{-t^{x}e^{-t}\big|_0^{+\infty}}_{0} + x\int_0^{+\infty}t^{x - 1}e^{-t}dt = x\Gamma(x)\]
+    Формула для \(\Gamma(n + 1) = n!\) получается из индукции по \(n\) с базой \(\Gamma(1) = \int_0^{+\infty} e^{-t}dt = 1 = 0!\).
+\end{proof}
+
+\begin{lemma}
+    \(\Gamma \in C^{\infty}(0, +\infty)\) и \(\Gamma^{(k)}(x) = \int_0^{+\infty}t^{x - 1}e^{-t}\ln^ktdt\) для \(k \in \N_0\).
+\end{lemma}
+\begin{proof}
+    Для \(k = 0\) утверждение выполнено (по определению \(\Gamma\)). Проверим переход индукции. Для доказательства дифференцируемости, рассмотрим произвольный \(0 < c < d < +\infty\) и докажем дифференцируемость на нем.
+    \[\frac{\partial}{\partial x}\left( t^{x - 1}e^{-t}\ln^kt \right) = t^{x - 1}e^{-t}\ln^{k + 1}t\]
+    Тогда:
+    \[|t^{x - 1}e^{-t}\ln^{k + 1}t| \le t^{c - 1}e^{-t}|\ln t|^{k + 1}, t \in (0, 1)\]
+    \[|t^{x - 1}e^{-t}\ln^{k + 1}t| \le t^{d - 1}e^{-t}\ln^{k + 1} t, t \in [1, +\infty)\]
+    Следовательно, по теореме о дифференцировании интеграла с параметром на любом отрезке \([c, d]\):
+    \[\Gamma^{(k + 1)}(x) = \int_0^{+\infty}t^{x - 1}e^{-t}\ln^{k + 1}tdt\]
+    Но тогда равенство выполнено и на всем луче \((0, +\infty)\).
+\end{proof}
+
+\begin{note}
+    \(\Gamma''(x) > 0\) при \(x > 0\), т.е. \(\Gamma\) строго выпукла вниз. Кроме того, \(\Gamma(1) = \Gamma(2) = 1 \Ra \exists x_0 \in (1, 2): \Gamma'(x_0) = 0\). Также:
+    \[\Gamma(x) = \frac{1}{x}\Gamma(x + 1) \sim \frac{1}{x}, x \ra 0\]
+    \[\Gamma(x) \ge \int_x^{+\infty} t^{x - 1}e^{-t}dt \ge x^{x - 1}\int_x^{+\infty}e^{-t}dt = \frac{1}{x}\left( \frac{x}{e} \right)^x\]
+\end{note}
+
+Таким образом, график \(\Gamma(x)\) на \(x > 0\):
+\begin{center}
+    его слишком сложно нарисовать :(
+\end{center}
+
+\begin{definition}
+    Функция
+    \[B(x, y) = \int_0^1 t^{x - 1}(1 - t)^{y - 1}dt\]
+    Называется бета-функцией Эйлера.
+\end{definition}
+
+\begin{note}
+    Это интеграл с особенностями в \(t = 0\) (при \(x < 1\)) и \(t = 1\) (при \(y < 1\)). Заметим, что \(f = t^{x - 1}(1 - t)^{y - 1} \sim t^{x - 1}\) при \(t \ra 0+\), поэтому интеграл \(\int_0^{1/2} f(t)dt\) сходится \(\Lra x > 0\). Также, \(f \sim (1 - t)^{y - 1}\) при \(t \ra 1-0\), поэтому интеграл \(\int_{1/2}^1 f(t)dt\) сходится \(\Lra y > 0\). Итак, \(B(x, y)\) определена при \(x, y > 0\).
+\end{note}
