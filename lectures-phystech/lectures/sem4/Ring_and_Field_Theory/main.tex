@@ -1336,8 +1336,154 @@
 
 \section{Теория Галуа}
 
-Пусть \(K \supset \Q\)
+Пусть \(K\) --- поле
 
 \begin{definition}
     Автоморфизм --- изоморфизм \(\phi: K \ra K\), такой, что \(\forall \alpha \in \Q: \phi(\alpha) = \alpha\)
 \end{definition}
+
+\lecture{9}
+
+\begin{definition}
+    \(Aut\;K = \{\phi: K \ra K | \phi\text{ --- изоморфизм}\}\)
+\end{definition}
+
+\begin{note}
+    Пусть \(K \supset F, H \subset Aut_F\;K\) --- подгруппа. Тогда \(K^H = \{\alpha \in K | \forall h \in H: h(\alpha) = \alpha\}\). Заметим, что \(\alpha, \beta \in K^H \Ra h(\alpha) = \alpha, h(\beta) = \beta \Ra \alpha \pm \beta, \alpha \cdot \beta, \alpha^{-1} \in K^H\) и тогда \(K^H\) --- поле
+\end{note}
+
+\begin{proposition}
+    Если \(\operatorname{char} K = 0, g \in Aut\;K\) то \(g\) сохраняет \(\Q\). Если \(\operatorname{char} K = p, g \in Aut\;K\) то \(g\) сохраняет \(\Z_p\).
+\end{proposition}
+\begin{proof}
+    \(g(1) = 1 \Ra g(1 + 1) = n\cdot g(1) + g(1) = 2 = n \Ra\) по индукции можно доказать, что \(g(n) = n\). Тогда \(g(-n) = -n, g\left( \frac{1}{n} \right) = \frac{1}{n} \Ra g\) сохраняет указанное подполе.
+\end{proof}
+
+\begin{proposition}
+    Пусть \(\operatorname{char} K = 0, g \in Aut\;K\). Тогда \(\alpha\) --- алгебраично над \(\Q \Ra g(\alpha)\) --- корень \(m_{\alpha, \Q}\).
+\end{proposition}
+\begin{proof}
+    Из свойств изоморфизма нетрудно заметить, что:
+    \[m_{\alpha, \Q}(g(\alpha)) = g(m_{\alpha, \Q}(\alpha)) = g(0) = 0\]
+\end{proof}
+
+\begin{definition}
+    \(Aut_F\;K = \{g \in Aut\;K | \forall a \in F\;g(a) = a\}\)
+\end{definition}
+
+\begin{note}
+    \(Aut\;K = Aut_\Q\;K\)
+\end{note}
+
+\begin{note}
+    Если \(\gamma\) алгебраическое над \(F\), то:
+    \[|Aut_F\;F(\gamma)| = \#\text{корней }m_{\gamma, F}\text{ в }F \le \deg m_{\gamma, F} = [F(\gamma):F]\]
+\end{note}
+
+\begin{corollary}
+    \(\operatorname{char} F = 0, K \supset F\) конечное \(\Ra Aut_F\;K \le [K:F]\)
+\end{corollary}
+\begin{proof}
+    \(g \in \operatorname{Aut}_F F(\gamma)\) однозначно задаётся \(g(\gamma)\).  
+    По теореме о примитивном элементе существует \(\alpha \in K\) такой, что \(K = F(\alpha)\). Пусть \(m(x) = m_{\alpha,F}(x)\) — минимальный многочлен \(\alpha\) над \(F\); тогда \(\deg m = [K:F] = n\).  
+    Для любого \(g \in \operatorname{Aut}_F K\) имеем \(g(\alpha) = \alpha'\). Из свойств автоморфизма:
+    \[
+    m(\alpha') = g(m(\alpha)) = g(0) = 0,
+    \]
+    то есть \(\alpha'\) — корень \(m(x)\), лежащий в \(K\). Разные автоморфизмы дают разные образы \(\alpha\) (если \(g_1(\alpha)=g_2(\alpha)\), то \(g_1=g_2\) на всём \(K\), поскольку \(K=F(\alpha)\)). Следовательно, отображение \(g \mapsto g(\alpha)\) инъективно, и его образ содержится в множестве корней \(m\) в \(K\). У многочлена степени \(n\) не более \(n\) корней в любом поле, поэтому
+    \[
+    |\operatorname{Aut}_F K| \le \#\{\text{корней } m \text{ в } K\} \le n = [K:F].
+    \]
+    Утверждение доказано.
+\end{proof}
+
+
+Рассмотрим несколько типов расширений полей \(K \supset F\):
+\begin{enumerate}
+    \item Поле является полем разложения \(f \in F[x]\)
+    \item Если \(\alpha \in K, \beta\) сопряжено с \(\alpha \Ra \beta \in K\)
+    \item \(|Aut_F\;K| = [K:F]\)
+    \item \(K^{Aut_F\:K} = F\) --- где \(K^{Aut_F\:K}\) обозначает "все элементы \(K\), которые сохраняются всеми изоморфизмами"
+\end{enumerate}
+
+\begin{definition}
+    Конечное расширение \(K \supset F\) называется нормальным, если выполнено одно из эквивалентных условий \((1) \Lra (2)\)
+\end{definition}
+
+\begin{definition}
+    Конечное расширение \(K \supset F\) называется расширением Галуа, если выполнено одно из эквивалентных условий \((3) \Lra (4)\)
+\end{definition}
+
+\begin{note}
+    Расширение Галуа --- это сепарабельное нормальное расширение.
+\end{note}
+
+\begin{lemma}
+    Если \(\phi: K \ra \overline{F}\) --- гомоморфизм, сохраняющий \(F\), \(\phi(\gamma) = \gamma' \Ra \gamma' \in K\)
+\end{lemma}
+\begin{proof}
+    \(\phi(\alpha_1), \phi(\alpha_2), \dots \phi(\alpha_n)\) --- корни \(f(x) \Ra \phi(\alpha_1), \phi(\alpha_2), \dots \phi(\alpha_n) \in K \Ra \phi(\gamma) \in K \Ra \gamma' \in K\).
+\end{proof}
+
+\begin{lemma}[О продолжении гомоморфизма]
+    Пусть \(L, L' \subseteq F, \phi: L \ra L'\) --- изоморфизм, сохраняющий \(F\), \(\beta\) --- алгебраическое над \(L \Ra \exists \tilde{\psi}: L(\beta) \ra L'(\beta)\) --- изоморфизм, такой, что:
+    \begin{enumerate}
+        \item \(\tilde{\psi}\) сохраняет \(F\)
+        \item \(L(\beta') \supset L'\)
+        \item \(\tilde{\psi}|_L = \psi\)
+    \end{enumerate}
+    Где \(\beta'\) --- корень \(\psi(m_{\beta, L})\)
+\end{lemma}
+\begin{proof}
+    Заметим, что \(L[x] \stackrel{\psi}{\simeq} L'[x]\) и \((m_{\beta, L}) \xrightarrow{\psi} (\psi(m_{\beta, L}))\) (нетрудно проверить, что \(\psi\) от неприводимого многочлена будет неприводимым многочленом). Но тогда \(L[x]/(m_{\beta, L}) \simeq L'[x]/(\psi(m_{\beta, L}))\), причём композиция изоморфизмов даёт изоморфизм полей:
+\[
+L(\beta) \cong L[x]/(m_{\beta,L}) \cong L'[x]/(\psi(m_{\beta,L})) \cong L'(\beta'),
+\]
+где \(\beta'\) — любой корень \(\psi(m_{\beta,L})\) в некотором расширении. Требуемый \(\tilde{\psi}\) получается как композиция этих отображений; он продолжает \(\psi\) и переводит \(\beta\) в \(\beta'\).
+\end{proof}
+
+\begin{theorem}
+    \(\operatorname{char} F = 0, K \supset F\) --- конечное, тогда \((1) \Lra (2) \Lra (3) \Lra (4)\)
+\end{theorem}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item[\((2) \Ra (3)\)] По теореме о примитивном элементе, \(K = F(\gamma)\). По доказанному: \(|Aut_F\;F(\gamma)| = \#\{\text{сопряженных с } \gamma \text{ в }F(\gamma)\} = \deg m_{\alpha, F} = [F(\gamma):F]\).
+        \item[\((3) \Ra (4)\)] Пусть \(K^{Aut_F\;K} = L \supseteq F\). При этом:
+        \[[K:F] = |Aut_F\;K| = |Aut_L\;K| \le [K:L] \le [K:F]\]
+        Поэтому \([K:L] = [K:F] \Ra L = F\).
+        \item[\((4) \Ra (1)\)] Нам известно, что \(K^{Aut_F\:K} = F\), причем \(K = F(\gamma)\) (по теореме о примитивном элементе). Рассмотрим:
+        \[f(x) = \prod_{g \in Aut_F\;K}(x - g(\gamma)) \in F[x]\]
+        Тогда если \(h \in Aut_F\;K\), то \(h(f(x)) = h\left( \prod_{g \in Aut_F\;K}(x - g(\gamma)) \right) = \prod_{g \in Aut_F\;K}(x - h(g(\gamma))) = f(x)\) (последнее верно в силу того, что \(g\) пробегает все элементы группы \(Aut_F\;K\)). Но так как \(h(f(x)) = f(x) \Ra\) если \(f = b_nx^n + \dots + b_1x + b_0\), то \(h(b_i) = b_i \Ra b_i \in F\), т.к. это верно для всех \(h \in Aut_F\;K\). При этом \(f(\gamma) = 0 \Ra f \vdots m_{\gamma, F} \Ra\) все сопряженные к \(\gamma\) имеют вид \(g(\gamma) \in K \Ra \) все сопряженные лежат в \(K\) по построению многочлена \(f\). При этом, \(K\) --- поле разложение \(f\), т.к. \(f(x) = \prod_{g \in \operatorname{Aut}_F K} (x - g(\gamma))\) раскладывается в \(K[x]\) на линейные множители, а \(K = F(\gamma)\) порождается над \(F\) корнями \(f\) (поскольку \(\gamma\) — один из этих корней), то \(K\) — поле разложения многочлена \(f\) над \(F\).
+
+        \item[\((1) \Ra (2)\)] Пусть \(K\) — поле разложения многочлена \(f \in F[x]\) над \(F\). Возьмём \(\alpha \in K\) и пусть \(\beta\) — произвольный корень минимального многочлена \(m_{\alpha,F}(x)\) (т.е. \(\beta\) сопряжено с \(\alpha\) в алгебраическом замыкании \(\overline{F}\)). Рассмотрим изоморфизм \(\psi: F(\alpha) \to F(\beta)\), заданный условиями \(\psi|_F = \operatorname{id}_F\) и \(\psi(\alpha) = \beta\). По лемме о продолжении гомоморфизма существует продолжение \(\widetilde{\psi}: K \to \overline{F}\) (так как \(K\) — поле разложения \(f\), оно получается из \(F\) последовательным присоединением корней \(f\); на каждом шаге лемма позволяет продолжить). При этом \(\widetilde{\psi}\) переводит корни \(f\) в корни \(f\), потому что для любого корня \(\gamma\) многочлена \(f\) имеем \(f(\gamma)=0\), откуда \(f(\widetilde{\psi}(\gamma)) = \widetilde{\psi}(f(\gamma)) = 0\). Все корни \(f\) лежат в \(K\) по определению поля разложения. Следовательно, \(\widetilde{\psi}(\gamma) \in K\) для каждого корня \(\gamma\) многочлена \(f\). Поскольку \(K\) порождается над \(F\) этими корнями, получаем \(\widetilde{\psi}(K) \subseteq K\). В частности, \(\beta = \widetilde{\psi}(\alpha) \in K\). Таким образом, все сопряжённые с \(\alpha\) элементы принадлежат \(K\).
+    \end{enumerate}
+\end{proof}
+
+\begin{example}
+    Рассмотрим \(K = \Q[\sqrt[3]{2}], F = \Q\). Проверим, что для него не выполняются условия 2-4:
+    \begin{enumerate}
+        \setcounter{enumi}{1}
+        \item \(\alpha = \sqrt[3]{2}, \beta = \sqrt[3]{2}\omega\)
+        \item \(|Aut_F\;K| = 1, [K:F] = 3\)
+        \item \(K^{Aut_F\:K} = K \ne F\).
+    \end{enumerate}
+\end{example}
+
+\begin{example}
+    Рассмотрим \(K = \Q[\sqrt{2}], F = \Q\). Проверим для него условия 2–4:
+    \begin{enumerate}
+        \setcounter{enumi}{1}
+        \item \(\alpha = \sqrt{2}, \beta = -\sqrt{2}\) — сопряжённые, и \(\beta \in K\).
+        \item \(|\operatorname{Aut}_F K| = 2, [K:F] = 2\).
+        \item \(K^{\operatorname{Aut}_F K} = \Q = F\).
+    \end{enumerate}
+    Таким образом, \(K \supset \Q\) — расширение Галуа.
+\end{example}
+
+\begin{example}
+    Рассмотрим \(K = \Q[\sqrt[3]{2}, \omega]\), где \(\omega\) — примитивный кубический корень из 1, \(F = \Q\).  
+    Минимальный многочлен \(\sqrt[3]{2}\) есть \(x^3-2\); его корни: \(\sqrt[3]{2},\ \sqrt[3]{2}\omega,\ \sqrt[3]{2}\omega^2\) — все лежат в \(K\).  
+    Группа \(\operatorname{Aut}_F K\) переставляет эти три корня, её порядок равен \(6 = [K:\Q]\).  
+    Неподвижное поле: \(K^{\operatorname{Aut}_F K} = \Q\).  
+    Следовательно, \(K \supset \Q\) — расширение Галуа.
+\end{example}
