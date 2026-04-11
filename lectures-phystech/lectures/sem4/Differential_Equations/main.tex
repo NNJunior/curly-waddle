@@ -755,13 +755,13 @@
 
 \lecture{7}
 
-\section{Простая задача вариационного исчисления}
+\section{Простейшая задача вариационного исчисления}
 
 Пусть \(L: \R^3 \ra \R\) --- непрерывна, \(a, b, A, B \in \R, a < b\). Положим \(Y: C^1[a, b] \ra \R\) следующим образом:
 \[Y(y) = \int_a^b L(x, y(x), y'(x))\]
 Где \(y \in \mathcal{M} = \{y \in C^1[a, b]: y(a) = A, y(b) = B\}\)
 
-\noindent\textbf{Простая задача вариационного исчисления}: \(Y(y) \ra \min\) по \(y \in \mathcal{M}\).
+\noindent\textbf{Простейшая задача вариационного исчисления}: \(Y(y) \ra \min\) по \(y \in \mathcal{M}\).
 
 \begin{definition}
     \(\hat{y} \in \mathcal{M}\) называется решением данной задачи, если \(\forall y \in \mathcal{M}: Y(\hat{y}) \le Y(y)\).
@@ -811,7 +811,7 @@
 \end{enumerate}
 
 \begin{definition}
-    Первой вариацией функционала \(Y\) в точке \(\hat{y}\) по направлению \(h\) называется число \(\delta L[\hat{y}, h] = \phi'(0)\)
+    Первой вариацией функционала \(Y\) в точке \(\hat{y}\) по направлению \(h\) называется число \(\delta Y[\hat{y}, h] = \phi'(0)\)
 \end{definition}
 
 Как следствие предыдущих утверждений, получаем:
@@ -1031,3 +1031,122 @@ x_k'(t) =
 
     По теореме об обратной функции \(F^{-1}\) локально принадлежит \(C^1\) (здесь используется \(F \in C^2\), но для \(C^1\) достаточно теоремы о неявной функции). Глобально производная \(F^{-1}\) равна \((F'(F^{-1}(y)))^{-1}\) и непрерывна. Следовательно, \(F\) — \(C^1\)-диффеоморфизм. Для случая \(F \in C^1\) без дополнительной гладкости доказательство требует более тонких рассуждений, но утверждение остаётся верным.
 \end{proof}
+
+\lecture{9}
+
+\section{Обобщенная Простейшая Задача Вариационного Исчисления}
+
+\subsection{Функционалы, зависящие от нескольких функций}
+
+Пусть \(L: [a, b] \times \R^n \times \R^n \ra \R\) --- непрерывна, \(A, B \in \R^n, a, b \in \R, a < b\). Положим \(Y: C^1([a, b], \R^n) \ra \R\) следующим образом:
+\[Y(y) = \int_a^b L(x, y(x), y'(x))\]
+Где \(y \in \mathcal{M} = \{y \in C^1([a, b], \R^n): y(a) = A, y(b) = B\}\)
+
+\noindent\textbf{Простейшая задача вариационного исчисления}: \(Y(y) \ra \min\) по \(y \in \mathcal{M}\).
+
+\begin{definition}
+    \(\hat{y} \in \mathcal{M}\) называется решением данной задачи, если \(\forall y \in \mathcal{M}: Y(\hat{y}) \le Y(y)\).
+\end{definition}
+
+\begin{reminder}
+    В \(C^1([a, b], \R^n)\) норма определяется следующим образом: \(\|f\|_{C^1} = \|f\|_C + \|f'\|_C\)
+\end{reminder}
+
+\begin{definition}
+    \(\hat{y} \in \mathcal{M}\) называется слабым минимумом, если \(\exists \epsilon > 0: \|y - \hat{y}\|_{C^1} < \epsilon (Y(\hat{y}) \le Y(y))\).
+\end{definition}
+
+\begin{theorem}
+    Если \(\hat{y} \in \mathcal{M}, \hat{y} \in C^2([a, b], \mathcal{M})\) и \(\hat{y}\) --- слабый локальный минимум, то \(\hat{y}\) удовлетворяет уравнению Эйлера:
+    \[\frac{\partial L}{\partial y} - \frac{d}{dx}\frac{\partial L}{\partial y'} = 0\]
+    То есть:
+    \[\frac{\partial L}{\partial y}(x, \hat{y}, \hat{y}') - \frac{d}{dx}\frac{\partial L}{\partial y'}(x, \hat{y}, \hat{y}') = 0\]
+    Что можно переписать как:
+    \[\frac{\partial L}{\partial y_i}(x, \hat{y}, \hat{y}') - \frac{d}{dx}\frac{\partial L}{\partial y_i'}(x, \hat{y}, \hat{y}') = 0\]
+    Для всех \(i = 1, \dots n\).
+\end{theorem}
+\begin{proof}
+    Рассмотрим следующую простейшую задачу вариационного исчисления:
+    \[\int_a^bL(x, y_1, \hat{y_2}, \dots \hat{y_n}, y_1', \hat{y_2}', \dots \hat{y_n}') \ra \min, y_1(a) = A_1, y_1(b) = B_1\]
+    Заметим, что если \(\hat{y_1}\) --- слабый локальный минимум оригинальной задачи, то он будет являться и слабым минимумом для данной задачи. Рассмотрим произвольную компоненту \(i\in\{1,\dots,n\}\) и зафиксируем остальные компоненты \(\hat{y}_j\) (\(j\ne i\)). Для любой функции \(h_i\in \dot{C}^1[a,b]\) определим вариацию
+    \[
+    h(x) = \bigl(0,\dots,0,\underbrace{h_i(x)}_{i\text{-я позиция}},0,\dots,0\bigr).
+    \]
+    Тогда \(y_\alpha(x)=\hat{y}(x)+\alpha h(x)\in\mathcal{M}\) при малых \(\alpha\). Поскольку \(\hat{y}\) — слабый локальный минимум, для функционала
+    \[
+    \phi_i(\alpha)=Y(\hat{y}+\alpha h)=\int_a^b L\bigl(x,\hat{y}(x)+\alpha h(x),\hat{y}'(x)+\alpha h'(x)\bigr)\,dx
+    \]
+    точка \(\alpha=0\) является точкой локального минимума, следовательно, \(\phi_i'(0)=0\).
+
+    Вычислим производную:
+    \[
+    \phi_i'(0)=\int_a^b\Bigl( \frac{\partial L}{\partial y_i}(x,\hat{y},\hat{y}')h_i(x) + \frac{\partial L}{\partial y_i'}(x,\hat{y},\hat{y}')h_i'(x) \Bigr)dx.
+    \]
+    Интегрируя второе слагаемое по частям и учитывая, что \(h_i(a)=h_i(b)=0\), получаем
+    \[
+    \phi_i'(0)=\int_a^b\Bigl( \frac{\partial L}{\partial y_i} - \frac{d}{dx}\frac{\partial L}{\partial y_i'} \Bigr)h_i(x)\,dx = 0.
+    \]
+    Поскольку \(h_i\) — произвольная функция из \(\dot{C}^1[a,b]\), лемма Лагранжа даёт
+    \[
+    \frac{\partial L}{\partial y_i}(x,\hat{y},\hat{y}') - \frac{d}{dx}\frac{\partial L}{\partial y_i'}(x,\hat{y},\hat{y}') = 0 \quad \text{для всех } x\in[a,b].
+    \]
+    Это выполнено для каждого \(i=1,\dots,n\), что и есть система уравнений Эйлера.
+\end{proof}
+
+\begin{note}
+    Если \(\hat{y} \in C^1\), то теорема остается верна
+\end{note}
+
+\subsection{Функционалы с производными высших порядков}
+Пусть \(L: [a, b] \times \R^{k + 1} \ra \R \in C^{k - 1}\), \(A_0, \dots A_{k - 1}, B_0, \dots B_{k - 1} \in \R\). Положим \(Y: C^k[a, b] \ra \R\) следующим образом:
+\[Y(y) = \int_a^b L(x, y(x), y'(x), \dots y^{(k)}(x))dx\]
+Где \(y \in \mathcal{M} = \{y \in C^1([a, b], \R^n): y^{(i)}(a) = A_i, y^{(i)}(b) = B_i\}\)
+\begin{definition}
+    На пространстве \(C^k[a, b]\) определим норму:
+    \[\|y\|_{C^k} = \sum_{i = 0}^k \max_{[a, b]}|y^{(i)}(x)|\]
+\end{definition}
+
+Аналогично определяется слабый локальный минимум
+
+\begin{definition}
+    \(\dot{C}^k[a, b] = \{y \in C^k[a, b]: y^{(i)}(a) = y^{(i)}(b) = 0 \forall i = 0, \dots k - 1\}\)
+\end{definition}
+
+Положим \(\phi(\alpha) = J(\hat{y} + \alpha h) = \int_a^b L(x, \hat{y} + \alpha h(x), \hat{y}(x) + \alpha h'(x), \dots \hat{y}^{(k)}(x) + \alpha h^{(k)}(x))\). Продифференцируем в точке \(0\) (по теореме о дифференцировании интеграла с параметром):
+\[\phi'(0) = \int_a^b \left( \underbrace{\frac{\partial L}{\partial y}(\hat{y}, \hat{y}, \dots \hat{y}^{(k)})h(x)}_{\widehat{L}_y} + \underbrace{\frac{\partial L}{\partial y'}(\hat{y}, \hat{y}, \dots \hat{y}^{(k)})h(x)'}_{\widehat{L}_{y'}} + \dots \underbrace{\frac{\partial L}{\partial y^{(k)}}(\hat{y}, \hat{y}, \dots \hat{y}^{(k)})h^{(k)}(x)}_{\widehat{L}_{y^{(k)}}}\right)\]
+
+\begin{definition}
+    Первой вариацией функционала \(J\) по направлению \(h\) называется \(\delta Y[\hat{y}, h] = \phi'(0)\).
+\end{definition}
+
+\begin{lemma}[Лагранжа]
+    Пусть \(f \in C[a, b]\). Если \(\forall h \in \dot{C}^k[a, b]\) выполнено:
+    \[\int_a^b f(x)h(x)dx = 0\]
+    То \(f = 0\)
+\end{lemma}
+\begin{proof}
+    Предположим противное. Т.к. \(f\) непрерывна, то Б.О.О. \(\exists x_0 \in (a, b), \epsilon > 0: f(x) > 0 \forall x \in (x_0 - \epsilon, x_0 + \epsilon)\). Определим \(h(x) = \left\{\begin{array}{l}
+        (x - (x_0 - \epsilon))^{2k}(x - (x_0 + \epsilon))^{2k}, x \in (x_0 - \epsilon, x_0 + \epsilon)
+        0, x \notin (x_0 - \epsilon, x_0 + \epsilon)
+    \end{array}\right.\). Заметим, что \(h \in \dot{C}^k[a, b]\) и \(\int_a^b f(x)h(x)dx > 0\), получили противоречие
+\end{proof}
+
+\begin{theorem}[Уравнение Эйлера–Пуассона]
+    Пусть \(\hat{y}\in\mathcal{M}\cap C^{2k}[a,b]\) является слабым локальным минимумом функционала \(Y\). Тогда \(\hat{y}\) удовлетворяет \textit{уравнению Эйлера–Пуассона}:
+    \[
+    \frac{\partial L}{\partial y} - \frac{d}{dx}\frac{\partial L}{\partial y'} + \frac{d^2}{dx^2}\frac{\partial L}{\partial y''} - \dots + (-1)^k\frac{d^k}{dx^k}\frac{\partial L}{\partial y^{(k)}} = 0
+    \]
+    в каждой точке \(x\in[a,b]\), где все производные вычислены при \((x,\hat{y}(x),\dots,\hat{y}^{(k)}(x))\).
+\end{theorem}
+\begin{proof}
+    Пусть $\hat{y}$ — слабый локальный минимум. Для любой $h\in\dot{C}^k[a,b]$ положим $\phi(\alpha)=Y(\hat{y}+\alpha h)$. Тогда $\phi'(0)=0$. Дифференцируя под знаком интеграла:
+    \[
+    \phi'(0)=\int_a^b \sum_{i=0}^k \frac{\partial L}{\partial y^{(i)}}(x,\hat{y},\dots,\hat{y}^{(k)})\,h^{(i)}(x)\,dx.
+    \]
+    Интегрируем по частям каждое слагаемое $i$ раз. Внеинтегральные члены обращаются в нуль, так как $h^{(j)}(a)=h^{(j)}(b)=0$ для $j=0,\dots,k-1$. Получаем
+    \[
+    0=\int_a^b h(x)\left( \sum_{i=0}^k (-1)^i\frac{d^i}{dx^i}\frac{\partial L}{\partial y^{(i)}}(x,\hat{y},\dots,\hat{y}^{(k)}) \right)dx.
+    \]
+    По лемме Лагранжа выражение в скобках равно нулю всюду на $[a,b]$. Это и есть уравнение Эйлера–Пуассона.
+\end{proof}
+
