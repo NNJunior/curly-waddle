@@ -299,3 +299,46 @@ P(X_{t_1}=m,\; X_{t_2}-X_{t_1}=n)=P(X_{t_1}=m)\cdot e^{-\lambda h}\frac{(\lambda
 
 Таким образом, приращения на непересекающихся интервалах \((0,t_1]\) и \((t_1,t_2]\) независимы. Точно так же можно доказать независимость для \(n\) интервалов (доказательство будет полностью аналогично)
 \end{proof}
+
+\lecture{10}
+
+\section{Байесовские модели}
+Пусть \((X_1, Y_1), \dots (X_n, Y_n)\) --- обучающая выборка, где \(Y \in \{1, \dots K\}\). Вероятность того, что \(Y = k\) при условии \(X = x\). Формула Байеса (для непрерывного случая) дает следующий результат:
+\[P(Y = k | X = x) = \frac{P(Y = k)p(x|Y = k)}{\sum_{i = 1}^K P(Y = s)p(x|Y = s)}\]
+Оценим \(P(Y = k)\) и \(p(x|Y = k)\) по данным. Положим \(\widehat{\pi}_k = \frac{n_k}{n}\) --- доля объектов класса \(k\), \(\widehat{p}_k(x)\) --- оценка плотности объектов в классе \(k\). 
+
+Тогда мы получаем оценку вероятности класса \(k\) для точки \(x\):
+\[\widehat{P}_k(x) = \frac{\widehat{\pi}_k\widehat{p}_k(x)}{\sum_{s = 1}^K \widehat{\pi}_s\widehat{p}_s(x)}\]
+И оценку класса:
+\[\widehat{y}(x) = \operatorname{argmax}_k \widehat{P}_k(x) = \operatorname{argmax}_k \widehat{\pi}_k\widehat{p}(x) = \]
+
+\subsection{Гауссовские классификаторы}
+Предположим, что \(p_k(x)\) --- плотность \(\mathcal{N}(a_k, \Sigma_k)\), т.е:
+\[p_k(x) = \frac{1}{(2\pi)^{k/2}\sqrt{\det \Sigma_k}}e^{-\frac{1}{2}(x - a_k)^T\Sigma_k^{-1}(x - a_k)}\]
+Пусть нам дана выборка \(X\) размера \(n \times d\). Тогда (без доказательства) можно посчитать оценки:
+\[\widehat{a}_k = \frac{1}{n_k}\sum_{i = 1}^n X_iI\{Y_i = k\}\]
+\[\widehat{\Sigma}_k = \frac{1}{n_k}\sum_{i = 1}^n (X_i - \widehat{a}_k)^T(X_i - \widehat{a}_k)I\{Y_i = k\}\]
+
+Разделяющая поверхность между классами \(k, l\) задается уравнением \(\widehat{P}_k(x) = \widehat{P}_l(x)\). Положим \(z(x) = \sum_{s = 1}^K \widehat{\pi}_s\widehat{p}_s(x)\). Тогда мы можем посчитать:
+\[\log \widehat{P}_k(x) = z(x) + \log\widehat{\pi}_k +  \log\widehat{p}_k(x)\]
+Сгруппируем все, что не зависит от \(x\) в выражении выше в константу \(c_k\) и \(c_k'\):
+\[\log \widehat{P}_k(x) = z(x) + c_k - \frac{1}{2}(x - \widehat{a}_k)^T\widehat{\Sigma}_k^{-1}(x - \widehat{a}_k) = z(x) - \frac{1}{2}x^T\widehat{\Sigma}_k^{-1}x + x^T\widehat{\Sigma}_k^{-1}\widehat{a}_k + c'_k\]
+В итоге получаем, что:
+\[\widehat{P}_k(x) = \widehat{P}_l(x) \Lra \frac{1}{2}x^T\widehat{\Sigma}_k^{-1}x + x^T\widehat{\Sigma}_k^{-1}\widehat{a}_k + c'_k = \frac{1}{2}x^T\widehat{\Sigma}_l^{-1}x + x^T\widehat{\Sigma}_l^{-1}\widehat{a}_l + c'_l\]
+
+\begin{note}
+    Разделяющая поверхность квадратична. Кроме того, если \(\widehat{\Sigma}_1 = \dots = \widehat{\Sigma}_k\), то разделяющие поверхности линейны.
+\end{note}
+
+\subsection{Наивный Байес}
+
+\textbf{Предположение:} признаки в каждом классе независимы в совокупности. 
+
+В таком случае мы можем явно выразить плотность:
+\[p(X|Y = k) = \prod_{j = 1}^d p(X_j|Y = k)\]
+Рассмотрим случай \(X_j \in \{0, 1\}\). Тогда 
+\[p(X|Y = k) = \prod_{j = 1}^dP(X_j = x_j|Y = k) = \prod_{j = 1}^d\left\{\begin{array}{c}
+    p_{jk},\text{ если }x_j = 1 \\
+    1 - p_{jk},\text{ если }x_j = 0 \\
+\end{array}\right\} = \prod_{j = 1}^d p_{jk}^{x_j}(1 - p_{jk})^{1 - x_j}\]
+Далее досаточно оценить \(p_{jk}\) по данным.
