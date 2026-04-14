@@ -1489,3 +1489,78 @@
 \begin{theorem}[Эквивалентность сходимостей мер и функций распределения]
     Пусть \(\{P_n, n \in \N\}, P\) --- вероятностные мера на \(\R^m\), а \(\{F_n, n \in \N\}, F\) --- соответствующие функции распределения. Тогда \(P_n \xrightarrow{w} P \Lra F_n \Ra F\).
 \end{theorem}
+
+\lecture{11}
+
+\begin{proof}
+    Докажем для \(m = 1\). 
+    \begin{enumerate}
+        \item[\(\Ra\)] Пусть \(x_0\) --- точка непрерывности \(F\). Тогда \(P(\{x_0\}) = 0\). Но \(\partial((-\infty, x_0]) = \{x_0\}\). По теореме Алексанрова, \(P_n \Ra P\). В итоге:
+        \[F_n(x_0) = P_n((-\infty, x_0]) \ra P((-\infty, x_0]) = F(x_0)\]
+        \item[\(\La\)] По теореме Алексанрова достаточно проверить, что \(\forall G\) --- открытого выполнено:
+        \[\liminf_{n} P_n(G) \ge P(G)\]
+        Если \(G \subset \R\) --- открытое, то \(G = \bigsqcup_{k = 1}^\infty I_k\) или \(G = \bigsqcup_{k = 1}^N I_k\), где \(I_k = (a_k, b_k)\), причем \(a_k, b_k\) могут быть \(\pm\infty\). Для \(\epsilon > 0, k \in \N\) выберем \(I_k' = (a_k', b_k'] \subset (a_k, b_k)\) так, чтобы \(a_k', b_k'\) --- точки непрерывности \(F\) и \(P(I_k') \ge P(I_k) - \frac{\epsilon}{2^k}\). Последнее равенство возможно в силу непрерывности вероятностной меры. Тогда:
+        \[\liminf_n P_n(G) = \liminf_n \sum_{n = 1}^\infty P_n(I_k) \ge \liminf_n \sum_{n = 1}^\infty P_n(I_k') = \liminf_n \sum_{n = 1}^\infty (F_n(b_k') - F_n(a_k')) \ge\]
+        По лемме Фату, получаем:
+        \[\ge \sum_{n = 1}^\infty \liminf_n (F_n(b_k') - F_n(a_k')) = \]
+        Применяя, что \(F_n \Ra F\):
+        \[\sum_{n = 1}^\infty (F(b_k') - F(a_k')) = \sum_{k = 1}^\infty P(I_k') \ge \sum_{k = 1}^\infty \left( P(I_k) - \frac{\epsilon}{2^k} \right) = P(G) - \epsilon\]
+        В силу произвольности \(\epsilon\), получаем желаемое
+    \end{enumerate}
+\end{proof}
+
+\begin{corollary}
+    Пусть \(\{\xi_n, n \in \N\}, \xi\) --- случайные величины. Тогда \(\xi_n \xrightarrow{d} \xi \Lra P_{\xi_n} \xrightarrow{w} P_\xi \Lra F_{\xi_n} \Ra F_\xi\).
+\end{corollary}
+
+\begin{theorem}[Пуассона]
+    Если \(\xi_n \sim Bin(n, p_n)\), причем \(np_n \ra \lambda > 0\), то \(\xi_n \xrightarrow{d} \xi \sim Pois(\lambda)\)
+\end{theorem}
+\begin{proof}
+    ?
+\end{proof}
+
+Пусть \(\{P_\alpha, \alpha \in \mathfrak{A}\}\) --- семейство вероятностных мер на \((\R^m, \mathcal{B}(\R^m))\)
+
+\begin{definition}
+    Семество \(\{P_\alpha, \alpha \in \mathfrak{A}\}\) называется относительно компактным, если \(\forall\) последовательности \(\{P_{\alpha_n}, n \in \N\} \subset \{P_\alpha, \alpha \in \mathfrak{A}\}\) можно извлечь слабо сходящуюся подпоследовательность.
+\end{definition}
+
+\begin{definition}
+    Семество \(\{P_\alpha, \alpha \in \mathfrak{A}\}\) называется плотным, если \(\forall \epsilon > 0 \exists \) компакт \(K_\epsilon \subset \R^m\), такой, что:
+    \[\sup_{\alpha \in \mathfrak{A}}P_\alpha(\R^m \setminus K_\epsilon) \le \epsilon\]
+\end{definition}
+
+\begin{theorem}[Прохорова]
+    В \((\R^m, \mathcal{B}(\R^m))\) семество вероятностных мер является относительно компактным \(\Lra\) оно является плотным
+\end{theorem}
+\begin{proof}
+    Докажем для \(m = 1\).
+    \begin{enumerate}
+        \item[\(\Ra\)] пусть семество \(\{P_\alpha, \alpha \in \mathfrak{A}\}\) относительно компактное, но не плотное. Тогда \(\exists \epsilon > 0\), такое, что \(\forall n \exists \alpha_n \in \mathfrak{A}: P_{\alpha_n}(\R\setminus [-n, n]) > \epsilon\). В силу относительной компактности, из последовательности \(P_{\alpha_n}\) можно извлечь \(\{P_{\alpha_{n_k}}, k \in \N\}\), такую, что \(P_{\alpha_{n_k}} \xrightarrow{w} Q\). Тогда \(\forall n \in \N\) по теореме Алексанрова:
+        \[\epsilon \le \limsup_n P_{\alpha_{n_k}}(\R\setminus(-n, n)) \le Q(\R\setminus(-n, n))\]
+        Но \(Q(\R\setminus(-n, n)) \ra 0, n \ra \infty\) из непрерывности меры, получили противоречие.
+
+        \item[\(\La\)] Пусть \(\{P_n, n \in \N\}\) --- плотная последовательность вероятностных мер. Пусть \(\{F_n, n \in \N\}\) --- соответствующие им функции распределения. Достаточно показать, что \(\exists\) подпоследовательность \(\{F_{n_k}, k \in \N\}\), которая сходится в основном. Занумеруем \(\Q = \{q_1, q_2, \dots\}\). Рассмотрим \(\{F_n(q_i), n \in \N\}\) --- ограниченная последовательность. Тогда \(\exists \) подпоследовательность \(n^{(1)} = (n^{(1)}_1, n^{(1)}_2, \dots )\), такая, что \(\{F_{n^{(1)}_i}(q_1), n \in \N\}\) сходится. Далее, \(\exists \)последовательность \(n^{(2)} \subset n^{(1)}\), такая, что \(\{F_{n^{(2)}_i}(q_2), n \in \N\}\) сходится. Аналогично строим подпоследовательность \(n^{(j)} \subset n^{(j-1)}\), такую, что \(\{F_{n^{(1)}_i}(q_s), n \in \N\}\) сходится \(\forall s \le j\). Тогда последовательность \(F_{n^{(k)}_k}\) сходится во всех рациональных точках. Для \(y \in \Q\) обозначим \(G(y) = \lim_k F_{n^{(k)}_k}(y)\). Наконец, обозначим \(F(x) = \inf\{G(y): y > x, y \in \Q\}\). Проверим, что \(F\) --- функция распределения на \(\R\) и \(F_{n_k^{(k)}} \Ra F\).
+        \begin{itemize}
+            \item Неубывание \(F\) очевидно из определения \(F\)
+            \item Пусть \(x_l \downarrow x\). Пусть \(d = \lim_{l} F(x_l) > F(x)\). Тогда \(\exists y \in \Q, y > x: F(x) \le G(y) < d\). Но для достаточно больших \(l\) будет верно \(x < x_l < y \Ra F(x_l) \le G(y) < d\). Получили противоречие с тем, что \(\lim_l F(x_l) = d\), следовательно, \(F\) непрерывна справа.
+            \item Пусть \(x_0\) --- точка непрерывности \(F\). Тогда \(\forall y > x_0, y \in \Q: \limsup_n F_{n_k^{(k)}}(y) = G(y)\). Берем \(\inf\) в правой части и получаем: \(\limsup_k F_{n_k^{(k)}} \le F(x_0)\). Пусть \(x < x_0\), выберем \(y \in \Q\) так, что \(x < y < x_0\). Тогда:
+            \[F(x) \le G(y) = \liminf_k F_{n_k^{(k)}}(y) \le \liminf_{k}F_{n_k^{(k)}}(x_0)\]
+            Устремляя \(x \ra x_0\), получаем, что:
+            \[F(x_0) \le \liminf_k F_{n_k^{(k)}}(x_0) \Ra \exists \lim_{k} F_{n_k^{(k)}}(x_0) = F(x_0)\]
+            \item Последовательность \(\{F_n, n \in \N\}\) --- плотна \(\Ra \forall \epsilon > 0 \exists [-N, N]: \forall n \in \N: F_n(N) - F_n(-N) \ge 1 - \epsilon\). Выберем \(b > N, a < -N\) так, что \(a, b\) --- точки непрерывности \(F\). Тогда:
+            \[F(b) - F(a) = \lim_k\left( F_{n_k^{(k)}}(b) - F_{n_k^{(k)}}(a) \right) \ge 1 - \epsilon\]
+            Тогда \(\lim_{x \ra +\infty} F(x) = 1, \lim_{x \ra -\infty} F(x) = 0\)
+        \end{itemize}
+    \end{enumerate}
+\end{proof}
+
+\begin{corollary}
+    Пусть \(\{P_n, n \in \N\}\) --- плотная последовательность вероятностных мер на \((\R^m, \mathcal{B}(\R^m))\). Пусть все слабо сходящиеся подпоследовательности \(\{P_n, n \in \N\}\) слабо сходятся к одной и той же мере \(Q\). Тогда \(P_n \xrightarrow{w} Q\).
+\end{corollary}
+\begin{proof}
+    Пусть \(P_n \not\xrightarrow{w} Q\). Тогда \(\exists f: \R^m \ra \R\) --- ограниченная непрерывная функция, \(\exists \epsilon > 0\) и подпоследовательность \(\{n_k, k \in \N\}\), такая, что \(\forall k \in \N\):
+    \[\left| \int_{R^m}f(x)P_n(dx) - \int_{R^m} f(x)Q(dx) \right| \ge \epsilon\]
+    В силу теоремы Прохорова, \(\exists\) подпоследовательность \(\{P_{n_{k_s}}, s \in \N\} \subset \{P_{n_k}, k \in \N\}\), которая слабо сходится к \(Q\) (по условию). Получили противоречие \(\Ra P_n \Ra Q\).
+\end{proof}

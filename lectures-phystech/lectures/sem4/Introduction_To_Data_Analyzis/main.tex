@@ -342,3 +342,41 @@ P(X_{t_1}=m,\; X_{t_2}-X_{t_1}=n)=P(X_{t_1}=m)\cdot e^{-\lambda h}\frac{(\lambda
     1 - p_{jk},\text{ если }x_j = 0 \\
 \end{array}\right\} = \prod_{j = 1}^d p_{jk}^{x_j}(1 - p_{jk})^{1 - x_j}\]
 Далее досаточно оценить \(p_{jk}\) по данным.
+
+\section{Ложные корреляции}
+\subsection{Случай вилки}
+Пусть \(x\) зависит от \(z\) и \(y\) зависит от \(z\). Тогда:
+\[p(x, y, z) = p(z)p(x|z)p(y|z)\]
+\begin{example}[\(x, y\) могут быть зависимы]
+    Пусть \(z = \epsilon_1, x = \alpha \epsilon_1 + \epsilon_2, y = \beta \epsilon_1 + \epsilon_3\). Тогда:
+    \[cov(x, y) = cov( \alpha \epsilon_1 + \epsilon_2, \beta \epsilon_1 + \epsilon_3) = \alpha\beta \Variance\epsilon_1\]
+    При \(\alpha, \beta \ne 0\) получили ненулевую ковариацию
+\end{example}
+
+Теперь покажем в общем случае, что \(x\) и \(y\) независимы при условии \(z\).
+\[p(x, y|z) = \frac{p(x, y, z)}{p(z)} = p(x|z)p(y|z)\]
+
+\subsection{Случай цепочки}
+Пусть \(z\) зависит от \(x\) и \(y\) зависит от \(z\). Тогда:
+\[p(x, y, z) = p(x)p(z|x)p(y|z)\]
+\begin{example}[\(x, y\) могут быть зависимы]
+    Пусть \(x = \epsilon_1, z = \alpha x + \epsilon_2, y = \beta z + \epsilon_3\). Тогда:
+    \[cov(x, y) = cov(\epsilon_1, \beta(\alpha \epsilon_1 + \epsilon_2) + \epsilon_3) = \alpha\beta \Variance\epsilon_1\]
+    При \(\alpha, \beta \ne 0\) получили ненулевую ковариацию
+\end{example}
+
+Теперь покажем в общем случае, что \(x\) и \(y\) независимы при условии \(z\).
+\[p(x, y|z) = \frac{p(x, y, z)}{p(z)} = \frac{p(x)p(z|x)p(y|z)}{p(x)} = \frac{p(x)p(z|x)}{p(x)}p(y|z) = \frac{p(x, z)}{p(x)}p(y|z) = p(x|z)p(y|z)\]
+
+\subsection{Случай коллайдера}
+Пусть \(z\) зависит от \(x\) и \(z\) зависит от \(y\). Тогда:
+\[p(x, y, z) = p(x)p(y)p(z|x, y)\]
+
+Покажем, что \(x, y\) независимы:
+\[p(x, y) = \int p(x, y, z)dz = p(x)p(y)\int p(z|x, y)dz = p(x)p(y)\]
+
+\begin{note}
+    Заметим, что случаи цепочки и вилки неотличимы для нейросетей. В реальном мире отличать эти цепочки могут владение знаниями в конкретной сфере знаний. 
+\end{note}
+
+\textbf{Вывод:} думайте мозгом!
