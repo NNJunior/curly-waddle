@@ -1122,3 +1122,118 @@
 \begin{note}
     Это интеграл с особенностями в \(t = 0\) (при \(x < 1\)) и \(t = 1\) (при \(y < 1\)). Заметим, что \(f = t^{x - 1}(1 - t)^{y - 1} \sim t^{x - 1}\) при \(t \ra 0+\), поэтому интеграл \(\int_0^{1/2} f(t)dt\) сходится \(\Lra x > 0\). Также, \(f \sim (1 - t)^{y - 1}\) при \(t \ra 1-0\), поэтому интеграл \(\int_{1/2}^1 f(t)dt\) сходится \(\Lra y > 0\). Итак, \(B(x, y)\) определена при \(x, y > 0\).
 \end{note}
+
+\lecture{11}
+
+\begin{note}
+    \[B(x, y) = \int_0^{+\infty}\frac{z^{x - 1}}{(1 + z)^{x + y}}dz\]
+\end{note}
+\begin{proof}
+    Сделаем замену \(t = \frac{z}{1 + z} \Lra t = 1 - \frac{1}{1 + z}\). Получим:
+    \[B(x, y) = \int_0^1 t^{x - 1}(1 - t)^{y - 1}dt = \int_0^{+\infty} \left( \frac{z}{1 + z} \right)^{x - 1}\frac{1}{(1 + z)^{y - 1}}\frac{1}{(1 + z)^2}dz = \int_0^{+\infty}\frac{z^{x - 1}}{(1 + z)^{x + y}}dz\]
+\end{proof}
+
+\begin{theorem}
+    \[B(x, y) = \frac{\Gamma(x)\Gamma(y)}{\Gamma(x + y)}\]
+\end{theorem}
+\begin{proof}
+    \[\Gamma(x) = z^x\int_0^{+\infty}t^{x - 1}e^{-zt}dt \Ra \Gamma(x + y) = (1 + z)^{x + y}\int_0^{+\infty}t^{x + y - 1}e^{-(z + 1)t}dt\]
+    Следовательно
+    \[B(x, y)\Gamma(x, y) = \int_0^{+\infty}\frac{z^{x - 1}}{(1 + z)^{x + y}}\Gamma(x + y)dz = \int_0^{+\infty}z^{x - 1}\left( \int_0^{+\infty}t^{x + y - 1}e^{-(z + 1)t} dt\right)dz\]
+    Применяя теорему Тонели, получаем:
+    \[\int_0^{+\infty}\left( \int_0^{+\infty} z^{x - 1}e^{-zt}dz \right)t^{x + y - 1}e^{-t}dt = \int_0^{+\infty}\Gamma(x)t^{y - 1}e^{-t}dt = \Gamma(x)\Gamma(y)\]
+\end{proof}
+
+\begin{corollary}[Формула Эйлера-Гаусса]
+    \[\Gamma(x) = \lim_{n \ra \infty} \frac{n^x\cdot n!}{x(x + 1)\dots(x + n)}, x > 0\]
+\end{corollary}
+\begin{proof}
+    Заменой переменных \(t \leadsto zt\), получаем:
+    \[\int_0^1 z^{x - 1}(1 - z)^ndz = B(x, n + 1) = \frac{\Gamma(x)\Gamma(n + 1)}{\Gamma(x + n - 1)} = \frac{\Gamma(x)\cdot n!}{\Gamma(x)x(x + 1)\dots (x + n)} = \frac{n!}{x(x + 1)\dots (x + n)}\]
+    Возьемем \(g_n(t) = \left\{\begin{array}{l}
+        \left( 1 - \frac{t}{n} \right)^n, 0 \le t < n \\
+        0, t \ge n
+    \end{array}\right.\)
+    Имеем:
+    \[\frac{n^x\, n!}{x(x+1)\dots(x+n)} = \int_0^n t^{x-1}\left(1-\frac{t}{n}\right)^n dt = \int_0^{\infty} t^{x-1} g_n(t)\,dt,\]
+    Для каждого фиксированного \(t\ge0\) при \(n\to\infty\) имеем:
+    \[g_n(t) \to e^{-t},\]
+    так как известно, что \(\left(1-\frac{t}{n}\right)^n \to e^{-t}\). Кроме того, для всех \(n\) и \(t\) выполняется неравенство:
+    \[0 \le g_n(t) \le e^{-t}.\]
+    Действительно, для \(0\le t<n\) известно, что \(\left(1-\frac{t}{n}\right)^n \le e^{-t}\) (это следует из выпуклости экспоненты), а при \(t\ge n\) \(g_n(t)=0\le e^{-t}\). 
+
+    Функция \(t^{x-1}e^{-t}\) интегрируема на \([0,\infty)\) при \(x>0\), так как \(\int_0^{\infty}t^{x-1}e^{-t}dt = \Gamma(x)<\infty\). Таким образом, по теореме Лебега о мажорируемой сходимости:
+    \[\lim_{n\to\infty}\int_0^{\infty} t^{x-1} g_n(t)\,dt = \int_0^{\infty} t^{x-1} e^{-t}\,dt = \Gamma(x).\]
+
+    Следовательно,
+    \[\Gamma(x) = \lim_{n\to\infty} \frac{n^x\, n!}{x(x+1)\dots(x+n)},\quad x>0,\]
+    что и требовалось доказать.
+\end{proof}
+
+\begin{lemma}
+    \(\sin x = \prod_{k = 1}^\infty \left( 1 - \frac{x^2}{k^2\pi^2} \right), x \in (-\pi, \pi)\), где \(\prod_{n = 1}^\infty a_n = \lim_{N \ra \infty}\prod_{n = 1}^N a_n\).
+\end{lemma}
+\begin{proof}
+    Положим \(f(x) = \cos \alpha x\). Разложим \(f\) в ряд Фурье. Для \(\alpha \notin \Z\), имеем:
+    \[a_0 = \frac{2}{\pi}\int_0^{\pi} \cos\alpha x dx = \frac{2\sin \pi\alpha}{\pi\alpha}\]
+    \[a_n = \frac{2}{\pi}\int_0^{\pi} \cos\alpha x \cos nx dx = \frac{1}{\pi}\int_0^{\pi} \big(\cos(\alpha + n) x + \cos(\alpha - n) x\big) dx =\]
+    \[= \frac{1}{\pi}\left( \frac{\sin(\alpha + n)\pi}{\alpha + n} + \frac{\sin(\alpha - n)\pi}{\alpha - n} \right) = \frac{(-1)^n2\alpha\pi\alpha}{\pi(\alpha^2 - n^2)}\]
+    Итак:
+    \[\cos\alpha x = \frac{2\sin \pi\alpha}{\pi\alpha} + \sum_{n = 1}^\infty \frac{(-1)^n2\alpha\sin\pi\alpha}{\pi(\alpha^2 - n^2)}, x \in [-\pi, \pi]\]
+    Подставим \(x = \pi\):
+    \[\ctg \pi\alpha = \frac{1}{\pi\alpha} + \sum_{n = 1}^\infty \frac{2\alpha\pi}{\pi^2(\alpha^2 - n^2)}, x = \pi\alpha \ne \pi k, k \in \Z\]
+    Заключаем, что:
+    \[\ctg x - \frac{1}{x} = \sum_{n = 1}^\infty \frac{2x}{x^2 - \pi^2n^2}\]
+    Теперь рассмотрим \(\phi(x) = \ctg x - \frac{1}{x}, \phi(0) = 0\). Это непрерывная на \((-\pi, \pi)\) функция. Ряд в правой части сходится равномерно на любом подотрезке \((-\pi, \pi)\). Тогда:
+    \[\int_0^x \phi(t)dt = \ln\left| \frac{\sin x}{x} \right| = \sum_{n = 1}^\infty \ln\left( 1 - \frac{x^2}{\pi^2n^2} \right), x \in (-\pi, \pi)\]
+    Распишем равенство посередине:
+    \[\frac{\sin x}{x} = \lim_{N \ra \infty}\sum_{n = 1}^{N}\left( 1 - \frac{x^2}{\pi^2n^2} \right)\]
+\end{proof}
+
+\begin{theorem}[Формула дополнения]
+    \[\Gamma(x)\Gamma(1 - x) = \frac{\pi}{\sin \pi x}, x \in (0, 1)\]
+\end{theorem}
+\begin{proof}
+    \[\frac{1}{\Gamma(x)\Gamma(1 - x)} \sim \frac{x(1 + x)\left( 1 + \frac{x}{2} \right)\dots\left( 1 + \frac{x}{n} \right)}{n^x}\cdot \frac{x(1 - x)\left( 1 - \frac{x}{2} \right)\dots\left( 1 - \frac{x}{n} \right)(n + 1 - x)}{n^{1 - x}} =\]
+    \[\frac{x(1 - x^2)\dots\left( 1 - \frac{x^2}{n^2} \right)(n + 1 - x)}{n} \sim x\prod_{k = 1}^n\left( 1 - \frac{x^2}{k^2} \right) = \frac{\pi}{\sin \pi x}\]
+\end{proof}
+
+\section{Преобразование Фурье}
+\begin{definition}
+    Пусть \(f \in L_1(\R)\). Преобразованием Фурье функции \(f\) называется функция \(\widehat{f}\), определяемая как:
+    \[\widehat{f}(y) = \frac{1}{\sqrt{2\pi}}\int_\R f(x)e^{-iyx}dx, y \in \R\]
+\end{definition}
+
+\begin{note}
+    Интеграл в правой части существует, т.к. \(|f(x)e^{ixy}| = |f(x)| \in L_1\).
+\end{note}
+
+\begin{example}
+    Найдем \(\widehat{I_{[-1, 1]}}\):
+    \[\widehat{I_{[-1, 1]}} = \frac{1}{\sqrt{2\pi}}\int_{-1}^1 e^{-iyx}dx = \frac{2}{\sqrt{2\pi}}\int_0^1\cos yx dx = \left.\frac{2}{\sqrt{2\pi}}\frac{\sin yx}{y}\right|_0^1 = \sqrt{\frac{2}{\pi}}\frac{\sin y}{y}, y \ne 0\]
+    В силу того, что функции из \(L_1\) определены с точностью до множества меры \(0\), можно заключить:
+    \[\widehat{I_{[-1, 1]}}(y) = \sqrt{\frac{2}{\pi}}\]
+\end{example}
+
+\begin{proposition}[Свойства преобразования Фурье]
+    Пусть \(f, g \in L_1(\R), \alpha, \beth \in \Cm\). Тогда:
+    \begin{enumerate}
+        \item \(\widehat{\alpha f + \beta g} = \alpha\widehat{f} + \beta\widehat{g}\)
+        \item \(\widehat{f}\) ограничена на \(\R\)
+        \item Если \(f_h(x) = f(x - h), \delta_tf(x) = f(tx)\), то \(\widehat{f_h}(y) = e^{-ihy}\widehat{f}(y), \widehat{\delta_tf}(y) = \frac{1}{t}\widehat{f}\left( \frac{y}{t} \right)\)
+        \item \(\widehat{f}\) непрерывна на \(\R\) и \(\widehat{f}(y) \ra 0, y \ra \pm\infty\)
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}
+        \item Вытекает из линейности интеграла Лебега
+        \item \[|\widehat{f}(y)| \le \frac{1}{\sqrt{2\pi}}\int_\R |f(x)e^{-iyx}|dx = \frac{1}{\sqrt{2\pi}}\int_\R |f|dx = \frac{1}{\sqrt{2\pi}}\|f\|_1\]
+        \item Вытекает из теоремы о замене переменной в интеграле Лебега
+        \[|\widehat{f}(y + h) - \widehat{f}(y)| \le \frac{1}{\sqrt{2\pi}}\int_\R |f(x)e^{-ix(y + h)} - f(x)e^{-ixy}|dx = \frac{1}{\sqrt{2\pi}}\int_\R |f(x)||1 - e^{ihx}|dx\]
+        Заметим, что \(|f(x)||1 - e^{ihx}| \le 2|f(x)|\) --- интегрируемая мажоранта. Поэтому по теореме о непрерывности интеграла с параметром, заключаем, что \(|\widehat{f}(y + h) - \widehat{f}(y)| \ra 0\), причем стремление не зависит от точки \(y\). Поэтому на самом деле \(\widehat{f}(y)\) равномерно непрерывна. Оставшееся утверждение вытекает из леммы Римана об осцилляции
+    \end{enumerate}
+\end{proof}
+
+\begin{note}
+    Отметим, что под преобразованием Фурье также понимают отображение \(F: L_1(\R) \ra C_0(\R), F[f] = \widehat{f}\), где \(C_0\) --- пространство непрерывных функций, стремящихся к \(0\) при \(x \ra \pm\infty\) с \(\sup\)-нормой.
+\end{note}
