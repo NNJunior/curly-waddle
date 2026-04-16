@@ -1257,3 +1257,189 @@
 \begin{corollary}
     \(\mathsf{2SAT}\) --- \(\mathbf{NL}\)-полная.
 \end{corollary}
+
+\lecture{10}
+\section{Схемная сложность}
+Пусть дан ориентированный граф без циклов с метками на вершинах \(\{in, out, \neg, \wedge, \vee\}\), Причем у вершины \(\deg_{out} = 1\) для всех вершин, кроме \(out\), у которой \(\deg_{out} = 0\). \(\deg_{in}\) может быть равно количеству аргументов, которые можно подать в данную функцию (для \(\wedge, \vee\) --- произвольное). 
+
+\subsection{Сложность по размеру}
+\begin{figure}[!h]
+\centering
+\begin{tikzpicture}[
+    every node/.style={draw, circle, minimum size=0.8cm, inner sep=2pt, font=\small},
+    >=stealth,
+    thick
+]
+
+% Входные вершины
+\node (a) at (0,0) {a};
+\node (b) at (0,-2) {b};
+
+% Элементы NOT
+\node (not_a) at (2,-0.5) {$\lnot$};
+\node (not_b) at (2,-1.5) {$\lnot$};
+
+% Элементы AND
+\node (and1) at (4,-0.5) {$\land$};
+\node (and2) at (4,-1.5) {$\land$};
+
+% Элемент OR и выход
+\node (or) at (6,-1) {$\lor$};
+\node (out) at (8,-1) {out};
+
+% Соединения
+\draw[->] (a) -- (not_a);
+\draw[->, bend right=100] (a) -- (and1);
+\draw[->] (b) -- (not_b);
+\draw[->, bend left=100] (b) -- (and2);
+\draw[->] (not_a) -- (and2);
+\draw[->] (not_b) -- (and1);
+\draw[->] (and1) -- (or);
+\draw[->] (and2) -- (or);
+\draw[->] (or) -- (out);
+
+\end{tikzpicture}
+\end{figure}
+
+Выше приведена схема для \(a \oplus b\). 
+
+Пусть у нас есть язык \(A \subset \{0, 1\}^*\). Положим \(A^{=n} = A \cap \{0, 1\}^n\), такие множества можно взаимно однозначно отобразить в функции \(f_n: \{0, 1\}^n \ra \{0, 1\}\) (\(0\) --- нет, \(1\) --- да). 
+
+\begin{definition}
+    Будем говорить, что \(A \in \mathbf{SIZE}(s(n))\), если \(\exists \{C_n\}_{n = 1}^\infty: \forall x (x \in A \Lra C_{|x|}(x) = 1)\) и число вершин в логической схеме \(C_n = O(s(n))\). 
+\end{definition}
+
+\begin{note}
+    Заметим, что \(\{C_n\}_{n = 1}^\infty\) --- бесконечная последовательность, поэтому даже неразрешимые языки можно распознать схемами
+\end{note}
+
+\begin{note}
+    \(\mathbf{ALL} = \mathbf{SIZE}(2^n\cdot n)\) --- достаточно записать КНФ или ДНФ для функции \(f_n\)
+\end{note}
+
+\begin{theorem}[Лупанов]
+    \(\mathbf{ALL} = \mathbf{SIZE}(2^n / n)\) 
+\end{theorem}
+
+\begin{theorem}[Шеннон]
+    Уменьшить оценку Лупанова нельзя
+\end{theorem}
+
+\begin{definition}
+    \(\mathbf{P/poly} = \mathbf{SIZE}(poly(n))\)
+\end{definition}
+
+Рассмотрим другой подход к \(\mathbf{P/poly}\)
+
+\begin{definition}
+    \(A \in \mathbf{DTIME}(t(n))/a(n)\), если \(\exists \{a_n\}_{n = 1}^\infty, M\) --- машина тьюринга, такие, что \(|a_n| = O(a(n))\), \(time_M(x, a) = O(t(|x|))\) и \(x \in A \Lra M(x, a_{|x|}) = 1\).
+\end{definition}
+
+\begin{theorem}
+    \(\mathbf{P/poly} = \mathbf{DTIME}(poly(n))/poly(n)\)
+\end{theorem}
+\begin{proof}
+    \begin{enumerate}
+        \item[\(\subset\)] Положим \(a_n = C_n\), \(M\) будет вычислять \(C_n(x)\).
+        \item[\(\supset\)] Аналогично доказательству в теореме Кука-Левина
+    \end{enumerate}
+\end{proof}
+
+Также существует еще один подход к \(\mathbf{P/poly}\): будем рассматривать только прямолинейные программы, содержащие только присваивание. Например, для \(a \oplus b\):
+
+\begin{lstlisting}
+    $\oplus$(a, b) {
+        c = $\neg$ a
+        d = $\neg$ b
+
+        e = a $\wedge$ d
+        f = b $\wedge$ c
+
+        return e $\vee$ f
+    }
+\end{lstlisting}
+
+\begin{theorem}
+    \(\mathbf{P} \subsetneq \mathbf{P/poly}\)
+\end{theorem}
+\begin{proof}
+    Рассмотрим \(K \subset \N\) --- неразрешимое множество. Положим \(A = \{x: |x| \in K\} \in \mathbf{P/poly}\), но \(\notin \mathbf{P}\), т.к. \(K\) неразрешимо
+\end{proof}
+
+Вспомним, что мы изучаем вопрос \(\mathbf{P} \stackrel{?}{=} \mathbf{NP}\). Существует следующая гипотеза:
+
+\textbf{Гипотеза:} \(\mathbf{NP} \not\subset \mathbf{P/poly}\). 
+
+\begin{theorem}
+    \(\mathbf{EXPSPACE} \not\subset \mathbf{P/poly}\)
+\end{theorem}
+\begin{proof}
+    TODO
+\end{proof}
+
+\begin{theorem}[Карпа-Липтона]
+    \(\mathbf{NP} \subset \mathbf{P/poly} \Ra \mathbf{\Sigma}_2^p = \mathbf{\Pi}_2^p\)
+\end{theorem}
+\begin{proof}
+    TODO
+\end{proof}
+
+\begin{theorem}
+    \(\mathbf{EXP} \subset \mathbf{P/poly} \Ra \mathbf{EXP} = \mathbf{\Sigma}_2^p \Ra \mathbf{P} \ne \mathbf{NP}\)
+\end{theorem}
+\begin{proof}
+    TODO
+\end{proof}
+
+Во времена, когда Шеннон придумывал эту науку, схемы моделировали реальные платы, стоимость которых зависела от их размера. Теперь посмотрим на это по другому: будем смотреть на скорость вычисления, т.е. на глубину схемы:
+
+\subsection{Сложность по времени}
+
+\begin{definition}
+    Глубина схеы --- максимальная длина пути из входа в выход
+\end{definition}
+
+\begin{definition}
+    \(\mathbf{NC^d}\) --- языки, распознаваемые схемами размера \(poly(n)\) глубины \(O(poly(n))\), состоящими из \(\neg\) и \(\wedge, \vee\) валентности 2.
+\end{definition}
+
+\begin{definition}
+    \(\mathbf{AC^d}\) --- языки, распознаваемые схемами размера \(poly(n)\) глубины \(O(\log^dn)\), состоящими из \(\neg\) и \(\wedge, \vee\) произвольной валентностию.
+\end{definition}
+
+\begin{note}
+    \(\mathbf{NC^d} \subset \mathbf{AC^d} \subset \mathbf{NC^{d + 1}}\)
+\end{note}
+
+\begin{corollary}
+    \(\mathbf{NC^0} \subset \mathbf{AC^0} \subset \mathbf{NC^1} \subset \mathbf{AC^1} \subset \dots\)
+\end{corollary}
+
+При этом на схемы \(C_n\) можно накладывать различные ограничения. Например:
+\begin{enumerate}
+    \item Никаких ограничений
+    \item Полиномиальная равномерность: \(n \mapsto C_n\) вычисляется за \(poly(n)\)
+    \item Логарифмическая равномерность: \(n \mapsto C_n\) вычисляется на \(O(\log n)\) памяти. В этом случае \(\mathbf{NC^1} \subset \mathbf{L} \subset \mathbf{NL} \subset \mathbf{NC^2}\). \textbf{В общем случае это неверно!}
+\end{enumerate}
+
+\begin{note}
+    \(\mathbf{NC^0} \subsetneq \mathbf{AC^0}\): рассмотрим задачу \(\bigwedge_n\) --- делает конъюнкцию всех переменных (не лежит в \(\mathbf{NC^0}\), т.к. там лежат задачи с зависимостями только от \(O(1)\) переменных).
+\end{note}
+
+\begin{note}
+    \(\mathbf{AC^0} \subsetneq \mathbf{NC^1}\): рассмотрим задачу \(\bigwedge_n\) --- \(\oplus\) всех переменных. Лежит в \(\mathbf{NC^1}\), т.к. можно рекурсивно делить пополам и делать \(\oplus\) полученных частей.
+\end{note}
+
+Вопрос \(\mathbf{NP} \stackrel{?}{\subset} \mathbf{NC^1}\) является открытой проблемой.
+
+\subsection{Схемы малой глубины для \(+, \cdot\)}
+Пусть \(s = a + b\). Тогда схема для \(s\):
+\begin{center}
+    \includegraphics[scale=0.1]{images/IMG_5471.jpeg}
+\end{center}
+
+\subsection{Быстрые сумматоры}
+TODO
+
+\subsection{Быстрые мультипликаторы}
+Идея: по тройке \((x, y, z)\) получим тройку \(t, v\), такую, что \(x + y + z = t + v\) за константное время. Тогда мы уменьшили количество слагаемых в \(\frac{2}{3}\) раз. Таким образом, если нам надо посчитать \(a \cdot b\), мы можем посчитать это за \(\log_{\frac{3}{2}}b\) и мы свели задачу к предыдущей.
