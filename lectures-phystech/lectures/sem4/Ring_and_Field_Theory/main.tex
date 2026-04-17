@@ -1487,3 +1487,68 @@ L(\beta) \cong L[x]/(m_{\beta,L}) \cong L'[x]/(\psi(m_{\beta,L})) \cong L'(\beta
     Неподвижное поле: \(K^{\operatorname{Aut}_F K} = \Q\).  
     Следовательно, \(K \supset \Q\) — расширение Галуа.
 \end{example}
+
+\lecture{10}
+
+\begin{definition}
+    В случае, если \(K \subset F\) --- расширение галуа, то \(Aut_KF = Gal_K(F)\) называется группой Галуа
+\end{definition}
+
+\begin{definition}
+    Пусть \(K \subset E\) --- расширение. Соответствие Галуа --- соответствие между подгруппами \(Aut_KE\) и промежуточными полями \(K \subset L \subset E\): \(G \subset Aut_KE \mapsto E^G = \{a \in E: g(a) = a \forall g \in G\}\) и \(K \subset L \subset E \mapsto Aut_LE\)
+\end{definition}
+
+\begin{note}
+    Соответствие Галуа не всегда является биекцией. Например, рассмотрим \(\Q \subset \Q[\sqrt[3]{2}]\). Т.к. \(Aut_{\Q}\Q[\sqrt[3]{2}] = \{\operatorname{id}\}\)
+\end{note}
+
+\begin{theorem}[Основная теорема теории Галуа]
+    Пусть \(K \subset E\) --- конечное расширение Галуа, \(G = Gal_K(E)\). Тогда соответствие Галуа --- биекция, обращающая включение. При этом выполнены свойства:
+    \begin{enumerate}
+        \item \(H_2 \le H_1 \le G \Ra [H_1:H_2] = \left[E^{H_2}:E^{H_1}\right]\)
+        \item \(\sigma H \sigma^{-1} \lra \sigma M\), где \(E^H = M\), т.е. \(E^{\sigma H \sigma^{-1}} = \sigma(E^H)\) или \(Gal_{\sigma M}(E) = \sigma Gal_M(E) \sigma^{-1}\).
+        \item \(H \le G\) нормальная \(\Lra K \subset E^H\) нормально (т.е. является расширением Галуа), при этом \(Gal_K(E^H) \cong G/H\)
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    Если \(K \subset E\) --- расширение Галуа и \(K \subset L \subset E\), то \(L \subset E\) --- тоже расширение Галуа (так как расширения Галуа --- поля разложения многочленов). Значит \(E^G \subset E\) --- расширение Галуа, причем \(|Aut_{E^G}E| = [E:E^G]\). По теореме о примитивном элемене, \(E = E^G(\alpha)\), поэтому пусть \(p(t) = m_{\alpha, E^G}(t)\). Тогда \([E:E^G] = \deg p(t)\). Таким образом, \(p(t) = \prod_{g \in G} (t - g(\alpha))\) (поскольку группа \(G\) переставляет корни минимального многочлена примитивного элемента). Следовательно, \(E\) является полем разложения \(p(t)\) над \(E^G\).
+
+    Докажем, что соответствия \(H \mapsto E^H\) и \(L \mapsto \operatorname{Aut}_L E\) взаимно обратны. Пусть \(H \le G\). Покажем, что \(\operatorname{Aut}_{E^H} E = H\). Очевидно, \(H \subseteq \operatorname{Aut}_{E^H} E\). С другой стороны, по теореме о примитивном элементе \(E = E^H(\alpha)\) для некоторого \(\alpha \in E\). Рассмотрим многочлен
+    \[
+    f(t) = \prod_{h \in H} (t - h(\alpha)) \in E^H[t].
+    \]
+    Степень \(f\) равна \(|H|\). Минимальный многочлен \(m_{\alpha, E^H}(t)\) делит \(f(t)\), поэтому
+    \[
+    [E : E^H] = \deg m_{\alpha, E^H} \le |H|.
+    \]
+    Так как \(E \supset E^H\) --- расширение Галуа, имеем \(|\operatorname{Aut}_{E^H} E| = [E : E^H] \le |H|\). Вместе с \(H \subseteq \operatorname{Aut}_{E^H} E\) получаем равенство \(H = \operatorname{Aut}_{E^H} E\) и \([E : E^H] = |H|\).
+
+    Обратно, пусть \(K \subset L \subset E\) --- промежуточное поле. Тогда \(L \subset E\) --- расширение Галуа (как поле разложения того же многочлена, что и \(E\) над \(K\)). Положим \(H = \operatorname{Aut}_L E\). По доказанному выше, \(E^H = L\). Следовательно, отображения взаимно обратны. 
+
+    Теперь докажем три свойства соответствия Галуа.
+
+    \begin{enumerate}
+
+        \item Пусть \(H_2 \le H_1 \le G\). Тогда
+        \[
+        [H_1 : H_2] = \frac{|H_1|}{|H_2|} = \frac{[E : E^{H_1}]}{[E : E^{H_2}]} = [E^{H_2} : E^{H_1}].
+        \]
+        (Последнее равенство --- башня расширений \(E \supset E^{H_2} \supset E^{H_1}\).)
+
+        \item Пусть \(H \le G\), \(\sigma \in G\), \(M = E^H\). Для любого \(\tau \in H\) и \(a \in \sigma M\) имеем \(a = \sigma(m)\) для некоторого \(m \in M\). Тогда
+        \[
+        (\sigma \tau \sigma^{-1})(a) = \sigma(\tau(\sigma^{-1}(\sigma(m)))) = \sigma(\tau(m)) = \sigma(m) = a,
+        \]
+        поэтому \(\sigma H \sigma^{-1} \subseteq \operatorname{Aut}_{\sigma M} E\). Заменяя \(\sigma\) на \(\sigma^{-1}\) и \(M\) на \(\sigma M\), получаем обратное включение. Следовательно, \(\operatorname{Aut}_{\sigma M} E = \sigma H \sigma^{-1}\), что равносильно \(E^{\sigma H \sigma^{-1}} = \sigma M\).
+
+        \item Пусть \(H \unlhd G\) --- нормальная подгруппа. Для любого \(\sigma \in G\) по свойству 2 имеем \(\sigma(E^H) = E^{\sigma H \sigma^{-1}} = E^H\). Следовательно, каждый элемент \(\sigma \in G\) оставляет поле \(E^H\) инвариантным и определяет автоморфизм \(\sigma|_{E^H} \in \operatorname{Aut}_K (E^H)\). Это даёт гомоморфизм ограничения
+        \[
+        \varphi: G \to \operatorname{Gal}_K(E^H), \quad \sigma \mapsto \sigma|_{E^H}.
+        \]
+        Ядро \(\ker \varphi = \{\sigma \in G : \sigma|_{E^H} = \operatorname{id}\} = \operatorname{Aut}_{E^H} E = H\). По основной теореме о гомоморфизмах \(G/H \cong \operatorname{Im} \varphi \le \operatorname{Gal}_K(E^H)\).
+
+        Заметим, что \([E^H : K] = \frac{[E : K]}{[E : E^H]} = \frac{|G|}{|H|} = |G/H|\). С другой стороны, \(|\operatorname{Gal}_K(E^H)| \le [E^H : K]\) (всегда верно для конечных расширений). Но \(\operatorname{Im} \varphi\) --- подгруппа \(\operatorname{Gal}_K(E^H)\) порядка \(|G/H| = [E^H : K]\). Следовательно, \(\operatorname{Im} \varphi = \operatorname{Gal}_K(E^H)\), откуда \(\varphi\) сюръективен и \(\operatorname{Gal}_K(E^H) \cong G/H\). Кроме того, \(|\operatorname{Gal}_K(E^H)| = [E^H : K]\), значит \(K \subset E^H\) --- расширение Галуа.
+
+        Обратно, если \(K \subset L\) --- нормальное подрасширение (т.е. расширение Галуа), то по определению нормальности для любого \(\sigma \in G\) имеем \(\sigma(L) = L\). По свойству 2 это означает, что \(\sigma H \sigma^{-1} = H\) для \(H = \operatorname{Aut}_L E\), т.е. \(H \unlhd G\).
+    \end{enumerate}
+\end{proof}
