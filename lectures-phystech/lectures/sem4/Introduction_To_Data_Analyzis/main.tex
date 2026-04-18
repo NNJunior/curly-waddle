@@ -380,3 +380,110 @@ P(X_{t_1}=m,\; X_{t_2}-X_{t_1}=n)=P(X_{t_1}=m)\cdot e^{-\lambda h}\frac{(\lambda
 \end{note}
 
 \textbf{Вывод:} думайте мозгом!
+
+\lecture{11}
+
+\section{Введение в математическую статистику}
+
+\subsection{Выборочное среднее}
+Пусть \(X_1, \dots X_n\) --- выборка (набор н.о.р.с.в.) с конечной дисперсией. Тогда \(\E X_1\) называют теоретическим средним, а \(\overline{X} = \frac{1}{n}\sum_{i = 1}^n X_i\) --- выборочным средним.
+
+\begin{example}
+    \(X_i\) --- выручка с объекта \(i\). Тогда \(\overline{X}\) --- средняя выручка.
+\end{example}
+
+\begin{example}
+    \(X_i\) --- ошибка модели на объекте \(i\). Тогда \(\overline{X}\) --- средняя ошибка.
+\end{example}
+
+\subsection{Свойства выборочного среднего}
+
+Посчитаем матожидание выборочного среднего
+
+\[\E \overline{X} = \E\frac{1}{n}\sum_{i = 1}^n \E X_i = \frac{1}{n}\sum_{i = 1}^n\E X_i = \E X_1\]
+
+\begin{corollary}
+    Выборочное среднее --- несмещенная оценка \(\E X_1\).
+\end{corollary}
+
+Также для выборочного среднего выполняется УЗБЧ:
+
+\begin{theorem}[УЗБЧ]
+    \(\overline{X} \xrightarrow{\text{п.н.}} \E X_1\) при \(n \ra \infty\).
+\end{theorem}
+
+\begin{corollary}
+    Выборочное среднее --- сильно состоятельная оценка (т.е. в пределе сходится к \(\E X_1\)).
+\end{corollary}
+
+Теперь посчитаем дисперсию выборочного среднего:
+
+\[\Variance \overline{X} = \Variance \frac{1}{n}\sum_{i = 1}^n X_i = \frac{1}{n^2}\sum_{i = 1}^n \Variance X_i = \frac{1}{n} \Variance X_1\]
+
+Запишем центральную предельную теорему для \(\overline{X}\):
+
+\[\frac{\sum_{i = 1}^n X_i - n\E X_1}{\sqrt{n \Variance X_1}} \xrightarrow{d} \mathcal{N}(0, 1)\]
+Преобразуем:
+\[\frac{\frac{1}{n}\sum_{i = 1}^n X_i - \E X_1}{\sqrt{\frac{\Variance X_1}{n}}} \xrightarrow{d} \mathcal{N}(0, 1)\]
+\[\frac{\overline{X} - \E X_1}{\sqrt{\Variance \overline{X}}} \xrightarrow{d} \mathcal{N}(0, 1)\]
+
+Известно, что с вероятностью \(\approx 95\%\) выполнено (из свойств нормального распределения):
+\[-2 \le \frac{\overline{X} - \E X_1}{\sqrt{\Variance \overline{X}}} \le 2\]
+\[-2\sqrt{\Variance \overline{X}} \le \overline{X} - \E X_1 \le 2\sqrt{\Variance \overline{X}}\]
+
+\[\overline{X} - 2\sqrt{\frac{\Variance X_1}{n}} \le \E X_1 \le \overline{X} + 2\sqrt{\frac{\Variance X_1}{n}}\]
+
+Таким образом, чтобы оценить \(\E X_1\), нам нужно знать \(\Variance X_1\). Как ее оценить? Положим:
+\[S^2 = \frac{1}{n}\sum_{i = 1}^n (X_i - \overline{X})^2 = \overline{X^2} - \overline{X}^2\]
+Возникает вопрос: можно ли сказать, что \(S^2 \xrightarrow{\text{п.н.}} \Variance X_1\)? Рассмотрим вектор \(\left(\begin{array}{l}
+    \overline{X^2} \\
+    \overline{X} \\
+\end{array}\right)\) --- сходится почти наверное к \(\left(\begin{array}{l}
+    \E X_1^2 \\
+    \E X_1 \\
+\end{array}\right)\). Заметим, что по УЗБЧ т.к. \(\Variance X_1^2 < +\infty\). Возьмем \(f(x, y) = x - y^2\). Тогда \(f(\overline{X^2}, \overline{X}) = S^2 \xrightarrow{\text{п.н.}} f(\E X_1^2, \E X_1) = \Variance X_1\). 
+
+Последнее стремление выполняется в силу теоремы о наследовании сходимости:
+
+\begin{theorem}[О наследовании сходимости]
+    Если \(\xi_n \xrightarrow{\text{п.н.}} \xi\) и \(f\) непрерывна на \(B\), таком, что \(P(\xi \in B) = 1\). Тогда \(f(\xi_n) \xrightarrow{\text{п.н.}}f(\xi)\).
+\end{theorem}
+    
+Поскольку \(S^2\) --- хорошая оценка дисперсии, то подставим ее в качестве \(\Variance X_1\) и получим:
+
+\[\overline{X} - 2\frac{S}{\sqrt{n}} \le \E X_1 \le \overline{X} + 2\frac{S}{\sqrt{n}}\]
+
+\subsection{Стратификация}
+Пусть данные делятся на \(n\) страт. Положим:
+\begin{enumerate}
+    \item \(\mu_j\) --- среднее в страте \(j\)
+    \item \(\sigma^2_j\) --- дисперсия в страте \(j\)
+    \item \(w_j\) --- доля страты \(j\) (известная нам)
+\end{enumerate}
+
+Будем брать выборку стратифицированно по стратам, т.е.
+\begin{enumerate}
+    \item \(n_j = n w_j\) --- количетво элементовв выборки в страте \(j\).
+    \item \(\overline{X_j}\) -- среднее по выборке в страте \(j\)
+\end{enumerate}
+
+Посчитаем матожидание:
+\[\E (\overline{X} | n_j = n w_j \forall j) = \E\left( \frac{1}{n}\sum_{j = 1}^k n_j \overline{X_j} | n_j = n w_j \forall j\right) = \frac{1}{n}\sum_{j = 1}^k nw_j \E \overline{X_j} = \sum_{j = 1}^k w_j\mu_j = \mu\]
+То есть получили несмещенную оценку среднего. Теперь посчитаем дисперсию:
+\[\Variance (\overline{X} | n_j = n w_j \forall j) = \Variance\left( \frac{1}{n}\sum_{j = 1}^k n_j \overline{X_j} | n_j = n w_j \forall j\right) = \]\[= \frac{1}{n^2}\sum_{j = 1}^k n^2w^2_j \Variance(\overline{X_j} | n_j = n w_j) = \sum_{j = 1}^k w^2_j \frac{\sigma_j^2}{nw_j} = \frac{1}{n}\sum_{j = 1}^k w_j\sigma_j^2\]
+
+Вспомним, что раньше мы получали дисперсию \(\frac{\sigma^2}{n}\). Сравним эти две оценки.
+
+Дисперсия при случайном семплировании:
+\[\Variance X_i = \E\Variance(X_i|Z_i) + \Variance\E(X_i|Z_i) = \E\sum_{j = 1}^k\sigma_j^2I\{Z_i = j\} + \Variance\sum_{j = 1}^k\mu_jI\{Z_i = j\} =\]
+\[= \sum_{j = 1}^k\sigma_j^2\E I\{Z_i = j\} + \E\left( \sum_{j = 1}^k \mu_i I\{Z_i = j\} \right)^2 - \left( \E \sum_{j = 1}^k \mu_i I\{Z_i = j\} \right)^2=\]
+\[= \sum_{j = 1}^kw_j \sigma_j^2 + \sum_{j = 1}^k \mu_j^2 \underbrace{\E I\{Z_i = j\}}_{w_j} - \mu^2\]
+Теперь найдем знак \(\sum_{j = 1}^k \mu_j^2 \underbrace{\E I\{Z_i = j\}}_{w_j} - \mu^2\):
+\[\sum_{j = 1}^k \mu_j^2 \underbrace{\E I\{Z_i = j\}}_{w_j} - \mu^2 = \sum_{j = 1}^k \mu_j^2 \underbrace{\E I\{Z_i = j\}}_{w_j} - 2\mu^2 + \mu^2 =\]
+\[\sum_{j = 1}^k \mu_j^2 \underbrace{\E I\{Z_i = j\}}_{w_j} - 2\mu\sum_{j = 1}^k w_j\mu_j + \mu^2\sum_{j = 1}^k w_j = \sum_{j = 1}^k(\mu_j - \mu)^2\]
+
+Таким образом:
+\[\Variance \overline{X} = \frac{1}{n}\Variance X_i = \frac{1}{n}\sum_{j = 1}^kw_j\sigma_j^2 + \frac{1}{n}\sum_{j = 1}^k(\mu_j - \mu)^2\]
+
+Таким образом, стратификация уменьшает дисперсию, причем чем сильнее в классах отличаются матожидания, тем меньше будет дисперсия.
+
