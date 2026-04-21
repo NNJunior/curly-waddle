@@ -1564,3 +1564,170 @@
     \[\left| \int_{R^m}f(x)P_n(dx) - \int_{R^m} f(x)Q(dx) \right| \ge \epsilon\]
     В силу теоремы Прохорова, \(\exists\) подпоследовательность \(\{P_{n_{k_s}}, s \in \N\} \subset \{P_{n_k}, k \in \N\}\), которая слабо сходится к \(Q\) (по условию). Получили противоречие \(\Ra P_n \Ra Q\).
 \end{proof}
+
+\lecture{12}
+
+\section{Характеристические функции}
+
+\begin{definition}
+    Пусть \(\xi\) --- случайная величина. Ее характеристической функцией называется
+    \[\phi(t) = \E e^{it\xi}\]
+\end{definition}
+
+\begin{note}
+    Формально, можно понимать:
+    \[\E e^{it\xi} = \E\cos\xi t + i\E\sin\xi t\]
+\end{note}
+
+\begin{definition}
+    Пусть \(\xi = (\xi_1, \dots \xi_n)\) --- случайный вектор. Тогда его характеристической функцией называется
+    \[\phi(t) = \E e^{i \langle t, \xi \rangle}\]
+    Где \(t \in \R^n, \langle t, \xi \rangle\) --- скалярное произведение.
+\end{definition}
+
+\begin{definition}
+    Если \(P\) --- вероятностная мера на \((\R^m, \mathcal{B}(\R^m))\), то ее характеристической функцией называется
+    \[\phi(t) = \int_{\R^m} e^{i \langle t, x \rangle} P(dx)\]
+\end{definition}
+
+\begin{note}
+    Характеристические функции для \(\xi\) и \(P_\xi\) совпадают.
+\end{note}
+
+\subsection{Примеры}
+\begin{example}
+    Пусть \(\xi \sim Bin(n, p)\). Ее характеристическая функция:
+    \[\phi_\xi(t) = \E e^{it\xi} = \sum_{k = 0}^n e^{itk}P(\xi = k) = \sum_{k = 0}^n e^{itk}C_n^kp^k(1 - p)^{n - k} = (e^{it}p + 1 - p)^n\]
+\end{example}
+
+\begin{example}
+    Пусть \(\xi \sim Exp(\lambda)\). Ее характеристическая функция:
+    \[\phi_\xi(t) = \E e^{it\xi} = \int_0^{+\infty} e^{itx}\lambda e^{-\lambda x}dx = \frac{\lambda}{it - \lambda}e^{(it-\lambda)x}\big|_0^{+\infty} = \frac{\lambda}{\lambda - it}\]
+\end{example}
+
+\begin{example}
+    Пусть \(\xi \sim \mathcal{N}(0, 1)\). Ее характеристическая функция:
+    \[\phi_\xi(t) = \E e^{it\xi} = \int_\R e^{itx}\frac{1}{\sqrt{2\pi}}e^{-\frac{x^2}{2}}dx = \int_\R \cos tx \frac{1}{\sqrt{2\pi}}e^{-\frac{x^2}{2}}dx\]
+    Тогда:
+    \[\phi_\xi'(t) = \int_\R \sin tx \frac{1}{\sqrt{2\pi}}(-x)e^{-\frac{x^2}{2}}dx = \underbrace{\frac{1}{\sqrt{2\pi}}\sin tx e^{-\frac{x^2}{2}}\big|_{-\infty}^{+\infty}}_0 - t\underbrace{\int_\R\frac{1}{\sqrt{2\pi}}\cos tx e^{-\frac{x^2}{2}}dx}_{\phi_\xi(t)}\]
+    Таким образом:
+    \[\phi_\xi'(t) = -t \phi_\xi(t)\]
+    \[(\ln\phi_\xi(t))' = -t\]
+    И тогда \(\phi_\xi(t) = e^{-\frac{t^2}{2} + C}\). При этом \(\phi_\xi(0) = 1 \Ra C = 0 \Ra \phi_\xi(t) = e^{-\frac{t^2}{2}}\)
+\end{example}
+
+\begin{lemma}[Свойства характеристической функции]
+    Пусть \(\phi(t)\) --- характеристическая функция случайной величины \(\xi\). Тогда:
+    \begin{enumerate}
+        \item \(|\phi(t)| \le 1 = \phi(0)\)
+        \item Если \(\eta = a\xi + b, a, b \in \R\), то \(\phi_\eta(t) = e^{itb}\phi(at)\)
+        \item \(\phi(t)\) равномерно непрерывна на \(\R\)
+        \item \(\phi(t) = \overline{\phi(-t)}\)
+        \item Единственность: \(\phi_\xi(t) = \phi_\eta(t) \Lra \xi \stackrel{d}{=} \eta\)
+        \item \(\phi(t)\) действительнозначная \(\Lra\) распределение \(\xi\) симметрично, т.е. \(\xi \stackrel{d}{=} -\xi\)
+        \item Если \(\E|\xi|^n < +\infty\), то для \(\forall r \le n\):
+        \[\phi^{(r)}(t) = \E(i\xi)^re^{it\xi}\]
+        \item Если \(\xi_1, \dots \xi_n\) --- независимые случаные величины, то 
+        \[\phi_{\xi_1 + \dots + \xi_n} = \prod_{k = 1}^n \phi_{\xi_k}(t)\]
+    \end{enumerate}
+\end{lemma}
+\begin{proof}
+    \begin{enumerate}
+        \item \(|\phi(t)| = |\E e^{it\xi}| \le \E\underbrace{|e^{it\xi}|}_1 = 1 = \phi(0)\)
+        \item \(\phi_\eta(t) = \E e^{it\eta} = \E e^{it(a\xi + b)} = e^{itb}\E e^{iat\xi} = e^{itb}\phi(at)\)
+        \item
+        \[|\phi(t + h) - \phi(t)| = |\E e^{i(t + h)\xi} - \E e^{it\xi}| = |\E e^{it\xi}(e^{ih\xi} - 1)| \le \E |e^{it\xi}(e^{ih\xi} - 1)| = \E |e^{ih\xi} - 1|\]
+        Заметим, что \(|e^{ih\xi} - 1| \xrightarrow{\text{п.н.}}_{h \ra 0} 0\) и \(|e^{ih\xi} - 1| \le 2\). По теореме Лебега о мажорируемой сходимости, получаем, что 
+        \[\E|e^{ih\xi} - 1| \ra 0, h \ra 0\]
+        \item
+        \[\phi(t) = \E e^{it\xi} = \E\cos t\xi + i\E\sin t\xi = \overline{\E\cos t\xi - i\E\sin t\xi} = \overline{\phi(-t)}\]
+        \item см. формулу обращения
+        \item \(\Ra \phi_\xi(t) = \overline{\phi_\xi(t)} \stackrel{4)}{=} \phi_\xi(-t) \stackrel{2)}{=} \phi_{-\xi}(t)\). В силу единственности получаем, что \(\xi \stackrel{d}{=} -\xi\).
+        
+        \(\La \phi_{\xi}(t) \stackrel{5)}{=} \phi_{-\xi}(t) \stackrel{2)}{=} \phi_{\xi}(-t) \stackrel{4)}{=} \overline{\phi_\xi(t)} \Ra \phi_\xi(t) \in \R\)
+
+        \item Проверим для \(r = 1\).
+        \[\frac{\phi(t + h) - \phi(t)}{h} = \frac{\E e^{it\xi}(e^{ih\xi} - 1)}{h} = \E e^{it\xi}\left( \frac{e^{ih\xi} - 1}{h} \right)\]
+        Заметим, что \(\frac{e^{ih\xi} - 1}{h} \xrightarrow{\text{п.н.}} (i\xi)\) при \(h \ra 0\) и 
+        \[\left| e^{it\xi}\left( \frac{e^{ih\xi} - 1}{h} \right) \right| \le 2|\xi|\]
+        По теореме Лебега о мажорируемой сходимости:
+        \[\frac{\phi(t + h) - \phi(t)}{h} \ra_{h \ra 0} \E(i\xi)e^{it\xi}\]
+        Формула для \(\phi^{(r)}(t)\) для \(r \ge 2\) доказывается аналогично по индукции.
+        \item
+        \[\phi_{\xi_1 + \dots + \xi_n}(t) = \E e^{i(\xi_1 + \dots + \xi_n)t} = \E\prod_{j = 1}^n e^{i\xi_jt} = (*)\]
+        Из независимости \(\xi_1, \dots \xi_n\) получаем:
+        \[(*) = \prod_{j = 1}^n\E e^{i\xi_j t} = \prod_{j = 1}^n \phi_{\xi_j}(t)\]
+    \end{enumerate}
+\end{proof}
+
+\begin{exercise}
+    Проверить, что в пункте 1 дествительно \(|\E(\xi + i\eta)| \le \E|\xi + i\eta|\)
+\end{exercise}
+
+\begin{theorem}[Формула обращения]
+    Пусть \(\xi\) --- случайная величина с функцией распределения \(F(x)\) и характеристической функцией \(\phi(t)\). Тогда:
+    \begin{enumerate}
+        \item Если \(a < b\) --- точки непрерывности \(F(x)\), то
+        \[F(b) - F(a) = \lim_{n \ra \infty}\frac{1}{2\pi}\int_\R \frac{e^{-ita} - e^{-itb}}{it}\phi(t)e^{-\frac{t^2}{2n}}dt\]
+        \item Если \(\int_\R |\phi(t)|dt < +\infty\), то \(\xi\) имеет плотность, причем:
+        \[p(x) = \frac{1}{2\pi}\int_\R e^{-itx}\phi(t)dt\]
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    Пусть \(\eta \sim \mathcal{N}(0, 1)\) и независима с \(\xi\). Рассмотрим \(\xi_n = \xi + \frac{\eta}{\sqrt{n}}\). Тогда \(\xi_n \xrightarrow{\text{п.н.}} \xi \Ra \xi_n \xrightarrow{d} \xi\). Далее, \(\xi\) имеет плотность \(p_n(x)\) (упражнение). Найдем характеристическую функцию \(\xi_n\):
+    \[\phi_{\xi_n}(t) \stackrel{8)}{=} \phi(t)\phi_{\frac{\eta}{\sqrt{n}}} = \phi(t)e^{-\frac{t^2}{2n}} \in L_1(\R)\]
+    Также:
+    \[\phi_{\xi_n}(t) = \E e^{it\eta_n} = \int_\R e^{itx}p_n(x)dx\]
+    Тогда по формуле обращения преобразования Фурье:
+    \[p_n(x) = \frac{1}{2\pi}\int_\R e^{-itx}\phi_{\xi_n}(t)dt\]
+    Теперь докажем пункты:
+    \begin{enumerate}
+        \item 
+        \[F(b) - F(a) = \lim_{n \ra \infty}(F_{\xi_n}(b) - F_{\xi_n}(a)) = \lim_{n \ra \infty}\int_a^b p_n(x)dx \stackrel{8)}{=} \lim_{n \ra \infty}\frac{1}{2\pi}\int_a^b \left( \int_\R e^{-itx}\phi_{\xi_n}(t)dt \right)dx = (*)\]
+        По теореме Фубини:
+        \[(*) = \lim_{n \ra \infty}\frac{1}{2\pi}\int_\R \left( \int_a^b e^{-itx}dx \right)\phi_{\xi_n}(t)dt = \lim_{n \ra \infty}\frac{1}{2\pi}\int_\R \frac{e^{-ita} - e^{-itb}}{it}\phi(t)e^{-\frac{t^2}{2n}}dt\]
+        \item Переходим к пределу по \(n\) под знаком интеграла в следующем равенстве:
+        \[\lim_{n \ra \infty}\int_a^b p_n(x)dx \stackrel{8)}{=} \lim_{n \ra \infty}\frac{1}{2\pi}\int_a^b \left( \int_\R e^{-itx}\phi_{\xi_n}(t)dt \right)dx\]
+        Получим, что:
+        \[F(b) - F(a) = \int_a^b\underbrace{\left( \frac{1}{2\pi} \int_\R e^{-itx}\phi(t)dt \right)}_{p(x)}dx\]
+        Но тогда \(p(x)\) является плотностью \(\xi\).
+    \end{enumerate}
+\end{proof}
+
+\begin{example}
+    Пусть \(\xi_1, \xi_2\) --- независимые случайные величины, \(\xi_j \sim \mathcal{N}(a_j, \sigma_j^2), j = 1, 2\). Требуется найти распределение \(\xi_1 + \xi_2\).
+\end{example}
+\begin{solution}
+    Найдем характеристическую функцию \(\xi_j\). Заметим, что:
+    \[\frac{\xi_j - a_j}{\sigma_j} = \eta_j \sim \mathcal{N}(0, 1)\]
+    Тогда
+    \[\phi_{\xi_j}(t) \stackrel{2)}{=} \phi_{\eta_j}(\sigma_jt)e^{ia_jt} = e^{ia_jt - \frac{\sigma_j^2t}{2}}\]
+    В итоге:
+    \[\phi_{\xi_1 + \xi_2}(t) = \phi_{\xi_1}(t)\phi_{\xi_2}(t) = e^{i(a_1 + a_2)t - \frac{1}{2}t^2(\sigma_1^2 + \sigma_2^2)}\]
+    Но тогда по единственности, \(\xi_1 + \xi_2 \sim \mathcal{N}(a_1 + a_2, \sigma_1^2 + \sigma_2^2)\)
+\end{solution}
+
+\begin{note}
+    Свойство единственности работает и для случайных векторов.
+\end{note}
+
+\begin{theorem}[Критерий независимости для характеристических функций]
+    Случайные величины \(\xi_1, \dots \xi_n\) независимы в совокупности \(\Lra \phi_\xi(t_1, \dots t_n) = \prod_{j = 1}^n \phi_{\xi_j}(t_j)\), где \(\xi = (\xi_1, \dots \xi_n)\).
+\end{theorem}
+\begin{proof}
+    \begin{enumerate}
+        \item[\(\Ra\)]
+        \[\phi_\xi(t_1, \dots t_n) = \E e^{i \langle \xi, t \rangle} = \E\prod_{j = 1}^n e^{i\xi_jt_j} = (*)\]
+        Из независимости \(\xi_1, \dots \xi_n\) получаем:
+        \[(*) = \prod_{j = 1}^n\E e^{i\xi_j t_j} = \prod_{j = 1}^n \phi_{\xi_j}(t_j)\]
+        \item[\(\La\)] Рассмотрим случайный вектор \(\eta = (\eta_1, \dots \eta_n)\), такой, что \(\eta_j\) --- независимые случаные величины и \(\forall j = 1, \dots n: \eta_j \stackrel{d}{=} \xi_j\). Тогда:
+        \[\phi_\xi(t_1, \dots t_n) = \prod_{j = 1}^n \phi_{\xi_j}(t_j) = (*)\]
+        Из одинаковой распределенности получаем:
+        \[(*) = \prod_{j = 1}^n \phi_{\eta_j}(t_j) \stackrel{\Ra}{=}\phi_\eta(t_1, \dots t_n)\]
+        По свойству единственности получаем, что
+        \[F_\xi(x_1, \dots x_n) = F_\eta(x_1, \dots x_n) = \prod_{j = 1}^n F_{\eta_j}(x_j) = (*)\]
+        И из одинаковой распределенности получаем:
+        \[(*)\prod_{j = 1}^n F_{\xi_j}(x_j)\]
+        Но тогда \(\xi_1, \dots \xi_n\) независимы в совокупности.
+    \end{enumerate}
+\end{proof}
