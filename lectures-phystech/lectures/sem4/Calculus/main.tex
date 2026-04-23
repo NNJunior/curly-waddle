@@ -1222,6 +1222,7 @@
         \item \(\widehat{f}\) ограничена на \(\R\)
         \item Если \(f_h(x) = f(x - h), \delta_tf(x) = f(tx)\), то \(\widehat{f_h}(y) = e^{-ihy}\widehat{f}(y), \widehat{\delta_tf}(y) = \frac{1}{t}\widehat{f}\left( \frac{y}{t} \right)\)
         \item \(\widehat{f}\) непрерывна на \(\R\) и \(\widehat{f}(y) \ra 0, y \ra \pm\infty\)
+        \item \(\widehat{f * g} = \sqrt{2\pi}\widehat{f}\cdot\widehat{g}\)
     \end{enumerate}
 \end{proposition}
 \begin{proof}
@@ -1229,11 +1230,126 @@
         \item Вытекает из линейности интеграла Лебега
         \item \[|\widehat{f}(y)| \le \frac{1}{\sqrt{2\pi}}\int_\R |f(x)e^{-iyx}|dx = \frac{1}{\sqrt{2\pi}}\int_\R |f|dx = \frac{1}{\sqrt{2\pi}}\|f\|_1\]
         \item Вытекает из теоремы о замене переменной в интеграле Лебега
-        \[|\widehat{f}(y + h) - \widehat{f}(y)| \le \frac{1}{\sqrt{2\pi}}\int_\R |f(x)e^{-ix(y + h)} - f(x)e^{-ixy}|dx = \frac{1}{\sqrt{2\pi}}\int_\R |f(x)||1 - e^{ihx}|dx\]
+        \item \[|\widehat{f}(y + h) - \widehat{f}(y)| \le \frac{1}{\sqrt{2\pi}}\int_\R |f(x)e^{-ix(y + h)} - f(x)e^{-ixy}|dx = \frac{1}{\sqrt{2\pi}}\int_\R |f(x)||1 - e^{ihx}|dx\]
         Заметим, что \(|f(x)||1 - e^{ihx}| \le 2|f(x)|\) --- интегрируемая мажоранта. Поэтому по теореме о непрерывности интеграла с параметром, заключаем, что \(|\widehat{f}(y + h) - \widehat{f}(y)| \ra 0\), причем стремление не зависит от точки \(y\). Поэтому на самом деле \(\widehat{f}(y)\) равномерно непрерывна. Оставшееся утверждение вытекает из леммы Римана об осцилляции
+
+        \lecture{12}
+
+        \item Для \(\forall y \in \R: (x, t) \mapsto f(x - t)g(t)e^{-iyx}\) --- интегрируема на \(\R^2\), т.к. \(|f(x - t)g(t)e^{-iyx}| = |f(x - t)g(t)|\). Тогда по теореме Фубини:
+        \[\sqrt{2\pi}\widehat{f * g} = \int_\R\left( \int_\R f(x - t)g(t)dt \right)e^{-iyx}dx = \int_\R\left( \int_\R f(x - t)e^{-iy(x - t)}dx \right)g(t)e^{-iyt}dt = 2\pi\widehat{f}\cdot\widehat{g}\]
+
     \end{enumerate}
 \end{proof}
 
 \begin{note}
     Отметим, что под преобразованием Фурье также понимают отображение \(F: L_1(\R) \ra C_0(\R), F[f] = \widehat{f}\), где \(C_0\) --- пространство непрерывных функций, стремящихся к \(0\) при \(x \ra \pm\infty\) с \(\sup\)-нормой.
 \end{note}
+
+\begin{problem}
+    Пусть \(f_k, f \in L_1(\R), f_k \ra f\) в \(L_1\). Докажите, что \(\widehat{f}_k \rightrightarrows \widehat{f}\) на \(\R\)
+\end{problem}
+
+\begin{theorem}[Преобразование Фурье производной]
+    Пусть \(f \in C^1(\R), f, f' \in L_1(\R)\). Тогда \(\widehat{f'}(y) = iy\widehat{f}(y)\) для всех \(y \in \R\).
+\end{theorem}
+\begin{proof}
+    Покажем, что \(\lim_{x \ra \pm\infty} f(x) = 0\). По Формуле Ньютона-Лейбница: \(f(x) - f(0) = \int_0^x f'(t)dt \Ra\) существует конечный предел \(\lim_{x \ra \pm\infty} f(x)\). Если он отличен от нуля, то \(|f| \ge c > 0\) на некотором луче и тогда \(f \notin L_1(\R)\). Теперь по формуле интегрирования по частям, получаем:
+    \[\sqrt{2\pi}\widehat{f'}(y) = \int_\R f'(x)d^{-iyx}dx = \underbrace{f(x)e^{-iyx}\big|_{-\infty}^{+\infty}}_0 - (-iy)\int_\R f(x) e^{-iyx}dx = \sqrt{2\pi} (iy)\widehat{f'}(y)\]
+\end{proof}
+
+\begin{note}
+    Данная теорема справедлива если \(f \in L_1(\R)\) и \(f(x) = \int_{-\infty}^x \phi(x)dx\) для всех \(\phi \in L_1(\R)\). В частности, это выполняется, когда \(f\) --- непрерывна, а \(f'\) --- кусочно-непрерывна.
+\end{note}
+
+\begin{corollary}
+    Пусть \(f \in C^n(\R) f, f', \dots f^{(n)} \in L_1(\R)\). Тогда \(\widehat{f^{(n)}}(y) = (iy)^n\widehat{f}(y)\) и \(\widehat{f}(y) = o\left( \frac{1}{y^n} \right)\) при \(y \ra \pm\infty\)
+\end{corollary}
+
+\begin{theorem}[Производная преобразования Фурье]
+    Пусть \(f \in L_1(\R)\) и \(x \mapsto xf(x) \in L_1(\R)\). Тогда \(\widehat{f} \in C^1(\R)\) и \(\frac{d}{dy}\widehat{f} = F[-ixf(x)]\).
+\end{theorem}
+\begin{proof}
+    Т.к. \(|-ix f(x)e^{-iyx}| = |xf(x)|\), то по признаку Лейбница дифференцирования интеграла с параметром, получаем:
+    \[\sqrt{2\pi}\frac{d}{dy}\widehat{f}(y) = \int_\R \frac{\partial}{\partial y}f(x)e^{-iyx}dx = \int_\R -ixf(x)e^{-iyx}dx\]
+\end{proof}
+
+\begin{corollary}
+    Пусть \(f \in L_1(\R), x \mapsto x^nf(x) \in L_1(\R)\) для некоторого \(n \in \N\). Тогда \(\widehat{f} \in C^n(\R)\).
+\end{corollary}
+\begin{proof}
+    Т.к. \(|x|^k \le 1 + |x|^n \Ra x^kf(x)\) будут интегрируемы при \(\forall k \le n\). Осталось применить индукцию и предыдущую теорему.
+\end{proof}
+
+\begin{example}
+    Найдем преобразование Фурье для \(f(x) = e^{-\frac{x^2}{2}}\)
+\end{example}
+\begin{solution}
+    Заметим, что \(f'(x) = -xf(x)\). Преобразуем:
+    \[if'(y) = -xif(x)\]
+    \[i(iy)\widehat{f}(y) = \left(\widehat{f}\right)'(y)\]
+    \[iy\widehat{f}(y) = -i\left(\widehat{f}\right)'(y)\]
+    Таким образом, \(\widehat{f}\) удовлетворяет дифференциальному уравнению \(z'(y) = -yz(y) \Lra z(y) = Ce^{-\frac{y^2}{2}}\). Найдем \(C\):
+    \[C = \widehat{f}(0) = \frac{1}{\sqrt{\pi}}\int_\R e^{-\left( \frac{x}{\sqrt{2}} \right)^2}d\left( \frac{x}{\sqrt{2}} \right) = 1\]
+    Таким образом \(\widehat{f}(y) = e^{-\frac{y^2}{2}}\)
+\end{solution}
+
+\subsection{Интеграл Фурье}
+
+Займемся вопросом восстановления функции по ее преобразованию Фурье.
+
+\begin{definition}
+    Пусть \(f\) интегрируема на \(\forall [a, b] \subset \R\) (локально интегрируема на \(\R\)). Тогда
+    \[\text{v.p.}\int_{-\infty}^{+\infty}f(x)dx = \lim_{u \ra +\infty} \int_{-u}^u f(x)dx\]
+\end{definition}
+
+\begin{note}
+    Если \(f \in L_1(\R)\), то \(\text{v.p.}\int_{-\infty}^{+\infty}f(x)dx = \int_{-\infty}^{+\infty}f(x)dx\) из теоремы Лебега о мажорируемой сходимости.
+\end{note}
+
+\begin{definition}
+    Пусть \(f\) интегрируема, \(x \in \R\). Тогда интегралом Фурье \(f\) в точке \(x\) называется:
+    \[I(f, x) = \frac{1}{\sqrt{2\pi}}\text{v.p.}\int_{-\infty}^{+\infty}\widehat{f}(y)e^{-iyx}dy\]
+\end{definition}
+
+\begin{note}
+    Можно построить следующее соответствие:
+    \begin{center}
+        \begin{tabular}{c|c} 
+            Периодический случай & Непериодический случай \\ 
+            \hline
+            Коэффициенты Фурье & Преобразование Фурье \\ 
+            Ряд Фурье & Интеграл Фурье \\ 
+        \end{tabular}
+    \end{center}
+\end{note}
+
+Заметим, что:
+\[I(f, x) = \int_0^{+\infty} \left( \widehat{f}(y)e^{iyx} + \widehat{f}(-y)e^{-iyx} \right)dy\]
+При этом:
+\[\widehat{f}(y)e^{iyx} + \widehat{f}(-y)e^{-iyx} = \frac{1}{\sqrt{2\pi}}\int_\R f(t) (\underbrace{e^{iy(x - t)} + e^{-iy(x - t)}}_{2\cos y(x - t)})dy\]
+Следовательно:
+\[I(f, x) = \int_0^{+\infty} (a(y)\cos yx + b(y)\sin yx)dy\]
+Где:
+\[a(y) = \frac{1}{\pi} \int_\R f(t)\cos yt dt, b(y) = \frac{1}{\pi} \int_\R f(t)\sin yt dt\]
+
+Запишем в удобном виде \(I_u(x) = \frac{1}{\sqrt{2\pi}}\int_{-u}^u \widehat{f}(y)e^{iyx}dy\)
+\begin{lemma}
+    Пусть \(f \in L_1(\R), x \in \R\). Тогда \(\forall y \in \R\) выполнено:
+    \[I_u(f, x) = \frac{1}{\pi}\int_\R f(x - t)\frac{\sin ut}{t}dt\]
+\end{lemma}
+\begin{proof}
+    Запишем \(\widehat{f}\) в виде интеграла. Имеем:
+    \[I_u(f, x) = \frac{1}{2\pi}\int_{-u}^u \left( \int_\R f(s)e^{iy(x - s)}ds \right)dy\]
+    Функция \((y, s) \mapsto f(s)e^{iy(x - s)}\) интегрируема на \([-u, u] \times \R\). Тогда по теореме Фубини:
+    \[I_u(f, x) = \frac{1}{2\pi}\int_\R f(s)\left( \int_{-u}^u e^{-iy(x - s)}dy \right)ds =\]
+    \[=\frac{1}{2\pi}\int_\R f(s) \frac{e^{iu(x - s)} - e^{-iu(x - s)}}{i(x - s)}ds = \frac{1}{2\pi}\int_\R f(s) \frac{\sin u(x - s)}{x - s}ds\]
+    Заменив переменную, получаем желаемое.
+\end{proof}
+
+\begin{corollary}
+    \(\forall \delta > 0\) имеем: \(I(f, x) = \frac{1}{\pi}\int_{-\delta}^\delta f(x - t)\frac{\sin ut}{t}dt + o(1), u \ra \pm\infty\)
+\end{corollary}
+
+\begin{theorem}[О равносходимости]
+    Пусть \(f \in L_1(\R)\) и \(f_0 \in L_1(T)\) совпадают в некоторой окрестности точки \(x\). Тогда интеграл Фурье \(I(f, x)\) и ряд Фурье \(S(f, x)\) сходятся или расходятся одновременно и, если сходятся, то к одному значению.
+\end{theorem}
