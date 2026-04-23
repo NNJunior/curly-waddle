@@ -1442,4 +1442,115 @@
 TODO
 
 \subsection{Быстрые мультипликаторы}
-Идея: по тройке \((x, y, z)\) получим тройку \(t, v\), такую, что \(x + y + z = t + v\) за константное время. Тогда мы уменьшили количество слагаемых в \(\frac{2}{3}\) раз. Таким образом, если нам надо посчитать \(a \cdot b\), мы можем посчитать это за \(\log_{\frac{3}{2}}b\) и мы свели задачу к предыдущей.
+Идея: по тройке \((x, y, z)\) получим тройку \(t, v\), такую, что \(x + y + z = t + v\) за константное время. Тогда мы уменьшили количество слагаемых в \(\frac{2}{3}\) раз. Таким образом, если нам надо посчитать \(a \cdot b\), мы можем посчитать это за \(\log_{\frac{3}{2}}b\) и мы свели задачу к предыдущей
+
+\section{Вероятностная сложность}
+
+Будем рассматривать машину Тьюринга \(M(x, r)\) --- как машину Тьюринга одного аргмуента с некоторыми случайными битами \(r\) (по сути, \(r\) --- бесконечная последовательность случайных бит). Будем рассматривать машины, которые работают за \(poly(|x|)\)
+
+\begin{example}
+    Вспомним тест проверки на простоту Миллера-Рабина. Ответы на одном вроходе выдавались с вероятностями:
+    \[\begin{array}{c|c|c}
+        MR & P(MR = 1) & P(MR = 0) \\
+        \hline
+        n \in \mathbb{P} & 1 & 0 \\
+        \hline
+        n \notin \mathbb{P} & 1/4 & 3/4
+    \end{array}\]
+\end{example}
+
+\begin{example}
+    Рассмотрим алгебраические схемы: они строятся аналогично логическим, но в узлах могут находиться \(+, \cdot\). Возникает задача: по алгебраическим схемам \(P, Q\) понять, совпадают ли построенные по ним многочлены? Заметим, что \(\deg P \le 2^s\), где \(s\) --- размер схемы. Заметим, что существует такой результат:
+    \begin{lemma}[Шварца-Зиппеля]
+        Пусть \(S \in \mathbb{F}_p[x_1, \dots x_n], \deg S \le d\), причем \(S \not\equiv 0\) Тогда \(P(S(x_1, x_2, \dots x_n) \ne 0) \ge 1 - \frac{nd}{p}\)
+    \end{lemma}
+    Возьмем \(p \gg 2^s\), но экспоненциальное от \(s\). Посчитаем \(P(x), Q(x)\) для случайного \(x\). Если \(P(x) \ne Q(x) \Ra P \ne Q\). В противном случае скорее всего \(P = Q \mod p\). Будем брать \(p\) случайно, поэтому, скорее всего \(P \ne Q \Ra P \ne Q \mod p\).
+\end{example}
+
+\subsection{Вероятностные классы}
+Вероятностные классы можно определять двумя числами: \(P(M(x, r) = 1|x \in A)\) и \(P(M(x, r) = 1|x \notin A)\). Запишем известные нам вероятностные классы и добавим еще другие:
+\[\begin{array}{c|c|c}
+    \text{Класс} & P(M(x, r) = 1|x \in A) & P(M(x, r) = 1|x \notin A) \\
+    \hline
+    \mathbf{P} & 1 & 0 \\
+    \hline
+    \mathbf{NP} & >0 & 0 \\
+    \hline
+    \mathbf{coNP} & 1 & <1 \\
+    \hline
+    \mathbf{RP} & >1/2 & 0 \\
+    \hline
+    \mathbf{coRP} & 1 & <1/2 \\
+    \hline
+    \mathbf{BPP} & >2/3 & <1/3 \\
+    \hline
+    \mathbf{PP} & \ge 1/2 & <1/2 \\
+    \hline
+    \mathbf{ZPP} & 1 & 0 \\
+    \hline
+\end{array}\]
+
+\begin{note}
+    В \(\mathbf{ZPP}\), требование на время работы следюущее: оно должно быть полиномиально в среднем, в смысле матожидания (а не просто полиномально).
+\end{note}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=8cm]{images/IMG_5537.jpeg}
+\caption{Взаимоотношения вероятностных классов между собой (включение идет снизу вверх)}
+\end{figure}
+
+Мы докажем некоторые вложения (остальные на семинары/самостоятельное изучение)
+
+\begin{note}
+    \(\mathbf{RP} \subset \mathbf{NP}, \mathbf{coRP} \subset \mathbf{coNP}, \mathbf{BPP} \subset \mathbf{PP}, \mathbf{P} \subset \mathbf{ZPP}\) следуют непосредственно из определений.
+\end{note}
+
+\begin{proposition}
+    \(\mathbf{ZPP} \subset \mathbf{RP}\)
+\end{proposition}
+\begin{proof}
+    \(\E time_M(x, r) = t(|x|) \Ra P(time_M \ge 2t) < \frac{1}{2}\) (неравенство Маркова). Соответственно, запускаем \(M(x, r)\) на \(2t(|x|)\) шагов. Если машина остановилась, даем тот же ответ, иначе --- 0.
+\end{proof}
+
+\begin{proposition}
+    \(\mathbf{RP} \subset \mathbf{BPP}\)
+\end{proposition}
+\begin{proof}
+    Используем прием Амплификации. Запустим \(M(x, r)\) два раза: \(M(x, r_1) \vee M(x, r_2)\), где \(r_1r_2 = r\). Тогда вероятность получить 1 будет \(\ge 3/4\).
+\end{proof}
+
+\begin{note}[Амплификация]
+    Для \(\mathbf{RP}\) вместо \(> \frac{1}{2}\) можно взять \(> \alpha\) для любого \(\alpha \in (0, 1)\) и даже функции \(\alpha(n) \in \left( \frac{1}{poly(n)}, 1 - \frac{1}{\exp(n)} \right)\). Рассмотрим \(M_k(x, r_1, \dots r_k) = M(x, r_1) \vee \dots \vee M(x, r_k)\). Тогда заметим, что \(P(M_k = 0) = (1 - \alpha(n))^k\). Будем запускать машину \(p(n)q(n)\) раз, тогда \(P(M_k = 0) = (1 - \alpha(n))^k \approx \frac{1}{e^{q(n)}}\).
+\end{note}
+
+\begin{note}
+    \(\mathbf{BPP}\): Рассмотрим \(M_k(x, r_1, \dots r_k) = Maj(M(x, r_1), \dots M(x, r_k))\), где \(Maj\) --- выдает 1, если хотя бы половина равна 1. Эта конструкция позволяет подставить в \(\mathbf{BPP}\) любое число.
+\end{note}
+
+\begin{theorem}[Эйдлмана]
+    \(\mathbf{BPP} \subset \mathbf{P/poly}\)
+\end{theorem}
+\begin{proof}
+    TODO
+\end{proof}
+
+\begin{theorem}[Гача-Сипсера-Лаутемана]
+    \(\mathbf{BPP} \subset \mathbf{\Sigma_2^p} \cap \mathbf{\Pi_2^p}\)
+\end{theorem}
+\begin{proof}
+    TODO
+\end{proof}
+\begin{corollary}
+    \(\mathbf{P} = \mathbf{NP} \Ra \mathbf{P} = \mathbf{BPP}\)
+\end{corollary}
+
+\begin{theorem}[Hardness vs. Randomness]
+    ''Если \(\mathbf{NP}\) сильно сложнее \(\mathbf{P}\)'', то \(\mathbf{P} = \mathbf{BPP}\).
+\end{theorem}
+\begin{proof}[Идея]
+    Уменьшить количество используемых случайных битов до \(O(\log n)\), дальше запускаем полный перебор.
+\end{proof}
+
+\subsection{Метод условных матожиданий}
+TODO
