@@ -1150,3 +1150,134 @@ x_k'(t) =
     По лемме Лагранжа выражение в скобках равно нулю всюду на $[a,b]$. Это и есть уравнение Эйлера–Пуассона.
 \end{proof}
 
+\lecture{11}
+
+\section{ПЗВИ с выпуклым Лагранжианом}
+
+\subsection{Напоминание с матана}
+\begin{note}
+    Здесь под \(f'(x)\) понимается матрица Якоби, под \(f''(x)\) --- матрица Гессе (второго дифференциала)
+\end{note}
+
+Пусть \(\Omega \subset \R^n\) --- открытое выпуклое множество.
+\begin{definition}
+    \(f\) называется выпуклой, если \(\forall x, y \in \Omega: \forall t \in [0, 1]: f(tx + (1 - t)y) \le tf(x) + (1 - t)y\).
+\end{definition}
+
+\begin{theorem}
+    Если \(f \in C^2\), то \(f\) --- выпуклая \(\Lra f''(x) \le 0\), т.е. \(\langle f''(x)v, v \rangle \ge 0 \forall x \in \Omega\) (матрица \(\frac{\partial^2f}{\partial x^2}\) положительно определена)
+\end{theorem}
+\begin{proof}
+    \begin{enumerate}
+        \item[\(\La\)] Зафиксируем \(x, y \in \Omega\) и положим \(g(t) = f(x + t(y - x)), t \in [0, 1]\). Тогда:
+        \[g'(t) = \langle f'(x + t(y - x)), y - x \rangle\]
+        \[g''(t) = \langle f''(x + t(y - x))(y - x), y - x \rangle \ge 0\]
+        Заметим, что \(\forall t_1 \le t_2 \in [0, 1]\):
+        \[g'(t_2) - g'(t_1) = \int_{t_1}^{t_2} g''(s)ds \ge 0\]
+        Ногда тогда \(g'\) возрастает. Заключаем:
+        \[g(1) - g(t) = \int_t^1 g'(s)ds \ge \int_t^1 g'(t)ds = g'(t)(1 - t)\]
+        Аналогично:
+        \[g(t) - g(0) = \int_0^t g'(s)ds \le \int_0^t g'(t)ds = g'(t)t\]
+        \[\frac{g(t) - g(0)}{t} \le g'(t) \le \frac{g(1) - g(t)}{(1 - t)}\]
+        \[g(t) \le (1 - t)g(0) + tg(t)\]
+        \[f(tx + (1 - t)y) \le tf(x) + (1 - t)y\]
+        \item[\(\Ra\)] Предположим противное. Пусть \(\exists x \in \Omega, v \in \R^n: \langle f''(x)v, v \rangle < 0\). Запишем:
+        \[f(x + tv) = f(x) + t\langle f'(x), v \rangle + \frac{t^2}{2}\langle f''(x)v, v \rangle + o(t^2)\]
+        \[f(\underbrace{x + tv}_a) + f(\underbrace{x - tv}_b) = 2f(x) + t^2\langle f''(x)v, v \rangle + o(t^2) = f(x - tv) = 2f(x) + t^2\left( \langle f''(x)v, v \rangle + o(1) \right)\]
+        При \(t \ra 0\), левая часть \(< f(x)\). Но тогда:
+        \[\frac{1}{2}f(a) + \frac{1}{2}f(b) \le f\left( \frac{a + b}{2} \right)\]
+    \end{enumerate}
+\end{proof}
+
+\begin{example}
+    Рассмотрим квадратичную форму \(f(x) = \langle Qx, x \rangle\). Заметим, что:
+    \[f(x + h) = \langle Qx + Qh, x + h \rangle = \langle Qx, x \rangle + \underbrace{2\langle Qh, x \rangle}_{df} + \underbrace{\langle Qh, h \rangle}_{\frac{d^2f}{2}}\]
+    Таким образом, \(f''(x) = 2Q\).
+\end{example}
+
+\begin{theorem}
+    Пусть \(f \in C^1, f\) --- выпуклая. Тогда \(\forall x_0 \in \Omega\):
+    \[f(x) \ge f(x_0) + \langle f'(x_0), x - x_0 \rangle\]
+\end{theorem}
+\begin{proof}
+    Для любых \(x, x_0 \in \Omega\):
+    \[f(x_0 + t(x - x_0)) \le (1 - t)f(x_0) + tf(x)\]
+    \[f(x) \ge \frac{f(x_0 + t(x - x_0)) - (1 - t)f(x_0)}{t} = \frac{1}{t}\left( f(x_0) + t\langle f'(x_0), x - x_0 \rangle + o(t) - f(x_0) + tf(x_0) \right) = f(x_0) + \langle f'(x_0), x - x_0 \rangle + \frac{o(t)}{t}, t \in (0, 1]\]
+    При \(t \ra 0+\) получим \(f(x) \ge \langle f'(x_0), x - x_0 \rangle + f(x_0)\)
+\end{proof}
+
+\begin{theorem}
+    Пусть \(f \in C^1\) --- выпукла. Тогда \(x_0\) --- точка минимума \(\Lra f'(x_0) = 0\).
+\end{theorem}
+\begin{proof}
+    \begin{enumerate}
+        \item[\(\Ra\)] теорема Ферма
+        \item[\(\La\)] \(f(x) \ge f(x_0) \underbrace{\langle f'(x_0), x - x_0 \rangle}_0\).
+    \end{enumerate}
+\end{proof}
+
+\begin{definition}
+    \(f\) называется вогнутой, если \(\forall x, y \in \Omega: \forall t \in [0, 1]: f(tx + (1 - t)y) \ge tf(x) + (1 - t)y\).
+\end{definition}
+
+\begin{note}
+    Для вогнутой функции можно сформулировать такие же утверждения:
+\end{note}
+
+\begin{theorem}
+    Если \(f \in C^2\), то \(f\) --- вогнутая \(\Lra f''(x) \le 0\), т.е. \(\langle f''(x)v, v \rangle \le 0 \forall x \in \Omega\) (матрица \(\frac{\partial^2f}{\partial x^2}\) отрицательно определена)
+\end{theorem}
+
+\begin{theorem}
+    Пусть \(f \in C^1, f\) --- вогнутая. Тогда \(\forall x_0 \in \Omega\):
+    \[f(x) \le f(x_0) + \langle f'(x_0), x - x_0 \rangle\]
+\end{theorem}
+
+\begin{theorem}
+    Пусть \(f \in C^1\) --- вогнута. Тогда \(x_0\) --- точка максимума \(\Lra f'(x_0) = 0\).
+\end{theorem}
+
+\subsection{ПЗВИ с выпуклым Лагранжианом}
+Пусть \(L: \R^3 \ra \R \in C^2\) --- непрерывна, \(a, b, A, B \in \R, a < b\). Положим \(Y: C^1[a, b] \ra \R\) следующим образом:
+\[Y(y) = \int_a^b L(x, y(x), y'(x))\]
+Где \(y \in \mathcal{M} = \{y \in C^1[a, b]: y(a) = A, y(b) = B\}\). Обозначим для \(\widehat{y} \in \mathcal{M}\):
+\[\widehat{L}_{y}(x) = \frac{\partial L}{\partial y}(x, \widehat{y}(x), \widehat{y}'(x))\]
+\[\widehat{L}_{y'}(x) = \frac{\partial L}{\partial y'}(x, \widehat{y}(x), \widehat{y}'(x))\]
+
+\begin{theorem}
+    Пусть \(L(x, \cdot, \cdot)\) выпукла \(\forall x \in [a, b]\). Тогда если \(\widehat{y}\) является решением уравнения Эйлера, т.е.:
+    \[\widehat{L}_{y}(x) - \frac{d}{dx}\widehat{L}_{y'}(x) = 0\]
+    То \(\widehat{y}\) является решением ПЗВИ.
+\end{theorem}
+\begin{proof}
+    Рассмотрим \(y \in \mathcal{M}\). Тогда:
+    \[Y(y) = \int_a^b L(x, y(x), y'(x))dx \ge \int_a^b \left( L(x, \widehat{y}, \widehat{y}') + \widehat{L}_{y}(x)(y(x) - \widehat{y}(x)) + \widehat{L}_{y'}(x)(y'(x) - \widehat{y}'(x)) \right) =\]
+    \[= Y(\widehat{y}) + \int_a^b \widehat{L}_y(x)(y(x) - \widehat{y}(x)) + \underbrace{\widehat{L}_y'(x)(y'(x) - \widehat{y}'(x))\big|_a^b}_0 - \int_a^b \left( \frac{d}{dx}\widehat{L}_{y'}(x) \right)(y(x) - \widehat{y}(x))dx = \]
+    \[= Y(\widehat{y}) + \int_a^b \underbrace{\left( \widehat{L}_{y}(x) - \frac{d}{dx}\widehat{L}_{y'}(x) \right)}_0(y(x) - \widehat{y}(x))dx = Y(\widehat{y})\]
+\end{proof}
+
+\begin{example}
+    \[\left\{\begin{array}{l}
+        \int_1^4 \left( (y')^2 + \frac{3y}{4x^2} \right)dx \ra \min \\
+        y(1) = 1, y(4) = 8
+    \end{array}\right.\]
+    Запишем уравнение Эйлера:
+    \[\frac{\partial L}{\partial y} = \frac{3y}{2x^2}, \frac{\partial L}{\partial y'} = 2y'\]
+    \[\frac{3y}{2x^2} - \frac{d}{dx}(2y') = 0\]
+    \[y' - \frac{3}{4x^2}y = 0\]
+    
+    Это уравнение Эйлера, сделаем замену \(z(t) = y(e^t)\):
+    \[z' = y'(x)e^t, z'' = y'(x)(e^t)^2 + y'e^t\]
+    \[y'(x) = \frac{z'}{e^t}, y''(x) = e^{2t}(z'' - z')\]
+    \[z'' - z' + \frac{3}{4}z = 0\]
+    Запишем характеристическое уравнение:
+    \[\lambda^2 - \lambda + \frac{3}{4}\]
+    \[\left( \lambda + \frac{1}{2} \right)\left( \lambda - \frac{3}{2} \right) = 0\]
+    \[z = C_1e^{\frac{3}{2}t} + C_2e^{-\frac{1}{2}t}\]
+    \[y(x) = C_1x\sqrt{x} + \frac{C_2}{\sqrt{x}}\]
+    Вспомним, что \(y(1) = 1, y(4) = 8 \Ra\) единственный кандидат на минимум --- \(\widehat{y} = x\sqrt{x}\). Теперь заметим, что задача --- ПЗВИ с выпуклым Лагранжианом. Тогда по теореме \(\widehat{y}\) --- абсолютный минимум
+\end{example}
+
+\begin{note}
+    Для вогнутых функций теорема справедлива, но решение уравнения Эйлера является абсолютным максимумом.
+\end{note}
