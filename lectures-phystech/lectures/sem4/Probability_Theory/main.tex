@@ -1731,3 +1731,125 @@
         Но тогда \(\xi_1, \dots \xi_n\) независимы в совокупности.
     \end{enumerate}
 \end{proof}
+
+\lecture{13}
+
+\begin{corollary}
+    Если \(\E \xi^2 < +\infty\), то при \(t \ra 0 \phi_\xi(t) = 1 + it \E\xi - \frac{t^2}{2} + o(t^2)\)
+\end{corollary}
+
+Возникает вопрос: когда функция является характеристической?
+
+\begin{definition}
+    Функция \(r(t): \R \ra \Cm\) называется неотрицательно определенной, если \(\forall n \in \N \forall z_1, \dots z_n \in \Cm, \forall t_1, \dots t_n \in \R\) выполнено:
+    \[\sum_{i, j} r(t_i - t_j)z_i\overline{z_j} \ge 0\]
+\end{definition}
+
+\begin{theorem}[Бохмер-Хинчин]
+    Пусть \(\phi(t): \R \ra \Cm\) такова, что \(\phi(0) = 1\) и непрерывна в нуле. Тогда \(\phi(t)\) --- характеристическая функция тогда и только тогда, когда она неотрицательно определена.
+\end{theorem}
+\begin{proof}
+    \begin{enumerate}
+        \item[\(\Ra\)] Пусть \(t_1, \dots t_n \in \R, z_1, \dots z_n \in \Cm\). Тогда 
+        \[\sum_{j, k} \phi(t_j - t_k)z_i\overline{z_j} = \sum_{j, k} \left( \int_\R e^{i(t_j - t_k)} P(dx)\right)z_i\overline{z_j} = \sum_{j, k} \left( \int_\R e^{i(t_j - t_k)} P(dx)\right)z_i\overline{z_j} = \]
+        \[= \int_\R \left( \sum_{j = 1}^n e^{it_jx}z_j \cdot \overline{\sum_{k = 1}^n e^{it_kx}z_k} \right) \ge 0\]
+    \end{enumerate}
+\end{proof}
+
+\subsection{Метод характеристических функций}
+
+\begin{lemma}[Об оценке хвостов]
+    Пусть \(\phi\) --- характеристическая функция вероятностной меры \(P\) на \(\R\). Тогда для \(\forall a > 0\):
+    \[P\left( \R \setminus \left[ -\frac{2}{a}, \frac{2}{a} \right] \right) \le \frac{2}{a}\int_0^a(1 - \Re \phi(t))dt\]
+\end{lemma}
+\begin{proof}
+    \[\int_0^a(1 - \Re \phi(t))dt = \int_0^a\left( \int_\R (1 - \cos tx)P(dx) \right)dt = \]
+    По теореме Фубини:
+    \[= \int_\R\left( \int_0^a (1 - \cos tx)dt\right)P(dx) = \int_\R\left( a - \frac{\sin ax}{x} \right) = a\int_\R\left( 1 - \frac{\sin ax}{ax} \right)P(dx) \ge\]
+    \[\ge a\int_{|x| > \frac{2}{a}}\left( 1 - \frac{\overbrace{\sin ax}^{\le 1}}{\underbrace{ax}_{> 2}} \right)P(dx) \ge P\left( \R \setminus \left[ -\frac{2}{a}, \frac{2}{a} \right] \right)\]
+\end{proof}
+
+\begin{theorem}[Непрерывность для характеристической функции]
+    Пусть \(\{\xi_n, n \in \N\}\) --- последовательность случайных величин с характеристическими функциями \(\{\phi_n, n \in \N\}\). Тогда:
+    \begin{enumerate}
+        \item Если \(\xi_n \xrightarrow{d} \xi\), то \(\forall t \in \R: \phi_n(t) \ra \phi_\xi(t)\).
+        \item Если \(\forall t \in \R \exists \lim_n \phi_n(t) = \phi(t)\) и \(\phi(t)\) непрерывна в нуле, то \(\phi(t)\) является характеристической функцией случайной величины \(\xi\) и \(\xi_n \xrightarrow{d} \xi\)
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    \begin{enumerate}
+        \item Т.к. \(\cos tx, \sin tx\) --- непрерывные ограниченные функции, то \(\phi_n(t) = \E e^{it\xi_n} \ra \E e^{it\xi} = \phi_\xi(t)\).
+        \item Пусть \(\{P_{\xi_n}, n \in \N\}\) --- последовательность распределений случайных величин \(\{\xi_n, n \in \N\}\). Проверим, что \(P_{\xi_n}\) слабо сходятся. Убедимся сначала, что \(\{P_{\xi_n}, n \in \N\}\) --- плотная последовательность мер.
+        \[P_\xi\left( \R \setminus \left[ -\frac{2}{a}, \frac{2}{a} \right] \right) \le \frac{2}{a}\int_0^a(1 - \Re \phi_n(t))dt\]
+        По теореме Лебега о мажорируемой сходимости,:
+        \[\frac{2}{a}\int_0^a(1 - \Re \phi_n(t))dt \ra \frac{2}{a}\int_0^a(1 - \Re \phi(t))dt\]
+        Для \(\epsilon > 0\) выберем \(a > 0\), т.ч. \(|1 - \Re \phi(t)| \le \frac{\epsilon}{4}\) при \(\forall t \in [0, a]\). Тогда:
+        \[\frac{2}{a}\int_0^a(1 - \Re \phi_n(t))dt \le 2\frac{\epsilon}{4} = \frac{\epsilon}{2}\]
+        Тогда \(\exists N: \forall n \ge N: P_\xi\left( \R \setminus \left[ -\frac{2}{a}, \frac{2}{a} \right] \right) \le \epsilon\). Уменьшая \(a\), можно добиться того же условия и для \(n \le N\). Это значит, что \(\{P_{\xi_n}, n \in \N\}\) --- плотная последовательность. Далее, пусть \(P_{\xi_{n_k}} \xrightarrow{w} Q\). Тогда \(\phi_{n_k} = \int_\R e^{itx}P_{\xi_{n_k}}(dx)\) слабо сходится к \(\int_\R e^{itx} Q(dx)\). Но по условию \(\phi_{n_k}(t) \ra \phi(t) \Ra \phi(t)\) --- характеристическая функция меры \(Q\). В силу свойства единственности получаем, что все слабо сходящиеся подпоследовательности слабо сходятся к вероятностной мере \(Q\) с характеристической функцией \(\phi\). По следствию из теоремы Прохорова получаем, что \(P_{\xi_n} \xrightarrow{w} Q\). Если \(\xi\) --- случайные величины с распределением \(Q\), то получаем, что \(\xi_n \xrightarrow{d} \xi\).
+    \end{enumerate}
+\end{proof}
+
+\begin{corollary}
+    \(\xi_n \xrightarrow{d} \xi \Lra \forall t \in \R \phi_{\xi_n}(t) \ra \phi_\xi(t) \Lra P_{\xi_n} \xrightarrow{w} P_\xi \Lra F_{\xi_n} \ra F_{\xi}\)
+\end{corollary}
+
+\begin{theorem}[Центральная Предельная Теорема]
+    Пусть \(\{\xi_n, n \in \N\}\) --- н.о.р.с.в., \(0 < \Variance \xi_1 < +\infty\). Обозначим \(S_n = \xi_1 + \dots + \xi_n\). Тогда 
+    \[\frac{S_n - \E S_n}{\sqrt{\Variance S_n}} \xrightarrow{d} \mathcal{N}(0, 1)\]
+\end{theorem}
+\begin{proof}
+    Положим \(a = \E\xi_1, \sigma^2 = \Variance \xi_1\). Тогда:
+    \[T_n = \frac{S_n - \E S_n}{\sqrt{\Variance S_n}} = \frac{S_n - na}{\sqrt{n\sigma^2}} = \frac{\eta_1 + \dots + \eta_n}{\sqrt{n}}\]
+    Где \(\eta_i = \frac{\xi_j - a}{\sigma}\). Заметим, что \(\{\eta_i, i \in \N\}\) --- н.о.р.с.в., причем \(\E \eta_1 = 0, \Variance \eta_1 = 1\). Найдем предел характеристических функций последовательности \(T_n\):
+    \[\phi_{T_n}(t) = \E e^{iT_nt} = \E e^{i \frac{\eta_1 + \dots + \eta_n}{\sqrt{n}}t} = \]
+    Из независимости получаем:
+    \[= \prod_{j = 1}^n \phi_{\eta_j}\left( \frac{t}{\sqrt{n}} \right) = \]
+    Из одинаковой распределенности получаем:
+    \[= (\phi_{\eta_1}\left( \frac{t}{\sqrt{n}} \right))^n = \]
+    По следствию из свойств характеристических функций:
+    \[= \left( 1 + it\E\eta_1 - \frac{t^2}{2}\E\eta_1^2 + o\left( \frac{t^2}{n} \right) \right)^n = \left(1 - \frac{t^2}{2n} + o\left( \frac{1}{n} \right)\right)^n \ra e^{-\frac{t^2}{2}}\]
+    Получили характеристическую функцию \(\mathcal{N}(0, 1)\). По теореме непрерывности получаем, что: \(T_n \xrightarrow{d} \mathcal{N}(0, 1)\).
+\end{proof}
+
+\begin{corollary}
+    В условиях ЦПТ для \(\forall x \in \R\):
+    \[P\left( \frac{S_n - \E S_n}{\sqrt{\Variance S_n}} \le x \right) \ra \Phi(x) = \int_{-\infty}^x \frac{1}{\sqrt{2\pi}}e^{-\frac{y^2}{2}}dy\]
+\end{corollary}
+
+\begin{corollary}
+    Пусть в условиях ЦПТ: \(\E\xi_1 = a, \Variance \xi_1 = \sigma^2\). Тогда \(\sqrt{n}\left( \frac{S_n}{n} - a \right) \xrightarrow{d} \mathcal{N}(0, \sigma^2)\)
+\end{corollary}
+\begin{proof}
+    \[\frac{S_n - \overbrace{\E S_n}^{na}}{\sqrt{\underbrace{\Variance S_n}_{\sigma^2}}} = \frac{\sqrt{n}}{\sigma}\left( \frac{S_n}{n} - a \right) \ra \mathcal{N}(0, 1)\]
+    Но если \(\eta_n \xrightarrow{d} \eta\), то \(\sigma \eta_n \xrightarrow{d} \sigma \eta\). Тогда
+    \[\sqrt{n}\left( \frac{S_n}{n} - a \right) \xrightarrow{d} \sigma\mathcal{N}(0, 1) = \mathcal{N}(0, \sigma^2)\]
+\end{proof}
+
+\begin{note}[Смысл ЦПТ]
+    Заметим, что УЗБЧ утверждает, что \(\frac{S_n}{n} - a \xrightarrow{\text{п.н.}} 0\). Таким образом, ЦПТ говорит, что ''в типичной ситуации'' скорость сходимости в УЗБЧ есть \(O\left( \frac{1}{\sqrt{n}} \right)\)
+\end{note}
+
+Но какова скорость сходимости в самой ЦПТ?
+
+\begin{theorem}[Берри-Эссена]
+    Пусть \(\{\xi_n, n \in \N\}\) --- н.о.р.с.в., \(0 < \Variance \xi_1 < +\infty\). Пусть \(\E\xi_1 = a, \E|\xi_1|^3 < +\infty\). Обозначим \(S_n = \xi_1 + \dots + \xi_n\). Тогда \(\exists \) абсолютная константа \(C > 0\), такая, что 
+    \[\sup_{x \in \R}\left| P\left( \frac{S_n - \E S_n}{\sqrt{\Variance S_n}} \le x \right) - \Phi(x) \right| \le C \frac{\E|\xi_1 - a|^3}{\sigma^3 \sqrt{n}}\]
+\end{theorem}
+
+\begin{note}
+    В оригинальной статье было доказано для \(C = 100\). Сейчас известно, что \(0.399 \le C \le 0.478 < \frac{1}{2}\).
+\end{note}
+
+\begin{example}
+    Пусть складываются \(10^4\) чисел, каждое вычислено с точностю 6 знаков после запятой. Найти, в каких границах лежат суммарная ошибка с вероятностью \(0.95\), считая ошибки одинаково распределенными из \(\mathcal{U}(-10^{-6}, 10^{-6})\).
+\end{example}
+\begin{solution}
+    Пусть \(\xi_1, \dots \xi_n\) --- независимые случайные величины из \(\mathcal{U}(-10^{-6}, 10^{-6})\), \(n = 10^4\). Заметим, что 
+    \[\E\xi_i = 0\]
+    \[\Variance \xi_i = \E\xi_i^2 = 2\int_0^{10^{-6}}x^2 \frac{1}{2\cdot 10^{-6}}dx = \frac{10^{-12}}{3} = \sigma^2\]
+    \[\E |\xi_i|^3 = \E\xi_i^2 = 2\int_0^{10^{-6}}x^3 \frac{1}{2\cdot 10^{-6}}dx = \frac{10^{-18}}{4}\] 
+    Возьмем \(x\) так, что \(\Phi(x) - \Phi(-x) \ge 0.99\), например, \(x = 3\). По теореме Берри-Эссена:
+    \[P\left( \left| \frac{S_n}{\sigma \sqrt{n}} \le x \right| \right) \ge \Phi(x) - \Phi(-x) - 2C \frac{\E|\xi_1|^3}{\sigma^3 \sqrt{n}} \ge 0.99 - \frac{10^{-18}\cdot 3\sqrt{3}}{4\cdot 100 \cdot 10^{-18}} \ge 0.97\]
+    Получили, что 
+    \[P\left( |S_n| \le \underbrace{3\cdot\frac{10^{-6}}{\sqrt{3}}\cdot 100}_{\sqrt{3}\cdot 10^{-4}}\right) \ge 0.97\]
+\end{solution}
