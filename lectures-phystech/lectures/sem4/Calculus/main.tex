@@ -1353,3 +1353,91 @@
 \begin{theorem}[О равносходимости]
     Пусть \(f \in L_1(\R)\) и \(f_0 \in L_1(T)\) совпадают в некоторой окрестности точки \(x\). Тогда интеграл Фурье \(I(f, x)\) и ряд Фурье \(S(f, x)\) сходятся или расходятся одновременно и, если сходятся, то к одному значению.
 \end{theorem}
+
+\lecture{13}
+
+\begin{proof}
+    Положим \(r = [u] + \frac{1}{2}\). Т.к. \(|r - u| < \frac{1}{2}\), то \(u \ra +\infty, r \ra +\infty\). Имеем \(I_u(f, x) - I_r(f, x) = \frac{1}{\sqrt{2\pi}}\int_E \widehat{f}(y)e^{iyx}dy\), где \(E\) --- объединение двух отрезков с концами \(-u, -r\) и \(r, u\) (числа \(r, u\) могут идти в разном порядке). Т.к. \(\mu(E) \le 1\), и \(\widehat{f}(y) \ra 0\) при \(y \ra \pm\infty\), то 
+    \[|I_u(f, x) - I_r(f, x)| \le \frac{1}{\sqrt{2\pi}} \int_E|\widehat{f}(y)|dy \le \sup_{E} |\widehat{f}(y)| \ra 0, u \ra +\infty\]
+    По условию, \(\exists \delta \in (0, \pi]: f(x - t) = f_0(x - t)\) при \(|t| < \delta\). Тогда по предыдущему следствию:
+    \[I_r(f, x) = \frac{1}{\pi}\int_{-\pi}^\pi f(x - t)\frac{\sin rt}{t}dt + o(1) = \frac{1}{\pi}\int_{-\pi}^\pi f_0(x - t) \frac{\sin\left( [u] + \frac{1}{2} \right)t}{t}dt + o(1)\]
+    По \textbf{Лемме 2.4} получаем:
+    \[S_{[u]}(f_0, x) = \frac{1}{\pi}\int_{-\delta}^{\delta} f_0(x - t)\frac{\sin\left( [u] + \frac{1}{2} \right)t}{t}dt + o(1)\]
+    Откуда получаем, что \(I_r(f, x) - S_{[u]}(f, x) \ra 0\) при \(u \ra +\infty\). В итоге:
+    \[|I_u(f, x) - S_{[u]}(f, x)| \le |I_u(f, x) - I_r(f, x)| + |I_r(f, x) - S_{[u]}(f, x)| \ra 0\]
+\end{proof}
+
+\begin{corollary}[Признак Дини]
+    Пусть \(f \in L_1(\R), x \in \R\). Если для \(S \in \Cm \exists \delta > 0\) такое, что:
+    \[\int_0^\delta \frac{|f(x - t) + f(x + t) - 2S|}{t}dt < +\infty\]
+    То интеграл Фурье в точке \(x\) сходится к \(S\), т.е. \(I(f, x) = S\).
+\end{corollary}
+\begin{corollary}
+    Пусть \(f_0 \in L_1(T)\) такая, что \(f_0(x - t) = f(x - t)\) при \(|t| < \delta\). Тогда по признаку Дини для рядов, \(S_n(f_0, x) \ra S\). Но тогда по предыдущей теореме, \(I_u(f, x) \ra S\) при \(u \ra +\infty\).
+\end{corollary}
+
+\begin{note}
+    Аналогично можно получить и другие свойства ряда Фурье, используя теорему о равносходимости
+\end{note}
+
+\begin{corollary}[Формула обращения]
+    Если \(f \in L_1(\R) \cap C(\R)\) и \(\widehat{f} \in L_1(\R)\), то \(I(f) = f\) на \(\R\), то есть для любого \(x \in \R\) выполнено:
+    \[f(x) = \frac{1}{\sqrt{2\pi}}\int_{-\infty}^{+\infty}\widehat{f}(y)e^{iyx}dy\]
+\end{corollary}
+\begin{proof}
+    Интеграл \(I(f)\) сходится (существует как интеграл Лебега), т.к. \(f \in L_1(\R)\). Пусть \(f_0 \in L_1(T)\), такая, что \(f_0 = f\) на \((x - \pi, x + \pi)\). По теореме о равносходимости, \(S(f_0, x) = I(f, x)\). Т.к. \(f_0 \in C(x - \pi, x + \pi)\), то \(S(f_0, x) = f_0(x)\) на \((x - \pi, x + \pi)\), и тогда \(I(f, x) = S(f_0, x) = f_0(x) = f(x)\), а значит, равенство есть и на \(\R\).
+\end{proof}
+
+В связи с формулой обращения, имеет смысл ввести следующее понятие:
+
+\begin{definition}
+    Пусть \(f \in L_1(\R)\). Обратным преобразованием Фурье называется 
+    \[\check{f}(y) = \frac{1}{\sqrt{2\pi}}\int_\R f(x)e^{iyx}dx\]
+    То есть \(\check{f} = \hat{f_\sigma}\), где \(f_\sigma(x) = f(-x)\)
+\end{definition}
+
+\begin{note}
+    В условиях формулы обращения верно: \(f = I(f) = \check{\hat{f}}\).
+\end{note}
+
+В связи с обобщением формулы обращения, докажем следующее утверждение
+
+\begin{lemma}
+    Пусть \(f, g \in L_1(\R)\). Тогда 
+    \[\int_\R \check{f}(x)g(x)dx = f(x)\check{g}(x)dx\]
+\end{lemma}
+\begin{proof}
+    Т.к. \(|f(t)g(x)e^{-ixt}| = |f(t)||g(x)|\) --- интегрируемая функция, то по теореме Фубини:
+    \[\int_\R\left( \int_\R f(t)e^{-itx}dt \right)g(x)dx = \int_\R\left( \int_\R g(x)e^{-itx}dt \right)f(t)dt\]
+    Разделив обе части на \(\frac{1}{\sqrt{2\pi}}\), получим требуемое.
+\end{proof}
+
+\begin{theorem}[Формула обращения]
+    Пусть \(f, \widehat{f} \in L_1(\R)\). Тогда \(f = \check{\hat{f}} = \hat{\check{f}}\) почти всюду.
+\end{theorem}
+\begin{proof}
+    Рассмотрим \(\phi_\epsilon(t) = \frac{1}{\sqrt{\pi\epsilon}}e^{-\frac{t^2}{2}}\). Тогда \(\phi_\epsilon\) --- четная (а значит, \(\widehat{\phi_\epsilon}\) --- тоже). Кроме того, \(\phi_\epsilon\) --- дифференцируемая функция, поэтому по формуле обращения: \(\phi_\epsilon = \widehat{\widehat{\phi_\epsilon}}\). Для любого \(x \in \R\) имеем:
+    \[(\phi_0 * f)(x) = \int_\R f(x)\widehat{\widehat{\phi_\epsilon}}(t)dt = \int_\R \widehat{f(x + t)}\widehat{\phi_\epsilon}(t)dt\]
+    По формуле сдвига: \(\widehat{f(x + y)}(y) = e^{ixy}\widehat{f}(y), \widehat{\phi_\epsilon}(t) = \frac{1}{\sqrt{2\pi}}e^{-\frac{t^2\epsilon^2}{4}}\). Тогдв:
+    \[(\phi_\epsilon * f)(x) = \frac{1}{\sqrt{2\pi}}\int_\R \widehat{f}(y)e^{ixt}\cdot e^{-\frac{t^2\epsilon}{4}}dt\]
+    Подынтегральная функция ограничена мажорантой \(\frac{1}{\sqrt{2\pi}|\widehat{f}(y)|}\). Тогда по теореме о непрерывности интеграла с параметром можно перейти к пределу:
+    \[\frac{1}{\sqrt{2\pi}}\int_\R \widehat{f}(y)e^{ixt}\cdot e^{-\frac{t^2\epsilon}{4}}dt \ra \frac{1}{\sqrt{2\pi}}\int_\R \widehat{f}(y)e^{ixt}dt\]
+    \[\phi_\epsilon * f \ra_{L_1} f, \epsilon \ra 0\]
+    Возьмем произвольную последовательность \(\epsilon_n \ra 0\). Тогда из доказательства теоремы о полноты \(L_p\), \(\exists \{\epsilon_{n_k}\}: \phi_{\epsilon_{n_k}} * f \ra f\) почти всюду. Положим \(\epsilon = \epsilon_{n_k}\) и получим (перейдя к пределам в левых и правых частях):
+    \[f = \check{\hat{f}}\]
+\end{proof}
+
+\begin{corollary}
+    Пусть \(f, g \in L_1(\R), \widehat{f} = \widehat{g}\). Тогда \(f = g\) почти всюду.
+\end{corollary}
+\begin{proof}
+    Рассмотрим \(h = f - g\). Тогда \(\widehat{h} = 0 \Ra h = 0\) почти всюду.
+\end{proof}
+
+\begin{note}
+    Можно смотреть на преобразование Фурье, как оператор \(F: L_1(\R) \ra C_0(\R)\) (\(C_0(\R)\) --- непрерывные функции, стремящиеся к \(0\) на \(\pm\infty\)). Данный оператор инъективен, но не является биекцией (задача --- покажите, что он не сюрьективен). Это создает неудобства для работы. В связи с этим, далее введется пространство Шварца \(S(\R)\), такое, что \(F: S(\R) \ra S(\R)\), на котором \(F\) уже будет являться биекцией.
+\end{note}
+
+\begin{problem}
+    Пусть \(f \in C^2(\R), f, f', f'' \in L_1(\R)\). Докажите, что \(\widehat{f} \in L_1(\R)\).
+\end{problem}
