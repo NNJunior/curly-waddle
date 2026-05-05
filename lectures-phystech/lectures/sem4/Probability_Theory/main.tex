@@ -1249,7 +1249,7 @@
     \[\sum_{k = k_0}^\infty P(|\xi_n - \xi| \ge \epsilon) \le \sum_{k = k_0}^\infty P\left(|\xi_n - \xi| \ge \frac{1}{k}\right) < +\infty\]
 \end{proof}
 
-\begin{theorem}[О взаимодействии видов сходимости]
+\begin{theorem}[О взаимосвязи видов сходимости]
     \begin{enumerate}
         \item \(\xi_n \xrightarrow{\text{п.н.}} \xi \Ra \xi_n \xrightarrow{P} \xi\)
         \item \(\xi_n \xrightarrow{L^p} \xi \Ra \xi_n \xrightarrow{P} \xi\)
@@ -1853,3 +1853,142 @@
     Получили, что 
     \[P\left( |S_n| \le \underbrace{3\cdot\frac{10^{-6}}{\sqrt{3}}\cdot 100}_{\sqrt{3}\cdot 10^{-4}}\right) \ge 0.97\]
 \end{solution}
+
+\lecture{14}
+\section{Сходимости случайных векторов}
+
+Пусть \(\{\xi_n, n \in \N\}, \xi\) --- случайные векторы из \(\R^m\). Последовательность \(\{\xi_n\}\) сходится к \(\xi\)
+
+\begin{definition}
+    \textit{С вероятностью 1 (почти наверное)}, если \(P(\lim_{n \ra \infty} \xi_n = \xi) = 1\)
+    Обозначения: \(\xi_n \xrightarrow{\text{п.н.}} \xi, \xi_n \ra \xi\) п.н., \(\xi_n \ra \xi\) \(p\)-п.н.
+\end{definition}
+
+\begin{definition}
+    \textit{По вероятности}, если \(\forall \epsilon > 0 P(\|\xi_n - \xi\|_2 > \epsilon) \ra 0, n \ra \infty\), где \(\|x\|_2 = \sqrt{x_1^2 + \dots + x_n^2}\).
+    Обозначение: \(\xi_n \xrightarrow{P} \xi\)
+\end{definition}
+
+\begin{definition}
+    \textit{По распределению}, если \(\forall f: \R^m \ra \R\) --- ограниченной непрерывной функции \(\E f(\xi_n) \ra \E f(\xi), n \ra \infty\)
+    Обозначение: \(\xi_n \xrightarrow{d} \xi\)
+\end{definition}
+
+\begin{exercise}[Связь с одномерными сходимостями]
+    Пусть \(\xi_n = (\xi_n^{(1)}, \dots \xi_n^{(m)}), \xi = (\xi^{(1)}, \dots \xi^{(m)})\). Тогда:
+    \begin{enumerate}
+        \item \(\xi_n \xrightarrow{\text{п.н.}} \xi \Lra \forall i = 1, \dots m \xi_n^{(i)} \xrightarrow{\text{п.н.}} \xi^{(i)}\)
+        \item \(\xi_n \xrightarrow{P} \xi \Lra \forall i = 1, \dots m \xi_n^{(i)} \xrightarrow{P} \xi^{(i)}\)
+        \item \(\xi_n \xrightarrow{d} \xi \Ra \forall i = 1, \dots m \xi_n^{(i)} \xrightarrow{d} \xi^{(i)}\)
+    \end{enumerate}
+\end{exercise}
+
+\begin{theorem}[О взаимосвязи видов сходимости]
+    \[\xi_n \xrightarrow{\text{п.н.}} \xi \Ra \xi_n \xrightarrow{P} \xi \Ra \xi_n \xrightarrow{d} \xi\]
+\end{theorem}
+\begin{proof}
+    Первое следует из упражнения и соответствующей теоремы в одномерном случае. Доказательство второго полностью аналогично одномерному случаю.
+\end{proof}
+
+\begin{note}
+    \begin{enumerate}
+        \item Для векторов также верно \(\xi_n \xrightarrow{d} \xi \Lra P_{\xi_n} \xrightarrow{w} P_\xi \Lra F_{\xi_n} \Ra F_\xi\)
+        \item Также верна теорема непрерввности для характеристических функций: \(\xi_n \xrightarrow{d} \xi \Lra \forall t \in \R^m: \phi_{\xi_n}(t) \ra \phi_\xi(t)\).
+    \end{enumerate}
+\end{note}
+
+\begin{note}
+    Теорема непрерввности означает, что \(\xi_n \xrightarrow{d} \xi \Lra \forall t \in \R^m \langle \xi_n, t \rangle \xrightarrow{d} \langle \xi, t \rangle\)
+\end{note}
+
+\begin{theorem}[О наследовании сходимости]
+    Пусть \(\{\xi_n, n \in \N\}, \xi\) --- случайные векторы из \(\R^m\). Пусть \(h: \R^m \ra \R^k\) --- борелевская функция, непрерывная почти всюду относительно распределения \(\xi\), (т.е. \(\exists B \in \mathcal{B}(\R^m)\), такое, что \(h\) непрерывно на \(B\) и \(P(\xi \in B) = 1\)). Тогда
+    \begin{enumerate}
+        \item \(\xi_n \xrightarrow{\text{п.н.}} \xi \Ra h(\xi_n) \xrightarrow{\text{п.н.}} h(\xi)\)
+        \item \(\xi_n \xrightarrow{P} \xi \Ra h(\xi_n) \xrightarrow{P} h(\xi)\)
+        \item \(\xi_n \xrightarrow{d} \xi \Ra h(\xi_n) \xrightarrow{d} h(\xi)\)
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    \begin{enumerate}
+        \item \(P(\lim_n h(\xi_n) = h(\xi)) \ge P(\lim_n \xi_n = \xi, \xi \in B) = 1\)
+        \item Пусть \(h(\xi_n) \not\xrightarrow{P} h(\xi)\). Тогда \(\exists \epsilon > 0 \exists \delta > 0 \exists\) подпоследовательность \(\{n_k, k \in \N\}\), такая, что \(\forall k \in \N\):
+        \[(*)\quad P(\|h(\xi_n) - h(\xi)\|_2 \ge \epsilon) \ge \delta\]
+        Но \(\xi_{n_k} \xrightarrow{P} \xi\). Следовательно, можно выделить подпоследовательность \(\{\xi_{n_{k_s}}, s \in \N\}\), т.ч. \(\xi_{n_{k_s}} \xrightarrow{\text{п.н.}} \xi\). Согласно пункту 1 получаем, что \(h(\xi_{n_{k_s}}) \xrightarrow{\text{п.н.}} h(\xi) \Ra h(\xi_{n_{k_s}}) \xrightarrow{P} h(\xi)\), получили противоречие с \((*)\). Значит, \(h(\xi_n) \xrightarrow{P} h(\xi)\).
+        \item Проверим, что \(P_{h(\xi_n)} \xrightarrow{w} P_{h(\xi)}\). По теореме Алексанрова достаточно проверит, что \(\forall F \subset \R^k\) --- замкнутого выполнено:
+        \[\limsup_n P_{h(\xi)}(F) \stackrel{?}{\le} P_{h(\xi)}(F)\]
+        Докажем это. 
+        \[\limsup_n P_{h(\xi)}(F) = \limsup_n P(h(\xi_n) \in F) = \limsup_n P(\xi_n \in h^{-1}(F)) \le \limsup_n P(\xi_n \in [h^{-1}(F)]) \le\]
+        Известно, что \(\xi_n \xrightarrow{d} \xi \Ra P_{\xi_n} \xrightarrow{w} P_\xi\). Поэтому
+        \[\le P(\xi \in [h^{-1}(F)])\]
+        Покажем, что \([h^{-1}(F)] \subset h^{-1}(F) \cup \overline{B}\). Для этого достаточно показать, что \(\delta h^{1}(F) \subset \overline{B}\). Тогда существует последовательность точек \(\{x_n, n \in \N\}\), т.ч. \(x_n \in h^{-1}(F)\) и \(x_n \ra x\). Есди дополнительно \(x \in B\), то \(h\) непрерывно в \(x \Ra h(x_n) \ra h(x)\). Но тогда \(\forall n: h(x_n) \in F\) и \(F\) замкнуто \(\Ra h(x) \in F\), т.е \(x \in h^{-1}(F)\). В итоге:
+        \[ P(\xi \in [h^{-1}(F)]) \le  P(\xi \in h^{-1}(F)) + \underbrace{P(\xi \in \overline{B})}_0 = P(\xi \in h^{-1}(F)) = P(h(\xi) \in F) = P_{h(\xi)}(F)\]
+    \end{enumerate}
+\end{proof}
+
+\begin{theorem}[Слуцкий]
+    Пусть \(\xi_n \xrightarrow{d} \xi, \eta_n \xrightarrow{d} C = const\) --- случайные векторы. Тогда
+    \[(\xi_n, \eta_n) \xrightarrow{d} (\xi, c)\]
+\end{theorem}
+\begin{proof}
+    Проверим, что сходятся характеристические функции 
+    \[|\phi_{(\xi_n, \eta_n)}(t, \lambda) - \phi_{(\xi, C)}(t, \lambda)| = \left|\E e^{i\langle \xi_n, t \rangle + i\langle \eta_n, \lambda \rangle} - \E e^{i\langle \xi, t \rangle + i\langle C, \lambda \rangle}\right| \le\]
+    \[\le \left|\E e^{i\langle \xi_n, t \rangle + i\langle \eta_n, \lambda \rangle} - \E e^{i\langle \xi_n, t \rangle + i\langle C, \lambda \rangle}\right| + \left|\E e^{i\langle \xi_n, t \rangle + i\langle C, \lambda \rangle} - \E e^{i\langle \xi, t \rangle + i\langle C, \lambda \rangle}\right| \le\]
+    \[\le \left| \E e^{i\langle \xi_n, t \rangle} \left( e^{i\langle \eta_n, \lambda \rangle} - e^{i\langle C, \lambda \rangle} \right) \right| + \left| e^{i\langle C, \lambda \rangle} \left( \phi_{\xi_n}(t) - \phi_\xi(t) \right) \right| \le \]
+    \[\le \underbrace{\left| \E e^{i\langle \eta_n, \lambda \rangle} - e^{i\langle C, \lambda \rangle} \right|}_{g(\eta_n) \ra 0} + \underbrace{\left| \phi_{\xi_n}(t) - \phi_\xi(t) \right|}_{\ra 0}\]
+    Тогда \(g(x)\) --- ограниченная непрерывная функция, такая, что \(g(C) = 0\). Раз \(\eta_n \xrightarrow{d} C\) получаем, что \(\E g(\eta_n) \ra \E g(C) = 0\)
+\end{proof}
+
+\begin{corollary}
+    Если \(\xi_n \xrightarrow{d} \xi, \eta_n \xrightarrow{d} C\) --- случайные величины, то \(\xi_n + \eta_n \xrightarrow{d} \xi + C, \xi_n\cdot\eta_n \xrightarrow{d} C\cdot\xi\)
+\end{corollary}
+\begin{proof}
+    По теореме Слуцкого: \((\xi_n, \eta_n) \xrightarrow{d} (\xi, C)\). По теореме о наследовании сходимости, получаем \(\xi_n + \eta_n \xrightarrow{d} \xi + C, \xi_n\cdot\eta_n \xrightarrow{d} C\cdot\xi\).
+\end{proof}
+
+\begin{example}[Пример использования]
+    Пусть \(X_1, \dots X_n\) --- н.о.р.с.в, \(X_i \sim Bin(1, p)\). Задача: оценить по \(X_1, \dots X_i\) параметр \(p\), а именно хотим предложить функции \(f_1(X_1, \dots X_n), f_2(X_1, \dots X_n)\), такие, что \(\lim_n P(f_1(X_1, \dots X_n) < p < f_2(X_1, \dots X_n)) = 0.99\).
+\end{example}
+\begin{solution}
+    Обозначим \(\overline{X} = \frac{1}{n}\sum_{i = 1}^n X_i\). По ЦПТ:
+    \[\sqrt{n}(\overline{X} - p) \xrightarrow{d} \mathcal{N}(0, p(1 - p))\]
+    \[\Ra \frac{\sqrt{n}(\overline{X} - p)}{\sqrt{p(1 - p)}} \xrightarrow{d} \mathcal{N}(0, 1)\]
+    Избавимся от зависимости от \(p\) в знаменателе. По ЗБЧ \(\overline{X} \xrightarrow{P} p\). По теореме о наследовании сходимости, \(\sqrt{\overline{X}(1 - \overline{X})} \xrightarrow{P} \sqrt{p(1 - p)}\). Но тогда:
+    \[\frac{\sqrt{n}(\overline{X} - p)}{\sqrt{\overline{X}(1 - \overline{X})}} = \underbrace{\frac{\sqrt{n}(\overline{X} - p)}{\sqrt{p(1 - p)}}}_{\xrightarrow{d} \mathcal{N}(0, 1)}\cdot \underbrace{\frac{\sqrt{p(1 - p)}}{\sqrt{\overline{X}(1 - \overline{X})}}}_{\xrightarrow{P} 1}\]
+    Выберем \(u > 0\) так, что \(P(|\xi| < u) = 0.99\), где \(\xi \sim \mathcal{N}(0, 1) \Ra\)
+    \[P\left( \left| \frac{\sqrt{n}(\overline{X} - p)}{\sqrt{\overline{X}(1 - \overline{X})}} \right| < u\right) \ra 0.99\]
+    Но тогда с вероятностью \(\approx 0.99\) выполнено:
+    \[p \in \left( \overline{X} - \frac{u\sqrt{\overline{X}(1 - \overline{X})}}{\sqrt{n}}, \overline{X} + \frac{u\sqrt{\overline{X}(1 - \overline{X})}}{\sqrt{n}} \right)\]
+\end{solution}
+
+\begin{proposition}[УЗБЧ для случайных векторов]
+    Пусть \(\{\xi_n, n \in \N\}\) --- н.о.р.с. векторы из \(\R^m\), причем \(\E\xi_1\) конечно. Тогда 
+    \[\frac{\xi_1 + \dots + \xi_n}{n} \xrightarrow{\text{п.н.}} \E \xi_1\]
+\end{proposition}
+\begin{proof}
+    Следует из одномерного УЗБЧ
+\end{proof}
+
+\section{Многомерное нормальное распределение}
+\begin{definition}
+    Случайный вектор \(\xi = (\xi_1, \dots \xi_n)\) называется Гауссовским (нормальным), если его характеристическая функция имеет следующий вид:
+    \[\phi(t) = e^{i \langle a, t \rangle - \frac{1}{2}\langle \Sigma t, t \rangle}\]
+    Где \(a \in \R^n, \Sigma \in R^{n \times n}\) --- симметричная неотрицательно определенная матрица. Обозначение: \(\xi \sim \mathcal{N}(a, \Sigma)\).
+\end{definition}
+
+\begin{theorem}[О трех эквивалентных определениях]
+    Следующие определения эквивалентны:
+    \begin{enumerate}
+        \item Случайный вектор \(\xi = (\xi_1, \dots \xi_n)^T\) является Гауссовским
+        \item \(\xi = A\eta + a\) п.н., где \(\eta = (\eta_1, \dots \eta_n)^T\), где \(\eta_j\) --- независимые случайные величины из \(\mathcal{N}(0, 1), a \in \R^n, A \in R^{n \times n}\) --- симметричная неотрицательно определенная матрица. 
+        \item \(\forall \tau \in \R^m: \langle \tau, \xi \rangle\) имеет одномерное нормальное распределение
+    \end{enumerate}
+\end{theorem}
+
+\begin{proof}
+    на следующей лекции
+\end{proof}
+
+\begin{note}
+    Константы мы тоже считаем нормальными случайными величинами с нулевой дисперсией: \(a \sim \mathcal{N}(a, 0)\)
+\end{note}
