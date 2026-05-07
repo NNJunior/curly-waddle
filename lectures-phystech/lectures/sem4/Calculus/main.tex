@@ -1441,3 +1441,117 @@
 \begin{problem}
     Пусть \(f \in C^2(\R), f, f', f'' \in L_1(\R)\). Докажите, что \(\widehat{f} \in L_1(\R)\).
 \end{problem}
+
+\lecture{14}
+
+\section{Пространство Шварца}
+
+\begin{definition}
+    \[S(\R) = \{\phi \in C^\infty(\R): \forall m, k \in \N_0\; x^m\phi^{(k)}(x) \ra 0\text{ при }x \ra\pm\infty\}\]
+\end{definition}
+
+\begin{note}
+    \(S(\R)\) замкнуто относительно \(+, \cdot \lambda\) и поэтому является линейным пространством. Кроме того, \(\phi, \psi \in S(\R) \Ra \phi\psi \in S(\R)\).
+\end{note}
+
+\begin{example}
+    \(e^{-x^2} \in S(\R)\)
+\end{example}
+\begin{proof}
+    Заметим, что \((e^{-x^2})^{(k)} = P(x)e^{-x^2}\). Кроме того: \(e^{-x^2} = o(x^{-n}) \forall n \in \N \Ra x^m(e^{-x^2})^{(k)} \ra 0\) при \(x \ra \pm\infty\).
+\end{proof}
+
+\begin{note}
+    \begin{enumerate}
+        \item \(C_c^\infty(\R) \subset S(\R) \subset L_p(\R)\). Первое включение очевидно, поэтому докажем второе. Пусть \(\phi \in S(\R)\). Выберем \(m \ge \frac{2}{p}\). Из определения, \(\exists K \ge 1: \forall x \in \R (|x| \ge K \Ra |x^m\phi(x)| \le 1)\). Заметим, что \(|x|^{\frac{2}{p}}|\phi(x)| \le 1 \Lra |\phi(x)|^p \le \frac{1}{x^2}\). Следовательно, \(\phi(x) \in L_p(\R)\).
+        \item Если \(\phi \in S(\R)\), то 
+        \begin{enumerate}
+            \item \(\phi' \in S(\R)\), т.к. \((\phi')^{(k)} = \phi^{(k + 1)}\)
+            \item \(x\phi(x) \in S(\R)\), т.к. \((x\phi(x))^{(k)} = x\phi^{(k)}(x) + k\phi^{(k - 1)}\).
+        \end{enumerate}
+    \end{enumerate}
+\end{note}
+
+\begin{lemma}
+    Если \(\phi \in S(\R)\), то \(\widehat{\phi} \in S(\R)\)
+\end{lemma}
+\begin{proof}
+    Т.к. \(x^K\phi(x) \in S(\R) \forall k\), то по следствию из теоремы 5.2, \(\phi^{(k)} \in C^\infty(\R)\). Зафиксируем \(m, k \in \N_0\). Тогда:
+    \[y^m \widehat{\phi}^{(k)}(y) = \frac{1}{i^m}(iy)^m F[(-ix)^k\phi(x)] = \frac{1}{i^m}F\left[ \frac{d^m}{dx^m}\left( (-ix)^k\phi(x) \right) \right]\]
+    Заметим, что \(g(x) = \frac{d^m}{dx^m}\left( (-ix)^k\phi(x) \right) \in S(\R) \subset L_1(\R) \Ra \widehat{g}(y) \ra 0, y \ra \infty\), т.е \(y^m\widehat{\phi}^{(k)}(y) \ra 0, y \ra 0\).
+\end{proof}
+
+Итак, \(F[S(\R)] \subset S(\R)\), более того, по формуле обращения: для \(\phi \in S(\R)\) верно: \(\phi = \check{\hat{\phi}} = \hat{\check{\phi}}\) всюду, так что \(F: S(\R) \ra S(\R)\) --- биекция и \(F^{-1}[\cdot] = \check{\cdot}\) --- обратное преобразование Фурье.
+
+Также, \(\forall \phi, \psi \in S(\R): (F[\phi], F[\psi]) = (\phi, \psi)\), где в последнем скалярное произведение понимается в смысле \(L_2\). В частности, \(\|F[\phi]\|_2 = \|\phi\|_2\).
+
+\begin{proof}
+    Положим \(g = F^{-1}[\overline{\psi}]\), где \(\overline{\cdot}\) --- комплексное сопряжение. Тогда:
+    \[g(y) = \frac{1}{\sqrt{2\pi}}\int_\R \overline{\psi} e^{iyx}dx = \frac{1}{\sqrt{2\pi}}\int_\R \overline{\psi e^{-iyx}}dx = \frac{1}{\sqrt{2\pi}}\overline{\int_\R \psi(x)e^{-iyx}dx} = \overline{F[\psi]}\]
+    Следовательно:
+    \[(F[\phi], F[\psi]) = \int_\R\hat{\phi}\overline{\hat{\psi}}dx =\]
+    По лемме 5.2, получаем:
+    \[= \int_\R\phi\hat{\overline{\hat{\psi}}}dx = \int_\R \phi\overline{\check{\hat{\psi}}} = \int_\R \phi\overline{\psi}dx = (\phi, \psi)\]
+\end{proof}
+
+Установленные свойства преобразования Фурье позволяют продолжить его по непрерывности с \(S\) на \(L_2\).
+
+\begin{lemma}
+    Пусть \((V, \|\cdot\|)\) --- банахово пространство, \(S\) --- всюду плотное подпространство \(V\) (т.е \(\overline{S} = V\)) и пусть \(A_0: S \ra V\) --- линейный оператор, такой, что \(\|A_0(f)\| \le c\|f\| \forall f \in S\). Тогда \(A_0\) можно единственным образом продолжить до линейного оператора \(A: V \ra V\), такого, что \(\|A(f)\| \le c\|f\|\forall f \in V\).
+\end{lemma}
+\begin{proof}
+    \(f \in V \Ra \exists \{f_n\} \subset S: f_n \ra f\) в \(V\). Определим \(A(f) = \lim_{n \ra \infty} A_0(f_n)\).
+
+    Заметим, что \(\|A_0(f_n) - A_0(f_m)\| = \|A_0(f_n - f_m)\| \le c\|f_n - f_m\| \Ra \{A_0(f_n)\}\) фундаментальна. Но тогда \(\exists \lim_{n \ra \infty} A_0(f_n)\). 
+
+    Пусть еще \(\{g_n\} \subset S: g_n \ra f\). Тогда \(\|A_0(f_n) - A_0(g_n)\| \le c\|f_n - g_n\| \ra 0\), т.к. \(\|f_n - g_n\| \le \|f_n - f\| + \|g_n - f\|\). Далее, \(A_0(f_n) \ra A(f) \Ra \|A_0(f_n)\| \ra \|A(f)\|\). Переходя к пределу при \(n \ra \infty\) в неравенствах \(\|A_0(f_n)\| \le c\|f_n\| \Ra \|A(f)\| \le c\|f\|\).
+\end{proof}
+
+\begin{corollary}
+    Заметим, что \(S(\R)\) всюду плотна в \(L_2(\R)\), т.к. содержит \(C_c^\infty(\R)\). Положим \(V = L_2(\R)\) и в \(A_0 = F\). По предыдущей лемме, у \(F\) существует непрерывное продолжение \(F_P: L_2(\R) \ra L_2(\R)\).
+\end{corollary}
+
+\begin{definition}
+    Данный линейный оператор \(F_P: L_2(\R) \ra L_2(\R)\) называется преобразованием Фурье-Планшереля
+\end{definition}
+
+\begin{theorem}
+    \(F_P: L_2(\R) \ra L_2(\R)\) --- изометрия, т.к. линейная биекция, такая, что \(\|F_P\|_2 = \|f\|_2\). Более того, \(F^{-1}_P[f] = F_p[f_\sigma]\), где \(f_\sigma(x) = f(-x)\).
+    
+\end{theorem}
+\begin{proof}
+    Пусть \(f \in L_2(\R)\). Рассмотрим \(\{f_n\} \subset S(\R), f_n \ra f\) в \(L_2(\R)\), т.е. \(\|f_n - f\| \ra 0\). Положим \(f_{n, \sigma} = (f_n)_{\sigma} \Ra f_{n, \sigma} \in S, \|f_{n, \sigma} - f_\sigma\| \ra 0\). В силу непрерывности \(F\), \(f_n = F[F[f_{n, \sigma}]] \Ra f = F_p[F_p[f_\sigma]]\). Таким образом, \(F_p\) --- сюрьекция. Изометриность \(F_P\) следует из непрерывности \(F\), и тогда, \(F_P\) --- инъекция
+\end{proof}
+
+\begin{lemma}
+    Если \(f \in L_1(\R) \cap L_2(\R)\), то существует \(\{f_n\} \subset C_c^\infty(\R)\), такая, что \(\|f - f_n\|_1 \ra 0\) и \(\|f - f_n\|_2 \ra 0\)
+\end{lemma}
+\begin{proof}
+    Будет позднее
+\end{proof}
+
+\begin{lemma}
+    Если \(f \in L_1(\R) \cap L_2(\R)\), то \(F_P[f] = \widehat{f}\) почти всюду.
+\end{lemma}
+\begin{proof}
+    Поскольку \(S(\R)\) всюду плотно в \(L_1(\R)\) и в \(L_2(\R)\) (как множество, содержащее \(C_c^\infty(\R)\)), существует последовательность \(\{f_n\} \subset S(\R)\) такая, что
+    \[\|f_n - f\|_1 \to 0,\qquad \|f_n - f\|_2 \to 0,\quad n\to\infty\]
+    Из определения преобразования Фурье на \(L_1\) имеем
+    \[|\widehat{f}_n(y) - \widehat{f}(y)| \le \frac{1}{\sqrt{2\pi}}\|f_n - f\|_1 \quad\forall y\in\R\]
+    следовательно \(\widehat{f}_n \rightrightarrows \widehat{f}\) на \(\R\) (равномерная сходимость). В частности, \(\widehat{f}_n(y) \to \widehat{f}(y)\) для каждого \(y\in\R\).
+
+    С другой стороны, по построению \(F_P\) как непрерывного продолжения преобразования Фурье с \(S(\R)\) на \(L_2(\R)\), имеем \(\widehat{f}_n = F[f_n] \to F_P[f]\) в \(L_2(\R)\). Из сходимости в \(L_2\) следует, что существует подпоследовательность \(\{f_{n_k}\}\) такая, что \(\widehat{f}_{n_k} \to F_P[f]\) почти всюду на \(\R\). Поскольку \(\widehat{f}_{n_k}\) сходятся к \(\widehat{f}\) всюду, получаем \(F_P[f] = \widehat{f}\) почти всюду.
+\end{proof}
+
+\begin{note}
+    Для \(f \in L_2(\R)\) (будем писать \(\widehat{f}\)) имеем:
+    \[\widehat{f}(y) = \lim_{n \ra \infty} \frac{1}{\sqrt{2\pi}}\int_{-n}^n f(x)e^{-iyx}dx\]
+    В \(L_2(\R)\).
+\end{note}
+\begin{proof}
+    Положим \(f_n = f \cdot \mathbf{1}_{[-n,n]}\). Тогда \(f_n \in L_1(\R)\cap L_2(\R)\) и \(\|f_n - f\|_2 \to 0\) по теореме Лебега о мажорируемой сходимости. Согласно предыдущей лемме, \(F_P[f_n] = \widehat{f_n}\) почти всюду. При этом по определению \(F_P\) (как непрерывного продолжения) \(F_P[f_n] \to F_P[f]\) в \(L_2(\R)\). Остаётся заметить, что \(\widehat{f_n}(y) = \frac{1}{\sqrt{2\pi}}\int_{-n}^{n} f(x)e^{-iyx}\,dx\) как обычный интеграл Лебега (поскольку \(f_n \in L_1\)). Таким образом,
+    \[
+    \frac{1}{\sqrt{2\pi}}\int_{-n}^{n} f(x)e^{-iyx}\,dx = \widehat{f_n}(y) \to F_P[f](y) \quad\text{в } L_2(\R).
+    \]
+    По определению, \(F_P[f]\) обозначается \(\widehat{f}\), что завершает доказательство.
+\end{proof}
