@@ -1976,6 +1976,8 @@
     Где \(a \in \R^n, \Sigma \in R^{n \times n}\) --- симметричная неотрицательно определенная матрица. Обозначение: \(\xi \sim \mathcal{N}(a, \Sigma)\).
 \end{definition}
 
+\subsection{Свойства многомерного нормального распределения}
+
 \begin{theorem}[О трех эквивалентных определениях]
     Следующие определения эквивалентны:
     \begin{enumerate}
@@ -1984,11 +1986,126 @@
         \item \(\forall \tau \in \R^m: \langle \tau, \xi \rangle\) имеет одномерное нормальное распределение
     \end{enumerate}
 \end{theorem}
-
-\begin{proof}
-    на следующей лекции
-\end{proof}
-
 \begin{note}
     Константы мы тоже считаем нормальными случайными величинами с нулевой дисперсией: \(a \sim \mathcal{N}(a, 0)\)
 \end{note}
+\lecture{15}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item[\((1) \Ra (2)\)] Пусть \(\xi \sim \mathcal{N}(a, \Sigma)\), где \(\Sigma\) --- симметрично и неотрицательно определена. Тогда \(\exists C\) --- ортогональное преобразование, такое, что \(C\Sigma C^T = D\), где \(D = diag(d_1, \dots d_m, 0, \dots 0)\), причем \(d_j > 0\). Рассмотрим случайный вектор \(\xi' = C(\xi - a)\). Найдем характеристическую функцию \(\xi'\):
+        \[\phi_{\xi'}(t) = \E e^{i \langle \xi', t \rangle} = \E e^{i \langle C(\xi - a), t \rangle} = \E e^{i \langle \xi - a, C^Tt \rangle} = e^{-i\langle a, C^Tt \rangle} \underbrace{\E e^{i \langle \xi, C^Tt \rangle}}_{\phi_\xi(C^Tt)} = \]
+        По пункту 1), получаем:
+        \[= e^{-i\langle a, C^Tt \rangle} \underbrace{\E e^{i \langle \xi, C^Tt \rangle}}_{\phi_\xi(C^Tt)} = e^{-i\langle a, C^Tt \rangle} e^{i \langle a, C^Tt \rangle - \frac{1}{2}\langle \Sigma C^Tt, C^Tt \rangle} = e^{-\frac{1}{2}\langle C\Sigma C^Tt, t \rangle} = e^{-\frac{1}{2}\langle Dt, t \rangle} = \]
+        \[= \prod_{j = 1}^m e^{-\frac{1}{2}d_jt_j^2}\]
+        Получили, что компоненты \(\xi'\) независимы, \(\xi_j' \sim \mathcal{N}(0, d_j)\) при \(j \le n\) и \(\xi_j' = 0\) п.н. при \(j > n\). Положим \(\eta_j = \frac{\xi_j'}{\sqrt{d_j}}, j = 1, \dots m\). Тогда \(\eta_1, \dots \eta_m\) --- независимые случайные величины из \(\mathcal{N}(0, 1)\). Кроме того:
+        \[\xi' = \underbrace{\left( \begin{array}{ccc}
+            \sqrt{d_1} & \dots & 0 \\
+            \vdots & \ddots & \vdots \\
+            0 & \ddots & \sqrt{d_m} \\
+            0 & \dots & 0 \\
+            \vdots & \ddots & \vdots \\
+            0 & \dots & 0 \\
+        \end{array} \right)}_B\eta\]
+        И тогда \(\xi = C^T\xi' + a \stackrel{\text{п.н.}}{=} (C^TB)\eta + a\).
+
+        \item[\((2) \Ra (3)\)] Пусть \(\xi = A\eta + a\) п.н. Пусть \(\tau \in \R^n\). Рассмотрим 
+        \[\langle \tau, \xi \rangle \stackrel{\text{п.н.}}{=} \langle \tau, A\eta \rangle + \langle \tau, a \rangle = \langle \tau, a \rangle + \langle A^T\tau, \xi \rangle = \underbrace{\langle \tau, a \rangle}_{const} + \sum_{k = 1}^m \eta_k (A^T\tau)_k\]
+        Получили нормальную случайную величину (т.к. \(\eta_k(A^T\tau)_k\) --- независимые нормальные случайные величины).
+        \item[\((3) \Ra (1)\)] Возьмем \(\tau\) базисным вектором, \(\tau = (0, \dots 0, 1, 0, \dots 0) \Ra \xi_j = \langle \tau, \xi \rangle\) --- нормальный случайный вектор \(\Ra \E\xi, \Variance\xi\) конечны. По условию, \(\langle \tau, \xi \rangle\) --- нормальная случайная величина, тогда пусть \(\langle \tau, \xi \rangle \sim \mathcal{N}(a_\tau, \sigma_\tau^2)\). Тогда:
+        \[a_\tau = \E \langle \tau, \xi \rangle = \langle \tau, \E\xi \rangle\]
+        \[\sigma_\tau^2 = \Variance\langle \tau, \xi \rangle = \E(\langle \tau, \xi \rangle - \langle \tau, \E\xi \rangle)^2 = \E\langle \tau, \xi - \E\xi \rangle^2 = \]
+        \[= \E\tau^T(\xi - \E\xi)(\xi - \E\xi)^T\tau = \tau^T\underbrace{\E(\xi - \E\xi)(\xi - \E\xi)^T}_{\Variance \xi}\tau = \tau^T\Variance \xi \tau = \langle\Variance \xi \tau, \tau \rangle\]
+        Найдем характеристическую функцию \(\xi\):
+        \[\phi_\xi(\tau) = e^{i\langle \xi, \tau \rangle} = \phi_{\langle \xi, \tau \rangle}(1) = e^{ia_\tau \cdot 1 - \frac{1}{2}\sigma_\tau^2\cdot 1^2} = e^{i\langle \tau, \E\xi \rangle - \frac{1}{2}\langle \Variance \xi \tau, \tau \rangle}\]
+        Известно, что \(\Variance \xi\) симметрична и неотрицательно определена \(\Ra \xi \sim \mathcal{N}(a, \Sigma)\), где \(a = \E \xi, \Sigma = \Variance \xi\).
+    \end{enumerate}
+\end{proof}
+
+\begin{corollary}
+    Исходное определение было корректно
+\end{corollary}
+\begin{proof}
+    Возьмем матрицы \(C, B\) из доказательства \((1) \Ra (2)\), возьмем вектор \(\eta\) из независимых \(\mathcal{N}(0, 1)\) случайных величин. Тогда вектор \((C^TB)\eta + a\) будет иметь искомую характеристическую функцию.
+\end{proof}
+
+\begin{corollary}
+    Любое афинное (линейное) преобразование гауссовского вектора --- тоже гауссовский вектор
+\end{corollary}
+\begin{proof}
+    Пусть \(\xi\) --- гауссовский, \(\delta = B\xi + b\). По пункту 2), \(\xi \stackrel{\text{п.н.}}{=} A\eta + a\), где компоненты \(\eta\) --- независимые из \(\mathcal{N}(0, 1)\). Тогда \(\delta = (BA)\eta + (Ba + b)\) тоже удовлетворяет пункту 2)
+\end{proof}
+
+\begin{corollary}
+    Если \(\xi \sim \mathcal{N}(a, \Sigma)\), то \(a = \E\xi\) и \(\Sigma = \Variance \xi\).
+\end{corollary}
+\begin{proof}
+    Следует из доказательства \((2) \Ra (3)\). 
+\end{proof}
+
+\begin{corollary}
+    Компоненты гауссовского вектора независимы \(\Lra\) они некоррелированны
+\end{corollary}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item[\(\Ra\)] очевидно
+        \item[\(\La\)] Пусть \(\xi = (\xi_1, \dots \xi_n) \sim \mathcal{N}(a, \Sigma)\). По условию, \(\Sigma\) диагональна \(\Ra\)
+        \[\phi_\xi(t) = e^{i\langle a, t \rangle - \frac{1}{2}\langle \Sigma t, t \rangle}= e^{i\sum_{k = 1}^na_kt_k - \frac{1}{2}\sum_{k = 1}^n \sigma_{kk}t_k^2} = \prod_{k = 1}^n \underbrace{e^{ia_kt_k - \frac{1}{2}\sigma_{kk}t_k^2}}_{\phi_{\xi_k}(t)} = \prod_{k = 1}^n \phi_{\xi_k}(t)\]
+        Но тогда \(\xi_k\) независимы.
+    \end{enumerate}
+\end{proof}
+
+\begin{corollary}
+    Если \(\Sigma\) имеет блочный вид, то независимы будут соответственные подвекторы.
+\end{corollary}
+
+\begin{note}
+    Компоненты гауссовского вектора нормальные
+\end{note}
+\begin{example}[Обратное неверно]
+    Возьмем \(X, Y\) --- независимые, \(X \sim \mathcal{N}(0, 1), P(Y = \pm1) = \frac{1}{2}\). Обозначим \(Z = XY\). Тогда:
+    \[P(Z \le x) = \frac{1}{2}P(X \le x) + \frac{1}{2}P(-X \le x) = P(X \le x) \Ra Z \sim \mathcal{N}(0, 1)\]
+    Но \((X, Z)\) --- не гауссовский, т.к. они зависимы, но не коррелированы.
+
+    Можно также рассуждать по другому: так как \(P(X + Z = 0) = P(Y = -1) = \frac{1}{2}\), то \(X + Z\) --- не нормальная случайная величина.
+\end{example}
+
+\subsection{Плотность многомерного нормального распределения}
+
+\begin{theorem}[О плотности]
+    Гауссовский вектор \(\xi \sim \mathcal{N}(a, \Sigma), \xi \in \R^n\) имеет плотность \(\Lra \Sigma > 0\) (положительно определена). В этом случае плотность имеет вид:
+    \[p(x) = \left( \frac{1}{\sqrt{2\pi}} \right)^n \frac{1}{\sqrt{\det \Sigma}}e^{-\frac{1}{2}\langle \Sigma^{-1}(x - a), (x - a) \rangle}, x \in \R^n\]
+\end{theorem}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item[\(\La\)] Пусть \(\Sigma > 0\). Тогда существует ортогональное преобразование, такое, что \(C\Sigma C^T = D = diag(d_1, \dots d_n), d_j > 0 \forall j\). Далее, случайный вектор \(\xi' = C(\xi - a)\) таков, что \(\xi' \sim \mathcal{N}(0, D)\). Компоненты \(\xi'\) --- независимые нормальные случайные величины, следовательно, вектор \(\xi'\) тоже имеет плотность:
+        \[p_{\xi'}(x) = \prod_{j = 1}^n p_{\xi_j'}(x) = \prod_{j = 1}^n \frac{1}{\sqrt{2\pi d_j}}e^{-\frac{x_j^2}{2d_j}} = \left( \frac{1}{\sqrt{2\pi}} \right)^n \frac{1}{\sqrt{\det D}}e^{-\frac{1}{2}\langle D^{-1}x, x \rangle}\]
+        Тогда
+        \[P(\xi \in B) = P(C^T\xi' + a \in B) = P(\xi' \in C(B - a)) = \int_{C(B - a)}p_{\xi'}(x)dx = \]
+        По теореме о замене переменной в интеграле Лебега и так как \(\det C = 1\), то:
+        \[= \int_{B}p_{\xi'}(C(y - a))dy = \int_{B}\left( \frac{1}{\sqrt{2\pi}} \right)^n \frac{1}{\sqrt{\det \Sigma}}e^{-\frac{1}{2}\langle D^{-1}C(y - a), C(y - a) \rangle}dy = \]
+        \[= \int_{B}\underbrace{\left( \frac{1}{\sqrt{2\pi}} \right)^n \frac{1}{\sqrt{\det \Sigma}}e^{-\frac{1}{2}\langle \Sigma^{-1}(y - a), (y - a) \rangle}}_{p_\xi}dy\]
+        \item[\(\Ra\)] Заметим, что \(\langle \Sigma x, x \rangle = \langle \Variance \xi x, x \rangle = \Variance \langle \xi, x \rangle\). Если \(\langle \Sigma x, x \rangle = 0\) для \(x \ne 0\), то \(\Variance \langle \xi, x \rangle = 0 \Lra \langle \xi, x\rangle = const\) п.н. \(\Ra\) с вероятностью 1 \(\xi\) лежит в некотором нетривиальном афинном подпространстве \(\R^n \Ra \xi\) не может иметь плотности.
+    \end{enumerate}
+\end{proof}
+
+\subsection{Многомерная ЦПТ}
+
+\begin{theorem}[Многомерная ЦПТ]
+    Пусть \(\{\xi_n, n \in \N\}\) --- н.о.р.с. векторы из \(\R^m\), пусть \(a = \E\xi, \Sigma = \Variance \xi\) конечны. Обозначим \(\xi_1 + \dots + \xi_n = S_n\). Тогда:
+    \[\sigma_{\sqrt{n}}\left( \frac{S_n}{n} - a \right) \xrightarrow{d} \mathcal{N}(0, \Sigma)\]
+\end{theorem}
+\begin{proof}
+    Проверим сходимость характеристических функций. Обозначим \(T_n = \sqrt{n}\left( \frac{S_n}{n} - a \right)\). Тогда
+    \[\langle T_n, t \rangle = \frac{1}{\sqrt{n}}\langle S_n - na, t \rangle = \frac{1}{\sqrt{n}}\sum_{j = 1}^n\underbrace{\langle \xi_j - a, t \rangle}_{\eta_j}\]
+    Случайные величины \(\eta_j\) --- н.о.р.с.в, причем \(\E\eta_j = \E\langle \xi_j - a, t\rangle = \langle \E\xi_j - a, t\rangle\), \(\Variance\eta_j = \Variance\langle \xi_j - a, t\rangle = \langle \Sigma t, t\rangle\). Тогда:
+    \[\phi_{T_n}(t) = \E e^{i\langle T_n, t \rangle} = \E e^{i \frac{\eta_1 + \dots + \eta_n}{\sqrt{n}}} =\]
+    Из независимости получаем:
+    \[= \prod_{j = 1}^n \phi_{\eta_j}\left( \frac{1}{\sqrt{n}} \right) = \]
+    Из одинаковой распределенности получаем:
+    \[= \left( \phi_{\eta_1}\left( \frac{1}{\sqrt{n}} \right) \right)^n = \]
+    Из разложения получаем:
+    \[= \left(1 + \frac{i}{\sqrt{n}}\E\eta_1 - \frac{1}{2n}\Variance \eta_1 + o\left( \frac{1}{n} \right)\right)^n = \left( 1 - \frac{\langle \Sigma t, t \rangle}{2n} + o\left( \frac{1}{n} \right) \right)^n \ra e^{-\frac{1}{2}\langle \Sigma t, t \rangle}\]
+    Получили характеристическую функцию \(\mathcal{N}(0, \Sigma)\). По теореме непрерывности, получаем, что \(T_n \xrightarrow{d} \mathcal{N}(0, \Sigma)\).
+\end{proof}
+
+Конец! Всем хорошей сессии!
