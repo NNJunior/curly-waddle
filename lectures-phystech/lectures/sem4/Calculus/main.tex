@@ -1523,11 +1523,25 @@
     Пусть \(f \in L_2(\R)\). Рассмотрим \(\{f_n\} \subset S(\R), f_n \ra f\) в \(L_2(\R)\), т.е. \(\|f_n - f\| \ra 0\). Положим \(f_{n, \sigma} = (f_n)_{\sigma} \Ra f_{n, \sigma} \in S, \|f_{n, \sigma} - f_\sigma\| \ra 0\). В силу непрерывности \(F\), \(f_n = F[F[f_{n, \sigma}]] \Ra f = F_p[F_p[f_\sigma]]\). Таким образом, \(F_p\) --- сюрьекция. Изометриность \(F_P\) следует из непрерывности \(F\), и тогда, \(F_P\) --- инъекция
 \end{proof}
 
+\begin{reminder}[Гладкое разбиение единицы]
+    Существуют функции \(\phi_n \in C_c^\infty(\R)\), такие, что:
+    \begin{enumerate}
+        \item \(\supp \phi_n \subset [-(n + 1), n + 1]\)
+        \item \(0 \le \phi_n \le 1\)
+        \item \(\phi_n|_{[-n, n]} = 1\)
+    \end{enumerate}
+\end{reminder}
+
 \begin{lemma}
     Если \(f \in L_1(\R) \cap L_2(\R)\), то существует \(\{f_n\} \subset C_c^\infty(\R)\), такая, что \(\|f - f_n\|_1 \ra 0\) и \(\|f - f_n\|_2 \ra 0\)
 \end{lemma}
 \begin{proof}
-    Будет позднее
+    Положим \(g_n = f \cdot I_{[-n, n]}, n \in \R\). Тогда по теореме Лебега о мажорируемой сходимости: \(\|g_n - f\|_2 \ra 0, \|g_n - f\|_1 \ra 0\). Т.к. \(C^\infty(\R)\) плотно в \(L_2(\R)\) (замыкание \(C^\infty(\R)\) совпадает с \(L_2(\R)\)), то \(\forall n \in \N \exists h_n \in C^\infty_c(\R): \|h_n - g_n\|_2 < \frac{1}{n}\). Рассмотрим \(\phi_n\) из гладкого разбиения единицы и покажем, что \(f_n = h_n\phi_n\) являются искомыми. Достаточно показать, что \(\|f_n - g_n\|_2 \ra 0, \|f_n - g_n\|_1 \ra 0\). Отметим, что \(f_n = h_n\) на \([-n, n]\) и \(|f_n| \le |h_n| \le |h_n - \underbrace{g_n}_{=0}|\) вне \([-n, n]\). Тогда:
+    \[\|f_n - g_n\|_2^2 = \int_{-n}^n|h_n - g_n|^2dx + \left( \int_{-(n + 1)}^{-n} + \int_{n}^{n + 1} \right)|f_n|^2dx \le \|h_n - g_n\|^2_2 < \frac{1}{n^2} \ra 0\]
+    Оценим теперь \(L_1\)-норму:
+    \[\|f_n - g_n\|_1 = \int_{-n}^n|h_n - g_n|dx + \left( \int_{-(n + 1)}^{-n} + \int_{n}^{n + 1} \right)|f_n|dx \le \int_{-(n + 1)}^{n + 1}|h_n - g_n|dx \le\]
+    По КБШ:
+    \[\le \left( \int_{-(n + 1)}^{n + 1} |h_n - g_n|^2 \right)^{\frac{1}{2}}\sqrt{2n + 2} \sim \frac{1}{\sqrt{n}} \ra 0\]
 \end{proof}
 
 \begin{lemma}
@@ -1549,9 +1563,79 @@
     В \(L_2(\R)\).
 \end{note}
 \begin{proof}
-    Положим \(f_n = f \cdot \mathbf{1}_{[-n,n]}\). Тогда \(f_n \in L_1(\R)\cap L_2(\R)\) и \(\|f_n - f\|_2 \to 0\) по теореме Лебега о мажорируемой сходимости. Согласно предыдущей лемме, \(F_P[f_n] = \widehat{f_n}\) почти всюду. При этом по определению \(F_P\) (как непрерывного продолжения) \(F_P[f_n] \to F_P[f]\) в \(L_2(\R)\). Остаётся заметить, что \(\widehat{f_n}(y) = \frac{1}{\sqrt{2\pi}}\int_{-n}^{n} f(x)e^{-iyx}\,dx\) как обычный интеграл Лебега (поскольку \(f_n \in L_1\)). Таким образом,
+    Положим \(f_n = f \cdot I_{[-n,n]}\). Тогда \(f_n \in L_1(\R)\cap L_2(\R)\) и \(\|f_n - f\|_2 \to 0\) по теореме Лебега о мажорируемой сходимости. Согласно предыдущей лемме, \(F_P[f_n] = \widehat{f_n}\) почти всюду. При этом по определению \(F_P\) (как непрерывного продолжения) \(F_P[f_n] \to F_P[f]\) в \(L_2(\R)\). Остаётся заметить, что \(\widehat{f_n}(y) = \frac{1}{\sqrt{2\pi}}\int_{-n}^{n} f(x)e^{-iyx}\,dx\) как обычный интеграл Лебега (поскольку \(f_n \in L_1\)). Таким образом,
     \[
     \frac{1}{\sqrt{2\pi}}\int_{-n}^{n} f(x)e^{-iyx}\,dx = \widehat{f_n}(y) \to F_P[f](y) \quad\text{в } L_2(\R).
     \]
     По определению, \(F_P[f]\) обозначается \(\widehat{f}\), что завершает доказательство.
 \end{proof}
+
+\lecture{15}
+
+\begin{example}
+    Найдем преобразование Фурье \(f(x) = \frac{\sin x}{x}\) (заметим, что \(f \in L_2 \setminus L_1\)). Вспомним, что:
+    \[\widehat{I_{(-1, 1)}}(y) = \sqrt{\frac{2}{\pi}}\frac{\sin y}{y}\]
+    Так как индикатор удовлетворяет условиям Дини, справедливо равенство:
+    \[\frac{1}{\sqrt{2\pi}}\lim_{n \ra \infty} \int_{-n}^n \widehat{I_{(-1, 1)}}(y)e^{ixy}dy = I_{(-1, 1)}(x), x \ne \pm 1\]
+    Таким образом:
+    \[\frac{1}{\sqrt{2\pi}}\lim_{n \ra \infty} \int_{-n}^n f(y)e^{ixy}dy = \sqrt{\frac{\pi}{2}}I_{(-1, 1)}(x), x \ne \pm 1\]
+    Из четности \(f\):
+    \[\frac{1}{\sqrt{2\pi}}\lim_{n \ra \infty} \int_{-n}^n f(y)e^{-ixy}dy = \sqrt{\frac{\pi}{2}}I_{(-1, 1)}(x), x \ne \pm 1\]
+    Таким образом, \(\widehat{f} = \sqrt{\frac{\pi}{2}}I_{(-1, 1)}(x)\) в \(L_2\) (не очень понял этот переход).
+
+    Кроме того, из равенства Планшереля: \(\|f\|_2 = \|\widehat{f}\|_2\):
+    \[\int_{-\infty}^{+\infty}\left( \frac{\sin x}{x} \right)^2dx = \int_{-1}^{1}\frac{\pi}{2}dx = \pi\]
+\end{example}
+
+Рассмотрим еще одно (важнейшее) приложение пространства \(S(\R)\).
+
+\subsection{Сходимость функций в \(S(\R)\)}
+
+\begin{definition}
+    Пусть \(\phi, \phi_n \in S(\R)\). Тогда \(\phi_n \ra \phi\) в \(S(\R) \Lra \forall m, k \in \N_0: x^m\phi_n^{(k)} \rightrightarrows x^M\phi^{(k)}, n \ra \infty\)
+\end{definition}
+
+\begin{note}
+    \begin{enumerate}
+        \item \(\phi_n \ra 0\) в \(S \Ra\) 
+        \begin{enumerate}
+            \item \(\phi' \ra 0\) в \(S\)
+            \item \(P\phi \ra 0\) в \(S\), где \(P\) --- многочлен.
+        \end{enumerate}
+        \item \(\phi_n \ra 0\) в \(S \Ra \phi_n \ra 0\) в \(L_1\). Действительно, \((x^2 + 1)\phi_n \rightrightarrows 0 \Ra \exists NL \forall n \ge N \forall x \in \R (1 + x^2) |\phi_n| \le 1\), т.е. \(|\phi_n| \le \frac{1}{1 + x^2}\). Но тогда по теореме Лебега о мажорируемой сходимости:
+        \[\int_\R |\phi_n| \ra 0\]
+    \end{enumerate}
+\end{note}
+
+\begin{example}
+    \(\phi \in S\) и \(\phi_n = \phi\left( x + \frac{1}{n} \right)\). Покажем, что \(\phi_n \ra \phi\) в \(S\). Зафиксируем \(m, k \in \N_0\). Тогда: \(x^m\phi_n^{(k)} - x^m\phi^{(k)} = x^m\phi^{(k + 1)}(c)\frac{1}{n}\), где \(c = c(n, x)\) лежит между \(x\) и \(x + \frac{1}{n}\). Поэтому:
+    \[|x|^m|\phi^{(k + 1)}(c)| \le \left( |c| + 1 \right)^m\left| \phi^{(k + 1)}(c) \right| = \sum_{p = 0}^m C_m^p|c|^p|\phi^{(k + 1)}(c)|\]
+    Т.к. \(\phi \in S\), то данная функция, как функция от \(c\), лежит в \(S\), а значит, является бесконечно малой при \(c \ra \pm\infty\). В частности, данная функция ограничена, скажем, \(|\cdot| \le M\). Получаем, что:
+    \[\sup_{\R}|x^m\phi_n^{(k)} - x^m\phi^{(k)}| = \frac{1}{n}\sup_{\R}|x^m\phi^{(k + 1)}(c)| = \frac{M}{n}\]
+\end{example}
+
+\begin{theorem}
+    Отображение \(F: S \ra S\) непрерывно
+\end{theorem}
+\begin{proof}
+    Нам нужно показать, что \(\phi_n \ra \phi\) в \(S \Ra F[\phi_n] \ra F[\phi]\) в \(S\). Определим \(f_n = \phi_n - \phi\), тогда \(y^m \widehat{f_n}^{(k)}(y) = \frac{1}{i^m}F[g_n]\), где \(g_n = \frac{d^m}{dx^m}((-ix)^kf(x))\). Т.к. \(f_n \ra 0\) в \(S\), то \(g_n \ra 0\) в \(S\), но тогда \(g_n \ra 0\) в \(L_1\). Поэтому, \(\sup_{\R}|F[g_n]| \le \frac{1}{\sqrt{2\pi}}\|g_n\|_1 \ra_{n \ra \infty} 0\). Следовательно, \(y^m\widehat{f}^{(k)}(y) \rightrightarrows_\R 0\)
+\end{proof}
+
+\begin{theorem}[Котельникова]
+    Пусть \(f(x), xf(x) \in L_1(\R) \cap C(\R)\), причем \(\supp \widehat{f} \subset [-a, a], a > 0\). Тогда
+    \[f(t) = \sum_{k = -\infty}^{\infty} f\left( \frac{\pi k}{a} \right)\frac{\sin a\left( t - \frac{\pi k}{a} \right)}{a(t - \frac{\pi k}{a})}\]
+\end{theorem}
+\begin{proof}
+    Рассмотрим функцию \(g(t) = f\left( \frac{\pi t}{a} \right)\). Тогда \(\widehat{g}(y) = \frac{a}{\pi}\widehat{f}\left( \frac{ay}{\pi} \right)\), следовательно \(\supp \widehat{g} \subset [-1, 1]\). Можно считать, что \(\widehat{g}\) является \(2\pi\)-периодичной. Кроме того, \(g(x), xg(x) \in L_1(\R) \Ra \widehat{g} \in C^1(\R)\). Тогда \(\widehat{g}\) можно представить рядом Фурье, причем такой ряд будет равномерно сходиться на \(\R\):
+    \[\widehat{g}(y) = \sum_{k = -\infty}^{+\infty}c_ke^{-iky}\]
+    Где
+    \[c_k = \frac{1}{2\pi}\int_{-\pi}^{\pi}\widehat{g}e^{iky}dy = \frac{1}{2\pi}\int_{-\infty}^{\infty}\widehat{g}(y)e^{iky}dy = \frac{1}{\sqrt{2\pi}}g(k)\]
+    Далее, по формуле обращения: 
+    \[g(x) = \frac{1}{\sqrt{2\pi}}\int_\R \widehat{g}(y)e^{ixy}dy = \frac{1}{\sqrt{2\pi}}\int_{-\pi}^{\pi}\left( \sum_{k = -\infty}^\infty c_ke^{iy(x - k)} \right)dy = \]
+    Пользуясь формулой выше и тем, что ряд равномерно сходится, получаем:
+    \[\frac{1}{2\pi}\sum_{k = -\infty}^{\infty}g(k)\int_{-\pi}^\pi e^{iy(x - k)}dy = \frac{1}{\pi}\sum_{k = -\infty}^\infty g(k) \int_{0}^\pi \cos y(x - k)dy = \sum_{k = -\infty}^\infty g(k) \frac{\sin \pi(x - k)}{x - k}\]
+    Осталось заменить \(g(k) = f\left( \frac{\pi k}{a} \right) \Lra f(t) = g\left( \frac{at}{\pi} \right)\) и получить:
+    \[f(t) = \sum_{k = -\infty}^{\infty} f\left( \frac{\pi k}{a} \right)\frac{\sin a\left( t - \frac{\pi k}{a} \right)}{a(t - \frac{\pi k}{a})}\]
+\end{proof}
+
+Вот и все, матан кончился :(
