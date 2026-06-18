@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сообщить об ошибке</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .loader {
+            display: inline-block;
+            animation: spin 0.8s linear infinite;
+            font-size: 1.5rem;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .info-box {
+            background: var(--bg);
+            border-radius: var(--radius);
+            padding: 2rem;
+            margin: 1.5rem 0;
+            border-left: 4px solid var(--primary);
+        }
+        .error-box {
+            background: #fff3f3;
+            border-left: 4px solid #dc3545;
+            padding: 1.5rem;
+            border-radius: var(--radius);
+        }
+        .bug-btn-large {
+            background: var(--primary);
+            color: white !important;
+            padding: 0.3rem 1.2rem;
+            border-radius: 30px;
+            text-decoration: none;
+            display: inline-block;
+            border-bottom: none !important;
+            transition: background 0.15s ease;
+        }
+        .bug-btn-large:hover {
+            background: var(--primary-light);
+            border-bottom: none !important;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <nav class="nav-bar" id="nav-bar">
+        <a href="index.html">🏠 Главная</a>
+    </nav>
+
+    <div id="content">
+        <h1>🐛 Сообщить об ошибке</h1>
+        <div id="status" class="info-box">
+            <span class="loader">⟳</span> Загрузка данных…
+        </div>
+        <p id="details"></p>
+        <p>
+            <a href="index.html" class="bug-btn-large">← Вернуться на главную</a>
+        </p>
+    </div>
+
+    <footer>&copy; 2026 · Конспекты</footer>
+</div>
+
+<script>
+    // ----------------- Конфигурация -----------------
+    const GITHUB_REPO = 'https://github.com/NNJunior/curly-waddle'; // ← ЗАМЕНИТЕ НА СВОЙ
+    // -----------------------------------------------
+
+    // Получаем параметры из URL (0-based индексы)
+    const params = new URLSearchParams(window.location.search);
+    const semesterIndex = parseInt(params.get('semesterIndex'));   // 0, 1, 2, …
+    const subjectIndex = parseInt(params.get('subjectIndex'));     // 0, 1, 2, …
+    const page = params.get('page') || '';                        // опционально
+
+    const statusEl = document.getElementById('status');
+    const detailsEl = document.getElementById('details');
+
+    // Проверяем, что оба параметра переданы и являются числами
+    if (isNaN(semesterIndex) || isNaN(subjectIndex)) {
+        statusEl.innerHTML = `
+            <div class="error-box">
+                <h2 style="color: #dc3545;">❌ Недостаточно данных</h2>
+                <p>Укажите параметры <code>semesterIndex</code> и <code>subjectIndex</code> (числа, начиная с 0).</p>
+                <p>Пример: <code>report.html?semesterIndex=1&subjectIndex=2</code></p>
+            </div>
+        `;
+        detailsEl.innerHTML = '';
+        throw new Error('Missing or invalid semesterIndex / subjectIndex');
+    }
+
+    // Загружаем data.json
+    fetch('data.json')
+        .then(response => {
+            if (!response.ok) throw new Error('Не удалось загрузить data.json');
+            return response.json();
+        })
+        .then(data => {
+            // Проверяем существование семестра и предмета
+            const sem = data.semesters[semesterIndex];
+            const semesterName = Number(semesterIndex) + 1;
+            
+            if (!sem) throw new Error(`Семестр с индексом ${semesterIndex} не найден`);
+            const subject = sem.subjects[subjectIndex];
+            if (!subject) throw new Error(`Предмет с индексом ${subjectIndex} не найден в семестре "${semesterName}"`);
+
+            // Получаем названия
+            const subjectName = subject.name;
+
+            // Показываем пользователю информацию
+            detailsEl.innerHTML = `
+                <strong>Семестр:</strong> ${semesterName}<br>
+                <strong>Предмет:</strong> ${subjectName}
+                ${page ? `<br><strong>Страница:</strong> ${page}` : ''}
+            `;
+
+            // Формируем тело issue
+            let body = `Семестр: ${semesterName}\nПредмет: ${subjectName}`;
+            if (page) body += `\nСтраница: ${page}`;
+            body += `\n\nОписание ошибки:\n\n(подробно опишите, что не так)`;
+
+            const title = `Ошибка в конспекте по предмету "${subjectName}"`;
+            const encodedTitle = encodeURIComponent(title);
+            const encodedBody = encodeURIComponent(body);
+
+            const issueUrl = `${GITHUB_REPO}/issues/new?title=${encodedTitle}&body=${encodedBody}`;
+
+            // Обновляем статус и перенаправляем
+            statusEl.innerHTML = `
+                <span class="loader">⟳</span> Перенаправление на GitHub через несколько секунд…<br>
+                <small>Если ничего не происходит, <a href="${issueUrl}" target="_blank">нажмите сюда</a>.</small>
+            `;
+
+            setTimeout(() => {
+                window.location.href = issueUrl;
+            }, 500);
+        })
+        .catch(error => {
+            statusEl.innerHTML = `
+                <div class="error-box">
+                    <h2 style="color: #dc3545;">❌ Ошибка загрузки данных</h2>
+                    <p>${error.message}</p>
+                    <p><a href="index.html" class="bug-btn-large">Вернуться на главную</a></p>
+                </div>
+            `;
+            console.error(error);
+        });
+</script>
+
+</body>
+</html>

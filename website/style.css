@@ -131,23 +131,6 @@ a.card:hover {
   margin-top: 0.5rem;
 }
 
-.pdf-btn {
-  background: var(--primary);
-  color: white !important;
-  padding: 0.3rem 1rem;
-  border-radius: 30px;
-  text-decoration: none;
-  display: inline-block;
-  border-bottom: none !important;
-  transition: background 0.15s ease;
-  font-size: 0.9rem;
-}
-
-.pdf-btn:hover {
-  background: var(--primary-light);
-  border-bottom: none !important;
-}
-
 .pdf-btn-large {
   background: var(--primary);
   color: white !important;
@@ -160,6 +143,22 @@ a.card:hover {
 }
 
 .pdf-btn-large:hover {
+  background: var(--primary-light);
+  border-bottom: none !important;
+}
+
+.bug-btn-large {
+  background: var(--primary);
+  color: white !important;
+  padding: 0.3rem 1.2rem;
+  border-radius: 30px;
+  text-decoration: none;
+  display: inline-block;
+  border-bottom: none !important;
+  transition: background 0.15s ease;
+}
+
+.bug-btn-large:hover {
   background: var(--primary-light);
   border-bottom: none !important;
 }

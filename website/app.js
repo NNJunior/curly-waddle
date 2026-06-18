@@ -1,6 +1,7 @@
 // Состояние приложения
 let data = null;
 let currentView = { type: 'home', semesterId: null, subjectId: null };
+const GITHUB_REPO = 'https://github.com/NNJunior/curly-waddle';
 
 // Элементы DOM
 const navBar = document.getElementById('nav-bar');
@@ -99,7 +100,6 @@ function renderSemester(semesterIndex) {
   contentEl.innerHTML = html;
 }
 
-// Рендер страницы предмета
 function renderSubject(semesterIndex, subjectIndex) {
   const sem = data.semesters[semesterIndex];
   const subject = sem.subjects[subjectIndex];
@@ -107,10 +107,21 @@ function renderSubject(semesterIndex, subjectIndex) {
   html += `<p class="date">${sem.name} · ${sem.date}</p>`;
   html += `<div class="description" style="margin-bottom: 2rem;">${subject.description}</div>`;
 
-  // Кнопка PDF
-  html += `<p style="margin-bottom: 1.5rem;">`;
+  // // Кнопки PDF и "Нашел ошибку" в ряд
+  // const issueTitle = encodeURIComponent(`Ошибка в конспекте по предмету "${subject.name}"`);
+  // const issueBody = encodeURIComponent(
+  //   `Семестр: ${sem.name}\n` +
+  //   `Предмет: ${subject.name}\n` +
+  //   `Описание ошибки:\n\n` +
+  //   `(подробно опишите, что не так)`
+  // );
+  // Если хотите передавать номер страницы (из PDF), можно добавить &page=..., но на сайте его нет – оставляем как есть.
+  const reportUrl = `report.html?semesterIndex=${semesterIndex}&subjectIndex=${subjectIndex}`;
+
+  html += `<div style="display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap;">`;
   html += `<a href="pdf/sem${semesterIndex+1}/${subject.pdfName}" class="pdf-btn-large" target="_blank">📥 Скачать PDF</a>`;
-  html += `</p>`;
+  html += `<a href="${reportUrl}" class="bug-btn-large" target="_blank" class="report-error-btn">🐛 Сообщить об ошибке</a>`;
+  html += `</div>`;
 
   html += '<h2>Лекции</h2>';
   html += '<div class="lecture-list">';
@@ -120,9 +131,7 @@ function renderSubject(semesterIndex, subjectIndex) {
     if (lecture.suffix) {
       pdfLink += `#nameddest=lecture_${lecture.suffix}`;
     }
-    const missingClass = lecture.missing ? 'meta' : '';
     const missingText = lecture.missing ? '<div class="meta">✏️ Конспект отсутствует</div>' : '';
-
     html += `
       <div class="lecture-item">
         <div class="lecture-name">
@@ -136,10 +145,7 @@ function renderSubject(semesterIndex, subjectIndex) {
   });
 
   html += '</div>';
-
-  // Кнопка назад
   html += `<a href="#sem/${semesterIndex+1}" class="back-link">← Все предметы семестра</a>`;
-
   contentEl.innerHTML = html;
 }
 

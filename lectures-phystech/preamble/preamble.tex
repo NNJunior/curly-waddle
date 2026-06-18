@@ -15,6 +15,7 @@
 %%% Дополнительная работа с математикой
 \usepackage{amsmath,amsfonts,amssymb,amsthm,mathtools} % пакеты AMS
 \usepackage{icomma}            
+\usepackage{xstring}
 % \usepackage[mathx]{mathabx}
 \pgfplotsset{compat=1.18}
 % \usetikzlibrary{decorations.markings}                       % "Умная" запятая
@@ -152,15 +153,22 @@
 \newcommand{\CourseDate}{осень 2022}
 \newcommand{\AuthorInitials}{Павел Дуров}
 \newcommand{\AuthorLink}{https://vk.com/id1}
-\newcommand{\GithubLink}{https://github.com/NNJunior/PhysTeX}
+\newcommand{\GithubLink}{https://github.com/NNJunior/curly-waddle}
+
+\newcommand{\SemesterIndex}{-1}
+\newcommand{\CourseIndex}{-1}
+
+\newcommand{\ErrorLink}{%
+  https://nnjunior.github.io/curly-waddle/website/report.html?semesterIndex=\SemesterIndex&subjectIndex=\CourseIndex&page=\thepage%
+}
 
 %%% Колонтитулы
 \usepackage{titleps}
 \newpagestyle{main}{
 	\setheadrule{0.4pt}
-	\sethead{\CourseName}{}{\hyperlink{intro}{\;Назад к содержанию}}
+	\sethead{\CourseName}{\href{\ErrorLink}{Сообщить об ошибке}}{\hyperlink{intro}{\;Назад к содержанию}}
 	\setfootrule{0.4pt}                       
-	\setfoot{ФПМИ МФТИ, \CourseDate}{}{\thepage} 
+	\setfoot{ФПМИ МФТИ, \CourseDate}{\href{\ErrorLink}{Сообщить об ошибке}}{\thepage} 
 }
 \pagestyle{main}  
 
