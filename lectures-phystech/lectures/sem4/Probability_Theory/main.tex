@@ -61,7 +61,7 @@
 \end{definition}
 
 \begin{definition}
-    Система \(\mathcal{M}\) подмножеств \(\Omega\) называется \(\pi\)-системой, если \(\mathcal{M}\) замкнуто относительно счетного пересечения
+    Система \(\mathcal{M}\) подмножеств \(\Omega\) называется \(\pi\)-системой, если \(\mathcal{M}\) замкнуто относительно конечного пересечения.
 \end{definition}
 
 \begin{definition}
@@ -970,21 +970,21 @@
 \end{proof}
 
 \begin{proposition}[Телескопическое свойство]
-    Пусть \(\mathcal{C_1} \subset \mathcal{C_2}\). Тогда:
+    Пусть \(\mathcal{C}_1 \subset \mathcal{C}_2\). Тогда:
     \begin{enumerate}
-        \item \(\E(\E(\xi|\mathcal{C_1})|\mathcal{C_2}) = \E(\xi|\mathcal{C_1})\)
-        \item \(\E(\E(\xi|\mathcal{C_2})|\mathcal{C_1}) = \E(\xi|\mathcal{C_1})\)
+        \item \(\E(\E(\xi|\mathcal{C}_1)|\mathcal{C}_2) = \E(\xi|\mathcal{C}_1)\)
+        \item \(\E(\E(\xi|\mathcal{C}_2)|\mathcal{C}_1) = \E(\xi|\mathcal{C}_1)\)
     \end{enumerate}
 \end{proposition}
 \begin{proof}
     \begin{enumerate}
-        \item \(\E(\xi|\mathcal{C_1})\) является \(\mathcal{C_2}\)-измеримой, далее применяем первое свойство
-        \item \(\E(\xi|\mathcal{C_1})\) является \(\mathcal{C_1}\)-измеримой по определению. Проверим интегральное свойство: \(\forall A \in \mathcal{C_1}\):
-        \[\E(\E(\xi|\mathcal{C_2})I_A) = (*)\]
-        Заметим, что \(A \in \mathcal{C_1} \subset \mathcal{C_2}\), поэтому по интегральному свойству для \(\mathcal{C_2}\):
+        \item \(\E(\xi|\mathcal{C}_1)\) является \(\mathcal{C}_2\)-измеримой, далее применяем первое свойство
+        \item \(\E(\xi|\mathcal{C}_1)\) является \(\mathcal{C}_1\)-измеримой по определению. Проверим интегральное свойство: \(\forall A \in \mathcal{C}_1\):
+        \[\E(\E(\xi|\mathcal{C}_2)I_A) = (*)\]
+        Заметим, что \(A \in \mathcal{C}_1 \subset \mathcal{C}_2\), поэтому по интегральному свойству для \(\mathcal{C}_2\):
         \[(*) = \E(\xi I_A) = (*)\]
-        Далее применяем интегральное свойство для \(\mathcal{C_1}\):
-        \[(*) = \E(\E(\xi|\mathcal{C_1})I_A)\]
+        Далее применяем интегральное свойство для \(\mathcal{C}_1\):
+        \[(*) = \E(\E(\xi|\mathcal{C}_1)I_A)\]
     \end{enumerate}
 \end{proof}
 
