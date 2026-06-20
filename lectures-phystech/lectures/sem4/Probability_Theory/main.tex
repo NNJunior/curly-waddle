@@ -50,7 +50,7 @@
     Пусть \((\Omega, \mathcal{F})\) таково, что \(\mathcal{F}\) --- алгебра над \(\Omega\), \(P\) --- мера и \(P(\Omega) = 1\). Тогда следующие условия эквивалентны:
     \begin{enumerate}
         \item \(P\) --- \(\sigma\)-аддитивна на \(\mathcal{F}\)
-        \item \(P\) непрерывна в нуле, т.е. \(\bigcap A_i = \emptyset \Ra P(A_i) \ra P(A)\)
+        \item \(P\) непрерывна в нуле, т.е. \(\bigcap A_i = \emptyset \Ra P(A_i) \ra 0\)
         \item \(P\) непрерывна сверху, т.е. \(\bigcap A_i = A \Ra P(A_i) \ra P(A)\)
         \item \(P\) непрерывна снизу, т.е. \(\bigcup A_i = A \Ra P(A_i) \ra P(A)\)
     \end{enumerate}
@@ -69,7 +69,7 @@
     \begin{enumerate}
         \item \(\Omega \in \mathcal{M}\)
         \item \(A, B \in \mathcal{M}, A \subset B \Ra B \setminus A \in \mathcal{M}\)
-        \item \(A_i \in \mathcal{M} \Ra \bigcup A_i \in \mathcal{M}\)
+        \item \(A_i \in \mathcal{M}, A_1 \subset A_2 \subset \dots \Ra \bigcup A_i \in \mathcal{M}\)
     \end{enumerate}
 \end{definition}
 
@@ -150,9 +150,9 @@
 \begin{enumerate}
     \item Распределение Бернулли: \(P \sim Bern(p)\), если \(X = \{0, 1\}, P(\{1\}) = p, P(\{0\}) = 1 - p\)
     \item Равномерное распределение: \(X = {1, 2, \dots n}\), \(P(\{i\}) = \frac{1}{n}\)
-    \item Биномиальное распределение: \(P \sim Bin(n, p)\), если \(X = \N, P(\{k\}) = C_n^kp^k(1 - p)^{n - k}, P(\{0\})\), моделирует количество успехов среди \(n\) испытаний.
-    \item Пуассоновское распределение: \(P \sim Pois(n, p)\), если \(X = \N, P(\{k\}) = \frac{\lambda^k}{k!}e^{-\lambda}, P(\{0\})\), моделирует редкие события
-    \item Геометрическое распределение: \(P \sim Geom(p)\), если \(X = \N, P(\{k\}) = p(1 - p)^{k-1}, P(\{0\})\), моделирует первый момент удачи в бесконечной схеме испытаний Бернулли
+    \item Биномиальное распределение: \(P \sim Bin(n, p)\), если \(X = \{0, \dots n\}, P(\{k\}) = C_n^kp^k(1 - p)^{n - k}\), моделирует количество успехов среди \(n\) испытаний.
+    \item Пуассоновское распределение: \(P \sim Pois(\lambda)\), если \(X = \N, P(\{k\}) = \frac{\lambda^k}{k!}e^{-\lambda}\), моделирует редкие события,
+    \item Геометрическое распределение: \(P \sim Geom(p)\), если \(X = \N, P(\{k\}) = p(1 - p)^{k-1}\), моделирует первый момент удачи в бесконечной схеме испытаний Бернулли
 \end{enumerate}
 
 \subsubsection{Абсолютно непрерывные распределения}
@@ -178,7 +178,7 @@
     \end{array}\right.\]
     Моделирует случайную точку из отрезка \([a, b]\)
     \item Нормальное распределение --- \(N(a, \sigma^2)\):
-    \[p(x) = \frac{1}{\sqrt{2\pi \sigma^2s}}e^{-\frac{(x - a)^2}{2\sigma^2}}\]
+    \[p(x) = \frac{1}{\sqrt{2\pi \sigma^2}}e^{-\frac{(x - a)^2}{2\sigma^2}}\]
     Моделирует измерение с ошибкой
 
     \item Экспоненциальное распределение --- \(Exp(\lambda)\):
@@ -271,7 +271,7 @@
 \end{proof}
 
 \begin{theorem}[О взаимно однозначном соответствии]
-    Если \(F\) удовлетворяет свойствами 1-3 из леммы, то \(\exists !\) вероятностная мера \(P\) на \((\R^n, \mathcal{B}(\R^n))\), такая, что \(F\) --- ее функция распределения
+    Если \(F\) удовлетворяет свойствами 1-4 из леммы, то \(\exists !\) вероятностная мера \(P\) на \((\R^n, \mathcal{B}(\R^n))\), такая, что \(F\) --- ее функция распределения
 \end{theorem}
 \begin{proof}
     См. ОВиТМ
@@ -554,7 +554,7 @@
     \[F(x) = \left\{\begin{array}{l}
         0, x < 0 \\
         1 - e^{-x}, x \in [0, 1) \\
-        0, \text{иначе}
+        1, \text{иначе}
     \end{array}\right.\]
     Требуется найти \(\E \xi\)
 \end{example}
@@ -764,7 +764,7 @@
     \[F_{\xi + \eta}(x) = \int_\R F_\xi(x - z)dF_\eta(z) = \int_\R\left( \int_{-\infty}^{x - z}p_\xi(y)dy \right)p_\eta(z)dz = \]
     \[= \int_\R\left( \int_{-\infty}^{x}p_\xi(t - z)dt \right)p_\eta(z)dz\]
     По теореме Фубини:
-    \[= \int_\R\left( \underbrace{\int_{-\infty}^{x}p_\xi(t - z)p_\eta(z) dt}_{\text{плотность }\xi + \eta}\right)dz\]
+    \[= \int_\R\left( \underbrace{\int_{-\infty}^{x}p_\xi(t - z)p_\eta(z) dz}_{\text{плотность }\xi + \eta}\right)dt\]
 \end{proof}
 
 \begin{example}
@@ -803,7 +803,7 @@
         \item Неравенство Коши-Буняковского:
         \[|E\xi\eta| \le \sqrt{\E\xi^2 \E\eta^2}\]
         Причем равенство выполняется тогда и только тогда, когда \(\xi, \eta\) линейно независимы почти наверное.
-        \item \(|\rho(\xi, \eta)| \le 1\), причем равенство выполняется тогда и только тогда, когда \(\xi - \E\xi, \eta - \E\eta\) линейно независимы почти наверное.
+        \item \(|\rho(\xi, \eta)| \le 1\), причем равенство выполняется тогда и только тогда, когда \(\xi - \E\xi, \eta - \E\eta\) линейно зависимы почти наверное.
     \end{enumerate}
 \end{lemma}
 
@@ -1225,7 +1225,7 @@
 \end{definition}
 
 \begin{theorem}[Критерий сходимости почти наверное]
-    \(\xi_n \xrightarrow{\text{п.н.}} \xi \Lra \forall \epsilon > 0: P\left( \sup_{k \ge n} |\xi_n - \xi| > \epsilon \right) \ra 0, n \ra \infty\)
+    \(\xi_n \xrightarrow{\text{п.н.}} \xi \Lra \forall \epsilon > 0: P\left( \sup_{k \ge n} |\xi_k - \xi| > \epsilon \right) \ra 0, n \ra \infty\)
 \end{theorem}
 \begin{proof}
     Было на ОВиТМе
@@ -1303,7 +1303,7 @@
     Без ограничения общности, считаем, что \(\E\xi_n = 0\), иначе рассмотрим \(\xi_n' = \xi_n - \E\xi_n\). Проверим сначала, что \(\frac{S_{n^2}}{n^2} \xrightarrow{\text{п.н.}} 0\). Для \(\epsilon > 0\):
     \[P\left( \left| \frac{S_{n^2}}{n^2} \right| \ge \epsilon \right) \le \]
     Применяем неравенство Чебышева и некоррелированность:
-    \[\le \frac{\Variance S_{n^2}}{n^2} = \frac{\sum_{i = 1}^{n^2}}{\Variance \xi_i}{\epsilon^2 n^4} \le \frac{n^2 c}{\epsilon^2 n^4} = O\left( \frac{1}{n^2} \right)\]
+    \[\le \frac{\Variance S_{n^2}}{\epsilon^2 n^4} = \frac{\sum_{i = 1}^{n^2}\Variance \xi_i}{\epsilon^2 n^4} \le \frac{n^2 c}{\epsilon^2 n^4} = O\left( \frac{1}{n^2} \right)\]
     Тогда 
     \[\sum_{n} P\left( \left| \frac{S_{n^2}}{n^2} \right| \ge \epsilon \right) < +\infty\]
     По достаточному условию получаем, что \(\frac{S_{n^2}}{n^2} \xrightarrow{\text{п.н.}} 0\). Обозначим \(m(n) = [\sqrt{n}]\). Тогда в силу доказанного:
@@ -1344,7 +1344,7 @@
     \begin{enumerate}
         \item \[P(\{A_n, \text{б.ч.}\}) = P\left( \bigcap_{n = 1}^\infty \bigcup_{m \ge n} A_m \right) = \lim_{n \ra \infty} P\left( \bigcup_{m \ge n} A_n\right) \le \lim_{n \ra \infty} \sum_{m = n}^\infty P(A_n) = 0\]
         \item \[P(\{A_n, \text{б.ч.}\}) = \lim_{n \ra \infty} P\left( \bigcup_{m \ge n} A_m\right) = \lim_{n \ra \infty} \left( 1 - P\left( \bigcap_{m \ge n} \overline{A_m}\right) \right) = 1 - \lim_{n \ra \infty} P\left( \bigcap_{m \ge n} \overline{A_m}\right) =\]
-        \[= 1 - \lim_{n \ra \infty} \lim_{N \ra \infty} P\left( \bigcap_{m = n}^N \overline{A_m}\right) = 1 - \lim_{n \ra \infty} \lim_{N \ra \infty} \prod_{m = n}^N (1 - P(A_m)) \ge 1 - 1 - \lim_{n \ra \infty} \lim_{N \ra \infty} e^{\sum_{m = n}^N P(A_m)}\]
+        \[= 1 - \lim_{n \ra \infty} \lim_{N \ra \infty} P\left( \bigcap_{m = n}^N \overline{A_m}\right) = 1 - \lim_{n \ra \infty} \lim_{N \ra \infty} \prod_{m = n}^N (1 - P(A_m)) \ge 1 - \lim_{n \ra \infty} \lim_{N \ra \infty} e^{\sum_{m = n}^N P(A_m)}\]
 
     \end{enumerate}
 \end{proof}
@@ -1354,7 +1354,7 @@
     \[\mathcal{F}_{\ge k} = \sigma\left( \bigcup_{n = k}^\infty \mathcal{F}_{\xi_n}\right)\]
 
     Хвостовой \(\sigma\)-алгеброй последовательности \(\{\xi_n, n \in \N\}\) называется:
-    \[\mathcal{X} = \bigcap_{i = 1}^\infty \mathcal{F}_{\ge k}\]
+    \[\mathcal{X} = \bigcap_{k = 1}^\infty \mathcal{F}_{\ge k}\]
 \end{definition}
 
 \begin{theorem}[Закон 0 или 1 Колмогорова]
@@ -1735,7 +1735,7 @@
 \lecture{13}
 
 \begin{corollary}
-    Если \(\E \xi^2 < +\infty\), то при \(t \ra 0 \phi_\xi(t) = 1 + it \E\xi - \frac{t^2}{2} + o(t^2)\)
+    Если \(\E \xi^2 < +\infty\), то при \(t \ra 0 \phi_\xi(t) = 1 + it \E\xi - \frac{t^2}{2}\E\xi^2 + o(t^2)\)
 \end{corollary}
 
 Возникает вопрос: когда функция является характеристической?
