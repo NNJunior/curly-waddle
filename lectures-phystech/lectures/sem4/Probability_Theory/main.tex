@@ -764,7 +764,7 @@
     \[F_{\xi + \eta}(x) = \int_\R F_\xi(x - z)dF_\eta(z) = \int_\R\left( \int_{-\infty}^{x - z}p_\xi(y)dy \right)p_\eta(z)dz = \]
     \[= \int_\R\left( \int_{-\infty}^{x}p_\xi(t - z)dt \right)p_\eta(z)dz\]
     По теореме Фубини:
-    \[= \int_\R\left( \underbrace{\int_{-\infty}^{x}p_\xi(t - z)p_\eta(z) dz}_{\text{плотность }\xi + \eta}\right)dt\]
+    \[= \int_{-\infty}^{x}\left( \underbrace{\int_\R p_\xi(t - z)p_\eta(z) dz}_{\text{плотность }\xi + \eta}\right)dt\]
 \end{proof}
 
 \begin{example}
