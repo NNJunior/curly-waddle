@@ -584,7 +584,7 @@
 \end{definition}
 
 \begin{theorem}[критерий независимости \(\sigma\)-алгебр]
-    Пусть \(\mathcal{M}_1, \dots \mathcal{M}_n\) --- \(\pi\)- системы событий на \((\Omega, \mathcal{F}, P)\). Тогда \(\mathcal{M}_1, \dots \mathcal{M}_n\) независимы \(\Lra \sigma(\mathcal{M}_1), \dots \sigma(\mathcal{M}_2)\)
+    Пусть \(\mathcal{M}_1, \dots \mathcal{M}_n\) --- \(\pi\)- системы событий на \((\Omega, \mathcal{F}, P)\). Тогда \(\mathcal{M}_1, \dots \mathcal{M}_n\) независимы \(\Lra \sigma(\mathcal{M}_1), \dots \sigma(\mathcal{M}_n)\)
 \end{theorem}
 \begin{proof}\indent
     \begin{enumerate}
@@ -673,10 +673,10 @@
 \end{proof}
 
 \begin{lemma}[Функции от независимых тоже независимы]
-    Пусть \(\vec{\xi_1}, \dots \vec{\xi_n}\) --- случайные векторы, \(\vec{\xi_i} \in \R^{k_i}\). Пусть \(f_i: \R^{k_i} \ra \R^{m_i}\) --- борелевские функции. Тогда \(\{f_i(\vec{\xi_i})\}\)
+    Пусть \(\vec{\xi_1}, \dots \vec{\xi_n}\) --- случайные векторы, \(\vec{\xi_i} \in \R^{k_i}\). Пусть \(f_i: \R^{k_i} \ra \R^{m_i}\) --- борелевские функции. Тогда \(\{f_i(\vec{\xi_i})\}\) независимы.
 \end{lemma}
 \begin{proof}
-    Обозначим \(\eta_i = f_i(\xi_i)\). Тогда \(\mathcal{\eta_i} \subset \mathcal{F}_{\xi_i}\). Следовательно, \(\mathcal{F}_{\eta_1}, \dots \mathcal{F}_{\eta_n}\) независимы как подсистемы в независимых системах
+    Обозначим \(\eta_i = f_i(\xi_i)\). Тогда \(\mathcal{F}_{\eta_i} \subset \mathcal{F}_{\xi_i}\). Следовательно, \(\mathcal{F}_{\eta_1}, \dots \mathcal{F}_{\eta_n}\) независимы как подсистемы в независимых системах
 \end{proof}
 
 \begin{proposition}
