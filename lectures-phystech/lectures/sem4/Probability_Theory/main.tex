@@ -1263,10 +1263,10 @@
         \item Пусть \(f: \R \ra \R\) --- ограниченная непрерывная функция. Пусть \(\forall x \in \R: |f(x)| \le M\). Для любого \(\epsilon > 0\) выберем \(N > 0\) так, что \(P(|\xi| > N) \le \frac{\epsilon}{4M}\). Выберем \(\delta > 0\), так, что \(\forall x, y\) с условием \(|x - y| \le \delta, |x| \le N\) выполнено \(|f(x) - f(y) \le \frac{\epsilon}{2}|\). Далее:
         \[|\E f(\xi_n) - \E f(\xi)| \le \E |f(\xi_n) - f(\xi)| = \E(|f(\xi_n) - f(\xi)|(I_{A_1} + I_{A_2} + I_{A_3}))\]
         Где \(A_1 = \{|\xi| > N\}, A_2 = \{|\xi| \le N, |\xi_n - \xi| > \delta\}, A_3 = \{|\xi| \le N, |\xi_n - \xi| < \delta\}\). Тогда:
-        \[\E |f(\xi_n) - f(\xi)| = \E(|f(\xi_n) - f(\xi)|I_{A_1}) \le 2M P(A_1) \le 2M \frac{\epsilon}{4M} = \frac{\epsilon}{2}\]
-        \[\E |f(\xi_n) - f(\xi)| = \E(|f(\xi_n) - f(\xi)|I_{A_2}) \le 2M P(A_2) \le 2M P(|\xi_n - \xi|) \ra 0, n \Ra \infty\]
+        \[\E(|f(\xi_n) - f(\xi)|I_{A_1}) \le 2M P(A_1) \le 2M \frac{\epsilon}{4M} = \frac{\epsilon}{2}\]
+        \[\E(|f(\xi_n) - f(\xi)|I_{A_2}) \le 2M P(A_2) \le 2M P(|\xi_n - \xi| > \delta) \ra 0, n \Ra \infty\]
         Последнее верно в силу того, что \(\xi_n \xrightarrow{P} \xi\). Наконец:
-        \[\E |f(\xi_n) - f(\xi)| = \E(\underbrace{|f(\xi_n) - f(\xi)|}_{\frac{\epsilon}{2}}\underbrace{I_{A_3}}_{\le 1})\]
+        \[\E(\underbrace{|f(\xi_n) - f(\xi)|}_{\frac{\epsilon}{2}}\underbrace{I_{A_3}}_{\le 1})\]
         Получили, что \(\E f(\xi_n) \ra \E f(\xi)\)
     \end{enumerate}
 \end{proof}
