@@ -418,6 +418,22 @@
           "lectures": [
             { "name": "Лекция 1", "date": "02.02.26", "desc": "Опять матлог ( ཀ ʖ̯ ཀ)", "suffix": "1" }
           ]
+        },
+        {
+          "name": "Методы оптимизации",
+          "description": "Оптимизируем",
+          "pdfName": "Optimization_Methods.pdf",
+          "lectures": [
+            { "name": "Лекция 1", "date": "03.02.26", "desc": "И снова третье сентября", "missing": true, "suffix": "1" }
+          ]
+        },
+        {
+          "name": "Методы оптимизации",
+          "description": "Оптимизируем",
+          "pdfName": "Functional_Analyzis.pdf",
+          "lectures": [
+            { "name": "Лекция 1", "date": "03.02.26", "desc": "Никогда такого не было, и вот опять", "suffix": "1" }
+          ]
         }
       ]
     }
