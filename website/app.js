@@ -119,7 +119,7 @@ function renderSubject(semesterIndex, subjectIndex) {
   const reportUrl = `report.html?semesterIndex=${semesterIndex}&subjectIndex=${subjectIndex}`;
 
   html += `<div style="display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap;">`;
-  html += `<a href="pdf/sem${semesterIndex+1}/${subject.pdfName}" class="pdf-btn-large" target="_blank">📥 Скачать PDF</a>`;
+  html += `<a href="pdf/sem${semesterIndex+1}/${subject.folderName}.pdf" class="pdf-btn-large" target="_blank">📥 Скачать PDF</a>`;
   html += `<a href="${reportUrl}" class="bug-btn-large" target="_blank" class="report-error-btn">🐛 Сообщить об ошибке</a>`;
   html += `</div>`;
 
@@ -127,7 +127,7 @@ function renderSubject(semesterIndex, subjectIndex) {
   html += '<div class="lecture-list">';
 
   subject.lectures.forEach((lecture, idx) => {
-    let pdfLink = `pdf/sem${semesterIndex+1}/${subject.pdfName}`;
+    let pdfLink = `pdf/sem${semesterIndex+1}/${subject.folderName}.pdf`;
     if (lecture.suffix) {
       pdfLink += `#nameddest=lecture_${lecture.suffix}`;
     }

@@ -4,7 +4,10 @@ Compiles a lecture from folder lectures-phystech/lectures/semN/SubjectName into 
 This script is intended to be placed in the **root directory of the project**
 (where 'lectures-phystech' and 'website' folders live).
 
-Usage: ./compile_lecture.py sem1/MathLog
+Usage:
+  ./compile_lecture.py [compile] sem1/MathLog
+  ./compile_lecture.py protect sem1/MathLog --password secret
+  ./compile_lecture.py unprotect sem1/MathLog
 
 The script copies:
   - the common preamble folder (lectures-phystech/preamble),
@@ -14,16 +17,24 @@ The script copies:
 
 It then runs pdflatex twice and places the resulting PDF into
 website/pdf/semN/SubjectName.pdf.
+
+Additionally, 'protect' and 'unprotect' manage password protection
+for a subject in website/data.json and a passwords.json file.
 """
 
 from __future__ import annotations
 
 import argparse
+import json
 import shutil
 import subprocess
 import sys
 import tempfile
+import os
 from pathlib import Path
+from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
+from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 
 # Optional chardet for better encoding detection
 try:
@@ -64,6 +75,58 @@ class Color:
     @staticmethod
     def bold(text: str) -> str:
         return f"{Color.BOLD}{text}{Color.RESET}"
+
+
+def encrypt_file(file_path: Path, password: str) -> None:
+    """
+    Зашифровать файл с помощью пароля.
+    Файл будет перезаписан: соль + nonce + шифротекст.
+
+    :param file_path: Путь к файлу.
+    :param password:  Пароль (строка).
+    """
+    salt = os.urandom(16)                     # случайная соль
+    kdf = PBKDF2HMAC(
+        algorithm=hashes.SHA256(),
+        length=32,                            # длина ключа AES-256
+        salt=salt,
+        iterations=100_000,                   # количество итераций PBKDF2
+    )
+    key = kdf.derive(password.encode('utf-8'))
+    aesgcm = AESGCM(key)
+    nonce = os.urandom(12)                    # nonce для AES-GCM
+    data = file_path.read_bytes()
+    encrypted = aesgcm.encrypt(nonce, data, None)  # включая тег аутентификации
+    file_path.write_bytes(salt + nonce + encrypted)
+
+
+def decrypt_file(file_path: Path, password: str) -> None:
+    """
+    Расшифровать файл, зашифрованный функцией encrypt_file.
+    При неверном пароле или повреждении данных возбуждается ValueError.
+
+    :param file_path: Путь к зашифрованному файлу.
+    :param password:  Пароль (строка).
+    """
+    raw = file_path.read_bytes()
+    salt = raw[:16]
+    nonce = raw[16:28]
+    ciphertext = raw[28:]
+
+    kdf = PBKDF2HMAC(
+        algorithm=hashes.SHA256(),
+        length=32,
+        salt=salt,
+        iterations=100_000,
+    )
+    key = kdf.derive(password.encode('utf-8'))
+    aesgcm = AESGCM(key)
+
+    try:
+        decrypted = aesgcm.decrypt(nonce, ciphertext, None)
+        file_path.write_bytes(decrypted)
+    except Exception:
+        raise ValueError("Неверный пароль или файл повреждён")
 
 
 # ---------- Encoding utilities ----------
@@ -280,110 +343,318 @@ def compile_pdf(temp_dir: Path, pdflatex_cmd: str, runs: int = 2) -> Path:
     return pdf_path
 
 
+# ---------- Data management utilities ----------
+def load_json(path: Path) -> dict:
+    """Load JSON from a file with UTF-8 encoding."""
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except FileNotFoundError:
+        raise FileNotFoundError(f"JSON file not found: {path}")
+    except json.JSONDecodeError as e:
+        raise RuntimeError(f"Invalid JSON in {path}: {e}")
+
+
+def save_json(path: Path, data: dict) -> None:
+    """Save dict as JSON to a file with UTF-8 encoding and pretty formatting."""
+    try:
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump(data, f, ensure_ascii=False, indent=2)
+    except Exception as e:
+        raise RuntimeError(f"Failed to write JSON to {path}: {e}")
+
+
+def resolve_lecture_dir(source_path: str, project_root: Path) -> tuple[Path, str]:
+    """
+    Resolve the source directory for a lecture and return its absolute path
+    and relative path from lectures-phystech/lectures.
+
+    The source_path can be:
+        - relative to lectures-phystech/lectures (e.g., 'sem1/MathLog')
+        - absolute or relative to current working directory (if it's inside lectures-phystech/lectures)
+    """
+    lectures_base = project_root / "lectures-phystech" / "lectures"
+    src_dir = (lectures_base / source_path).resolve()
+    if not src_dir.is_dir():
+        # Try also as absolute or relative to cwd (backward compatibility)
+        src_dir = (Path.cwd() / source_path).resolve()
+        if not src_dir.is_dir():
+            raise FileNotFoundError(
+                f"Source directory '{source_path}' not found (neither relative to "
+                f"{lectures_base} nor to current working directory)."
+            )
+
+    # Verify that the source directory is inside lectures-phystech/lectures
+    try:
+        rel_path = src_dir.relative_to(lectures_base)
+    except ValueError:
+        raise ValueError(f"Source directory '{src_dir}' is not inside {lectures_base}.")
+
+    return src_dir, str(rel_path)
+
+
+def get_subject_info_from_data(data: dict, rel_path: str) -> tuple[dict, dict, str]:
+    """
+    Given data.json content and a relative path like 'sem1/MathLog',
+    find the corresponding semester and subject entries.
+    Returns (semester_entry, subject_entry, semester_folder_name).
+    """
+    parts = Path(rel_path).parts
+    if len(parts) != 2:
+        raise ValueError(f"Relative path must have exactly two components (semester/subject), got: {rel_path}")
+
+    semester_folder = parts[0]   # e.g., 'sem1'
+    subject_folder = parts[1]    # e.g., 'MathLog'
+
+    # Extract semester number from folder name (assuming 'semN')
+    import re
+    match = re.match(r"sem(\d+)", semester_folder)
+    if not match:
+        raise ValueError(f"Semester folder '{semester_folder}' does not match pattern 'semN'.")
+    semester_number = int(match.group(1))
+
+    if semester_number < 1 or semester_number > len(data.get("semesters", [])):
+        raise ValueError(f"Semester number {semester_number} out of range in data.json.")
+
+    semester_entry = data["semesters"][semester_number - 1]
+    subjects = semester_entry.get("subjects", [])
+    for subject in subjects:
+        if subject.get("folderName") == subject_folder:
+            return semester_entry, subject, semester_folder
+
+    raise ValueError(f"Subject with folderName '{subject_folder}' not found in semester {semester_folder}.")
+
+
+def manage_protection(source_path: str, password: str | None, protect: bool) -> None:
+    """
+    Add or remove protection for a lecture subject.
+    If protect=True: adds password to passwords.json and marks subject as protected.
+    If protect=False: removes password and marks subject as not protected.
+    """
+    project_root = get_project_root()
+    lectures_base = project_root / "lectures-phystech" / "lectures"
+
+    # Resolve lecture directory
+    try:
+        src_dir, rel_path = resolve_lecture_dir(source_path, project_root)
+    except Exception as e:
+        sys.exit(Color.red(f"Error resolving source directory: {e}"))
+
+    print(Color.blue(f"Subject relative path: {rel_path}"))
+
+    # Load data.json
+    data_path = project_root / "website" / "data.json"
+    try:
+        data = load_json(data_path)
+    except Exception as e:
+        sys.exit(Color.red(f"Error loading data.json: {e}"))
+
+    # Find subject in data.json
+    try:
+        semester_entry, subject_entry, _ = get_subject_info_from_data(data, rel_path)
+    except Exception as e:
+        sys.exit(Color.red(f"Error finding subject in data.json: {e}"))
+
+    # Load passwords.json (or create empty dict)
+    passwords_path = project_root / "passwords.json"
+    passwords = {}
+    if passwords_path.exists():
+        try:
+            passwords = load_json(passwords_path)
+        except Exception as e:
+            sys.exit(Color.red(f"Error loading passwords.json: {e}"))
+
+    files_to_change = [
+        Path(project_root / "website" / "pdf" / rel_path).with_suffix(".pdf"),
+        (Path(src_dir) / "main").with_suffix(".tex"),
+        (Path(src_dir) / "setting").with_suffix(".tex")
+    ]
+
+    if protect:
+        if password is None:
+            sys.exit(Color.red("Error: --password is required for 'protect' command."))
+        # Update password entry
+        passwords[rel_path] = password
+        # Mark subject as protected
+        subject_entry["protected"] = True
+
+        for file in files_to_change:
+            encrypt_file(file, password)
+
+        print(Color.green(f"Subject protected with password. Path: {src_dir}"))
+    else:
+        # Unprotect: remove password if exists, and remove protected flag
+
+        for file in files_to_change:
+            decrypt_file(file, passwords[rel_path])
+
+        if rel_path in passwords:
+            del passwords[rel_path]
+        if "protected" in subject_entry:
+            del subject_entry["protected"]
+        print(Color.green(f"Subject unprotected. Path: {rel_path}"))
+
+    # Save passwords.json
+    try:
+        save_json(passwords_path, passwords)
+    except Exception as e:
+        sys.exit(Color.red(f"Error saving passwords.json: {e}"))
+
+    # Save data.json
+    try:
+        save_json(data_path, data)
+    except Exception as e:
+        sys.exit(Color.red(f"Error saving data.json: {e}"))
+
+    print(Color.green("Files updated successfully."))
+
+
+# ---------- Main and argument parsing ----------
 def main() -> None:
+    # Prepare argument parsing with subcommands
+    # We'll manually check if the first argument is a subcommand; if not, treat as compile.
+    if len(sys.argv) > 1 and sys.argv[1] in ("compile", "protect", "unprotect"):
+        pass  # subcommand already present
+    else:
+        # Assume it's compile with source_dir as first arg
+        sys.argv.insert(1, "compile")
+
     parser = argparse.ArgumentParser(
-        description=Color.bold("Compile a lecture into PDF."),
+        description=Color.bold("Compile lectures and manage protection."),
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
-    parser.add_argument(
+    subparsers = parser.add_subparsers(dest="command", required=True)
+
+    # ---- compile subcommand ----
+    compile_parser = subparsers.add_parser(
+        "compile",
+        help="Compile a lecture into PDF.",
+        description="Compile a lecture from lectures-phystech/lectures/semN/SubjectName into a PDF.",
+    )
+    compile_parser.add_argument(
         "source_dir",
         help="Path to the lecture folder relative to lectures-phystech/lectures/, "
              "e.g. 'sem1/MathLog' or 'sem2/Calculus'.",
     )
-    parser.add_argument(
+    compile_parser.add_argument(
         "--pdflatex",
         default="pdflatex",
         help="Path to the pdflatex executable (default: search in PATH)",
     )
-    parser.add_argument(
+    compile_parser.add_argument(
         "--runs",
         type=int,
         default=2,
         help="Number of pdflatex runs (default: 2)",
     )
-    parser.add_argument(
+    compile_parser.add_argument(
         "--keep-temp",
         action="store_true",
         help="Do not delete the temporary directory (useful for debugging)",
     )
 
+    # ---- protect subcommand ----
+    protect_parser = subparsers.add_parser(
+        "protect",
+        help="Protect a lecture subject with a password.",
+        description="Protect a subject by adding a password and marking it as protected in data.json.",
+    )
+    protect_parser.add_argument(
+        "source_dir",
+        help="Path to the lecture folder (same as compile).",
+    )
+    protect_parser.add_argument(
+        "--password",
+        required=True,
+        help="Password to protect the subject with.",
+    )
+
+    # ---- unprotect subcommand ----
+    unprotect_parser = subparsers.add_parser(
+        "unprotect",
+        help="Remove protection from a lecture subject.",
+        description="Remove password and protected flag from a subject.",
+    )
+    unprotect_parser.add_argument(
+        "source_dir",
+        help="Path to the lecture folder (same as compile).",
+    )
+
     args = parser.parse_args()
 
-    # Determine project root (directory where this script resides)
-    try:
-        project_root = get_project_root()
-    except RuntimeError as e:
-        sys.exit(Color.red(f"Error: {e}"))
-    print(Color.blue(f"Project root: {project_root}"))
+    # Dispatch based on command
+    if args.command == "compile":
+        # Determine project root (directory where this script resides)
+        try:
+            project_root = get_project_root()
+        except RuntimeError as e:
+            sys.exit(Color.red(f"Error: {e}"))
+        print(Color.blue(f"Project root: {project_root}"))
 
-    # Construct full source path relative to current working directory
-    # The source_dir is given as e.g. "sem1/MathLog" or "lectures/sem1/MathLog" etc.
-    # We'll interpret it as relative to lectures-phystech/lectures/
-    lectures_base = project_root / "lectures-phystech" / "lectures"
-    src_dir = (lectures_base / args.source_dir).resolve()
-    if not src_dir.is_dir():
-        # Try also as absolute or relative to cwd (backward compatibility)
-        src_dir = (Path.cwd() / args.source_dir).resolve()
-        if not src_dir.is_dir():
-            sys.exit(Color.red(f"Error: {src_dir} is not a directory or does not exist."))
+        # Resolve source directory
+        try:
+            src_dir, _ = resolve_lecture_dir(args.source_dir, project_root)
+        except Exception as e:
+            sys.exit(Color.red(f"Error: {e}"))
 
-    # Verify that the source directory is inside lectures-phystech/lectures
-    try:
-        src_dir.relative_to(lectures_base)
-    except ValueError:
-        sys.exit(Color.red(f"Error: {src_dir} is not inside {lectures_base}."))
+        # Check required files
+        setting_path = src_dir / "setting.tex"
+        main_path = src_dir / "main.tex"
+        if not setting_path.is_file():
+            sys.exit(Color.red(f"Error: {setting_path} is missing."))
+        if not main_path.is_file():
+            sys.exit(Color.red(f"Error: {main_path} is missing."))
 
-    # Check required files
-    setting_path = src_dir / "setting.tex"
-    main_path = src_dir / "main.tex"
-    if not setting_path.is_file():
-        sys.exit(Color.red(f"Error: {setting_path} is missing."))
-    if not main_path.is_file():
-        sys.exit(Color.red(f"Error: {main_path} is missing."))
+        # Extract semester and subject name from the source path
+        # Path is like lectures-phystech/lectures/semN/SubjectName
+        sem_dir = src_dir.parent.name
+        subject_name = src_dir.name
 
-    # Extract semester and subject name from the source path
-    # Path is like lectures-phystech/lectures/semN/SubjectName
-    sem_dir = src_dir.parent.name
-    subject_name = src_dir.name
+        # Prepare output directory: website/pdf/semN
+        target_dir = project_root / "website" / "pdf" / sem_dir
+        try:
+            target_dir.mkdir(parents=True, exist_ok=True)
+        except Exception as e:
+            sys.exit(Color.red(f"Error creating output directory {target_dir}: {e}"))
+        target_pdf = target_dir / f"{subject_name}.pdf"
 
-    # Prepare output directory: website/pdf/semN
-    target_dir = project_root / "website" / "pdf" / sem_dir
-    try:
-        target_dir.mkdir(parents=True, exist_ok=True)
-    except Exception as e:
-        sys.exit(Color.red(f"Error creating output directory {target_dir}: {e}"))
-    target_pdf = target_dir / f"{subject_name}.pdf"
-
-    # Temporary directory and compilation
-    try:
-        with tempfile.TemporaryDirectory(prefix="compile_lecture_") as tmp:
-            temp_dir = Path(tmp)
-            try:
-                prepare_compilation_directory(temp_dir, project_root, src_dir)
-                pdf_path = compile_pdf(temp_dir, args.pdflatex, args.runs)
-                safe_copy_file(pdf_path, target_pdf)
-                print(Color.green(f"Done: {target_pdf}"))
-            except Exception as e:
-                print(Color.red(f"Compilation error: {e}"), file=sys.stderr)
-                if args.keep_temp:
-                    print(Color.yellow(f"Temporary files kept in {temp_dir}"), file=sys.stderr)
-                sys.exit(1)
-
-            if args.keep_temp:
-                keep_path = Path.cwd() / f"temp_{sem_dir}_{subject_name}"
+        # Temporary directory and compilation
+        try:
+            with tempfile.TemporaryDirectory(prefix="compile_lecture_") as tmp:
+                temp_dir = Path(tmp)
                 try:
-                    shutil.move(str(temp_dir), str(keep_path))
-                    print(Color.yellow(f"Temporary files moved to {keep_path}"))
+                    prepare_compilation_directory(temp_dir, project_root, src_dir)
+                    pdf_path = compile_pdf(temp_dir, args.pdflatex, args.runs)
+                    safe_copy_file(pdf_path, target_pdf)
+                    print(Color.green(f"Done: {target_pdf}"))
                 except Exception as e:
-                    print(Color.red(f"Failed to move temporary directory: {e}"), file=sys.stderr)
+                    print(Color.red(f"Compilation error: {e}"), file=sys.stderr)
+                    if args.keep_temp:
+                        print(Color.yellow(f"Temporary files kept in {temp_dir}"), file=sys.stderr)
                     sys.exit(1)
 
-    except KeyboardInterrupt:
-        print(Color.yellow("\nInterrupted by user."), file=sys.stderr)
-        sys.exit(130)
-    except Exception as e:
-        print(Color.red(f"Unexpected error: {e}"), file=sys.stderr)
-        sys.exit(1)
+                if args.keep_temp:
+                    keep_path = Path.cwd() / f"temp_{sem_dir}_{subject_name}"
+                    try:
+                        shutil.move(str(temp_dir), str(keep_path))
+                        print(Color.yellow(f"Temporary files moved to {keep_path}"))
+                    except Exception as e:
+                        print(Color.red(f"Failed to move temporary directory: {e}"), file=sys.stderr)
+                        sys.exit(1)
+
+        except KeyboardInterrupt:
+            print(Color.yellow("\nInterrupted by user."), file=sys.stderr)
+            sys.exit(130)
+        except Exception as e:
+            print(Color.red(f"Unexpected error: {e}"), file=sys.stderr)
+            sys.exit(1)
+
+    elif args.command in ("protect", "unprotect"):
+        try:
+            manage_protection(args.source_dir, args.password if args.command == "protect" else None,
+                              protect=(args.command == "protect"))
+        except Exception as e:
+            sys.exit(Color.red(f"Error: {e}"))
 
 
 if __name__ == "__main__":
