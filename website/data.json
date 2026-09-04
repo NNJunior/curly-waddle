@@ -432,7 +432,7 @@
           "description": "Оптимизируем",
           "pdfName": "Functional_Analyzis.pdf",
           "lectures": [
-            { "name": "Лекция 1", "date": "03.02.26", "desc": "Никогда такого не было, и вот опять", "suffix": "1" }
+            { "name": "Лекция 1", "date": "03.02.26", "desc": "Никогда такого не было, и вот опять", "missing": true, "suffix": "1" }
           ]
         }
       ]
