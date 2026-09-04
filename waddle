@@ -473,6 +473,10 @@ def manage_protection(source_path: str, password: str | None, protect: bool) -> 
     if protect:
         if password is None:
             sys.exit(Color.red("Error: --password is required for 'protect' command."))
+
+        if rel_path in passwords:
+            sys.exit(Color.red(f"Subject is already protected: {rel_path}"))
+        
         # Update password entry
         passwords[rel_path] = password
         # Mark subject as protected
@@ -484,12 +488,13 @@ def manage_protection(source_path: str, password: str | None, protect: bool) -> 
         print(Color.green(f"Subject protected with password. Path: {src_dir}"))
     else:
         # Unprotect: remove password if exists, and remove protected flag
+        if rel_path not in passwords:
+            sys.exit(Color.red(f"Subject is not protected: {rel_path}"))
 
         for file in files_to_change:
             decrypt_file(file, passwords[rel_path])
 
-        if rel_path in passwords:
-            del passwords[rel_path]
+        del passwords[rel_path]
         if "protected" in subject_entry:
             del subject_entry["protected"]
         print(Color.green(f"Subject unprotected. Path: {rel_path}"))
