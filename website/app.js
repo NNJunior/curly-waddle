@@ -132,7 +132,7 @@ function renderSubject(semesterIndex, subjectIndex) {
       pdfLink += `#nameddest=lecture_${lecture.suffix}`;
     }
     const missingText = lecture.missing ? '<div class="meta">✏️ Конспект отсутствует</div>' : '';
-    const lectureButton = lecture.missing ? `<a style="pointer-events: none; cursor: default; color: inherit; text-decoration: none;">${lecture.name}</a>` : `<a href="${pdfLink}" target="_blank">${lecture.name}</a>`;
+    const lectureButton = lecture.missing ? `<a style="pointer-events: none; cursor: default; text-decoration: none;">${lecture.name}</a>` : `<a href="${pdfLink}" target="_blank">${lecture.name}</a>`;
     html += `
       <div class="lecture-item">
         <div class="lecture-name">
