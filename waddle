@@ -129,6 +129,36 @@ def decrypt_file(file_path: Path, password: str) -> None:
         raise ValueError("Неверный пароль или файл повреждён")
 
 
+def add_to_gitignore(file_path: Path) -> None:
+    with open(get_project_root() / '.gitignore') as reader:
+        lines = [line.strip() for line in reader.readlines()]
+
+    if str(file_path.relative_to(get_project_root())) not in lines:
+        lines.append(str(file_path.relative_to(get_project_root())))
+
+    with open(get_project_root() / '.gitignore', 'w') as writer:
+        writer.write('\n'.join(lines))
+
+    cmd = ['git', 'rm', '-r', '--cached', str(file_path.relative_to(Path.cwd(), walk_up=True))]
+    proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    out, err = proc.communicate()
+    proc.wait()
+
+    if proc.returncode != 0:
+        print(Color.yellow(f'cannot remove file from git cache: {err.decode().strip()}'))
+
+
+def remove_from_gitignore(file_path: Path) -> None:
+    with open(get_project_root() / '.gitignore') as reader:
+        lines = [line.strip() for line in reader.readlines()]
+
+    if str(file_path.relative_to(get_project_root())) in lines:
+        lines.remove(str(file_path.relative_to(get_project_root())))
+
+    with open(get_project_root() / '.gitignore', 'w') as writer:
+        writer.write('\n'.join(lines))
+    
+
 # ---------- Encoding utilities ----------
 def detect_file_encoding(path: Path, default: str = "utf-8") -> str:
     """
@@ -464,10 +494,13 @@ def manage_protection(source_path: str, password: str | None, protect: bool) -> 
         except Exception as e:
             sys.exit(Color.red(f"Error loading passwords.json: {e}"))
 
-    files_to_change = [
+    files_for_cryptography = [
         Path(project_root / "website" / "pdf" / rel_path).with_suffix(".pdf"),
         (Path(src_dir) / "main").with_suffix(".tex"),
         (Path(src_dir) / "setting").with_suffix(".tex")
+    ]
+    file_for_gitignore = [
+        # Path(src_dir)
     ]
 
     if protect:
@@ -482,8 +515,11 @@ def manage_protection(source_path: str, password: str | None, protect: bool) -> 
         # Mark subject as protected
         subject_entry["protected"] = True
 
-        for file in files_to_change:
+        for file in files_for_cryptography:
             encrypt_file(file, password)
+
+        for file in file_for_gitignore:
+            add_to_gitignore(file)
 
         print(Color.green(f"Subject protected with password. Path: {src_dir}"))
     else:
@@ -491,8 +527,11 @@ def manage_protection(source_path: str, password: str | None, protect: bool) -> 
         if rel_path not in passwords:
             sys.exit(Color.red(f"Subject is not protected: {rel_path}"))
 
-        for file in files_to_change:
+        for file in files_for_cryptography:
             decrypt_file(file, passwords[rel_path])
+
+        for file in file_for_gitignore:
+            remove_from_gitignore(file)
 
         del passwords[rel_path]
         if "protected" in subject_entry:
