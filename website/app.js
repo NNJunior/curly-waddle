@@ -314,11 +314,21 @@ function renderSubject(semesterIndex, subjectIndex) {
   html += `</div>`;
 
   if (subject.protected) {
+    // Сообщение про пароль
     html += `
-      <div style="margin-top: 2rem; padding: 1rem; background: #f8f9fa; border-radius: 8px; border-left: 4px solid #ff9800;">
+      <div style="margin-top: 0; margin-bottom: 1rem; padding: 1rem; background: #f8f9fa; border-radius: 8px; border-left: 4px solid #ff9800;">
         <span style="font-size: 1.2rem;">🔒</span> 
         <span style="font-weight: 500;">Данный PDF-файл защищён паролем.</span> 
         <span style="color: #666;">При клике на ссылку вам будет предложено ввести имя пользователя и пароль для доступа к содержимому.</span>
+      </div>
+    `;
+
+    // Уведомление про всплывающие окна (зелёный левый край)
+    html += `
+      <div style="margin-bottom: 1.5rem; padding: 1rem; background: #f1f8f4; border-radius: 8px; border-left: 4px solid #4caf50;">
+        <span style="font-size: 1.2rem;">ℹ️</span> 
+        <span style="font-weight: 500;">Пожалуйста, разрешите всплывающие окна для этого сайта.</span> 
+        <span style="color: #666;">PDF открывается в новой вкладке через временную ссылку (blob) — если всплывающие окна заблокированы, документ может не отобразиться.</span>
       </div>
     `;
   }
