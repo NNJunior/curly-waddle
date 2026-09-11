@@ -313,6 +313,16 @@ function renderSubject(semesterIndex, subjectIndex) {
   html += `<a href="${reportUrl}" class="bug-btn-large" target="_blank">🐛 Сообщить об ошибке</a>`;
   html += `</div>`;
 
+  if (subject.protected) {
+    html += `
+      <div style="margin-top: 2rem; padding: 1rem; background: #f8f9fa; border-radius: 8px; border-left: 4px solid #ff9800;">
+        <span style="font-size: 1.2rem;">🔒</span> 
+        <span style="font-weight: 500;">Данный PDF-файл защищён паролем.</span> 
+        <span style="color: #666;">При клике на ссылку вам будет предложено ввести имя пользователя и пароль для доступа к содержимому.</span>
+      </div>
+    `;
+  }
+
   html += '<h2>Лекции</h2>';
   html += '<div class="lecture-list">';
   subject.lectures.forEach((lecture) => {
@@ -342,16 +352,6 @@ function renderSubject(semesterIndex, subjectIndex) {
     `;
   });
   html += '</div>';
-
-  if (subject.protected) {
-    html += `
-      <div style="margin-top: 2rem; padding: 1rem; background: #f8f9fa; border-radius: 8px; border-left: 4px solid #ff9800;">
-        <span style="font-size: 1.2rem;">🔒</span> 
-        <span style="font-weight: 500;">Данный PDF-файл защищён паролем.</span> 
-        <span style="color: #666;">При клике на ссылку вам будет предложено ввести имя пользователя и пароль для доступа к содержимому.</span>
-      </div>
-    `;
-  }
 
   html += `<a href="#sem/${semesterIndex+1}" class="back-link">← Все предметы семестра</a>`;
   contentEl.innerHTML = html;
