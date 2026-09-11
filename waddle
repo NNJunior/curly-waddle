@@ -458,7 +458,7 @@ def get_subject_info_from_data(data: dict, rel_path: str) -> tuple[dict, dict, s
 def merge_user_password(user: str, password: str):
     return user + ': ' + password
 
-def manage_protection(source_path: str, protect: bool) -> None:
+def manage_protection(source_path: str, protect: bool, force: bool) -> None:
     """
     Add or remove protection for a lecture subject.
     If protect=True: adds password to passwords.json and marks subject as protected.
@@ -506,14 +506,27 @@ def manage_protection(source_path: str, protect: bool) -> None:
         # Path(src_dir)
     ]
 
-    if protect:
+    if protect and force:
         user = input("Username: ")
         password = input("Password: ")
+    else:
+        # Unprotect: remove password if exists, and remove protected flag
+        if rel_path not in passwords:
+            sys.exit(Color.red(f"Subject is not protected: {rel_path}"))
 
-        if rel_path in passwords:
-            sys.exit(Color.red(f"Subject is already protected: {rel_path}"))
+        if 'user' not in passwords[rel_path]:
+            sys.exit(Color.red(f"No username is provided for subject: {rel_path}"))
+
+        if 'password' not in passwords[rel_path]:
+            sys.exit(Color.red(f"No password is provided for subject {rel_path}"))
         
-        # Update password entry
+        user = passwords[rel_path]['user']
+        password = passwords[rel_path]['password']
+
+    if protect:
+        if subject_entry.get("protected"):
+            sys.exit(Color.red(f"Subject is protected: {rel_path}"))
+
         passwords[rel_path] = {}
         passwords[rel_path]['user'] = user
         passwords[rel_path]['password'] = password
@@ -528,17 +541,18 @@ def manage_protection(source_path: str, protect: bool) -> None:
 
         print(Color.green(f"Subject protected with password. Path: {src_dir}"))
     else:
-        # Unprotect: remove password if exists, and remove protected flag
-        if rel_path not in passwords:
+        if not subject_entry.get("protected"):
             sys.exit(Color.red(f"Subject is not protected: {rel_path}"))
 
         for file in files_for_cryptography:
-            decrypt_file(file, merge_user_password(passwords[rel_path]['user'], passwords[rel_path]['password']))
+            decrypt_file(file, merge_user_password(user, password))
 
         for file in file_for_gitignore:
             remove_from_gitignore(file)
 
-        del passwords[rel_path]
+        if force:
+            del passwords[rel_path]
+        
         if "protected" in subject_entry:
             del subject_entry["protected"]
         print(Color.green(f"Subject unprotected. Path: {rel_path}"))
@@ -609,6 +623,10 @@ def main() -> None:
         description="Protect a subject by adding a password and marking it as protected in data.json.",
     )
     protect_parser.add_argument(
+        "-f", "--force", action="store_true",
+        help="Force create a password (override existing one, if exists)",
+    )
+    protect_parser.add_argument(
         "source_dir",
         help="Path to the lecture folder (same as compile).",
     )
@@ -617,6 +635,10 @@ def main() -> None:
         "unprotect",
         help="Remove protection from a lecture subject.",
         description="Remove password and protected flag from a subject.",
+    )
+    unprotect_parser.add_argument(
+        "-f", "--force", action="store_true",
+        help="Force remove a password",
     )
     unprotect_parser.add_argument(
         "source_dir",
@@ -694,7 +716,7 @@ def main() -> None:
 
     elif args.command in ("protect", "unprotect"):
         try:
-            manage_protection(args.source_dir, protect=(args.command == "protect"))
+            manage_protection(args.source_dir, protect=(args.command == "protect"), force=args.force)
         except Exception as e:
             sys.exit(Color.red(f"Error: {e}"))
 
