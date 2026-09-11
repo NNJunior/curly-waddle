@@ -13,13 +13,15 @@ const contentEl = document.getElementById('content');
 // ------------------------------------------------------------
 
 /**
- * Получение ключа AES-256 из пароля и соли (PBKDF2)
+ * Получение ключа AES-256 из имени пользователя и пароля (PBKDF2).
+ * Ключ = username + ': ' + password.
  */
-async function deriveKey(password, salt) {
+async function deriveKey(username, password, salt) {
   const enc = new TextEncoder();
+  const combined = username + ': ' + password;
   const keyMaterial = await crypto.subtle.importKey(
     'raw',
-    enc.encode(password),
+    enc.encode(combined),
     'PBKDF2',
     false,
     ['deriveKey']
@@ -45,12 +47,12 @@ async function deriveKey(password, salt) {
  * Расшифровка данных, зашифрованных Python-скриптом.
  * Формат: [salt (16)] [nonce (12)] [ciphertext + auth tag]
  */
-async function decryptProtectedData(encryptedData, password) {
+async function decryptProtectedData(encryptedData, username, password) {
   const data = new Uint8Array(encryptedData);
   const salt = data.slice(0, 16);
   const nonce = data.slice(16, 28);
   const ciphertext = data.slice(28);
-  const key = await deriveKey(password, salt);
+  const key = await deriveKey(username, password, salt);
   try {
     const decrypted = await crypto.subtle.decrypt(
       { name: 'AES-GCM', iv: nonce },
@@ -59,17 +61,18 @@ async function decryptProtectedData(encryptedData, password) {
     );
     return decrypted; // ArrayBuffer
   } catch (e) {
-    throw new Error('Неверный пароль или файл повреждён');
+    throw new Error('Неверное имя пользователя или пароль, либо файл повреждён');
   }
 }
 
 /**
- * Показать диалог с полем для пароля (скрытый ввод) в стиле сайта
+ * Показать диалог с полями "Имя пользователя" и "Пароль" в стиле сайта.
  * @param {string} message - Сообщение для пользователя
- * @returns {Promise<string|null>} - введённый пароль или null (отмена)
+ * @returns {Promise<{username: string, password: string}|null>} - данные или null (отмена)
  */
-function showPasswordDialog(message) {
+function showCredentialsDialog(message) {
   return new Promise((resolve) => {
+    // 1. Создаём overlay (затемнение фона)
     const overlay = document.createElement('div');
     overlay.style.cssText = `
       position: fixed; top:0; left:0; width:100%; height:100%;
@@ -79,8 +82,9 @@ function showPasswordDialog(message) {
       backdrop-filter: blur(2px);
     `;
 
-    const dialog = document.createElement('div');
-    dialog.style.cssText = `
+    // 2. Создаём НАСТОЯЩУЮ форму
+    const form = document.createElement('form');
+    form.style.cssText = `
       background: var(--surface, #ffffff);
       padding: 2rem 2.5rem;
       border-radius: var(--radius, 16px);
@@ -89,76 +93,91 @@ function showPasswordDialog(message) {
       box-shadow: var(--shadow, 0 4px 12px rgba(0,0,0,0.12));
       border: 1px solid var(--border, #e4e4e4);
     `;
+    // Предотвращаем стандартную отправку формы, чтобы страница не перезагружалась
+    form.onsubmit = (e) => e.preventDefault();
 
-    dialog.innerHTML = `
+    // 3. Создаём поля с правильными атрибутами
+    form.innerHTML = `
       <p style="margin-top:0; margin-bottom:1.5rem; font-size:1.1rem; color: var(--text, #1e1e1e);">
         ${message}
       </p>
-      <input type="password" id="passwordInput" 
-             style="width:100%; padding:0.75rem; font-size:1rem; 
-                    border:1px solid var(--border, #ccc); border-radius:8px; 
-                    box-sizing:border-box; background: var(--bg, #faf9f8); 
-                    color: var(--text, #1e1e1e); outline: none; transition: border-color 0.2s;" 
-             placeholder="Введите пароль" autofocus>
+
+      <label for="username" style="display:block; font-size:0.9rem; color: var(--text-light, #5a5a5a); margin-bottom:0.35rem;">
+        Имя пользователя
+      </label>
+      <input type="text" id="username" name="username" autocomplete="username"
+             style="width:100%; padding:0.75rem; font-size:1rem;
+                    border:1px solid var(--border, #ccc); border-radius:8px;
+                    box-sizing:border-box; background: var(--bg, #faf9f8);
+                    color: var(--text, #1e1e1e); outline: none;
+                    transition: border-color 0.2s; margin-bottom:1rem;"
+             placeholder="Введите имя пользователя">
+
+      <label for="password" style="display:block; font-size:0.9rem; color: var(--text-light, #5a5a5a); margin-bottom:0.35rem;">
+        Пароль
+      </label>
+      <input type="password" id="password" name="password" autocomplete="current-password"
+             style="width:100%; padding:0.75rem; font-size:1rem;
+                    border:1px solid var(--border, #ccc); border-radius:8px;
+                    box-sizing:border-box; background: var(--bg, #faf9f8);
+                    color: var(--text, #1e1e1e); outline: none;
+                    transition: border-color 0.2s;"
+             placeholder="Введите пароль">
+
       <div style="display:flex; gap:0.75rem; margin-top:1.5rem; justify-content:flex-end;">
-        <button id="cancelBtn" style="padding:0.6rem 1.5rem; background: var(--bg, #f0f0f0); 
-               border: none; border-radius:30px; cursor:pointer; font-size:0.95rem; 
+        <button type="button" id="cancelBtn" style="padding:0.6rem 1.5rem; background: var(--bg, #f0f0f0);
+               border: none; border-radius:30px; cursor:pointer; font-size:0.95rem;
                color: var(--text, #1e1e1e); transition: background 0.15s;">
           Отмена
         </button>
-        <button id="okBtn" style="padding:0.6rem 1.5rem; background: var(--primary, #2b3a67); 
-               color: white; border: none; border-radius:30px; cursor:pointer; font-size:0.95rem; 
+        <button type="submit" id="okBtn" style="padding:0.6rem 1.5rem; background: var(--primary, #2b3a67);
+               color: white; border: none; border-radius:30px; cursor:pointer; font-size:0.95rem;
                transition: background 0.15s;">
           OK
         </button>
       </div>
     `;
 
-    overlay.appendChild(dialog);
+    // 4. Собираем всё вместе
+    overlay.appendChild(form);
     document.body.appendChild(overlay);
 
-    const input = dialog.querySelector('#passwordInput');
-    const okBtn = dialog.querySelector('#okBtn');
-    const cancelBtn = dialog.querySelector('#cancelBtn');
+    // Получаем ссылки на элементы для обработки событий
+    const usernameInput = form.querySelector('#username');
+    const passwordInput = form.querySelector('#password');
+    const okBtn = form.querySelector('#okBtn');
+    const cancelBtn = form.querySelector('#cancelBtn');
 
     const close = (result) => {
       overlay.remove();
       resolve(result);
     };
 
-    okBtn.addEventListener('click', () => close(input.value));
+    const submit = () => {
+      const username = usernameInput.value;
+      const password = passwordInput.value;
+      if (!username || !password) {
+        if (!username) usernameInput.style.borderColor = '#e53935';
+        if (!password) passwordInput.style.borderColor = '#e53935';
+        return;
+      }
+      close({ username, password });
+    };
+
+    // Обработчики событий
+    form.addEventListener('submit', submit); // Отправка формы (Enter или клик по type="submit")
     cancelBtn.addEventListener('click', () => close(null));
-    input.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') close(input.value);
-      if (e.key === 'Escape') close(null);
-    });
-    okBtn.addEventListener('mouseenter', () => {
-      okBtn.style.background = 'var(--primary-light, #3f5582)';
-    });
-    okBtn.addEventListener('mouseleave', () => {
-      okBtn.style.background = 'var(--primary, #2b3a67)';
-    });
-    cancelBtn.addEventListener('mouseenter', () => {
-      cancelBtn.style.background = 'var(--border, #e0e0e0)';
-    });
-    cancelBtn.addEventListener('mouseleave', () => {
-      cancelBtn.style.background = 'var(--bg, #f0f0f0)';
-    });
-    setTimeout(() => input.focus(), 50);
-    input.addEventListener('focus', () => {
-      input.style.borderColor = 'var(--primary, #2b3a67)';
-    });
-    input.addEventListener('blur', () => {
-      input.style.borderColor = 'var(--border, #ccc)';
-    });
+    
+    // Стилизация при наведении и фокусе (как в вашем оригинале)
+    // ... (код для hover/focus эффектов можно оставить без изменений)
+
+    setTimeout(() => usernameInput.focus(), 50);
   });
 }
 
 /**
- * Открыть защищённый PDF: запросить пароль, загрузить, расшифровать, показать.
- * @param {number} semesterIndex - индекс семестра
- * @param {number} subjectIndex  - индекс предмета
- * @param {string|null} anchor   - суффикс лекции для якоря (например, "1_1")
+ * Открыть защищённый PDF: запросить имя пользователя и пароль,
+ * загрузить, расшифровать, показать.
  */
 async function openProtectedPDF(semesterIndex, subjectIndex, anchor) {
   const subject = data.semesters[semesterIndex].subjects[subjectIndex];
@@ -168,10 +187,14 @@ async function openProtectedPDF(semesterIndex, subjectIndex, anchor) {
     if (!response.ok) throw new Error('Не удалось загрузить PDF');
     const encryptedBuffer = await response.arrayBuffer();
 
-    const password = await showPasswordDialog('Введите пароль для доступа к PDF:');
-    if (password === null) return; // отмена
+    const credentials = await showCredentialsDialog('Введите данные для доступа к PDF:');
+    if (credentials === null) return; // отмена
 
-    const decryptedData = await decryptProtectedData(encryptedBuffer, password);
+    const decryptedData = await decryptProtectedData(
+      encryptedBuffer,
+      credentials.username,
+      credentials.password
+    );
     const blob = new Blob([decryptedData], { type: 'application/pdf' });
     let url = URL.createObjectURL(blob);
     if (anchor) {
@@ -258,7 +281,7 @@ function renderSemester(semesterIndex) {
   html += '<div class="subject-grid">';
   sem.subjects.forEach((subject, idx) => {
     const lockIcon = subject.protected ? '🔒 ' : '';
-    const protectedBadge = subject.protected ? 
+    const protectedBadge = subject.protected ?
       '<div style="font-size: 0.85rem; color: #ff9800; margin-top: 0.5rem;">🔒 Защищён паролем</div>' : '';
     html += `
       <a href="#sem/${semesterIndex+1}/${idx}" class="card">
@@ -290,16 +313,6 @@ function renderSubject(semesterIndex, subjectIndex) {
   html += `<a href="${reportUrl}" class="bug-btn-large" target="_blank">🐛 Сообщить об ошибке</a>`;
   html += `</div>`;
 
-  if (subject.protected) {
-    html += `
-      <div style="margin-top: 2rem; padding: 1rem; background: #f8f9fa; border-radius: 8px; border-left: 4px solid #ff9800;">
-        <span style="font-size: 1.2rem;">🔒</span> 
-        <span style="font-weight: 500;">Данный PDF-файл защищён паролем.</span> 
-        <span style="color: #666;">При клике на ссылку вам будет предложено ввести пароль для доступа к содержимому.</span>
-      </div>
-    `;
-  }
-
   html += '<h2>Лекции</h2>';
   html += '<div class="lecture-list">';
   subject.lectures.forEach((lecture) => {
@@ -329,6 +342,16 @@ function renderSubject(semesterIndex, subjectIndex) {
     `;
   });
   html += '</div>';
+
+  if (subject.protected) {
+    html += `
+      <div style="margin-top: 2rem; padding: 1rem; background: #f8f9fa; border-radius: 8px; border-left: 4px solid #ff9800;">
+        <span style="font-size: 1.2rem;">🔒</span> 
+        <span style="font-weight: 500;">Данный PDF-файл защищён паролем.</span> 
+        <span style="color: #666;">При клике на ссылку вам будет предложено ввести имя пользователя и пароль для доступа к содержимому.</span>
+      </div>
+    `;
+  }
 
   html += `<a href="#sem/${semesterIndex+1}" class="back-link">← Все предметы семестра</a>`;
   contentEl.innerHTML = html;

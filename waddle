@@ -455,7 +455,10 @@ def get_subject_info_from_data(data: dict, rel_path: str) -> tuple[dict, dict, s
     raise ValueError(f"Subject with folderName '{subject_folder}' not found in semester {semester_folder}.")
 
 
-def manage_protection(source_path: str, password: str | None, protect: bool) -> None:
+def merge_user_password(user: str, password: str):
+    return user + ': ' + password
+
+def manage_protection(source_path: str, protect: bool) -> None:
     """
     Add or remove protection for a lecture subject.
     If protect=True: adds password to passwords.json and marks subject as protected.
@@ -504,19 +507,21 @@ def manage_protection(source_path: str, password: str | None, protect: bool) -> 
     ]
 
     if protect:
-        if password is None:
-            sys.exit(Color.red("Error: --password is required for 'protect' command."))
+        user = input("Username: ")
+        password = input("Password: ")
 
         if rel_path in passwords:
             sys.exit(Color.red(f"Subject is already protected: {rel_path}"))
         
         # Update password entry
-        passwords[rel_path] = password
+        passwords[rel_path] = {}
+        passwords[rel_path]['user'] = user
+        passwords[rel_path]['password'] = password
         # Mark subject as protected
         subject_entry["protected"] = True
 
         for file in files_for_cryptography:
-            encrypt_file(file, password)
+            encrypt_file(file, merge_user_password(user, password))
 
         for file in file_for_gitignore:
             add_to_gitignore(file)
@@ -528,7 +533,7 @@ def manage_protection(source_path: str, password: str | None, protect: bool) -> 
             sys.exit(Color.red(f"Subject is not protected: {rel_path}"))
 
         for file in files_for_cryptography:
-            decrypt_file(file, passwords[rel_path])
+            decrypt_file(file, merge_user_password(passwords[rel_path]['user'], passwords[rel_path]['password']))
 
         for file in file_for_gitignore:
             remove_from_gitignore(file)
@@ -607,12 +612,6 @@ def main() -> None:
         "source_dir",
         help="Path to the lecture folder (same as compile).",
     )
-    protect_parser.add_argument(
-        "--password",
-        required=True,
-        help="Password to protect the subject with.",
-    )
-
     # ---- unprotect subcommand ----
     unprotect_parser = subparsers.add_parser(
         "unprotect",
@@ -695,8 +694,7 @@ def main() -> None:
 
     elif args.command in ("protect", "unprotect"):
         try:
-            manage_protection(args.source_dir, args.password if args.command == "protect" else None,
-                              protect=(args.command == "protect"))
+            manage_protection(args.source_dir, protect=(args.command == "protect"))
         except Exception as e:
             sys.exit(Color.red(f"Error: {e}"))
 
