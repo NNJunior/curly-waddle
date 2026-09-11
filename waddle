@@ -6,8 +6,8 @@ This script is intended to be placed in the **root directory of the project**
 
 Usage:
   waddle [compile] sem1/MathLog
-  waddle protect sem1/MathLog --password secret
-  waddle unprotect sem1/MathLog
+  waddle protect [-f | --force] sem1/MathLog
+  waddle unprotect [-f | --force] sem1/MathLog
 
 The script copies:
   - the common preamble folder (lectures-phystech/preamble),
