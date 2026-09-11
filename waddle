@@ -5,9 +5,9 @@ This script is intended to be placed in the **root directory of the project**
 (where 'lectures-phystech' and 'website' folders live).
 
 Usage:
-  ./compile_lecture.py [compile] sem1/MathLog
-  ./compile_lecture.py protect sem1/MathLog --password secret
-  ./compile_lecture.py unprotect sem1/MathLog
+  waddle [compile] sem1/MathLog
+  waddle protect sem1/MathLog --password secret
+  waddle unprotect sem1/MathLog
 
 The script copies:
   - the common preamble folder (lectures-phystech/preamble),
