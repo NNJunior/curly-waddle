@@ -1,0 +1,111 @@
+\section{Метрические и топологические пространства}
+
+\begin{definition}
+    Пара \((X, \rho)\) называется метрическим пространством (\(X \ne \emptyset, \rho: X \times X \ra \R\)), если
+    \begin{enumerate}
+        \item \(\rho(x, y) \ge 0\), причем равенство достигается только в том случае, когда \(x = y\).
+        \item \(\rho(x, y) = \rho(y, x)\)
+        \item \(\rho(x, y) \le \rho(x, z) + \rho(z, y)\)
+    \end{enumerate}
+\end{definition}
+
+\subsection{Словарь используемых терминов}
+
+Пусть \(X\) --- произвольное метрическое пространство.
+
+\begin{enumerate}
+    \item Подпространство --- любое подмножество \(X\)
+    
+\subsubsection{География}
+    \item Ограниченное множество \(Y \subset X\) --- такое множество, что \(\sup \rho_{x, y \in Y}(x, y) < +\infty \Lra Y \subset B(x, r)\) для некоторого \(x\)
+    \item \(\rho(x, Y) = \inf_{y \in Y} \rho(x, y)\)
+    \item Открытый шар \(B(x, r) = \{y: \rho(y, x) < r\}\), замкнутый шар \(\overline{B}(x, r) = \{y: \rho(y, x) \le r\}\)
+
+\subsubsection{Замкнутость}
+    \item Точка \(x\) является точкой прикосновения множества \(Y\), если выполнено одно из равносильных условий:
+    \begin{itemize}
+        \item \(\forall B(x) \cap Y \ne \emptyset\)
+        \item \(\rho(x, Y) = 0\)
+        \item \(\exists \{x_n\} \subset Y: x_n \ra x\) 
+    \end{itemize}
+    \item Замыкание множества (\(\overline{Y}\)) --- объединение множества со всеми точками прикосновения.
+    \item Замкнутое множество --- такое, что \(\overline{Y} = Y\)
+    
+\subsubsection{Открытость}
+    \item Точка \(x\) называется внутренней для множества \(Y\), если \(\exists B(x) \subset Y\)
+    \item Внутренность множества (или открытое ядро) --- \(\stackrel{\circ}{Y} = Y^{\circ} = int\;Y\) --- множество всех внутренних точек
+    \item Открытое множество --- такое, что \(Y^{\circ} = Y\).
+
+
+    \item Сходящаяся последовательность --- \(x_n \ra x\), если \(\forall B(x) \exists N: \forall n > N: x_n \in B(x)\).
+    
+    Топология --- совокупность всех открытых множеств
+
+\subsubsection{Прочее}
+    \item \(A\) называется плотным в \(B\), если \(\overline{A} = B\)
+    \item \(A\) всюду плотно, если \(\overline{A} = X\)
+    \item \(A\) нигде не плотно \(\Lra\) не плотно ни в одном шаре
+    
+    Представим мышей, которые скушали головку сыра, да так, что другие мыши, которые пришли, в каждом шаре не нащли, что бы им поесть. Ньюанс заключается в том, что дети едят так называемую сладкую вату, которая сама по себе нигде не плотна, и получают удовольствие, но пример понятен
+
+    \item \(X\) --- сепарабельное пространство, если \(\exists A\) --- не более, чем счетное, такое, что \(\overline{A} = X\)
+    
+    \item \(X\) --- несвязно, если \(X = G_1 \sqcap G_2\), где \(G_1, G_2 \ne \emptyset\) --- открытые. Соответственно, \(X\) --- связно, если оно не является несвязным.
+    
+    Вообще говоря, есть еще понятие линейной связности. У гуманитариев аналогом ему является слово ''нарратив''
+
+    \item База топологии --- система открытых множеств \(\mathcal{B}\) называется базой, если \(\forall G\) --- открытого, \(G = \bigcup B_\alpha, B_\alpha \in \mathcal{B}\)
+    \item Сравнение топологий --- \(\tau_1 \prec \tau_2 \Lra \tau_1 \subset \tau_2\)
+\end{enumerate}
+
+\begin{theorem}
+    Пусть \(X\) --- метрическое пространство. \(G_1 \subset X\) --- открытое \(\Lra F = X \setminus G = CG\) --- связное.
+\end{theorem}
+\begin{proof}
+    \begin{enumerate}
+        \item[\(\Ra\)] Покажем, что если \(x \notin F \Ra x\) --- не точка прикосновения. \(x \notin F \Lra x \in G \Ra \exists B(x) \subset G \Ra \exists B(x): B(x) \cap F = \emptyset\)
+        \item[\(\La\)] предоставляется читателю в качестве нетрудного упражнения
+    \end{enumerate}
+\end{proof}
+
+\begin{theorem}
+    Пусть \(X\) --- метрическое пространство, \(\{G_\alpha\} \subset \tau_X\) --- система его открытых множеств. Тогда:
+    \begin{enumerate}
+        \item \(\bigcup G_\alpha \in \tau_X\)
+        \item \(\bigcap_{i = 1}^n G_{\alpha_n} \in \tau_X\)
+    \end{enumerate}
+
+    Или:
+
+    Пусть \(X\) --- метрическое пространство, \(\{F_\beta\} \subset \mathcal{F}\) --- система его замкнутых множеств. Тогда:
+    \begin{enumerate}
+        \item \(\bigcap F_\beta \in \mathcal{F}\)
+        \item \(\bigcup_{i = 1}^n F_{\beta_n} \in \mathcal{F}\)
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    очев
+\end{proof}
+
+\begin{note}
+    В теоремах выше не используется неравенство треугольнка
+\end{note}
+
+\begin{definition}
+    Топологическое пространство --- \((X, \tau)\), где \(\tau \subset 2^X\), если:
+    \begin{enumerate}
+        \item \(\emptyset, X \in \tau\)
+        \item Для \(\forall \{G_\alpha\} \subset \tau\):
+        \begin{itemize}
+            \item \(\bigcup G_\alpha \in \tau\)
+            \item \(\bigcap_{i = 1}^n G_{\alpha_n} \in \tau\)
+        \end{itemize}
+    \end{enumerate}
+\end{definition}
+
+\begin{example}[Дискретная метрика]
+    Рассмотрим \((X, \rho): \rho(x, y) = \left\{\begin{array}{l}
+        1, x \ne y \\
+        0, x = y
+    \end{array}\right.\). Заметим, что \(\tau_X = 2^X\)
+\end{example}
