@@ -1640,7 +1640,7 @@
         },
         {
           "name": "Статистика (DS-поток)",
-          "description": "Статистика на DS-потоке",
+          "description": "Статистика на DS-потоке. По вопросам доступа обращаться в директ канала @PhysTeX",
           "folderName": "Statistics",
           "lectures": [
             {
