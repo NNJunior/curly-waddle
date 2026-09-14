@@ -1,0 +1,166 @@
+\lecture{1}
+
+\section{Введение}
+Вспомним, как мы вводили \(\Cm\) --- это расширение \(\R\) единственным числом \(i\): \(\Cm = \R[i]\). Соответственно, \(\forall z \in \Cm: z = \alpha + \beta i\). Перемножение и сложение комплексных чисел работают следующим образом:
+\[(\alpha + \beta i) + (\gamma + \delta i) = (\alpha + \gamma) + (\beta + \delta)i\]
+\[(\alpha + \beta i) \cdot (\gamma + \delta i) = (\alpha \gamma - \beta \delta) + (\alpha \delta + \beta \delta)i\]
+\subsection{Напоминание}
+Пусть \(a = \alpha + \beta i\). Напомним несколько определений и фактов:
+\begin{enumerate}
+    \item \(\overline{a} = \alpha - \beta i\)
+    \item \(\Re a = \alpha, \Im a = \beta\)
+    \item \(|a| = \sqrt{\alpha^2 + \beta^2} = a\overline{a}\)
+    \item \(|ab| = |a||b|\)
+    \item \(\overline{a + b} = \overline{a} + \overline{b}\)
+    \item \(\overline{a \cdot b} = \overline{a} \cdot \overline{b}\)
+    \item \(-|a| \le \Re a \le |a|\) --- следует из определения \(|a|\).
+    \item Неравенство треугольника: \(|a + b| \le |a| + |b|\) или \(|a| - |b| \le |a - b|\)
+\end{enumerate}
+
+Вспомним также тригонометрическую запись комплексного числа:
+\(0 \ne a = r(\cos \phi + i \sin \phi)\). В таком случае \(|a| = r\), \(\phi \in Arg\{a\} = \{arg\;a + 2\pi k\}_{k \in \Z}\), где \(arg\;a \in (-\pi, \pi)\).
+
+\begin{exercise}
+    \(Arg\{a_1a_2\} = Arg\{a_1\} + Arg\{a_2\}\), что равносильно:
+    \(arg\{a_1a_2\} = arg\{a_1\} + arg\{a_2\} \mod 2\pi\)
+\end{exercise}
+
+\subsection{Простейшие определения}
+
+Пусть теперь \(z^n = a = r(\cos \phi + i\sin \phi), a \ne 0\). Будем говорить, что \(z \in \{\sqrt[n]{a}\} = \left\{ r^{\frac{1}{n}}\left( \cos \frac{\phi + 2\pi k}{n} + i\sin \frac{\phi + 2\pi k}{n} \right) \right\}_{k = 0}^{n - 1}\).
+
+\begin{definition}
+    \(O_r(a) = \{z: |z - a| < r\}, \overline{O}_r(a) = \{z: |z - a| \le r\}\)
+\end{definition}
+
+\begin{definition}
+    \(\lim_{n \ra \infty} a_n = a\) тогда и только тогда, когда \(\forall \epsilon > 0 \exists N: \forall n > N: a_n \in O_\epsilon(a)\)
+\end{definition}
+
+\begin{note}
+    \[\begin{array}{c}
+        \Re (a_n - a) \le \\
+        \Im (a_n - a) \le
+    \end{array} |a_n - a| \le |\Re (a_n - a)| + |\Im (a_n - a)|\]
+    Поэтому сходимость последовательности комплексных чисел равносильна покоординатной сходимости
+\end{note}
+
+\begin{note}
+    Точно так же, как и в вещественном случае можно говорить о фундаментальности, теореме Больцано-Вейерштрасса, полноте \(\Cm\).
+\end{note}
+
+\begin{definition}
+    Будем говорить, что \(\lim_{n \ra \infty} a_n = \infty\), если \(\forall \epsilon > 0 \exists N: \forall n > N: |a_n| > \frac{1}{\epsilon}\).
+\end{definition}
+
+Соответственно, расширим принцип Больцано-Вейерштрасса:
+
+\begin{proposition}
+    \(\forall \{a_n\} \exists \{n_k\}: a_{n_k}\) сходится в \(\overline{\Cm} = \Cm \cup \{\infty\}\)
+\end{proposition}
+
+\section{Непрерывность и \(\Cm\)-дифференцируемость}
+
+Далее будем говорить, что \(z = x + iy\).
+
+\begin{definition}
+    Пусть \(f: \stackrel{\circ}{O}_r(a) \ra \Cm\). Будем говорить, что \(\lim_{z \ra a} f(z) = A\), если \(\forall \epsilon > 0 \exists \delta > 0: \forall z \in \stackrel{\circ}{O}_\delta(a): f(z) \in O_\epsilon(A)\)
+\end{definition}
+
+\begin{definition}
+    \(f: O_r(a) \ra \Cm\) называется непрерывной в точке \(a\), если \(\lim_{z \ra a} f(z)\)
+\end{definition}
+
+\begin{note}
+    \(f\) непрерывна в \(a \Ra \Re f, \Im f, |f|\) --- непрерывны в точке \(a\).
+\end{note}
+
+\begin{definition}
+    \(f: O_r(a) \ra \Cm\) называется дифференцируемой в точке \(a\) (\(\Cm\)-дифференцируемой в точке \(a\)), если \(\exists \lim_{z \ra a} \frac{f(z) - f(a)}{z - a} = A \in \Cm\)
+\end{definition}
+
+\begin{theorem}
+    Пусть \(f: O_r(a) \ra \Cm, \Re f = u, \Im f = v\). Тогда она является \(\Cm\)-дифференцируемой в точке \(a \Lra u, v\) дифференцируемы в вещественном смысле в точке \(a\) и выполнено условие Коши:
+    \begin{equation*}
+        \begin{cases*}
+            u_x = v_y \\
+            u_y = -v_x \\
+        \end{cases*}
+    \end{equation*}
+\end{theorem}
+\begin{proof}
+    Положим \(\Delta f = f(z) - f(a), \Delta z = z - a\). В таком случае \(\Cm\)-дифференцируемость функции \(f\) равносильна: \(\Delta f = A \Delta z + o(|\Delta z|)\). Положим \(A = \gamma + \delta i\), тогда равносильное условие \(\Cm\)-дифференцируемости функции \(f\) можно переписать так:
+    \[\Delta f = (\gamma + \delta i)(\Delta x + i \Delta y) + o(|\Delta z|) = (\gamma + \delta i)\Delta x + (-\delta +\gamma i)\Delta y + o(|\Delta z|)\]
+    
+    Теперь, \(u, v\) дифференцируемы в точке \(a\) тогда и только тогда, когда:
+    \[\left\{\begin{array}{l}
+        \Delta u = u_x \Delta x + u_y \Delta y + o(|\Delta z|) \\
+        \Delta v = v_x \Delta x + v_y \Delta y + o(|\Delta z|)
+    \end{array}\right.\]
+    
+    В таком случае, \(\Delta f = \Delta u + i\Delta v = (u_x + iu_y)\Delta x + (u_y + iv_y)\Delta y + o(|\Delta z|)\).
+
+    Теперь, положив \(\gamma = u_x = v_y, \delta = v_x = -u_y\), получаем требуемое.
+\end{proof}
+
+\begin{example}[Условие Коши существенно]
+    Рассмотрим функцию \(f(z) = |z|^2 = x^2 + y^2 + i \cdot 0\). Запишем условие Коши:
+    \[\left\{\begin{array}{l}
+        2x = u_x \stackrel{?}{=} v_y = 0 \\
+        2y = u_y \stackrel{?}{=} -v_x = 0 \\
+    \end{array}\right.\]
+    Получаем, что \(f\) дифференцируема только в нуле.
+\end{example}
+
+\begin{note}
+    Сумма, произведение \(\Cm\)-дифференцируемых функций дифференцируема
+\end{note}
+
+\begin{definition}
+    Функция \(f\) называется голоморфной на \(E \subset \Cm\), если она \(\Cm\)-дифференцируема в открытом множестве, содержащем множество \(E\)
+\end{definition}
+
+\begin{note}
+    Таким образом \(f(z) = |z|^2\) не является голоморфной ни в какой точке.
+\end{note}
+
+\begin{definition}
+    Множество \(E \subset \Cm\) (или \(\Cm\)) называется связным, если не существует двух открытых множеств \(G_1, G_2\), таких, что:
+    \begin{enumerate}
+        \item \(E \subset G_1 \cup G_2\)
+        \item \(E \cap G_1 \cap G_2 = \emptyset\)
+        \item \(E \cap G_1, E \cap G_2 \ne \emptyset\)
+    \end{enumerate}
+\end{definition}
+
+\begin{note}
+    Если в определении выше множество \(E\) открыто, то пункт 2 можно заменить на \(G_1 \cap G_2 = \emptyset\)
+\end{note}
+
+\begin{proposition}
+    Пусть \(E\) --- промежуток (отрезок, полуинтервал, интервал, луч или прямая). Тогда \(E\) --- связное множество.
+\end{proposition}
+\begin{proof}
+    От противного. Пусть \(\exists G_1, G_2\) --- открытые в \(\Cm\), что выполнены свойства 1-3. Тогда \(\exists a \ne b \in E: a \in G_1, b \in G_2\). Таким образом, мы свели задачу к случаю отрезка \(E_1 = [a, b]\). Рассмотрим последовательность вложенных отрезков (будем делить каждый предыдущий пополам и выбирать подходящий) \([a_n, b_n]\), которые обладают свойством ''отрезок нельзя покрыть одним из множеств \(G_1, G_2\)''. В таком случае \(a_n \ra c, b_n \ra c\). Заметим, что \(c \in G_1 \cup G_2\). Пусть Б.О.О, \(c \in G_1\). Тогда \(\exists r > 0: O_r(c) \subset G_1 \Ra \) для достаточно большого \(n\) мы смогли покрыть отрезок \([a_n, b_n]\) множеством \(G_1\), противоречие.
+\end{proof}
+
+\begin{proposition}
+    Пусть \(D\) --- открытое непустое множество в \(\overline{\Cm}\). Тогда \(D\) связно тогда и только тогда, когда \(\forall z_1, z_2 \in D \exists\) ломаная их соединяющая. Более того, ребра ломаной можно считать параллельными осям координат.
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}
+        \item[\(\Ra\)] От противного. Рассмотрим точки \(z_1, z_2\) и множества \(G_1 = \{z \in D: z_1\) можно соединить с \(z\) ломаной из условия теоремы \(\}\), \(G_2 = D \setminus G_1\) Эти множества будут открытыми. Действительно, \(G_1\) открыто так как утверждение теоремы справедливо для любого открытого шара, аналогично для \(G_2\) (если до точки можно дойти по ломаной, то и до любой другой из ее окрестности тоже). Кроме того, \(G_1, G_2 \ne \emptyset\), так как по предположению \(z_1 \in G_1, z_2 \in G_2\). Второе свойство выполнено, так как \(G_1 \cap G_2 = \emptyset\). Но тогда получили противоречие со связностью
+        \item[\(\La\)] (Здесь я написал свое доказательство) Пусть \(D\) не связно. Тогда рассмотрим множества \(G_1, G_2\) из определения и точки \(z_1, z_2\), между которыми существет путь \(\gamma_{z_1, z_2}\). Заметим, что \(\gamma_{z_1, z_2}: [0, 1] \ra \Cm\) --- непрерывное отображение, поэтму \(\gamma_{z_1, z_2}^{-1}(\text{открытое}) = \text{открытое}\). Поэтому \(\gamma_{z_1, z_2}^{-1}(G_1), \gamma_{z_1, z_2}^{-1}(G_2)\) --- открытые множества (на прямой), удовлетворяющие условиям 1-3 и покрывающие отрезок \([0, 1]\), что приводит нас к противоречию.
+    \end{enumerate}
+\end{proof}
+
+\begin{definition}
+    \(D \ne \emptyset\) --- область в \(\overline{\Cm}\), если \(D\) открыто и связно
+\end{definition}
+
+\begin{theorem}
+    Пусть \(f\) голоморфна в области \(D \subset \Cm\). Тогда \(f' \equiv 0 \Ra f \equiv const\)
+\end{theorem}
+\begin{proof}
+    От противного. Пусть \(f(z_1) \ne f(z_2)\). Так как \(D\) --- область, то \(\exists \gamma_{z_1, z_2}\) --- ломаная, соединяющая точки \(z_1, z_2\) со звеньями, параллельными осям координат. Запишем \(f(x, y) = u(x, y) + i v(x, y)\). Заметим, что вдоль каждого звена \(f(x, y)\) является константой из вещественного случая (т.к. \(u(x, \cdot), v(x, \cdot), u(\cdot, y), v(\cdot, y)\) постоянны). В таком случае \(f(z_1) = f(z_2)\), противоречие
+\end{proof}

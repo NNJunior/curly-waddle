@@ -1657,6 +1657,19 @@
             }
           ],
           "protected": true
+        },
+        {
+          "name": "Теория Функций Комплексного Переменного",
+          "description": "",
+          "folderName": "Theory_of_a_Functions_of_a_Complex_Variable",
+          "lectures": [
+            {
+              "name": "Лекция 1",
+              "date": "14.02.26",
+              "desc": "Введение. Голоморфность функции, условие постоянности функции в области.",
+              "suffix": "1"
+            }
+          ]
         }
       ]
     }
