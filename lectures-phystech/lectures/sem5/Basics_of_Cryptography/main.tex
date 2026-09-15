@@ -139,3 +139,114 @@
     В общем определении требуется, чтобы за полиномиальное время можно было сгенерировать распределение, пренебрежимо мало отличимое от равномерного на \(D_n\). Более формально, пусть \(\alpha\) --- сгенерированное распределение, тогда
     \[\forall p(\cdot) \exists N: \forall n > N \forall S \subset D_n \left| \alpha(S) - \frac{|S|}{|D_n|}\right| < \frac{1}{p(n)}\]
 \end{definition}
+
+\lecture{3}
+
+\subsection{Односторонние перестановки с секретом}
+
+\textit{Примечание от лектора:} по-другому: ''one-way trapdoor permutations''
+
+Обычные односторонние перестановки функция --- те, для которых \(f_\alpha(x)\) легко вычислима, а вот \(f_\alpha^{-1}(y)\) --- трудно (если знать только \(\alpha\)). Перестановка с секретом --- та, для которой \(f_\alpha^{-1}(y)\) легко вычисляется, если знать \(\alpha\) и некоторый секрет \(\tau\). Дадим этому формальное определение:
+
+\begin{definition}
+    Односторонняя перестановка с секретом --- функция \(f: \{0, 1\}^{k(n)} \times \{0, 1\}^{l(n)} \ra \{0, 1\}^{l(n)}\) (мы будем обозначать \(f_\alpha(x) := f(\alpha, x)\)), для которой существует множества \(D_\alpha \subset \{0, 1\}^{l(n)}\), причем \(f: D_\alpha \ra D_\alpha\) --- биекция и 4 полиномиальных вероятностных алгоритма:
+    \begin{enumerate}
+        \item Генератор (генерирует ключи) \(G: \text{случаные биты} \mapsto \text{пара}(\alpha, \tau)\) 
+        \item Сэмплер (сэмплирует \(D_\alpha\)) \(S: \alpha \mapsto \text{почти случайный элемент } D_\alpha\)
+        \item Вычислитель функции \(F: (\alpha, x) \mapsto f_\alpha(x)\)
+        \item Обратитель \(B: (\alpha, \tau, y) \mapsto f_\alpha^{-1}(y)\)
+    \end{enumerate}
+    Кроме этих алгоритмов, еще требуется односторонность перестановки:
+    \[\forall p \forall R \exists N \forall n > N: \Pr_{\alpha, y}\{R(\alpha, y) = f^{-1}_\alpha(y)\} < \frac{1}{p(n)}\]
+\end{definition}
+
+\begin{example}[Предположительный пример]
+    Рассмотрим функцию Рабина, где \(\alpha = p \cdot q\) (\(p, q\) --- простые вида \(4k + 3\)) --- модуль, по которому производим арифметику, \(D_\alpha\) --- квадратичные вычеты \(\mod \alpha\), секрет --- \(\tau = (p, q)\), \(f_\alpha(x) = x^2 \mod \alpha\).
+\end{example}
+
+\begin{note}
+    Про данную функцию неизвестно, действительно ли она является необратимой, но точно можно сказать, что квантовым компьютером данный алгоритм можно взломать (а именно, разложить на множители число \(pq\)). Таким образом, данная функция является примером \textbf{НЕ} постквантовой криптографии.
+\end{note}
+
+\section{Генераторы случайных чисел}
+Можно генерировать числа по-разному. Можно рассматривать ГИСЧ --- генераторы истинно случайных чисел и ГПСЧ --- генераторы псевдо-случайных чисел. Последние почти всегда работают по следующему правилу: дается некоторый \(x\) малой длины, по которому строится \(G(x)\) большой длины. Нетрудно понять, что таким образом получить равномерное распределение на \(\{0, 1\}^{|G(x)|}\) нельзя (т.к. \(|G(x)| > |x|\)), но можно попытаться получить нечто ''похожее'' на случаное распределение.
+
+\begin{definition}
+    Статистическое расстояние между распределениями случайных величин \(\alpha_n, \beta_n\) определяется как
+    \[\operatorname{dist}(\alpha_n, \beta_n) = \max_{S \subset \{0, 1\}^n} |\Pr\{\alpha_n \in S\} - \Pr\{\beta_n \in S\}|\]
+\end{definition}
+
+\begin{proposition}
+    \[\operatorname{dist}(\alpha_n, \beta_n) = \frac{1}{2}\sum_{x \in \{0, 1\}^n} |\Pr\{\alpha_n = x\} - \Pr\{\beta_n = x\}|\]
+\end{proposition}
+\begin{proof}
+    Пусть максимум в определении достигается на множестве \(S\). Тогда он достигается на множестве \(\overline{S} = \{0, 1\}^n \setminus S\). Б.О.О, \(\Pr\{\alpha_n \in S\} \ge \Pr\{\beta_n \in S\}\). Тогда \(\forall x \in S: \Pr\{\alpha_n = x\} \ge \Pr\{\beta_n = x\}\) (иначе можно ''убрать'' невыгодный \(x\) и значение только увеличится). Аналогично \(\forall x \in \overline{S}: \Pr\{\alpha_n = x\} \le \Pr\{\beta_n = x\}\). Заметим тогда, что
+    \[\Pr\{\alpha_n \in S\} - \Pr\{\beta_n \in S\} = \sum_{x \in S} \Pr\{\alpha_n = x\} - \Pr\{\beta_n = x\} = \sum_{x \in S} |\Pr\{\alpha_n = x\} - \Pr\{\beta_n = x\}|\]
+    Аналогично:
+    \[\Pr\{\alpha_n \in \overline{S}\} - \Pr\{\beta_n \in \overline{S}\} = \sum_{x \in S} \Pr\{\beta_n = x\} - \Pr\{\alpha_n = x\} = \sum_{x \in \overline{S}} |\Pr\{\alpha_n = x\} - \Pr\{\beta_n = x\}|\]
+    Но тогда:
+    \[\operatorname{dist}(\alpha_n, \beta_n) = \frac{\left( \Pr\{\alpha_n \in S\} - \Pr\{\beta_n \in S\} \right) + \left( \Pr\{\beta_n \in \overline{S}\} \ge \Pr\{\alpha_n \in \overline{S}\} \right)}{2} = \]
+    \[= \frac{1}{2}\sum_{x \in \{0, 1\}^n} |\Pr\{\alpha_n = x\} - \Pr\{\beta_n = x\}|\]
+\end{proof}
+
+\begin{note}
+    Таким образом, \(\operatorname{dist}\) является метрикой (\(L_1\)-метрикой) на множестве всех случайных величин.
+\end{note}
+
+\begin{definition}
+    Будем говорить, что \(\alpha_n, \beta_n\) статистически близки (\(\alpha_n \sim \beta_n\)), если 
+    \[\forall p(\cdot) \exists N \forall n > N: \operatorname{dist}(\alpha_n, \beta_n) < \frac{1}{p(n)}\]
+\end{definition}
+
+\begin{note}
+    Из утверждения выше получается эквивалентное определение:
+    \[\alpha_n \sim \beta_n \Lra \forall p(\cdot) \forall T \exists N \forall n > N: |\Pr\{T(\alpha_n) = 1\} - \Pr\{T(\beta_n) = 1\}| < \frac{1}{p(n)}\]
+    Здесь \(T\) --- любая булева функция
+\end{note}
+
+\begin{definition}
+    Будем говорить, что \(\alpha_n, \beta_n\) вычислительно неотличимы (\(\alpha_n \sim \beta_n\), будет понятно из контекста, что имеется в виду), если 
+    \[\forall p(\cdot) \forall T \exists N \forall n > N: |\Pr\{T(\alpha_n) = 1\} - \Pr\{T(\beta_n) = 1\}| < \frac{1}{p(n)}\]
+    Где \(T\) --- полиномиально вычислимый вероятностный алгоритм или семейство схем полиномиальной длины
+\end{definition}
+
+\begin{note}
+    Статистическая близость и вычислительная неотличимость --- отношения эквивалентности
+\end{note}
+\begin{proof}
+    Рефлексивность и симметричность очевидны. Докажем транзитивность: рассмотрим моменты \(N_1, N_2\), для которых \(\forall n > N_1, N_2: \operatorname{dist}(\alpha_n, \beta_n) < \frac{1}{2p(n)}, \operatorname{dist}(\beta_n, \gamma_n) < \frac{1}{2p(n)}\). Но тогда \(\forall n > \max\{N_1, N_2\}: \operatorname{dist}(\alpha_n, \gamma_n) < \frac{1}{p(n)}\)
+\end{proof}
+
+\begin{proposition}
+    Пусть \(\alpha_n \sim \beta_n\) (вычислительно неотличимы) и \(f\) --- полиномиально вычислимая функция. Тогда \(f(\alpha_n) \sim f(\beta_n)\) --- тоже вычислимо неотличимы.
+\end{proposition}
+\begin{proof}
+    Пусть \(\exists p \exists T \forall N \exists n > N: |\Pr\{T(f(\alpha_n)) = 1\} - \Pr\{T(f(\beta_n)) = 1\}| \ge \frac{1}{p(n)}\).
+    Рассмотрим \(T' = T \circ f\) --- полиномиально вычислимый. Но тогда  \(\forall N \exists n > N: |\Pr\{T'(\alpha_n) = 1\} - \Pr\{T'(\beta_n) = 1\}| \ge \frac{1}{p(n)}\), получили, что \(\alpha_n \not\sim \beta_n\).
+\end{proof}
+
+\begin{definition}
+    Генератор псевдо-случайных чисел --- полиномиально вычислимая функция (детерминированным алгоритмом) \(G_n: \{0, 1\}^n \ra \{0, 1\}^{p(n)}, p(n) > n\), такая, что \(G(x) \sim y\), где \(y\) --- случайные биты длины \(p(n)\) (при условии, что \(|x| = n\))
+\end{definition}
+
+\begin{note}
+    Обычно конструкция ГПСЧ выглядит следующим образом: имеется \(g: \{0, 1\}^n \ra \{0, 1\}^{n + 1}\). Соответствено \(g(x) = (y, b)\) (\(b\) --- последний бит). Соответственно, вывод определяется следующим образом: выдаем последний бит и передаем \(y\) обратно на вход функции \(g\), так делаем сколько угодно раз.
+\end{note}
+
+\begin{theorem}
+    \(\exists\) ГПСЧ \(\Ra \exists\) односторонняя функция
+\end{theorem}
+\begin{proof}
+    Докажем, что сам генератор будет являться односторонней функцией. Пусть \(R\) --- обратитель для \(G\). Тогда для бесконечно многих \(n\): \(\Pr_{x \in \{0, 1\}^n}\{R(G(x)) \in G^{-1}(G(x))\} = \epsilon(n) \ge \frac{1}{q(n)}\). Рассмотрим функцию
+    \[T(y) = \left\{\begin{array}{l}
+        1, G(R(y)) = y \\
+        0, \text{иначе}
+    \end{array}\right.\]
+    Заметим, что \(|G(\{0, 1\}^n)| \le 2^{n - 1}\). В таком случае для:
+    \[\Pr\{T(y) = 1\} = \left\{\begin{array}{l}
+        \epsilon, y\text{ из распределения }G(x) \\
+        \frac{|G(\{0, 1\}^n)|}{2^n} \le \frac{\epsilon}{2}, \text{\(y\) --- случайный}
+    \end{array}\right.\]
+    Но в таком случае \(\big|\Pr_{y \in \{0, 1\}^{p(n)}}\{T(y) = 1\} - \Pr_{x \in \{0, 1\}^{n}}\{T(G(x)) = 1\}\big| \ge \frac{\epsilon(n)}{2} \ge \frac{1}{2q(n)}\), поэтому \(G(x) \not\sim y\), получили противоречие.
+\end{proof}
+
