@@ -185,7 +185,7 @@
     Аналогично:
     \[\Pr\{\alpha_n \in \overline{S}\} - \Pr\{\beta_n \in \overline{S}\} = \sum_{x \in S} \Pr\{\beta_n = x\} - \Pr\{\alpha_n = x\} = \sum_{x \in \overline{S}} |\Pr\{\alpha_n = x\} - \Pr\{\beta_n = x\}|\]
     Но тогда:
-    \[\operatorname{dist}(\alpha_n, \beta_n) = \frac{\left( \Pr\{\alpha_n \in S\} - \Pr\{\beta_n \in S\} \right) + \left( \Pr\{\beta_n \in \overline{S}\} \ge \Pr\{\alpha_n \in \overline{S}\} \right)}{2} = \]
+    \[\operatorname{dist}(\alpha_n, \beta_n) = \frac{\left( \Pr\{\alpha_n \in S\} - \Pr\{\beta_n \in S\} \right) + \left( \Pr\{\beta_n \in \overline{S}\} - \Pr\{\alpha_n \in \overline{S}\} \right)}{2} = \]
     \[= \frac{1}{2}\sum_{x \in \{0, 1\}^n} |\Pr\{\alpha_n = x\} - \Pr\{\beta_n = x\}|\]
 \end{proof}
 
@@ -207,7 +207,7 @@
 \begin{definition}
     Будем говорить, что \(\alpha_n, \beta_n\) вычислительно неотличимы (\(\alpha_n \sim \beta_n\), будет понятно из контекста, что имеется в виду), если 
     \[\forall p(\cdot) \forall T \exists N \forall n > N: |\Pr\{T(\alpha_n) = 1\} - \Pr\{T(\beta_n) = 1\}| < \frac{1}{p(n)}\]
-    Где \(T\) --- полиномиально вычислимый вероятностный алгоритм или семейство схем полиномиальной длины
+    Где \(T\) --- противник (полиномиально вычислимый вероятностный алгоритм или семейство схем полиномиальной длины).
 \end{definition}
 
 \begin{note}
