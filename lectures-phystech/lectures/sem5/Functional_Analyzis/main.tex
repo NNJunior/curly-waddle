@@ -111,3 +111,68 @@
         0, x = y
     \end{array}\right.\). Заметим, что \(\tau_X = 2^X\)
 \end{example}
+
+\lecture{3}
+
+\begin{theorem}
+    Пусть \(X\) --- метрическое пространство. Тогда:
+    \begin{enumerate}
+        \item \(B(x, \epsilon)\) --- открытое множество
+        \item \(int\;M\) --- открытое множество
+        \item \(\overline{B}(x, \epsilon)\) --- замкнутое множество
+        \item \(\overline{M}\) --- замкнутое множество
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    \begin{enumerate}
+        \item Пусть \(\rho(y, x) = r < \epsilon\). В таком случае для любого \(z \in B\left( y, \frac{r - \epsilon}{2} \right)\) верно \(\rho(y, z) \le \rho(y, x) + \rho(x, z) < \epsilon\)
+        \item Возьмем произвольную точку из \(M\). Заметим, что \(B(x, \epsilon) \subset M \Ra int\;B(x, \epsilon) \subset int\;M \Ra B(x, \epsilon) \subset int\;M\).
+        \item[3, 4.] Предоставляется читателю в качестве нетрудного упражнения
+    \end{enumerate}
+\end{proof}
+
+\begin{exercise}
+    Верно ли, что в любом метрическом пространстве любой открытый шар связен?
+\end{exercise}
+
+\subsection{Непрерывные отображения топологических пространств}
+Пусть \(f: X \ra Y\) --- отображение метрических пространств.
+\begin{definition}[Непрерывность в МП по Коши]
+    \(f\) называется непрерывной в точке \(x_0\), если \(\forall V(f(x_0)) \exists U(x_0): f(U) \subset V\)
+\end{definition}
+
+\begin{definition}[Непрерывность в МП по Гейне]
+    \(f\) называется непрерывной в точке \(x_0\), если \(\forall x_n \ra_X x_0 \Ra f(x_n) \ra_Y f(x_0)\)
+\end{definition}
+
+\begin{note}
+    На матане мы доказывали, что эти определения эквивалентны.
+\end{note}
+
+\begin{definition}[Непрерывность для топологических пространств]
+    Пусть \(f: X \ra Y\) --- отображение топологических пространств. \(f\) называется непрерывной в точке \(x_0\), если \(\forall V(f(x_0)) \exists U(x_0): f(U) \subset V\) (определение абсолютно совпадает с определением по Коши для МП).
+\end{definition}
+
+\begin{theorem}
+    Пусть \(X, Y\) --- ТП, \(f: X \ra Y\). Следующие утверждения эквивалентны:
+    \begin{enumerate}
+        \item \(f\) --- непрерывна
+        \item \(\forall G \in \tau_Y: f^{-1}(G) \in \tau_X\)
+        \item \(\forall\) замкнутого \(F \subset Y: f^{-1}(F)\) замкнуто в \(X\).
+    \end{enumerate}
+\end{theorem}
+\begin{proof}\indent
+    \begin{enumerate}
+        \item[\((1) \Ra (2)\)] Пусть \(G \in \tau_Y\). Рассмотрим \(H = f^{-1}(G)\). По определению, \(\forall f(x) \in G \exists H_x \in \tau_X \ni x: H \supset H_x\). Заметим, что \(\bigcup_{x \in H} H_x \subset H \Ra \bigcup_{x \in X} H_x = H \Ra H \in \tau_H\).
+        \item[\((2) \Ra (1)\)] Рассмотрим \(V(f(x_0)) = G\). В таком случае \(\exists U(x_0) = f^{-1}(G) \in \tau_Y\).
+        \item[\((2) \Lra (3)\)] Очевидно следует из \(f^{-1}(CF) = Cf^{-1}(F)\)
+    \end{enumerate}
+\end{proof}
+
+\begin{definition}(Гомеоморфизм ТП)
+    Пусть \(X, Y\) --- ТП. Они называются гомеоморфными, если \(\exists f: X \ra Y\) --- биекция, такая что \(f, f^{-1}\) --- непрерывны.
+\end{definition}
+
+\begin{exercise}
+    Верно ли, что в любом метрическом пространстве любой открытый шар связен?
+\end{exercise}
