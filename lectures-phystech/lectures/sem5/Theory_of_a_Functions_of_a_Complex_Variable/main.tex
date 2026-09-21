@@ -164,3 +164,181 @@
 \begin{proof}
     От противного. Пусть \(f(z_1) \ne f(z_2)\). Так как \(D\) --- область, то \(\exists \gamma_{z_1, z_2}\) --- ломаная, соединяющая точки \(z_1, z_2\) со звеньями, параллельными осям координат. Запишем \(f(x, y) = u(x, y) + i v(x, y)\). Заметим, что вдоль каждого звена \(f(x, y)\) является константой из вещественного случая (т.к. \(u(x, \cdot), v(x, \cdot), u(\cdot, y), v(\cdot, y)\) постоянны). В таком случае \(f(z_1) = f(z_2)\), противоречие
 \end{proof}
+
+\lecture{2}
+
+\begin{note}
+    Запишем \(df = d(u + iv) = du + idv = du + idv = u_xdx + u_ydy + i(v_xdx + v_ydy) = \underbrace{(u_x + iv_x)}_{f_x}dx + \underbrace{(u_y + iv_y)}_{f_y}dy = \underbrace{\frac{1}{2}\left( f_x - if_y \right)}_{f_z}dz + \underbrace{\frac{1}{2}\left( f_x + if_y \right)}_{f_{\overline{z}}}d\overline{z}\). Таким образом, получаем, что \(f\) дифференцируема в точке \(z_0 \Lra u, v\) дифференцируемы в \(z_0\) и \(f_{\overline{z}} = 0 \Lra\) условие Коши-Римана.
+
+    Кроме того, это означает, что форма \(fdz\) замкнута. Действительно: \(d(fdz) = f_zdz \wedge dz + f_{\overline{z}}d_{\overline{z}} \wedge dz = 0\)
+\end{note}
+
+\begin{note}
+    Пусть \(f = u + iv\) --- голоморфна в области \(D\) и \(u, v \in C^2(D)\) (данное требование можно опустить, покажем это в будущем). Тогда \(u, v\) --- гармонические, т.е. \(\Delta u = \Delta v = 0\), где \(\Delta u = \frac{\partial^2 u}{\partial x^2} + \frac{\partial^2 u}{\partial y^2}\) --- оператор Лапласа
+\end{note}
+\begin{proof}
+    Следует из свойства Коши-Римана.
+\end{proof}
+
+\begin{proposition}
+    Пусть \(f: O_r(z_0) \ra O_\rho(w_0)\) голоморфна в \(O_r(z_0), f(z_0) = w_0, g\) голоморфна в \(O_\rho(w_0)\). Тогда \(h = g \circ f\) тоже голоморфна в \(O_r(z_0)\), причем \(h'(z_0) = g'(w_0)f'(z_0)\).
+\end{proposition}
+\begin{proof}
+    Положим \(w = f(z), \Delta z = z - z_0, \Delta w = w - w_0\). В таком случае: \(\Delta w = f'(z_0)\Delta z + o(\Delta z)\). Тогда: \(g(w) - g(w_0) = g'(w_0)\Delta w + \Delta w \eta(\Delta w)\), где \(\lim_{\Delta w \ra 0}\eta(\Delta w) = 0\). В таком случае:
+    \[\frac{h(z) - h(z_0)}{z - z_0} = \frac{g(w) - g(w_0)}{\Delta z} = g'(w_0) \frac{\Delta w}{\Delta z} + \frac{\Delta w}{\Delta z}\eta(\Delta w) = (*)\]
+    Получаем, что \(\lim_{z \ra z_0} (*) = g'(w_0)f(z_0)\).
+\end{proof}
+
+\begin{theorem}[Об обратной функции]
+    Пусть \(f\) голоморфна в \(D\), \(f'\) непрерывна в области \(D\) (докажем позднее, что это следует из голоморфности), \(z_0 \in D, f(z_0) = w_0, f'(z_0) \ne 0\). Тогда \(\exists U, V\) --- окрестности точек \(z_0, w_0\), такие, что \(f\) --- биекция \(U\) на \(V\), а \(g = f^{-1}\) голоморфна в \(V\) и \(g'(w_0) = \frac{1}{f(z_0)}\)
+\end{theorem}
+\begin{proof}
+    \(f'\) непрерывна \(\Ra |f'|\) тоже будет непрерывной. Тогда \(\exists O_r(z_0): |f'(z)| > 0 \forall z \in O_r(z_0)\). Рассмотрим \(f\) как \(f: \R^2 \ra \R^2\) и посчитаем якобиан:
+    \[J_f = \left| \begin{array}{cc}
+        u_x & u_y \\
+        v_x & v_y
+    \end{array} \right| = u_xv_y - u_yv_x = u_x^2 + u_y^2 = |f'(z)|^2 > 0\]
+    В таком случае по теореме об обратной функции: \(\exists U, V\) --- окрестности точек \(z_0, w_0\), такие, что \(f\) --- биекция \(U\) на \(V\), а \(g = f^{-1}\) дифференцируема в \(V\) и \(g'(w_0) = \frac{1}{f(z_0)}\). Докажем голоморфность \(g\):
+
+    Так как \(f\) \(\Cm\)-дифференцируема в точке \(z_0\),
+    \[
+        \Delta w=f'(z_0)\Delta z+o(|\Delta z|).
+    \]
+    Поскольку \(f'(z_0)\ne 0\), при достаточно малых \(\Delta z\)
+    \[
+        |\Delta w|\ge c|\Delta z|,  c>0,
+    \]
+    поэтому \(o(|\Delta z|)=o(|\Delta w|)\). Следовательно,
+    \[
+        \Delta z=\frac{1}{f'(z_0)}\Delta w+o(|\Delta w|).
+    \]
+    Но \(\Delta z=g(w)-g(w_0)\), \(\Delta w=w-w_0\). Значит,
+    \[
+        g(w)-g(w_0)=\frac{1}{f'(z_0)}(w-w_0)+o(|w-w_0|).
+    \]
+    Это и означает, что \(g\) \(\Cm\)-дифференцируема в точке \(w_0\), причём
+    \[
+        g'(w_0)=\frac{1}{f'(z_0)}=\frac{1}{f'(g(w_0))}.
+    \]
+    Так как это верно для каждой точки \(w_0\in V\), функция \(g\) голоморфна в \(V\).
+\end{proof}
+
+\begin{definition}
+    Голоморфная функция \(f\) в области \(D\) называется однолистной, если \(\forall z_1 \ne z_2 \in D: f(z_1) \ne f(z_2)\)
+\end{definition}
+
+\begin{definition}
+    Голоморфная функция \(f\) в области \(D\) называется локально однолистной, если \(\forall z \in D \exists O(z): f\) однолистна в \(O(z)\).
+\end{definition}
+
+\begin{example}
+    \(f(z)=z^2\) является локально однолистной, но не однолистной. Действительно,
+    \[
+        f(z)=z^2=(-z)^2=f(-z),
+    \]
+    поэтому на \(\Cm\) функция \(z^2\) не однолистна. Если \(z_0\ne 0\), то
+    \[
+        f'(z_0)=2z_0\ne 0,
+    \]
+    и по теореме об обратной функции \(f\) локально однолистна в окрестности точки \(z_0\). В точке \(z_0=0\) локальной однолистности нет: в любой её окрестности найдутся \(z\) и \(-z\), для которых
+    \[
+        z^2=(-z)^2.
+    \]
+
+    Итак, \(f(z)=z^2\) локально однолистна в \(\Cm\setminus\{0\}\), но не однолистна на всём \(\Cm\).
+\end{example}
+
+\begin{definition}
+    Пусть \(E \subset \Cm, f_n: E \ra \Cm\). Будем говорить, что \(f_n \ra f\) (сходится поточечно), если \(\forall z \in E: f_n(z) \ra f(z)\).
+\end{definition}
+
+\begin{definition}
+    Пусть \(E \subset \Cm, f_n: E \ra \Cm\). Будем говорить, что \(f_n \rightrightarrows_E f\) (сходится равномерно), если \(\forall \epsilon > 0\exists N: \forall n > N \forall z \in E: |f_n(z) - f(z)| < \epsilon\).
+\end{definition}
+
+\begin{note}
+    \(f_n \rightrightarrows_E f \Lra \forall \epsilon > 0\exists N: \forall n, m > N \forall z \in E: |f_n(z) - f_m(z)| < \epsilon\)
+\end{note}
+
+\begin{definition}
+    Будем говорить, что ряд \(S = \sum_{n = 0}^\infty f_n\) сходится равномерно, если \(S_n = \sum_{k = 0}^n f_k \rightrightarrows S\)
+\end{definition}
+
+\begin{note}
+    Аналогично вещественному случаю верен признак сходимости Вейерштрасса, а именно: если \(\sum_{n = 1}^\infty \alpha_n < +\infty, |f_n| \le \alpha_n\), то \(\sum_{n = 1}^\infty f_n \rightrightarrows\)
+\end{note}
+
+\begin{theorem}
+    Пусть дан ряд \(S(z) = \sum_{n = 0}^\infty a_nz^n, a_n \in \Cm\). Положим \(R = \frac{1}{\limsup_{n \ra \infty} \sqrt[n]{|a_n|}} \in [0, +\infty]\). Тогда:
+    \begin{enumerate}
+        \item При \(|z| \le r < R\) ряд \(S\) сходится равномерно
+        \item При \(|z| > R\) ряд расходится
+        \item При \(|z| < R\) функция \(S(z)\) голоморфна, причем \(S'(z) = \sum_{n = 1}^\infty na_nz^{n - 1}\).
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    \begin{enumerate}
+        \item Докажем при \(R > 0\). Пусть \(\rho \in (r, R)\). Тогда \(\limsup \sqrt[n]{|a_n|} = \frac{1}{R} < \frac{1}{\rho}\). Это означает, что \(\exists N: \forall n > N: |a_n| \le \frac{1}{\rho^n}\) и тогда \(|a_nz^n| \le \left( \frac{r}{\rho} \right)^n\). Так как \(\frac{r}{\rho} < 1\), применяя признак Вейерштрасса, получаем, что \(S_n(x) \rightrightarrows S(x)\).
+        \item Пусть \(|z| > R\). Заметим, что тогда \(\exists \{n_k\} \uparrow\), такая, что \(\sqrt[n_k]{|a_{n_k}|} \ra \frac{1}{R}\). Но в таком случае \(|a_{n_k}z^{n_k}| \ge 1\), т.е. слагаемые ряда не сходится к 0, т.е. он расходится.
+        \item Рассмотрим \(g(z) = \sum_{n = 1}^\infty na_nz^n\). Заметим, что радиус сходимости данного ряда равен: \[\frac{1}{\limsup_{n \ra \infty}\sqrt[n]{n + 1|a_{n + 1}|}} = \frac{1}{\lim_{n \ra \infty} \sqrt[n]{n + 1}\cdot\limsup_{n \ra \infty}\sqrt[n]{|a_{n + 1}|}} = \frac{1}{\limsup_{n \ra \infty} \sqrt[n]{|a_n|}} = R\]
+        Положим \(Q_n(z) = \sum_{k = n + 1}^\infty a_kz^k\). Тогда:
+        \[\frac{S(z) - S(z_0)}{z - z_0} - g(z_0) = \frac{S_n(z) - S_n(z_0)}{z - z_0} + \frac{Q_n(z) - Q_n(z_0)}{z - z_0} - g(z_0) =\]
+        \[\underbrace{\frac{S_n(z) - S_n(z_0)}{z - z_0} - S_n'(z_0)}_{I_1} + \underbrace{\frac{Q_n(z) - Q_n(z_0)}{z - z_0}}_{I_2} + \underbrace{S_n'(z_0) - g(z_0)}_{I_3}\]
+
+        Зафиксируем \(r: |z_0| < r < R\). Тогда при \(|z| \le r\):
+        \[
+        |I_2|
+        =
+        \left|
+        \sum_{k=n+1}^\infty a_k \frac{z^k-z_0^k}{z-z_0}
+        \right|
+        \le
+        \sum_{k=n+1}^\infty k|a_k|r^{k-1}
+        \ra 0 \quad (n \ra \infty),
+        \]
+        так как \(r < R\). Далее,
+        \[
+        I_3
+        =
+        S_n'(z_0)-g(z_0)
+        =
+        -\sum_{k=n+1}^\infty k a_k z_0^{k-1}
+        \ra 0 \quad (n \ra \infty),
+        \]
+        поскольку \(|z_0| < R\). Наконец, при фиксированном \(n\)
+        \[
+        I_1
+        =
+        \sum_{k=1}^n a_k\left(\frac{z^k-z_0^k}{z-z_0}-kz_0^{k-1}\right)
+        \ra 0 \quad (z \ra z_0),
+        \]
+        так как это конечная сумма. Следовательно, \(\forall \epsilon > 0\) выберем \(n\) так, чтобы
+        \[
+        |I_2| < \epsilon,\qquad |I_3| < \epsilon,
+        \]
+        а затем \(\delta > 0\) так, чтобы при \(0 < |z-z_0| < \delta\) было
+        \(
+        |I_1| < \epsilon.
+        \). Тогда
+        \(
+        \left|
+        \frac{S(z)-S(z_0)}{z-z_0}-g(z_0)
+        \right|
+        \le |I_1|+|I_2|+|I_3|
+        < 3\epsilon
+        \). Значит,
+        \[
+        \lim_{z \ra z_0}\frac{S(z)-S(z_0)}{z-z_0}=g(z_0),
+        \Ra
+        S'(z_0)=g(z_0)=\sum_{n=1}^\infty n a_n z_0^{n-1}.
+        \]
+        В силу произвольности \(z_0\) при \(|z_0|<R\), функция \(S\) голоморфна при \(|z|<R\), причём
+        \[
+        S'(z)=\sum_{n=1}^\infty n a_n z^{n-1}.
+        \]
+    \end{enumerate}
+\end{proof}
+
+\begin{note}
+    Заметим что в теореме выше выполнено \(S^{(n)}(z) = n!a_n + \sum_{k = 1}^\infty b_kz^k\). В таком случае \(a_n = \frac{S^{(n)}(0)}{n!}\).
+\end{note}
