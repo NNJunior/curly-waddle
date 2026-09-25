@@ -1684,9 +1684,15 @@
               "date": "18.09.26",
               "desc": "Точные интервалы, интервалы для нормального распределения",
               "suffix": "3"
+            },
+            {
+              "name": "Лекция 4",
+              "date": "25.09.26",
+              "desc": "Методы нахождения оценок. Метод максимального правдоподобия. Непараметрический подход к статистике.",
+              "suffix": "4"
             }
           ],
-          "passwordHash": "jt7aWmdL1FhLQnDxRGo4BA==:bjVanc0a3XPduOz8qLxPnbRJUGf1TYSJzhp0mehq2oU="
+          "passwordHash": "ew+yDW3ywfko6m54VQwJ2g==:eFYAnIOrjRocf68ZatrDlo8kRbTFa4P/KMXUvyriRkI="
         },
         {
           "name": "Теория Функций Комплексного Переменного",
