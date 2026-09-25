@@ -30,12 +30,12 @@
         \item \(\rho(x, Y) = 0\)
         \item \(\exists \{x_n\} \subset Y: x_n \ra x\) 
     \end{itemize}
-    \item Замыкание множества (\(\overline{Y}\)) --- объединение множества со всеми точками прикосновения.
+    \item Замыкание множества (\(\overline{Y}\)) --- объединение множества со всеми точками прикосновения (или, что эквивалентно, просто множество всех точек прикосновения).
     \item Замкнутое множество --- такое, что \(\overline{Y} = Y\)
     
 \subsubsection{Открытость}
     \item Точка \(x\) называется внутренней для множества \(Y\), если \(\exists B(x) \subset Y\)
-    \item Внутренность множества (или открытое ядро) --- \(\stackrel{\circ}{Y} = Y^{\circ} = int\;Y\) --- множество всех внутренних точек
+    \item Внутренность множества (или открытое ядро) --- \(\stackrel{\circ}{Y} = Y^{\circ} = \operatorname{int}Y\) --- множество всех внутренних точек
     \item Открытое множество --- такое, что \(Y^{\circ} = Y\).
 
 
@@ -52,16 +52,17 @@
 
     \item \(X\) --- сепарабельное пространство, если \(\exists A\) --- не более, чем счетное, такое, что \(\overline{A} = X\)
     
-    \item \(X\) --- несвязно, если \(X = G_1 \sqcap G_2\), где \(G_1, G_2 \ne \emptyset\) --- открытые. Соответственно, \(X\) --- связно, если оно не является несвязным.
+    \item \(X\) --- несвязно, если \(X = G_1 \sqcup G_2\), где \(G_1, G_2 \ne \emptyset\) --- открытые. Соответственно, \(X\) --- связно, если оно не является несвязным.
     
     Вообще говоря, есть еще понятие линейной связности. У гуманитариев аналогом ему является слово ''нарратив''
 
     \item База топологии --- система открытых множеств \(\mathcal{B}\) называется базой, если \(\forall G\) --- открытого, \(G = \bigcup B_\alpha, B_\alpha \in \mathcal{B}\)
     \item Сравнение топологий --- \(\tau_1 \prec \tau_2 \Lra \tau_1 \subset \tau_2\)
+    \item \(СY = \overline{Y} = X \setminus Y\), где \(Y \subset X\) --- дополнение к множеству \(Y\).
 \end{enumerate}
 
 \begin{theorem}
-    Пусть \(X\) --- метрическое пространство. \(G_1 \subset X\) --- открытое \(\Lra F = X \setminus G = CG\) --- связное.
+    Пусть \(X\) --- метрическое пространство. \(G_1 \subset X\) --- открытое \(\Lra F = X \setminus G = CG\) --- замкнутое.
 \end{theorem}
 \begin{proof}
     \begin{enumerate}
@@ -118,15 +119,15 @@
     Пусть \(X\) --- метрическое пространство. Тогда:
     \begin{enumerate}
         \item \(B(x, \epsilon)\) --- открытое множество
-        \item \(int\;M\) --- открытое множество
+        \item \(\operatorname{int}M\) --- открытое множество
         \item \(\overline{B}(x, \epsilon)\) --- замкнутое множество
         \item \(\overline{M}\) --- замкнутое множество
     \end{enumerate}
 \end{theorem}
 \begin{proof}
     \begin{enumerate}
-        \item Пусть \(\rho(y, x) = r < \epsilon\). В таком случае для любого \(z \in B\left( y, \frac{r - \epsilon}{2} \right)\) верно \(\rho(y, z) \le \rho(y, x) + \rho(x, z) < \epsilon\)
-        \item Возьмем произвольную точку из \(M\). Заметим, что \(B(x, \epsilon) \subset M \Ra int\;B(x, \epsilon) \subset int\;M \Ra B(x, \epsilon) \subset int\;M\).
+        \item Пусть \(\rho(y, x) = r < \epsilon\). В таком случае для любого \(z \in B\left( y, \frac{\epsilon - r}{2} \right)\) верно \(\rho(y, z) \le \rho(y, x) + \rho(x, z) < \epsilon\)
+        \item Возьмем произвольную точку из \(\operatorname{int}M\). Заметим, что \(B(x, \epsilon) \subset M\) (из определения \(\operatorname{int}M\)). Тогда \(\operatorname{int}B(x, \epsilon) \subset \operatorname{int}M \Ra B(x, \epsilon) = \operatorname{int}B(x, \epsilon) \subset \operatorname{int}M\).
         \item[3, 4.] Предоставляется читателю в качестве нетрудного упражнения
     \end{enumerate}
 \end{proof}
@@ -163,7 +164,7 @@
 \end{theorem}
 \begin{proof}\indent
     \begin{enumerate}
-        \item[\((1) \Ra (2)\)] Пусть \(G \in \tau_Y\). Рассмотрим \(H = f^{-1}(G)\). По определению, \(\forall f(x) \in G \exists H_x \in \tau_X \ni x: H \supset H_x\). Заметим, что \(\bigcup_{x \in H} H_x \subset H \Ra \bigcup_{x \in X} H_x = H \Ra H \in \tau_H\).
+        \item[\((1) \Ra (2)\)] Пусть \(G \in \tau_Y\). Рассмотрим \(H = f^{-1}(G)\). По определению, \(\forall f(x) \in G \exists H_x \in \tau_X \ni x: H \supset H_x\). Заметим, что \(\bigcup_{x \in H} H_x \subset H \Ra \bigcup_{x \in H} H_x = H \Ra H \in \tau_H\).
         \item[\((2) \Ra (1)\)] Рассмотрим \(V(f(x_0)) = G\). В таком случае \(\exists U(x_0) = f^{-1}(G) \in \tau_Y\).
         \item[\((2) \Lra (3)\)] Очевидно следует из \(f^{-1}(CF) = Cf^{-1}(F)\)
     \end{enumerate}
