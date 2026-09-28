@@ -18,11 +18,11 @@
 \end{enumerate}
 
 Вспомним также тригонометрическую запись комплексного числа:
-\(0 \ne a = r(\cos \phi + i \sin \phi)\). В таком случае \(|a| = r\), \(\phi \in Arg\{a\} = \{arg\;a + 2\pi k\}_{k \in \Z}\), где \(arg\;a \in (-\pi, \pi)\).
+\(0 \ne a = r(\cos \phi + i \sin \phi)\). В таком случае \(|a| = r\), \(\phi \in \operatorname{Arg}\{a\} = \{\operatorname{arg}a + 2\pi k\}_{k \in \Z}\), где \(\operatorname{arg}a \in (-\pi, \pi)\).
 
 \begin{exercise}
-    \(Arg\{a_1a_2\} = Arg\{a_1\} + Arg\{a_2\}\), что равносильно:
-    \(arg\{a_1a_2\} = arg\{a_1\} + arg\{a_2\} \mod 2\pi\)
+    \(\operatorname{Arg}\{a_1a_2\} = \operatorname{Arg}\{a_1\} + \operatorname{Arg}\{a_2\}\), что равносильно:
+    \(\operatorname{arg}\{a_1a_2\} = \operatorname{arg}\{a_1\} + \operatorname{arg}\{a_2\} \mod 2\pi\)
 \end{exercise}
 
 \subsection{Простейшие определения}
@@ -248,6 +248,8 @@
     Итак, \(f(z)=z^2\) локально однолистна в \(\Cm\setminus\{0\}\), но не однолистна на всём \(\Cm\).
 \end{example}
 
+\subsection{Степенные ряды}
+
 \begin{definition}
     Пусть \(E \subset \Cm, f_n: E \ra \Cm\). Будем говорить, что \(f_n \ra f\) (сходится поточечно), если \(\forall z \in E: f_n(z) \ra f(z)\).
 \end{definition}
@@ -342,3 +344,279 @@
 \begin{note}
     Заметим что в теореме выше выполнено \(S^{(n)}(z) = n!a_n + \sum_{k = 1}^\infty b_kz^k\). В таком случае \(a_n = \frac{S^{(n)}(0)}{n!}\).
 \end{note}
+
+\lecture{3}
+
+\subsection{Экспонента}
+
+Попробуем ввести экспоненту (как эквивалент функции обычного математического анализа). Возьмем за определяющее свойство \(f' = f\). Заметим, что если \(f\) разлагается в степенной ряд, то:
+\[f' = \sum_{n = 1}^\infty na_nz^{n - 1} = \sum_{n = 0}^\infty a_nz^n = f\]
+Откуда нетрудно понять, что \(a_n = Cn!\). Аналогично вещественному случаю, положим \(C = 1\) и скажем, что:
+
+\begin{definition}
+    \[e^z = \sum_{n = 0}^\infty \frac{z^n}{n!}\]
+\end{definition}
+
+\begin{note}
+    У полученной функции бесконечный радиус сходимости, т.е. данная функция голоморфна на всем \(\Cm\).
+\end{note}
+
+\begin{note}[Свойства экспоненты]
+    \begin{enumerate}
+        \item \((e^z)' = e^z\)
+        \item \(e^0 = 1\)
+        \item \(e^{\overline{z}} = \overline{e^z}\)
+        \item \(e^{z_1 + z_2} = e^{z_1}e^{z_2}\)
+        \item \(e^{z}e^{-z} = e^{0} = 1 \Ra e^z \ne 0\)
+        \item \(e^{x + iy} = e^xe^{iy}, |e^{iy}| = 1, e^x = |e^z|\)
+    \end{enumerate}
+\end{note}
+\begin{proof}
+    \begin{enumerate}
+        \item[4.] Рассмотрим \(g(z) = e^ze^{a - z}\). Тогда: \(g'(z) = e^ze^{a - z} - e^ze^{a - z} = 0\). Тогда \(g \equiv const\) на всем \(\Cm\) и тогда \(g(z) = g(0) = e^a\). Получили, что \(e^ze^{a - z} = e^a\)
+        \item[6.] \(|e^{iy}|^2 = e^{iy}\overline{e^{iy}} = e^{iy}e^{-iy} = 1\).
+    \end{enumerate}
+\end{proof}
+
+\subsection{Тригонометрические функции и логарифм}
+
+\begin{definition}
+    Определим функции \(\sin, \cos, \sh, \ch\) следующим образом:
+    \begin{align*}
+        & \sin z = \frac{e^{iz} - e^{-iz}}{2i} & \cos z = \frac{e^{iz} + e^{-iz}}{2} &\\
+        & \sh z = \frac{e^{z} - e^{-z}}{2} & \ch z = \frac{e^{z} + e^{-z}}{2} & \\
+    \end{align*}
+\end{definition}
+
+\begin{note}
+
+\end{note}
+
+\begin{definition}
+    Будем говорить, что \(\zeta \in \operatorname{Ln}\{z\}\), если \(e^\zeta = z \ne 0\).
+\end{definition}
+\begin{note}
+    Пусть \(\zeta = \xi + i \eta\). Тогда \(e^\xi = |z|, e^{i\eta} = \frac{z}{|z|}\). Получаем, что \(\operatorname{Ln}\{z\} = \ln |z| + i \operatorname{Arg}\{z\}\), и тогда: \(\operatorname{Ln}\{z_1z_2\} = \operatorname{Ln}\{z_1\} + \operatorname{Ln}\{z_2\}\), где сумма понимается в смысле Минковского
+\end{note}
+
+\begin{definition}
+    Пусть \(D\) --- область в \(\Cm, F: D \ra 2^{\Cm}\). Будем говорить, что \(f: D \ra \Cm\) является непрерывной ветвью \(F\), если \(f\) непрерывна в \(D\) и \(\forall z \in D: f(z) \in F(z)\).
+\end{definition}
+
+\begin{note}
+    Рассмотрим \(\operatorname{arg} z\) в области \(\Cm \setminus \R_- = \Cm \setminus (-\infty, 0]\). Тогда \(\ln z = \ln |z| + i \operatorname{arg} z\) в \(\Cm \setminus \R_-\) --- непрерывная ветвь логарифма --- будет являться голоморфной функцией (как обратная от голоморфной экспоненты, у которой производная не обращается в ноль). При этом:
+    \[(\ln z)' = \frac{1}{(e^\zeta)'} = \frac{1}{e^\zeta} = \frac{1}{z}\]
+\end{note}
+
+\begin{definition}
+    Положим для произвольных \(a, b \in \Cm: a^b = e^{b \operatorname{Ln}\{a\}}\)
+\end{definition}
+
+Попробуем разложить \(\ln(1 + z)\) в ряд Маклорена: 
+\[(\ln z)' = \frac{1}{z + 1} = \sum_{i = 1}^n (-1)^nz^n, |z| < 1\]
+Рассмотрим \(S(z) = \sum_{n = 1}^\infty \frac{(-1)^nz^n}{n}\). Тогда
+\[\ln z - S'(z) = 0 \Ra \ln z = S(z) - S(0) + \ln 0 = S(z) \]
+Получили разложение логарифма в ряд Маклорена:
+\[\ln z = \sum_{n = 1}^\infty \frac{(-1)^nz^n}{n}\]
+
+\section{Комплексное интегрирование}
+
+\subsection{Кривые в \(\Cm\)}
+
+\begin{definition}
+    Уравнение кривой \(\gamma\) --- непрерывная функция \(z: [\alpha, \beta] \ra \Cm\).
+\end{definition}
+
+\begin{note}
+    Формально, кривая \(\gamma\) --- класс эквивалентности путей \(z\), тогда как \(z\) --- один из его представителей.
+\end{note}
+
+Мы будем рассматривать \(z\), как пару непрерывных функций \(x, y: [\alpha, \beta] \ra \R\), и \(z = x(t) + iy(t)\).
+
+\begin{note}
+    Образ кривой, а именно \(z([\alpha, \beta]) = \{z: z = x(t) = iy(t), t \in [\alpha, \beta]\}\) является компактным линейно связным множеством. Будем говорить, что \(z(\alpha)\) --- начало кривой, а \(z(\beta)\) --- конец. В случае, если \(z(\alpha) = z(\beta)\), будем говорить, что кривая замкнута.
+\end{note}
+
+\begin{definition}
+    Кривая \(\gamma\) называется жордановой, если \(\exists z: z(t_1) = z(t_2) \Lra t_1 = t_2\).
+\end{definition}
+
+\begin{definition}
+    Кривая \(\gamma\) называется замкнутой жордановой кривой, если \(\exists z: z(t_1) = z(t_2) \Lra t_1 = t_2 \forall t_1, t_2 \in [\alpha, \beta)\) и \(z(\alpha) = z(\beta)\)
+\end{definition}
+
+\begin{note}
+    Замкнутая жордановая кривая не является жордановой кривой.
+\end{note}
+
+\begin{definition}
+    По кривой \(\gamma\) построим кривую \(-\gamma\) следующим образом: для любого представителя \(z\) кривой \(\gamma\) рассмотрим \(\tilde z(t) = z(-t)\), при этом \(\tilde z: [-\beta, -\alpha]\).
+\end{definition}
+
+\begin{definition}
+    Кривая \(\gamma\) называется гоадкой, если \(\exists\) параметризация кривой, такая, что \(z = x + iy, x, y \in C^1[\alpha, \beta]\), причем \(z'(t) = \dot x(t) + i\dot y(t) \ne 0\)
+\end{definition}
+
+\begin{definition}
+    Кривая \(\gamma\) называется кусочно-гладкой, если \(\exists T = \alpha = t_0 < t_1 < \dots < t_{n - 1} < t_n = \beta\) --- разбиение отрезка \([\alpha, \beta]\) и параметризация \(z\), такие, что \(z|_{[t_k, t_{k + 1}]}\) является гладкой
+\end{definition}
+
+\begin{definition}
+    \(\operatorname{Length} \gamma = \sup_T \sum_{k = 0}^n |z(t_k - z(t_{k - 1}))|\)
+\end{definition}
+
+\subsection{Определение интеграла вдоль кривой}
+
+Пусть \(D\) --- область в \(\Cm, \gamma \subset D, \gamma\) --- кусочно-гладкая кривая, \(f\) непрерывна в области \(D\). Пусть \(T, \tau\) --- отмеченное разбиение отрезка \([\alpha, \beta]\), то есть \(\tau_k \in [t_{k - 1}, t_k]\). 
+
+\begin{definition}
+    \[\int_\gamma fdz = \lim_{|T| \ra 0} \sum_{} f(z(\tau_k))(z(t_k) - z(t_{k - 1}))\]
+\end{definition}
+\begin{definition}
+    \[\int_\gamma f|dz| = \lim_{|T| \ra 0} \sum_{} f(z(\tau_k))|z(t_k) - z(t_{k - 1})|\]
+\end{definition}
+
+Пусть \(f=u+iv\), где \(u=\Re f,\ v=\Im f\), и \(dz=dx+i\,dy\). Тогда
+
+\[
+\int_\gamma f\,dz
+=
+\int_\gamma (u+iv)\,dz
+=
+\int_\gamma u\,dz+i\int_\gamma v\,dz.
+\]
+
+Распишем \(dz=dx+i\,dy\):
+
+\[
+\int_\gamma u\,dz
+=
+\int_\gamma u\,dx+i\int_\gamma u\,dy,
+\qquad
+\int_\gamma v\,dz
+=
+\int_\gamma v\,dx+i\int_\gamma v\,dy.
+\]
+
+Следовательно,
+
+\[
+\int_\gamma f\,dz
+=
+\int_\gamma (u\,dx-v\,dy)
++
+i\int_\gamma (v\,dx+u\,dy).
+\]
+
+То есть
+
+\[
+\Re\int_\gamma f\,dz
+=
+\int_\gamma (u\,dx-v\,dy),
+\qquad
+\Im\int_\gamma f\,dz
+=
+\int_\gamma (v\,dx+u\,dy).
+\]
+
+Если кривая задана параметризацией \(z(t)=x(t)+iy(t)\), \(t\in[\alpha,\beta]\), то
+
+\[
+\int_\gamma f\,dz
+=
+\int_\alpha^\beta
+\bigl(u(x(t),y(t))x'(t)-v(x(t),y(t))y'(t)\bigr)\,dt
++
+i\int_\alpha^\beta
+\bigl(v(x(t),y(t))x'(t)+u(x(t),y(t))y'(t)\bigr)\,dt.
+\]
+
+Отдельно для интеграла по длине дуги:
+
+\[
+\int_\gamma f\,|dz|
+=
+\int_\gamma u\,|dz|
++
+i\int_\gamma v\,|dz|,
+\]
+
+поэтому
+
+\[
+\Re\int_\gamma f\,|dz|
+=
+\int_\gamma u\,ds,
+\qquad
+\Im\int_\gamma f\,|dz|
+=
+\int_\gamma v\,ds.
+\]
+
+\begin{note}[Свойства интеграла вдоль кривой]
+    \begin{enumerate}
+        \item \textbf{Линейность}. Пусть \(f = a f_1 + b f_2\). Тогда \(\int_\gamma fdz = a\int_\gamma f_1dz + b\int_\gamma f_2dz\), \(\int_\gamma f|dz| = a\int_\gamma f_1|dz| + b\int_\gamma f_2|dz|\)
+        
+        \item \textbf{Аддитивность}. Пусть \(\gamma = \gamma_1 + \gamma_2\). Тогда \(\int_\gamma = \int_{\gamma_1} + \int_{\gamma_2}\)
+        
+        \item \textbf{Неравенство треугольника}. \(\left|\int_\gamma fdz\right| \le \int_\gamma |f|dz \le \max_\gamma|f|\int_\gamma |dz| = \max_\gamma |f| \operatorname{Length} \gamma\).
+    \end{enumerate}
+\end{note}
+
+\begin{definition}
+    Пусть \(f: D \ra \Cm\), где \(D\) --- область в \(\Cm\). Будем говорить, что \(f\) имеет первообразную в \(D\), если \(\exists F\) --- голоморфная функция в области \(D\), такая, что \(F'(z) = f(z) \forall z \in D\).
+\end{definition}
+
+\begin{note}
+    В условиях определения выше \(f(z)dz = dF\), то есть \(f(z)dz\) --- полный дифференциал.
+\end{note}
+
+\begin{theorem}
+    Пусть \(f\) --- непрерывна в \(D\)
+    \begin{enumerate}
+        \item Если \(f(z)dz\) --- полный дифференциал, то \(\forall \) замкнутой кусочно-гладкой кривой \(\gamma \subset D: \int_\gamma fdz = 0\)
+        \item Если \(\forall \gamma\) --- замкнутой ломаной \(\gamma \subset D\) верно, что \(\int_\gamma fdz = 0\), то \(f(z)dz = dF\), т.е. \(f(z)dz\) --- поный дифференциал.
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    \begin{enumerate}
+        \item Тогда \(f(z) = F'(z)\). В таком случае:
+        \[\int_\gamma f(z)dz = \int_\alpha^\beta f(z(t))z'(t)dt = \int_\alpha^\beta\frac{d}{dt}F(z(t))dt = F(z(\beta)) - F(z(\alpha)) = 0\]
+        \item Зафиксируем \(a \in D\). Тогда положим \(F(z) = \int_\gamma f(\zeta)d\zeta\), где \(\gamma\) --- ломаная с концами \(a, b\). Заметим, что определние корректно, т.е. \(\int_{\gamma_1} f(\zeta)d\zeta = \int_{\gamma_2} f(\zeta)d\zeta\) (так как ианче \(\int_{\gamma_1 - \gamma_2} f(\zeta)d\zeta \ne 0\)). Рассмотрим \(z_0 \in D\) и \(O_\delta(z_0) \subset D\). Пусть теперь \(z \in \dot O_\delta(z_0)\). Заметим, что тогда \(F(z) - F(z_0) = \int_{[z_0, z]}f(\zeta)d\zeta\) (достаточно рассмотреть интеграл вдоль ломаной \([a, z_0] \cup [z_0, z]\)). Теперь, для доказательства голоморфности \(F\), рассмотрим отношение (заметим, что \(\frac{1}{z - z_0}\int_{[z_0, z]}f(z_0)d\zeta f(z_0)\)):
+        \[\frac{F(z) - F(z_0)}{z - z_0} - f(z_0) = \frac{1}{z - z_0}\int_{[z_0, z]} (f(\zeta) - f(z_0))d\zeta\]
+        Зафиксируем \(\epsilon > 0\). Будем считать, что в \(\dot O_\delta(z_0)\) верно: \(|f(z_1) - f(z_0)| \le \epsilon\) (иначе в силу непрерывности сузим область \(\delta\)). Тогда по неравенству треугольника:
+        \[\left| \frac{F(z) - F(z_0)}{z - z_0} - f(z_0) \right| = \left| \frac{1}{z - z_0}\int_{[z_0, z]} (f(\zeta) - f(z_0))d\zeta \right| = \frac{1}{|z - z_0|}\left|\int_{[z_0, z]} (f(\zeta) - f(z_0))d\zeta \right|\le\]
+        \[\le \frac{1}{|z - z_0|}\int_{[z_0, z]} |f(\zeta) - f(z_0)|d\zeta \le \frac{1}{|z - z_0|}\int_{[z_0, z]} \epsilon d\zeta \le \epsilon\]
+        Получили, что \(F\) голоморфна и \(F' = f\).
+    \end{enumerate}
+\end{proof}
+
+\begin{example}
+    Рассмотрим \(f(z) = z^n\). Заметим, что при \(n \ne -1\) верно: \(F(z) = \frac{z^{n + 1}}{n + 1}\). Попробуем понять, что происходит в случае \(n = -1\) в области \(\Cm \setminus \R_-\):
+
+    В случае \(n=-1\) функция \(f(z)=z^{-1}=\frac1z\). В области \(\Cm \setminus \R_-\) рассмотрим ветвь логарифма
+\[
+    F(z)=\ln z=\ln|z|+i\arg z,\qquad \arg z\in(-\pi,\pi).
+\]
+Она голоморфна в \(\Cm \setminus \R_-\), причём
+\[
+    F'(z)=\frac1z.
+\]
+Значит, \(\frac1z\) имеет первообразную в \(\Cm \setminus \R_-\). Поэтому для любой замкнутой кусочно-гладкой кривой \(\gamma\subset \Cm \setminus \R_-\)
+\[
+    \int_\gamma \frac{dz}{z}=0.
+\]
+Однако в \(\Cm\setminus\{0\}\) глобальной первообразной уже нет: для окружности \(\gamma(t)=e^{it}, t\in[0,2\pi]\),
+\[
+    \int_\gamma \frac{dz}{z}
+    =
+    \int_0^{2\pi}\frac{ie^{it}}{e^{it}}\,dt
+    =
+    2\pi i\ne 0.
+\]
+\end{example}
+
+\begin{theorem}[Коши в выпуклой области]
+    Пусть \(D\) --- выпуклая область в \(\Cm\), \(f\) голоморфна в \(D\). Тогда \(fdz\) --- полный дифференциал, т.е. \(\int_\gamma fdz = 0\) по любой замнутой кусочно-гладкой кривой в \(D\).
+\end{theorem}
