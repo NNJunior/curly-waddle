@@ -1702,9 +1702,15 @@
               "date": "25.09.26",
               "desc": "Методы нахождения оценок. Метод максимального правдоподобия. Непараметрический подход к статистике.",
               "suffix": "4"
+            },
+            {
+              "name": "Лекция 5",
+              "date": "02.10.26",
+              "desc": "Теория бутстрепа",
+              "suffix": "5"
             }
           ],
-          "passwordHash": "uKuz82Ej4Tkt80wIlORpmg==:3lNq2bYe/LA0Q4X9SJJSwYnxp31BAB1GNjOO9iv3X4E="
+          "passwordHash": "LhJUddoc6qDBXl+TIe1JqA==:Xnj5Z8ikM9G3KxzX1CCcx7s+UCqWdxuCEPd4wwvfy8o="
         },
         {
           "name": "Теория Функций Комплексного Переменного",
