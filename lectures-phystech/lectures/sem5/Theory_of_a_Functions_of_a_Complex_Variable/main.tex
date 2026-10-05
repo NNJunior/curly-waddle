@@ -617,6 +617,126 @@ i\int_\gamma v\,|dz|,
 \]
 \end{example}
 
+\lecture{4}
+
+\begin{lemma}[Гурса]
+    Пусть \(f\) голоморфна в области \(D\). Тогда для любого треугольника \(\Delta: \overline{\Delta} \subset D\) выполнено:
+    \[\int_{\partial \Delta} fdz = 0\]
+\end{lemma}
+\begin{proof}
+    Пусть \(\Delta\) --- треугольник со свойством из условия. Разобьем его средними линиями на 4 треугольника. В таком случае, если \(I\) --- исходный интеграл, то \(\int_{\partial \Delta} = \int{\partial \Delta_1} + \int{\partial \Delta_2} + \int{\partial \Delta_3} + \int{\partial \Delta_4}\), где \(\Delta_j\) --- соответстующий треугольник из разбиения. Тогда из четырех полученных треугольников существует такой (Б.О.О с индексом 1), что \(\left|\int_{\partial \Delta_1} fdz\right| \ge \frac{\left| \int_{\partial \Delta} fdz\right|}{4}\). Рассмотрим \(\Delta_i\) --- последовательность вложенных треугольников, построенных аналогично по индукции. Так как \(\overline{\Delta_i} \supset \overline{\Delta_{i + 1}}\), то у \(\{\overline{\Delta_i}\}\) сущестует общая точка \(z\). Запишем условие голоморфности в этой точке:
+    \[f(z) - f(z_0) = f'(z_0)(z - z_0) + o(z - z_0), z \ra z_0\]
+    Или:
+    \[\forall \epsilon > 0 \exists \delta > 0: \forall z \in O_\delta(z_0) \subset D, \left| \frac{f(z) - f(z_0)}{z - z_0} - f'(z_0) \right| < \epsilon\]
+    Получаем, что \(|f(z) - f(z_0) - f'(z_0)(z - z_0)| \le \epsilon|z - z_0|\). Заметим, что \(\int_{\partial \Delta_i} dz = 0, \int_{\partial \Delta_i} (z - z_0)dz = 0\), так как они обе имеют первообразную. Тогда:
+    \[\left| \int_{\partial \Delta_i} f(z)dz \right| = \left| \int_{\partial \Delta_i} (f(z) - f(z_0) - f'(z_0)(z - z_0)) dz\right| \le \int_{\partial \Delta_i} \epsilon|z - z_0||dz| \le \epsilon \frac{l}{2^n}\int_{\partial \Delta_i}|dz| = \frac{\epsilon l^2}{4^n}\]
+    Где \(l = \operatorname{Length} \partial\Delta\), тогда \(\operatorname{Length} \partial\Delta_n = \frac{l}{2^n}\). Заметим при этом, что \(\left| \int_{\partial \Delta} fdz \right| < \epsilon l^2\), получаем, что 
+    \[\left|\int_{\partial \Delta_n} fdz\right| < \frac{\left| \int_{\partial \Delta} fdz\right|}{4^n}\]
+    Но по построению, для каждого из треугольников \(\Delta_n\):
+    \[\left|\int_{\partial \Delta_n} fdz\right| \ge \frac{\left| \int_{\partial \Delta} fdz\right|}{4^n}\]
+    Получили противоречие.
+\end{proof}
+
+\begin{lemma}[Усиленная Лемма Гурса]
+    Пусть \(f\) голоморфна в области \(D \setminus \{a\}\), \(f\) непрерывна в \(D\). Тогда \(\forall \overline{\Delta} \subset D: \int_{\partial \Delta} fdz = 0\). 
+\end{lemma}
+\begin{proof}
+    \begin{enumerate}
+        \item Пусть \(\overline{\Delta} \subset D, a \in D \setminus \overline{\Delta}\). В таком случае утверждение следует из леммы Гурса
+        \item Пусть теперь \(a\) --- вершина \(\Delta\). Рассмотрим прямые, котоыре очень близко подходят к точке \(a\) и разбивают треугольник на четырехугольник и маленький треугольник. Положим \(\Delta_\lambda\) --- треугольник, и по лемме Гурса получим \(\int_{\partial (\Delta_ \setminus \Delta_\lambda)} fdz = 0\) (разобьем оставшийся четырехугольник на два треугольника). Заметим, что 
+        \[\left| \int_{\partial \Delta} fdz \right| = \left| \int_{\partial \Delta_\lambda} fdz \right| \le \max_{\partial \Delta_\lambda}|f| \lambda \ra 0\]
+        Получили желаемое
+        \item Пусть теперь \(a\) лежит на стороне \(\Delta\). Тогда разбиваем его на два треугольника, в каждом из которых \(a\) будет вершиной
+        \item Пусть теперь \(a\) лежит внутри \(\Delta\). Тогда разбиваем его на три треугольника, в каждом из которых \(a\) будет вершиной.
+    \end{enumerate}
+\end{proof}
+
+\begin{lemma}[К теореме Коши]
+    Пусть \(f\) непрерывна в области \(D\), \(D\) выпукла и \(\forall \overline{\Delta} \subset D: \int_{\partial \Delta} fdz = 0\). Тогда \(fdz\) --- полный дифференциал.
+\end{lemma}
+\begin{proof}
+    Зафиксируем \(a \in D\) и положим \(F(z) = \int_{[a, z]}f(\zeta)d\zeta\). Заметим, что \(f(z_0)(z - z_0) = \int_{[z_0, z]}f(z_0)d\zeta\). Докажем, что \(F'(z) = f(z)\):
+    \[\left| \frac{F(z) - F(z_0)}{z - z_0} - f(z_0) \right| \le \left| \frac{1}{z - z_0} \left( \underbrace{\int_{[a, z]}f(\zeta)d\zeta - \int_{[a, z_0]}f(\zeta)d\zeta}_{\int_{[z_0, z]}f(\zeta d\zeta)} - \int_{[z_0, z]}f(z_0)d\zeta\right)\right| = (*)\]
+    Равенство внутри скобки получили из интегрирования по треугольнику с вершинами \(a, z, z_0\). В таком случае:
+    \[(*) = \left| \frac{1}{z - z_0} \int_{[z_0, z]}(f(z) - f(z_0))d\zeta\right| \le \frac{\epsilon}{|z - z_0|}\int_{[z_0, z]}|dz| = \epsilon\]
+\end{proof}
+
 \begin{theorem}[Коши в выпуклой области]
-    Пусть \(D\) --- выпуклая область в \(\Cm\), \(f\) голоморфна в \(D\). Тогда \(fdz\) --- полный дифференциал, т.е. \(\int_\gamma fdz = 0\) по любой замнутой кусочно-гладкой кривой в \(D\).
+    Пусть \(D\) --- выпуклая область в \(\Cm\), \(f\) голоморфна в \(D \setminus \{a\}\). Тогда \(fdz\) --- полный дифференциал, т.е. \(\int_\gamma fdz = 0\) по любой замнутой кусочно-гладкой кривой в \(D\).
 \end{theorem}
+\begin{proof}
+    Следует из усиленной леммы Гурса и леммы выше.
+\end{proof}
+
+\subsection{Интегралы Коши}
+\begin{definition}
+    Пусть \(\rho\) непрерывна на  кусочной гладкой кривой \(\gamma\) в \(\Cm\). Тогда интеграл 
+    \[\int_\gamma \frac{\rho(\zeta)d\zeta}{\zeta - z}, z \in \Cm \setminus \gamma\]
+    Называется интегралом Коши.
+\end{definition}
+
+% \begin{note}
+%     Функция \(\frac{1}{\zeta - z}\) называется ядром коши; таким образом, интеграл Коши --- свертка 
+% \end{note}
+
+\begin{theorem}
+    Пусть \(\rho\) непрерывна на  кусочной гладкой кривой \(\gamma\) в \(\Cm\). Определим функцию:
+    \[F_n(z, \rho) = \int_\gamma \frac{\rho(\zeta)d\zeta}{(\zeta - z)^n}\]
+    Тогда \(F_n(z, \rho)\) голоморфна в \(\Cm \setminus \gamma\), причем \(F_n'(z, \rho) = nF_{n + 1}(z, \rho)\)
+\end{theorem}
+\begin{proof}
+    Ведем индукцию по \(n\):
+    \begin{enumerate}
+        \item[] \textbf{База:} \(n = 1\). Докажем, что \(F_n(z, \rho)\) непрерывна в \(\Cm \setminus \gamma\). Пусть \(z_0 \in \Cm \setminus \gamma, \delta = \frac{1}{2}\operatorname{dist}(\gamma, z_0), z \in O_\delta(z_0) \setminus \Cm \setminus \gamma\). Тогда:
+        \[F_1(z, \rho) - F_1(z_0, \rho) = (z - z_0)\int_\gamma \frac{\rho(\zeta)d\zeta}{(\zeta - z_0)(\zeta - z)}\]
+        Положим \(M = \max_\gamma |\rho|\). Тогда:
+        \[\left| \int_\gamma \frac{\rho(\zeta)d\zeta}{(\zeta - z_0)(\zeta - z)} \right| \le \int_\gamma \frac{|\rho(\zeta)||d\zeta|}{|\zeta - z_0||\zeta - z|} \le M \frac{1}{2\delta \cdot \delta} \int_\gamma |d \zeta| \le \frac{M_1}{2\delta^2}\]
+        В таком случае функция \(F\) липшицева в \(O_\delta(z_0)\) с константой липшицевости \(\frac{M_1}{2\delta^2}\), в таком случае она является непрерывной. Теперь докажем голоморфность. Заметим, что:
+        \[\frac{F_1(z, \rho) - F_1(z_0, \rho)}{z - z_0} = F_1\left( z, \frac{\rho(\zeta)}{\zeta - z_0} \right) \xrightarrow[z \ra z_0]{}F_1\left( z_0, \frac{\rho(\zeta)}{\zeta - z_0} \right) = F_2(z_0, \rho(\zeta))\]
+        То есть \(F_1\) голоморфна в области \(D\).
+        \item[] \textbf{Переход:} \(n - 1 \ra n\). Заметим, что:
+        \[\frac{1}{(\zeta - z)^n} - \frac{1}{(\zeta - z_0)^n} = \frac{1}{(\zeta - z)^{n - 1}}\left( \frac{1}{\zeta - z} - \frac{1}{\zeta - z_0} \right) + \frac{1}{\zeta - z_0}\left( \frac{1}{(\zeta - z)^{n - 1}} - \frac{1}{(\zeta - z_0)^{n - 1}} \right)\]
+        Тогда:
+        \[F_n(z, \rho) - F_n(z_0, \rho) = \int_\gamma \frac{\rho(\zeta)(z - z_0)d\zeta}{(\zeta - z)^n(\zeta - z_0)} + \int_\gamma \frac{\rho(\zeta)}{(\zeta - z_0)}\left( \frac{1}{(\zeta - z)^{n - 1}} - \frac{1}{(\zeta - z_0)^{n - 1}} \right)d\zeta =\]
+        \[= (z - z_0)F_n\left( z, \frac{\rho(\zeta)}{\zeta - z_0} \right) + \left( F_{n - 1}\left(z, \frac{\rho(\zeta)}{\zeta - z_0}\right) - F_{n - 1}\left( z_0, \frac{\rho(\zeta)}{\zeta - z_0} \right) \right)\]
+        Непрерывность \(F_n\) доказывается аналогично базе. Для дифференцируемости точно так же запишем:
+        \[\frac{F_n(z, \rho) - F_n(z_0, \rho)}{z - z_0} = F_n\left( z, \frac{\rho(\zeta)}{\zeta - z_0} \right) + \frac{F_n\left(z, \frac{\rho(\zeta)}{\zeta - z_0}\right) - F_n\left(z_0, \frac{\rho(\zeta)}{\zeta - z_0}\right)}{z - z_0}\]
+        Переходим к пределу при \(z \ra z_0\):
+        \[F_n'(z_0, \rho) = F_n\left( z_0, \frac{\rho(\zeta)}{\zeta - z_0} \right) + F_{n - 1}'\left( z_0, \frac{\rho(\zeta)}{\zeta - z_0} \right) = \]
+        \[= F_{n + 1}(z_0, \rho) + (n - 1)F_n\left( z_0, \frac{\rho(\zeta)}{\zeta - z_0} \right) = nF_{n + 1}(z_0, \rho)\]
+    \end{enumerate}
+\end{proof}
+
+\begin{corollary}
+    Пусть \(\gamma\) --- кусочно-гладкая кривая, \(z \in \Cm \setminus \gamma\) и \(F(z)\) --- интеграл Коши:
+    \[F(z) = \int_\gamma \frac{\rho(\zeta)d\zeta}{\zeta - z}, z \in \Cm \setminus \gamma\]
+    Тогда \(F(z)\) бесконечно дифференцируема в \(\Cm \setminus \gamma\), причем:
+    \[F^{(n)}(z) = n!\int_{\gamma} \frac{\rho(\zeta)d\zeta}{(\zeta - z)^{n + 1}}\]
+\end{corollary}
+
+\begin{theorem}[Интегральная формула Коши в круге]
+    Пусть \(f\) голоморфна в области \(D \supset \overline{O_r(a)}\). Тогда \(\forall z \in O_r(a)\) верно:
+    \[f(z) = \frac{1}{2\pi i} \int_{\gamma_r}\frac{f(\zeta)d\zeta}{\zeta - z}\]
+    Где \(\gamma_r = \partial O_r(a)\) при обходе против часовой стрелки.
+\end{theorem}
+\begin{proof}
+    Положим \(R > r\) --- такое, что \(O_R(a) \subset D\). Тогда при \(z \in O_r(a), \zeta \in O_R(a)\) пололжим:
+    \[g(\zeta, z) = \left\{\begin{array}{l}
+        \frac{f(\zeta) - f(z)}{\zeta - z}, z \ne \zeta \\
+        f'(z), z = \zeta
+    \end{array}\right.\]
+    Докажем, что \(\int_{\gamma_r} g(\zeta, z)d\zeta = 0\). Это равносильно тому, что:
+    \[\int_{\gamma_r} \frac{f(\zeta)d\zeta}{\zeta - z} = f(z)\underbrace{\int_{\gamma_r}\frac{d\zeta}{\zeta - z}}_{h(z)}\]
+    По свойству интеграла Коши, получаем: \(h'(z) = \int_{\gamma_r}\frac{d\zeta}{(\zeta - z)^2} = 0\) и тогда \(h(z) = h(a) = \frac{1}{2\pi i}\).
+\end{proof}
+
+\begin{corollary}
+    Пусть функция \(f\) голоморфна в области \(D \supset \overline{O_r(a)}\). Тогда \(f\) бесконечно дифференцируема в области \(D\) и \(f^{(n)}(z) = \frac{n!}{2\pi i}\int_{\gamma_r}\frac{f(\zeta)d\zeta}{(\zeta - z)^{n + 1}}, z \in O_r(a)\).
+\end{corollary}
+
+\begin{theorem}[Мореры]
+    Пусть \(f\) непрерывна в области \(D\) и \(\forall \overline{\Delta} \subset D\) выполнено \(\int_{\partial D}fdz = 0\). Тогда \(f\) голоморфна в области \(D\)
+\end{theorem}
+\begin{proof}
+    По теорме Коши, \(f = F'\) в окрестности любой точки \(z_0\). Но так как любая голоморфная функция бесокненчо дифференцируема, то \(f\) --- голоморфна
+\end{proof}
