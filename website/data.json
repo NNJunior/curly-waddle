@@ -1677,6 +1677,12 @@
               "date": "02.10.26",
               "desc": "Компактные метрические и топологические пространства",
               "suffix": "5"
+            },
+            {
+              "name": "Лекция 6",
+              "date": "09.10.26",
+              "desc": "",
+              "suffix": "6"
             }
           ]
         },
@@ -1716,7 +1722,7 @@
               "suffix": "5"
             }
           ],
-          "passwordHash": "kQ0Z1LJSzt52a6FZqKUngw==:GqMJkFvWHvahWXOXF8BTpWlpNtZuiM8JBv4r0DUf/m8="
+          "passwordHash": "52RiL65aJYLZPyjrubN9gw==:po2w4o6BAE+liOQa7jFOc9faIb5jUKEcRxUudfZNcnM="
         },
         {
           "name": "Теория Функций Комплексного Переменного",
