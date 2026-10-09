@@ -1720,9 +1720,15 @@
               "date": "02.10.26",
               "desc": "Теория бутстрепа",
               "suffix": "5"
+            },
+            {
+              "name": "Лекция 6",
+              "date": "09.10.26",
+              "desc": "Проверка гипотез",
+              "suffix": "6"
             }
           ],
-          "passwordHash": "52RiL65aJYLZPyjrubN9gw==:po2w4o6BAE+liOQa7jFOc9faIb5jUKEcRxUudfZNcnM="
+          "passwordHash": "1kVHzfDJ+gceqXvJpXVkKg==:Q0oq4M3Kg+BYBmQKdABYZa7ASrPMoD8SDVSg75bjRYA="
         },
         {
           "name": "Теория Функций Комплексного Переменного",
