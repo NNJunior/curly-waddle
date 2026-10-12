@@ -740,3 +740,145 @@ i\int_\gamma v\,|dz|,
 \begin{proof}
     По теорме Коши, \(f = F'\) в окрестности любой точки \(z_0\). Но так как любая голоморфная функция бесокненчо дифференцируема, то \(f\) --- голоморфна
 \end{proof}
+
+\begin{theorem}[О среднем]
+    Пусть \(f\) голоморфна в области \(D, \overline{O_r(a)} \subset D\). Тогда
+    \[f(a) = \frac{1}{2\pi}\int_0^{2\pi}f(a + e^{i\phi})d\phi\]
+\end{theorem}
+\begin{proof}
+    Положим \(z = a, \gamma_{r_{2\pi}}: \zeta = a + re^{it}, t \in [0, 2\pi], d\zeta = rie^{it}\). Тогда по интегральной формуле Коши в круге:
+    \[f(a) = \frac{1}{2\pi i}\int_0^{2\pi} \frac{f(a + re^{it})rie^{it}}{re^{it}}dt = \frac{1}{2\pi}\int_0^{2\pi}f(a + e^{i\phi})d\phi\]
+\end{proof}
+
+\subsection{Теорема единственности}
+
+\begin{theorem}
+    Пусть \(f\) голоморфна в области \(D, O_R(a) \subset D\). Тогда
+    \[\forall z \in O_R(a): f(z) = \sum_{n = 0}^\infty c_n(z - a)^n\] 
+    Где
+    \[c_n = \frac{f^{(n)}(z)}{n!} = \frac{1}{2\pi i}\int_{\gamma_r}\frac{f(\zeta)d\zeta}{(\zeta - a)^{n + 1}}, 0 < r < R\]
+\end{theorem}
+\begin{proof}
+    Заметим, что:
+    \[\frac{1}{\zeta - z} = \frac{1}{(\zeta - a) - (z - a)} = \frac{1}{\zeta - a}\cdot \frac{1}{1 - \frac{z - a}{\zeta - a}}\]
+    Зафиксируем \(r < R: z \in O_r(a), \overline{O_r(a)} \subset D\). Тогда:
+    \[f(z) = \frac{1}{2\pi i}\int_{\gamma_r}\frac{f(\zeta)d\zeta}{\zeta - z}\]
+    Причем \(\zeta \in \partial O_r(a), z \in O_r(a) \Ra |z - a| < |\zeta - a| \forall \zeta \in \gamma_r\). Тогда разложим \(\frac{1}{1 - \frac{z - a}{\zeta - a}}\) в ряд:
+    \[2\pi i f(z) = \sum_{n = 0}^\infty (z - a)^n \underbrace{\int_{\gamma_r}\frac{f(\zeta)d\zeta}{(\zeta - a)^{n + 1}}}_{2\pi i c_n}\]
+    Получили, что \(f(z) = \sum_{n = 0}^\infty c_n(z - a)^n\)
+\end{proof}
+
+\begin{definition}
+    Пусть \(f\) голоморфна в области \(D, a \in D\) и \(f(a) = 0\). Тогда \(a\) называется нулем функции \(f\).
+\end{definition}
+
+\begin{definition}
+    \(m \in \N \cup \{\infty\}\) называется порядком нуля \(f\) в точке \(a\), если \(f(a) = \dots = f^{(m - 1)} = 0 \ne f^{(m)}(a)\)
+\end{definition}
+
+\begin{note}
+    Если \(f\) имеет в точке \(a\) бесконечный порядок, то \(f \equiv 0\) в некоторой окрестности точки \(a\).
+\end{note}
+\begin{proof}
+    Если \(f^{(m)}(a) = 0 \Ra c_n = 0 \Ra f(a) = \sum_{n = 0}^\infty c_n(z - a)^n = 0\) для \(|z - a| < r\).
+\end{proof}
+
+\begin{proposition}[Эквивалентное определения порядка нуля]
+    Пусть \(f(a) = 0, f \not\equiv 0\) в \(O_r(a)\). Тогда \(\exists m \in \N \exists h\) --- голоморфная функция в области \(D\), такая, что \(f(z) = (z - a)^mh(z)\), где \(h(a) \ne 0\)
+\end{proposition}
+\begin{proof}
+    Докажем эквивалентность двух определений:
+    \begin{enumerate}
+        \item[\(\Downarrow\)]
+        \[f(z) = \sum_{n = 0}^\infty c_n(z - a)^n = \sum_{n = m}^\infty c_n(z - a)^n = (z - a)^m\underbrace{\sum_{n = 0}^\infty c_{n + m}(z - a)^n}_{h(z)}\]
+        Заметим, что \(c_m \ne 0 \Ra h(a) \ne 0\), причем \(h(z) = \frac{f(z)}{(z - a)^m}\) в области \(D\) --- голоморфная функция.
+        \item[\(\Uparrow\)] Очевидно из разложения \(h\) в ряд Тейлора
+    \end{enumerate}
+\end{proof}
+
+\begin{corollary}
+    Пусть \(f\) голоморфна в области \(D, a \in D, f(a) = 0, f(z) \not\equiv 0\) в \(O_r(a)\). Тогда \(\exists \delta > 0: \forall z \in \dot O_\delta(a): f(z) \ne 0\)
+\end{corollary}
+\begin{proof}
+    Заметим, что \(f(z) = (z - a)^nh(z)\), поэтому из непрерывности \(h\) получаем, что \(f(z) = (z - a)^nh(z) \ne 0\), т.к. \(h(z) \ne 0\) в \(\dot O_r(a)\) для достаточно маленького \(\delta\).
+\end{proof}
+
+\begin{theorem}[Единственности]
+    Пусть \(f\) голоморфна в области \(D, E \subset D\), причем \(D\) содержит хотя бы одну предельную точку множества \(E\) и пусть \(f|_E = 0\), т.е. \(\forall z \in E: f(z) = 0\). Тогда \(f \equiv 0\) в области \(D\).
+\end{theorem}
+\begin{proof}
+    Пусть \(Z = \{z \in D: f(z) = 0\}\). Пусть \(G_1 = \operatorname{int} Z, G_2 = D \setminus G\). Докажем, что \(G_1, G_2\) --- открыто. Действительно, \(G_1\) открыто по построению. Пусть \(G_2\) не открыто, тогда \(\exists b \in G_2\), такая, что \(\forall \delta > 0: O_\delta(b) \cap G_1 \ne \emptyset\). По непрерывности функции \(f\) заключаем, что \(f(b) = 0\). При этом, если бы порядок \(b\) был конечный, то \(\exists \delta > 0: \forall z \in \dot O_\delta(a): f(z) \ne 0\), поэтмоу \(f(z) \equiv 0\) в некоторой окрестности \(b\), но тогда \(b \in G_1\) и тогда пришли к противоречию, т.к. \(b \notin G_1\).
+
+    Пусть \(a\) --- предельная точка множества \(E\). По непрерывности \(f\) получаем, что \(f(a) = 0\), и тогда аналогично верхнему рассуждению получаем, что \(a \in G_1\). Заметим, что \(D\) --- связное множество, и так как \(G_1 \ne \emptyset\), то \(G_2 = \emptyset\), в таком случае \(G_1 = D\) и \(f \equiv 0\) на \(D\).
+\end{proof}
+
+\begin{example}
+    Рассмотрим функцию \(f(z) = \frac{1}{\cos z}\). Тогда радиус сходимости ряда равен \(\ge \frac{\pi}{2}\). При этом, если бы радиус сходимости был бы \(> \frac{\pi}{2}\), то его сумма была бы голоморфной функцией, и тогда \(\frac{1}{\cos \frac{\pi}{2}}\) было бы равно сумме ряда, получили противоречие.
+\end{example}
+
+\begin{proposition}[Неравенства Коши]
+    \[|c_n| \le \frac{\max_{\gamma_r} |f|}{r^n}\]
+\end{proposition}
+\begin{proof}
+    \[|c_n| \le \frac{1}{2\pi} \int_{\gamma_r}\frac{|f(\zeta)d\zeta|}{|\zeta - a|^{n + 1}} \le \frac{\max_{\gamma_r}|f|}{2\pi r^{n + 1}}\int_{\gamma_r}|d\zeta| \le \frac{\max_{\gamma_r} |f|}{r^n}\]
+\end{proof}
+
+\begin{definition}
+    \(f\) называется целой, если она голоморфна в \(\Cm\)
+\end{definition}
+
+\begin{theorem}
+    Пусть \(f\) --- целая и \(\exists A > 0 \exists m \in \N \exists R > 0: |z| > R \Ra |f(z)| \le A|z|^m\). Тогда \(f\) --- полином степени \(\le m\).
+\end{theorem}
+\begin{proof}
+    По теореме выше \(f = \sum_{n = 0}^\infty c_nz^n\) на всей комплексной плоскости. Запишем неравенства Коши:
+    \[|c_n| \le \frac{\max_{\gamma_r} |f|}{r^n} \le \frac{Ar^m}{r^n} = \frac{A}{r^{n - m}} \xrightarrow[n > m]{r \ra \infty} 0\]
+    Тогда \(c_n = 0\) для всех \(n > m\).
+\end{proof}
+
+\begin{corollary}[Теорема Лиувилля]
+    \(f\) --- целая и ограниченная \(\Ra f \equiv const\)
+\end{corollary}
+\begin{proof}
+    Достаточно рассмотреть случай \(m = 0\) в теореме выше.
+\end{proof}
+
+\subsection{Приращения аргумента}
+
+Пусть \(\gamma = \{z(t), t \in [\alpha, \beta]\}\) --- кусочно-гладкая кривая в \(\Cm \setminus \{0\}\), при этом \(z(t)\) равномерно непрерывна на \([\alpha, \beta]\). Поэтому:
+
+\[\int_\gamma \frac{dz}{z} = \int_\alpha^\beta \frac{z'(t)dt}{z(t)} = (*)\]
+
+Положим \(d = \operatorname{dist}(\gamma, 0) > 0\). Из равномерной непрерывности \(z\) следует, что существует \(\delta > 0: |t_1 - t_2| < \delta |Ra |z(t_1) - z(t_2)| < \frac{d}{2}\). Рассмотрим разбиение отрезка \(\alpha = t_0 < t_1 < \dots < t_{n - 1} < t_n = \beta\) так, что \(|t_{k} - t_{k - 1}| < \delta, \gamma_k = \gamma|_{[t_{k - 1}, t_{k}]}\) и \(z_k = z(t_k)\). Поэтому \(O_\frac{d}{2}(z_k)\) не содержат \(0\). Нам известно, что в \(O_\frac{d}{2}(z_k)\) существуют непрерывные ветви \(\ln_k z, \arg_k z\) логарифма \(\operatorname{Ln} \{z\}\) и аргумента \(\operatorname{Arg}\{z\}\). Поэтому:
+\[(*) = \sum_{k = 1}^n \int_{\gamma_k}\frac{dz}{z} = \sum_{k = 1}^n \int_{\gamma_k} d\ln_kz = \sum_{k = 1}^n \ln_k(z_k) - \ln_k(z_{k - 1}) = \sum_{k = 1}^n \ln \left| \frac{z_k}{z_{k - 1}} \right| + i\sum_{k = 1}^n(\arg_k z_k - \arg_kz_{k - 1}) =\]
+\[= \sum_{k = 1}^n \ln \left| \frac{z_k}{z_{k - 1}} \right| + i\sum_{k = 1}^n \arg \frac{z_k}{z_{k - 1}} = \ln \left|\frac{z(\beta)}{z(\alpha)}\right| + i\Delta_\gamma z\]
+
+Таким образом, получаем определение:
+
+\begin{definition}
+    \(\Delta_\gamma z = \Im \int_\gamma \frac{dz}{z}\)
+\end{definition}
+
+\begin{note}
+    Если кривая \(\gamma\) замкнута, то из формулы выше, получаем, что \(\Delta_\gamma z = \frac{1}{i} \int_\gamma \frac{dz}{z}\)
+\end{note}
+
+\begin{definition}
+    Пусть \(f\) голоморфна в области \(D\), \(\gamma\) --- кусочно-гладкая кривая в \(D\). Тогда \(\Delta_\gamma f(z) = \Im \int_\gamma \frac{df}{f} = \Im \int_\gamma \frac{f'dz}{z} = \Im \int_{f(\gamma)}\frac{dw}{w}\)
+\end{definition}
+
+\begin{proposition}[Свойства приращения аргумента]
+    \begin{enumerate}
+        \item \(\Delta_\gamma (f_1f_2) = \Delta_\gamma f_1 + \Delta_\gamma f_2\), если \(f_1, f_2 \ne 0\) на \(\gamma\)
+        \item Если \(\gamma_1 = -\gamma\), то \(\Delta_{\gamma_1} f = -\Gamma_{-\gamma} f\).
+        \item \(\Delta_\gamma(const) = 0\)
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}
+        \item Следует из:
+        \[\int_\gamma \frac{(f_1f_2)'}{f_1f_2}dz = \int_\gamma \left( \frac{f_1'}{f_1} + \frac{f_2'}{f_2} \right)dz\]
+        
+        Оставшиеся пункты доказываются очевидно.
+    \end{enumerate}
+\end{proof}
