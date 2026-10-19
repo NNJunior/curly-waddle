@@ -741,6 +741,8 @@ i\int_\gamma v\,|dz|,
     По теорме Коши, \(f = F'\) в окрестности любой точки \(z_0\). Но так как любая голоморфная функция бесокненчо дифференцируема, то \(f\) --- голоморфна
 \end{proof}
 
+\lecture{5}
+
 \begin{theorem}[О среднем]
     Пусть \(f\) голоморфна в области \(D, \overline{O_r(a)} \subset D\). Тогда
     \[f(a) = \frac{1}{2\pi}\int_0^{2\pi}f(a + e^{i\phi})d\phi\]
@@ -870,7 +872,7 @@ i\int_\gamma v\,|dz|,
 \begin{proposition}[Свойства приращения аргумента]
     \begin{enumerate}
         \item \(\Delta_\gamma (f_1f_2) = \Delta_\gamma f_1 + \Delta_\gamma f_2\), если \(f_1, f_2 \ne 0\) на \(\gamma\)
-        \item Если \(\gamma_1 = -\gamma\), то \(\Delta_{\gamma_1} f = -\Gamma_{-\gamma} f\).
+        \item Если \(\gamma_1 = -\gamma\), то \(\Delta_{\gamma_1} f = -\Delta_{-\gamma} f\).
         \item \(\Delta_\gamma(const) = 0\)
     \end{enumerate}
 \end{proposition}
@@ -882,3 +884,134 @@ i\int_\gamma v\,|dz|,
         Оставшиеся пункты доказываются очевидно.
     \end{enumerate}
 \end{proof}
+
+\lecture{6}
+
+\begin{definition}[Индекс кривой]
+    Пусть \(\gamma\) --- кусочно-замкнутая кривая в \(\Cm, a \in \Cm \setminus \gamma\). Тогда 
+    \[J_\gamma(a) = \frac{1}{2\pi i}\int \frac{d\zeta}{\zeta - a}\]
+    Называется индексом кривой \(\gamma\).
+\end{definition}
+
+\begin{note}
+    По своей сути \(\)
+\end{note}
+
+\begin{theorem}
+    Пусть \(\gamma\) --- замкнутая кусочно-гладкая кривая в \(\Cm\). Функция \(J_\gamma(z): \Cm \setminus \gamma \ra \Cm\) обладает следующими свойствами:
+    \begin{enumerate}
+        \item \(J_\gamma\) целочисленна и голоморфна
+        \item В каждой связной компоненте \(\Cm \setminus \gamma\) постоянна
+        \item Равна \(0\) в связной компоненте, содержащей \(\infty\).
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    \begin{enumerate}
+        \item Заметим, что \[J_\gamma(z) = \frac{1}{2\pi i}\int_\gamma \frac{d\zeta}{\zeta - z}\]
+        Это частный случай интеграла Коши. Целочисленность следует из 
+        \item Запишем производную \(J_\gamma(z)\):
+        \[J_\gamma'(z) = \frac{1}{2\pi i}\int_\gamma \frac{d\zeta}{(\zeta - z)^2}\]
+        Заметим, что функция \(g(\zeta)\) имеет первообразную, поэтому \(J_\gamma'(z) = 0\) в \(\Cm \setminus \gamma\). Поэтому в каждой связой компоненте \(J_\gamma\) --- константа.
+    \end{enumerate}
+\end{proof}
+
+TODO
+
+\begin{lemma}
+    Пусть \(f\) голоморфна в области \(D\). Положим
+    \[g(z, \zeta) = \left\{\begin{array}{l}
+        \frac{f(z) - f(\zeta)}{z - \zeta}, \zeta \ne z \\
+        f'(z) \\
+    \end{array}\right.\]
+    Тогда
+    \begin{enumerate}
+        \item \(g\) непрерывна в \(D \times D\)
+        \item \(h(z) = \int_\gamma g(z, \zeta)d\zeta\) --- голоморфна для любой кусочно-гладкой кривой \(\gamma\) в \(D\)
+    \end{enumerate}
+\end{lemma}
+\begin{proof}
+    \begin{enumerate}
+        \item Пусть \((z_0, \zeta_0) \in D \times D\). Если \(z_0 \ne \zeta_0\), то непрерывность следует из непрерывности функции \(\frac{f(z) - f(\zeta)}{z - \zeta}\). Пусть теперь \(z_0 = \zeta_0\). Зафиксируем \(\epsilon > 0\). Так как \(f\) голоморфна в \(z_0\), то \(\exists \delta > 0: \forall z, \zeta \in O_{2\delta}(z_0)\):
+        \[f(z) = \sum_{n = 0}^\infty c_n(z - z_0)^n\]
+        \[f(\zeta) = \sum_{n = 0}^\infty c_n(\zeta - z_0)^n\]
+        В таком случае:
+        \[f(z) - f(\zeta) = \sum_{n = 1}^\infty c_n\left( \frac{(z - z_0)^n - (\zeta - z_0)^n}{(z - z_0) - (\zeta - z_0)} \right)(z - \zeta) = \]
+        \[= \sum_{n = 1}^\infty c_n\left( (z - z_0)^{n - 1} + (z - z_0)^{n - 2}(\zeta - z_0) + \dots + (\zeta - z_0)^{n - 1} \right)(z - \zeta) =\]
+        \[= c_1 + \sum_{n = 2}^\infty c_n\left( (z - z_0)^{n - 1} + (z - z_0)^{n - 2}(\zeta - z_0) + \dots + (\zeta - z_0)^{n - 1} \right)(z - \zeta)\]
+        Получаем, что (так как \(f'(z_0) = c_1\))
+        \[g(z, \zeta) = c_1 + \sum_{n = 2}^\infty c_n\left( (z - z_0)^{n - 1} + (z - z_0)^{n - 2}(\zeta - z_0) + \dots + (\zeta - z_0)^{n - 1} \right)(z - \zeta)\]
+        Уменьшим \(\delta\), если это необходимо, тогда получим по неравенству треунольника:
+        \[|g(z, \zeta) - f'(z_0)| \le \sum_{n = 2}^\infty |c_n|n\delta^{n - 1} = \delta \sum_{n = 2}^\infty |c_n|n\delta^{n - 2} \le \delta M\]
+        Получаем желаемое.
+        \item Нетрудно проверить, что \(h\) непрерывна в \(D\). Пусть \(\overline{\Delta} \subset D\). Рассмотрим
+        \[\int_{\partial \Delta} hdz = \int_{\partial \Delta} \int_\gamma g(z, \zeta)d\zeta dz = \int_\gamma \underbrace{\left( \int_{\partial \Delta} g(z, \zeta)dz \right)}_{= 0} d\zeta = 0\]
+        Где равнество нулю верно по обобщенной лемме Гурса, поэтому 
+        \[\int_{\partial \Delta} hdz = 0\]
+        По любому треугольнику, замыкание которго принадлежит \(D\). Получаем, что \(h\) голоморфна.
+    \end{enumerate}
+\end{proof}
+
+Пусть \(\gamma_1, \dots \gamma_n\) --- кусочно-гладкие замкнутые кривые в \(\Cm\). 
+
+\begin{definition}
+    Циклом будем называеть \(\Gamma = \sum_{j = 1}^n k_j\gamma_j\), где \(k_j\) --- кратность взятия соответствующей кривой. Получаем, что \(a \in \Gamma \Lra a \in \bigcup \gamma_j\).
+\end{definition}
+
+Получаем для цикла следующее определение индекса:
+\begin{definition}
+    \[J_\Gamma(a) = \frac{1}{2\pi i}\int_\Gamma \frac{dz}{z - a} = \sum_{j = 1}^n \frac{1}{2\pi i}k_j \int_{\gamma_j}\frac{dz}{z - a} = \sum_{j = 1}^n k_j J_{\gamma_j}(a)\]
+\end{definition}
+
+\begin{definition}
+    Пусть \(D\) --- область в \(\Cm, \Gamma \subset D\). Будем говорит, что \(\Gamma \sim 0 (\operatorname{mod} d)\) (\(\Gamma\) гомологична нулю), если \(J_\Gamma(a) = 0 \forall a \notin D\).
+\end{definition}
+
+\begin{theorem}[Общая теорема Коши]
+    Пусть \(D\) --- область в \(\Cm, \Gamma \subset D, \Gamma \sim 0 (\operatorname{mod} D)\), и \(f\) голоморфна в \(D\). Тогда:
+    \begin{enumerate}
+        \item \(\forall \in D \setminus \Gamma: J_\Gamma(z)\cdot f(z) = \frac{1}{2\pi i} \int_\Gamma \frac{f(\zeta)d\zeta}{\zeta - z}\)
+        \item \(\int_\Gamma f(\zeta)d\zeta = 0\)
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    \begin{enumerate}
+        \item[\((1) \Ra (2)\)] Пусть \(a \in D \setminus \Gamma\). Положим \(f_1(z) = f(z)(z - a)\). Тогда \(J_\Gamma(z)f(z)(z - a) = 0\) в точке \(a\) и:
+        \[J_\Gamma(z)f_1(z) = \frac{1}{2\pi i}\int_\Gamma \frac{f(\zeta)(\zeta - a)d\zeta}{\zeta - z}\bigg|_{z = a} = \frac{1}{2\pi i}\int_\Gamma f(\zeta)d\zeta\]
+        \item[\((2) \Ra (1)\)] Рассмотрим \(h(z) = \frac{1}{2\pi i}\int_\Gamma \frac{f(\zeta)d\zeta}{\zeta - z}\) голоморфна в \(\Cm \setminus \Gamma\). Множество \(Z = \{z \in \Cm \setminus \Gamma: J_\Gamma(z) = 0\} \supset \Cm \setminus D\) открыто. Положим:
+        \[H(z) = -J_\Gamma(z)f(z) + h(z) = -\frac{1}{2\pi i}\int_{\Gamma}\frac{d\zeta}{\zeta - z}f(z) + \frac{1}{2\pi i}\int_\Gamma \frac{f(\zeta)d\zeta}{\zeta - z} = \]
+        \[= \frac{1}{2\pi i}\int_\Gamma \frac{f(\zeta) - f(z)}{\zeta - z}d\zeta = \frac{1}{2\pi i}\int_\Gamma g(\zeta, z)d\zeta\]
+        Тогда \(H(z)\) голоморфна по лемме выше. Доопределим ее следюущим образом:
+        \[H(z) = \left\{\begin{array}{l}
+            h(z) - J_\Gamma f(z), z \in D \\
+            h(z) \forall z \in Z \supset \Cm \setminus D
+        \end{array}\right.\]
+        Заметим, что доопределение корректно, т.е. совпадает на пересечении областей \(Z \cap D\). Получаем, что \(H\) целая и \(H|_\infty = 0\). Но тогда по теореме Лиувилля, \(H \equiv 0 \Ra H|_{D \setminus \Gamma} \equiv 0\).
+    \end{enumerate}
+\end{proof}
+
+\begin{definition}
+    Множество \(E\) называется односвязным, если \(\overline{C} \setminus E\) связно.
+\end{definition}
+
+\begin{theorem}[Коши для односвязной области]
+    Пусть \(D\) --- односвязная область, \(\gamma\) --- кусочно-гладкая замкнутая кривая в \(D\), \(f\) голоморфна в \(D\). Тогда \(\int_\gamma f(z)dz = 0\)
+\end{theorem}
+\begin{proof}
+    Легко следует из того, что \(\gamma \sim 0 (\operatorname{mod} D)\)
+\end{proof}
+
+\begin{definition}
+    Будем говорить, что область \(D\) ограничивается циклом \(\Gamma\), если \(\Gamma = \gamma_0 - \gamma_1 - \dots - \gamma_n\), \(\Gamma = \partial D\) и \(\forall a \notin D: J_\Gamma(a) = 0\)
+\end{definition}
+
+\begin{theorem}
+    Пусть \(f\) голоморфна в \(\overline{D}\), и \(D\) ограничивается циклом \(\Gamma\)
+\end{theorem}
+
+\begin{theorem}
+    Пусть \(f\) голоморфна в области \(D\) и \(D\) ограничена циклом \(\Gamma\). Тогда 
+    \begin{enumerate}
+        \item \(\int_\Gamma f(z)dz = 0\)
+        \item \(J_\Gamma(z)f(z) = \frac{1}{2\pi i} \int_\Gamma \frac{f(\zeta) - f(z)}{\zeta - z}\)
+    \end{enumerate}
+\end{theorem}
