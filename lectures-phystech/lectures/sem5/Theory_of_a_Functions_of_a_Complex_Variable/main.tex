@@ -908,14 +908,23 @@ i\int_\gamma v\,|dz|,
 \begin{proof}
     \begin{enumerate}
         \item Заметим, что \[J_\gamma(z) = \frac{1}{2\pi i}\int_\gamma \frac{d\zeta}{\zeta - z}\]
-        Это частный случай интеграла Коши. Целочисленность следует из 
+        Это частный случай интеграла Коши. Целочисленность следует из (TODO) 
         \item Запишем производную \(J_\gamma(z)\):
         \[J_\gamma'(z) = \frac{1}{2\pi i}\int_\gamma \frac{d\zeta}{(\zeta - z)^2}\]
         Заметим, что функция \(g(\zeta)\) имеет первообразную, поэтому \(J_\gamma'(z) = 0\) в \(\Cm \setminus \gamma\). Поэтому в каждой связой компоненте \(J_\gamma\) --- константа.
+        \item В компоненте, содержащей \(\infty\), при \(|z| \to \infty\)
+        \[
+            |J_\gamma(z)|
+            \le
+            \frac{1}{2\pi}\int_\gamma \frac{|d\zeta|}{|\zeta - z|}
+            \to 0.
+        \]
+        Но \(J_\gamma\) целочисленна и постоянна в этой компоненте, значит там
+        \[
+            J_\gamma \equiv 0.
+        \]
     \end{enumerate}
 \end{proof}
-
-TODO
 
 \begin{lemma}
     Пусть \(f\) голоморфна в области \(D\). Положим
@@ -1005,11 +1014,7 @@ TODO
 \end{definition}
 
 \begin{theorem}
-    Пусть \(f\) голоморфна в \(\overline{D}\), и \(D\) ограничивается циклом \(\Gamma\)
-\end{theorem}
-
-\begin{theorem}
-    Пусть \(f\) голоморфна в области \(D\) и \(D\) ограничена циклом \(\Gamma\). Тогда 
+    Пусть \(f\) голоморфна \(\overline{D}\) и \(D\) ограничена циклом \(\Gamma\). Тогда 
     \begin{enumerate}
         \item \(\int_\Gamma f(z)dz = 0\)
         \item \(J_\Gamma(z)f(z) = \frac{1}{2\pi i} \int_\Gamma \frac{f(\zeta) - f(z)}{\zeta - z}\)
