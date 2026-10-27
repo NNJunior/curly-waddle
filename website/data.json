@@ -1625,6 +1625,12 @@
               "date": "13.10.36",
               "desc": "Модели атак в задаче шифрования. Задача аутентификации",
               "suffix": "7"
+            },
+            {
+              "name": "Лекция 8",
+              "date": "27.10.36",
+              "desc": "Распределенное генерирование случайных чисел. Протоколы привязки",
+              "suffix": "8"
             }
           ]
         },
@@ -1744,9 +1750,15 @@
               "date": "09.10.26",
               "desc": "Проверка гипотез",
               "suffix": "6"
+            },
+            {
+              "name": "Лекция 8",
+              "date": "09.10.26",
+              "desc": "Метод подгона",
+              "suffix": "8"
             }
           ],
-          "passwordHash": "XAfe5ktNvi9e/1sX5TSZEQ==:30Bb5BRvPeM3uJvFd8RXu3RexSzcH3A2gVBJBOEYGqI="
+          "passwordHash": "/FeJlV1RjelGWQwwD9jwUQ==:GRWOMUTfA3B1xerRtoJ3Ur0xZEv6Tkvdh06cr0d/vfQ="
         },
         {
           "name": "Теория Функций Комплексного Переменного",
