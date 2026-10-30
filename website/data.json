@@ -1756,9 +1756,15 @@
               "date": "09.10.26",
               "desc": "Метод подгона",
               "suffix": "8"
+            },
+            {
+              "name": "Лекция 8",
+              "date": "09.10.26",
+              "desc": "Статистические свойства линейной регресии. Случай гомоскедостичности и гетероскедостичности.",
+              "suffix": "8"
             }
           ],
-          "passwordHash": "/FeJlV1RjelGWQwwD9jwUQ==:GRWOMUTfA3B1xerRtoJ3Ur0xZEv6Tkvdh06cr0d/vfQ="
+          "passwordHash": "Fda4Jzx5nEmgJKH+rmtLgQ==:4CpUWtx59cAhLYHc1GLErEOjOPuufu8t8TaBF35vP7c="
         },
         {
           "name": "Теория Функций Комплексного Переменного",
