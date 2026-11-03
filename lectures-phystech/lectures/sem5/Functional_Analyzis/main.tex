@@ -596,3 +596,74 @@
         \end{tabular}
     \end{center}
 \end{note}
+
+\begin{theorem}[б/д]
+    Нормированное пространство порождается скалярным произведением тогда и только тогда, когда выполнено равенство параллелограма:
+    \[\|x + y\|^2 + \|x - y\|^2 = 2\|x\|^2 + 2\|y\|^2\]
+\end{theorem}
+
+\begin{definition}
+    Пусть \(H\) --- нормированное пространство, \(M \subset H\) --- подпространство. Тогда \(M^\perp = \{y\;|\;(m, y) = 0 \forall m \in M\}\)
+\end{definition}
+
+\begin{lemma}[Существование элемента наилучшего приближения]
+    Пусть \(H\) --- гильбертово пространство, \(M \subset H\) --- подпространство, \(h \in H\). Тогда существует единственный элемент наилучшего приближения \(x \in M\).
+\end{lemma}
+\begin{proof}
+    \begin{enumerate}
+        \item[] \textbf{Единственность:} пусть \(x_1, x_2 \in M\) --- два элемента наилучшего приближения \(h\). С одной стороны, \(\|x_1 - x_2\|^2 \ge 0\). С другой стороны, по равенству параллелограма:
+        \[\|x_1 - x_2\|^2 = \|(x_1 - h) + (h - x_2)\|^2 = -\|x_1 + x_2 - 2h\|^2 + 2 \|x_1 - h\|^2 + 2 \|x_2 - h\|^2 \le\]
+        \[\le -4\left\|\frac{x_1 + x_2}{2} - h\right\|^2 + 4d^2 \le -4d^2 + 4d^2 \le 0\]
+        То есть \(\|x_1 - x_2\|^2 = 0 \Ra x_1 = x_2\).
+        \item[] \textbf{Существование:} Рассмотрим \(x_n\) --- такую последовательность, что \(\|x_n - h\| \ra d\), где \(d = \operatorname{dist}(h, M)\). Покажем, что она фундаментальна. 
+        \[\|x_n - x_m\|^2 = \|(x_n - h) + (h - x_m)\|^2 = -\|x_n + x_m - 2h\|^2 + 2 \|x_n - h\|^2 + 2 \|x_m - h\|^2 \le\]
+        \[\le -4\left\|\frac{x_n + x_m}{2} - h\right\|^2 + 4(d + \epsilon)^2 \le -4d^2 + 4(d + \epsilon)^2 \le C\epsilon\]
+        В таком случае, \(x_n \ra x\). По непрерывности нормы получаем, что \(\|x_n - h\| \ra \|x - h\| = d\)
+    \end{enumerate}
+\end{proof}
+
+\begin{theorem}[Фишера-Рисса]
+    Пусть \(H\) --- гильбертово пространство, \(M \subset H\) --- подпространство. Тогда \(H = M \oplus M^\perp\)
+\end{theorem}
+\begin{proof}
+    Для \(h \in H\) рассмотрим \(x\) --- элемент наилучшего приближения дл я \(h\) в \(M\). Покажем, что \(y = h - x \perp M\). Действительно, пусть \(d = \operatorname{dist}(h, M)\). Тогда:
+    \[d^2 \le \|h - x - \alpha z\|^2 = d^2 - 2\alpha(y, z) + |\alpha|^2\|z\|^2\]
+    \[0 \le - 2\alpha(y, z) + |\alpha|^2\|z\|^2\]
+    \[2\alpha(y, z) \le |\alpha|^2\|z\|^2\]
+    В зависимости от знака \(\alpha\), имеем:
+    \[\begin{cases}
+        2\epsilon(y, z) \le \epsilon^2\|z\|^2, \alpha = \epsilon > 0 \\
+        2\epsilon(y, z) \ge -\epsilon^2\|z\|^2, \alpha = -\epsilon < 0
+    \end{cases}\]
+    Получаем, что \(\forall \epsilon > 0\):
+    \[-\epsilon^2\|z\|^2 \le 2\epsilon(y, z) \le \epsilon^2\|z\|^2\]
+    Устремляя \(\epsilon \ra 0\), получаем, что \(y \perp M, h = x + y\) и тогда \(M \oplus M^\perp = H\).
+\end{proof}
+
+\begin{theorem}
+    Пусть \(H(\Cm)\) --- гильбертово пространство, \(\{e_n\}_{n = 1}^\infty\) --- ОНС. Тогда следующие условия эквивалентны:
+    \begin{enumerate}
+        \item \(\{e_i\}\) --- ОНБ
+        \item \(\{e_i\}\) --- полная, то есть \(\overline{\langle e_1, e_2, \dots \rangle} = H\)
+        \item \(e^\perp = 0\)
+        \item Выполнено равенство Парсеваля:
+        \[\|x\|^2 = \sum_{k = 1}^\infty |\langle x, e_k \rangle|^2\]
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    Для доказательства теоремы будем использовать несколько фактов о коэффициентах Фурье, доказательство которых было в курсе математического анализа (в предположении, что \(\{e_n\}\) --- ОНС):
+
+    \begin{enumerate}
+        \item 
+        \[\left\| x - \sum_{k = 1}^n \langle x, e_k \rangle e_k \right\|^2 = \|x\|^2 - \left\|\sum_{k = 1}^n \langle x, e_k \rangle e_k \right\|^2\]
+        \item 
+        \[\left\| x - \sum_{k = 1}^n c_ke_k \right\| \ge \left\| x - \sum_{k = 1}^n \langle x, e_k \rangle e_k \right\|\]
+    \end{enumerate}
+    
+    Теперь докажем пункты теоремы:
+    \begin{enumerate}
+        \item[\((1) \Lra (4)\)] Непосредственно следует из тождества 1.
+        \item[\((2) \Ra (1)\)] Следует из факта 2 о минимальности коэффициентов Фурье.
+        \item[\((1) \Ra (2)\)] Очевидно
+    \end{enumerate}
+\end{proof}
