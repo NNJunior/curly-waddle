@@ -1762,9 +1762,15 @@
               "date": "09.10.26",
               "desc": "Статистические свойства линейной регресии. Случай гомоскедостичности и гетероскедостичности.",
               "suffix": "8"
+            },
+            {
+              "name": "Лекция 9",
+              "date": "6.11.26",
+              "desc": "Статистические свойства линейной регресии в случае гетероскедастичности шума",
+              "suffix": "9"
             }
           ],
-          "passwordHash": "Fda4Jzx5nEmgJKH+rmtLgQ==:4CpUWtx59cAhLYHc1GLErEOjOPuufu8t8TaBF35vP7c="
+          "passwordHash": "LzXCWKYwrnG2gZf9TQe7+g==:ajjCBjezHW7cAlaXwCeyymXioO92DQFzB/gaYAqWMnA="
         },
         {
           "name": "Теория Функций Комплексного Переменного",
