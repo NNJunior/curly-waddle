@@ -982,7 +982,7 @@ i\int_\gamma v\,|dz|,
         \item \(\int_\Gamma f(\zeta)d\zeta = 0\)
     \end{enumerate}
 \end{theorem}
-\begin{proof}
+\begin{proof}\indent
     \begin{enumerate}
         \item[\((1) \Ra (2)\)] Пусть \(a \in D \setminus \Gamma\). Положим \(f_1(z) = f(z)(z - a)\). Тогда \(J_\Gamma(z)f(z)(z - a) = 0\) в точке \(a\) и:
         \[J_\Gamma(z)f_1(z) = \frac{1}{2\pi i}\int_\Gamma \frac{f(\zeta)(\zeta - a)d\zeta}{\zeta - z}\bigg|_{z = a} = \frac{1}{2\pi i}\int_\Gamma f(\zeta)d\zeta\]
@@ -1013,10 +1013,203 @@ i\int_\gamma v\,|dz|,
     Будем говорить, что область \(D\) ограничивается циклом \(\Gamma\), если \(\Gamma = \gamma_0 - \gamma_1 - \dots - \gamma_n\), \(\Gamma = \partial D\) и \(\forall a \notin D: J_\Gamma(a) = 0\)
 \end{definition}
 
-\begin{theorem}
+\begin{corollary}[Теорема Коши для многосвязных областей]
     Пусть \(f\) голоморфна \(\overline{D}\) и \(D\) ограничена циклом \(\Gamma\). Тогда 
     \begin{enumerate}
         \item \(\int_\Gamma f(z)dz = 0\)
-        \item \(J_\Gamma(z)f(z) = \frac{1}{2\pi i} \int_\Gamma \frac{f(\zeta) - f(z)}{\zeta - z}\)
+        \item \(f(z)^{(n)} = \frac{n!}{2\pi i} \int_\Gamma \frac{f(\zeta) - f(z)}{(\zeta - z)^{n + 1}}\)
     \end{enumerate}
+\end{corollary}
+
+\lecture{7}
+
+\section{Ряды Лорана, Изолированные особенности}
+
+Рассмотирм ряд 
+\[\sum_{-\infty}^\infty c_n(z - a)^n = \underbrace{\sum_{0}^\infty c_n(z - a)^n}_{\text{регулярная часть}} + \underbrace{\sum_{1}^\infty \frac{c_{-n}}{(z - a)^n}}_{\text{главная часть}}\]
+Заметим, что главная часть имеет радиус сходимости \(R > 0\), и если положить \(w = \frac{1}{z - a}\), то при \(w < r\) будет сходиться регулярная часть. В таком случае, исходный ряд будет сходиться при \(r < |z - a| < R\), т.е. в кольце \(K_{r, R}(a) = \{z: r < |z - a| < R\}\).
+
+\begin{theorem}
+    Пусть \(f\) голоморфна в \(K_{r, R}(a)\). Тогда
+    \[f = \sum_{-\infty}^\infty c_n(z - a)^n\]
+    Где 
+    \[c_n = \frac{1}{2\pi i}\int_{\gamma_\rho}\frac{f(\zeta)d\zeta}{(\zeta - a)^{n + 1}}, \rho \in (r, R)\]
+    И \(\gamma_\rho\) --- окружность с центром в точке \(a\) и радиусом \(\rho\).
 \end{theorem}
+\begin{proof}
+    \begin{enumerate}
+        \item Покажем, что \(c_n\) не зависят от \(\rho\). Пусть \(\gamma_{\rho_1}, \gamma_{\rho_2}\) --- соответствующие кривые (\(\rho_1 < \rho_2\)), и тогда рассмотрим область \(K_{\rho_1, \rho_2}\). В этой области выполнены условия теоремы Коши для многосвязных областей и функция \(g(z) = \frac{f(z)}{(z - a)^{n + 1}}\), поэтмоу:
+        \[0 = \int_\Gamma g(z)dz = 0 = \int_{\gamma_{\rho_1}} g(z)dz - \int_{\gamma_{\rho_2}} g(z)dz\]
+        \item Рассмотрим \(z \in K_{r', R'}(a)\), где \(r < r' < R' < R\).
+        \[f(z) = \frac{1}{2\pi i}\left( \int_{\gamma_{\rho_1}} - \int_{\gamma_{\rho_2}} \right) \frac{f(\zeta)d\zeta}{\zeta - a} = (f_1 - f_2)(z)\]
+        Найдем \(f_1(z), f_2(z)\):
+        \[f_1(z) = \frac{1}{2\pi i}\int_{\gamma_{R'}} \frac{f(\zeta)d\zeta}{\zeta - z} = \frac{1}{2\pi i}\int_{\gamma_{R'}}\frac{f(\zeta)d\zeta}{(\zeta - a) - (z - a)} = \frac{1}{2\pi i}\int_{\gamma_{R'}}f(\zeta)\left( \sum_{n = 0}^\infty \frac{(z - a)^n}{(\zeta - a)^{n + 1}} \right)d\zeta =\]
+        \[= \sum_{n = 0}^\infty (z - a)^n\frac{1}{2\pi i}\int_{\gamma_{R'}}\frac{f(\zeta)d\zeta}{(\zeta - a)^{n + 1}}\]
+
+        \[f_2(z) = \frac{1}{2\pi i}\int_{\gamma_{r'}} \frac{f(\zeta)d\zeta}{\zeta - z} = -\frac{1}{2\pi i}\int_{\gamma_{r'}}\frac{f(\zeta)d\zeta}{(z - a) - (\zeta - a)} = -\frac{1}{2\pi i}\int_{\gamma_{r'}}f(\zeta)\left( \sum_{n = 0}^\infty \frac{(\zeta - a)^n}{(z - a)^{n + 1}} \right)d\zeta =\]
+        \[= -\sum_{n = 0}^\infty \frac{1}{2\pi i (z - a)^{n + 1}}\int_{\gamma_{r'}}f(\zeta)(\zeta - a)^nd\zeta = -\sum_{m = -1}^{-\infty} (z - a)^m\frac{1}{2\pi i}\int_{\gamma_{r'}} f(\zeta)\frac{1}{(\zeta - a)^{m + 1}}d\zeta\]
+        Так как интеграл не зависит от \(r'\), можно заменить этот радис на любой другой, например, \(\rho\). В таком случае получим:
+        \[f(z) = \sum_{-\infty}^{+\infty}(z - a)^n\underbrace{\frac{1}{2\pi i}\int_{\gamma_\rho}\frac{f(\zeta)d\zeta}{(\zeta - a)^{n + 1}}}_{c_n}\]
+    \end{enumerate}
+\end{proof}
+
+\begin{theorem}[Единственность ряда Лорана]
+    Пусть для \(z \in K_{r, R}(a)\) верно:
+    \[f(z) = \sum_{-\infty}^\infty c_n(z - a)^n\]
+    Тогда \(f\) голоморфна в \(K_{r, R}(a)\), причем \(c_n = \)
+\end{theorem}
+\begin{proof}
+    
+\end{proof}
+
+\begin{definition}
+    Если \(f\) голоморфна в \(\dot O(a)\), то \(a\) --- изолированная особая точка.
+\end{definition}
+
+% \begin{definition}
+%     \(\exists \lim_{}\)
+% \end{definition}
+
+TODO
+
+\lecture{8}
+
+\begin{theorem}
+    Пусть \(a\) --- существенная особая точка функции \(f\). Тогда \(\forall A \in \overline{\Cm} \exists z_n \in \dot O(a), z_n \ra a\) и \(f(z_n) \ra A, n \ra \infty\)
+\end{theorem}
+
+\begin{theorem}[Пикара]
+    Пусть \(a\) --- существенная особая точка функции \(f\) и \(B\) --- либо пустое, либо одноточечное множество. Тогда \(\forall A \in \overline{\Cm} \setminus B: f(z) = A\) имеет бесконечно много решений в \(\dot O(a)\)
+\end{theorem}
+
+\begin{definition}
+    \(\infty\) называется изолированной точкой, если \(f\) голоморфна в \(\{|z| > R\}\) для некоторого \(R\).
+\end{definition}
+
+Разложим функцию с особенностью в \(\infty\) в ряд Лорана:
+\[f(z) = \sum_{n = -\infty}^{+\infty} c_nz^n = \sum_{n = 0}^{+\infty} \frac{c_{-n}}{z^n} + \sum_{n = 1}^{+\infty} c_nz^n\]
+Будем говорить, что \(f\) голоморфна в \(\infty\), если \(f\left( \frac{1}{z} \right)\) голоморфна в нуле.
+
+\begin{definition}
+    \(f\) называется трансцендентной, если \(f\) --- целая и не является полиномом
+\end{definition}
+
+\begin{proposition}
+    Если \(f\) --- трансцендентная, то \(\infty\) --- ее существуенная особенность.
+\end{proposition}
+\begin{proof}
+    \[f(z) = \sum_{n = 1}^{+\infty} \frac{c_{-n}}{z^n} + \sum_{n = 0}^{+\infty} c_nz^n\]
+    Так как \(f\) --- целая, то \(c_{-n} = 0\)
+\end{proof}
+
+\begin{theorem}[Пикара для \(\infty\)]
+    Пусть \(f\) --- трансцендентная, не принимающая хотя бы двух значений из \(\Cm\). Тогда \(f \equiv const\).
+\end{theorem}
+
+\section{Вычеты}
+
+Пусть \(a\) --- изолированная особая точка функции \(f, a \in \Cm \Ra f\) голоморфна в \(\dot O_r(a)\) и пусть \(\rho < r\). 
+
+\begin{definition}
+    \[\operatorname{res}_a f = \frac{1}{2\pi i} \oint_{\gamma_\rho}f(z)dz, \gamma_\rho = \{a + \rho e^{it, t \in [0, 2\pi]}\}\]
+\end{definition}
+
+\begin{proposition}
+    \(\operatorname{res}_a f = c_{-1}\), где \(c_{-1}\) --- соответствующий коэффициент в ряде Лорана.
+\end{proposition}
+\begin{proof}
+    \[\operatorname{res}_a f = \frac{1}{2\pi i} \oint_{\gamma_\rho}f(z)dz = \frac{1}{2\pi i}\sum_{n = -\infty}^{+\infty} \oint_{\gamma_\rho}c_n(z - a)^ndz = \frac{c_{-1}}{2\pi i}\oint_{\gamma_\rho} \frac{dz}{z - a} = c_{-1}J_{\gamma_\rho}(a) = c_{-1}\]
+\end{proof}
+
+\begin{note}
+    Заметим, что если \(\gamma\) --- произвольная замкнутая кривая, кусочно-гладкая в \(\dot O_r(a)\). Тогда аналогично можно записать: \(\frac{1}{2\pi i} \oint_{\gamma}f(z)dz = c_{-1}J_{\gamma}(a)\)
+\end{note}
+
+\begin{theorem}[Коши о вычетах для многосвязной области]
+    Пусть \(\Gamma = \gamma_0 - \gamma_1 - \dots - \gamma_n\) ограничивает область \(D\). Пусть \(A = \{a_1, \dots a_n\} \subset D\) и \(f\) голоморфна в \(\overline{D} \setminus A\). Тогда 
+    \[\frac{1}{2\pi i} \int_{\Gamma} fdz = \sum_{j = 1}^n \operatorname{res}_{a_j} f\]
+\end{theorem}
+\begin{proof}
+    \(\exists \epsilon > 0\), такое, что \(O_\epsilon(a_j) \subset D \setminus A\). Уменьшив \(\epsilon\), если это необходимо, будем считать, что \(O_\epsilon(a_j)\) попарно не перескаются. Рассмотрим \(\tilde\Gamma = \Gamma - \sum_{j = 1}^n \partial O_\epsilon(a_j)\) и область \(G = D \setminus \bigcup_{j = 1}^n O_\epsilon(a_j)\). В таком случае \(\tilde\Gamma \sim 0 (\operatorname{mod} G)\). Кроме того, \(a \notin G \Ra J_{\tilde\Gamma}(a) = 0 \Ra\) по теореме Коши получаем, что
+    \[\frac{1}{2\pi i} \int_{\tilde\Gamma} fdz = \frac{1}{2\pi i} \int_{\Gamma} fdz - \sum_{j = 1}^n \operatorname{res}_{a_j} f = 0\]
+\end{proof}
+
+\begin{proposition}
+    Пусть \(a\) --- полюс \(m\)-ого порядка функции \(f\). Тогда 
+    \[\operatorname{res}_a f = \lim_{z \ra a} \frac{1}{(m - 1)!}((z - a)^mf(z))^{(m - 1)}\]
+\end{proposition}
+\begin{proof}
+    \[f(z) = \frac{c_{-m}}{(z - a)^m} + \dots + \frac{c_{-1}}{z - a} + g(z)\]
+\end{proof}
+
+Для бесконечной точки определим вычет так, чтобы кривая была ориентирована так, что \(\infty\) все так же находилась слева от нее.
+
+\begin{definition}
+    Пусть \(f\) голоморфна в \(\{|z| > R\}\). Тогда:
+    \[\operatorname{res}_\infty f = \frac{1}{2\pi i}\oint_{-\gamma_\rho}f(z)dz\]
+\end{definition}
+
+\begin{proposition}
+    \(\operatorname{res}_\infty f = -c_{-1}\), где \(c_{-1}\) --- соответствующий коэффициент в ряде Лорана.
+\end{proposition}
+\begin{proof}
+    Доказывается аналогично конечному случаю.
+\end{proof}
+
+\begin{theorem}
+    Пусть \(f\) голоморфна в \(\Cm \setminus \{a_1, \dots a_n\}\). Тогда \(\sum_{j = 1}^n \operatorname{res}_{a_j} f  + \operatorname{res}_\infty f = 0\) 
+\end{theorem}
+\begin{proof}
+    Рассмотрим \(R\) такое, что все конечные \(a_i\) лежат внутри \(O_R(0)\). В таком случае:
+    \[-2\pi i \operatorname{res}_\infty = \int_{\gamma_R}f(z)dz = 2\pi i\sum_{j = 1}^n \operatorname{res}_{a_j} f\]
+    Получаем желаемое.
+\end{proof}
+
+Пусть далее \(\gamma\) --- кусочно-гладкая кривая
+
+\subsection{Вычисление интеграла \(R(\sin z, \cos z)\)}
+
+\[\int_{\gamma} R(\sin z, \cos z) dz = \left\{\begin{array}{c}
+    w = e^{iz} \\
+    \sin z = \frac{1}{2i} \left(w + \frac{1}{w}\right) \\
+    \cos z = \frac{1}{2} \left(w - \frac{1}{w}\right) \\
+    dw = ize^{iz}dz = iwdw
+\end{array}\right\} = \int_{\gamma} R_1(w) \frac{dw}{w}\]
+
+\subsection{Вычисление несобственного интеграла \(P(x)/Q(x)\)}
+
+Рассмотрим интеграл 
+\[I = \int_{-\infty}^{+\infty} \frac{P(x)dx}{Q(x)}\]
+Где \(P, Q\) --- полиномы, причем \(Q \ne 0\) на \(\R, \deg Q \ge \deg P + 2\). Тогда:
+\[I = 2\pi i\sum_{\Im a > 0} \operatorname{res}_a \frac{P}{Q}\]
+Рассмотрим \(\gamma = [-R, R] + \Gamma_R\), где \(\Gamma_R\) --- полуокружность, соединяющая точки \(R, -R\). Тогда:
+\[\left( \int_{[-R, R]} + \int_{\Gamma_R}  \right)\frac{P}{Q}dz = \int_\gamma \frac{P}{Q}dz = 2\pi i \sum_{\Im a > 0}\operatorname{res}_{Q(a) = 0} \frac{P}{Q}\]
+Оценим модуль интеграла \(\left| \int_{\Gamma_R} \frac{P}{Q} \right|\):
+Пусть \(P = a_mz^m + \dots + a_0, Q = z^n + b_{n - 1}z^{n - 1} + \dots + b_0\). Тогда:
+\[\left|\frac{P}{Q}\right| = \left|\frac{z^m\left( a_m + \frac{a_{m - 1}}{z} + \dots + \frac{a_0}{z^m} \right)}{z^n\left( 1 + \frac{b_{n - 1}}{z} + \dots + \frac{b_0}{z^n} \right)}\right| = \left| \frac{a_m}{z^m} \right|\left| \frac{1 + O(1/z)}{1 + O(1/z)} \right|\]
+Поэтому, 
+\[\left| \int_{\Gamma_R} \frac{P}{Q} \right| \le \max\left| \frac{P}{Q} \right|\pi R \]
+При устремлении \(R \ra \infty\), получам, что:
+\[\int_{\Gamma_R} f(z)dz \ra 0 \Ra \int_{[-R, R]} f(z)dz \ra 2\pi i \sum_{\Im a > 0}\operatorname{res}_{Q(a) = 0} \frac{P}{Q}\]
+
+\subsection{Вычисление интеграла \(P(x)\sin x/Q(x)\)}
+
+Короче меня кокнуло, все отлетаем на пересду
+
+\lecture{9}
+
+\(f\) голоморфна в \(D \setminus B, B = \{b_1, \dots b_N\}\). \(b_j\) --- полюсы \(f\) \(p_j\).
+\[P_D(f) = \sum_{i = 1}^N p_j\]
+\[N_D(f) = \sum_{i = 1}^N m_j\]
+
+\begin{theorem}[Принцип аргумента]
+    Пусть \(D\) область в \(\Cm\) ограничена циклом \(\gamma\), \(f\) голоморфна в \(\overline{D} \setminus B, B = \{b_1, \dots b_N\}, b_j\) --- полюсы \(f\) и \(f \ne 0\) yа \(\gamma\). Тогда
+    \[N_D(f) - P_D(f) \stackrel{?}{=} \frac{1}{2\pi}\Delta_\gamma \operatorname{arg} f = \frac{1}{2\pi i} \int_\gamma \frac{f'dz}{f} = J_{f(\gamma)}(0)\]
+\end{theorem}
+
+\begin{theorem}[Руше]
+    Пусть \(D\) --- односвязная область в \(\Cm\), ограниченная циклом \(\gamma\), а \(f, g\) --- голоморфные в \(\overline{D} = D \cup \gamma\) и \(\forall z \in \gamma: |f(z)| > |g(z)|\). Тогда \(N_D(f) = N_D(f + g)\)
+\end{theorem}
+\begin{proof}
+    По доказанному выше: \(N_D(f) = \frac{1}{2\pi} \Delta_\gamma \arg f\)
+\end{proof}

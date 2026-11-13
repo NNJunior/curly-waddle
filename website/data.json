@@ -1777,12 +1777,18 @@
             },
             {
               "name": "Лекция 9",
-              "date": "6.11.26",
+              "date": "06.11.26",
               "desc": "Статистические свойства линейной регресии в случае гетероскедастичности шума",
               "suffix": "9"
+            },
+            {
+              "name": "Лекция 10",
+              "date": "13.11.26",
+              "desc": "Сравнение оценок",
+              "suffix": "10"
             }
           ],
-          "passwordHash": "LzXCWKYwrnG2gZf9TQe7+g==:ajjCBjezHW7cAlaXwCeyymXioO92DQFzB/gaYAqWMnA="
+          "passwordHash": "RZKOq4vFEQWWaxWwsLeH3Q==:1YxW+cxYD+/EfOAfQ9dPmgkGN000u7+dcPN7TfbIel8="
         },
         {
           "name": "Теория Функций Комплексного Переменного",
