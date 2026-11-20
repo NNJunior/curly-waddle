@@ -1643,6 +1643,12 @@
               "date": "03.11.26",
               "desc": "Протоколы подписи",
               "suffix": "10"
+            },
+            {
+              "name": "Лекция 11",
+              "date": "17.11.26",
+              "desc": "Криптографические хеш-функции",
+              "suffix": "11"
             }
           ]
         },
@@ -1786,9 +1792,15 @@
               "date": "13.11.26",
               "desc": "Сравнение оценок",
               "suffix": "10"
+            },
+            {
+              "name": "Лекция 11",
+              "date": "20.11.26",
+              "desc": "Достаточные оценки. Информация Фишера. Экспоненциальные классы распределений.",
+              "suffix": "11"
             }
           ],
-          "passwordHash": "CraW1tOndDxU35wV0db8Eg==:4yb4TvvZQ2GGMLHklXZzWl/crcsKvqS1ND0ZNupu+3I="
+          "passwordHash": "Ym+QdDp57MQ74aRmNHaCeg==:OU0L21qJfHrBb44gPlVKL+8Lskgb13lP3a5dwA+dny4="
         },
         {
           "name": "Теория Функций Комплексного Переменного",
